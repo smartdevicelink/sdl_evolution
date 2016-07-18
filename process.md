@@ -37,7 +37,7 @@ The review manager will work with the proposal authors to schedule the review. R
 
 When the scheduled review period arrives, the review manager will post the proposal to the [#sdl_evolution slack channel][sdl_evolution_channel], the [#sdl_evolution_announce slack channel][sdl_evolution_announce_channel], the [SDL mailing list][sdl_mailing_list], and create a Github issue for the actual review, which will additionally be attached to the actual review. They will have the subject "[Review]" followed by the proposal title. The Review Manager will update the list of active reviews. All feedback on the proposal should be addressed in the associated Github issue or to the review manager directly via email or Slack. To avoid delays, it is important that the proposal authors be available to answer questions, address feedback, and clarify their intent during the review period.
 
-After the review has completed, the maintainers and stakeholders will make a decision on the proposal. The review manager is responsible for determining consensus among the maintainers and stakeholders, then reporting their decision to the proposal authors and SDL users. The review manager will update the proposal's state in the [sdl_evolution repository][sdl_evolution_repo] to reflect that decision.
+After the review has completed, the maintainers and stakeholders will make a decision on the proposal. The review manager is responsible for determining consensus among the maintainers and stakeholders, then reporting their decision to the proposal authors and SDL users. The review manager will update the proposal's state in the [sdl_evolution repository][sdl_evolution_repo] to reflect that decision and lock the related issue.
 
 ## Review announcement
 
@@ -76,6 +76,8 @@ The goal of the review process is to improve the proposal under review through c
 * Does this proposal fit well with the feel and direction of SDL?
 * If you have used competitors with a similar feature, how do you feel that this proposal compares to those?
 * How much effort did you put into your review? A glance, a quick reading, or an in-depth study?
+
+Please state explicitly whether you believe that the proposal should be accepted into SDL.
 
 More information about the SDL evolution process is available at
 
