@@ -35,13 +35,13 @@ The review process for a particular proposal begins when a maintainer accepts a 
 
 The review manager will work with the proposal authors to schedule the review. Reviews usually last a single week, but can run longer for particularly large or complex proposals.
 
-When the scheduled review period arrives, the review manager will post the proposal to the [#sdl_evolution slack channel][sdl_evolution_channel], the [#sdl_evolution_announce slack channel][sdl_evolution_announce_channel], the [SDL mailing list][sdl_mailing_list], and create a Github issue for the actual review, which will additionally be attached to the actual review. They will have the subject "[Review]" followed by the proposal title. The Review Manager will update the list of active reviews. All feedback on the proposal should be addressed in the associated Github issue or to the review manager directly via email or Slack. To avoid delays, it is important that the proposal authors be available to answer questions, address feedback, and clarify their intent during the review period.
+When the scheduled review period arrives, the review manager will post the proposal to the [#sdl_evolution slack channel][sdl_evolution_channel], the [#sdl_evolution_report slack channel][sdl_evolution_report_channel], the [SDL mailing list][sdl_mailing_list], and create a Github issue for the actual review, which will additionally be attached to the actual review. They will have the subject "[Review]" followed by the proposal title. The Review Manager will update the list of active reviews. All feedback on the proposal should be addressed in the associated Github issue or to the review manager directly via email or Slack. To avoid delays, it is important that the proposal authors be available to answer questions, address feedback, and clarify their intent during the review period.
 
 After the review has completed, the maintainers and stakeholders will make a decision on the proposal. The review manager is responsible for determining consensus among the maintainers and stakeholders, then reporting their decision to the proposal authors and SDL users. The review manager will update the proposal's state in the [sdl_evolution repository][sdl_evolution_repo] to reflect that decision and lock the related issue.
 
 ## Review announcement
 
-When a proposal enters review, an email using the following template will be sent to the [#sdl_evolution slack channel][sdl_evolution_channel], the [#sdl_evolution_announce channel][sdl_evolution_announce_channel], the [SDL mailing list][sdl_mailing_list], and to a Github issue:
+When a proposal enters review, an email using the following template will be sent to the [#sdl_evolution slack channel][sdl_evolution_channel], the [#sdl_evolution_report channel][sdl_evolution_report_channel], the [SDL mailing list][sdl_mailing_list], and to a Github issue:
 
 ---
 
@@ -94,5 +94,5 @@ Review Manager
 [sdl_evolution_repo]: https://github.com/smartdevicelink/sdl_evolution "SDL evolution repository"
 [sdl_slack]: http://slack.smartdevicelink.com "SDL slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "#sdl_evolution slack channel"
-[sdl_evolution_announce_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution_announce/ "#sdl_evolution_announce slack channel"
+[sdl_evolution_report_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution_report/ "#sdl_evolution_report slack channel"
 [sdl_mailing_list]: https://lists.genivi.org/mailman/listinfo/genivi-smartdevicelink "SDL mailing list"
