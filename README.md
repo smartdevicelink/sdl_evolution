@@ -19,60 +19,36 @@ Important documents:
 * The [SDL evolution proposal review schedule](https://smartdevicelink.github.io/sdl_evolution/) to see upcoming SDL evolution proposal reviews.
 * The [SDL evolution review process](process.md) to see how to propose and review proposals.
 
-[sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
-[sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
-
 ## SDL Protocol Version Next: X.X
 Expected Release Date: N/A
 
-#### Goal
-N/A
-
-### Proposals
-#### Implemented proposals
-N/A
-#### Accepted proposals without implementation
-N/A
+The goal of the upcoming release is...
+You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
 
 ## SDL RPC Spec Version Next: X.X
 Expected Release Date: N/A
 
-#### Goal
-N/A
+The goal of the upcoming release is...
+You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
 
-### Proposals
-#### Implemented proposals
-N/A
-#### Accepted proposals without implementation
-N/A
+## Core Version Next: X.X
+Expected Release Date: N/A
+
+The goal of the upcoming release is...
+You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
 
 ## iOS SDK Version Next: X.X
 Expected Release Date: N/A
 
-#### Goal
-N/A
-
-### Proposals
-#### Implemented proposals
-N/A
-#### Accepted proposals without implementation
-N/A
+The goal of the upcoming release is...
+You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
 
 ## Android SDK Version Next: X.X
 Expected Release Date: N/A
 
-#### Goal
-N/A
+The goal of the upcoming release is...
+You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
 
-### Proposals
-#### Implemented proposals
-N/A
-#### Accepted proposals without implementation
-N/A
-
-## Other Proposals
-### Returned for revision
-N/A
-
-### Deferred for future discussion
-N/A
+[sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
+[sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
+[proposal-status]: https://smartdevicelink.github.io/sdl_evolution/
