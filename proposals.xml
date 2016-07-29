@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+The proposal status page at smartdevicelink.github.io/sdl_evolution is rendered from
+this list using proposal-status.xsl; however, since this XML document lives on
+the repo's master branch, the status page (index.html on the gh-pages branch)
+just loads it via JavaScript. Hence, the following declaration isn't used.
+
+<?xml-stylesheet type="text/xsl" href="proposal-status.xsl"?>
+-->
+<proposals>
+<!-- <proposal id="NNNN" status="implemented" primary-platform="core" sdl-version="x.x" name="<<PROPOSAL NAME>>" filename="<<FILENAME>>"/> -->
+
+<!--
+Recognized values for a proposal's status:
+	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected
+
+Recognized values for primary-platform:
+	protocol, rpc, core, ios, android
+
+Note: status="implemented" also requires sdl-version="XX".
+-->
+</proposals>
