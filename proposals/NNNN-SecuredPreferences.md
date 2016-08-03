@@ -1,9 +1,9 @@
 # Secured Preferences
 
-* Proposal: [SE-NNNN](NNNN-SecuredPreferences.md)
+* Proposal: [SDL-0001](0001-SecuredPreferences.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
-* Review manager: TBD
+* Status: **In Review:** (2016-08-03 to 2016-08-10)
+* Review manager: N/A
 * Impacted Platforms: [Android]
 
 ## Introduction
