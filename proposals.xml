@@ -8,7 +8,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <?xml-stylesheet type="text/xsl" href="proposal-status.xsl"?>
 -->
 <proposals>
-<!-- <proposal id="NNNN" status="implemented" primary-platform="core" sdl-version="x.x" name="<<PROPOSAL NAME>>" filename="<<FILENAME>>"/> -->
+<proposal id="0001" status="active" primary-platform="android" sdl-version="4.1" name="Secured Preferences" filename="0001-SecuredPreferences.md"/>
 
 <!--
 Recognized values for a proposal's status:
