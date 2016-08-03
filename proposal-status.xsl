@@ -42,7 +42,7 @@ on the gh-pages branch).
       
         <!-- This needs to include both version and platform -->
         <!-- <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL {{platform}} v0.0</xsl:with-param>
+          <xsl:with-param name="title">Implemented for SDL {{primary-platform}} v0.0</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@sdl-version = 0]"/>
         </xsl:call-template> -->
       
@@ -91,7 +91,7 @@ on the gh-pages branch).
   <xsl:template match="proposal">
     <tr class="proposal">
       <td><a class="number status-{@status}" href="https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/{@filename}">SDL-<xsl:value-of select="@id"/></a></td>
-      <td><a class="number platform-{@platform}" href="https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/{@filename}"><xsl:value-of select="@platform"/></a></td>
+      <td><a class="number platform-{@primary-platform}" href="https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/{@filename}"><xsl:value-of select="@primary-platform"/></a></td>
       <td>
         <a class="title" href="https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/{@filename}">
           <xsl:call-template name="format-proposal-name">
