@@ -138,8 +138,9 @@ The new solution is to use simple string constants. For example, the previous ex
 
 ```objc
 // SDLAmbientLightStatus.h
+typedef NSString * SDLEnum;
 
-typedef NSString * SDLAmbientLightStatus __attribute__((swift_wrapper(enum));
+typedef SDLEnum SDLAmbientLightStatus __attribute__((swift_wrapper(enum)));
 extern SDLAmbientLightStatus const SDLAmbientLightStatusNight;
 extern SDLAmbientLightStatus const SDLAmbientLightStatusTwilight1;
 extern SDLAmbientLightStatus const SDLAmbientLightStatusTwilight2;
