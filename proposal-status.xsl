@@ -241,7 +241,7 @@ on the gh-pages branch).
         background-color: #c691c5; // SDL Purple
       }
       a.number.status-rejected {
-        background-color: #bc7e79; // SDL Red
+        background-color: #ef5e69; // SDL Red
       }
       a.number.platform-protocol {
         background-color: #fb9050; // SDL Orange
@@ -250,7 +250,7 @@ on the gh-pages branch).
         background-color: #c691c5; // SDL Purple
       }
       a.number.platform-core {
-        background-color: #bc7e79; // SDL Red
+        background-color: #ef5e69; // SDL Red
       }
       a.number.platform-ios {
         background-color: #39609a; // SDL Navy
