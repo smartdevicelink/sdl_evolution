@@ -1,6 +1,6 @@
 # Feature name
 
-* Proposal: [SE-NNNN](NNNN-filename.md)
+* Proposal: [SDL-NNNN](NNNN-filename.md)
 * Author: [SDL Developer](https://github.com/smartdevicelink)
 * Status: **Awaiting review**
 * Review manager: TBD
