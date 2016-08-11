@@ -37,10 +37,10 @@ Expected Release Date: N/A
 The goal of the upcoming release is...
 You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
 
-## iOS SDK Version Next: X.X
+## iOS SDK Version Next: 5.0
 Expected Release Date: N/A
 
-The goal of the upcoming release is...
+The goal of this release is to rebuild and restructure the lower-level components of SDL iOS. Many of the lower-level protocol components are poorly designed and untestable. Many are unfortunately public classes when they should not be; these must be made private. RPCs, RPC Structs, and Enums are all difficult to update and add to, and unfortunately poorly designed (for example, enums are largely global, RPC properties are largely atomic, no nullability or generics). Code generation should be leveraged to make these easier to update in the future and for better compatibility with Swift.
 You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
 
 ## Android SDK Version Next: X.X
