@@ -24,26 +24,22 @@ on the gh-pages branch).
           <xsl:with-param name="proposals" select="proposal[@status='active']"/>
         </xsl:call-template>
       
-        <xsl:call-template name="section">
+        <!-- <xsl:call-template name="section">
           <xsl:with-param name="title">Upcoming reviews</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='scheduled']"/>
-        </xsl:call-template>
-      
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Proposals awaiting scheduling</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='awaiting']"/>
-        </xsl:call-template>
-      
-        <xsl:call-template name="section">
+        </xsl:call-template> -->
+        
+        <!-- This needs to include both version and platform -->
+        <!-- <xsl:call-template name="section">
           <xsl:with-param name="title">Accepted (awaiting implementation)</xsl:with-param>
           <xsl:with-param name="description">This is the list of proposals which have been accepted for inclusion into SDL, but they are not implemented yet, and may not have anyone signed up to implement them. If they are not implemented in time for the next version of SDL, they will roll into a subsequent release.</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='accepted']"/>
-        </xsl:call-template>
+          <xsl:with-param name="proposals" select="proposal[@status='accepted'][platform='ios'][@sdl-version=0]"/>
+        </xsl:call-template> -->
       
         <!-- This needs to include both version and platform -->
         <!-- <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL {{primary-platform}} v0.0</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@sdl-version = 0]"/>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][platform='ios'][@sdl-version=0]"/>
         </xsl:call-template> -->
       
         <xsl:call-template name="section">
