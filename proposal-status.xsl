@@ -234,7 +234,7 @@ on the gh-pages branch).
         background-color: #58bcb9; // SDL Teal
       }
       a.number.status-awaiting, a.number.status-deferred {
-        background-color: #e5eef8; // SDL Light Grey
+        background-color: #bac6d2; // SDL Grey
         color: #000;
       }
       a.number.status-returned {
