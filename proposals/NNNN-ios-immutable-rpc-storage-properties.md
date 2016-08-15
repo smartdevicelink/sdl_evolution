@@ -1,4 +1,4 @@
-# iOS Use Correct Mutability on RPCs
+# iOS Use Correct Mutability on RPC Storage Properties
 * Proposal: [SE-NNNN](NNNN-filename.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
