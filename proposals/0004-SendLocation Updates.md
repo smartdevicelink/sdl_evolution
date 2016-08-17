@@ -1,10 +1,10 @@
 # SendLocation Updates
 
-* Proposal: NNNN-SendLocation Updates.md
-* Author: [Robin Kurian]
-* Status: "Awaiting Review"
+* Proposal: 0004-SendLocation Updates.md
+* Author: Robin Kurian
+* Status: "In Review"
 * Review manager: TBD
-* Impacted Platforms: iOS, Android, Core
+* Impacted Platforms: iOS, Android, Core, RPC
 
 ## Introduction
 The SendLocation RPC allows an application to set a location on the head unit by sending latitude and longitude along with other information about that location.  This is a proposal to expand the capability of the SendLocation RPC to include searchable address format, delivery mode for deciding how the head unit should process the information and date-time information to support the delivery mode.
