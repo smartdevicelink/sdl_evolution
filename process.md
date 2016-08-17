@@ -79,9 +79,13 @@ The goal of the review process is to improve the proposal under review through c
 
 Please state explicitly whether you believe that the proposal should be accepted into SDL.
 
-More information about the SDL evolution process is available at
+More information about the SDL evolution process is available at:
 
 > <https://github.com/smartdevicelink/sdl_evolution/blob/master/process.md>
+
+The current status of all past and present evolution proposals is available at:
+
+> <https://smartdevicelink.github.io/sdl_evolution/>
 
 Thank you,
 
