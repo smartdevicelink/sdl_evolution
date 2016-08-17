@@ -1,10 +1,10 @@
-# TBT Library
+# Turn by Turn Mobile Managers
 
-* Proposal: [SE-NNNN](NNNN-filename.md)
+* Proposal: [SE-0002](0002-.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Review manager: TBD
-* Impacted Platforms: [iOS / Android]
+* Impacted Platforms: iOS / Android
 
 ## Introduction
 
