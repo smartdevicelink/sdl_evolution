@@ -1,8 +1,8 @@
 # Last Mile Navigation
 
-* Proposal: NNNN-Last Mile Navigation
-* Author: [Robin Kurian]
-* Status: "Awaiting Review"
+* Proposal: 0003-Last Mile Navigation
+* Author: Robin Kurian
+* Status: "In Review"
 * Review manager: TBD
 * Impacted Platforms: iOS, Android, Core
 
