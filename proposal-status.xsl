@@ -254,6 +254,9 @@ on the gh-pages branch).
       a.number.platform-android {
         background-color: #4ea57f; // SDL Forest
       }
+      a.number.platform-mobile {
+        background-color: #58bcb9; // SDL Teal
+      }
     </style>
   </xsl:template>
 
