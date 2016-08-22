@@ -1,6 +1,6 @@
 # Batch RPC Processing
 
-* Proposal: nnnn-Batch RPC Processing.md
+* Proposal: nnnn-batch-rpc-processing.md
 * Author: [Markos Rapitis]
 * Status: "Awaiting Review"
 * Review manager: TBD
