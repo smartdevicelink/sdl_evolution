@@ -11,8 +11,11 @@ This proposal introduces the ability to utilize a generic data transfer flow to 
 
 ## Motivation
 Currently all RPC's are sent individually from the mobile to core and vice versa.  When processing a large number of RPC's (e.g. thousands) the communication between the mobile and core can become a huge and unnecessary bottle neck.
-In the SDL application lifecycle, there are important cases where the mobile needs to send and receive a large number of RPC's very quickly.  For example, when an app is placed into full for the first time it is expected that all resources utilized by the app are requested for the first time and made available to the user as soon as possible -- these resources can potentially include a large number (in the thousands) of add commands and createinteractionchoicesets.  
+In the SDL application lifecycle, there are important cases where the mobile needs to send and receive a large number of RPC's very quickly.  
+
+For example, when an app is placed into full for the first time it is expected that all resources utilized by the app are requested for the first time and made available to the user as soon as possible -- these resources can potentially include a large number (in the thousands) of add commands and createinteractionchoicesets.  
 In addition, other RPC's are also traditionally requested at startup like button subscriptions and the setting of global properties.  Similarly, at times removing a large number of resources (like deleting commands and choicesets) needs to occur very quickly. 
+
 In the cases mentioned, sending an individual RPC request for each command is not ideal as the amount of bandwidth and time needed to process thousands of RPC requests is significant.  
 A more efficient approach would be to utilize the generic data transfer flow, sending a batch file via putfile with a list of RPC's to be processed and a system request to reference the batch file.
 
