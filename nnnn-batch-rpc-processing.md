@@ -23,18 +23,20 @@ A more efficient approach would be to utilize the generic data transfer flow, se
 ## Proposed Solution
 The solution proposed is to utilize the existing generic data transfer flow as a base and enhance the flow to include the processing of RPC's from a defined file format.  
 Utilizing a batch file will reduce the number of RPC's sent and received between the mobile and core from the thousands to just a few as shown below:
+
 Proposed Process (general happy path):
-	* Mobile constructs a formatted (BATCH_RPC) file of RPC requests based on app needs
-	-> Mobile sends a putfile request containing the formatted file of RPC requests
-	<- Core sends a putfile response signaling the success of the putfile request
-	-> Mobile sends a SystemRequest with RequestType BATCH_RPC and a file reference to the successful putfile
-	*Core validates and processes the BATCH_RPC file that was provided by the mobile and constructs a BATCH_RPC response file based on request results 
-	<- Core sends an OnSystemRequest Response containing a formatted file with RPC responses
+* Mobile constructs a formatted (BATCH_RPC) file of RPC requests based on app needs
+* -> Mobile sends a putfile request containing the formatted file of RPC requests
+* <- Core sends a putfile response signaling the success of the putfile request
+* -> Mobile sends a SystemRequest with RequestType BATCH_RPC and a file reference to the successful putfile
+* Core validates and processes the BATCH_RPC file that was provided by the mobile and constructs a BATCH_RPC response file based on request results 
+* <- Core sends an OnSystemRequest Response containing a formatted file with RPC responses
 
 	
 ## Detailed Design
 
 ### Changes to Mobile API and HMI_API
+  ```xml
   <enum name="RequestType">
     <description>Enumeration listing possible asynchronous requests.</description>
     <element name="HTTP" />
@@ -57,8 +59,9 @@ Proposed Process (general happy path):
     <element name="EMERGENCY" />
     <element name="MEDIA" />  
     <element name="FOTA" />
-	<element name="BATCH_RPC" /> <!--New item added to this enum-->
+    <element name="BATCH_RPC" /> <!--New item added to this enum-->
   </enum>
+  ```
   
 
 ## Impact on existing code
