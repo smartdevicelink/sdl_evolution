@@ -9,9 +9,12 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 -->
 <proposals>
 <proposal id="0001" status="rejected" primary-platform="android" sdl-version="4.1" name="Secured Preferences" filename="0001-SecuredPreferences.md"/>
-<proposal id="0002" status="active" primary-platform="mobile" sdl-version="4.1" name="Turn by Turn Mobile Managers" filename="0002-turn-by-turn-mobile-managers.md"/>
-<proposal id="0003" status="active" primary-platform="rpc" sdl-version="4.1" name="Last Mile Navigation" filename="0003-last-mile-navigation.md"/>
-<proposal id="0004" status="active" primary-platform="rpc" sdl-version="4.1" name="SendLocation RPC Updates" filename="0004-sendlocation-updates.md"/>
+<proposal id="0002" status="deferred" primary-platform="mobile" sdl-version="4.1" name="Turn by Turn Mobile Managers" filename="0002-turn-by-turn-mobile-managers.md"/>
+<proposal id="0003" status="returned" primary-platform="rpc" sdl-version="4.1" name="Last Mile Navigation" filename="0003-last-mile-navigation.md"/>
+<proposal id="0004" status="returned" primary-platform="rpc" sdl-version="4.1" name="SendLocation RPC Updates" filename="0004-sendlocation-updates.md"/>
+<proposal id="0005" status="active" primary-platform="ios" sdl-version="5.0" name="iOS Use Correct Mutability on RPC Storage Properties" filename="0005-ios-immutable-rpc-storage-properties.md"/>
+<proposal id="0006" status="active" primary-platform="ios" sdl-version="5.0" name="iOS Stringly Typed Enums" filename="0006-ios-stringly-typed-enums.md"/>
+<proposal id="0007" status="active" primary-platform="ios" sdl-version="5.0" name="iOS Enforce ObjC Generics" filename="0007-ios-objc-generics.md"/>
 
 <!--
 Recognized values for a proposal's status:
