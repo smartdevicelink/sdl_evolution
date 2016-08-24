@@ -63,9 +63,47 @@ Proposed Process (general happy path):
   </enum>
   ```
 
+
 ## Impact on existing code
-Since we are adding an item to the existing RequestType enum (without changing other enums), existing SystemRequest functionality should not be impacted.  
-It is expected that all core side functionality outside of the new BATCH_RPC flow will remain unchanged.
+
+### Compatibility
+Since we are adding an item to the existing RequestType enum (without changing other enums), existing SystemRequest functionality should not be impacted.
+
+### [iOS][github_sdl_ios] and [Android][github_sdl_android] SDK
+* Add batch file construction
+* Update SystemRequest and OnSystemRequest for BATCH_RPC request type
+* Add result batch data processing
+
+### [Core][github_sdl_core]
+* Add new [component][core_sad_components] - *BatchRequestController* with a following logic:
+    * Verification Mobile batch file
+    * Parsing batch file into existing [Commands][core_sad_components_commands]
+        * *Note:* for following current commands restrictions and rules
+    * Construction batch file to HMI
+    * Exchange SystemRequest(BATCH_RPC) with HMI
+    * Waiting HMI batch file processing results
+    * Verification batch file from HMI
+    * Construction batch file to Mobile
+    * Sending OnSystemRequest Notification to Mobile
+* Update [Command component][core_sad_components_commands] with SystemRequest(BATCH_RPC) and OnSystemRequest(BATCH_RPC) logic
+* Update [Application Manager][core_sad_components_am] for processing batch and single RPCs in the common way
+
+### [HMI][github_sdl_hmi]
+* Update SystemRequest and OnSystemRequest for BATCH_RPC request type
+* Add batch file processing
+* Add batch result file construction
+
+### [Policy Cloud][github_sdl_server] data
+* Update allowance BATCH_RPC request type for SystemRequest
+
+[github_sdl_ios]: https://github.com/smartdevicelink/sdl_ios
+[github_sdl_android]: https://github.com/smartdevicelink/sdl_android
+[github_sdl_core]: https://github.com/smartdevicelink/sdl_core
+[github_sdl_hmi]: https://github.com/smartdevicelink/sdl_hmi
+[github_sdl_server]: https://github.com/smartdevicelink/sdl_server
+[core_sad_components]: https://smartdevicelink.com/en/guides/core/software-architecture-document/components-view/
+[core_sad_components_commands]: https://smartdevicelink.com/en/guides/core/software-architecture-document/components-view/#commands
+[core_sad_components_am]: https://smartdevicelink.com/en/guides/core/software-architecture-document/components-view/#application-manager
 
 
 ## Alternatives considered
