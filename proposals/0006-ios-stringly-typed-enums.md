@@ -1,7 +1,7 @@
 # iOS Stringly Typed Enums
-* Proposal: [SDL-NNNN](NNNN-Stringly Typed Enums.md)
+* Proposal: [SDL-0006](0006-Stringly Typed Enums.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In review**
 * Review manager: TBD
 * Impacted Platforms: iOS
 
