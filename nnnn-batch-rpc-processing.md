@@ -30,7 +30,7 @@ Proposed Process (general happy path):
 * <- Core sends a putfile response signaling the success of the putfile request
 * -> Mobile sends a SystemRequest with RequestType BATCH_RPC and a file reference to the successful putfile
 * Core validates and processes the BATCH_RPC file that was provided by the mobile and constructs a BATCH_RPC response file based on request results 
-* <- Core sends an OnSystemRequest Response containing a formatted file with RPC responses
+* <- Core sends an OnSystemRequest Notification containing a formatted file with RPC responses
 
 	
 ## Detailed Design
