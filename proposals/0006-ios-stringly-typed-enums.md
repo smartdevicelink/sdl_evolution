@@ -1,5 +1,5 @@
 # iOS Stringly Typed Enums
-* Proposal: [SDL-0006](0006-Stringly Typed Enums.md)
+* Proposal: [SDL-0006](0006-ios-stringly-typed-enums.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **In review**
 * Review manager: TBD
