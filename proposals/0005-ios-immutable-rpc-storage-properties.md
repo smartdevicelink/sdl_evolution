@@ -1,7 +1,7 @@
 # iOS Use Correct Mutability on RPC Storage Properties
-* Proposal: [SE-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0005](0005-ios-immutable-rpc-storage-properties.md.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Review manager: TBD
 * Impacted Platforms: iOS
 
