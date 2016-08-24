@@ -4,7 +4,7 @@
 * Author: [Markos Rapitis]
 * Status: "Awaiting Review"
 * Review manager: TBD
-* Impacted Platforms: iOS, Android, Core
+* Impacted Platforms: iOS, Android, Core, RPC
 
 ## Introduction
 This proposal introduces the ability to utilize a generic data transfer flow to allow for processing of RPC's via a defined batch file format.
