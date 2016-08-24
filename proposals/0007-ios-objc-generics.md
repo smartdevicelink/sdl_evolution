@@ -1,5 +1,5 @@
 # iOS Enforce ObjC Generics
-* Proposal: [SE-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0007](0007-ios-objc-generics.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
 * Review manager: TBD
