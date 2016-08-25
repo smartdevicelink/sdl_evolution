@@ -32,6 +32,8 @@ Proposed Process (general happy path):
 * Core validates and processes the BATCH_RPC file that was provided by the mobile and constructs a BATCH_RPC response file based on request results 
 * <- Core sends an OnSystemRequest Notification containing a formatted file with RPC responses
 
+To provide further clarity, part of the intent in sending a single file across to core for processing is to free up blocked incoming and outgoing message queues when sending and receiving thousands of RPC messages.  In addition, the file format utilized could be compressed which would provide more efficiency when compared to sending raw data through protocol messages to core.
+
 
 ## Detailed Design
 
