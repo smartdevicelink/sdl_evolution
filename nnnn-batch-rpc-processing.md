@@ -34,6 +34,8 @@ Proposed Process (general happy path):
 
 To provide further clarity, part of the intent in sending a single file across to core for processing is to free up blocked incoming and outgoing message queues when sending and receiving thousands of RPC messages.  In addition, the file format utilized could be compressed which would provide more efficiency when compared to sending raw data through protocol messages to core.
 
+Please see included Batch_RPC_processing.png for process & state diagram details. 
+https://github.com/FordDev/sdl_evolution/blob/nnnn-batch-rpc-processing/Batch_RPC_processing.png
 
 ## Detailed Design
 
