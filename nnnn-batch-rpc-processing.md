@@ -10,14 +10,19 @@
 This proposal introduces the ability to utilize a generic data transfer flow to allow for processing of RPC's via a defined batch file format.
 
 ## Motivation
-Currently all RPC's are sent individually from the mobile to core and vice versa.  When processing a large number of RPC's (e.g. thousands) the communication between the mobile and core can become a huge and unnecessary bottle neck.
+Currently all RPC's are sent individually from the mobile to core and vice versa.  When processing a large number of RPC's (e.g. thousands) the communication and RPC processing between the mobile and core can become a bottle neck.
+
+In sending thousands of RPC's Incoming and Outgoing message queues for the mobile and core are blocked from the high volume of traffic causing important HMI UI messages to be processed late.
+Currently, core and proxy queues have no sense of priority -- all queues implement FIFO ordering. HMI updates lag behind when a large number of messages are in the queue.
+o	For example, a show request is sent after 500 add commands -- the show request will lag behind the processing of the add commands.
+
 In the SDL application lifecycle, there are important cases where the mobile needs to send and receive a large number of RPC's very quickly.  
 
 For example, when an app is placed into full for the first time it is expected that all resources utilized by the app are requested for the first time and made available to the user as soon as possible -- these resources can potentially include a large number (in the thousands) of AddCommands and CreateInteractionChoiceSets.  
 In addition, other RPC's are also traditionally requested at startup like button subscriptions and the setting of global properties.  Similarly, at times removing a large number of resources (like deleting commands and choicesets) needs to occur very quickly. 
 
 In the cases mentioned, sending an individual RPC request for each command is not ideal as the amount of bandwidth and time needed to process thousands of RPC requests is significant.  
-A more efficient approach would be to utilize the generic data transfer flow, sending a batch file via PutFile with a list of RPC's to be processed and a system request to reference the batch file.
+A more efficient approach would be to utilize the generic data transfer flow, sending a batch file via PutFile with a list of RPC's to be processed in the background without blocking vital incoming and outgoing message queues and a system request to reference the batch file.
 
 
 ## Proposed Solution
@@ -29,10 +34,10 @@ Proposed Process (general happy path):
 * -> Mobile sends a PutFile request containing the formatted file of RPC requests
 * <- Core sends a PutFile response signaling the success of the PutFile request
 * -> Mobile sends a SystemRequest with RequestType BATCH_RPC and a file reference to the successful PutFile
-* Core validates and processes the BATCH_RPC file that was provided by the mobile and constructs a BATCH_RPC response file based on request results 
+* Core validates and processes the BATCH_RPC file in the background leaving incoming and outgoing message queues available for processing.  Core constructs a BATCH_RPC response file based on request results.
 * <- Core sends an OnSystemRequest Notification containing a formatted file with RPC responses
 
-To provide further clarity, part of the intent in sending a single file across to core for processing is to free up blocked incoming and outgoing message queues when sending and receiving thousands of RPC messages.  In addition, the file format utilized could be compressed which would provide more efficiency when compared to sending raw data through protocol messages to core.
+The file format utilized will be compressed which will provide more efficiency when compared to sending raw uncompressed data through protocol messages to core.
 
 Please see included Batch_RPC_processing.png for process & state diagram details. 
 https://github.com/FordDev/sdl_evolution/blob/nnnn-batch-rpc-processing/Batch_RPC_processing.png
@@ -111,4 +116,8 @@ Since we are adding an item to the existing RequestType enum (without changing o
 
 
 ## Alternatives considered
-Adding new RPC's to allow for arrays of RPC's like ChoiceSets and AddCommands was briefly considered, however the BATCH_RPC flow provides a more generic and suitable approach for usability and long-term maintenance.
+Adding new RPC's to allow for arrays of RPC's like AddCommands, DeleteCommands, CreateInteractionChoiceSets, DeleteInteractionChoiceSets has been considered.  
+Creating a weight system for each RPC that identifies prioirty for each message (e.g. A Show request would have a higher priority than an AddCommand).
+Updating the messaging queue from both core and mobile standpoints to process RPC's based on priority.
+Identify and design compression / decompression routines at the protocol level to allow for a large amount of JSON to be transferred quickly over low bandwidth transports -- update Core and Mobile platforms to reflect these changes.
+
