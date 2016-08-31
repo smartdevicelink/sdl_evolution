@@ -106,10 +106,10 @@ _Use case 8 :_
 ## Detailed Design
 ### Additions to Mobile_API
 ```xml
-<element name="GetWayPointsID" value="41" hexvalue="29" />
-<element name="SubscribeWayPointsID" value="42" hexvalue="2A" />
-<element name="UnsubscribeWayPointsID" value="43" hexvalue="2B" />
-<element name="OnWayPointChangeID" value="32785" hexvalue="8011" />
+<element name="GetWayPointsID" value="45" hexvalue="2D" />
+<element name="SubscribeWayPointsID" value="46" hexvalue="2E" />
+<element name="UnsubscribeWayPointsID" value="47" hexvalue="2F" />
+<element name="OnWayPointChangeID" value="32784" hexvalue="8010" />
 
 <function name="GetWayPoints" functionID="GetWayPointsID" messagetype="request">		
 	<description>Request for getting waypoint/destination data.</description>	
