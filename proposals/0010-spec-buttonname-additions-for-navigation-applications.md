@@ -1,9 +1,8 @@
 # ButtonName Additions for Navigation Applications
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0010](0010-spec-buttonname-additions-for-navigation-applications.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **Awaiting review**
-* Review manager: TBD
+* Status: **In review**
 * Impacted Platforms: iOS, Android, Core, RPC
 
 ## Introduction
