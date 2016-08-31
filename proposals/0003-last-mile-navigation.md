@@ -2,7 +2,7 @@
 
 * Proposal: 0003-Last Mile Navigation
 * Author: Robin Kurian
-* Status: *Accepted with Revisions*
+* Status: **Accepted with Revisions**
 * Impacted Platforms: iOS, Android, Core
 
 ## Introduction
