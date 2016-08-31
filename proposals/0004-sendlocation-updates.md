@@ -2,7 +2,7 @@
 
 * Proposal: 0004-SendLocation Updates.md
 * Author: Robin Kurian
-* Status: *Accepted with Revisions*
+* Status: **Accepted with Revisions**
 * Impacted Platforms: iOS, Android, Core, RPC
 
 ## Introduction
