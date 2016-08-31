@@ -1,8 +1,7 @@
 # Base iOS Version to 7.0
-* Proposal: [SE-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0008](0008-ios-7-0-minimum.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
-* Review manager: TBD
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
