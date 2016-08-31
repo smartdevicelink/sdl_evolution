@@ -21,11 +21,11 @@ a.	Address parameter - For sending address of the location
 * countryCode - Name of country (ISO 3166-2)
 * postalCode - PLZ, ZIP, PIN, CAP etc.
 * administrativeArea - Portion of country (e.g. state)
-* subAdministrativeArea – Portion of e.g. state (e.g. county)
-* locality – Hypernym for e.g. city/village
-* subLocality – Hypernym for e.g. district
+* subAdministrativeArea – Portion of administrativeArea (e.g. county)
+* locality – Hypernym for city/village
+* subLocality – Hypernym for district
 * thoroughfare - Hypernym for street, road etc.
-* subThoroughfare - Portion of thoroughfare e.g. house number
+* subThoroughfare - Portion of thoroughfare (e.g. house number)
 
 b.	deliveryMode parameter - Provides information for the head unit to decide how to process the location
 * PROMPT – Head unit may display the location information on its UI (default mode)
@@ -78,7 +78,7 @@ c.	timestamp parameter
   </param>	 
   <param name="timeStamp" type="DateTime" mandatory="false">
     <description>
-		timestamp in ISO 8601 format
+		See DateTime 
     </description>
   </param>	 
   <param name="address" type="OASISAddress" mandatory="false">
@@ -118,30 +118,32 @@ c.	timestamp parameter
 </enum>
 
 <struct name="DateTime">				
-  <param name="second" type="Integer" minvalue="0" maxvalue="60" mandatory="true">
+	<param name="millisecond" type="Integer" minvalue="0" maxvalue="999" mandatory="false">
+	   <description>Milliseconds </description>		
+	</param>		 
+	<param name="second" type="Integer" minvalue="0" maxvalue="60" mandatory="false">
     <description>Seconds part of time</description>		
 	</param>			
-	<param name="minute" type="Integer" minvalue="0" maxvalue="59" mandatory="true">
+	<param name="minute" type="Integer" minvalue="0" maxvalue="59" mandatory="false">
 	  <description>Minutes part of time</description>		
 	</param>			
-  <param name="hour" type="Integer" minvalue="0" maxvalue="23" mandatory="true">
+	<param name="hour" type="Integer" minvalue="0" maxvalue="23" mandatory="false">
     <description>Hours part of time. Note that this structure accepts time only in 24 Hr format</description>		
 	</param>			
-
-  <param name="day" type="Integer" minvalue="1" maxvalue="31" mandatory="true">
+  <param name="day" type="Integer" minvalue="1" maxvalue="31" mandatory="false">
     <description>Day of the month</description>		
 	</param>			
-	<param name="month" type="Integer" minvalue="1" maxvalue="12" mandatory="true">
+	<param name="month" type="Integer" minvalue="1" maxvalue="12" mandatory="false">
 	  <description>Month of the year</description>		
 	</param>			
-	<param name="year" type="Integer" maxvalue="4095" mandatory="true">			
+	<param name="year" type="Integer" maxvalue="4095" mandatory="false">			
 		<description>The year in YYYY format</description>		
 	</param>			
 	<param name="tz_hour" type="Integer" minvalue="-12" maxvalue="14" mandatory="false">
-	   <description>Time zone offset in Hours wrt UTC.</description>		
+	   <description>Time zone offset in Hours with regard to UTC.</description>		
 	</param>			
-	<param name="tz_minute" type="Integer" minvalue="0" maxvalue="59" mandatory="false">
-	   <description>Time zone offset in Min wrt UTC. </description>		
+	<param name="tz_minute" type="Integer" minvalue="0" maxvalue="999" mandatory="false">
+	   <description>Time zone offset in Min with regard to UTC. </description>		
 	</param>			
 </struct>				
 
@@ -149,29 +151,29 @@ c.	timestamp parameter
   <param name="countryName" minlength="0" maxlength="200" type="String" mandatory="false">	
 	  <description>Name of the country (localized)</description>
 	</param>	
-	<param name="countryCode" minlength="0" maxlength="50" type="String" mandatory="false">	
+	<param name="countryCode" minlength="0" maxlength="200" type="String" mandatory="false">	
 		<description>Name of country (ISO 3166-2)</description>
 	</param>	
-	<param name="postalCode" minlength="0" maxlength="16" type="String" mandatory="false">	
+	<param name="postalCode" minlength="0" maxlength="200" type="String" mandatory="false">	
 		<description>(PLZ, ZIP, PIN, CAP etc.)</description>
 	</param>	
   <param name="administrativeArea" minlength="0" maxlength="200" type="String" mandatory="false">	
 		<description>Portion of country (e.g. state)</description>
 	</param>	
 <param name="subAdministrativeArea" minlength="0" maxlength="200" type="String" mandatory="false">	
-		<description>Portion of e.g. state (e.g. county)</description>
+		<description>Portion of administrativeArea (e.g. county)</description>
 	</param>	
 	<param name="locality" minlength="0" maxlength="200" type="String" mandatory="false">	
-		<description>Hypernym for e.g. city/village</description>
+		<description>Hypernym for city/village</description>
 	</param>	
 	<param name="subLocality" minlength="0" maxlength="200" type="String" mandatory="false">	
-		<description>Hypernym for e.g. district</description>
+		<description>Hypernym for district</description>
 	</param>	
   <param name="thoroughfare" minlength="0" maxlength="200" type="String" mandatory="false">	
 		<description>Hypernym for street, road etc.</description>
 	</param>	
   <param name="subThoroughfare" minlength="0" maxlength="200" type="String" mandatory="false">	
-		<description>Portion of thoroughfare e.g. house number</description>
+		<description>Portion of thoroughfare (e.g. house number)</description>
 	</param>	
 </struct>
 ```
@@ -207,7 +209,7 @@ c.	timestamp parameter
   </param>
   <param name="timeStamp" type="Common.DateTime" mandatory="false">
     <description>
-    timestamp in ISO 8601 format
+    See DateTime
     </description>
   </param>
   <param name="address" type="Common.OASISAddress" mandatory="false">
@@ -226,29 +228,32 @@ c.	timestamp parameter
 </enum>
 
 <struct name="DateTime">
-  <param name="second" type="Integer" minvalue="0" maxvalue="60" mandatory="true">
+	<param name="millisecond" type="Integer" minvalue="0" maxvalue="999" mandatory="false">
+	  <description>Milliseconds </description>		
+	</param>		 
+  <param name="second" type="Integer" minvalue="0" maxvalue="60" mandatory="false">
      <description>Seconds part of time</description>
    </param>
-   <param name="minute" type="Integer" minvalue="0" maxvalue="59" mandatory="true">
+   <param name="minute" type="Integer" minvalue="0" maxvalue="59" mandatory="false">
      <description>Minutes part of time</description>
    </param>
-   <param name="hour" type="Integer" minvalue="0" maxvalue="23" mandatory="true">
+   <param name="hour" type="Integer" minvalue="0" maxvalue="23" mandatory="false">
      <description>Hours part of time. Note that this structure accepts time only in 24 Hr format</description>
    </param>
-   <param name="day" type="Integer" minvalue="1" maxvalue="31" mandatory="true">
+   <param name="day" type="Integer" minvalue="1" maxvalue="31" mandatory="false">
      <description>Day of the month</description>
    </param>
-   <param name="month" type="Integer" minvalue="1" maxvalue="12" mandatory="true">
+   <param name="month" type="Integer" minvalue="1" maxvalue="12" mandatory="false">
      <description>Month of the year</description>
    </param>
-   <param name="year" type="Integer" maxvalue="4095" mandatory="true">
+   <param name="year" type="Integer" maxvalue="4095" mandatory="false">
      <description>The year in YYYY format</description>
    </param>
-   <param name="tz_hour" type="Integer" minvalue="-12" maxvalue="14" defvalue="0" mandatory="true">
-     <description>Time zone offset in Hours wrt UTC.</description>
+   <param name="tz_hour" type="Integer" minvalue="-12" maxvalue="14" defvalue="0" mandatory="false">
+     <description>Time zone offset in Hours with regard to UTC.</description>
    </param>
-   <param name="tz_minute" type="Integer" minvalue="0" maxvalue="59" defvalue="0" mandatory="true">
-     <description>Time zone offset in Min wrt UTC.</description>
+   <param name="tz_minute" type="Integer" minvalue="0" maxvalue="59" defvalue="0" mandatory="false">
+     <description>Time zone offset in Min with regard to UTC.</description>
    </param>
 </struct>
 
@@ -256,29 +261,29 @@ c.	timestamp parameter
   <param name="countryName" minlength="0" maxlength="200" type="String" mandatory="false">
     <description>Name of the country (localized)</description>
   </param>
-  <param name="countryCode" minlength="0" maxlength="50" type="String" mandatory="false">
+  <param name="countryCode" minlength="0" maxlength="200" type="String" mandatory="false">
     <description>Name of country (ISO 3166-2)</description>
   </param>
-  <param name="postalCode" minlength="0" maxlength="16" type="String" mandatory="false">
+  <param name="postalCode" minlength="0" maxlength="200" type="String" mandatory="false">
     <description>(PLZ, ZIP, PIN, CAP etc.)</description>
   </param>
   <param name="administrativeArea" minlength="0" maxlength="200" type="String" mandatory="false">
     <description>Portion of country (e.g. state)</description>
   </param>
   <param name="subAdministrativeArea" minlength="0" maxlength="200" type="String" mandatory="false">
-    <description>Portion of e.g. state (e.g. county)</description>
+    <description>Portion of administrativeArea (e.g. county)</description>
   </param>
   <param name="locality" minlength="0" maxlength="200" type="String" mandatory="false">
-    <description>Hypernym for e.g. city/village</description>
+    <description>Hypernym for city/village</description>
   </param>
   <param name="subLocality" minlength="0" maxlength="200" type="String" mandatory="false">
-    <description>Hypernym for e.g. district</description>
+    <description>Hypernym for district</description>
   </param>
   <param name="thoroughfare" minlength="0" maxlength="200" type="String" mandatory="false">
     <description>Hypernym for street, road etc.</description>
   </param>
   <param name="subThoroughfare" minlength="0" maxlength="200" type="String" mandatory="false">
-    <description>Portion of thoroughfare e.g. house number</description>
+    <description>Portion of thoroughfare (e.g. house number)</description>
   </param>
 </struct>
 ```
