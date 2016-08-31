@@ -1,6 +1,6 @@
 # Last Mile Navigation
 
-* Proposal: 0003-Last Mile Navigation
+* Proposal: [SDL 0003](0003-Last Mile Navigation.md)
 * Author: Robin Kurian
 * Status: **Accepted with Revisions**
 * Impacted Platforms: iOS, Android, Core
