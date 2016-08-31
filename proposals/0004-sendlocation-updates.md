@@ -1,6 +1,6 @@
 # SendLocation Updates
 
-* Proposal: 0004-SendLocation Updates.md
+* Proposal: [SDL 0004](0004-SendLocation Updates.md)
 * Author: Robin Kurian
 * Status: **Accepted with Revisions**
 * Impacted Platforms: iOS, Android, Core, RPC
