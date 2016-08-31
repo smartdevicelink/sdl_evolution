@@ -20,7 +20,7 @@ The goal of the review process is to improve the proposal under review through c
 
 Please state explicitly whether you believe that the proposal should be accepted into SDL.
 
-A review should be written as a comment on the Github issue of the proposal created by the review manager. If you wish your review to remain private, email or send a slack to the Review Manager directly.
+A review should be written as a comment on the Github issue of the proposal created by the review manager.
 
 ## How to propose a change
 * **Check prior proposals**: many ideas come up frequently, and may either be in active discussion on the mailing list, or may have been discussed already and have joined the [Commonly Rejected Proposals](commonly_proposed.md) list.  Please check the issue archive and this list for context before proposing something new.
@@ -31,9 +31,9 @@ A review should be written as a comment on the Github issue of the proposal crea
 
 ## Review process
 
-The review process for a particular proposal begins when a maintainer accepts a pull request of a new or updated proposal into the [sdl_evolution repository][sdl_evolution_repo]. That maintainer becomes the *review manager* for the proposal. The proposal is assigned a proposal number (if it is a new proposal), then enters the review queue.
+The review process for a particular proposal begins when the review team decides to accept a pull request of a new or updated proposal into the [sdl_evolution repository][sdl_evolution_repo]. The proposal is assigned a proposal number (if it is a new proposal), then enters the review queue.
 
-The review manager will work with the proposal authors to schedule the review. Reviews usually last a single week, but can run longer for particularly large or complex proposals.
+The review team will work with the author to assess when the proposal is ready for review. Reviews usually last a single week, but can run longer for particularly large or complex proposals.
 
 When the scheduled review period arrives, the review manager will post the proposal to the [#sdl_evolution slack channel][sdl_evolution_channel], the [#sdl_evolution_report slack channel][sdl_evolution_report_channel], the [SDL mailing list][sdl_mailing_list], and create a Github issue for the actual review, which will additionally be attached to the proposal. They will have the subject "[Review]" followed by the proposal title. The Review Manager will be responsible for tracking the status of the proposal in the [proposal XML document][sdl_proposals_xml]. All feedback on the proposal should be addressed in the associated Github issue or to the review manager directly via email or Slack. To avoid delays, it is important that the proposal authors be available to answer questions, address feedback, and clarify their intent during the review period.
 
