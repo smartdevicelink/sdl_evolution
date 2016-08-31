@@ -33,7 +33,7 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Accepted (awaiting implementation)</xsl:with-param>
           <xsl:with-param name="description">This is the list of proposals which have been accepted for inclusion into SDL, but they are not implemented yet, and may not have anyone signed up to implement them. If they are not implemented in time for the next version of SDL, they will roll into a subsequent release.</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='accepted'][@platform='ios']"/>
+          <xsl:with-param name="proposals" select="proposal[@status='accepted'][@primary-platform='ios']"/>
         </xsl:call-template>
       
         <!-- This needs to include both version and platform -->
