@@ -19,31 +19,36 @@ The solution proposed here will create a plugin to be used in conjunction with A
 The plugin will be part of IntelliJ and will offer the developer the ability to generate the SDL activities in the same manner as they can use the built in generate functions. 
 
 The plugin provides three major functions:
-	1. Add required SDL
-	2. Generate Generic SDL Activity
-	3. Right Click Generate Groups
+
+1. Add required SDL
+2. Generate Generic SDL Activity
+3. Right Click Generate Groups
 
 **Add Required SDL:** The function will be able to create all required SDL activities, including both main and lock screen activities. If the main application class does not exist the function will create it, if the class does exist the plugin will inject required statements into the onCreate function.  The function will also make necessary permission, services, receiver, and newly created activities updates to the AndroidManifest.xml file.
 
 **Generate Generic SDL Activity:**  This function will create a generic SDL activity class with lifecycle functions. It will also generate SDLTemplateView, SDLTextView, SDLButtonView, and SDLGraphicView examples. 
 
-To Add Required SDL or Generate Generic SDLActivity to an Android Studio project by the following step(s): 
-	*File -> New -> Add Required SDL*   OR    *File -> New - > Generate Generic SDLActivity*
+To Add Required SDL or Generate Generic SDLActivity to an Android Studio project by the following step(s):
+
+**File -> New -> Add Required SDL**   OR    **File -> New - > Generate Generic SDLActivity**
 
 **Right Click Generate Groups:**This functionality allows generating multiple SDL examples by using Android Studio built in Generate function. 
 
 The following functions will generate examples in the onCreateView function:
-	1. GenerateSDLTextField
-	2. GenerateSDLImage
-	3. GenerateSDLButton
+
+1. GenerateSDLTextField
+2. GenerateSDLImage
+3. GenerateSDLButton
 	
 The following functions will generate examples where the mouse anchor is positioned:
-	1. GenerateSDLAlert
-	2. GenerateSDLMenu
-	3. Generate SDLPerformInteraction
+
+1. GenerateSDLAlert
+2. GenerateSDLMenu
+3. Generate SDLPerformInteraction
 	
 These functions can be accessed by either of the following:
-	*Right-Click -> Generate   OR   Alt + Insert* 
+
+**Right-Click -> Generate**   OR   **Alt + Insert** 
 
 ##Impact on Existing Code
 There will be no impact to any of the existing code for SDL. This plugin will just use the current existing code in generation of the SDL activities.
