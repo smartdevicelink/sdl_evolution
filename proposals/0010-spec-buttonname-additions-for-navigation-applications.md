@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0010](0010-spec-buttonname-additions-for-navigation-applications.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **In review**
+* Status: **Rejected**
 * Impacted Platforms: iOS, Android, Core, RPC
 
 ## Introduction
