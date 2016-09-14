@@ -1,7 +1,7 @@
 # iOS Library Prefer Nonatomic Properties
 * Proposal: [SDL-0009](0009-ios-library-prefer-nonatomic.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction
