@@ -1,7 +1,7 @@
 # iOS Library RPCs conform to NSCopying
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0011](0011-ios-library-conform-to-nscopying.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In review**
 * Impacted Platforms: iOS
 
 ## Introduction
