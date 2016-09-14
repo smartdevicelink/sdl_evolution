@@ -1,7 +1,7 @@
 # iOS Library Remove Siphon Server
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0012](0012-ios-library-remove-siphon.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In review**
 * Impacted Platforms: iOS
 
 ## Introduction
