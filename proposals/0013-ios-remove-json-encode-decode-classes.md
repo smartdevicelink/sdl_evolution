@@ -1,7 +1,7 @@
 # iOS Remove SDLJsonEncoder & Decoder
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0013](0013-ios-remove-json-encode-decode-classes.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Review manager: TBD
 * Impacted Platforms: iOS
 
