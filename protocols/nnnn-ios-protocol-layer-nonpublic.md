@@ -13,6 +13,7 @@ The protocol layer is the layer that handles the breaking down of RPCs into byte
 
 ## Proposed solution
 Currently, the following classes of the protocol layer are public:
+* `SDLProtocolListener.h`
 * `SDLProtocolHeader.h`
 * `SDLProtocolMessage.h`
 * `SDLAbstractProtocol.h`
