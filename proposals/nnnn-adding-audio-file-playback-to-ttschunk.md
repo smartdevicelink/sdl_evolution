@@ -106,8 +106,6 @@ public enum SpeechCapabilities {
 
 ## Impact on existing code
 
-Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
-
 This should not have an impact on the existing code base. If a newer proxy sends this request to an unsupported Core, Core would respond with `INVALID_DATA`, and the developer should be aware of that. The developer will also receive back the available `SpeechCapabilities` of Core in a successful `RegisterAppInterface` Response, so they will know if it is supported or not, and to have a contingency plan if not.
 
 If Core was to respond back with `SpeechCapabilities`, but the mobile side doesn't support it yet, no problems would arise, and a developer _could_ implement it themselves if they wished, although these would be developed simultaneously so this would most likely never happen.
