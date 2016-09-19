@@ -5,10 +5,10 @@
 * Impacted Platforms: iOS
 
 ## Introduction
-This proposal is to make a major change by altering transport classes to be private instead of public. Second, this proposal suggests that `SDLAbstractTransport` should go away and be replaced by a `protocol` that does something similar called `SDLTransportType`.
+This proposal is to make a major change by altering transport classes to be private instead of public.
 
 ## Motivation
-Privacy should be preferred in order to allow developers to make API changes to the classes without requiring minor or major version changes. The transport classes have no need for a developer to interact with them, and doing so would be harmful. Therefore, these classes should be private. The second change should be made for safety reasons and to simply be cleaner. `SDLAbstractTransport` is implemented essentially as an interface, as abstract classes do not exist in iOS languages. The same functionality can be accomplished more cleanly by simply using a protocol.
+Privacy should be preferred in order to allow developers to make API changes to the classes without requiring minor or major version changes. The transport classes have no need for a developer to interact with them, and doing so would be harmful. Therefore, these classes should be private. The second change should be made for safety reasons and to simply be cleaner.
 
 ## Proposed Solution
 The specific classes to be changed from public to private are:
@@ -19,25 +19,6 @@ The specific classes to be changed from public to private are:
 * `SDLTCPTransport`
 
 Changing this would additionally require changes in `SDLProxy`'s initializer: `- (id)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)delegate;` because we would no longer be having the developer create the transports.
-
-`SDLAbstractTransport` should be removed entirely and replaced with a protocol `SDLTransportType` which would look something like this:
-
-```objc
-@protocol SDLTransportType <NSObject>
-
-@property (weak, nonatomic) id<SDLTransportDelegate> delegate;
-@property (copy, nonatomic) NSString *debugConsoleGroupName;
-
-- (void)connect;
-- (void)disconnect;
-- (void)sendData:(NSData *)dataToSend;
-- (void)dispose;
-- (double)retryDelay;
-
-@end
-```
-
-and this protocol would of course be private as well.
 
 ## Potential Downsides
 There are no potential downsides. We do not want the developer to interface with these classes, so we should disable that ability.
