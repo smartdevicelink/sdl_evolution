@@ -1,10 +1,10 @@
 # Android Studio IDE SDL Plugins
 
-* Proposal : SDL-nnnn 
-* Author : Michael Morgan
-* Status:  **Awaiting Review**
-* Review Manager : TDB
-* Impacted Platforms : Android
+* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Author: [Michael Morgan](https://github.com/mmorg112)
+* Status: **Awaiting Review**
+* Review Manager: TDB
+* Impacted Platforms: Android
 
 ##Introduction
 The SDL Android Studio Plugins will allow for boilerplate code generation for generic SDL activities. This proposal will not impact the SDL code base in anyway and will be available as an IntelliJ Plugin for use with Android Studio. While this proposal does not impact the SDL code, it does use the code and it will be beneficial to be advertised on the SDL websites. This current proposal is focusing on Android development, but there is plan for the creation of iOS plugins being created as well.
