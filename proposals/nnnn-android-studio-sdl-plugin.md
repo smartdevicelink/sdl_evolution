@@ -1,8 +1,8 @@
 # Android Studio IDE SDL Plugins
 
-* Proposal : SDL -nnnn 
+* Proposal : SDL-nnnn 
 * Author : Michael Morgan
-* Status:  Awaiting Review
+* Status:  **Awaiting Review**
 * Review Manager : TDB
 * Impacted Platforms : Android
 
