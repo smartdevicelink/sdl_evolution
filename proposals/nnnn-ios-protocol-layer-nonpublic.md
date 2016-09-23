@@ -1,4 +1,4 @@
-# iOS Library Protocol Layer Should Not Be Public
+# iOS Library Proxy Layer Should Not Be Public
 
 * Proposal: [SDL-NNNN](NNNN-filename.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
