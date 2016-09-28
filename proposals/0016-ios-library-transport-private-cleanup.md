@@ -1,7 +1,7 @@
 # iOS Library Make Transport Classes Private and Cleaner
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0016](0016-ios-library-transport-private-cleanup.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
