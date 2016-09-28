@@ -18,9 +18,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0008" status="accepted" primary-platform="ios" sdl-version="5.0" name="Base iOS Version to 7.0" filename="0008-ios-7-0-minimum.md"/>
 <proposal id="0009" status="accepted" primary-platform="ios" sdl-version="5.0" name="iOS Library Prefer Nonatomic Properties" filename="0009-ios-library-prefer-nonatomic.md"/>
 <proposal id="0010" status="rejected" primary-platform="rpc" sdl-version="4.1" name="ButtonName Additions for Navigation Applications" filename="0010-spec-buttonname-additions-for-navigation-applications.md"/>
-<proposal id="0011" status="active" primary-platform="ios" sdl-version="5.0" name="iOS Library RPCs conform to NSCopying" filename="0011-ios-library-conform-to-nscopying.md"/>
-<proposal id="0012" status="active" primary-platform="ios" sdl-version="5.0" name="iOS Library Remove Siphon Server" filename="0012-ios-library-remove-siphon.md"/>
-<proposal id="0013" status="active" primary-platform="ios" sdl-version="5.0" name="iOS Remove SDLJsonEncoder and Decoder" filename="0013-ios-remove-json-encode-decode-classes.md"/>
+<proposal id="0011" status="accepted" primary-platform="ios" sdl-version="5.0" name="iOS Library RPCs conform to NSCopying" filename="0011-ios-library-conform-to-nscopying.md"/>
+<proposal id="0012" status="accepted" primary-platform="ios" sdl-version="5.0" name="iOS Library Remove Siphon Server" filename="0012-ios-library-remove-siphon.md"/>
+<proposal id="0013" status="accepted" primary-platform="ios" sdl-version="5.0" name="iOS Remove SDLJsonEncoder and Decoder" filename="0013-ios-remove-json-encode-decode-classes.md"/>
 
 <!--
 Recognized values for a proposal's status:
