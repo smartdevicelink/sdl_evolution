@@ -1,9 +1,8 @@
 # Adding Audio File Playback to TTSChunk
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0014](0014-adding-audio-file-playback-to-ttschunk.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **Awaiting review**
-* Review manager: TBD
+* Status: **In review**
 * Impacted Platforms: Core / iOS / Android / RPC
 
 ## Introduction
