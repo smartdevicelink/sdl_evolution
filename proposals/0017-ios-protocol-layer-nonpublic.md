@@ -1,8 +1,8 @@
 # iOS Library Protocol Layer Should Not Be Public
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0017](0017-ios-protocol-layer-nonpublic.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
