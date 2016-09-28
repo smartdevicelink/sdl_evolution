@@ -1,8 +1,8 @@
 # Android Studio IDE SDL Plugins
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0015](0015-android-studio-sdl-plugin.md)
 * Author: [Michael Morgan](https://github.com/mmorg112)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Review Manager: TDB
 * Impacted Platforms: Android
 
