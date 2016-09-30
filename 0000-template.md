@@ -1,3 +1,4 @@
+```
 # Feature name
 
 * Proposal: [SDL-NNNN](NNNN-filename.md)
@@ -28,3 +29,4 @@ Describe the impact that this change will have on existing code. Will some SDL i
 ## Alternatives considered
 
 Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+````
