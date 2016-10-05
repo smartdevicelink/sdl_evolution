@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0015](0015-android-studio-sdl-plugin.md)
 * Author: [Michael Morgan](https://github.com/mmorg112)
-* Status: **In Review**
+* Status: **Accepted**
 * Review Manager: TDB
 * Impacted Platforms: Android
 
