@@ -1,7 +1,7 @@
 # iOS Library Use Nullability Annotations
 * Proposal: [SDL-0018](0018-ios-use-nullability-annotations.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction
