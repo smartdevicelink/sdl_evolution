@@ -1,8 +1,8 @@
 # iOS Library Proxy Layer Should Not Be Public
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0019](0019-ios-protocol-layer-nonpublic.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
