@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0014](0014-adding-audio-file-playback-to-ttschunk.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **In review**
+* Status: **Accepted**
 * Impacted Platforms: Core / iOS / Android / RPC
 
 ## Introduction
