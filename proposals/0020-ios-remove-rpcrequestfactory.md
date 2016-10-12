@@ -1,8 +1,8 @@
 # Remove `SDLRPCRequestFactory`
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0020](0020-filename.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
