@@ -27,6 +27,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0017" status="accepted" primary-platform="ios" sdl-version="5.0" name="iOS Library Protocol Layer Should Not Be Public" filename="0017-ios-protocol-layer-nonpublic.md"/>
 <proposal id="0018" status="accepted" primary-platform="ios" sdl-version="5.0" name="iOS Library Use Nullability Annotations" filename="0018-ios-use-nullability-annotations.md"/>
 <proposal id="0019" status="deferred" primary-platform="ios" sdl-version="x.x" name="iOS Library Proxy Layer Should Not Be Public" filename="0019-ios-protocol-layer-nonpublic.md"/>
+<proposal id="0020" status="active" primary-platform="ios" sdl-version="x.x" name="Remove SDLRPCRequestFactory" filename="0020-ios-remove-rpcrequestfactory.md"/>
 
 <!--
 Recognized values for a proposal's status:
