@@ -19,8 +19,161 @@ Currently, the following classes of the protocol layer are public:
 
 These classes should be shifted to `project` instead of `public` and all public API references to them should be removed.
 
+## Detailed Updates Required
+In order to use SDL v5.0, the developer would be required to make changes to their project to no longer use `SDLProxy` and friends and instead use `SDLManager`. These changes are outlined below.
+
+#### Instead of creating and managing an `SDLProxy`, they create an `SDLManager`
+###### Old
+```
+- (void)setupProxy {
+    if ([self proxy] == nil) {
+        [self resetProperties];
+        // Create a proxy object by simply using the factory class.
+        [self setProxy:[SDLProxyFactory buildSDLProxyWithListener:self]];
+    }
+}
+
+- (void)teardownProxy {
+    if ([self proxy] != nil) {
+        [[self proxy] dispose];
+        [self setProxy:nil];
+    }
+}
+
+- (void)onProxyClosed {
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+               name:MobileWeatherDataUpdatedNotification
+             object:nil];
+
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+               name:MobileWeatherUnitChangedNotification
+             object:nil];
+
+    [self teardownProxy];
+    [self setupProxy];
+}
+
+- (void)onProxyOpened {
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+        selector:@selector(handleWeatherDataUpdate:)
+            name:MobileWeatherDataUpdatedNotification
+          object:nil];
+
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+        selector:@selector(repeatWeatherInformation)
+            name:MobileWeatherUnitChangedNotification
+          object:nil];
+
+    [self registerApplicationInterface];
+}
+
+- (void)registerApplicationInterface {
+    SDLRegisterAppInterface *request = [[SDLRegisterAppInterface alloc] init];
+    [request setAppName:@"MobileWeather"];
+    [request setAppID:@"330533107"];
+    [request setIsMediaApplication:@(NO)];
+    [request setLanguageDesired:[SDLLanguage EN_US]];
+    [request setHmiDisplayLanguageDesired:[SDLLanguage EN_US]];
+    [request setTtsName:[SDLTTSChunkFactory buildTTSChunksFromSimple:NSLocalizedString(@"app.tts-name", nil)]];
+    [request setVrSynonyms:[NSMutableArray arrayWithObject:NSLocalizedString(@"app.vr-synonym", nil)]];
+    SDLSyncMsgVersion *version = [[SDLSyncMsgVersion alloc] init];
+    [version setMajorVersion:@(1)];
+    [version setMinorVersion:@(0)];
+    [request setSyncMsgVersion:version];
+
+    [self sendRequest:request];
+}
+```
+
+###### New
+This is replaced by creating an SDLManager and setting the configuration:
+
+```
+SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:@"MobileWeather" appId:@"330533107" ipAddress:@"192.168.1.249" port:2776];
+lifecycleConfig.ttsName = [SDLTTSChunkFactory buildTTSChunksFromSimple:NSLocalizedString(@"app.tts-name", nil)];
+lifecycleConfig.voiceRecognitionCommandNames = @[NSLocalizedString(@"app.vr-synonym", nil)];
+lifecycleConfig.appIcon = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
+lifecycleConfig.logFlags = SDLLogOutputConsole;
+
+SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
+
+self.manager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
+
+[self.manager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
+}
+```
+
+#### Sending RPCs
+###### Old
+```
+[[self proxy] sendRPC:request];
+```
+
+###### New
+```
+[[self manager] sendRPC:request];
+```
+
+#### RPC responses
+###### Old
+In the old system, you had to implement delegate methods. For example:
+```
+-(void)onDeleteFileResponse:(SDLDeleteFileResponse*) response {
+    [self handleSequentialRequestsForResponse:response];
+
+    NSString *filename = [[self currentFilesPending] objectForKey:[response correlationID]];
+
+    if (filename) {
+        [[self currentFilesPending] removeObjectForKey:[response correlationID]];
+        if ([[SDLResult SUCCESS] isEqual:[response resultCode]]) {
+            [[self currentFiles] removeObject:filename];
+        }
+    }
+}
+```
+
+###### New
+This is made significantly better in the new framework through button handlers and RPC response handlers, but the most basic changes that can be made is simply to switch these delegate methods with notification handlers.
+```
+// Somewhere at the start of your class
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteFileResponse:) name:SDLDidReceiveDeleteFileResponse object:nil];
+
+// To replace the delegate method
+- (void)onDeleteFileResponse:(NSNotification *)notification {
+    SDLDeleteFileResponse *response = notifiction[SDLNotificationUserInfoObject];
+
+    // Same as before
+}
+```
+
+Obviously, this isn't perfectly ideal, but since it's the backup method to using RPC response handlers and button handlers, it's not meant to be. This does have the advantage of being available in any class rather than restricted to a single one.
+
+#### Putfiles
+###### Old
+With the removal of `SDLProxy`, the following method would also be removed.
+
+```
+- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
+```
+
+The impact of this removal will vary. For example, the MobileWeather example application does not use it at all and rolls its own putfile handling. For some, therefore, this will be no great loss. However, if this method is used, then the developer may either roll their own putfile handling (as MobileWeather does), or use the new file manager APIs to handle this in a much easier, more automated way.
+
+###### New
+To do file management using the file manager, the developer would have to implement something like the following:
+
+```
+SDLArtwork *image = [SDLArtwork artworkWithImage:[[ImageProcessor sharedProcessor] imageFromConditionImage:filename] name:filename asImageFormat:SDLArtworkImageFormatPNG];
+[self.manager.fileManager uploadFile:image completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+    // Whatever you need to do
+}];
+```
+
 ## Impact on existing code
 This is a major change, but it would not affect anyone if they are using the iOS 4.3.0 APIs. Anyone continuing to use deprecated `SDLProxy` methods will have to switch to using the `SDLManager` based API.
 
 ## Alternatives considered
-The only alternative is to make API changes to these methods as desired and leave them public. There's no reason to do this, however, and further changes would require further major version changes.
+The only alternative is to make API changes to these methods as desired and leave them public. There's no reason to do this, however, and further changes would require further major version changes. Additionally, this would restrict SDL developers' ability to make needed improvements and changes to the underlying structure of SDL.
