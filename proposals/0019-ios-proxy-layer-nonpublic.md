@@ -24,7 +24,7 @@ In order to use SDL v5.0, the developer would be required to make changes to the
 
 #### Instead of creating and managing an `SDLProxy`, they create an `SDLManager`
 ###### Old
-```
+```objc
 - (void)setupProxy {
     if ([self proxy] == nil) {
         [self resetProperties];
@@ -92,7 +92,7 @@ In order to use SDL v5.0, the developer would be required to make changes to the
 ###### New
 This is replaced by creating an SDLManager and setting the configuration:
 
-```
+```objc
 SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:@"MobileWeather" appId:@"330533107" ipAddress:@"192.168.1.249" port:2776];
 lifecycleConfig.ttsName = [SDLTTSChunkFactory buildTTSChunksFromSimple:NSLocalizedString(@"app.tts-name", nil)];
 lifecycleConfig.voiceRecognitionCommandNames = @[NSLocalizedString(@"app.vr-synonym", nil)];
@@ -109,19 +109,19 @@ self.manager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
 #### Sending RPCs
 ###### Old
-```
+```objc
 [[self proxy] sendRPC:request];
 ```
 
 ###### New
-```
+```objc
 [[self manager] sendRPC:request];
 ```
 
 #### RPC responses
 ###### Old
 In the old system, you had to implement delegate methods. For example:
-```
+```objc
 -(void)onDeleteFileResponse:(SDLDeleteFileResponse*) response {
     [self handleSequentialRequestsForResponse:response];
 
@@ -138,7 +138,7 @@ In the old system, you had to implement delegate methods. For example:
 
 ###### New
 This is made significantly better in the new framework through button handlers and RPC response handlers, but the most basic changes that can be made is simply to switch these delegate methods with notification handlers.
-```
+```objc
 // Somewhere at the start of your class
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteFileResponse:) name:SDLDidReceiveDeleteFileResponse object:nil];
 
@@ -155,8 +155,7 @@ Obviously, this isn't perfectly ideal, but since it's the backup method to using
 #### Putfiles
 ###### Old
 With the removal of `SDLProxy`, the following method would also be removed.
-
-```
+```objc
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
 ```
 
@@ -164,8 +163,7 @@ The impact of this removal will vary. For example, the MobileWeather example app
 
 ###### New
 To do file management using the file manager, the developer would have to implement something like the following:
-
-```
+```objc
 SDLArtwork *image = [SDLArtwork artworkWithImage:[[ImageProcessor sharedProcessor] imageFromConditionImage:filename] name:filename asImageFormat:SDLArtworkImageFormatPNG];
 [self.manager.fileManager uploadFile:image completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
     // Whatever you need to do
