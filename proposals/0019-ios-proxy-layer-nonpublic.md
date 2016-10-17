@@ -9,7 +9,7 @@
 This proposal is to make major changes by shifting all code on the proxy layer to be non-public. This would leave the new manager-based layer as the developer's primary interaction point.
 
 ## Motivation
-Since we shifted to the new developer API in SDL iOS 4.3.0, we have provided two primary interaction points, `SDLManager` and `SDLProxy`. `SDLProxy` was deprecated in 4.3.0 as an incentive for developers to shift over to using `SDLManager` and kin. We should use a major update to make breaking changes that remove `SDLProxy.h` from being public and make `SDLManager` the sole interaction point. This change will remove any confusion that may result from having two primary interaction points and allow SDL developers to refactor `SDLProxy` and kin to make sense as the backing marshalling layer for `SDLManager` without worrying about making breaking changes.
+Since we shifted to the new developer API in SDL iOS 4.3.0, we have provided two primary interaction points, `SDLManager` and `SDLProxy`. `SDLProxy` was deprecated in 4.3.0 as an incentive for developers to shift over to using `SDLManager` and kin. We should use a major update to make breaking changes that remove `SDLProxy.h` from being public and make `SDLManager` the sole interaction point. This change will remove any confusion that may result from having two primary interaction points (and duplicated APIs) and allow SDL developers to refactor `SDLProxy` and kin to make sense as the backing marshalling layer for `SDLManager` without worrying about making breaking changes.
 
 ## Proposed solution
 Currently, the following classes of the protocol layer are public:
@@ -26,66 +26,66 @@ In order to use SDL v5.0, the developer would be required to make changes to the
 ###### Old
 ```objc
 - (void)setupProxy {
-    if ([self proxy] == nil) {
-        [self resetProperties];
-        // Create a proxy object by simply using the factory class.
-        [self setProxy:[SDLProxyFactory buildSDLProxyWithListener:self]];
-    }
+   if ([self proxy] == nil) {
+       [self resetProperties];
+       // Create a proxy object by simply using the factory class.
+       [self setProxy:[SDLProxyFactory buildSDLProxyWithListener:self]];
+   }
 }
 
 - (void)teardownProxy {
-    if ([self proxy] != nil) {
-        [[self proxy] dispose];
-        [self setProxy:nil];
-    }
+   if ([self proxy] != nil) {
+       [[self proxy] dispose];
+       [self setProxy:nil];
+   }
 }
 
 - (void)onProxyClosed {
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self
-               name:MobileWeatherDataUpdatedNotification
-             object:nil];
+   [[NSNotificationCenter defaultCenter]
+    removeObserver:self
+              name:MobileWeatherDataUpdatedNotification
+            object:nil];
 
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self
-               name:MobileWeatherUnitChangedNotification
-             object:nil];
+   [[NSNotificationCenter defaultCenter]
+    removeObserver:self
+              name:MobileWeatherUnitChangedNotification
+            object:nil];
 
-    [self teardownProxy];
-    [self setupProxy];
+   [self teardownProxy];
+   [self setupProxy];
 }
 
 - (void)onProxyOpened {
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-        selector:@selector(handleWeatherDataUpdate:)
-            name:MobileWeatherDataUpdatedNotification
-          object:nil];
+   [[NSNotificationCenter defaultCenter]
+    addObserver:self
+       selector:@selector(handleWeatherDataUpdate:)
+           name:MobileWeatherDataUpdatedNotification
+         object:nil];
 
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-        selector:@selector(repeatWeatherInformation)
-            name:MobileWeatherUnitChangedNotification
-          object:nil];
+   [[NSNotificationCenter defaultCenter]
+    addObserver:self
+       selector:@selector(repeatWeatherInformation)
+           name:MobileWeatherUnitChangedNotification
+         object:nil];
 
-    [self registerApplicationInterface];
+   [self registerApplicationInterface];
 }
 
 - (void)registerApplicationInterface {
-    SDLRegisterAppInterface *request = [[SDLRegisterAppInterface alloc] init];
-    [request setAppName:@"MobileWeather"];
-    [request setAppID:@"330533107"];
-    [request setIsMediaApplication:@(NO)];
-    [request setLanguageDesired:[SDLLanguage EN_US]];
-    [request setHmiDisplayLanguageDesired:[SDLLanguage EN_US]];
-    [request setTtsName:[SDLTTSChunkFactory buildTTSChunksFromSimple:NSLocalizedString(@"app.tts-name", nil)]];
-    [request setVrSynonyms:[NSMutableArray arrayWithObject:NSLocalizedString(@"app.vr-synonym", nil)]];
-    SDLSyncMsgVersion *version = [[SDLSyncMsgVersion alloc] init];
-    [version setMajorVersion:@(1)];
-    [version setMinorVersion:@(0)];
-    [request setSyncMsgVersion:version];
+   SDLRegisterAppInterface *request = [[SDLRegisterAppInterface alloc] init];
+   [request setAppName:@"MobileWeather"];
+   [request setAppID:@"330533107"];
+   [request setIsMediaApplication:@(NO)];
+   [request setLanguageDesired:[SDLLanguage EN_US]];
+   [request setHmiDisplayLanguageDesired:[SDLLanguage EN_US]];
+   [request setTtsName:[SDLTTSChunkFactory buildTTSChunksFromSimple:NSLocalizedString(@"app.tts-name", nil)]];
+   [request setVrSynonyms:[NSMutableArray arrayWithObject:NSLocalizedString(@"app.vr-synonym", nil)]];
+   SDLSyncMsgVersion *version = [[SDLSyncMsgVersion alloc] init];
+   [version setMajorVersion:@(1)];
+   [version setMinorVersion:@(0)];
+   [request setSyncMsgVersion:version];
 
-    [self sendRequest:request];
+   [self sendRequest:request];
 }
 ```
 
@@ -123,16 +123,16 @@ self.manager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 In the old system, you had to implement delegate methods. For example:
 ```objc
 -(void)onDeleteFileResponse:(SDLDeleteFileResponse*) response {
-    [self handleSequentialRequestsForResponse:response];
+   [self handleSequentialRequestsForResponse:response];
 
-    NSString *filename = [[self currentFilesPending] objectForKey:[response correlationID]];
+   NSString *filename = [[self currentFilesPending] objectForKey:[response correlationID]];
 
-    if (filename) {
-        [[self currentFilesPending] removeObjectForKey:[response correlationID]];
-        if ([[SDLResult SUCCESS] isEqual:[response resultCode]]) {
-            [[self currentFiles] removeObject:filename];
-        }
-    }
+   if (filename) {
+       [[self currentFilesPending] removeObjectForKey:[response correlationID]];
+       if ([[SDLResult SUCCESS] isEqual:[response resultCode]]) {
+           [[self currentFiles] removeObject:filename];
+       }
+   }
 }
 ```
 
@@ -144,9 +144,9 @@ This is made significantly better in the new framework through button handlers a
 
 // To replace the delegate method
 - (void)onDeleteFileResponse:(NSNotification *)notification {
-    SDLDeleteFileResponse *response = notifiction[SDLNotificationUserInfoObject];
+   SDLDeleteFileResponse *response = notifiction[SDLNotificationUserInfoObject];
 
-    // Same as before
+   // Same as before
 }
 ```
 
@@ -166,7 +166,7 @@ To do file management using the file manager, the developer would have to implem
 ```objc
 SDLArtwork *image = [SDLArtwork artworkWithImage:[[ImageProcessor sharedProcessor] imageFromConditionImage:filename] name:filename asImageFormat:SDLArtworkImageFormatPNG];
 [self.manager.fileManager uploadFile:image completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-    // Whatever you need to do
+   // Whatever you need to do
 }];
 ```
 
@@ -174,4 +174,6 @@ SDLArtwork *image = [SDLArtwork artworkWithImage:[[ImageProcessor sharedProcesso
 This is a major change, but it would not affect anyone if they are using the iOS 4.3.0 APIs. Anyone continuing to use deprecated `SDLProxy` methods will have to switch to using the `SDLManager` based API.
 
 ## Alternatives considered
-The only alternative is to make API changes to these methods as desired and leave them public. There's no reason to do this, however, and further changes would require further major version changes. Additionally, this would restrict SDL developers' ability to make needed improvements and changes to the underlying structure of SDL.
+It should be noted that the impact of this change is somewhat lessened by the impact of previous changes. Because we have hidden the transport and protocol layers (SDL-0016, SDL-0017), the setup for the `SDLProxy` class would have to change in a significant way anyway. Several public APIs on `SDLProxy` would have to change as well, for example, removing the `protocol` and `transport` properties. So, our only alternative to hiding it is to make major, breaking changes to the class.
+
+Because SDL iOS 5.0 is a major change, we should take the opportunity to make as many good changes as possible, and take as many clean breaks as possible (since this isn't a minor change where we are just breaking one API, 5.0 is breaking hundreds already). Furthermore, since our only alternative is to make breaking changes to a class, a bad class that should not be public, that would restrict SDL developers' ability to make needed changes, that may require future breaking changes that ought not be necessary, the alternative of leaving this class (and family) public is deemed problematic and a poor alternative.
