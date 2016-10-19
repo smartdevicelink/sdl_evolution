@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0020](0020-filename.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction
