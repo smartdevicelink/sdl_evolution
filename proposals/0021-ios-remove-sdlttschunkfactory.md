@@ -1,7 +1,7 @@
 # Remove SDLTTSChunkFactory
 * Proposal: [SDL-0021](0021-remove-sdlttschunkfactory.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction
