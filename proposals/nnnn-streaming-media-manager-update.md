@@ -63,23 +63,23 @@ There will need to be multiple state machines that need to work together to deal
 	- Streaming sessions and encoder are ready. This state is only active so long as HMI is **Limited or greater** and Phone State is **Regaining Active** or **Active**. If at this state, and Phone State changes to **Resigning Active**, send ~30 frames. If at this state, and HMI changes to **Background or less**, move to **Stopped**.
 
 ##### Sending Video Data
-There will be a handler, `videoDataHandler`, that will be within SMM that will expect a return of a `CVImageBufferRef` for video.
-This handler will be called on a thread that will periodically call it based on CADisplayLayer’s scheduling, which is going to be once per screen draw.   The developer will be given a `BOOL` `isEncrypted` to let them know if the stream is encrypted, a `CGSize` `screenSize` to let them know the current Head Unit screen size, and a `CVPixelBufferPoolRef` for using the encoder’s pixel buffer pool.
-There will also be a parameter `paused` (and getter `isPaused`) that allows a developer to pause/resume the calling of `videoDataHandler`, based on circumstances where there’s not a need to pull frames (i.e. no new frames available because map is not moving). This will be `NO` by default. If video streaming moves to a state where streaming cannot occur (i.e. HMI state changes to Limited, or Phone state move to Resigning Active), `paused` will be set to `YES` automatically, and if `NO` when regaining state, will resume when possible.
+The way in which video frames are sent over will not change from the current implementation. This function will require input of a `CVImageBufferRef` for video. It will be up to the developer to decide how to frequently to call this function. The developer will be able to know if the currently connected stream is encrypted with a `BOOL` `isEncrypted`, a `CGSize` `screenSize` to let them know the current Head Unit screen size, and a `CVPixelBufferPoolRef` for using the encoder’s pixel buffer pool, as is currently available in SMM.
+There will also be getter `isPaused` that informs a developer to if sending of video data is not occurring based on circumstances where there’s not a need to send frames. If video streaming moves to a state where streaming cannot occur (i.e. HMI state changes to Limited, or Phone state move to Resigning Active), `isPaused` will be set to `YES`, and will resume when possible.
 
 The thought for implementation is as follows:
 ```objc
-// Adding handler for getting video data. This will be called every 1 per screen draw.
-streamingMediaManager.videoDataHandler = ^(BOOL isEncrypted, CGSize screenSize, CVPixelBufferPoolRef pixelBufferPool) {
-	CVPixelBufferRef pixelBufferRef = <# create pixel buffer ref #>;
-	return pixelBufferRef;
-};
-
-// Pause the calling of videoDataHandler
-streamingMediaManager.paused = YES;
+// Checking if SMM is paused
 if (streamingMediaManager.isPaused) {
-	// PAUSED!
+	<#pause pulling of frames if running#>
+	return;
 }
+
+// Sending Video Data
+CVPixelBufferPoolRef pixelBufferPool = streamingMediaManager.pixelBufferPool;
+CGSize screenSize = streamingMediaManager.screenSize;
+
+CVImageBufferRef frame = <#acquire video frame#>
+[streamingMediaManager sendVideoFrame:frame];
 ```
 
 ##### Sending video data when iPhone is moving to background
