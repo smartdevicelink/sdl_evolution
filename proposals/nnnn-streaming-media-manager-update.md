@@ -52,7 +52,7 @@ There will need to be multiple state machines that need to work together to deal
 3. Limited
 	- App was open, however the user has moved to another screen on the head unit. This app is still the primary streaming app. The Streaming State must not move from **Ready**, however if the Phone State is moving from **Active** to **Resigning Active**, we must send 30 frames.  
 4. Full
-	- App is open, and is currently in focus. If the Streaming State is currently **Stopped**, we should proceed to **Starting**, so long as the Phone State is not **Resigning Active** or **Backgrounded**. If moving to this state and the Phone State is currently **Regaining Active** or **Active**, and the Streaming State is currently  **Ready**, the Streaming State should be moved to **Stopped** followed by **Starting** (restarting the streams).
+	- App is open, and is currently in focus. If the Streaming State is currently **Stopped**, we should proceed to **Starting**, so long as the Phone State is not **Resigning Active** or **Backgrounded**. If moving to this state and the Phone State is currently **Regaining Active** or **Active**, and the Streaming State is currently  **Ready**, the Streaming State should be moved to **Stopped** followed by **Starting** (restarting the streams). If moving to this state and the Phone State is currently **Backgrounded**, send an RPC to alert the user to open the app (current suggestion is an Alert with TTS).
 
 ###### Streaming (new state machine)
 1. Stopped
