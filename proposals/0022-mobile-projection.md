@@ -1,6 +1,6 @@
 # Mobile Projection
 
-* Proposal: [SDL-0022](0022-Mobile Projection.md)
+* Proposal: [SDL-0022](0022-mobile-projection.md)
 * Author: Jeffrey Hu
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
