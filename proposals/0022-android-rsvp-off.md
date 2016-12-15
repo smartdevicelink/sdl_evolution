@@ -1,7 +1,7 @@
 
 # Feature name
 
-* Proposal: [SDL-0022](0022-andriod-rsvp-off.md)
+* Proposal: [SDL-0022](0022-android-rsvp-off.md)
 * Author: [Joey Grover](https://github.com/smartdevicelink)
 * Status: **In Review**
 * Impacted Platforms: [Android]
