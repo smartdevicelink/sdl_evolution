@@ -1,9 +1,9 @@
 
 # Feature name
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0022](0022-andriod-rsvp-off.md)
 * Author: [Joey Grover](https://github.com/smartdevicelink)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
