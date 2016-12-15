@@ -29,6 +29,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0019" status="deferred" primary-platform="ios" sdl-version="x.x" name="iOS Library Proxy Layer Should Not Be Public" filename="0019-ios-proxy-layer-nonpublic.md"/>
 <proposal id="0020" status="accepted" primary-platform="ios" sdl-version="x.x" name="Remove SDLRPCRequestFactory" filename="0020-ios-remove-rpcrequestfactory.md"/>
 <proposal id="0021" status="accepted" primary-platform="ios" sdl-version="x.x" name="Remove SDLTTSChunkFactory" filename="0021-ios-remove-sdlttschunkfactory.md"/>
+<proposal id="0022" status="active" primary-platform="android" sdl-version="x.x" name="Reduce RSVP default security" filename="0022-andriod-rsvp-off.md"/>
 
 <!--
 Recognized values for a proposal's status:
