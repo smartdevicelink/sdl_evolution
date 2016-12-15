@@ -31,6 +31,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0021" status="accepted" primary-platform="ios" sdl-version="x.x" name="Remove SDLTTSChunkFactory" filename="0021-ios-remove-sdlttschunkfactory.md"/>
 <proposal id="0022" status="active" primary-platform="android" sdl-version="x.x" name="Reduce RSVP default security" filename="0022-android-rsvp-off.md"/>
 
+
 <!--
 Recognized values for a proposal's status:
 	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected
