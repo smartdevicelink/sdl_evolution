@@ -35,7 +35,7 @@ Addition to MOBILE API:
   <function name="PutFile" functionID="PutFileID" messagetype="request">
 
     <param name="CRC Checksum" type="Unsigned Long" minvalue="0" maxvalue="4,294,967,295" mandatory="false">
-      <description>Additional CRC checksum to protect data integrity</description>
+      <description>Additional CRC32 checksum to protect data integrity</description>
     </param>
 
   </function>
