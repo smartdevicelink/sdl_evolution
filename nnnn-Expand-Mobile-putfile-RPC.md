@@ -1,4 +1,4 @@
-```
+
 # Expand Mobile putfile RPC
 
 * Proposal: [SDL-NNNN](NNNN-filename.md)
@@ -24,6 +24,7 @@ Proposed solution is introducing an optional 4-byte CRC checksum in putfile RPC.
 ## Detailed design
 
 Addition to MOBILE API:
+```
 <enum name="Result" internal_scope="base">
     <element name="Corrupted_DATA">
       <description>The data sent failed to pass CRC check in receiver end</description>
@@ -48,11 +49,11 @@ Addition to MOBILE API:
     </param>
 
   </function> 
-  
+```
+
   
 ## Impact on existing code
 
 
 ## Alternatives considered
 
-````
