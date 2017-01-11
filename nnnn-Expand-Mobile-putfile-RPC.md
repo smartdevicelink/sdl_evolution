@@ -55,8 +55,8 @@ Core should not delete file when one chunk was corrupted and it will response "C
 App will know it is corrupted chunk of data, and it will start retransmission for that chunk.
 
 Major change:
-	1. New parameters to putfile request and response 
-    2. Send "Corrupted_DATA" instead of "Invalid_DATA" to app.(SDL core only change)
+		1. New parameters to putfile request and response 
+		2. Send "Corrupted_DATA" instead of "Invalid_DATA" to app.(SDL core only change)
   
 ## Impact on existing code
 
