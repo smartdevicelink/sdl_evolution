@@ -19,7 +19,7 @@ The primary motivation of this proposal is to allow developer use CRC checksum t
 
 ## Proposed solution
 
-Proposed solution is introducing an optional 4-byte CRC checksum in putfile RPC. 32 bit CRC(CRC32) can check data integrity up to 512 Mbit. If SDL core failed to pass CRC check, SDL core will request retry for same putfile operation.
+Proposed solution is introducing an optional 4-byte CRC checksum in putfile RPC. 32 bit CRC(CRC32) can check data integrity up to 512 Mbit. If SDL core failed to pass CRC check, SDL core will request retry for same putfile operation by feeding back "Corrupted_DATA" result code.
 
 ## Detailed design
 
@@ -35,7 +35,7 @@ Addition to MOBILE API:
   <function name="PutFile" functionID="PutFileID" messagetype="request">
 
     <param name="CRC Checksum" type="Unsigned Long" minvalue="0" maxvalue="4,294,967,295" mandatory="false">
-      <description>Additional CRC32 checksum to protect data integrity</description>
+      <description>Additional CRC32 checksum to protect data integrity up to 512 Mbits</description>
     </param>
 
   </function>
@@ -51,6 +51,12 @@ Addition to MOBILE API:
   </function> 
 ```
 
+Core should not delete file when one chunk was corrupted and it will response "Corrupted_DATA" to app, Instead of "Invalid_DATA". So that the app has a chance to correct that chunk instead of resending entire file.
+App will know it is corrupted chunk of data, and it will start retransmission for that chunk.
+
+Major change:
+	1. New parameters to putfile request and response 
+    2. Send "Corrupted_DATA" instead of "Invalid_DATA" to app.(SDL core only change)
   
 ## Impact on existing code
 
