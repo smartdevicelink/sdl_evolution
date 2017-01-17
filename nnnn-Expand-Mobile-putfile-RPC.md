@@ -50,16 +50,20 @@ Addition to MOBILE API:
 
   </function> 
 ```
+Background for current framework:
+When dealing with large binary file, app breaks file into chunks and putfile chunks one by one to core. If core received the chunk successfully, it will response result code "success" and append that chunk to binary file cache. Otherwise, core will response result code "Invalid_DATA" and that chunk will not be appended to binary file cache. 
 
-Core should not delete file when one chunk was corrupted and it will response "Corrupted_DATA" to app, Instead of "Invalid_DATA". So that the app has a chance to correct that chunk instead of resending entire file.
-App will know it is corrupted chunk of data, and it will start retransmission for that chunk.
+Change:
+Once CRC checksum is enabled, Core will compare CRC checksum calculated by received data and CRC checksum provided by putfile request. If two checksum value doesn't agree to each other, Core will know received data is corrupted. Then, Core shall not delete binary file cache and it should response "Corrupted_DATA" to app, instead of "Invalid_DATA". This gives app a chance to directly correct that  chunk before transfering next chunk. With "Corrupted_DATA" response, app will know it is corrupted chunk of data, it will start retransmitting for that chunk. App will retry up to 5 times(defined by application) before it stop and record errors.
 
 Major change:
 		1. New parameters to putfile request and response 
 		2. Send "Corrupted_DATA" instead of "Invalid_DATA" to app.(SDL core only change)
+		3. SDL core generate CRC32 checksum based on received putfile data if CRC checksum option is enabled. ( SDL core only change)
   
 ## Impact on existing code
 
 
 ## Alternatives considered
 
+NO
