@@ -1,10 +1,10 @@
 # DTLS encryption
 
-* Proposal: [0024-DTLS-encryption.md]
+* Proposal: [SDL-0024]
 * Author: Luxoft/FORD
-* Status: Open
-* Impacted Platforms: protocol
-[0024-DTLS-encryption.md]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0024-DTLS-encryption.md
+* Status: **Awaiting review**
+* Impacted Platforms: Core/Protocol
+[SDL-0024]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0024-DTLS-encryption.md
 
 ## Introduction
 
