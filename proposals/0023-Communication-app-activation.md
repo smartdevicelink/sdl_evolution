@@ -1,9 +1,10 @@
 # Communication app activation during active embedded audio source or navigation
 
-* Proposal:0023-Communication-app-activation.md
+* Proposal: [SDL-0023]
 * Author: Luxoft/FORD
-* Status: Opened
+* Status: Awaiting review
 * Impacted Platforms: Core
+[SDL-0023]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0023-Communication-app-activation.md
 
 ## Introduction
 This proposal is to provide communication app activation during active embedded sources.
@@ -16,14 +17,20 @@ voice-com app activation during embedded navigation
 
 ## Proposed solution
 
-In case communication app in LIMITED and AUDIBLE due to active embedded navigation and SDL receives SDL.ActivateApp (<appID_of_communication_app>) from HMI
+In case communication app in LIMITED and AUDIBLE due to active embedded navigation 
+and SDL receives SDL.ActivateApp (appID_of_communication_app) from HMI
 SDL must: 
 respond SDL.ActivateApp (SUCCESS) to HMI
 send OnHMIStatus (FULL, AUDIBLE) to mobile app (embedded navigation is still active) 
 
-In case communication app in FULL and AUDIBLE and embedded navigation is being switched on, 
-SDL must: 
-switch the mobile app to HMIStatus (LIMITED, AUDIBLE), HMI switches off embedded audio source.
+In case communication app in FULL and AUDIBLE
+and SDL receives OnEventChanged (EMBEDDED_NAVI, isActive=true) from HMI
+SDL must:
+send OnHMIStatus (LIMITED, AUDIBLE) to mobile app  
+
+Communication app activation is the trigger for HMI to switch off embedded audio source,
+HMI switches off embedded audio source and sends OnEventChanged (AUDIO_SOURCE, isActive=false) to SDL. 
+
 
 In case communication app in LIMITED and AUDIBLE due to active embedded navigation
 and "MixingAudioSupported" = true at .ini file
@@ -36,7 +43,7 @@ In case communication app in BACKGROUND and NOT_AUDIBLE due to active embedded a
 and user activates this communication app
 and SDL receives from HMI:
 a) OnEventChanged (AUDIO_SOURCE, isActive=false) 
-b) SDL.ActivateApp (<appID_of_communication_app>) 
+b) SDL.ActivateApp (appID_of_communication_app) 
 SDL must:
 respond SDL.ActivateApp (SUCCESS) to HMI
 send OnHMIStatus (FULL, AUDIBLE) to mobile app
