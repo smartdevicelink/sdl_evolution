@@ -1,10 +1,10 @@
 # Communication app activation during active embedded audio source or navigation
 
-* Proposal: [SDL-0023]
+* Proposal: [SDL-NNNN]
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: Awaiting review
 * Impacted Platforms: Core
-[SDL-0023]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0023-Communication-app-activation.md
+[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/NNNN-Communication-app-activation.md
 
 ## Introduction
 This proposal is to provide communication app activation during active embedded sources.
