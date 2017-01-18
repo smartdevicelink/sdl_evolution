@@ -1,7 +1,7 @@
 # Communication app activation during active embedded audio source or navigation
 
 * Proposal: [SDL-0023]
-* Author: Luxoft/FORD
+* Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: Awaiting review
 * Impacted Platforms: Core
 [SDL-0023]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0023-Communication-app-activation.md
@@ -10,6 +10,7 @@
 This proposal is to provide communication app activation during active embedded sources.
 
 ## Motivation
+**Required for FORD** 
 Covered cases:
 voice-com app activation during embedded audio source
 voice-com app activation during embedded navigation
