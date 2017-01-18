@@ -1,10 +1,10 @@
 # OnAppInterfaceUnregistered 
 
-* Proposal: [SDL-0027]
+* Proposal: [SDL-NNNN]
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: Awaiting review
 * Impacted Platforms: Core
-[SDL-0027]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/0027-OnAppInterfaceUnregistered.md
+[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-OnAppInterfaceUnregistered.md
 
 ## Introduction
 SDL marks mobile app message as malformed in case this message does not match one or more of verification criteria:  
