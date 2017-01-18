@@ -1,10 +1,10 @@
 # Retrieving the value of 'menuIcon' and 'menuTitle' parameters from .ini file
 
-* Proposal: [SDL-0026]
+* Proposal: [SDL-NNNN]
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: Awaiting review
 * Impacted Platforms: Core
-[SDL-0026]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/0026'menuIcon'-menuTitle'-params.md
+[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-'menuIcon'-menuTitle'-params.md
 
 ## Introduction
 SDL must support absolute and relative path defined in 'menuIcon' parameter.
