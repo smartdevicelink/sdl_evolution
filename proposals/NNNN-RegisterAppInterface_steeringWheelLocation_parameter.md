@@ -1,6 +1,6 @@
 # RegisterAppInterface: providing the value of _steeringWheelLocation_ parameter at response.
 
-* Proposal: [SDL-NNNN](NNNN-RegisterAppInterface: SDL must provide the value of "steeringWheelLocation" parameter at response.md)
+* Proposal: [SDL-NNNN](NNNN-RegisterAppInterface_steeringWheelLocation_parameter.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: **Awaiting review**
 * Impacted Platforms: Core / RPC
