@@ -4,7 +4,7 @@
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: Awaiting review
 * Impacted Platforms: Core
-[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-invalid-text-image-params.md
+[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-Invalid-"text"-and-or-"image"-params.md
 
 ## Introduction
 SDL must respond with INVALID_DATA in case "text" and/or "image" parameters of requested SoftButton structure are invalid.
