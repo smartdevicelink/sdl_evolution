@@ -3,7 +3,7 @@
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: Awaiting review
 * Impacted Platforms: Core
-[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-SDL-must-respond-OnAppInterface-Unregistered-(PROTOCOL_VIOLATION)-in-case-mobile-app-sends-malformed-messages.md
+[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-OnAppInterfaceUnregistered.md
 
 ## Introduction
 SDL marks mobile app message as malformed in case this message does not match one or more of verification criteria:  
@@ -21,7 +21,8 @@ SDL must respond OnAppInterfaceUnregistered (PROTOCOL_VIOLATION) in case mobile 
 
 ## Motivation
 **Required for FORD**  
-SDL must count the number of malformed messages in case SDL can define the session.  
+**Required additional clarification from FORD.**  
+SDL must count the number of malformed messages in case SDL can define the session.  
 SDL must unregister app in case this app sends malformed messages more than allowed. 
 SDL must close the whole connection in case SDL cannot define the session with malformed messages.  
 SDL must terminate the whole connection with app in case this app sends the very first malformed message.  
@@ -29,7 +30,7 @@ SDL must close the whole connection in case NOT registered app sends the very fi
 SDL must respond (PROTOCOL_VIOLATION) in case mobile app sends malformed messages. 
 
 ## Proposed solution 
-SDL will close connection with mobile app in case app sends first malformed message, no matter:  
+* SDL will close connection with mobile app in case app sends first malformed message, no matter:  
 1. app registered:  
 a. "MalformedMessageFiltering" = false  
 b. "MalformedMessageFiltering" = true but SDL cannot define session of malformed messages  
