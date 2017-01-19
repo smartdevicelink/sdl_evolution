@@ -9,8 +9,9 @@
 SDL allows special mechanism in packets validation (validator moves by one byte and tries to find first valid packet).
 It causes big performance decreasing in case big packet with invalid header has come.
 
-## Motivation
+## Motivation  
 **Required for FORD**  
+**Required additional clarification from FORD.**  
 We propose to validate only N first bytes of incoming data and stop validation procedure in case no valid header was found (meaning: SDL will terminate connection). 
 It would prevent time delays during packets validation, especially in case big data packets have come. 
 Size of data to be validated will be described as new parameter in ini file.
