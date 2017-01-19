@@ -1,6 +1,6 @@
 # Providing AppIcon in case of app registration
 
-* Proposal: [SDL-NNNN](NNNN-OnAppRegistered: SDL must provide the apps "icon" to HMI in case of app registration.md)
+* Proposal: [SDL-NNNN](NNNN-OnAppRegistered_providing_AppIcon_of_app_registration.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: **Awaiting review**
 * Impacted Platforms: Core / RPC
