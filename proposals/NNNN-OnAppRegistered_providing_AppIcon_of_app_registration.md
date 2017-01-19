@@ -11,7 +11,8 @@ This proposal is to provide the applivations _icon_ to HMI in case of app regist
 
 ## Motivation
 
-**Required for FORD.**
+**Required for FORD.**   
+**Required additional clarification from FORD.**   
 The _icon_ is a symbol that provides notice that the registration is completed.   
 Expected that if application has stored _icon_ -> SDL will notify HMI about existance and HMI will show this application _icon_.
 
