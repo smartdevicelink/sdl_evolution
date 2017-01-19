@@ -1,6 +1,6 @@
 # SetAudioStreamingIndicator: Conditions for SDL to handle related cases
 
-* Proposal: [SDL-NNNN](NNNN-SetAudioStreamingIndicator_conditions_to_handle_related_cases.md)
+* Proposal: [SDL-NNNN](NNNN-SetAudioStreamingIndicator: Conditions for SDL to handle related cases.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: **Awaiting review**
 * Impacted Platforms: Core / RPC
