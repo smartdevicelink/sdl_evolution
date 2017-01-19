@@ -9,17 +9,19 @@
 ## Introduction
 SDL must respond with INVALID_DATA in case "text" and/or "image" parameters of requested SoftButton structure are invalid.
 
-## Motivation
+## Motivation  
 **Required for FORD**  
+**Required additional clarification from FORD.**  
+
 In case "text" or/and "image" parameters are invalid in SoftButton struct of RPC SDL must respond INVALID_DATA to mobile app.
 
 ## Proposed solution  
-In case mobile app sends any-relevant-RPC with SoftButtons with:  
+1. In case mobile app sends any-relevant-RPC with SoftButtons with:  
 Type=TEXT  
 invalid value of 'image' parameter  
 SDL must respond (INVALID_DATA, success:false) to mobile app.
 
-In case  mobile app sends any-relevant-RPC with SoftButtons with:  
+2. In case  mobile app sends any-relevant-RPC with SoftButtons with:  
 Type=IMAGE  
 invalid value of 'text' parameter  
 SDL must respond (INVALID_DATA, success:false) to mobile app.
