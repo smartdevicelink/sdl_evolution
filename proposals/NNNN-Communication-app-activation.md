@@ -4,13 +4,14 @@
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: Awaiting review
 * Impacted Platforms: Core
-[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/NNNN-Communication-app-activation-during-active-embedded-audio-source-or-navigation.md
+[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/NNNN-Communication-app-activation.md
 
 ## Introduction
-This proposal is to provide communication app activation during active embedded sources.
+This proposal is to handle communication app activation during active embedded audio and navigation sources.
 
-## Motivation
-**Required for FORD** 
+## Motivation  
+**Required for FORD.**  
+**Required additional clarification from FORD.**  
 Covered cases:
 voice-com app activation during embedded audio source
 voice-com app activation during embedded navigation
