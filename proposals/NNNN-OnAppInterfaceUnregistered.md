@@ -21,7 +21,7 @@ SDL must respond OnAppInterfaceUnregistered (PROTOCOL_VIOLATION) in case mobile 
 
 ## Motivation
 **Required for FORD**  
-**Required additional clarification from FORD.**  
+
 SDL must count the number of malformed messages in case SDL can define the session.  
 SDL must unregister app in case this app sends malformed messages more than allowed. 
 SDL must close the whole connection in case SDL cannot define the session with malformed messages.  
@@ -37,26 +37,26 @@ b. "MalformedMessageFiltering" = true but SDL cannot define session of malformed
 2. app is NOT registered  
 a. app tries to connect over protocol version more than 3 
 
-* In case the "MalformedMessageFiltering" = true at .ini file  
+1. In case the "MalformedMessageFiltering" = true at .ini file  
 and registered mobile app sends malformed messages  
 and SDL does NOT define the session of these malformed messages  
 SDL must terminate the whole connection (independently from app registestered or not).
 
-* In case the limit of "MalformedFrequencyCount" and "MalformedFrequencyTime" params exceeds  
+2. In case the limit of "MalformedFrequencyCount" and "MalformedFrequencyTime" params exceeds  
 SDL must:  
 send OnAppInterfaceUnregistered (PROTOCOL_VIOLATION) to mobile app  
 allow mobile app to re-register within the same session.
 SDL must NOT terminate session with this mobile app.
 
-* In case the "MalformedMessageFiltering" = false at .ini file   
+3. In case the "MalformedMessageFiltering" = false at .ini file   
 and registered mobile app sends the very first malformed message  
 SDL must terminate the whole connection (no matter can or cannot SDL define the session).
 
-* In case the "MalformedMessageFiltering" = false or true at .ini file 
+4. In case the "MalformedMessageFiltering" = false or true at .ini file 
 and NOT registered mobile app sends the very first malformed message (app tries to connect over noе supported protocol version)  
 SDL must terminate the whole connection.
 
-* In case the "MalformedMessageFiltering" = true at .ini file  
+5. In case the "MalformedMessageFiltering" = true at .ini file  
 and registered mobile app sends malformed messages  
 and SDL defines the session of these malformed messages  
 SDL must count number of malformed messages from mobile app according to params at .ini file 
