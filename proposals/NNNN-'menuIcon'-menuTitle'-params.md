@@ -6,13 +6,12 @@
 * Impacted Platforms: Core
 [SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-'menuIcon'-menuTitle'-params.md
 
-## Introduction
-SDL must support absolute and relative path defined in 'menuIcon' parameter.
-
+## Introduction  
+SDL must retrieve the default values of "menuName" and "menuIcon" parameters from to .ini file in case app didn't provide the last ones.  
 ## Motivation
 **Required for FORD**  
-**Required additional clarification from FORD.**  
-SDL must retrieve these default values form .ini file in any applicable cases.  
+
+SDL must retrieve these default values from .ini file in any applicable cases.  
 Default values of "menuName" and "menuIcon" parameters must be added to .ini file with default values:  
 menuTitle = MENU  
 menuIcon = `<path_to_default_icon>`
