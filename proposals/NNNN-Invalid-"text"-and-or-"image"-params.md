@@ -1,5 +1,4 @@
-# Invalid "text" or/and "image" parameters 
-
+# Invalid "text" or/and "image" parameters at SoftButton struct of RPC
 * Proposal: [SDL-NNNN] 
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: Awaiting review
@@ -7,11 +6,9 @@
 [SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-Invalid-"text"-and-or-"image"-params.md
 
 ## Introduction
-SDL must respond with INVALID_DATA in case "text" and/or "image" parameters of requested SoftButton structure are invalid.
-
+SDL must validate "text" or/and "image" params at SoftButton struct of requested by app RPCs.
 ## Motivation  
 **Required for FORD**  
-**Required additional clarification from FORD.**  
 
 In case "text" or/and "image" parameters are invalid in SoftButton struct of RPC SDL must respond INVALID_DATA to mobile app.
 
