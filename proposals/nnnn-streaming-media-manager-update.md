@@ -62,14 +62,44 @@ There will need to be multiple state machines that need to work together to deal
 3. Ready
 	- Streaming sessions and encoder are ready. This state is only active so long as HMI is **Limited or greater** and Phone State is **Regaining Active** or **Active**. If at this state, and Phone State changes to **Resigning Active**, send ~30 frames. If at this state, and HMI changes to **Background or less**, move to **Stopped**.
 
+###### Video Lifecycle Chart
+HMI State   | App State         | Can Open Video Stream | Should Close Video Stream
+------------|-------------------|-----------------------|--------------------------
+NONE        | Background        | No                    | Yes
+NONE        | Regaining Active  | No                    | Yes
+NONE        | Foreground        | No                    | Yes
+NONE        | Resigning Active  | No                    | Yes
+BACKGROUND  | Background        | No                    | Yes
+BACKGROUND  | Regaining Active  | No                    | Yes
+BACKGROUND  | Foreground        | No                    | Yes
+BACKGROUND  | Resigning Active  | No                    | Yes
+LIMITED     | Background        | No                    | No
+LIMITED     | Regaining Active  | Yes                   | Yes
+LIMITED     | Foreground        | Yes                   | No
+LIMITED     | Resigning Active  | No                    | No
+FULL        | Background        | No                    | No
+FULL        | Regaining Active  | Yes                   | Yes
+FULL        | Foreground        | Yes                   | No
+FULL        | Resigning Active  | No                    | No
+
+###### Audio Stream Lifecycle Chart
+Since the app state is irrelevant for audio streaming (because we can do this in the background), the lifecycle chart is a bit simpler than the video lifecycle chart.
+
+HMI State   | Can Open Audio Stream | Should Close Audio Stream
+------------|-----------------------|--------------------------
+NONE        | No                    | Yes
+BACKGROUND  | No                    | Yes
+LIMITED     | Yes                   | No
+FULL        | Yes                   | No
+
 ##### Sending Video Data
 The way in which video frames are sent over will not change from the current implementation. This function will require input of a `CVImageBufferRef` for video. It will be up to the developer to decide how to frequently to call this function. The developer will be able to know if the currently connected stream is encrypted with a `BOOL` `isEncrypted`, a `CGSize` `screenSize` to let them know the current Head Unit screen size, and a `CVPixelBufferPoolRef` for using the encoder’s pixel buffer pool, as is currently available in SMM.
-There will also be getter `isPaused` that informs a developer to if sending of video data is not occurring based on circumstances where there’s not a need to send frames. If video streaming moves to a state where streaming cannot occur (i.e. HMI state changes to Limited, or Phone state move to Resigning Active), `isPaused` will be set to `YES`, and will resume when possible.
+There will also be getter `isVideoStreamingPaused` that informs a developer to if sending of video data is not occurring based on circumstances where there’s not a need to send frames. If video streaming moves to a state where streaming cannot occur (i.e. HMI state changes to Limited, or Phone state move to Resigning Active), `isVideoStreamingPaused` will be set to `YES`, and will resume when possible.
 
 The thought for implementation is as follows:
 ```objc
 // Checking if SMM is paused
-if (streamingMediaManager.isPaused) {
+if (streamingMediaManager.isVideoStreamingPaused) {
 	<#pause pulling of frames if running#>
 	return;
 }
