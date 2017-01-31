@@ -18,9 +18,12 @@ Describe the problems that this proposal seeks to address. If the problem is tha
 
 Describe your solution to the problem. Provide examples and describe how they work. Show how your solution is better than current workarounds: is it cleaner, safer, or more efficient?
 
-## Detailed design
-
 Describe the design of the solution in detail. If it involves new protocol changes or RPC changes, show the full XML of all changes and how they changed. Show documentation comments detailing what it does. Show how it might be implemented on the Mobile Library and Core. The detail in this section should be sufficient for someone who is *not* one of the authors to be able to reasonably implement the feature and future [smartdevicelink.com](https://www.smartdevicelink.com) guides.
+
+Use subsections to help clarify if needed.
+
+## Downsides
+Describe any downsides to this proposal. Will it slow down the library in any way, for example. Respond to these downsides and explain why the advantages outweigh any disadvantages.
 
 ## Impact on existing code
 
