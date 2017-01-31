@@ -1,4 +1,4 @@
-# Base iOS Version to 8.0
+# Minimum iOS Version to 8.0
 * Proposal: [SE-0024](0024-os-8-0-minimum.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
 * Status: **In Review**
