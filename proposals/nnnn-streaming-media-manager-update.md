@@ -134,7 +134,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 *  @abstract
 *      Returns all OnTouchEvent notifications as SDLTouch and SDLTouchType objects.
 */
-@property (nonatomic, weak, nullable) SDLTouchEventHandler touchEventHandler;
+@property (copy, nonatomic, nullable) SDLTouchEventHandler touchEventHandler;
 
 ```
 
