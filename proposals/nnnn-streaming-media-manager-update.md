@@ -15,8 +15,8 @@ We currently have a SMM which provides the basic functionality for streaming aud
 ## Proposed solution
 #### Current Supported Features:
 - Starting/Stopping video session with different encryption flags
-* Starting/Stopping audio session with different encryption flags
-* Sending video data via `CVImageBufferRef`
+- Starting/Stopping audio session with different encryption flags
+- Sending video data via `CVImageBufferRef`
 - Sending audio data via `NSData` of PCM data
 - Ability to interact with `SDLTouchManager`
 - Ability to set custom video encoder settings
@@ -25,7 +25,8 @@ We currently have a SMM which provides the basic functionality for streaming aud
 
 #### New Features
 - Management of the video session lifecycle in conjunction with proxy & app state changes
-* Management of the audio session lifecycle in conjunction with proxy & app state changes
+- Management of the audio session lifecycle in conjunction with proxy & app state changes
+- Ability to register to a touch manager handler for touch events.
 
 ## Detailed design
 There are multiple parts of the proxy lifecycle that the SMM would have an impact on.
@@ -120,6 +121,21 @@ Since audio data is sent sporadically, we will have a function that will send au
 ```objc
 // Sending Audio Data
 [streamingMediaManager sendAudioData:<#audioData#>];
+```
+
+#### `SDLTouchManager`
+Currently, the `SDLTouchManager` class allows for developers to use a provided set of callbacks so they do not have to provide logic for determining gesture events such as tap, double tap, pinch, and pan. There are some developers, however, that would still like the ability to use their own. Currently, developers can listen to `SDLOnTouchEvent` notifications, and consume the object themselves, however a proposed solution is to make the internal `SDLTouch` object public, and allow for developers to use a handler on `SDLTouchManager` that will provide this touch object back, along with the `SDLTouchType`, to make it easier to handle and consume `SDLOnTouchEvent`.
+
+We would add a property to `SDLTouchManager` called `touchEventHandler`:
+```objc
+typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
+
+/**
+*  @abstract
+*      Returns all OnTouchEvent notifications as SDLTouch and SDLTouchType objects.
+*/
+@property (nonatomic, weak, nullable) SDLTouchEventHandler touchEventHandler;
+
 ```
 
 ## Impact on existing code
