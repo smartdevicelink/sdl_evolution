@@ -1,9 +1,9 @@
 # Update Mobile API to Include Mandatory Flag on Parameters
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0023](0023-update-mobile-api-mandatory-flag.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **Awaiting review**
-* Impacted Platforms: Core
+* Status: **In Review**
+* Impacted Platforms: RPC
 
 ## Introduction
 Currently within the spec that is used by core ([MOBILE_API.xml](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/interfaces/MOBILE_API.xml) ), there is a lack of consistency among structs and functions relating to their parameters not stating whether they are all mandatory or not.
