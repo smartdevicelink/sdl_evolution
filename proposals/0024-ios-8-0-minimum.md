@@ -1,8 +1,7 @@
 # Base iOS Version to 7.0
-* Proposal: [SE-NNNN](NNNN-filename.md)
+* Proposal: [SE-0024](0024-os-8-0-minimum.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **Awaiting review**
-* Review manager: TBD
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
