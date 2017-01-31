@@ -173,6 +173,28 @@ SDLArtwork *image = [SDLArtwork artworkWithImage:[[ImageProcessor sharedProcesso
 ## Impact on existing code
 This is a major change, but it would not affect anyone if they are using the iOS 4.3.0 APIs. Anyone continuing to use deprecated `SDLProxy` methods will have to switch to using the `SDLManager` based API.
 
+### Proxy Public Method Replacements
+
+#### Properties
+* `SDLAbstractProtocol protocol` -> Will not be replaced
+* `SDLAbstractTransport transport` -> Will not be replaced
+* `NSSet<NSObject<NSProxyListener> *> proxyListeners` -> Will not be replaced
+* `SDLTimer startSessionTimer` -> Will not be replaced
+* `NSString debugConsoleGroupName` -> Will not be replaced, the debug system should be replaced
+* `NSString proxyVersion` -> Will not be replaced, is accessible by default in dynamic frameworks through their public header
+* `SDLStreamingMediaManager streamingMediaManager` -> Replaced on `SDLManager`
+
+#### Methods
+* `- (id)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)delegate;` -> Replaced by setting up `SDLManager` with `SDLConfiguration`
+* `- (void)dispose;` -> Will not be replaced
+* `- (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;` -> Replaced by using NSNotifications, see above
+* `- (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate;` -> Replaced by using NSNotifications, see above
+* `- (void)sendRPC:(SDLRPCMessage *)message;` -> Replaced by `SDLManager`'s `sendRPC:` method, see above
+* `- (void)handleRPCDictionary:(NSDictionary<NSString *, id> *)dictionary;` -> Will not be replaced, now handled internally by SDL
+* `- (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;` -> Will not be replaced, now handled internally by SDL
+* `- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses forAppId:(NSString *)appId;` -> Replaced by a property `NSArray<Class<SDLSecurityType>> *securityManagers;` on `SDLLifecycleConfiguration`
+* `- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;` -> Will be replaced on `SDLFileManager` with a forthcoming proposal.
+
 ## Alternatives considered
 It should be noted that the impact of this change is somewhat lessened by the impact of previous changes. Because we have hidden the transport and protocol layers (SDL-0016, SDL-0017), the setup for the `SDLProxy` class would have to change in a significant way anyway. Several public APIs on `SDLProxy` would have to change as well, for example, removing the `protocol` and `transport` properties. So, our only alternative to hiding it is to make major, breaking changes to the class.
 
