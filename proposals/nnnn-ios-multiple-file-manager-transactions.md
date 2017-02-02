@@ -33,12 +33,12 @@ As noted above, the method to do multiple deletes will be defined as the followi
 
 The completion handler for the new, multiple at a time, delete will look like this:
 ```objc
-typedef void(^SDLFileManagerMultiDeleteCompletionHandler)(NSArray<SDLFileName *> *failedNames, NSUInteger bytesAvailable, NSError *__nullable error);
+typedef void(^SDLFileManagerMultiDeleteCompletionHandler)(NSArray<SDLFileName *> *failedNames, NSUInteger bytesAvailable, NSDictionary<SDLFileName, NSError *> *errors);
 ```
 
 * `failedNames` - The names of any files that could not be deleted, for whatever reason.
 * `bytesAvailable` - The amount of data reported by the remote system from the last delete request.
-* `error` - One of a set of errors that says what went wrong, if anything.
+* `errors` - If `success` is false, this dictionary will correlate file names which failed to delete and their associated error.
 
 ### Uploading Multiple Files
 Uploading multiple files is a considerably more difficult problem, as there are many more failure points and it is a very complex operation that may take a significant amount of time. Because of this, a progress handler will exist to keep the developer updated on the status of each upload and the multi-file upload as a whole. We may, at the end of the multi-file upload, have a mixture of successful and failed uploads. The final completion handler will have to handle this mixed case.
@@ -50,14 +50,14 @@ As noted above, the method to do multiple uploads will be defined as the followi
 
 The progress handler will be fired after each file within the array is uploaded or fails. It will look like this:
 ```objc
-typedef void(^SDLFileManagerMultiUploadProgressHandler)(BOOL success, SDLFileName fileName, NSUInteger bytesAvailable, float uploadPercentage, NSError *__nullable error);
+typedef void(^SDLFileManagerMultiUploadProgressHandler)(BOOL success, SDLFileName fileName, NSUInteger bytesAvailable, float uploadPercentage, NSDictionary<SDLFileName, NSError *> *errors);
 ```
 
 * `success` - Whether or not the last file upload attempt succeeded or failed.
 * `fileName` - The name of the last file that had an upload attempt.
 * `bytesAvailable` - The number of bytes available on the remote system after this file upload attempt.
 * `uploadPercentage` - This percentage is a decimal number between 0.0 - 1.0. It is calculated by dividing the total number of bytes in files successfully or unsuccessfully uploaded by the total number of bytes in all files passed to the `uploadFiles:progressHandler:completionHandler` method.
-* `error` - If `success` is false, this error will explain what went wrong with this particular file upload.
+* `errors` - If `success` is false, this dictionary will correlate file names correlating with files which failed to upload and their associated error.
 
 The completion handler will be fired after all files within the array are uploaded or fail. It will look like this:
 ```objc
