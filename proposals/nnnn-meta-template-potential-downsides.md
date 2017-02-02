@@ -1,4 +1,4 @@
-# Feature name
+# Add Potential Downsides to Template
 
 * Proposal: [SDL-NNNN](nnnn-meta-template-potential-downsides.md)
 * Author: [SDL Developer](https://github.com/smartdevicelink)
