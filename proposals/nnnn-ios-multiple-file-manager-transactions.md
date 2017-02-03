@@ -78,7 +78,9 @@ To account for the calculation of bytes taking place in `uploadFiles:progressHan
 This property will return the number of bytes of data in the file, whether it is stored on disk or in memory.
 
 ## Potential Downsides
-The primary, and only, potential downside of this proposal is that the APIs being added will be among the most complicated to implement in SDL. It wraps what is already a fairly complex API to upload files and provide completion blocks and will have to track those completion blocks and provide progress updates. Due to it also providing the number of bytes uploaded and to be uploaded, it will have to track those uploads in a bit more detail than the file manager currently does.
+The primary potential downside of this proposal is that the APIs being added will be among the most complicated to implement in SDL. It wraps what is already a fairly complex API to upload files and provide completion blocks and will have to track those completion blocks and provide progress updates. Due to it also providing the number of bytes uploaded and to be uploaded, it will have to track those uploads in a bit more detail than the file manager currently does.
+
+A second potential downside is that this new API makes no attempt to prevent developers from uploading files while the app is in state `NONE`. However, this restriction is not currently an SDL restriction, it is a restriction implemented by Ford. Until the SDL Committee decides to ratify this type of restriction into SDL, the SDL mobile library should not make an attempt to prevent the developer from performing a legitimate operation. Ford should provide good error messaging if they create restrictions above and beyond SDL's restrictions. Furthermore, this problem can be partially alleviated with good API method documentation.
 
 ## Impact on existing code
 This is a minor version change; it will only add new API surface. This will drastically simplify developers' attempts to upload multiple files at once.
