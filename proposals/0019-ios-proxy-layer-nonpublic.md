@@ -115,7 +115,7 @@ self.manager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
 ###### New
 ```objc
-[[self manager] sendRPC:request];
+[[self manager] sendRequest:request];
 ```
 
 #### RPC responses
