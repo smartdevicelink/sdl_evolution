@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0023](0023-update-mobile-api-mandatory-flag.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: RPC
 
 ## Introduction
