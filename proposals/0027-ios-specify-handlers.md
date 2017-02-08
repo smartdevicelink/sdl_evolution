@@ -1,8 +1,8 @@
 # Increase Specificity of Handler Events
 
-* Proposal: [SDL-NNNN](nnnn-ios-specify-button-events.md)
+* Proposal: [SDL-0027](0027-ios-specify-handlers.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
