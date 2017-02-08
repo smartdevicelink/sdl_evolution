@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-0022](0022-android-rsvp-off.md)
 * Author: [Joey Grover](https://github.com/smartdevicelink)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Android]
 
 ## Introduction
