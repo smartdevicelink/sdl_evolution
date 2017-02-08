@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0019](0019-ios-protocol-layer-nonpublic.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: iOS
 
 ## Introduction
