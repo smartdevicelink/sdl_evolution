@@ -1,8 +1,8 @@
 # Stream File Manager Uploads from Disk
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0025](0025-ios-filemanager-stream-from-disk.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
