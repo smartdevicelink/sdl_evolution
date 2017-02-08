@@ -1,9 +1,9 @@
 
 # Move to Android Studio
 
-* Proposal: [SDL-NNNN](NNNN-android_move_to_android_studio.md)
+* Proposal: [SDL-0026](0026-android_move_to_android_studio.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
