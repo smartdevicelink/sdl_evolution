@@ -1,4 +1,4 @@
-# parameter _enableSeek_ at _SetMediaClockTimer_ RPC
+# SetMediaClockTimer must be expanded with new _enableSeek_ param.
 
 * Proposal: [SDL-NNNN](NNNN-enableSeek_at_SetMediaClockTimer.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
@@ -11,7 +11,6 @@ The proposal is to support new parameter _enableSeek_ and transfer _OnSeekMediaC
 
 ## Motivation
 
-**Required for FORD.**   
 A notification will be provided if the user touches (or seeks) to a particular position on the HMI mediaclock timer. The notification will contain a starttime with the position the user has seeked to.
 
 ## Proposed solution
