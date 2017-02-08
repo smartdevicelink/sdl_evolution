@@ -1,7 +1,7 @@
 # Add Potential Downsides to Template
 
 * Proposal: [SDL-0028](0028-meta-template-potential-downsides.md)
-* Author: [SDL Developer](https://github.com/smartdevicelink)
+* Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **In Review**
 * Impacted Platforms: Meta
 
