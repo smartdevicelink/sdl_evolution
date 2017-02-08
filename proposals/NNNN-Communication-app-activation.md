@@ -10,11 +10,9 @@
 This proposal is to handle communication app activation during active embedded audio and navigation sources.
 
 ## Motivation  
-**Required for FORD.**  
-**Required additional clarification from FORD.**  
-Covered cases:
-voice-com app activation during embedded audio source
-voice-com app activation during embedded navigation
+Covered cases:  
+voice-com app activation during embedded audio source  
+voice-com app activation during embedded navigation  
 . MixingAudioSupported=true or false 
 
 ## Proposed solution
