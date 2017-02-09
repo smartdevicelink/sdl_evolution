@@ -43,21 +43,21 @@ The public interface will look something like this:
 @property (assign, nonatomic, readonly) BOOL errorAsync;
 
 // Any modules that do not have an explicitly specified level will by default use the global log level;
-@property (assign, nonatomic) SLLogLevel globalLogLevel;
+@property (assign, nonatomic) SDLLogLevel globalLogLevel;
 
 /**
  *  Shared Controller methods are class methods that automatically target the sharedController instance. Since 99% of the time you will want to use the sharedController, these are considered convenience methods.
  */
 #pragma mark - Shared Controller methods
 
-+ (SLLoggerController *)sharedController;
++ (SDLLogManager *)sharedController;
 
 + (void)startWithConfiguration:(SDLLogConfiguration *)configuration;
 
 + (void)addFilters:(NSArray<SDLLogFilterBlock> *)filters;
 + (void)removeFilters:(NSArray<SDLLogFilterBlock> *)filters;
 
-+ (void)logWithLevel:(SLLogLevel)level
++ (void)logWithLevel:(SDLLogLevel)level
             fileName:(NSString *)fileName
         functionName:(NSString *)functionName
                 line:(NSInteger)line
@@ -91,7 +91,7 @@ typedef NS_ENUM(NSUInteger, SDLLogFormatType) {
 @property (assign, nonatomic, readonly) SDLLogOutput *logOutput;
 
 // Initial log filters, these will be able to be changed on `SDLLogManager` at runtime. Defaults to none.
-@property (copy, nonatomic, readonly) NSSet<SLLogFilterBlock> *logFilters;
+@property (copy, nonatomic, readonly) NSSet<SDLLogFilterBlock> *logFilters;
 
 // How detailed of logs will be output. Defaults to Default.
 @property (assign, nonatomic, readonly) SDLLogFormatType formatType;
@@ -199,8 +199,8 @@ The various levels of logging would correspond with various logging levels (abov
 + (SDLLogFilterBlock)filterByAllowingString:(NSString *)string caseInsensitive:(BOOL)caseInsensitive;
 + (SDLLogFilterBlock)filterByDisallowingRegex:(NSRegularExpression *)regex;
 + (SDLLogFilterBlock)filterByAllowingRegex:(NSRegularExpression *)regex;
-+ (SDLLogFilterBlock)filterByAllowingModules:(NSSet<SLFileModule *> *)modules;
-+ (SDLLogFilterBlock)filterByDisallowingModules:(NSSet<SLFileModule *> *)modules;
++ (SDLLogFilterBlock)filterByAllowingModules:(NSSet<SDLLogFileModule *> *)modules;
++ (SDLLogFilterBlock)filterByDisallowingModules:(NSSet<SDLLogFileModule *> *)modules;
 + (SDLLogFilterBlock)filterByAllowingFileNames:(NSSet<NSString *> *)fileNames;
 + (SDLLogFilterBlock)filterByDisallowingFileNames:(NSSet<NSString *> *)fileNames;
 + (SDLLogFilterBlock)filterByAllowingQueues:(NSSet<NSString *> *)queueNames;
@@ -217,10 +217,10 @@ The various levels of logging would correspond with various logging levels (abov
 
 @property (copy, nonatomic, readonly) NSString *name;
 @property (copy, nonatomic, readonly) NSSet<NSString *> *files;
-@property (assign, nonatomic) SLLogLevel logLevel;
+@property (assign, nonatomic) SDLLogLevel logLevel;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithName:(NSString *)name files:(NSArray<NSString *> *)files level:(SLLogLevel)level NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithName:(NSString *)name files:(NSArray<NSString *> *)files level:(SDLLogLevel)level NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithName:(NSString *)name files:(NSArray<NSString *> *)files;
 - (BOOL)containsFile:(NSString *)fileName;
 
