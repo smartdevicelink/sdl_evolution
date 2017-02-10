@@ -22,6 +22,8 @@ The proposed solution is to provide a few additional features:
 
 This proposal is a major version change because it would remove two classes, `SDLDebugTool` is the currently logging class, however, it is unlikely to be used directly by the developer. Second, this change would remove `SDLConsoleController`, which has remained stagnant for many years and nobody the author is aware of uses.
 
+Finally, this proposal would also encompass using this new framework to enhance logging throughout the library using the new log levels and modules, adding log messages throughout the SDL library.
+
 ## Detailed solution
 Much of this is adapted from a logging library I wrote, [SuperLogger](https://github.com/livio/SuperLogger), which has been open-sourced by Livio.
 
