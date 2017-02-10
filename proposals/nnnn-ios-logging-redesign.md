@@ -1,7 +1,7 @@
 # Redesign iOS Logging
 
 * Proposal: [SDL-NNNN](nnnn-ios-logging-redesign.md)
-* Author: [Joel Fischer](https://github.com/joeljfischer), [Alex Muller](https://github.com/asm09fsu)
+* Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
 * Impacted Platforms: iOS
 
