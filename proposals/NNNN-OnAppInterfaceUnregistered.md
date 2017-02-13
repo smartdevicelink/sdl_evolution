@@ -20,8 +20,6 @@ SDL marks mobile app message as malformed in case this message does not match on
 SDL must respond OnAppInterfaceUnregistered (PROTOCOL_VIOLATION) in case mobile app sends malformed messages.
 
 ## Motivation
-**Required for FORD**  
-
 SDL must count the number of malformed messages in case SDL can define the session.  
 SDL must unregister app in case this app sends malformed messages more than allowed. 
 SDL must close the whole connection in case SDL cannot define the session with malformed messages.  
