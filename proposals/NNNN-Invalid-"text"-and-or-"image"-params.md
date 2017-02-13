@@ -7,9 +7,8 @@
 
 ## Introduction
 SDL must validate "text" or/and "image" params at SoftButton struct of requested by app RPCs.
-## Motivation  
-**Required for FORD**  
 
+## Motivation  
 In case "text" or/and "image" parameters are invalid in SoftButton struct of RPC SDL must respond INVALID_DATA to mobile app.
 
 ## Proposed solution  
