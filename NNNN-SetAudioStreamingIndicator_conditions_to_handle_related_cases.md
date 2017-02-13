@@ -11,7 +11,6 @@ This proposal is to support and process per the similar logic new _SetAudioStrea
 
 ## Motivation
 
-**Required for FORD.**   
 _SetAudioStreamingIndicator_ RPC should describe the indicator of streaming audio to the user. 
 The proposal new RPC sets the icon properly to the current audio playback of the application and provides additional human readable info regarding the result, received from SDL.
 
