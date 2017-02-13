@@ -10,8 +10,6 @@
 SDL must respond with INVALID_DATA to app due to "/" symbol. 
 
 ## Motivation  
-**Required for FORD**  
-**Required additional clarification from FORD.**  
 Currently Linux SDL has NO restrictions related to "\" (backslash) symbol at `<syncFileName>` parameter.
 
 ## Proposed solution
