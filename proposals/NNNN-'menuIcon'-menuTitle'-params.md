@@ -8,9 +8,8 @@
 
 ## Introduction  
 SDL must retrieve the default values of "menuName" and "menuIcon" parameters from to .ini file in case app didn't provide the last ones.  
-## Motivation
-**Required for FORD**  
 
+## Motivation
 SDL must retrieve these default values from .ini file in any applicable cases.  
 Default values of "menuName" and "menuIcon" parameters must be added to .ini file with default values:  
 menuTitle = MENU  
@@ -20,7 +19,6 @@ In case 'menuIcon' param is empty'MENU' button will be displayed without any ico
 Path can be relative and absolute.
 
 ## Proposed solution
-
 1. The "menuIcon" parameter defines the path to default menu icon for SetGlobalProperties.  
 In case "menuIcon" is empty -> MENU button will be displayed without any icon 
 By default the value of "menuIcon" must be empty.  
