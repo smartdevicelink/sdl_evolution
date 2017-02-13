@@ -12,7 +12,6 @@ This proposal is to use DTLS (Datagram Transport Layer Security) instead of TLS 
 
 ## Motivation
 
-**Required for FORD.**   
 It makes sense for services to be protected. The DTLS protocol provides communications privacy for datagram protocols. The protocol allows client/server applications to communicate in a way that is designed to prevent eavesdropping, tampering, or message forgery. The DTLS protocol is based on the Transport Layer Security (TLS) protocol and provides equivalent security guarantees. Datagram semantics of the underlying transport are preserved by the DTLS protocol.
 
 ## Proposed solution
