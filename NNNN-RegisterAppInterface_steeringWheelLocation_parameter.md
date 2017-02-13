@@ -11,7 +11,6 @@ The proposal is to give a permission to provide the vehicle driver location as p
 
 ## Motivation
 
-**Required for FORD.**   
 In order to expand the range of provided services, the system shall provide the vehicle driver location as part of the response to a registration request.
 
 ## Proposed solution
