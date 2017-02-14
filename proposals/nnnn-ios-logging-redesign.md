@@ -80,16 +80,6 @@ The public interface will look something like this:
 To support Swift developers well, we will need to support an additional framework, `SDLLoggerSwift` that Swift developers may import (or copy into their project, as it is a single file). This is necessary because for the code to work well in Swift, it will need to be written in Swift. If it is not written in Swift, we will not be able to automatically pull file / function / line information as we can when Obj-C developers use the macros. The Swift file would look like this:
 
 ```swift
-//
-//  SuperLoggerSwift.swift
-//  SuperLogger
-//
-//  Created by Joel Fischer on 2/13/17.
-//  Copyright © 2017 livio. All rights reserved.
-//
-
-import Foundation
-import SuperLogger
 
 open class SDLLoggerSwift {
     open class func v(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
