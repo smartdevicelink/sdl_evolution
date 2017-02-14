@@ -17,7 +17,7 @@ The proposed solution is to provide a few additional features:
 * Most logs (see "Detailed solution") disabled when the app is created in `RELEASE` mode instead of `DEBUG`.
 * Provide multiple levels of logging, such as `Verbose` (see below, "Detailed solution" for a full list).
 * Better log formatting with simple and detailed logs, providing features such as which queue, file, method, and module the log was sent on.
-* Async logging support, with errors being synchronous.
+* Async by default logging, with error logs being synchronous by default.
 * Filters allow only logs that pass a check to actually be logged.
 
 This proposal is a major version change because it would remove two classes, `SDLDebugTool` is the currently logging class, however, it is unlikely to be used directly by the developer. Second, this change would remove `SDLConsoleController`, which has remained stagnant for many years. An extensible logging solution would allow others to create something similar to this if desired.
