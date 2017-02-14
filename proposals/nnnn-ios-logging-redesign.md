@@ -176,7 +176,16 @@ We will provide a few format types:
 #### Macros
 Macros are a way to make it easy to call the logging API while allowing the system to capture almost all of the information for you. Additionally, they are the way of compiling out debug level logs and below in RELEASE mode.
 
-Some of these will be private, as a way for internal SDL logs to more easily be written. Some will be public which will allow developers using Objective-C to call logs pertaining to their SDL integration and have them tie in with the rest of the SDL logging.
+Developers using Objective-C (macros are Obj-C only) will be able to call logs pertaining to their SDL integration and have them tie in with the rest of the SDL logging.
+
+There will be separate macros for each logging level, similar to "Swift Support" above.
+
+```objc
+SDLLogV("Test verbose");
+SDLLogD("Test debug");
+SDLLogW("Test warning");
+SDLLogE("Test error");
+```
 
 ### Logs
 An `SDLLog` object will contain all of the information necessary to format and log a string. This will be a private class. It will contain something like the following properties:
