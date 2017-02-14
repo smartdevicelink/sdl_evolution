@@ -9,21 +9,19 @@
 
 ## Introduction
 
-This proposal is to expand putfile RPC to incorporate with unreliable wireless medium.
-This proposal seeks to enhance the reliability of large data transfers to the Head Unit by introducing a field for CRC in the putFile RPC. 
+This proposal is to expand putfile RPC to incorporate it with unreliable wireless medium.
+This proposal seeks to enhance the reliability of large data transfers to the Head Unit by introducing a field for CRC in the putfile RPC.
 
 ## Motivation
 
-Current SDL design assumes that the transport medium is 100% reliable and all data will be correctly retrieved by the receiver. 
-However, not every wireless medium is guaranteed to be 100% error free. This error might be introduced by hardware design failure, hardware driver issue and environmental noise interference. Theoretically, transport layer will have retransmission mechanism to handle all this kinds of errors. But wireless mediums like bluetooth can’t have this protection due to compability issue with major phone manufacturers (Samsung, HTC, Huawei, .etc).  
+Current SDL design assumes that the transport medium is 100% reliable and all data will be correctly retrieved by the receiver. In reality, however, not every wireless medium is guaranteed to be 100% error free. Errors might be caused by hardware design failure, hardware driver issues, or environmental noise interference. Theoretically, transport layers will have retransmission mechanisms to handle all types of errors, but wireless mediums like bluetooth can’t have the same protection, due to compatibility issues with major phone manufacturers (Samsung, HTC, Huawei, .etc).  
 
-The primary motivation of this proposal is to allow developer use CRC checksum to guarantee data integrity in error sensitive scenario (Transfer large binary file).
-
+The primary motivation of this proposal is to allow developers to use CRC checksum to guarantee data integrity in error sensitive scenarios (such as the transfer of a large binary file).
 
 
 ## Proposed solution
 
-Proposed solution introduces an optional 4-byte CRC checksum in putfile RPC. 32 bit CRC(CRC32) can check data integrity up to 512 Mbit. If the CRC check fails, SDL core will request retry for the same putfile operation by sending back  “CORRUPTED_DATA” result code. CRC calculation and retransmission should be handled by file manager inside mobile library. This file manager should be modified to accept a CRC flag passed by application logic.
+The proposed solution introduces an optional 4-byte CRC checksum in putfile RPC. 32 bit CRC (CRC32) can check data integrity up to 512 Mbit. If the CRC check fails, SDL core will request to retry for the same putfile operation by sending back the result code “CORRUPTED_DATA”. CRC calculations and retransmissions should be handled by the file manager inside the mobile library. This file manager should be modified to accept a CRC flag passed by application logic.
 
 ## Detailed design
 
@@ -31,7 +29,7 @@ Addition to MOBILE API:
 ```
 <enum name="Result" internal_scope="base">
     <element name="CORRUPTED_DATA">
-      <description>The data sent continuously failed to pass CRC check in receiver end</description>
+      <description>The data sent failed to pass CRC check in receiver end</description>
     </element>
 </enum>
 
@@ -40,8 +38,7 @@ Addition to MOBILE API:
 
     
 <param name="CRC" type="Long" minvalue="0" maxvalue="4,294,967,295" mandatory="false">
-<param name="CRC" type="Boolean" mandatory="false">
-      <description> This parameter enables Aadditional CRC32 checksum to protect data integrity up to 512 Mbits . If this parameter is not specified, the value of this parameter should be treated as false </description>
+      <description> Additional CRC32 checksum to protect data integrity up to 512 Mbits . </description>
     </param>
 
   </function>
@@ -56,23 +53,38 @@ Addition to MOBILE API:
 
   </function> 
 ```
-Background for current framework:
-When a large binary file needs to be transferred, the app breaks the file into smaller chunks and sends these chunks to the Head Unit via putFile. If the SDL core on the Head Unit receives the chunk successfully, it will respond with a result code of SUCCESS and append that chunk to the binary cache file. Otherwise, SDL core will responds with a result code of “INVALID_DATA" and that chunk will not be appended to the binary file cache. 
+### Background for current framework:
+When a large binary file needs to be transferred, the app breaks the file into smaller chunks and sends these chunks to the Head Unit via putfile. If the SDL core on the Head Unit receives the chunk successfully, it will respond with a result code of SUCCESS and append that chunk to the binary cache file. Otherwise, the SDL core will respond with a result code of “INVALID_DATA" and that chunk will not be appended to the binary file cache. 
 
-Change:
-Mobile library should have a file manager included to support CRC calculation and data retransmission. This file manager should be modified to allow CRC flag passed by application logic. If CRC flag is enabled, file manager will calculate CRC checksum automatically and send putfile request with CRC checksum. Once SDL core receives putfile request with CRC checksum, SDL core will have to calculate the CRC checksum and compare it with the CRC checksum provided in the putFile request. If the two checksums do not match then SDL core will know that the received data has been corrupted and will provide a response of “CORRUPTED_DATA” to the application file manager. When the application file manager receives “CORRUPTED_DATA” response, it should resend the same packet of data. File manager should give up retransmission and log an error after certain number of retries (e.g. 5).Once CRC checksum is enabled, Mobile Library generates CRC32 checksum for data chunk provided by App. Then, mobile library sends this data chunk along with CRC32 checksum to SDL core.  In receiver end, SDL core will have to calculate the CRC checksum and compare it with the CRC checksum provided by mobile library. If the two checksums do not match then SDL core will know that the received data has been corrupted and will request mobile library to resend data along with checksum. SDL core will have a number limit for same data packet retransmission. If retry limit is reached, SDL core will provide a response of “CORRUPTED_DATA” to the application. The app may have a logic resending same chunk of data or logging an error and giving up.
+### Change:
+Mobile libraries should have a file manager included to support CRC calculation and data retransmission. This file manager should be modified to allow the CRC flag passed by application logic. If the CRC flag is enabled, the file manager will calculate the CRC checksum automatically and send a putfile request with the CRC checksum. Once the SDL core receives the putfile request with the CRC checksum, the SDL core will have to calculate the CRC checksum and compare it with the CRC checksum provided in the putfile request. If the two checksums do not match, then the SDL core will know that the received data has been corrupted and will provide a response of “CORRUPTED_DATA” to the application file manager. When the application file manager receives a “CORRUPTED_DATA” response, it should resend the same packet of data. The file manager should give up retransmission and log an error after a certain number of retries (e.g. 5). Once the CRC checksum is enabled, the Mobile Library generates a CRC32 checksum for the data chunk provided by the App. Then, the mobile library sends this data chunk along with the CRC32 checksum to the SDL core.  On the receiving end, the SDL core will have to calculate the CRC checksum and compare it with the CRC checksum provided by mobile library. If the two checksums do not match, then the SDL core will know that the received data has been corrupted and will request the mobile library to resend the data along with the checksum. The SDL core will have a number limit for the same data packet retransmission. If the retry limit is reached, the SDL core will provide a response of “CORRUPTED_DATA” to the application. The app may have a logic resending same chunk of data or logging an error and giving up.
 
-
-## Impact on existing code
-		1. New parameters to putfile request and response (RPC change) 
-		2. Send "CORRUPTED_DATA" instead of "INVALID_DATA" to app.(SDL core only change)
-		3. File Manager inside mMobile Library generates CRC32 checksum and handles file retransmission based on putfile payload data (IOS, Android change). 
-		4. SDL core generates CRC32 checksum based on received putfile data if CRC checksum option is enabled. (SDL core only change)
-		5. Mobile Library and SDL core should have retransmission mechanism for CRC check failure case. (SDL core, IOS and Android change)
+### Impact on existing code
+- New parameters to putfile request and response (RPC change) 
+- Send "CORRUPTED_DATA" instead of "INVALID_DATA" to app.(SDL core only change)
+- File Manager inside mobile Library generates CRC32 checksum and handles file retransmission (IOS, Android change). 
+- SDL core generates CRC32 checksum based on received putfile data if CRC checksum option is enabled. (SDL core only change)
+	
   
 
 
 ## Alternatives considered
 
-NO
+Similar to the TCP design, the CRC checksum is placed at frame header ([SmartDeviceLink Protocol level](https://github.com/smartdevicelink/protocol_spec#22-version-2-frame-header)). The CRC checksum calculation is based on both the frame header and frame payload.
+
+### Pros:
+- Covers both headers and payloads for all RPC requests
+- Research paper ["When The CRC and TCP Checksum Disagree"](conferences.sigcomm.org/sigcomm/2000/conf/paper/sigcomm2000-9-1.pdf) suggests variety error sources in internet will increase error rate from one packets out of few millions to one packets out of few thousand in TCP/IP level.  This approach provides additional robustness for overall system. 
+
+
+### Cons:
+- Great impact for all RPC request. Major revision for RPC is required.
+- If everything is properly designed and implemented. Additional CRC32 might not be useful.
+
+
+##Q&A about Downside
+Q: How this CRC32 affects putfile performance?
+A: CRC32 checksum calculation uses table look-up method. Lib will store pre-calculate CRC32 value and directly assign to request. It should not consume too much time. (Implementation example: https://opensource.apple.com/source/xnu/xnu-1456.1.26/bsd/libkern/crc32.c) 
+Q: How this proposal affects current framework?
+A: This proposal introduces optional parameters. If old framework does not support this parameter, it will ignore this parameter.
 
