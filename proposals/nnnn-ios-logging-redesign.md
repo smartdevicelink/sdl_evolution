@@ -18,19 +18,19 @@ The proposed solution is to provide a few additional features:
 * Provide multiple levels of logging, such as `Verbose` (see below, "Detailed solution" for a full list).
 * Better log formatting with simple and detailed logs, providing features such as which queue, file, method, and module the log was sent on.
 * Async by default logging, with error logs being synchronous by default.
-* Filters allow only logs that pass a check to actually be logged.
+* Filters allow only logs that pass a check to be logged.
 
-This proposal is a major version change because it would remove two classes, `SDLDebugTool` is the currently logging class, however, it is unlikely to be used directly by the developer. Second, this change would remove `SDLConsoleController`, which has remained stagnant for many years. An extensible logging solution would allow others to create something similar to this if desired.
+This proposal is a major version change because it would remove two classes: `SDLDebugTool` is the currently logging class, however, removing this class should have a minimal impact. Second, this change would remove `SDLConsoleController`, which has remained stagnant for many years. An extensible logging solution would allow others to create something similar to this if desired.
 
-Finally, this proposal would also encompass using this new framework to enhance logging throughout the library using the new log levels and modules, adding log messages throughout the SDL library.
+Finally, this proposal would also encompass using this new framework to enhance logging throughout the library using the new log levels and modules in addition to adding log messages throughout the SDL library.
 
 ## Detailed solution
 Much of this is adapted from a logging library I wrote, [SuperLogger](https://github.com/livio/SuperLogger), which has been open-sourced by Livio.
 
-This proposal would split the logging tool into several classes instead of the current one class. Each destination for a log, e.g. file or console, will be a separate private class. An instance of each class that is actively receiving logs will be held by the central logger controller.
+This proposal would split the logging tool into several classes instead of the current one class. Each destination for a log, e.g. file or console, will be a separate class. An instance of each class that is actively receiving logs will be held by the central logger controller.
 
 ### Logging Controller
-The `SDLLogManager` is a public class that will largely be managed internally but will be the primary place developers would place filters, create modules, set logging level etc. to customize SDL logging. See below for configuration; the `SDLLogManager` will be initialized with this configuration. The `SDLLogManager` will not be managed explicitly by the `SDLLifecycleManager` though it will be started by it. Due to its need to be called globally and for macros to call into it, the `SDLLogManager` will be a singleton object. In `SDLLifecycleManager`'s initialization, it will pass the configuration into the `SDLLogManager`; this means that `SDLLogManager` cannot be used before this point. Since this should be done in the app's `AppDelegate`, this should be very early in the process. This configuration cannot be reset at runtime once it has been set, it will throw an exception if this happens.
+The `SDLLogManager` is a public class that will largely be managed internally but will be the primary place developers would place filters, create modules, set logging level, etc., to customize SDL logging. The `SDLLogManager` will be initialized with a configuration (see below "Configuration"). The `SDLLogManager` will not be managed explicitly by the `SDLLifecycleManager` though it will be started by it. Due to its need to be called globally and for macros to call into it, the `SDLLogManager` will be a singleton object. In `SDLLifecycleManager`'s initialization, it will pass the configuration into the `SDLLogManager`; this means that `SDLLogManager` cannot be used before this point. Since this should be done in the app's `AppDelegate`, this should be very early in the process. This configuration cannot be reset at runtime once it has been set, it will throw an exception if this happens.
 
 The public interface will look something like this:
 
@@ -47,17 +47,13 @@ The public interface will look something like this:
 // Any modules that do not have an explicitly specified level will by default use the global log level;
 @property (assign, nonatomic) SDLLogLevel globalLogLevel;
 
-/**
- *  Shared Controller methods are class methods that automatically target the sharedController instance. Since 99% of the time you will want to use the sharedController, these are considered convenience methods.
++ (SDLLogManager *)sharedManager;
+
+#pragma mark - Singleton methods
+/*
+ * These are automatically called on the `sharedManager`.
  */
-#pragma mark - Shared Controller methods
-
-+ (SDLLogManager *)sharedController;
-
 + (void)startWithConfiguration:(SDLLogConfiguration *)configuration;
-
-+ (void)addFilters:(NSArray<SDLLogFilterBlock> *)filters;
-+ (void)removeFilters:(NSArray<SDLLogFilterBlock> *)filters;
 
 // This would be used internally to send out a log to the loggers
 + (void)logWithLevel:(SDLLogLevel)level
@@ -124,7 +120,7 @@ log.e("Test something \(NSDate())")
 ```
 
 ### Configuration
-The logging system will have an initial configuration of modules and format set by an immutable object `SDLLogConfiguration`, which will be passed to the `SDLConfiguration` upon setting up the `SDLManager`.
+The logging system will have an initial configuration of modules and format set by an immutable object `SDLLogConfiguration`, which will be passed to the `SDLConfiguration` upon setting up the `SDLManager`. `SDLConfiguration` will add a new initializer that may take a `SDLLogConfiguration`; older initializers will set up the default log configuration.
 
 The following will be set up into the configuration ahead of time:
 ```objc
@@ -135,16 +131,16 @@ typedef NS_ENUM(NSUInteger, SDLLogFormatType) {
 };
 
 // Any custom logging modules used by the developer's code. Defaults to none.
-@property (copy, nonatomic, readonly) NSSet<SDLLogFileModule *> *logModules;
+@property (copy, nonatomic) NSSet<SDLLogFileModule *> *logModules;
 
 // Where the logs will attempt to output. Defaults to Console.
-@property (assign, nonatomic, readonly) NSSet<id<SDLLogTarget>> *logTargets;
+@property (assign, nonatomic) NSSet<id<SDLLogTarget>> *logTargets;
 
-// Initial log filters, these will be able to be changed on `SDLLogManager` at runtime. Defaults to none.
-@property (copy, nonatomic, readonly) NSSet<SDLLogFilterBlock> *logFilters;
+// What log filters will run over this session. Defaults to none.
+@property (copy, nonatomic) NSSet<SDLLogFilterBlock> *logFilters;
 
 // How detailed of logs will be output. Defaults to Default.
-@property (assign, nonatomic, readonly) SDLLogFormatType formatType;
+@property (assign, nonatomic) SDLLogFormatType formatType;
 
 // Whether or not logs will be run on a separate queue, asynchronously, allowing the following code to run before the log completes. Or if it will occur synchronously, which will prevent logs from being missed, but will slow down surrounding code. Defaults to YES.
 @property (assign, nonatomic, getter=isAsynchronous) BOOL asynchronous;
@@ -180,7 +176,7 @@ We will provide a few format types:
 #### Macros
 Macros are a way to make it easy to call the logging API while allowing the system to capture almost all of the information for you. Additionally, they are the way of compiling out debug level logs and below in RELEASE mode.
 
-Some of these will be private, as a way for internal SDL logs to more easily be written. Some will be public which will allow developers to call logs pertaining to their SDL integration and have them tie in with the rest of the SDL logging.
+Some of these will be private, as a way for internal SDL logs to more easily be written. Some will be public which will allow developers using Objective-C to call logs pertaining to their SDL integration and have them tie in with the rest of the SDL logging.
 
 ### Logs
 An `SDLLog` object will contain all of the information necessary to format and log a string. This will be a private class. It will contain something like the following properties:
@@ -200,17 +196,8 @@ An `SDLLog` object will contain all of the information necessary to format and l
 - (void)initWith...
 ```
 
-A secondary log type will also be available exclusively for traces that desire to inspect the callstack. This would be useful when it is helpful to know how one got to a particular trace and not just that one got to that point.
-
-```objc
-@interface SDLTraceLog : SDLLog <NSCopying>
-
-@property (copy, nonatomic, readonly) NSArray *callstack;
-```
-
 #### Log Levels
 There are six log levels in order from least important to most important. Setting the system to level "Debug" would output Debug and *above* logs, i.e., Warning, and Error.
-* Trace - A trace does not take any arguments but simply notes the place the trace call was placed and outputs that place was reached.
 * Verbose - A log that is not considered important and is more likely to be noise than helpful.
 * Debug - A log that may be important in debugging situations.
 * Warning - A RELEASE level log that outputs a non-fatal error.
@@ -237,11 +224,11 @@ Console logging (pre-iOS 10) is done through the Syslog APIs, using the `write` 
 #### OS Logging
 `os_log` is an iOS 10+ logging addition that provides several features that would be very helpful for developers such as native filtering and channel support. Because this is iOS 10+ only, if this is activated by the developer on a pre-iOS 10 device, an error message will print and this logging output will be disabled.
 
-We will use [os_log_create](https://developer.apple.com/reference/kernel/1643798-os_log_create?language=objc) to create a channel for SDL specific logging, using categories to align with modules (below) for better filtering.
+We will use [os_log_create](https://developer.apple.com/reference/kernel/1643798-os_log_create?language=objc) to create a channel/subsystem for SDL specific logging, using categories to align with modules (below) for better filtering.
 
-The various levels of logging would correspond with various logging levels (above "Log Types").
+The various levels of logging would correspond with various logging levels (above "Log Types"), probably like this:
 
-* Trace, Verbose - os_log_debug
+* Verbose - os_log_debug
 * Debug - os_log_info
 * Warning - os_log
 * Error - os_log_error
@@ -269,8 +256,14 @@ File logging is currently done with a single file that is overwritten when a new
 @end
 ```
 
+An `SDLLogFilterBlock` takes a log in and returns whether or not the log passes, a `YES` result will log the message:
+
+```objc
+typedef BOOL (^SDLLogFilterBlock)(SDLLog *log);
+```
+
 ### Modules
-`SDLLogFileModule` is a public class allowing developers to tie their own SDL files into modules if desired. All SDL classes will do this by default to enable easier debugging. Modules are groups of files defined ahead of time. A module may have a different logging level than the rest of the system. For example, if the developer wishes to output detailed logs for the file manager, they could specify that the File module use Verbose logging while the rest of SDL and their own code uses a global level of Release.
+`SDLLogFileModule` is a public class allowing developers to tie their own SDL files into modules if desired. All SDL classes will do this by default to enable easier debugging. Modules are groups of files defined ahead of time. A module may have a different logging level than the rest of the system. For example, if the developer wishes to output detailed logs for the file manager, they could specify that the File module use Verbose logging while the rest of SDL and their own code uses a global level of Release. Developers should be able to inspect SDL modules on `SDLLogManager` and alter log levels for internal modules.
 
 ```objc
 @interface SDLLogFileModule : NSObject
@@ -280,8 +273,8 @@ File logging is currently done with a single file that is overwritten when a new
 @property (assign, nonatomic) SDLLogLevel logLevel;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithName:(NSString *)name files:(NSArray<NSString *> *)files level:(SDLLogLevel)level NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithName:(NSString *)name files:(NSArray<NSString *> *)files;
+- (instancetype)initWithName:(NSString *)name files:(NSSet<NSString *> *)files level:(SDLLogLevel)level NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithName:(NSString *)name files:(NSSet<NSString *> *)files;
 - (BOOL)containsFile:(NSString *)fileName;
 
 @end
@@ -290,12 +283,12 @@ File logging is currently done with a single file that is overwritten when a new
 ## Potential downsides
 There are a few potential downsides.
 
-1. Adding logs slows down the library? This is largely mitigated in a few ways. First, by compiling out most logs in RELEASE mode, the library will only attempt to log Warning and Error logs for apps in the app store. Second, if developers disable all logging, even release mode logs will only do a quick check and then return. Third, most logs are done asynchronously on a serial dispatch queue and will use a dormant CPU core if available.
+1. Adding logs slows down the library? This is largely mitigated in a few ways. First, by compiling out most logs in RELEASE mode, the library will only attempt to log Warning and Error logs for apps in the app store. Second, if developers disable all logging, even release mode logs will only do a quick check and then return. Third, most logs are done asynchronously on a serial dispatch queue and will use a dormant CPU core if available, the current logger does none of this.
 
-2. Complicated? This proposal is a significantly more complicated solution than the existing logging solution. However, it is not especially complicated and will be rather extensible, allowing us to add additional logger outputs with relative ease. Due to its spread out class structure we can privatize significant portions of the library and leaving only the API surface necessary for developers to interact with as public.
+2. Complicated? This proposal has significantly more parts than the existing logging solution. However, it is not especially complicated and will be rather extensible, allowing us to add additional logger outputs with relative ease. Due to its spread out class structure we can privatize significant portions of the library and leaving only the API surface necessary for developers to interact with as public.
 
 ## Impact on existing code
-Removing `SDLDebugTool` and `SDLConsoleController` would cause a major version change. Adding additional logs throughout the entire SDL library may slow the library down slightly to perform those logs; however, since the logs would mostly be Debug and below level logs, those logs will be compiled out of RELEASE mode, and the remaining logs (primarily errors) can be turned off by the developer, causing a minimal performance hit. This is very likely to be more performant than current logging in any case.
+Removing `SDLDebugTool` and `SDLConsoleController` would cause a major version change. Adding additional logs throughout the entire SDL library may slow the library down slightly to perform those logs; however, since the logs would mostly be Debug and below level logs, those logs will be compiled out of RELEASE mode. The remaining logs (primarily errors) can be turned off by the developer, causing a minimal performance hit. This is very likely to be more performant than current logging in any case.
 
 ## Alternatives considered
 The major alternative would be to use a third party library to provide similar functionality without having to develop it ourselves. However, that would cause us to have a 3rd party dependency, which may not be desirable.
