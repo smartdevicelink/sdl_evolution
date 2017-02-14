@@ -194,7 +194,7 @@ An `SDLLogModel` object will contain all of the information necessary to format 
 ```
 
 #### Log Levels
-There are six log levels in order from least important to most important. Setting the system to level "Debug" would output Debug and *above* logs, i.e., Warning, and Error.
+There are four log levels in order from least important to most important. Setting the system to level "Debug" would output Debug and *above* logs, i.e., Warning, and Error.
 * Verbose - A log that is not considered important and is more likely to be noise than helpful.
 * Debug - A log that may be important in debugging situations.
 * Warning - A RELEASE level log that outputs a non-fatal error.
