@@ -73,12 +73,12 @@ Mobile libraries should have a file manager included to support CRC calculation 
 Similar to the TCP design, the CRC checksum is placed at frame header ([SmartDeviceLink Protocol level](https://github.com/smartdevicelink/protocol_spec#22-version-2-frame-header)). The CRC checksum calculation is based on both the frame header and frame payload.
 
 ### Pros:
-- Covers both headers and payloads for all RPC requests
+- Covers both headers and payloads for all SDL communication
 - Research paper ["When The CRC and TCP Checksum Disagree"](conferences.sigcomm.org/sigcomm/2000/conf/paper/sigcomm2000-9-1.pdf) suggests variety error sources in internet will increase error rate from one packets out of few millions to one packets out of few thousand in TCP/IP level.  This approach provides additional robustness for overall system. 
 
 
 ### Cons:
-- Great impact for all RPC request. Major revision for RPC is required.
+- Great impact for SDL protocol. Major revision for SDL protocol is required.
 - If everything is properly designed and implemented. Additional CRC32 might not be useful.
 
 
