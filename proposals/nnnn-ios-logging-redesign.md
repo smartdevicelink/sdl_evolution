@@ -176,10 +176,10 @@ SDLLogE(@"Test error");
 ```
 
 ### Logs
-An `SDLLog` object will contain all of the information necessary to format and log a string. This will be a private class. It will contain something like the following properties:
+An `SDLLogModel` object will contain all of the information necessary to format and log a string. This will be a private class. It will contain something like the following properties:
 
 ```objc
-@interface SDLLog : NSObject <NSCopying>
+@interface SDLLogModel : NSObject <NSCopying>
 
 @property (copy, nonatomic, readonly) NSString *message;
 @property (copy, nonatomic, readonly) NSDate *timestamp;
@@ -209,7 +209,7 @@ We would provide three logging targets (below) that may be enabled by the develo
 
 + (id<SDLLogTarget>)logger;
 - (BOOL)setupLogger;
-- (void)logWithLog:(SDLLog *)log formattedLog:(NSString *)stringLog;
+- (void)logWithLog:(SDLLogModel *)log formattedLog:(NSString *)stringLog;
 - (void)teardownLogger;
 
 @end
@@ -256,7 +256,7 @@ File logging is currently done with a single file that is overwritten when a new
 An `SDLLogFilterBlock` takes a log in and returns whether or not the log passes, a `YES` result will log the message:
 
 ```objc
-typedef BOOL (^SDLLogFilterBlock)(SDLLog *log);
+typedef BOOL (^SDLLogFilterBlock)(SDLLogModel *log);
 ```
 
 ### Modules
