@@ -78,35 +78,23 @@ To support Swift developers well, we will need to support an additional framewor
 ```swift
 
 open class SDLLoggerSwift {
+    // Verbose
     open class func v(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        verbose(message, file, function, line)
-    }
-
-    open class func verbose(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         SDLLogManager.log(with: .verbose, fileName: file, functionName: function, line: line, message: "\(message())")
     }
 
+    // Debug
     open class func d(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        debug(message, file, function, line)
-    }
-
-    open class func debug(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         SDLLogManager.log(with: .debug, fileName: file, functionName: function, line: line, message: "\(message())")
     }
 
+    // Warning
     open class func w(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        warning(message, file, function, line)
-    }
-
-    open class func warning(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         SDLLogManager.log(with: .warning, fileName: file, functionName: function, line: line, message: "\(message())")
     }
 
+    // Error
     open class func e(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        error(message, file, function, line)
-    }
-
-    open class func error(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         SDLLogManager.log(with: .error, fileName: file, functionName: function, line: line, message: "\(message())")
     }
 }
