@@ -1,7 +1,7 @@
 # Redesign iOS Logging
 
 * Proposal: [SDL-NNNN](nnnn-ios-logging-redesign.md)
-* Author: [Joel Fischer](https://github.com/joeljfischer)
+* Author: [Joel Fischer](https://github.com/joeljfischer), [Alex Muller](https://github.com/asm09fsu)
 * Status: **Awaiting review**
 * Impacted Platforms: iOS
 
@@ -20,7 +20,7 @@ The proposed solution is to provide a few additional features:
 * Async logging support, with errors being synchronous.
 * Filters allow only logs that pass a check to actually be logged.
 
-This proposal is a major version change because it would remove two classes, `SDLDebugTool` is the currently logging class, however, it is unlikely to be used directly by the developer. Second, this change would remove `SDLConsoleController`, which has remained stagnant for many years and nobody the author is aware of uses.
+This proposal is a major version change because it would remove two classes, `SDLDebugTool` is the currently logging class, however, it is unlikely to be used directly by the developer. Second, this change would remove `SDLConsoleController`, which has remained stagnant for many years. An extensible logging solution would allow others to create something similar to this if desired.
 
 Finally, this proposal would also encompass using this new framework to enhance logging throughout the library using the new log levels and modules, adding log messages throughout the SDL library.
 
@@ -38,11 +38,11 @@ The public interface will look something like this:
 @interface SDLLogManager : NSObject
 
 @property (copy, nonatomic, readonly) NSSet<SDLLogFileModule *> *logModules;
-@property (assign, nonatomic, readonly) SDLLogOutput *logOutput;
+@property (assign, nonatomic, readonly) NSSet<id<SDLLogTarget>> *logTargets;
 @property (copy, nonatomic, readonly) NSSet<SDLLogFilterBlock> *logFilters;
 
-@property (assign, nonatomic, readonly) BOOL async;
-@property (assign, nonatomic, readonly) BOOL errorAsync;
+@property (assign, nonatomic, readonly, getter=isAsynchronous) BOOL asynchronous;
+@property (assign, nonatomic, readonly, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
 
 // Any modules that do not have an explicitly specified level will by default use the global log level;
 @property (assign, nonatomic) SDLLogLevel globalLogLevel;
@@ -59,13 +59,78 @@ The public interface will look something like this:
 + (void)addFilters:(NSArray<SDLLogFilterBlock> *)filters;
 + (void)removeFilters:(NSArray<SDLLogFilterBlock> *)filters;
 
+// This would be used internally to send out a log to the loggers
 + (void)logWithLevel:(SDLLogLevel)level
             fileName:(NSString *)fileName
         functionName:(NSString *)functionName
                 line:(NSInteger)line
-             message:(NSString *)message, ... NS_FORMAT_FUNCTION(5, 6);
+        formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(5, 6);
+
+// This would be used internally for the Swift extension to send out a fully formed message
++ (void)logWithLevel:(SDLLogLevel)level
+            fileName:(NSString *)fileName
+        functionName:(NSString *)functionName
+                line:(NSInteger)line
+            message:(NSString *)message;
 
 @end
+```
+
+#### Swift Support
+To support Swift developers well, we will need to support an additional framework, `SDLLoggerSwift` that Swift developers may import (or copy into their project, as it is a single file). This is necessary because for the code to work well in Swift, it will need to be written in Swift. If it is not written in Swift, we will not be able to automatically pull file / function / line information as we can when Obj-C developers use the macros. The Swift file would look like this:
+
+```swift
+//
+//  SuperLoggerSwift.swift
+//  SuperLogger
+//
+//  Created by Joel Fischer on 2/13/17.
+//  Copyright © 2017 livio. All rights reserved.
+//
+
+import Foundation
+import SuperLogger
+
+open class SDLLoggerSwift {
+    open class func v(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+        verbose(message, file, function, line)
+    }
+
+    open class func verbose(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+        SDLLogManager.log(with: .verbose, fileName: file, functionName: function, line: line, message: "\(message())")
+    }
+
+    open class func d(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+        debug(message, file, function, line)
+    }
+
+    open class func debug(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+        SDLLogManager.log(with: .debug, fileName: file, functionName: function, line: line, message: "\(message())")
+    }
+
+    open class func w(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+        warning(message, file, function, line)
+    }
+
+    open class func warning(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+        SDLLogManager.log(with: .warning, fileName: file, functionName: function, line: line, message: "\(message())")
+    }
+
+    open class func e(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+        error(message, file, function, line)
+    }
+
+    open class func error(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+        SDLLogManager.log(with: .error, fileName: file, functionName: function, line: line, message: "\(message())")
+    }
+}
+```
+
+It would then be used by the Swift developer like so:
+
+```swift
+let log = SDLLogSwift.self
+log.e("Test something \(NSDate())")
 ```
 
 ### Configuration
@@ -73,13 +138,6 @@ The logging system will have an initial configuration of modules and format set 
 
 The following will be set up into the configuration ahead of time:
 ```objc
-typedef NS_OPTIONS(NSUInteger, SDLLogOutput) {
-    SDLLogOutputNone = 0,
-    SDLLogOutputConsole = 1 << 0,
-    SDLLogOutputFile = 1 << 1,
-    SDLLogOutputOSLog = 1 << 2,
-};
-
 typedef NS_ENUM(NSUInteger, SDLLogFormatType) {
     SDLLogFormatTypeSimple,
     SDLLogFormatTypeDefault,
@@ -90,7 +148,7 @@ typedef NS_ENUM(NSUInteger, SDLLogFormatType) {
 @property (copy, nonatomic, readonly) NSSet<SDLLogFileModule *> *logModules;
 
 // Where the logs will attempt to output. Defaults to Console.
-@property (assign, nonatomic, readonly) SDLLogOutput *logOutput;
+@property (assign, nonatomic, readonly) NSSet<id<SDLLogTarget>> *logTargets;
 
 // Initial log filters, these will be able to be changed on `SDLLogManager` at runtime. Defaults to none.
 @property (copy, nonatomic, readonly) NSSet<SDLLogFilterBlock> *logFilters;
@@ -99,10 +157,10 @@ typedef NS_ENUM(NSUInteger, SDLLogFormatType) {
 @property (assign, nonatomic, readonly) SDLLogFormatType formatType;
 
 // Whether or not logs will be run on a separate queue, asynchronously, allowing the following code to run before the log completes. Or if it will occur synchronously, which will prevent logs from being missed, but will slow down surrounding code. Defaults to YES.
-@property (assign, nonatomic) BOOL async;
+@property (assign, nonatomic, getter=isAsynchronous) BOOL asynchronous;
 
 // Whether or not error logs will be dispatched to loggers asynchronously. Defaults to NO.
-@property (assign, nonatomic) BOOL errorAsync;
+@property (assign, nonatomic, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
 
  // Any modules that do not have an explicitly specified level will by default use the global log level. Defaults to Error.
 @property (assign, nonatomic) SDLLogLevel globalLogLevel;
@@ -113,20 +171,20 @@ We will provide a few format types:
 
 **Simple**
 ```objc
-[NSString stringWithFormat:@"%@ (SDL)%@ %@ – %@\n", dateString, logCharacter, moduleName, message];
+[NSString stringWithFormat:@"%@ %@ (SDL)%@ – %@\n", dateString, logCharacter, moduleName, message];
 09:52:07:324 🔹 (SDL)Protocol – a random test i guess
 ```
 
 **Default**
 ```objc
-[NSString stringWithFormat:@"%@ (%@:%@:L%ld) %@\n", dateString, logCharacter, moduleName, fileName, (long)line, message];
-09:52:07:324 🔹 (SDL)Protocol:SDLV2ProtocolHeader:25 – Some log message
+[NSString stringWithFormat:@"%@ %@ (SDL)%@:%@:%@ – %@\n", dateString, logCharacter, moduleName, fileName, (long)line, message];
+09:52:07:324 🔹 (SDL)Protocol:SDLV2ProtocolHeader:25 – Some log message
 ```
 
 **Detailed**
 ```objc
-[NSString stringWithFormat:@"%@ (%@ : %@ : %@ : L%ld) %@\n", dateString, logCharacter, logLevelString, queueLabel, moduleName, functionName, (long)line, message];
-09:52:07:324 🔹 DEBUG com.apple.main-thread:(SDL)Protocol:[SDLV2ProtocolHeader parse:]:74) – Some log message
+[NSString stringWithFormat:@"%@ %@ %@ %@:(SDL)%@:%@:%@ – %@\n", dateString, logCharacter, logLevelString, queueLabel, moduleName, functionName, (long)line, message];
+09:52:07:324 🔹 DEBUG com.apple.main-thread:(SDL)Protocol:[SDLV2ProtocolHeader parse:]:74 – Some log message
 ```
 
 #### Macros
@@ -161,22 +219,30 @@ A secondary log type will also be available exclusively for traces that desire t
 ```
 
 #### Log Levels
-There are six log levels in order from least important to most important. Setting the system to level "Debug" would output Debug and *above* logs, i.e. Release and Error.
+There are six log levels in order from least important to most important. Setting the system to level "Debug" would output Debug and *above* logs, i.e., Warning, and Error.
 * Trace - A trace does not take any arguments but simply notes the place the trace call was placed and outputs that place was reached.
-* Verbose - A log that is not considered at all
-* Debug
-* Release
-* Warning
-* Error
+* Verbose - A log that is not considered important and is more likely to be noise than helpful.
+* Debug - A log that may be important in debugging situations.
+* Warning - A RELEASE level log that outputs a non-fatal error.
+* Error - A RELEASE level log that outputs a fatal error.
 
 ### Logging Targets
-There would initially be three logging targets that may be enabled by the developer. Each of these will be private classes, they will be enabled via an `NS_OPTIONS` switch.
+We would provide three logging targets (below) that may be enabled by the developer. There will be a protocol `SDLLogTarget` that each default logging target will conform to; if the developer wishes to create more logging targets, they may do that themselves as well and simply add them into the configuration. The protocol would look like this:
+
+```objc
+@protocol SDLLogTarget <NSObject>
+@required
+
++ (id<SDLLogTarget>)logger;
+- (BOOL)setupLogger;
+- (void)logWithLog:(SDLLog *)log formattedLog:(NSString *)stringLog;
+- (void)teardownLogger;
+
+@end
+```
 
 #### Console Logging
 Console logging (pre-iOS 10) is done through the Syslog APIs, using the `write` function. This will simply take the formatted string and log it.
-
-#### File Logging
-File logging is currently done with a single file that is overwritten when a new `SDLManager` is initialized. The new system would keep a rolling log of three files in a directory with files sorted by file name – the current timestamp.
 
 #### OS Logging
 `os_log` is an iOS 10+ logging addition that provides several features that would be very helpful for developers such as native filtering and channel support. Because this is iOS 10+ only, if this is activated by the developer on a pre-iOS 10 device, an error message will print and this logging output will be disabled.
@@ -187,9 +253,11 @@ The various levels of logging would correspond with various logging levels (abov
 
 * Trace, Verbose - os_log_debug
 * Debug - os_log_info
-* Release - os_log
 * Warning - os_log
 * Error - os_log_error
+
+#### File Logging
+File logging is currently done with a single file that is overwritten when a new `SDLManager` is initialized. The new system would keep a rolling log of three files in a directory with files sorted by file name – the current timestamp.
 
 ### Filtering
 `SDLLogFilter` will be a public class allowing developers to filter logs to only allow specific ones. This will be useful for debugging. Filtering allows the developer to have logs pass a check before they are able to be logged. This would be by allowing / disallowing logs that have a message containing a string or passing a regex check, or allowing / disallowing certain modules, files, or queues. It may look something like this:
@@ -232,12 +300,12 @@ The various levels of logging would correspond with various logging levels (abov
 ## Potential downsides
 There are a few potential downsides.
 
-1. Adding logs slows down the library? This is largely mitigated in a few ways. First, by compiling out most logs in RELEASE mode, the library will only attempt to log Release, Warning, and Error logs for apps in the app store. Second, if developers disable all logging, even release mode logs will only do a quick check and then return. Third, most logs are done asynchronously on a serial dispatch queue and will use a dormant CPU core if available.
+1. Adding logs slows down the library? This is largely mitigated in a few ways. First, by compiling out most logs in RELEASE mode, the library will only attempt to log Warning and Error logs for apps in the app store. Second, if developers disable all logging, even release mode logs will only do a quick check and then return. Third, most logs are done asynchronously on a serial dispatch queue and will use a dormant CPU core if available.
 
 2. Complicated? This proposal is a significantly more complicated solution than the existing logging solution. However, it is not especially complicated and will be rather extensible, allowing us to add additional logger outputs with relative ease. Due to its spread out class structure we can privatize significant portions of the library and leaving only the API surface necessary for developers to interact with as public.
 
 ## Impact on existing code
-Removing `SDLDebugTool` and `SDLConsoleController` would cause a major version change. Adding additional logs throughout the entire SDL library may slow the library down slightly to perform those logs; however, since the logs would mostly be Debug and below level logs, those logs will be compiled out of RELEASE mode, and the remaining logs (primarily errors) can be turned off by the developer, causing a minimal performance hit.
+Removing `SDLDebugTool` and `SDLConsoleController` would cause a major version change. Adding additional logs throughout the entire SDL library may slow the library down slightly to perform those logs; however, since the logs would mostly be Debug and below level logs, those logs will be compiled out of RELEASE mode, and the remaining logs (primarily errors) can be turned off by the developer, causing a minimal performance hit. This is very likely to be more performant than current logging in any case.
 
 ## Alternatives considered
 The major alternative would be to use a third party library to provide similar functionality without having to develop it ourselves. However, that would cause us to have a 3rd party dependency, which may not be desirable.
