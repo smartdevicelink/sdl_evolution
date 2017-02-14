@@ -9,7 +9,7 @@
 This proposal is a full redesign of the internal logging framework used by SDL, `SDLDebugTool`. The goal is to provide flexible and fast logging for internal and related developer usage.
 
 ## Motivation
-The current system was written quite a long time ago and is not particularly fast, nor flexible. It provides some basic file logging and console logging, but does not provide a developer many options to log related logs or to customize and filter the output as desired.
+The current system was written quite a long time ago and is not particularly fast, nor flexible. It provides some basic file logging and console logging, but does not provide a developer many options to log related logs or to customize and filter the output as desired. We need a better logging framework in order to add more logs than currently exist, make sure they're fast, and provide developers with the tools and flexibility to debug their code.
 
 ## Proposed solution
 The proposed solution is to provide a few additional features:
