@@ -169,10 +169,10 @@ Developers using Objective-C (macros are Obj-C only) will be able to call logs p
 There will be separate macros for each logging level, similar to "Swift Support" above.
 
 ```objc
-SDLLogV("Test verbose");
-SDLLogD("Test debug");
-SDLLogW("Test warning");
-SDLLogE("Test error");
+SDLLogV(@"Test verbose");
+SDLLogD(@"Test debug");
+SDLLogW(@"Test warning");
+SDLLogE(@"Test error");
 ```
 
 ### Logs
