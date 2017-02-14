@@ -15,7 +15,7 @@ The current system was written quite a long time ago and is not particularly fas
 The proposed solution is to provide a few additional features:
 
 * Most logs (see "Detailed solution") disabled when the app is created in `RELEASE` mode instead of `DEBUG`.
-* Provide multiple levels of logging, such as `Verbose` (see below, "Detailed solution,"" for a full list).
+* Provide multiple levels of logging, such as `Verbose` (see below, "Detailed solution" for a full list).
 * Better log formatting with simple and detailed logs, providing features such as which queue, file, method, and module the log was sent on.
 * Async logging support, with errors being synchronous.
 * Filters allow only logs that pass a check to actually be logged.
