@@ -79,7 +79,7 @@ Similar to the TCP design, the CRC checksum is placed at frame header ([SmartDev
 
 ### Cons:
 - Great impact for SDL protocol. Major revision for SDL protocol is required.
-- If everything is properly designed and implemented. Additional CRC32 might not be useful.
+
 
 
 ##Q&A about Downside
