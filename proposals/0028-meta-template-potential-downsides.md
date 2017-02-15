@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0028](0028-meta-template-potential-downsides.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Meta
 
 ## Introduction
