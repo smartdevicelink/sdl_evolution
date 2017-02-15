@@ -32,11 +32,12 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0022" status="accepted" primary-platform="android" sdl-version="x.x" name="Reduce RSVP default security" filename="0022-android-rsvp-off.md"/>
 <proposal id="0023" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Update Mobile API to Include Mandatory Flag on Parameters" filename="0023-update-mobile-api-mandatory-flag.md"/>
 <proposal id="0024" status="accepted" primary-platform="ios" sdl-version="x.x" name="Base iOS Version to 8.0" filename="0024-ios-8-0-minimum.md"/>
-<proposal id="0025" status="active" primary-platform="ios" sdl-version="x.x" name="Stream File Manager Uploads from Disk" filename="0025-ios-filemanager-stream-from-disk.md"/>
-<proposal id="0026" status="active" primary-platform="android" sdl-version="x.x" name="Move to Android Studio" filename="0026-android_move_to_android_studio.md"/>
-<proposal id="0027" status="active" primary-platform="ios" sdl-version="x.x" name="Increase Specificity of Handler Events" filename="0027-ios-specify-handlers.md"/>
-<proposal id="0028" status="active" primary-platform="meta" sdl-version="x.x" name="Add Potential Downsides to Template" filename="0028-meta-template-potential-downsides.md"/>
-<proposal id="0029" status="active" primary-platform="ios" sdl-version="x.x" name="Multiple File Manager Transactions" filename="0029-ios-multiple-file-manager-transactions.md"/>
+<proposal id="0025" status="accepted" primary-platform="ios" sdl-version="x.x" name="Stream File Manager Uploads from Disk" filename="0025-ios-filemanager-stream-from-disk.md"/>
+<proposal id="0026" status="accepted" primary-platform="android" sdl-version="x.x" name="Move to Android Studio" filename="0026-android_move_to_android_studio.md"/>
+<proposal id="0027" status="accepted" primary-platform="ios" sdl-version="x.x" name="Increase Specificity of Handler Events" filename="0027-ios-specify-handlers.md"/>
+<proposal id="0028" status="accepted" primary-platform="meta" sdl-version="x.x" name="Add Potential Downsides to Template" filename="0028-meta-template-potential-downsides.md"/>
+<proposal id="0029" status="deferred" primary-platform="ios" sdl-version="x.x" name="Multiple File Manager Transactions" filename="0029-ios-multiple-file-manager-transactions.md"/>
+<proposal id="0030" status="active" primary-platform="ios" sdl-version="x.x" name="Redesign iOS Logging" filename="0030-ios-logging-redesign.md"/>
 
 
 <!--
