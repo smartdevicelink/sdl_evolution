@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-0026](0026-android_move_to_android_studio.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Android]
 
 ## Introduction
