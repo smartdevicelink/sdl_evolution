@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0027](0027-ios-specify-handlers.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: iOS
 
 ## Introduction
