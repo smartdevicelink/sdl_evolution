@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0029](0029-ios-multiple-file-manager-transactions.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: iOS
 
 ## Introduction
