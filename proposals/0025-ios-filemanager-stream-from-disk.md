@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0025](0025-ios-filemanager-stream-from-disk.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction
