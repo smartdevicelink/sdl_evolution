@@ -33,6 +33,9 @@ There are multiple parts of the proxy lifecycle that the SMM would have an impac
 #### `SDLLifecycleManager`
 If the application has an `SDLLifecycleConfiguration` with the `appType` of `NAVIGATION`, then SMM will be started automatically once `SDLLifecycleManager` enters the state `didEnterStateSettingUpManagers`. This would simply start the manager, not the sessions. At this point, SMM is ready and listening to HMI status changes and will internally start/stop protocols.
 #### `SDLStreamingMediaManager`
+Due to the need to make sure we properly unit test all possible combinations of HMI, app and streaming states, we need to be able to change the state machine at will. This, however, should not be exposed to the developer. Because of this, `SDLStreamingMediaManager` will be a wrapper around `SDLStreamingMediaLifecycleManager`, similar to how `SDLManager` is a wrapper around `SDLLifecycleManager`.
+
+#### `SDLStreamingMediaLifecycleManager`
 ##### State Machines
 There will need to be multiple state machines that need to work together to deal with all the possible scenarios the app can be in on both the phone and head unit. Luckily, HMI states are already provided so we will not be building a new state machine, but will list the possible scenarios for different states below.
 ###### Phone (new state machine)
