@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0030](0030-ios-logging-redesign.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer), [Alex Muller](https://github.com/asm09fsu)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction
