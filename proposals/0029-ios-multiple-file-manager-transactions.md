@@ -24,21 +24,18 @@ The proposed solution is to add two new methods to `SDLFileManager`:
 ```
 
 ### Deleting Multiple Remote files
-Deleting multiple remote files is a much simpler problem than uploading multiple files because there isn't as large of a need to worry about data transfer. There will not be a "progress" handler because the operation should happen relatively quickly. These deletes may fail however, for example if the file does not exist on the remote system and therefore cannot be deleted. We may, then, have a mixture of successful deletes and failed deletes. The completion handler will have to handle this mixed case.
+Deleting multiple remote files is a much simpler problem than uploading multiple files because there isn't as large of a need to worry about data transfer. There will not be a "progress" handler because the operation should happen relatively quickly. These deletes may fail however, for example if the file does not exist on the remote system and cannot be deleted. We may, therefore, have a mixture of successful deletes and failed deletes. The completion handler will have to handle this mixed case.
 
 As noted above, the method to do multiple deletes will be defined as the following:
 ```objc
 - (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler;
 ```
 
-The completion handler for the new, multiple at a time, delete will look like this:
+The completion handler for the new multiple delete will look like this:
 ```objc
-typedef void(^SDLFileManagerMultiDeleteCompletionHandler)(NSArray<SDLFileName *> *failedNames, NSUInteger bytesAvailable, NSDictionary<SDLFileName, NSError *> *errors);
+typedef void(^SDLFileManagerMultiTransactionCompletionHandler)(nullable NSError *error);
 ```
-
-* `failedNames` - The names of any files that could not be deleted, for whatever reason.
-* `bytesAvailable` - The amount of data reported by the remote system from the last delete request.
-* `errors` - If `success` is false, this dictionary will correlate file names which failed to delete and their associated error.
+* `error` - This will provide an error code and domain if any of the deletes fail. The `userInfo` dictionary property will contain type `<SDLFileName: NSError>`. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular delete attempt.
 
 ### Uploading Multiple Files
 Uploading multiple files is a considerably more difficult problem, as there are many more failure points and it is a very complex operation that may take a significant amount of time. Because of this, a progress handler will exist to keep the developer updated on the status of each upload and the multi-file upload as a whole. We may, at the end of the multi-file upload, have a mixture of successful and failed uploads. The final completion handler will have to handle this mixed case.
@@ -46,27 +43,24 @@ Uploading multiple files is a considerably more difficult problem, as there are 
 As noted above, the method to do multiple uploads will be defined as the following:
 ```objc
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
+- (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
 ```
 
 The progress handler will be fired after each file within the array is uploaded or fails. It will look like this:
 ```objc
-typedef void(^SDLFileManagerMultiUploadProgressHandler)(BOOL success, SDLFileName fileName, NSUInteger bytesAvailable, float uploadPercentage, NSDictionary<SDLFileName, NSError *> *errors);
+typedef void(^SDLFileManagerMultiUploadProgressHandler)(SDLFileName fileName, float uploadPercentage, Bool *cancel, nullable NSError *error);
 ```
 
-* `success` - Whether or not the last file upload attempt succeeded or failed.
 * `fileName` - The name of the last file that had an upload attempt.
-* `bytesAvailable` - The number of bytes available on the remote system after this file upload attempt.
 * `uploadPercentage` - This percentage is a decimal number between 0.0 - 1.0. It is calculated by dividing the total number of bytes in files successfully or unsuccessfully uploaded by the total number of bytes in all files passed to the `uploadFiles:progressHandler:completionHandler` method.
-* `errors` - If `success` is false, this dictionary will correlate file names correlating with files which failed to upload and their associated error.
+* `cancel` - If the developer sets this Bool to YES within the progress block, the file manager will cancel all remaining uploads.
+* `error` - This will provide an error code and domain if the file failed to upload.
 
-The completion handler will be fired after all files within the array are uploaded or fail. It will look like this:
+The completion handler will be fired after all files within the array are uploaded or fail. It will look like this (same as the deletion completion handler, above):
 ```objc
-typedef void(^SDLFileManagerMultiUploadCompletionHandler)(NSArray<SDLFileName *> *failedNames, NSUInteger bytesAvailable, NSError *__nullable error);
+typedef void(^SDLFileManagerMultiTransactionCompletionHandler)(nullable NSError *error);
 ```
-
-* `failedNames` - An array of the names of any failed file uploads across the whole session.
-* `bytesAvailable` - The amount of data reported by the remote system from the last upload request.
-* `error` -  One of a set of errors that says what went wrong in a general sense, if anything. For example, if there was a mixed result of successes and failures, or if all failed. Or if capacity was reached and no further files could be uploaded.
+* `error` - This will provide an error code and domain. The `userInfo` dictionary property will contain type `<SDLFileName: NSError>`. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular upload attempt.
 
 ### SDLFile Updates
 To account for the calculation of bytes taking place in `uploadFiles:progressHandler:completionHandler:` ([see above](#Uploading Multiple Files)), and API addition will be made to `SDLFile`:
@@ -75,7 +69,7 @@ To account for the calculation of bytes taking place in `uploadFiles:progressHan
 @property (assign, nonatomic, readonly) NSUInteger numberOfBytes;
 ```
 
-This property will return the number of bytes of data in the file, whether it is stored on disk or in memory.
+This property will return the number of bytes of data in the file, whether it is stored on disk or in memory. This is a readonly, computed property; `numberOfBytes` will be calculated when it is called by inspecting the file it is holding (whether in memory or on disk). If this computation is expensive, it may be cached.
 
 ## Potential Downsides
 The primary potential downside of this proposal is that the APIs being added will be among the most complicated to implement in SDL. It wraps what is already a fairly complex API to upload files and provide completion blocks and will have to track those completion blocks and provide progress updates. Due to it also providing the number of bytes uploaded and to be uploaded, it will have to track those uploads in a bit more detail than the file manager currently does.
