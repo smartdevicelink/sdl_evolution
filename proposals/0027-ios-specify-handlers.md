@@ -58,15 +58,14 @@ SDLSubscribeButton
 typedef void (^SDLRPCNotificationHandler)(__kindof SDLRPCNotification *notification);
 ```
 
-will be replaced with three different handlers:
+will be replaced with two different handlers:
 
 ```objc
 typedef void (^SDLRPCCommandNotificationHandler)(SDLOnCommand *notification);
-typedef void (^SDLRPCButtonEventNotificationHandler)(SDLOnButtonEvent *notification);
-typedef void (^SDLRPCButtonPressNotificationHandler)(SDLOnButtonPress *notification);
+typedef void (^SDLRPCButtonNotificationHandler)(__nullable SDLOnButtonPress *buttonPress, __nullable SDLOnButtonEvent *buttonEvent);
 ```
 
-The first will apply to `SDLAddCommand`, the latter two to `SDLSoftButton` and `SDLSubscribeButton`.
+The first will apply to `SDLAddCommand`, the latter to `SDLSoftButton` and `SDLSubscribeButton`.
 
 ### SDLAddCommand
 SDLAddCommand currently has several init methods:
@@ -90,7 +89,7 @@ Each of the `SDLRPCNotificationHandler` parameters will be replaced with an `SDL
 This will also be replaced with an `SDLRPCCommandNotificationHandler` property.
 
 ### SDLSubscribeButton and SDLSoftButton
-These classes also have init methods with handlers, however, because the handler for these classes will be split into two handlers, one for `SDLOnButtonPress` and one for `SDLOnButtonEvent`, only the `SDLRPCButtonPressNotificationHandler` will be present in init methods because it is the far more common use case. Both `SDLRPCButtonPressNotificationHandler` and `SDLRPCButtonEventNotificationHandler` will be present as properties, however, so developers may still use whichever they wish.
+These classes also have init methods with handlers, this existing handler will be replaced with the new `SDLRPCButtonNotificationHandler` handler.
 
 ## Impact on existing code
 This is a major version change as a result of removing the existing `SDLRPCNotificationHandler` block and `SDLRequestHandler` protocol and altering the `init` methods of the classes implementing the handlers. Developers would have to switch to using the more specific blocks and would have to remove some of their code that involved downcasting the `SDLRPCNotification` into its specific class.
