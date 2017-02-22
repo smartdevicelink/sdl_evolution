@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0031](0031-mobile-projection.md)
 * Author: Jeffrey Hu
-* Status: In Review
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
