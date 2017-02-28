@@ -19,12 +19,36 @@ SDL must transfer all RPCs to HMI for processing even if "Image" does NOT exist/
 
 ## Detailed design
 
-App requests "Image" via any applicable RPC. SDL checks "Image" - does NOT exist at "AppStorageFolder". SDL transfers this RPC to HMI for processing.
-Expected resultCode from HMI is "WARNINGS" + "message: Requested image(s) does not exist"
+* App -> SDL: RPC (<Image>)
+* SDL checks that <Image> does NOT exist at AppStorageFolder for this app
+
+* SDL -> HMI: RPC (<Image>)
+* HMI processes this RPC
+
+* HMI -> SDL: RPC (WARNINGS, message: “Requested image(s) is not found”) //in case of NO any failures
+
+* SDL -> app: RPC (WARNINGS, info: “Requested image(s) is not found”)
+
 
 ## Impact on existing code
 
-SDL behavior only
+The following RPCs will be impacted:
+* 1. SendLocation
+* 2. ShowConstantTBT
+* 3. PerformAudioPassThru
+* 4. Show
+* 5. AddSubMenu
+* 6. AddCommand
+* 7. SetGlobalProperties
+* 8. OnWayPointChange
+* 9. GetWayPoints_response
+* 10. UpdateTurnList
+* 11. PerformInteraction
+* 12. AlertManeuver
+* 13. ShowConstantTBT
+* 14. ScrollableMessage
+* 15. Alert
+
 
 ## Alternatives considered
 
