@@ -45,12 +45,28 @@ When an app registers on the head unit it shall look out if the app used _SetApp
 
 ## Detailed design
 
-TBD
+N/A
 
 ## Impact on existing code
 
-TBD
+`<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response">`   
+`<description>The response to registerAppInterface</description>`   
+...   
+`<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">`   
+`<description>Provides additional human readable info regarding the result.</description>   
+</param>`   
+...   
+`<param name="systemSoftwareVersion" type="String" maxlength="100" mandatory="false" platform="documentation">   
+<description>The software version of the system that implements the SmartDeviceLink core.</description>`   
+`</param>`    
+`<param name="iconResumed" type="Boolean" mandatory="true">`
+
+`<description>Existence of apps icon at system.    
+If true, apps icon was resumed at system.     
+If false, apps icon is not resumed at system</description>`    
+`</param>    
+</function>`   
 
 ## Alternatives considered
 
-TBD
+N/A
