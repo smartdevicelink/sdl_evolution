@@ -1,8 +1,8 @@
 # Delegate Support for all onHMIStatus State Changes
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0032](0032-on-hmi-status-state-changes.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
