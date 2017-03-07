@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-iap-over-bluetooth.md)
 * Author: [SDL Developer](https://github.com/smartdevicelink/)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core]
+* Impacted Platforms: Core
 
 ## Introduction
 
