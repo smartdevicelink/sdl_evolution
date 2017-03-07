@@ -1,7 +1,7 @@
 ﻿# Support of iAP over Bluetooth
 
 * Proposal: [SDL-NNNN](NNNN-iap-over-bluetooth.md)
-* Author: [SDL Developer](https://github.com/smartdevicelink/)
+* Author: [Aleksandr Galiuzov](https://github.com/smartdevicelink/AGaliuzov)
 * Status: **Awaiting review**
 * Impacted Platforms: Core
 
