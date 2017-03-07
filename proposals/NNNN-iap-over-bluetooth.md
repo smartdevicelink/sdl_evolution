@@ -35,7 +35,7 @@ The proposed solution provides the ability to switch connection during new Appli
   
 ## Detailed design
 
-![High Level Design](/assets/iap-over-bluetooth/iap-over-bluetooth-hld.png)
+![High Level Design](./assets/iap-over-bluetooth/iap-over-bluetooth-hld.png)
 
 ## Impact on existing code
 
