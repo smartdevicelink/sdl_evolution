@@ -1,7 +1,7 @@
 # Streaming Media Manager 5.0
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0033](0033-streaming-media-manager-update.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS / Protocol
 
 ## Introduction
