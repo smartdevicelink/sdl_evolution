@@ -1,6 +1,6 @@
 The purpose of this document is to illustrate the differences between an SDL Evolution Proposal and an SDL Issue.  While determining how to present an item to the SDLC can be subjective, it’s our hope that providing examples of SDL Evolution Proposals and SDL Issues will help you to identify which format and GitHub Repository should be used for bringing your issue to the attention of the SDLC Steering Committee.
 
-###[SDL Evolution Proposals](https://github.com/smartdevicelink/sdl_evolution)
+###SDL Evolution Proposals
 ####Qualifications:
 - If the behavior of the system has changed in a way that impacts what the app developer sees
 - If the issue/fix will have a large impact on the platform(s)
