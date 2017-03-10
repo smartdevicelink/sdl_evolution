@@ -18,6 +18,7 @@ Important documents:
 * Goals for upcoming SDL releases – this document.
 * The [SDL evolution proposal review schedule](https://smartdevicelink.github.io/sdl_evolution/) to see upcoming SDL evolution proposal reviews.
 * The [SDL evolution review process](process.md) to see how to propose and review proposals.
+* The [proposals versus issues document](proposals_versus_issues.md) to understand the differences between an SDL Evolution Proposal and an SDL Issue.
 
 ## SDL Protocol Version Next: X.X
 Expected Release Date: N/A
