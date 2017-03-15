@@ -1,6 +1,6 @@
 # Rename Cocoapods Project to "SmartDeviceLink"
 
-* Proposal: [SDL-NNNN](NNNN-ios-cocoapods-rename.md)
+* Proposal: [SDL-0034](0034-ios-cocoapods-rename.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
 * Impacted Platforms: iOS
