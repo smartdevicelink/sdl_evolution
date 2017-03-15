@@ -1,6 +1,6 @@
 # Audio Data Handler for SDLPerformAudioPassThru
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0035](0035-filename.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS]
