@@ -1,7 +1,7 @@
 
 # Up Android Target/Compile Version
 
-* Proposal: [SDL-NNNN](nnnn-android-up_target-version.md)
+* Proposal: [SDL-0036](0036-android-up_target-version.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
 * Status: **Awaiting Review**
 * Impacted Platforms: [Android]
