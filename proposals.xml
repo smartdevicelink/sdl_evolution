@@ -41,6 +41,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0031" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Mobile Projection" filename="0031-mobile-projection.md"/>
 <proposal id="0032" status="implemented" primary-platform="ios" sdl-version="5.0" name="Delegate Support for all onHMIStatus State Changes" filename="0032-on-hmi-status-state-changes.md"/>
 <proposal id="0033" status="active" primary-platform="ios" sdl-version="x.x" name="Streaming Media Manager 5.0" filename="0033-streaming-media-manager-update.md"/>
+<proposal id="0034" status="active" primary-platform="ios" sdl-version="x.x" name="Rename Cocoapods Project to SmartDeviceLink" filename="0034-ios-cocoapods-rename.md"/>
+<proposal id="0035" status="active" primary-platform="ios" sdl-version="x.x" name="Audio Data Handler for SDLPerformAudioPassThru" filename="0035-audio-pass-thru-handler.md"/>
+<proposal id="0036" status="active" primary-platform="android" sdl-version="x.x" name="Up Android Target/Compile Version" filename="0036-android-up_target-version.md"/>
 
 
 <!--
