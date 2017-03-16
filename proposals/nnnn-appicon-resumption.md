@@ -1,4 +1,4 @@
-## Provide AppIcon resumption across app registration requests
+# Provide AppIcon resumption across app registration requests
 
  * Proposal: [NNNN](nnnn-appicon-resumption.md)
  * Author: [Markos Rapitis](https://github.com/mrapitis)
