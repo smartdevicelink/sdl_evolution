@@ -3,8 +3,8 @@
 
 * Proposal: [SDL-0036](0036-android-up_target-version.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
-* Impacted Platforms: [Android]
+* Status: **In Review**
+* Impacted Platforms: Android
 
 ## Introduction
 
