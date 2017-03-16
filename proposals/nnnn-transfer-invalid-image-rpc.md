@@ -2,7 +2,7 @@
  * Proposal: [NNNN](nnnn-transfer-invalid-image-rpc.md)
  * Author: [Markos Rapitis](https://www.github.com/mrapitis)
  * Status: Awaiting review
- * Impacted Platforms: Core, RPC, iOS, Android
+ * Impacted Platforms: Core
 
 ## Introduction
 
