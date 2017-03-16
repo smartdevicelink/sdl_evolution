@@ -9,7 +9,7 @@
  
 This proposal is to simplify (and speed up) the process of setting an app icon across app registration requests.
  
-##Motivation
+## Motivation
 
 Currently we have a lengthy process for setting a custom app icon by the mobile app for use by the HMI.  The process consists of the following: 
 
