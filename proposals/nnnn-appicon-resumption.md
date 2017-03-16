@@ -1,4 +1,4 @@
-#Provide AppIcon resumption across app registration requests
+## Provide AppIcon resumption across app registration requests
 
  * Proposal: [NNNN](nnnn-appicon-resumption.md)
  * Author: [Markos Rapitis](https://github.com/mrapitis)
@@ -25,7 +25,7 @@ Currently we have a lengthy process for setting a custom app icon by the mobile 
 
 As a result of the lengthy process highlighted above, an app’s icon will not be immediately available upon registration of the app.  Making use of the process above, the app will be presented on the HMI for a moment before a custom app icon is presented.  In addition, subsequent app registration requests require a redundant exchange of RPC’s to process subsequent set app icon requests.
 
-##Proposed solution
+## Proposed solution
  
 The following proposal has been developed in order to provide a custom app icon immediately after app re-registration.  The existing process would be maintained for initial app registration or future app requested icon updates.
 The head unit shall keep track and store the name and file referencing the app icon each time a successful SetAppIcon request occurs from the mobile app.
@@ -60,7 +60,7 @@ A potential downside includes the case of first app registration; since the exis
  `</param>    
  </function>`
 
-##Alternatives considered
+## Alternatives considered
  
 * Option 1: 
 Utilize the binary data section of the RegisterAppInterface Request RPC to allow the mobile device to provide an app icon immediate during registration with the system.  This would solve the glaring 1st case registration when an app icon is not present on the system, however this may require more compensating code from a mobile perspective.
