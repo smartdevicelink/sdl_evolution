@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0035](0035-filename.md)
 * Author: [Alex Muller](https://github.com/asm09fsu)
-* Status: **Awaiting review**
+* Status: **In review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
