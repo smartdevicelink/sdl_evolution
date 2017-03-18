@@ -34,10 +34,15 @@ b) encryption
 c) decryption by SDL.   
 
 ## Detailed design
-TBD
+There is not a lot that should be changed
+1. Add new parameter to SDL ini file called `DTLSv1.0`
+  * add appropriate implementation to profile.cc and profile.h
+2. Implement proper processing of the mentined above parameter in SDL. As SDL uses `OpenSSL` library all neccessary supporting already exists
+all we need to add is proper initialization as `method = is_server ? DTLSv1_server_method() : DTLSv1_client_method();`
+
 
 ## Impact on existing code
-TBD
+There is no any impact on the existed code apart of mentioned above. This is quite small changes.
 
 ## Alternatives considered
-TBD
+No alternatives considered.
