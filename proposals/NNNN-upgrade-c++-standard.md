@@ -6,9 +6,7 @@
 * Impacted Platforms: [Core]
 
 ## Introduction
-This proposal is geared to upgrade currently used `C++98` standard to `C++11` as the latter one has much more useful features
-and significant improvements from the performence point of view. Also it became more safe in runtime and allows to catch a lot of
-issues during the compilation stage.
+This proposal is geared to upgrade currently used `C++98` standard to `C++11` as the latter one has much more useful features and significant improvements from the performance point of view. Also it became more safe in runtime and allows to catch a lot of issues during the compilation stage.
 
 ## Motivation
 * Reinventing the wheel:
@@ -43,11 +41,11 @@ The details could be found [here](https://gcc.gnu.org/gcc-4.8/cxx0x_status.html)
 
 ## Impact on existing code
 All the SDL is the impact area. However it should not be changed at once. The upgrading could be done step-by-step without any kind of regression.
-* Change utilty classes such as hand written [`SharedPtr`](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/include/utils/shared_ptr.h)
+* Change utility classes such as hand written [`SharedPtr`](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/include/utils/shared_ptr.h)
 * Use lambda function instead of heavy functors
 * Use `auto` variables and `default` constructions etc.
 
-In general this movement could be done transperently for SDL users.
+In general this movement could be done transparently for SDL users.
 
 ## Alternatives considered
 The only alternative is to continue to use obsolete `c++98`
