@@ -1,4 +1,4 @@
-# Move to the new C++11 standrd 
+# Move to the new C++11 standard.
 
 * Proposal: [SDL-NNNN](NNNN-upgrade-c++-standard.md)
 * Author: [Alexandr Galiuzov](https://github.com/AGaliuzov)
