@@ -34,10 +34,35 @@ retrieve the value of 'menuTitle' parameters from .ini file
 transfer UI.SetGlobalProperties (` <menuTitle_from_ini_file>` , params) to HMI. 
 
 ## Detailed design
-TBD
+###### Extend `profile.h` with neccessary interfaces
+```c++
+class Profile {
 
+std::string get_menu_icon();
+std::string get_menu_title();
+
+}
+```
+###### Add appropriate logic into `ResetGlobalProperties` class.
+####### Old
+```c++
+ if (menu_name) {
+      msg_params[hmi_request::menu_title] = "";
+      app->set_menu_title(msg_params[hmi_request::menu_title]);
+    }
+```
+####### New
+```c++
+ if (menu_name) {
+      msg_params[hmi_request::menu_title] =  application_manager_.get_settings().get_menu_title();
+      app->set_menu_title(msg_params[hmi_request::menu_title]);
+    }
+```
 ## Impact on existing code
-TBD
+The `Profile` class has to be extended with additional api. In `ResetGlobalProperties` hardcoded `menu_icon` and `menu_title`
+have to be substituted with parameters from ini file.
+
+smartDeviceLink.ini file has to be extended with `MenuIcon` and `MenuTitle` parameters.
 
 ## Alternatives considered
-TBD
+The only alternative is to kepp using hardcoded values.
