@@ -16,7 +16,7 @@ adoption process by making it abstract.
 ## Proposed solution
 * Change the logger naming by removing `LOG4CXX` prefix. Proposed variant is to use `SDL_LOG` prefix.
   Example: `SDL_LOG_DEBUG()`, `SDL_LOG_AUTO_TRACE()` etc.
-* Write abstract logger class which defines the common for eny logger methods: `Enable`, `Disable`, `Init`, `Deinit`, `Flush`, `PushMessage`.
+* Write abstract logger class which defines the common for any logger methods: `Enable`, `Disable`, `Init`, `Deinit`, `Flush`, `PushMessage`.
   So the class easily could be adopted to any kind of logger by simply subclassing and overriding neccessary methods.
 * Write set of macro definitions which allows to easily use the logger without any knowledge about its background sink.
 * Remove the explicit logger name usage from the logging macro. The currently existing code `LOG4CXX_DEBUG(logger, "Message to log")` should be transformed into `SDL_LOG_DEBUG("Message to log")`.
