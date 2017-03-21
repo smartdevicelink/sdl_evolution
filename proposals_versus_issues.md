@@ -1,12 +1,14 @@
 The purpose of this document is to illustrate the differences between an SDL Evolution Proposal and an SDL Issue.  While determining how to present an item to the SDLC can be subjective, it’s our hope that providing examples of SDL Evolution Proposals and SDL Issues will help you to identify which format and GitHub Repository should be used for bringing your issue to the attention of the SDLC Steering Committee.
 
-###SDL Evolution Proposals
-####Qualifications:
+### SDL Evolution Proposals
+
+#### Qualifications:
 - If the behavior of the system has changed in a way that impacts what the app developer sees
 - If the issue/fix will have a large impact on the platform(s)
 - Any feature additions to the platform(s)
 
-####Examples
+#### Examples
+
 | SDL Platform     | Proposal                                                 | URL                |
 | ---------------- | -------------------------------------------------------- | ------------------ |
 | RPC              | Update Mobile API to Include Mandatory Flag on Parameters| [SDL-0023](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0023-update-mobile-api-mandatory-flag.md)       |
@@ -18,12 +20,13 @@ When submitting an Evolution Proposal, please follow the guidelines and template
 - [SDL Evolution Proposal Template](https://github.com/smartdevicelink/sdl_evolution/blob/master/0000-template.md)
 - [SDL Evolution Process](https://github.com/smartdevicelink/sdl_evolution/blob/master/process.md)
 
-###SDL Issues not Requiring a Proposal
+### SDL Issues not Requiring a Proposal
 
-####Qualifications:
+#### Qualifications:
 - A clear discrepancy between expected and observed behavior(s)
 
-####Examples
+#### Examples
+
 | SDL Platform     | Proposal                                                                     | URL                |
 | ---------------- | ---------------------------------------------------------------------------- | ------------------ |
 | Android          | NPEs in TransportBroker.sendMessageToRouterService() : routerServiceMessenger| [387](https://github.com/smartdevicelink/sdl_android/issues/387)   |
