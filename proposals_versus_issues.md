@@ -7,6 +7,7 @@ The purpose of this document is to illustrate the differences between an SDL Evo
 - Any feature additions to the platform(s)
 
 ####Examples
+
 | SDL Platform     | Proposal                                                 | URL                |
 | ---------------- | -------------------------------------------------------- | ------------------ |
 | RPC              | Update Mobile API to Include Mandatory Flag on Parameters| [SDL-0023](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0023-update-mobile-api-mandatory-flag.md)       |
@@ -24,6 +25,7 @@ When submitting an Evolution Proposal, please follow the guidelines and template
 - A clear discrepancy between expected and observed behavior(s)
 
 ####Examples
+
 | SDL Platform     | Proposal                                                                     | URL                |
 | ---------------- | ---------------------------------------------------------------------------- | ------------------ |
 | Android          | NPEs in TransportBroker.sendMessageToRouterService() : routerServiceMessenger| [387](https://github.com/smartdevicelink/sdl_android/issues/387)   |
