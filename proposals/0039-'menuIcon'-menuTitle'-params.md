@@ -1,6 +1,6 @@
 # Retrieving the value of 'menuIcon' and 'menuTitle' parameters from .ini file
 
-* Proposal: [SDL-0039]('menuIcon'-menuTitle'-params.md)
+* Proposal: [SDL-0039](0039-'menuIcon'-menuTitle'-params.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: **In Review**
 * Impacted Platforms: Core
