@@ -1,9 +1,9 @@
 # DTLS encryption
 
-* Proposal: [SDL-NNNN](NNNN-DTLS-encryption.md)
+* Proposal: [SDL-0040](0040-DTLS-encryption.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
 * Status: **Awaiting review**
-* Impacted Platforms: Core/Protocol
+* Impacted Platforms: Core / Protocol
 
 
 ## Introduction
