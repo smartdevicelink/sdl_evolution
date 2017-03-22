@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0040](0040-DTLS-encryption.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: Core / Protocol
 
 
