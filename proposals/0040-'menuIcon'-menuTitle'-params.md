@@ -1,10 +1,9 @@
 # Retrieving the value of 'menuIcon' and 'menuTitle' parameters from .ini file
 
-* Proposal: [SDL-NNNN]
+* Proposal: [SDL-0040]('menuIcon'-menuTitle'-params.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
-* Status: Awaiting review
+* Status: **In Review**
 * Impacted Platforms: Core
-[SDL-NNNN]: https://github.com/smartdevicelink/sdl_evolution/new/master/proposals/NNNN-'menuIcon'-menuTitle'-params.md
 
 ## Introduction  
 SDL must retrieve the default values of "menuName" and "menuIcon" parameters from to .ini file in case app didn't provide the last ones.  
