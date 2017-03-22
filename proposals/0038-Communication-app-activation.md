@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0038](0038-Communication-app-activation.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
-* Status: Awaiting review
+* Status: **In Review**
 * Impacted Platforms: Core
 
 ## Introduction
