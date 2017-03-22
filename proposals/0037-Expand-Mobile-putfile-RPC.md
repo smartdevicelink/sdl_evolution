@@ -2,9 +2,9 @@
 
 # Expand Mobile putfile RPC
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-0037](0037-Expand-Mobile-putfile-RPC.md)
 * Author: [Martin(Lingxiu) Chen]( https://github.com/lchen139)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: RPC, Core, iOS, Android
 
 ## Introduction
