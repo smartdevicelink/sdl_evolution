@@ -1,5 +1,5 @@
 # SDL must transfer RPC’s with invalid image reference parameters to the HMI
- * Proposal: [0042](0042-transfer-invalid-image-rpc.md)
+ * Proposal: [SDL-0042](0042-transfer-invalid-image-rpc.md)
  * Author: [Markos Rapitis](https://www.github.com/mrapitis)
  * Status: **In Review**
  * Impacted Platforms: Core
