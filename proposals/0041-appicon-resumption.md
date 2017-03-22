@@ -1,8 +1,8 @@
 # Provide AppIcon resumption across app registration requests
 
- * Proposal: [NNNN](nnnn-appicon-resumption.md)
+ * Proposal: [0041](0041-appicon-resumption.md)
  * Author: [Markos Rapitis](https://github.com/mrapitis)
- * Status: **Awaiting review**
+ * Status: **In Review**
  * Impacted Platforms: [Core / iOS / Android / RPC ]
  
 ## Introduction
