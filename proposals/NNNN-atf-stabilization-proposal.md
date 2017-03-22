@@ -6,9 +6,33 @@
 * Impacted Platforms: [Core / ATF]
 
 ## Introduction
+Integration SDL to OEM environment consist of 2 main activities:
+ - adjustments of sdl_core 
+ - integration ans verification
+ 
+Integration requires checking SDL functionality on new platform within new infrastructure. Mission of their Automated test framework(ATF) is reducing efforts for checking existing SDL functionality. And speed up covering with tests new functionality.Also ATF should monitor regression during development cycle. 
 
-The proposal is to make ATF more flexible, scalable and easy to use and integrate with popular CI systems. ATF should be full of all required information and easy to analyze.
+#### Problems in current testing approaches :
+
+ - Unable to setup SDL deployment preconditions for test script automatically
+ - Verification of different SDL configurations is possible only in manual mode
+ - Unable to create one unified test set for main SDL functionality
+ - Unable test SDL, ran manually (or externally, for example on OEM Head-Unit) 
+ - Required a lot of efforts creating and supporting of CI system
+ - Poor versioning of ATF. It leads to problems with defects analysis and scripts re-usability 
+ - Creating new scripts requires deep knowledge and experience in current ATF architecture 
+ - Complex maintenance procedure of tests and test sets
+
+The proposal is to make ATF more flexible, salable and easy to use and integrate with popular CI systems. ATF should be full of all required information and easy to analyze.
 Also some functionality of ATF should be moved to scripts common files due to its correlation/dependency between SDL version and features.
+
+#### Proposed solution benefits : 
+ - Possibility to verify SDL integration on OEM platform automatically (with or without mobile or HMI)
+ - Seamless integration ATF into CI system
+ - Clear tracebility of ATF,  test scripts, and SDL version 
+ - ATF facade will simplify creating and supporting test scripts and test sets
+ - Unified approach for test script and test set creating
+ - Proposed architecture allows flexible integration of ATF into existing SDL verification infrastructure on OEM side
 
 ## Motivation
 
@@ -26,7 +50,7 @@ There are 3 different layers of using ATF:
 2. Local test set execution, logs, reports, traffic analyses. Test set can be executed on remote SDL and on local SDL build
 3. CI execution of test set, collection of logs, reports, traffic logs for further analysis 
 
-ATF should be easy to use as for executing and debugging one concrete scenario on local workstation even with customly modified SDL.
+ATF should be easy to use as for executing and debugging one concrete scenario on local workstation even with custom modified SDL.
 
 ATF architecture should be modified to support all these 3 layers of execution. Also ATF should support testing SDL on remote workstation/target. 
 
@@ -44,7 +68,7 @@ Proposed output artifacts of ATF:
  
 ATF should not fail script due to internal logic. In case if something unusual occurs (SDL is down or connection is terminated) ATF should provide callback to script, and user should decide if script should be failed in this case. 
 
-ATF should provide interface for pre and postconditions for scripts. Postcondition should be executed even if test was failed.
+ATF should provide interface for pre and post-conditions for scripts. Post-condition should be executed even if test was failed.
 
 ATF should deploy clear SDL environment for each script run.
 
@@ -132,8 +156,13 @@ There will be a lot of minor changes in current ATF scripts, but they won't be r
 
 ## Alternatives considered
 
+### Hold current ATF architecture and testing approach 
 It is possible to continue developing current approach :
 
- Atf scripts repository contains big amount of utils routine, scripts that required for CI activities and so on. 
+Atf scripts repository contains big amount of utils routine, scripts that required for CI activities and so on. 
 
 But It won''t allow in further testing remote SDL and it is rely inconvenient way to collect test reports, analyze SDL behavior and keep versioning of scripts for SDL testing.
+
+
+### Test SDL manually 
+Functionality of SDL is too big for full manual testing 
