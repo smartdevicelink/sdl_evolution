@@ -17,13 +17,13 @@ Integration requires checking SDL functionality on new platform within new infra
  - Unable to setup SDL deployment preconditions for test script automatically
  - Verification of different SDL configurations is possible only in manual mode
  - Unable to create one unified test set for main SDL functionality
- - Unable test SDL, ran manually (or externally, for example on OEM Head-Unit) 
- - Required a lot of efforts creating and supporting of CI system
+ - Unable use automatic testing for manualy started SDL (or externally, for example on OEM Head-Unit) 
+ - It takes a lot of efforts support current tests on CI system
  - Poor versioning of ATF. It leads to problems with defects analysis and scripts re-usability 
- - Creating new scripts requires deep knowledge and experience in current ATF architecture 
- - Complex maintenance procedure of tests and test sets
+ - Creating new scripts requires deep knowledge and strong experience in current ATF architecture
+ - Complicated maintenance procedure of tests and test sets
 
-The proposal is to make ATF more flexible, salable and easy to use and integrate with popular CI systems. ATF should be full of all required information and easy to analyze.
+The proposal is to make ATF more flexible, salable and easy to use and integrate with popular CI systems. Proposal intended to improve ATF that it will be full of all required information and easy to analyze..
 Also some functionality of ATF should be moved to scripts common files due to its correlation/dependency between SDL version and features.
 
 #### Proposed solution benefits : 
@@ -36,12 +36,12 @@ Also some functionality of ATF should be moved to scripts common files due to it
 
 ## Motivation
 
-Current ATF requires and allows changes during testing specific SDL scenarios. 
+Current testing approach requires changes in ATF during testing some of SDL scenarios. 
 It also requires additional environment preparation/configuration and control during performing test sets
 and integrating ATF to popular CI systems.
 It is necessary to make ATF easy to use and extend its scaling possibilities.
-A lot of common functionality should be moved from ATF to to common scripts.
-
+A lot of specific testing functionality may be moved from ATF to to testing scripts
+ 
 ## Proposed solution
 
 There are 3 different layers of using ATF:
@@ -85,7 +85,7 @@ All this parts of ATF should be partially standalone applications.
 ATF should manage it's parts with git submodules system.
 
 Such splitting will allow -> enable ATF to change any part to the one that matches environment according to current needs (SDL on target for example)
-It also allows to change some part of ATF to widely used open-source test frameworks (for example python-nose can be used as test set runner)
+Proposed solution also allows to change some part of ATF to widely used open-source test frameworks (for example python-nose can be used as test set runner)
 Each part of ATF can be separately unit tested and keep own versioning and development cycle. 
 
 ### ATF Components:
@@ -161,7 +161,7 @@ It is possible to continue developing current approach :
 
 Atf scripts repository contains big amount of utils routine, scripts that required for CI activities and so on. 
 
-But It won''t allow in further testing remote SDL and it is rely inconvenient way to collect test reports, analyze SDL behavior and keep versioning of scripts for SDL testing.
+But It won''t allow in further testing remote SDL and it is really inconvenient way to collect test reports, analyze SDL behavior and keep versioning of scripts for SDL testing.
 
 
 ### Test SDL manually 
