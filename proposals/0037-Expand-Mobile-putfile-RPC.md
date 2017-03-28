@@ -9,7 +9,6 @@
 
 ## Introduction
 
-This proposal is to expand `putFile` RPC to incorporate it with unreliable medium.
 This proposal seeks to enhance the reliability of large data transfers to the head unit by introducing a field for CRC in the `putFile` RPC.
 
 ## Motivation
