@@ -1,8 +1,8 @@
 # Use Boost library in SDL
 
-* Proposal: [SDL-NNNN](NNNN-use-Boost-library.md)
+* Proposal: [SDL-0044](0044-use-Boost-library.md)
 * Author: [Alexandr Galiuzov](https://github.com/AGaliuzov)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
