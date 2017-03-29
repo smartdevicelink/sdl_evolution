@@ -1,8 +1,8 @@
 # Move to the new C++11 standard.
 
-* Proposal: [SDL-NNNN](NNNN-upgrade-c++-standard.md)
+* Proposal: [SDL-0043](0043-upgrade-c++-standard.md)
 * Author: [Alexandr Galiuzov](https://github.com/AGaliuzov)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
