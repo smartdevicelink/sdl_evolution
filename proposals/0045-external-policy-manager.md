@@ -1,8 +1,8 @@
 # External Policy Manager
 
-* Proposal: [SDL-NNNN](NNNN-external.md)
-* Author: [Jack Byrne](https://github.com/smartdevicelink)
-* Status: **Awaiting review**
+* Proposal: [SDL-0045](0045-external-policy-manager.md)
+* Author: [Jack Byrne](https://github.com/JackLivio)
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
