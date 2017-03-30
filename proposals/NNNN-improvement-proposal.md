@@ -97,8 +97,8 @@ Proposed solution also allows to change some part of ATF to widely used open-sou
 Each part of ATF can be separately unit tested and keep own versioning and development cycle.
 
 ### ATF Components:
-![Component relations](../assets/atf_stabilization_proposal/components_model.png)
-![Deployment structure](../assets/atf_stabilization_proposal/script_executor_relations.png)
+![Component relations](../assets/atf_improvement_proposal/components_model.png)
+![Deployment structure](../assets/atf_improvement_proposal/script_executor_relations.png)
 
 
 #### Script runner description:
@@ -107,7 +107,7 @@ Script runner should consist from 2 parts:
  - Test case executor
  - API Facade
 
-![Deployment structure](../assets/atf_stabilization_proposal/remote_sdl_model.png)
+![Deployment structure](../assets/atf_improvement_proposal/remote_sdl_model.png)
 
 API Facade should provide all required API for testing SDL.
  
