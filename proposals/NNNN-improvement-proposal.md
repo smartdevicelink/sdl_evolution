@@ -6,12 +6,12 @@
 * Impacted Platforms: [Core / ATF]
 
 ## Introduction
-Integration SDL to OEM environment consist of 2 main activities:
+Integration SDL to OEM environment consists of 2 main activities:
  - adjustments of sdl_core
  - integration ans verification
  
-Mission of the Automated test framework(ATF) is:
- - Extend testing coverage ( not all functionality could be tested manual)
+Mission of the Automated test framework (ATF) is:
+ - Extend testing coverage (not all functionality could be tested manual)
  - Reduce efforts for testing SDL functionality.
  - And speed up covering with tests new functionality.
 Integration requires checking SDL functionality on new platform within new infrastructure.
@@ -19,55 +19,54 @@ Also ATF gives ability to monitor regression during development cycle.
 
 #### Current approach boundaries :
 
- - Unable to setup SDL deployment preconditions(SDL build flags and environment) for test script automatically
- - Each SDL configuration requires preparation of specific test set
- - Unable to Start/Stop of externally started SDL via test script, such as on OEM Head-Unit
- - Format of current ATF reports does not match popular CI build reports standards (like Junit od etc )
- - Backward Compatibility is implemented in not full scope. Not all version of the scripts can be executed on any version of ATF.
- - ATF does not limit script access to private ATF methods
- - Existed ATF documentation is not enough to create test scripts from scratch
+ - Unable to setup SDL deployment preconditions(SDL build flags and environment) for test script automatically.
+ - Each SDL configuration requires preparation of specific test set.
+ - Unable to Start/Stop of externally started SDL via test script, such as on OEM Head-Unit.
+ - Format of current ATF reports does not match popular CI build reports standards (like Junit od etc.).
+ - Backward Compatibility is implemented in not full scope. Not all versions of the scripts can be executed on any version of ATF.
+ - ATF does not limit script access to private ATF methods.
+ - Existed ATF documentation is not enough to create test scripts from scratch.
  - ATF scripts structure is rather complicated it leads to additional efforts to debug and maintenance.
- - ATF contains part of business logic of work with SDL
+ - ATF contains part of business logic of work with SDL.
 
 
-Proposal is to resolve this boundaries and make ATF more flexible, salable.
+Proposal is to resolve these boundaries and make ATF more flexible, scalable.
 Additional point is seamless integration with CI systems.
 
-#### Proposed solution benefits :
- - Possibility to verify SDL integration on OEM platform automatically (with or without mobile or HMI)
- - Seamless integration ATF into CI system
- - ATF facade will simplify creating and supporting test scripts and test sets (add backward compatibility between different versions of ATF and test scripts)
- - ATF will provide full doxygen documentation
- - Unified approach for test script and test set creating
- - Proposed architecture allows flexible integration of ATF into existing SDL verification infrastructure on OEM side
+#### Proposed solution benefits:
+ - Possibility to verify SDL integration on OEM platform automatically (with or without mobile or HMI).
+ - Seamless integration ATF into CI system.
+ - ATF facade will simplify creating and supporting test scripts and test sets (add backward compatibility between different versions of ATF and test scripts).
+ - ATF will provide full doxygen documentation.
+ - Unified approach for test script and test set creating.
+ - Proposed architecture allows flexible integration of ATF into existing SDL verification infrastructure on OEM side.
 
-As plus there are further possibilities to provide performance testing and scenario testing
+As plus there are further possibilities to provide performance testing and scenario testing.
  
 ## Motivation
 
 Current testing approach requires changes in ATF during testing some of SDL scenarios.
-It also requires additional environment preparation/configuration and control during executing test sets
-and integrating ATF to popular CI systems.
+It also requires additional environment preparation/configuration and control during executing test sets and integrating ATF to popular CI systems.
 It is necessary to make ATF easy to use and extend its scaling possibilities.
 
 ## Proposed solution
 
 There are 3 different layers of using ATF:
 
-1. Local executing and debugging specific scenario
-2. Local test set execution, logs, reports, traffic analyses. Test set can be executed on remote SDL and on local SDL build
-3. CI execution of test set, collection of logs, reports, traffic logs for further analysis
+1. Local executing and debugging specific scenario.
+2. Local test set execution, logs, reports, traffic analyses. Test set can be executed on remote SDL and on local SDL build.
+3. CI execution of test set, collection of logs, reports, traffic logs for further analysis.
 
 ATF should be easy to use as for executing and debugging one concrete scenario on local workstation even with custom modified SDL.
 
 ATF architecture should be modified to support all these 3 layers of execution. Also ATF should support testing SDL on remote workstation/target.
 
-A lot of specific testing functionality may be moved from ATF to to testing scripts
+A lot of specific testing functionality may be moved from ATF to testing scripts.
 Automatic creating of connection and mobile session with SDL, and HMI - SDL connection should be removed from ATF.
 Many scripts do not need HMI or mobile connection, or app registration with specific parameters. This functionality should be a part of scripts, but not ATF.
 
 ATF output artifacts should be improved.
-ATF should provide test engineer ability to log custom messages
+ATF should provide test engineer ability to log custom messages.
 Proposed output artifacts of ATF:
  * Transport logs with time stamps and test case marks
  * Collected SDL logs (via Telnet)
@@ -167,7 +166,7 @@ There would be a lot of minor changes in current ATF scripts, but they won't be 
 
 ### Hold current ATF architecture and testing approach
 
-It is possible to continue developing current approach :
+It is possible to continue developing current approach:
 
 ATF scripts repository contains big amount of utils routine, scripts that required for CI activities and so on.
 Current approach is more time consuming than proposed one from testing side of view and needs deep test engineering expertise in using ATF.
