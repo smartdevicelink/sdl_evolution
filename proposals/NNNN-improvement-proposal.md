@@ -17,12 +17,12 @@ Mission of the Automated test framework (ATF) is:
 Integration requires checking SDL functionality on new platform within new infrastructure.
 Also ATF gives ability to monitor regression during development cycle.
 
-#### Current approach boundaries :
+#### Current approach boundaries:
 
  - Unable to setup SDL deployment preconditions(SDL build flags and environment) for test script automatically.
  - Each SDL configuration requires preparation of specific test set.
  - Unable to Start/Stop of externally started SDL via test script, such as on OEM Head-Unit.
- - Format of current ATF reports does not match popular CI build reports standards (like Junit od etc.).
+ - Format of current ATF reports does not match popular CI build reports standards (like JUnit od etc.).
  - Backward Compatibility is implemented in not full scope. Not all versions of the scripts can be executed on any version of ATF.
  - ATF does not limit script access to private ATF methods.
  - Existed ATF documentation is not enough to create test scripts from scratch.
@@ -70,13 +70,13 @@ ATF should provide test engineer ability to log custom messages.
 Proposed output artifacts of ATF:
  * Transport logs with time stamps and test case marks
  * Collected SDL logs (via Telnet)
- * ATF junit (or other popular report format) report (if test set was executed)
+ * ATF JUnit (or other popular report format) report (if test set was executed)
  * ATF internal log with custom messages and expectations analyses
  * Test script artifacts (files, used in test script)
  
 ATF should not fail script due to internal logic. In case if something unusual occurs (SDL is down or connection is terminated) ATF should provide callback to script, and user should decide if script should be failed in this case.
 
-ATF should provide interface for pre and post-conditions for scripts. Post-condition should be executed even if test was failed.
+ATF should provide interface for pre- and post-conditions for scripts. Post-condition should be executed even if test was failed.
 
 ATF should deploy clear SDL environment for each script run.
 
@@ -92,13 +92,13 @@ Split ATF to parts:
 All this parts of ATF should be partially standalone applications.
 ATF should manage it's parts with git submodules system.
 
-Such splitting will allow -> enable ATF to change any part to the one that matches environment according to current needs (SDL on target for example)
-Proposed solution also allows to change some part of ATF to widely used open-source test frameworks (for example python-nose can be used as test set runner)
+Such splitting will allow -> enable ATF to change any part to the one that matches environment according to current needs (SDL on target for example).
+Proposed solution also allows to change some part of ATF to widely used open-source test frameworks (for example python-nose can be used as test set runner).
 Each part of ATF can be separately unit tested and keep own versioning and development cycle.
 
 ### ATF Components:
-![Component relations](/assets/atf_stabilization_proposal/components_model.png)
-![Deployment structure](/assets/atf_stabilization_proposal/script_executor_relations.png)
+![Component relations](../assets/atf_stabilization_proposal/components_model.png)
+![Deployment structure](../assets/atf_stabilization_proposal/script_executor_relations.png)
 
 
 #### Script runner description:
@@ -107,7 +107,7 @@ Script runner should consist from 2 parts:
  - Test case executor
  - API Facade
 
-![Deployment structure](/assets/atf_stabilization_proposal/remote_sdl_model.png)
+![Deployment structure](../assets/atf_stabilization_proposal/remote_sdl_model.png)
 
 API Facade should provide all required API for testing SDL.
  
