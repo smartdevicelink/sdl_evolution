@@ -65,7 +65,7 @@ HMI notifies with JSON as below. It passes through Core and is passed to Applica
 
 1) Can it be implemented with currently defined values?
 
-Yes, we can treat TouchType::BEGIN during TouchType::MOVE as a cancellation. However, to avoid misunderstanding, it good to define a single event rather than defining a sequence. And general mobile OS has an event like this.
+Yes, we can treat TouchType::BEGIN during TouchType::MOVE as a cancellation. However, to avoid misunderstanding, it's good to define a single event rather than defining a sequence. And general mobile OS has an event like this.
 
 ## Impact on existing code
 
