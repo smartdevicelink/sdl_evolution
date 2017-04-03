@@ -24,21 +24,21 @@ DTLS is an implementation of TLS over a datagram protocol.  DTLS is similar to T
 
  Add capability to SDL core to utilize the DTLS v1.0 communications protocol. 
 
- - Add a ‘DTLSv1.0’ parameter to the ‘[Security Manager]’ section of the SmartDeviceLink.ini file. 
+ - Add a â€˜DTLSv1.0â€™ parameter to the â€˜[Security Manager]â€™ section of the SmartDeviceLink.ini file. 
  
- - If the ‘DTLSv1.0’ has been specified in the .ini file, SDL core will open protected services using the DTLS v1.0 protocol including the following:
+ - If the â€˜DTLSv1.0â€™ has been specified in the .ini file, SDL core will open protected services using the DTLS v1.0 protocol including the following:
 	 - Perform DTLS v1.0 handshake 
 	 - Encryption
 	 - Decryption
 
- - Fortunately from an implementation standpoint, since SDL core is currently utilizing the OpenSSL library all necessary supporting API’s for DTLS v1.0 already exists to leverage the communications protocol. 
+ - Fortunately from an implementation standpoint, since SDL core is currently utilizing the OpenSSL library all necessary supporting APIâ€™s for DTLS v1.0 already exists to leverage the communications protocol. 
  - From a SDL core code perspective, the existing SDL core security initialization process will make use of the following additional OpenSSL API: 
  
 	 - DTLSv1_server_method()
 	 - DTLSv1_client_method()
 
 
-##Potential downsides
+## Potential downsides
 None
 
 ## Impact on existing code
