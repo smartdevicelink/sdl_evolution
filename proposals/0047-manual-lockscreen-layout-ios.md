@@ -1,8 +1,8 @@
 # Manual layout for `SDLLockScreenViewController`
 
-* Proposal: [SDL-NNNN](nnnn-manual-lockscreen-layout-ios.md)
+* Proposal: [SDL-0047](0047-manual-lockscreen-layout-ios.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
