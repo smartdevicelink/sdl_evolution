@@ -2,7 +2,7 @@
 
  * Proposal: [SDL-0041](0041-appicon-resumption.md)
  * Author: [Markos Rapitis](https://github.com/mrapitis)
- * Status: **In Review**
+ * Status: **Accepted**
  * Impacted Platforms: [Core / iOS / Android / RPC ]
  
 ## Introduction
