@@ -1,8 +1,8 @@
 # Implement logger abstraction
 
-* Proposal: [SDL-NNNN](NNNN-implement-abstract-wrapper-for-logger.md)
+* Proposal: [SDL-0046](0046-implement-logger-abstraction.md)
 * Author: [Alexandr Galiuzov](https://github.com/AGaliuzov)
-* Status: **Awaiting review**
+* Status: **In review**
 * Impacted Platforms: [Core]
 
 ## Introduction
