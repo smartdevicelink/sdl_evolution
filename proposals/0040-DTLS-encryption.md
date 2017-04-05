@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0040](0040-DTLS-encryption.md)
 * Author: [Markos Rapitis](https://github.com/mrapitis)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: Core 
 
 
