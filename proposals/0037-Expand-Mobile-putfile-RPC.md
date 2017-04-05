@@ -4,7 +4,7 @@
 
 * Proposal: [SDL-0037](0037-Expand-Mobile-putFile-RPC.md)
 * Author: [Martin(Lingxiu) Chen]( https://github.com/lchen139) & [Timur Pulathaneli](https://github.com/tpulatha)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: RPC, Core, iOS, Android
 
 ## Introduction
