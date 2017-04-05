@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0045](0045-external-policy-manager.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
