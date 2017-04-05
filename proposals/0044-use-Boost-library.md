@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0044](0044-use-Boost-library.md)
 * Author: [Alexandr Galiuzov](https://github.com/AGaliuzov)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [Core]
 
 ## Introduction
