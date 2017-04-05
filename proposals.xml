@@ -56,7 +56,6 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0046" status="active" primary-platform="core" sdl-version="x.x" name="Implement logger abstraction" filename="0046-implement-logger-abstraction.md"/>
 <proposal id="0047" status="active" primary-platform="ios" sdl-version="x.x" name="Manual layout for SDLLockScreenViewController" filename="0047-manual-lockscreen-layout-ios.md"/>
 <proposal id="0048" status="active" primary-platform="core" sdl-version="x.x" name="Add H.264 over RTP format support for video streaming" filename="0048-H264-over-RTP-support-for-video-streaming.md"/>
-<proposal id="0048" status="active" primary-platform="core" sdl-version="x.x" name="Add H.264 over RTP format support for video streaming" filename="0048-H264-over-RTP-support-for-video-streaming.md"/>
 <proposal id="0049" status="active" primary-platform="core" sdl-version="x.x" name="Gesture cancellation on video streaming" filename="0049-touch-cancellation.md"/>
 
 	
