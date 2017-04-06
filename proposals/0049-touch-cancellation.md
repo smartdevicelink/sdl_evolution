@@ -1,7 +1,7 @@
 # Gesture cancellation on video streaming
 
 * Proposal: [SDL-0049](0049-touch-cancellation.md)
-* Author: Masato Ogawa
+* Author: [Masato Ogawa](https://github.com/masatoogawa)
 * Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
