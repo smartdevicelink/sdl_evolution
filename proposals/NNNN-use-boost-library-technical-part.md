@@ -1,13 +1,19 @@
-Use boost library. Techical part
-### Introduction
-This proposal is the technical continuation for the proposal [#44](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0044-use-Boost-library.md). It supposed to demonstarte in practice the Boost library advantages over the hand-written algorithms.
+# Use boost library. Technical part.
 
-### Motivation
-The Boost library allows to switch attention to the development of the buisiness logic rather then concentrate on writing
-certain helping utilities. To demonstarte the boost advantages over the hand-written function the `FilesSystem` class from SDL has been choosen. The proposal does'nt adress all the functions from the class but shows how the biggest functions could be reworked to simplify the redability, reduce the code amount and make the code portable without any additional efforts.
+* Proposal: [SDL-NNNN](NNNN-use-boost-library-technical-part.md)
+* Author: [Aleksandr Galiuzov](https://github.com/AGaliuzov)
+* Status: **Awaiting review**
+* Impacted Platforms: [Core]
 
-### Detailed design
-There are two big functions in SDL's `FileSystem` class: `DirectorySize` and `ListFiles`. Find bellow the current implementation
+## Introduction
+This proposal is the technical continuation for the proposal [#44](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0044-use-Boost-library.md). It supposed to demonstrate in practice the Boost library advantages over the hand-written algorithms.
+
+## Motivation
+The Boost library allows to switch attention to the development of the business logic rather then concentrate on writing
+certain helping utilities. To demonstrate the boost advantages over the hand-written function the `FilesSystem` class from SDL has been choosen. The proposal doesn't address all the functions from the class, but it shows how the biggest functions could be reworked to simplify the readability, reduce the code amount and make the code portable without any additional efforts.
+
+## Detailed design
+There are two massive functions in SDL's `FileSystem` class: `DirectorySize` and `ListFiles`. Find bellow the current implementation.
 
 
 #### Code without Boost library
@@ -96,10 +102,10 @@ std::vector<std::string> file_system::ListFiles(
 }
 ```
 
-There are number of possible problems
-1. Manual heap allocation - could lead to the memory leaks.
-2. Some difference in code for QNX and Linux.(Usage of `#ifdef`s). Could be even more differences in case of porting to i.e. Windows.
-3. Hand-written recursive algorithm to iterate through the directories. Usually such algorithms could be the sources of the hard identified bugs.
+There are numbers of possible problems:
+1. Manual heap allocation could lead to the memory leaks.
+2. Some differences in code for QNX and Linux.(Usage of `#ifdef`s). It could be even more differences in case of porting, for example, to Windows.
+3. Hand-made recursive algorithm to iterate through the directories. Usually such algorithms could be the sources of the hard identified bugs.
 
 #### Code using the boost library
 ```c++
@@ -124,10 +130,10 @@ std::vector<std::string> ListFiles(const std::string& path) {
   return files;
 }
 ```
-The advances are quite obvious:
-1. There is just couple of lines
-2. No hand written algorithms - reduce the possibility to have the hard identified bugs.
-3. Works with all platforms supporting by Boost (Linux, Windows, QNX, etc.)
+The advantages are quite obvious:
+1. There is just a couple of lines
+2. No hand-made algorithms reduce the possibility to have the hard identified bugs.
+3. Work with all platforms supporting by Boost (Linux, Windows, QNX, etc.)
 
-### Alternatives
-No alternatives considered
+## Alternatives
+No alternatives considered.
