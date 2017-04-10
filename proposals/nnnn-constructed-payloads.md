@@ -20,17 +20,17 @@ This also reduces the overhead on creating new RPC messages to send very simple 
 There are many use cases for adding structure payloads to packets, a few are:
 
 - `StartServiceACK` (RPC)
- - HashId
- - MTU
+    - HashId
+    - MTU
 - `StartService` (video streaming)
- - Desired Height
- - Desired Width
- - Desired Frame Rate
+    - Desired Height
+    - Desired Width
+    - Desired Frame Rate
 - `StartServiceACK` (video streaming)
- - Accepted Height
- - Accepted Width
- - Accepted Frame Rate
- - Accepted MTU for this service
+    - Accepted Height
+    - Accepted Width
+    - Accepted Frame Rate
+    - Accepted MTU for this service
 
 There are more potential uses cases, but this proposal is only for the addition of the structured payload paradigm so each of those uses cases will need their own proposals. 
 
@@ -55,7 +55,7 @@ A packet with multiple tags would look similar to:
 | Length |
 | Data   |
 
-###Breakdown 
+### Breakdown 
 
 #### Tag
 The tag section will be from length 2 to 128 bytes. Each tag will be defined for the specific packet type it is contained in. For example, tag `0x01` in a `StartServiceACK` for the RPC service will be the hash from the last session, but the `0x01` tag for the `StartServiceACK` for the video streaming service could be used for accepted height.
