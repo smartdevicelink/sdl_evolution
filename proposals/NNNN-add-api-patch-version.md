@@ -11,11 +11,11 @@ This proposal is for the addition of a patch version into the Mobile and HMI API
 
 ## Motivation
 
-With several hotfixes recently made to both the Mobile and HMI APIs, it has been necessary to increase the minor version of each affected interface despite the fact that these changes are not functionality additions, but fixing previously broken/incorrect functionality.
+With several hotfixes recently made that modified both the Mobile and HMI APIs (ex. [sdl_core#1316](https://github.com/smartdevicelink/sdl_core/pull/1316) and [sdl_core#1339](https://github.com/smartdevicelink/sdl_core/pull/1339)), it has come to light that it is necessary to increase the minor version of each affected interface despite the fact that these changes are not functionality additions, but fixing previously broken/incorrect functionality.
 
 In other words, there is currently no way to present backward-compatible fixes to the API without increasing the minor version of the interface.
 
-In addition, all SDL Projects have been using [semantic versioning](http://semver.org/) as their versioning system, and this is impossible to maintain with the xml API files without a patch version.
+In addition, all of the SDL Repositories have been utilizing the [semantic versioning](http://semver.org/) standard to keep track of version changes, and this is impossible to correctly maintain in the xml API files without a patch version.
 
 ## Proposed solution
 
@@ -39,7 +39,7 @@ This proposal will require minor code changes for expanding the SyncMsgVersion s
 
 ###Core
 
-In Core, this proposal would require that functionality be added to the interface generator Python tool to add a patch version to the generated message version file.
+In Core, this proposal would require that functionality be added to the InterfaceGenerator Python tool to add a patch version to the generated message version file.
 
 ####MsgVersionGenerate.py:
 ```
@@ -205,8 +205,8 @@ In Addition, the `SDLSyncMsgVersion` class would need to be updated to include t
 
 ## Alternatives considered
 
-The only real alternative to this is just to leave the versioning system as is. This means that each modifcation to any of the RPC specs requires at least a minor version change, and would prevent us from using semantic versioning with these specs. 
+The only real alternative to this is just to leave the versioning system as is. This means that each modification to any of the RPC interfaces requires at least a minor version change, and would prevent us from using proper semantic versioning with these interfaces.
 
-This fix really has technically only become necessary due to the mistakes made in adding new functionality to the APIs thus far, and these changes were not reviewed by the SDL team before being merged. With this argument, this proposed change could be viewed as unecessary. 
+The fix proposed here has technically only become necessary due to the mistakes made in adding new functionality to the APIs thus far, and these changes were not reviewed by the SDL/Livio team before being merged. With this argument, this proposed change could be viewed as unecessary. 
 
 I don't believe that this alternative is a particularly forward-thinking approach to the issue. Mistakes can sometimes be made, and I believe that there could very well be more incorrect functionality in the API which we are not aware of yet.
