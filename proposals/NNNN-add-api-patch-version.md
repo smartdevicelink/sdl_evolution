@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-add-api-patch-version.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
 * Status: **Awaiting review**
-* Impacted Platforms: Core, iOS, Android
+* Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
 
@@ -37,11 +37,11 @@ This proposal will require minor code changes for expanding the SyncMsgVersion s
 - Android Library
 - iOS Library
 
-###Core
+### Core changes
 
 In Core, this proposal would require that functionality be added to the InterfaceGenerator Python tool to add a patch version to the generated message version file.
 
-####MsgVersionGenerate.py:
+#### MsgVersionGenerate.py:
 ```
 array = (root.attrib["version"]).split(".")
 major_version = array[0]
@@ -49,9 +49,19 @@ minor_version = array[1]
 patch_version = array[2]
 ```
 
+The `syncMsgVersion` field constructed as part of the RegisterAppInterface Response RPC would need to be updated to include the `patchVersion`.
+
+#### register_app_interface_request.cc
+```
+  response_params[strings::sync_msg_version][strings::patch_version] =
+      patch_version;  // From generated file interfaces/generated_msg_version.h
+```
+
+### RPC changes
+
 The `version` field in the Mobile API would need to be expanded to include this parameter, as well as the `SyncMsgVersion` struct.
 
-####MOBILE_API.xml:
+#### MOBILE_API.xml:
 ```
 <interface name="Ford Sync RAPI" version="4.3.0" date="2017-03-29">
 ...
@@ -70,17 +80,9 @@ The `version` field in the Mobile API would need to be expanded to include this 
   </struct>
 ```
 
-The `syncMsgVersion` field constructed as part of the RegisterAppInterface Response RPC would need to be updated to include the `patchVersion`.
-
-####register_app_interface_request.cc
-```
-  response_params[strings::sync_msg_version][strings::patch_version] =
-      patch_version;  // From generated file interfaces/generated_msg_version.h
-```
-
 The `version` field for each interface in the HMI API would need to be expanded to include this parameter. This parameter is not read in by the interface generator, which means the version of these interfaces are not currently available to the HMI. As a result, there are no code changes necessary to add a patch version to the HMI API.
 
-####HMI_API.xml
+#### HMI_API.xml
 ```
 <interface name="Common" version="1.5.0" date="2017-03-29">
 ...
@@ -101,11 +103,11 @@ The `version` field for each interface in the HMI API would need to be expanded 
 <interface name="SDL" version="1.0.0" date="2014-03-12">
 ```
 
-###Android Library
+### Android Library changes
 
 In the Android Library, this proposal would require the addition of the `patchVersion` field to the `SdlMsgVersion` class.
 
-####SdlMsgVersion.java:
+#### SdlMsgVersion.java:
 
 ```
     public static final String KEY_MAJOR_VERSION = "majorVersion";
@@ -142,11 +144,11 @@ In the Android Library, this proposal would require the addition of the `patchVe
     }
 ```
 
-###iOS Library
+### iOS Library changes
 
 In the iOS library, this proposal would require the addition of the `patchVersion` JSON key to `SDLNames.h`.
 
-####SDLNames.h
+#### SDLNames.h
 ```
 ...
 #define NAMES_passengerSideAirbagDeployed @"passengerSideAirbagDeployed"
@@ -157,7 +159,7 @@ In the iOS library, this proposal would require the addition of the `patchVersio
 
 In Addition, the `SDLSyncMsgVersion` class would need to be updated to include the `patchVersion` field.
 
-####SDLSyncMsgVersion.h
+#### SDLSyncMsgVersion.h
 ```
 - (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion;
 
@@ -173,7 +175,7 @@ In Addition, the `SDLSyncMsgVersion` class would need to be updated to include t
 @property (strong) NSNumber *patchVersion;
 ```
 
-####SDLSyncMsgVersion.m
+#### SDLSyncMsgVersion.m
 ```
 - (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion patchVersion:(NSInteger)patchVersion {
     self = [self init];
