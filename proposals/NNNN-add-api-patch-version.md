@@ -34,6 +34,7 @@ Due to the fact that we have already needed to patch the APIs recently with fair
 This proposal will require minor code changes for expanding the SyncMsgVersion struct in:
 
 - SDL Core
+- RPC Spec
 - Android Library
 - iOS Library
 
