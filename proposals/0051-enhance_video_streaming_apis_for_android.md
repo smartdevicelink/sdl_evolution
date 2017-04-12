@@ -1,8 +1,8 @@
 # Enhance Video Streaming API's for Android
 
-* Proposal:  [SDL-NNNN](nnnn-enhace_video_streaming_apis_for_android.md)
+* Proposal:  [SDL-0051](0051-enhance_video_streaming_apis_for_android.md)
 * Authors: [Austin Kirk](https://github.com/askirk), [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: Android
 
 ## Introduction
