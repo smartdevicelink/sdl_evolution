@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0046](0046-implement-logger-abstraction.md)
 * Author: [Alexandr Galiuzov](https://github.com/AGaliuzov)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
