@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0047](0047-manual-lockscreen-layout-ios.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Rejected**
 * Impacted Platforms: iOS
 
 ## Introduction
