@@ -1,8 +1,8 @@
 # Add API Patch Version
 
-* Proposal: [SDL-NNNN](NNNN-add-api-patch-version.md)
+* Proposal: [SDL-0050](0050-add-api-patch-version.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
