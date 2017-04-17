@@ -15,7 +15,7 @@ From time to time we’re facing with different problems with our [Utils](https:
 * All the time we have to solve customer’s problems very fast and we have no enough time for current utilities adaptation. Usually it much faster to develop necessary functionality from the scratch. But such approach brings us new defects, waste our time to support and improve this functionality. 
 
 ## Proposed solution
-The porposed solution which has to adress mentioned issues is to use [Boost library](http://www.boost.org/users/history/version_1_62_0.html)
+The porposed solution which has to adress mentioned issues is to use [Boost library v1.56](http://www.boost.org/users/history/version_1_56_0.html)
 * The way to solve the issue is to use Boost library. It supports dozens of platforms out of the box, even with ancient compilers.
 * The Boost license encourages both commercial and non-commercial use. The Boost license permits the creation of derivative works for commercial or non-commercial use with no legal requirement to release your source code. Other differences include Boost not requiring reproduction of 	copyright messages for object code redistribution, and the fact that the Boost license is not "viral": if you distribute your own code along with some Boost code, the Boost license applies only to the Boost code (and modified versions thereof); you are free to license your own code under any terms you like. The GPL is also much longer, and thus may be harder to understand.
 * The proposed version of the Boost library is 1.62
@@ -27,7 +27,7 @@ The porposed solution which has to adress mentioned issues is to use [Boost libr
 * Boost helps to reduce cost of support: most of hard-to-fix defects are related to all kinds of utilities and platform specific parts.
 * Quality. SDL project will utilize library which is developed/tested by hundreds of developers around the world.
 * Officially Boost support big number of platforms and compilers 
-  * QNX QCC: 4.2.1 - we use this one to build code for PASA delivery
+  * QNX QCC: 4.2.1 - default for QNX SDK v6.5
   * Windows(XP, Vista, 7, CE) with Visual C++: 12.0, 11.0, 10.0, 9.0
   * Linux. Clang: 3.0+. GCC: 4.2+
   * OS X Clang: 3.0+
@@ -41,11 +41,125 @@ The porposed solution which has to adress mentioned issues is to use [Boost libr
 This is additional dependency which is out of our control. It's not easy to apply possible customization if required - it has to be accepted by Boost community. In the worst case we might fork the whole library and customize it on our own.
 
 ## Impact on existing code
-This proposal is not geared to provide any changes to the existed code. It rather allows to share the common idea is how greate to have such library as Boost. Once it will be accepted there some number of separate proposals will be created. One proposal for one improvement using the Boost library.
-* Change thread managment in SDL.
-* Use the filesystem api from the Boost instead of one developed within SDL.
-* Substitute SDL's timers with Boost analog.
-* Substitute SDL's `DateTime` with Boost analog 
+Every utility component such as `Thread`, `Filesystem`, `DateTime`, `Timer` should be changed. As the good example of the possible changes propose to start from the `Filesystem` component. Below you can find the current imiplementation
+```c++
+size_t file_system::DirectorySize(const std::string& path) {
+  size_t size = 0;
+  int32_t return_code = 0;
+  DIR* directory = NULL;
+#ifndef __QNXNTO__
+  struct dirent dir_element_;
+  struct dirent* dir_element = &dir_element_;
+#else
+  char* direntbuffer = new char[offsetof(struct dirent, d_name) +
+                                pathconf(path.c_str(), _PC_NAME_MAX) + 1];
+  struct dirent* dir_element = new (direntbuffer) dirent;
+#endif
+  struct dirent* result = NULL;
+  struct stat file_info = {0};
+  directory = opendir(path.c_str());
+  if (NULL != directory) {
+    return_code = readdir_r(directory, dir_element, &result);
+    for (; NULL != result && 0 == return_code;
+         return_code = readdir_r(directory, dir_element, &result)) {
+      if (0 == strcmp(result->d_name, "..") ||
+          0 == strcmp(result->d_name, ".")) {
+        continue;
+      }
+      std::string full_element_path = path + "/" + result->d_name;
+      if (file_system::IsDirectory(full_element_path)) {
+        size += DirectorySize(full_element_path);
+      } else {
+        stat(full_element_path.c_str(), &file_info);
+        size += file_info.st_size;
+      }
+    }
+  }
+  closedir(directory);
+#ifdef __QNXNTO__
+  delete[] direntbuffer;
+#endif
+  return size;
+}
+
+std::vector<std::string> file_system::ListFiles(
+    const std::string& directory_name) {
+  std::vector<std::string> listFiles;
+  if (!DirectoryExists(directory_name)) {
+    return listFiles;
+  }
+
+  int32_t return_code = 0;
+  DIR* directory = NULL;
+#ifndef __QNXNTO__
+  struct dirent dir_element_;
+  struct dirent* dir_element = &dir_element_;
+#else
+  char* direntbuffer =
+      new char[offsetof(struct dirent, d_name) +
+               pathconf(directory_name.c_str(), _PC_NAME_MAX) + 1];
+  struct dirent* dir_element = new (direntbuffer) dirent;
+#endif
+  struct dirent* result = NULL;
+
+  directory = opendir(directory_name.c_str());
+  if (NULL != directory) {
+    return_code = readdir_r(directory, dir_element, &result);
+
+    for (; NULL != result && 0 == return_code;
+         return_code = readdir_r(directory, dir_element, &result)) {
+      if (0 == strcmp(result->d_name, "..") ||
+          0 == strcmp(result->d_name, ".")) {
+        continue;
+      }
+
+      listFiles.push_back(std::string(result->d_name));
+    }
+
+    closedir(directory);
+  }
+
+#ifdef __QNXNTO__
+  delete[] direntbuffer;
+#endif
+  return listFiles;
+}
+```
+
+There are number of obvious problems in the code above
+1. Manual heap allocation could lead to the memory leaks.
+2. Some differences in code for QNX and Linux.(Usage of `#ifdef`'s). It could be even more differences in case of porting, for example, to Windows.
+3. Hand-made recursive algorithm to iterate through the directories. Usually such algorithms could be the sources of the hard identified bugs.
+
+With the Boost library the code could be significantly simplified. See the snipet below
+```c++
+using boost::filesystem;
+int directory_size(const std::string& path) {
+  int size = 0;
+  for (auto& entry : boost::make_iterator_range(recursive_directory_iterator(path), {})) {
+    boost::system::error_code error;
+    size += file_size(entry.path(), error);
+  }
+  return size;
+}
+
+std::vector<std::string> ListFiles(const std::string& path) {
+  std::vector<std::string> files;
+  recursive_directory_iterator end;
+  std::transform(recursive_directory_iterator(path), end, std::back_inserter(files),
+                 [](const directory_entry& dir_entry) {
+                   return dir_entry.path().c_str();
+                 });
+
+  return files;
+}
+```
+
+The advantages are quite obvious:
+
+1. There is just a couple of lines
+2. No hand-made algorithms reduce the possibility to have the hard identified bugs.
+3. Work with all platforms supporting by Boost (Linux, Windows, QNX, etc.)
 
 ## Alternatives considered
 The one alternative is to continue to implement any utility we need manually.
