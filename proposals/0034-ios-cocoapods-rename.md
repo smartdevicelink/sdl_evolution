@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0034](0034-ios-cocoapods-rename.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction

@@ -2,7 +2,7 @@
 
 * Proposal: [SE-0002](0002-.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Deferred**
+* Status: **Rejected**
 * Review manager: TBD
 * Impacted Platforms: iOS / Android
 
