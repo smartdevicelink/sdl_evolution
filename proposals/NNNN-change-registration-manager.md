@@ -1,7 +1,7 @@
 # change-registration-manager
 
-* Proposal: [SDL-0052](0052-change-registration-manager.md)
-* Author: [Kujtim Shala](https://github.ford.com/kshala)
+* Proposal: [NNNN](NNNN-change-registration-manager.md)
+* Author: [Kujtim Shala](https://www.github.com/kshala)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS]
 
