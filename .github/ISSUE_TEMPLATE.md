@@ -6,28 +6,15 @@
 
 Hello SDL community,
 
-The review of "\<\<PROPOSAL NAME>>" begins now and runs through \<\<REVIEW
-END DATE>>. The proposal is available here:
+The review of "[[PROPOSAL TITLE]]" begins now and runs through [[NEXT TUESDAY END DATE]]. The proposal is available here:
 
-> <https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/NNNN-proposal.md>
+[[LINK TO PROPOSAL TEXT]]
 
-Reviews are an important part of the SDL evolution process. All reviews
-should be sent to the associated Github issue at:
+Reviews are an important part of the SDL evolution process. All reviews should be sent to the associated Github issue at:
 
-> <https://github.com/smartdevicelink/sdl_evolution/issues/NNNN_proposal_name/>
+[[LINK TO THIS GITHUB ISSUE]]
 
-or, if you would like to keep your feedback private, directly to the
-review manager via slack or email:
-
-> Slack: <https://smartdevicelink.slack.com/messages/@[REVIEWER_HANDLE]/>
-
-> Email: <maintainer-email@email.com>
-
-You may sign up for the SDL slack at this link:
-
-> <http://slack.smartdevicelink.com>
-
-##### What goes into a review?
+What goes into a review?
 
 The goal of the review process is to improve the proposal under review through constructive criticism and, eventually, determine the direction of SDL. When writing your review, here are some questions you might want to answer in your review:
 
@@ -35,15 +22,14 @@ The goal of the review process is to improve the proposal under review through c
 * Does this proposal fit well with the feel and direction of SDL?
 * If you have used competitors with a similar feature, how do you feel that this proposal compares to those?
 * How much effort did you put into your review? A glance, a quick reading, or an in-depth study?
-
 Please state explicitly whether you believe that the proposal should be accepted into SDL.
 
 More information about the SDL evolution process is available at
 
-> <https://github.com/smartdevicelink/sdl_evolution/blob/master/process.md>
+https://github.com/smartdevicelink/sdl_evolution/blob/master/process.md
 
 Thank you,
+[[YOUR NAME]]
 
--\<\<REVIEW MANAGER NAME>>
-
-Review Manager
+[[YOUR TITLE]] - [[YOUR PLACE OF WORK]]
+[[YOUR EMAIL]]

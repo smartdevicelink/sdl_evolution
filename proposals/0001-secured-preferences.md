@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0001](0001-SecuredPreferences.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review:** (2016-08-03 to 2016-08-10)
+* Status: **Rejected**
 * Review manager: N/A
 * Impacted Platforms: [Android]
 

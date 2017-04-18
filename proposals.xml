@@ -8,14 +8,65 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <?xml-stylesheet type="text/xsl" href="proposal-status.xsl"?>
 -->
 <proposals>
-<proposal id="0001" status="active" primary-platform="android" sdl-version="4.1" name="Secured Preferences" filename="0001-SecuredPreferences.md"/>
+<proposal id="0001" status="rejected" primary-platform="android" sdl-version="4.1" name="Secured Preferences" filename="0001-SecuredPreferences.md"/>
+<proposal id="0002" status="rejected" primary-platform="mobile" sdl-version="4.1" name="Turn by Turn Mobile Managers" filename="0002-turn-by-turn-mobile-managers.md"/>
+<proposal id="0003" status="implemented" primary-platform="core" sdl-version="4.2.3" name="Last Mile Navigation" filename="0003-last-mile-navigation.md"/>
+<proposal id="0004" status="implemented" primary-platform="core" sdl-version="4.2.3" name="SendLocation RPC Updates" filename="0004-sendlocation-updates.md"/>
+<proposal id="0005" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Use Correct Mutability on RPC Storage Properties" filename="0005-ios-immutable-rpc-storage-properties.md"/>
+<proposal id="0006" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Stringly Typed Enums" filename="0006-ios-stringly-typed-enums.md"/>
+<proposal id="0007" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Enforce ObjC Generics" filename="0007-ios-objc-generics.md"/>
+<proposal id="0008" status="implemented" primary-platform="ios" sdl-version="5.0" name="Base iOS Version to 7.0" filename="0008-ios-7-0-minimum.md"/>
+<proposal id="0009" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Library Prefer Nonatomic Properties" filename="0009-ios-library-prefer-nonatomic.md"/>
+<proposal id="0010" status="rejected" primary-platform="rpc" sdl-version="4.1" name="ButtonName Additions for Navigation Applications" filename="0010-spec-buttonname-additions-for-navigation-applications.md"/>
+<proposal id="0011" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Library RPCs conform to NSCopying" filename="0011-ios-library-conform-to-nscopying.md"/>
+<proposal id="0012" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Library Remove Siphon Server" filename="0012-ios-library-remove-siphon.md"/>
+<proposal id="0013" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Remove SDLJsonEncoder and Decoder" filename="0013-ios-remove-json-encode-decode-classes.md"/>
+<proposal id="0014" status="accepted" primary-platform="rpc" sdl-version="4.1" name="Adding Audio File Playback to TTSChunk" filename="0014-adding-audio-file-playback-to-ttschunk.md"/>
+<proposal id="0015" status="rejected" primary-platform="android" sdl-version="4.1" name="Android Studio IDE SDL Plugins" filename="0015-android-studio-sdl-plugin.md"/>
+<proposal id="0016" status="accepted" primary-platform="ios" sdl-version="5.0" name="iOS Library Make Transport Classes Private and Cleaner" filename="0016-ios-library-transport-private-cleanup.md"/>
+<proposal id="0017" status="accepted" primary-platform="ios" sdl-version="6.0" name="iOS Library Protocol Layer Should Not Be Public" filename="0017-ios-protocol-layer-nonpublic.md"/>
+<proposal id="0018" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Library Use Nullability Annotations" filename="0018-ios-use-nullability-annotations.md"/>
+<proposal id="0019" status="accepted" primary-platform="ios" sdl-version="6.0" name="iOS Library Proxy Layer Should Not Be Public" filename="0019-ios-proxy-layer-nonpublic.md"/>
+<proposal id="0020" status="implemented" primary-platform="ios" sdl-version="5.0" name="Remove SDLRPCRequestFactory" filename="0020-ios-remove-rpcrequestfactory.md"/>
+<proposal id="0021" status="implemented" primary-platform="ios" sdl-version="5.0" name="Remove SDLTTSChunkFactory" filename="0021-ios-remove-sdlttschunkfactory.md"/>
+<proposal id="0022" status="implemented" primary-platform="android" sdl-version="4.3" name="Reduce RSVP default security" filename="0022-android-rsvp-off.md"/>
+<proposal id="0023" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Update Mobile API to Include Mandatory Flag on Parameters" filename="0023-update-mobile-api-mandatory-flag.md"/>
+<proposal id="0024" status="implemented" primary-platform="ios" sdl-version="5.0" name="Base iOS Version to 8.0" filename="0024-ios-8-0-minimum.md"/>
+<proposal id="0025" status="accepted" primary-platform="ios" sdl-version="5.0" name="Stream File Manager Uploads from Disk" filename="0025-ios-filemanager-stream-from-disk.md"/>
+<proposal id="0026" status="implemented" primary-platform="android" sdl-version="4.3" name="Move to Android Studio" filename="0026-android_move_to_android_studio.md"/>
+<proposal id="0027" status="implemented" primary-platform="ios" sdl-version="5.0" name="Increase Specificity of Handler Events" filename="0027-ios-specify-handlers.md"/>
+<proposal id="0028" status="implemented" primary-platform="meta" sdl-version="x.x" name="Add Potential Downsides to Template" filename="0028-meta-template-potential-downsides.md"/>
+<proposal id="0029" status="accepted" primary-platform="ios" sdl-version="5.0" name="Multiple File Manager Transactions" filename="0029-ios-multiple-file-manager-transactions.md"/>
+<proposal id="0030" status="implemented" primary-platform="ios" sdl-version="5.0" name="Redesign iOS Logging" filename="0030-ios-logging-redesign.md"/>
+<proposal id="0031" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Mobile Projection" filename="0031-mobile-projection.md"/>
+<proposal id="0032" status="implemented" primary-platform="ios" sdl-version="5.0" name="Delegate Support for all onHMIStatus State Changes" filename="0032-on-hmi-status-state-changes.md"/>
+<proposal id="0033" status="accepted" primary-platform="ios" sdl-version="5.0" name="Streaming Media Manager 5.0" filename="0033-streaming-media-manager-update.md"/>
+<proposal id="0034" status="accepted" primary-platform="ios" sdl-version="4.5" name="Rename Cocoapods Project to SmartDeviceLink" filename="0034-ios-cocoapods-rename.md"/>
+<proposal id="0035" status="accepted" primary-platform="ios" sdl-version="5.0" name="Audio Data Handler for SDLPerformAudioPassThru" filename="0035-audio-pass-thru-handler.md"/>
+<proposal id="0036" status="implemented" primary-platform="android" sdl-version="4.3" name="Up Android Target/Compile Version" filename="0036-android-up_target-version.md"/>
+<proposal id="0037" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Expand Mobile putfile RPC" filename="0037-Expand-Mobile-putfile-RPC.md"/>
+<proposal id="0038" status="deferred" primary-platform="core" sdl-version="x.x" name="Communication app activation during active embedded audio source or navigation" filename="0038-Communication-app-activation.md"/>
+<proposal id="0039" status="deferred" primary-platform="core" sdl-version="x.x" name="Retrieving the value of 'menuIcon' and 'menuTitle' parameters from .ini file" filename="0039-'menuIcon'-menuTitle'-params.md"/>
+<proposal id="0040" status="accepted" primary-platform="core" sdl-version="x.x" name="DTLS encryption" filename="0040-DTLS-encryption.md"/>
+<proposal id="0041" status="accepted" primary-platform="core" sdl-version="x.x" name="Provide AppIcon resumption across app registration requests" filename="0041-appicon-resumption.md"/>
+<proposal id="0042" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL must transfer RPC’s with invalid image reference parameters to the HMI" filename="0042-transfer-invalid-image-rpc.md"/>
+<proposal id="0043" status="active" primary-platform="core" sdl-version="x.x" name="Move to the new C++11 standard" filename="0043-upgrade-c++-standard.md"/>
+<proposal id="0044" status="deferred" primary-platform="core" sdl-version="x.x" name="Use Boost library in SDL" filename="0044-use-Boost-library.md"/>
+<proposal id="0045" status="accepted" primary-platform="core" sdl-version="x.x" name="External Policy Manager" filename="0045-external-policy-manager.md"/>
+<proposal id="0046" status="accepted" primary-platform="core" sdl-version="x.x" name="Implement logger abstraction" filename="0046-implement-logger-abstraction.md"/>
+<proposal id="0047" status="rejected" primary-platform="ios" sdl-version="x.x" name="Manual layout for SDLLockScreenViewController" filename="0047-manual-lockscreen-layout-ios.md"/>
+<proposal id="0048" status="active" primary-platform="core" sdl-version="x.x" name="Add H.264 over RTP format support for video streaming" filename="0048-H264-over-RTP-support-for-video-streaming.md"/>
+<proposal id="0049" status="accepted" primary-platform="core" sdl-version="x.x" name="Gesture cancellation on video streaming" filename="0049-touch-cancellation.md"/>
+<proposal id="0050" status="active" primary-platform="core" sdl-version="x.x" name="Add API Patch Version" filename="0050-add-api-patch-version.md"/>
+<proposal id="0051" status="active" primary-platform="android" sdl-version="x.x" name="Enhance Video Streaming API's for Android" filename="0051-enhance_video_streaming_apis_for_android.md"/>
 
+	
 <!--
 Recognized values for a proposal's status:
 	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected
 
 Recognized values for primary-platform:
-	protocol, rpc, core, ios, android
+	protocol, rpc, core, ios, android, mobile (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
 
 Note: status="implemented" also requires sdl-version="XX".
 -->

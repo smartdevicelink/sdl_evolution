@@ -24,16 +24,11 @@ on the gh-pages branch).
           <xsl:with-param name="proposals" select="proposal[@status='active']"/>
         </xsl:call-template>
       
-        <xsl:call-template name="section">
+        <!-- <xsl:call-template name="section">
           <xsl:with-param name="title">Upcoming reviews</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='scheduled']"/>
-        </xsl:call-template>
-      
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Proposals awaiting scheduling</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='awaiting']"/>
-        </xsl:call-template>
-      
+        </xsl:call-template> -->
+        
         <xsl:call-template name="section">
           <xsl:with-param name="title">Accepted (awaiting implementation)</xsl:with-param>
           <xsl:with-param name="description">This is the list of proposals which have been accepted for inclusion into SDL, but they are not implemented yet, and may not have anyone signed up to implement them. If they are not implemented in time for the next version of SDL, they will roll into a subsequent release.</xsl:with-param>
@@ -41,11 +36,21 @@ on the gh-pages branch).
         </xsl:call-template>
       
         <!-- This needs to include both version and platform -->
-        <!-- <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL {{primary-platform}} v0.0</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@sdl-version = 0]"/>
-        </xsl:call-template> -->
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL iOS v5.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='5.0']"/>
+        </xsl:call-template>
       
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Android v4.3</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='android'][@sdl-version='4.3']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Core v4.2.3</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.2.3']"/>
+        </xsl:call-template>
+        
         <xsl:call-template name="section">
           <xsl:with-param name="title">Deferred for future discussion</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='deferred']"/>
@@ -234,14 +239,14 @@ on the gh-pages branch).
         background-color: #58bcb9; // SDL Teal
       }
       a.number.status-awaiting, a.number.status-deferred {
-        background-color: #e5eef8; // SDL Light Grey
+        background-color: #bac6d2; // SDL Grey
         color: #000;
       }
       a.number.status-returned {
         background-color: #c691c5; // SDL Purple
       }
       a.number.status-rejected {
-        background-color: #7ebc79; // SDL Red
+        background-color: #ef5e69; // SDL Red
       }
       a.number.platform-protocol {
         background-color: #fb9050; // SDL Orange
@@ -250,13 +255,16 @@ on the gh-pages branch).
         background-color: #c691c5; // SDL Purple
       }
       a.number.platform-core {
-        background-color: #7ebc79; // SDL Red
+        background-color: #ef5e69; // SDL Red
       }
       a.number.platform-ios {
         background-color: #39609a; // SDL Navy
       }
       a.number.platform-android {
         background-color: #4ea57f; // SDL Forest
+      }
+      a.number.platform-meta {
+        background-color: #58bcb9; // SDL Teal
       }
     </style>
   </xsl:template>
