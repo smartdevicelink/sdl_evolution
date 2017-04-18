@@ -42,7 +42,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0032" status="implemented" primary-platform="ios" sdl-version="5.0" name="Delegate Support for all onHMIStatus State Changes" filename="0032-on-hmi-status-state-changes.md"/>
 <proposal id="0033" status="accepted" primary-platform="ios" sdl-version="5.0" name="Streaming Media Manager 5.0" filename="0033-streaming-media-manager-update.md"/>
 <proposal id="0034" status="accepted" primary-platform="ios" sdl-version="4.5" name="Rename Cocoapods Project to SmartDeviceLink" filename="0034-ios-cocoapods-rename.md"/>
-<proposal id="0035" status="accepted" primary-platform="ios" sdl-version="5.0" name="Audio Data Handler for SDLPerformAudioPassThru" filename="0035-audio-pass-thru-handler.md"/>
+<proposal id="0035" status="implemented" primary-platform="ios" sdl-version="5.0" name="Audio Data Handler for SDLPerformAudioPassThru" filename="0035-audio-pass-thru-handler.md"/>
 <proposal id="0036" status="implemented" primary-platform="android" sdl-version="4.3" name="Up Android Target/Compile Version" filename="0036-android-up_target-version.md"/>
 <proposal id="0037" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Expand Mobile putfile RPC" filename="0037-Expand-Mobile-putfile-RPC.md"/>
 <proposal id="0038" status="deferred" primary-platform="core" sdl-version="x.x" name="Communication app activation during active embedded audio source or navigation" filename="0038-Communication-app-activation.md"/>
