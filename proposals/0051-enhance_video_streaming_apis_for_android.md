@@ -2,7 +2,7 @@
 
 * Proposal:  [SDL-0051](0051-enhance_video_streaming_apis_for_android.md)
 * Authors: [Austin Kirk](https://github.com/askirk), [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Android
 
 ## Introduction
