@@ -1,8 +1,8 @@
 # Constructed Payloads
 
-* Proposal: [SDL-NNNN](nnnn-constructed-payloads.md)
+* Proposal: [SDL-0052](0052-constructed-payloads.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: Android, iOS, Core, Protocol
 
 ## Introduction
