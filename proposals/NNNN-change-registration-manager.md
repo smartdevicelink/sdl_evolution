@@ -1,13 +1,13 @@
 # change-registration-manager
 
-* Proposal: [NNNN](NNNN-change-registration-manager.md)
+* Proposal: [SDL-0052](NNNN-change-registration-manager.md)
 * Author: [Kujtim Shala](https://www.github.com/kshala)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
 
-ChangeRegistration RPC allows an app to manipulate parameters that were send. Including the app name, TTS name and voice synonyms of the app. This proposal is about to make it more conventient for the app developer and to provide an API of a similar style unlike the RPC request.
+ChangeRegistration RPC allows an app to manipulate parameters that were send. Including the app name, TTS name and voice synonyms of the app. This proposal aims to make it more convenient for the app developer and to provide an API of a similar style unlike the RPC request.
 
 This proposal comes together with the proposal of localization. It's not required to have both but they would work well together.
 
