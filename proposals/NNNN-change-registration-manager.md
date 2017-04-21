@@ -1,7 +1,7 @@
 # ChangeRegistration-Manager
 
 * Proposal: [SDL-NNNN](NNNN-change-registration-manager.md)
-* Author: [Kujtim Shala](https://www.github.com/kshala)
+* Author: [Kujtim Shala](https://www.github.com/kshala-ford)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS]
 
