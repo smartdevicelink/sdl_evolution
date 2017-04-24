@@ -15,7 +15,7 @@ From time to time we’re facing with different problems with our [Utils](https:
 * All the time we have to solve customer’s problems very fast and we have no enough time for current utilities adaptation. Usually it much faster to develop necessary functionality from the scratch. But such approach brings us new defects, waste our time to support and improve this functionality. 
 
 ## Proposed solution
-The porposed solution which has to adress mentioned issues is to use [Boost library v1.56](http://www.boost.org/users/history/version_1_56_0.html)
+The proposed solution which has to address mentioned issues is to use [Boost library v1.56](http://www.boost.org/users/history/version_1_56_0.html)
 * The way to solve the issue is to use Boost library. It supports dozens of platforms out of the box, even with ancient compilers.
 * The Boost license encourages both commercial and non-commercial use. The Boost license permits the creation of derivative works for commercial or non-commercial use with no legal requirement to release your source code. Other differences include Boost not requiring reproduction of 	copyright messages for object code redistribution, and the fact that the Boost license is not "viral": if you distribute your own code along with some Boost code, the Boost license applies only to the Boost code (and modified versions thereof); you are free to license your own code under any terms you like. The GPL is also much longer, and thus may be harder to understand.
 * The proposed version of the Boost library is 1.62
@@ -41,7 +41,7 @@ The porposed solution which has to adress mentioned issues is to use [Boost libr
 This is additional dependency which is out of our control. It's not easy to apply possible customization if required - it has to be accepted by Boost community. In the worst case we might fork the whole library and customize it on our own.
 
 ## Impact on existing code
-Every utility component such as `Thread`, `Filesystem`, `DateTime`, `Timer` should be changed. As the good example of the possible changes propose to start from the `Filesystem` component. Below you can find the current imiplementation
+Every utility component such as `Thread`, `Filesystem`, `DateTime`, `Timer` should be changed. As the good example of the possible changes propose to start from the `Filesystem` component. Below you can find the current implementation
 ```c++
 size_t file_system::DirectorySize(const std::string& path) {
   size_t size = 0;
