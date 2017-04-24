@@ -101,8 +101,6 @@ Each `GetSystemCapability` request/response pair will only include a single capa
         <element name="USER_DISALLOWED"/>
         <element name="UNSUPPORTED_RESOURCE"/>
         <element name="DATA_NOT_AVAILABLE">
-        <element name="DATA_ALREADY_SUBSCRIBED"/>
-        <element name="DATA_NOT_SUBSCRIBED"/>
   </param>
   <param name="info" type="String" maxlength="1000" mandatory="false">
   </param>
