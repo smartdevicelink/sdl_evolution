@@ -1,8 +1,8 @@
 # Hardware Validator App (Android)
 
-* Proposal: [SDL-NNNN](NNNN-hardware-validator-app-android.md)
+* Proposal: [SDL-0056](0056-hardware-validator-app-android.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Meta]
 
 ## Introduction
