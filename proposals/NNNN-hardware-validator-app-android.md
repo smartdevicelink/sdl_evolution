@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-hardware-validator-app-android.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
 * Status: **Awaiting review**
-* Impacted Platforms: [Android]
+* Impacted Platforms: [Meta]
 
 ## Introduction
 
