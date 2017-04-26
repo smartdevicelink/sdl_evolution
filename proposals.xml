@@ -51,7 +51,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0041" status="accepted" primary-platform="core" sdl-version="x.x" name="Provide AppIcon resumption across app registration requests" filename="0041-appicon-resumption.md"/>
 <proposal id="0042" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL must transfer RPC’s with invalid image reference parameters to the HMI" filename="0042-transfer-invalid-image-rpc.md"/>
 <proposal id="0043" status="accepted" primary-platform="core" sdl-version="x.x" name="Move to the new C++11 standard" filename="0043-upgrade-c++-standard.md"/>
-<proposal id="0044" status="deferred" primary-platform="core" sdl-version="x.x" name="Use Boost library in SDL" filename="0044-use-Boost-library.md"/>
+<proposal id="0044" status="active" primary-platform="core" sdl-version="x.x" name="Use Boost library in SDL" filename="0044-use-Boost-library.md"/>
 <proposal id="0045" status="accepted" primary-platform="core" sdl-version="x.x" name="External Policy Manager" filename="0045-external-policy-manager.md"/>
 <proposal id="0046" status="accepted" primary-platform="core" sdl-version="x.x" name="Implement logger abstraction" filename="0046-implement-logger-abstraction.md"/>
 <proposal id="0047" status="rejected" primary-platform="ios" sdl-version="x.x" name="Manual layout for SDLLockScreenViewController" filename="0047-manual-lockscreen-layout-ios.md"/>
@@ -59,8 +59,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0049" status="accepted" primary-platform="core" sdl-version="x.x" name="Gesture cancellation on video streaming" filename="0049-touch-cancellation.md"/>
 <proposal id="0050" status="accepted" primary-platform="core" sdl-version="x.x" name="Add API Patch Version" filename="0050-add-api-patch-version.md"/>
 <proposal id="0051" status="accepted" primary-platform="android" sdl-version="x.x" name="Enhance Video Streaming API's for Android" filename="0051-enhance_video_streaming_apis_for_android.md"/>
-<proposal id="0052" status="active" primary-platform="protocol" sdl-version="x.x" name="Constructed Payloads" filename="0052-constructed-payloads.md"/>
-<proposal id="0053" status="active" primary-platform="core" sdl-version="x.x" name="Connectivity via iAP-BT and Transport Switch" filename="0053-Connectivity-via-iAP-BT-and-Transport-Switch.md"/>
+<proposal id="0052" status="deferred" primary-platform="protocol" sdl-version="x.x" name="Constructed Payloads" filename="0052-constructed-payloads.md"/>
+<proposal id="0053" status="deferred" primary-platform="core" sdl-version="x.x" name="Connectivity via iAP-BT and Transport Switch" filename="0053-Connectivity-via-iAP-BT-and-Transport-Switch.md"/>
+<proposal id="0054" status="active" primary-platform="ios" sdl-version="x.x" name="ChangeRegistration-Manager" filename="0054-change-registration-manager.md"/>
+<proposal id="0055" status="active" primary-platform="core" sdl-version="x.x" name="System Capabilities Query" filename="0055-system_capabilities_query.md"/>
+<proposal id="0056" status="active" primary-platform="meta" sdl-version="x.x" name="Hardware Validator App (Android)" filename="0056-hardware-validator-app-android.md"/>
 
 	
 <!--
