@@ -1,8 +1,8 @@
 # System Capabilities Query
 
-* Proposal: [SDL-nnnn](nnnn-system_capabilities_query.md)
+* Proposal: [SDL-0055](0055-system_capabilities_query.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: Android, iOS, Core, RPC
 
 ## Introduction
