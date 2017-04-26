@@ -42,7 +42,7 @@ Either case, head unit's program should start advertising as soon as its WiFi IP
 ## Impact on existing code
 
 HMI changes:
-*	HMI needs to implement zeroconf service and advertise the IP address and port.
+*	SDL Core Wifi transport needs to implement zeroconf service and advertise the IP address and port.
 
 Mobile iOS/Android SDK changes:
 *	requires new API
