@@ -37,7 +37,7 @@ There are more potential uses cases, but this proposal is only for the addition 
 
 ## Proposed solution
 
-The solution is to create us BSON tags in control packets. It is not a proposal to refactor the RPC service.
+The solution is to use BSON tags in control packets. It is not a proposal to refactor the RPC service.
 
 ##### Example
 
