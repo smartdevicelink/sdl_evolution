@@ -1,4 +1,4 @@
-# Feature name
+# Template images 
 
 * Proposal: [SDL-NNNN](NNNN-imagetype-template.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
