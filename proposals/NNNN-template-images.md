@@ -13,9 +13,9 @@ This proposal is to enable the HMI to customize icons used by apps and make them
 
 Today many apps are using images as icons for buttons. Most of them are using PNG files with transparency and a black symbol. This may look great on SDL head units which are designed in light colors but looks terrible on dark colors. The following two pictures show how an app tries to overcome the issue by using dark grey icons.
 
-![day example](assets/F020/imagetype-example-day.png)
+![day-example][day-example]
 
-![night example](assets/F020/imagetype-example-night.png).
+![night-example][night-example]
 
 Currently some apps try to workaround by using dark gray icons but those icons are recognized as disabled buttons. It's impossible for app developers to overcome this issue and they should not be in charge as it's not defined by SDL of how to color the graphical interface. Other/future head units may use a dark grey design which makes the workaround useless.
 
@@ -43,7 +43,7 @@ Apps still upload PNG files over PutFile and use them in e.g. a soft button. Whe
 
 Example:
 
-![Icon](assets/F020/imagetype-icon.png)
+![icon][icon]
 
 ### SDL Core change
 Whenever core receives an RPC from the app which incldues an image it just has to make sure the `.isTemplate` parameter makes its way to the HMI.
@@ -102,13 +102,16 @@ Instead of another parameter in `Image` it could be added as another image type.
 
 The big downside is that apps won't know when to use template rather than dynamic when it comes to backwards compatibility (e.g. SDL Core 4.1).
 
-[template]: assets/F020/imagetype-icon.png
-[icon-day]: assets/F020/imagetype-icon-day.png
-[icon-night]: assets/F020/imagetype-icon-night.png
-[icon-highlighted]: assets/F020/imagetype-icon-highlighted.png
-[pattern-day]: assets/F020/imagetype-pattern-day.png
-[pattern-night]: assets/F020/imagetype-pattern-night.png
-[pattern-highlighted]: assets/F020/imagetype-pattern-highlighted.png
-[button-day]: assets/F020/button-day.png
-[button-night]: assets/F020/button-night.png
-[button-highlighted]: assets/F020/button-highlighted.png
+[day-example]: ../assets/proposals/NNNN-template-images/imagetype-example-day.png
+[night-example]: ../assets/proposals/NNNN-template-images/imagetype-example-night.png
+[icon]: ../assets/proposals/NNNN-template-images/imagetype-icon.png
+[template]: ../assets/proposals/NNNN-template-images/imagetype-icon.png
+[icon-day]: ../assets/proposals/NNNN-template-images/imagetype-icon-day.png
+[icon-night]: ../assets/proposals/NNNN-template-images/imagetype-icon-night.png
+[icon-highlighted]: ../assets/proposals/NNNN-template-images/imagetype-icon-highlighted.png
+[pattern-day]: ../assets/proposals/NNNN-template-images/imagetype-pattern-day.png
+[pattern-night]: ../assets/proposals/NNNN-template-images/imagetype-pattern-night.png
+[pattern-highlighted]: ../assets/proposals/NNNN-template-images/imagetype-pattern-highlighted.png
+[button-day]: ../assets/proposals/NNNN-template-images/button-day.png
+[button-night]: ../assets/proposals/NNNN-template-images/button-night.png
+[button-highlighted]: ../assets/proposals/NNNN-template-images/button-highlighted.png
