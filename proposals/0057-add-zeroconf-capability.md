@@ -1,6 +1,6 @@
 # Add zeroconf capability to WiFi transport
 
-* Proposal: [SDL-0056](0056-add-zeroconf-capability.md)
+* Proposal: [SDL-0057](0057-add-zeroconf-capability.md)
 * Author: Shinichi Watanabe
 * Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
