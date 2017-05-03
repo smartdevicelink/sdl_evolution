@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0055](0055-system_capabilities_query.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Android, iOS, Core, RPC
 
 ## Introduction
