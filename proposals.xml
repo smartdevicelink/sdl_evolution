@@ -57,8 +57,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0047" status="rejected" primary-platform="ios" sdl-version="x.x" name="Manual layout for SDLLockScreenViewController" filename="0047-manual-lockscreen-layout-ios.md"/>
 <proposal id="0048" status="returned" primary-platform="core" sdl-version="x.x" name="Add H.264 over RTP format support for video streaming" filename="0048-H264-over-RTP-support-for-video-streaming.md"/>
 <proposal id="0049" status="accepted" primary-platform="core" sdl-version="x.x" name="Gesture cancellation on video streaming" filename="0049-touch-cancellation.md"/>
-<proposal id="0050" status="accepted" primary-platform="core" sdl-version="x.x" name="Add API Patch Version" filename="0050-add-api-patch-version.md"/>
-<proposal id="0051" status="accepted" primary-platform="android" sdl-version="x.x" name="Enhance Video Streaming API's for Android" filename="0051-enhance_video_streaming_apis_for_android.md"/>
+<proposal id="0050" status="implemented" primary-platform="core" sdl-version="4.3" name="Add API Patch Version" filename="0050-add-api-patch-version.md"/>
+<proposal id="0051" status="accepted" primary-platform="android" sdl-version="4.4" name="Enhance Video Streaming API's for Android" filename="0051-enhance_video_streaming_apis_for_android.md"/>
 <proposal id="0052" status="active" primary-platform="protocol" sdl-version="x.x" name="Constructed Payloads" filename="0052-constructed-payloads.md"/>
 <proposal id="0053" status="deferred" primary-platform="core" sdl-version="x.x" name="Connectivity via iAP-BT and Transport Switch" filename="0053-Connectivity-via-iAP-BT-and-Transport-Switch.md"/>
 <proposal id="0054" status="returned" primary-platform="ios" sdl-version="x.x" name="ChangeRegistration-Manager" filename="0054-change-registration-manager.md"/>
