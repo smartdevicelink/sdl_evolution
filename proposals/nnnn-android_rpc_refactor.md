@@ -190,4 +190,4 @@ As stated above, many RPCs would need to be re-written to use the generalized me
 
 ## Alternatives considered
 
-An alternative is to just leave the code as is. However, this proposals purpose is to clean up existing code and make it more readable and reusable for future changes and use. 
+An alternative is to just leave the code as is. However, this proposal's purpose is to clean up existing code and make it more readable and reusable for future changes and use. 
