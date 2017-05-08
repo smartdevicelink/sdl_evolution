@@ -47,7 +47,7 @@ See http://www.unicode.org/reports/tr35/tr35-47/tr35.html#Unicode_Language_and_L
 
 ### SDKs
 
-The SDKs should follow the changes as per mobile API but the `locale` properties should be of type (NSLocale)[https://developer.apple.com/reference/foundation/nslocale] for iOS or [java.util.Locale](https://developer.android.com/reference/java/util/Locale.html) for Android instead of String.
+The SDKs should follow the changes as per mobile API but the `locale` properties should be of type [NSLocale](https://developer.apple.com/reference/foundation/nslocale) for iOS or [java.util.Locale](https://developer.android.com/reference/java/util/Locale.html) for Android instead of String.
 
 The Android SDK should create a locale object by using the static method `Locale.forLanguageTag`. The iOS SDK should create a locale object by using the initializer `initWithLocaleIdentifier:`. 
 
