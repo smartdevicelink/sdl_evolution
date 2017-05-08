@@ -15,15 +15,19 @@ The parameter `displayType` is of type `DisplayType` which is an enum of many ol
 
 ## Proposed solution
 
-The proposed solution is to deprecate the `DisplayType` enum and the `RegisterAppInterfaceResponse.displayType` parameter in the APIs and SDKs. As a replacement a new (optional) string parameter called `displayName` should be added to the `RegisterAppInterfaceResponse` RPC.
+The proposed solution is to deprecate the `DisplayType` enum and the `DisplayCapabilities.displayType` parameter in the APIs and SDKs. As a replacement a new (optional) string parameter called `displayName` should be added to the `DisplayCapabilities` struct.
+
+### API (mobile and HMI)
 
 ```xml
-<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response">
+<struct name="DisplayCapabilities">
     <element name="displayName" type="String" mandatory="false">
         <description>The name of the display the app is connected to.</description>
     </element>
-</function>
+</struct>
 ```
+
+### SDK
 
 Depending on the JSON data the SDK should use the `displayName` parameter for the corresponding property by default. If the JSON data does not contain a `displayName` parameter the SDK should use the `displayType` parameter as string for backwards compatibility.
 
