@@ -15,9 +15,7 @@ SDL is not flexible in adding new languages or countries. It requires changes to
 
 ## Proposed solution
 
-The proposed solution is to fully remove the `Language` enum. Instead the locale structure provided by the native phone SDKs should be used that follows locale names defined by the unicode CLDR.  Using unicode would allow SDL adopters to be more flexible but still follow a standard to agree to language codes.
-
-Unicode locale allows the head unit to provide the script name which can help the app to 
+The proposed solution is to deprecate the `Language` enum. Instead the locale structure provided by the native phone SDKs should be used that follows locale names defined by the unicode CLDR. Using unicode would allow SDL adopters to be more flexible but still follow a standard to agree to language codes.
 
 ### Mobile and HMI API
 
@@ -37,9 +35,9 @@ As a replacement to `language` and `languageDesired` new string parameters calle
 
 ### Core & HMI 
 
-Core and HMI should continue to send the language parameters if the head unit is configured to a language which is known within the `Language` enum otherwise they should omit the language parameter from the JSON data. They should be always sending the locale parameter regardless of if the language is known by the enum.
+Core and HMI should continue to send the language parameters if the head unit is configured to a language which is known within the `Language` enum otherwise they should omit the `language` parameter from the JSON data. They should be always sending the `locale` parameter regardless of if the language is known by the enum.
 
-The locale parameters should follow the syntax of locale names. 
+The `locale` parameters should follow the syntax of locale names. 
 
 > The identifiers can vary in case and in the separator characters. The "-" and "_" separators are treated as equivalent. All identifier field values are case-insensitive. Although case distinctions do not carry any special meaning, an implementation of LDML should use the casing recommendations in [BCP47], especially when a Unicode locale identifier is used for locale data exchange in software protocols. The recommendation is that: the region subtag is in uppercase, the script subtag is in title case, and all other subtags are in lowercase.
 
@@ -51,7 +49,7 @@ The SDKs should follow the changes as per mobile API but the `locale` properties
 
 The Android SDK should create a locale object by using the static method `Locale.forLanguageTag`. The iOS SDK should create a locale object by using the initializer `initWithLocaleIdentifier:`. 
 
-Depending on the JSON data as the input for the Locale object the SDK should use the `locale` parameter by default. If the JSON data does not contain a `locale` parameter the SDK should use the `language` parameter instead to keep backwards compatibility. If necessary the SDK should modify the `language` String to match the syntax of locale names ("EN_US" > "en-US").
+Depending on the JSON data the SDK should use the `locale` parameter as the input for the Locale object by default. If the JSON data does not contain a `locale` parameter the SDK should use the `language` parameter instead to keep backwards compatibility. If necessary the SDK should modify the `language` String to match the syntax of locale names ("EN_US" > "en-US").
 
 ## Potential downsides
 
