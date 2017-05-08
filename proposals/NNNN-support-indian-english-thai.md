@@ -29,7 +29,7 @@ The solution is to add and implement both languages to the HMI and mobile API (t
     
 ## Potential downsides
 
-The effort of adding new languages is quite high. However due to necessarity adding new items to the Langauge enum is simpler than changing the language support to be more flexible.
+The effort of adding new languages is quite high. However, given our need to add these Langauges, adding new items to the `Language` enum is simpler than changing the language support to be more flexible.
 
 ## Impact on existing code
 
