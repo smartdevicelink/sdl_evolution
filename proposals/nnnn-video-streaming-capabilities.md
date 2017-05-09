@@ -79,6 +79,10 @@ Include `preferredResolution`, `maxH264Profile`, `maxH264Bitrate` parameters in 
 
 SDL proxy should consider exposing the capabilities to SDL app. For example, a new property can be added in `SDLStreamingMediaManager` class in iOS SDL proxy. Also, SDL proxy should use the capability information to set up default values of video encoder's configuration. A SDL app can overwrite the configuration or can use the default values.
 
+## Potential Downsides
+
+This proposal introduces new parameters in `VideoStreamingCapability` struct and slightly increases its size. The data size is small enough and will not impact performance. Moreover, due to the nature of "System Capabilities Query" scheme, the change has impacts only on video streaming apps; non video-streaming apps will not issue `GetSystemCapability` request with `SystemCapabilityType = VIDEO_STREAMING` hence `VideoStreamingCapability` struct will not be used.
+
 ## Impact on existing code
 
 This proposal should not have impacts on existing code since it only adds some capability parameters in the structures. Of course, HMIs are encouraged to implement capturing these capabilities of the head units and filling in the structures with appropriate values.
@@ -89,4 +93,4 @@ The struct could be added to `RegisterAppInterface` response instead. This is no
 
 ## Notes
 
-While this proposal includes an idea of `preferredResolution`, it does not provide a mean to determine the actual resolution of the video stream. In other word, a HMI cannot know whether a SDL app uses a resolution of `preferredResolution` or not without inspecting the H.264 video stream (such as SPS NAL unit). The HMI needs video stream's resolution information in order to send out touch events with correct coordinate on the video image. This issue is outside the scope of this proposal, and may be addressed by another one.
+While this proposal includes an idea of `preferredResolution`, it does not provide a means to determine the actual resolution of the video stream. In other words, a HMI cannot know whether a SDL app uses a resolution of `preferredResolution` or not without inspecting the H.264 video stream (such as SPS NAL unit). The HMI needs video stream's resolution information in order to send out touch events with correct coordinate on the video image. This issue is outside the scope of this proposal, and may be addressed by another one.
