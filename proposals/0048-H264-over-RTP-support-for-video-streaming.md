@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0048](0048-H264-over-RTP-support-for-video-streaming.md)
 * Author: [Sho Amano](https://github.com/shoamano83)
-* Status: **Deferred**
+* Status: **Awaiting Review**
 * Impacted Platforms: [Core / iOS / Android / RPC / Protocol]
 
 ## Introduction
