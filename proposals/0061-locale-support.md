@@ -1,8 +1,8 @@
 # Locale support
 
-* Proposal: [SDL-NNNN](NNNN-locale-support.md)
+* Proposal: [SDL-0061](0061-locale-support.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
