@@ -1,8 +1,8 @@
 # Add video streaming capabilities
 
-* Proposal: [SDL-nnnn](nnnn-video-streaming-capabilities.md)
+* Proposal: [SDL-0058](0058-video-streaming-capabilities.md)
 * Author: Tomoya Suzuki, Sho Amano
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
