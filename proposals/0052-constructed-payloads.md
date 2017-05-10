@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0052](0052-constructed-payloads.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Android, iOS, Core, Protocol
 
 ## Introduction
