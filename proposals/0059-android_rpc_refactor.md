@@ -1,9 +1,9 @@
 
 # Android RPC Refactor
 
-* Proposal: [SDL-NNNN](nnnn-android_rpc_refactor.md)
+* Proposal: [SDL-0059](0059-android_rpc_refactor.md)
 * Author: [Austin Kirk](https://github.com/askirk), [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: Android
 
 ## Introduction
