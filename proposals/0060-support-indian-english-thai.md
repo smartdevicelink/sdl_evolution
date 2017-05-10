@@ -1,8 +1,8 @@
 # Support Indian English and Thai
 
-* Proposal: [SDL-NNNN](NNNN-support-indian-english-thai.md)
+* Proposal: [SDL-0060](0060-support-indian-english-thai.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
