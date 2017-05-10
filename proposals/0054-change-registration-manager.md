@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0054](0054-change-registration-manager.md)
 * Author: [Kujtim Shala](https://www.github.com/kshala-ford)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
