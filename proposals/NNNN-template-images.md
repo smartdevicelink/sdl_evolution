@@ -73,7 +73,7 @@ Example for all different modes:
 | 3.   | ![img][icon-day]    | ![img][icon-night]    | ![img][icon-highlighted]    |
 | 4.   | ![img][button-day]  | ![img][button-night]  | ![img][button-highlighted]  |
 
-Whenever the UI changes the HMI has to recreate images currently visible on the screen.
+Whenever the UI changes, the HMI has to recreate images currently visible on the screen.
 
 ## Potential downside
 
@@ -81,11 +81,11 @@ N/A
 
 ## Impact on existing code
 
-The impact on mobile side is minimal. App developer only have to set `.isTemplate` whenever appropriate. It's backwards compatible to head units which don't support this feature. Those head unit would just ignore this new parameter.
+The impact on mobile side is minimal. App developer only has to set `.isTemplate` whenever appropriate. It's backwards compatible to head units which don't support this feature. Those head unit would just ignore this new parameter.
 
 The impact on SDL core is minimal except the change of the HMI and mobile API. Unit tests may be requried but as this parameter is not used by core the effort should be trivial.
 
-The HMI has to add all the logic of template images. The image manipulation is surprisingly easy these day on commong UI frameworks.
+The HMI has to add all the logic of template images. The image manipulation is surprisingly easy these days on common UI frameworks.
 
 ## Alternatives considered
 
