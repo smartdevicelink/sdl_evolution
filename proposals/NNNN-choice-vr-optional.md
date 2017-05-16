@@ -15,7 +15,7 @@ Creating choice sets takes a lot of time to be computed on the head unit which m
 
 ## Proposed solution
 
-This proposal is to make the paramter `vrCommands` optional. This would allow apps to avoid unnecessary vr commands if they want to perform an interaction in manual mode. On the other hand it saves a lot of time of grammar computing on the head unit side.
+This proposal is to make the parameter `vrCommands` optional. This would allow apps to avoid unnecessary vr commands if they want to perform an interaction in manual mode. On the other hand it saves a lot of time of grammar computing on the head unit side.
 
 ### HMI & Mobile API
 
@@ -45,7 +45,7 @@ Every ID of `interactionChoiceSetIDList` should be checked at core. If at least 
 - `resultCode` = `INVALID_DATA`,
 - `info` = "Some choices don't contain VR commands."
 
-A planned proposal for a choice set manager could benefit from this proposal by automatically omit `vrCommands` if `vrCapabilities` is empty (assuming it already exist and the app is using it...).
+A planned proposal for a choice set manager could benefit from this proposal by automatically omitting `vrCommands` if `vrCapabilities` is empty (assuming it already exists and the app is using it...).
 
 ## Potential downside
 
