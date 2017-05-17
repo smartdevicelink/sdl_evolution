@@ -1,8 +1,8 @@
 # Template images 
 
-* Proposal: [SDL-NNNN](NNNN-template-images.md)
+* Proposal: [SDL-0062](0062-template-images.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
