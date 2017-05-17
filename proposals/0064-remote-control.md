@@ -1,9 +1,9 @@
 # SDL Remote Control
 
-* Proposal: [SDL-0064](NNNN-remote-control.md)
+* Proposal: [SDL-NNNN](NNNN-remote-control.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Web / RPC ]
+* Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
 
@@ -98,9 +98,10 @@ Full Mobile API can be found here:
 https://github.com/smartdevicelink/sdl_core/blob/feature/sdl_rc_functionality/src/components/interfaces/MOBILE_API.xml
 
 The changes are listed below.
-```
+```xml
   <enum name="ButtonName">
       <description>Defines the hard (physical) and soft (touchscreen) buttons available from SYNC</description>
+        <!-- Existing Buttons not listed here -->
         <!-- Climate Buttons -->
       <element name="AC_MAX" />
       <element name="AC" />
@@ -124,6 +125,7 @@ The changes are listed below.
       <element name="REPEAT" />
   </enum>
   
+  <!-- new additions -->
   <struct name="InteriorZone">
     <description>Describes the origin and span of a zone in the vehicle. Vehicle zones can be overlapping</description>
     <param name="col" type="Integer" minvalue="0" maxvalue="100">
@@ -276,6 +278,7 @@ The changes are listed below.
    </element>
   </enum>
   
+  <!-- existing with updates -->
   <function name="ButtonPress" functionID="ButtonPressID" messagetype="request">
     <param name="zone" type="InteriorZone">
         <description>The zone where the button press should occur.</description>
@@ -311,6 +314,7 @@ The changes are listed below.
     </param>
   </function>
   
+  <!-- new additions -->
   <function name="GetInteriorVehicleDataCapabilities" functionID="GetInteriorVehicleDataCapabilitiesID" messagetype="request">
     <description>Called to retrieve the available zones and supported control types</description>
     <param name="zone" type="InteriorZone" mandatory="false">
@@ -415,6 +419,7 @@ The changes are listed below.
     </param>
   </function>
   
+  <!-- existing with updates -->
   <function name="OnHMIStatus" functionID="OnHMIStatusID" messagetype="notification">
     <param name="hmiLevel" type="HMILevel">
       <description>See HMILevel</description>
@@ -428,6 +433,7 @@ The changes are listed below.
       <description>See SystemContext</description>
     </param>
 
+    <!-- new additions -->
     <param name="deviceRank" type="DeviceRank" mandatory="false">
      <description>If "DRIVER" - the application is running on device ranked as driver's. If "PASSENGER" - the application is running on device ranked as passenger's. </description>
     </param>
@@ -445,6 +451,7 @@ The changes are listed below.
     <element name="BACKGROUND_PROCESS" />
     <element name="TESTING" />
     <element name="SYSTEM" />
+    <!-- new additions -->
     <element name="REMOTE_CONTROL" />
   </enum>
 ```
@@ -454,7 +461,8 @@ Full HMI API can be found here:
 https://github.com/smartdevicelink/sdl_core/blob/feature/sdl_rc_functionality/src/components/interfaces/HMI_API.xml
 
 The changes are listed below.
-```
+```xml
+<!-- existing with updates -->
 <!-- add whether buttons can be pressed via Buttons.GetCapabilities -->
 <interface name="Buttons" version="1.1" date="2016-08-18">
     <function name="ButtonPress" messagetype="request">
@@ -496,6 +504,7 @@ The changes are listed below.
       <element name="CUSTOM_BUTTON"/>
       <element name="SEARCH"/>
 
+      <!-- new additions -->
       <!-- Climate Buttons -->
       <element name="AC_MAX" />
       <element name="AC" />
@@ -534,6 +543,7 @@ The changes are listed below.
     <element name="REMOTE_CONTROL" />
   </enum>
 
+<!-- new additions -->
 <struct name="InteriorZone">
   <description>Describes the origin and span of a zone in the vehicle. Vehicle zones can be overlapping</description>
   <param name="col" type="Integer" minvalue="0" maxvalue="100">
@@ -805,7 +815,7 @@ The changes are listed below.
 
 ## Impact on existing code
 
-Code is in SDL-RC feature branch and ready to merge.
+SDL core code, android and iOS mobile libs and RPC need updates.
 
 ## Alternatives considered
 
