@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0060](0060-support-indian-english-thai.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
