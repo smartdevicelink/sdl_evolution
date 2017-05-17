@@ -102,16 +102,16 @@ Instead of another parameter in `Image` it could be added as another image type.
 
 The big downside is that apps won't know when to use template rather than dynamic when it comes to backwards compatibility (e.g. SDL Core 4.1).
 
-[day-example]: ../assets/proposals/NNNN-template-images/imagetype-example-day.png
-[night-example]: ../assets/proposals/NNNN-template-images/imagetype-example-night.png
-[icon]: ../assets/proposals/NNNN-template-images/imagetype-icon.png
-[template]: ../assets/proposals/NNNN-template-images/imagetype-icon.png
-[icon-day]: ../assets/proposals/NNNN-template-images/imagetype-icon-day.png
-[icon-night]: ../assets/proposals/NNNN-template-images/imagetype-icon-night.png
-[icon-highlighted]: ../assets/proposals/NNNN-template-images/imagetype-icon-highlighted.png
-[pattern-day]: ../assets/proposals/NNNN-template-images/imagetype-pattern-day.png
-[pattern-night]: ../assets/proposals/NNNN-template-images/imagetype-pattern-night.png
-[pattern-highlighted]: ../assets/proposals/NNNN-template-images/imagetype-pattern-highlighted.png
-[button-day]: ../assets/proposals/NNNN-template-images/button-day.png
-[button-night]: ../assets/proposals/NNNN-template-images/button-night.png
-[button-highlighted]: ../assets/proposals/NNNN-template-images/button-highlighted.png
+[day-example]: ../assets/proposals/0062-template-images/imagetype-example-day.png
+[night-example]: ../assets/proposals/0062-template-images/imagetype-example-night.png
+[icon]: ../assets/proposals/0062-template-images/imagetype-icon.png
+[template]: ../assets/proposals/0062-template-images/imagetype-icon.png
+[icon-day]: ../assets/proposals/0062-template-images/imagetype-icon-day.png
+[icon-night]: ../assets/proposals/0062-template-images/imagetype-icon-night.png
+[icon-highlighted]: ../assets/proposals/0062-template-images/imagetype-icon-highlighted.png
+[pattern-day]: ../assets/proposals/0062-template-images/imagetype-pattern-day.png
+[pattern-night]: ../assets/proposals/0062-template-images/imagetype-pattern-night.png
+[pattern-highlighted]: ../assets/proposals/0062-template-images/imagetype-pattern-highlighted.png
+[button-day]: ../assets/proposals/0062-template-images/button-day.png
+[button-night]: ../assets/proposals/0062-template-images/button-night.png
+[button-highlighted]: ../assets/proposals/0062-template-images/button-highlighted.png
