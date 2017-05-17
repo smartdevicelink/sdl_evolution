@@ -23,8 +23,9 @@ There are many cases that mobile application developers ask for new functions of
 
 The common problem is that a mobile application need the ability to control certain settings of the vehicle. This proposal (SDL remote control or SDL-RC) tries to address this problem. This is not a new proposal. This document describe the design of current implementation of SDL-RC feature branch.
 
+## Proposed solution
 
-## Current solution in RC branch
+### Current solution in RC branch
 
 
 SDL-RC provides common RPC messages and functions to allow a mobile application to (1) read current vehicle RC data/settings, (2) subscribe and un-subscribe certain or all vehicle RC data/setting change notifications, (3) send notifications to subscribed applications when the monitored RC data/settings changes, (4) change vehicle RC settings, and (5) get vehicle RC capability, i.e. what are available for remote control in the vehicle. The following table list what control module and what control items are considered in the current implementation.
@@ -90,9 +91,9 @@ Unlike a driver's application, which must be launched by the driver on mobile ph
 
 By default SDL-RC allows passenger's application to use remote control feature. However, the driver can disable the feature via HMI by sending OnReverseAppsAllowing(false) message to SDL.
 
+Please see attached documents for detailed design. [HMI Guideline] (0064_SDLRC_HMI_Guidelines_v1.1.pdf) and [Mobile API Guideline] (0064_SDLRC_Mobile_API_Guidelines_v1.0.pdf)
 
-
-## Mobile API changes
+### Mobile API changes
 Full Mobile API can be found here:
 https://github.com/smartdevicelink/sdl_core/blob/feature/sdl_rc_functionality/src/components/interfaces/MOBILE_API.xml
 
@@ -448,7 +449,7 @@ The changes are listed below.
   </enum>
 ```
 
-## HMI API changes
+### HMI API changes
 Full HMI API can be found here:
 https://github.com/smartdevicelink/sdl_core/blob/feature/sdl_rc_functionality/src/components/interfaces/HMI_API.xml
 
