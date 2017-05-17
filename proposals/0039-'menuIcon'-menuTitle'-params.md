@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0039](0039-'menuIcon'-menuTitle'-params.md)
 * Author: [Melnyk Tetiana](https://github.com/TMelnyk)
-* Status: **Deferred**
+* Status: **Rejected**
 * Impacted Platforms: Core
 
 ## Introduction  
