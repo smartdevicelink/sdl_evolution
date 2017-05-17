@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0053](0053-Connectivity-via-iAP-BT-and-Transport-Switch.md)
 * Author: [Robin Kurian](https://github.com/robinmk), [Alexandr Galiuzov](https://github.com/AGaliuzov)
-* Status: **Deferred**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
