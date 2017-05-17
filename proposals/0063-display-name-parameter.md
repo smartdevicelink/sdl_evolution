@@ -1,8 +1,8 @@
 # Display name parameter
 
-* Proposal: [SDL-NNNN](NNNN-display-name-parameter.md)
+* Proposal: [SDL-0063](0063-display-name-parameter.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
