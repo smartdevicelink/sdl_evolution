@@ -7,7 +7,7 @@
 
 ## Introduction
 
-SmartDeviceLink provides a framework that connects in-vehicle infotainment system to mobile phone applications. SDL  enables a driver to interact with their mobile phone applications using common in-vehicle interfaces such as a touch screen display, embedded voice recognition, steering wheel controls and various vehicle knobs and buttons. Although SDL provides some RPCs to allow mobile applications to obtain some vehicle status information, it does not allow a mobile application to change the vehicle settings, i.e. to control the vehicle. SDL remote control (or previous known as reverse SDL) provides the ability for mobile applications to control certain settings of the vehicle, such as, radio and climate.
+SmartDeviceLink provides a framework that connects in-vehicle infotainment system to mobile phone applications. SDL  enables a driver to interact with their mobile phone applications using common in-vehicle interfaces such as a touch screen display, embedded voice recognition, steering wheel controls and various vehicle knobs and buttons. Although SDL provides some RPCs to allow mobile applications to obtain some vehicle status information, it does not allow a mobile application to change the vehicle settings, i.e. to control the vehicle. SDL remote control (or previously known as reverse SDL) provides the ability for mobile applications to control certain settings of the vehicle, such as, radio and climate.
 
 ## Motivation
 
@@ -19,16 +19,16 @@ There are many cases that mobile application developers ask for new functions of
 
 - A user profile application wants to remember user's favorite settings and apply it later automatically when the users get into the same/another vehicle.
 
-- A navigation application want to set the applications display mode same as the vehicle's display mode and vice versa.
+- A navigation application wants to set the application's display mode same as the vehicle's display mode and vice versa.
 
-The common problem is that a mobile application need the ability to control certain settings of the vehicle. This proposal (SDL remote control or SDL-RC) tries to address this problem. This is not a new proposal. This document describe the design of current implementation of SDL-RC feature branch.
+The common problem is that a mobile application needs the ability to control certain settings of the vehicle. This proposal (SDL remote control or SDL-RC) tries to address this problem. This proposal describes the design of current implementation of SDL-RC feature branch.
 
 ## Proposed solution
 
 ### Current solution in RC branch
 
 
-SDL-RC provides common RPC messages and functions to allow a mobile application to (1) read current vehicle RC data/settings, (2) subscribe and un-subscribe certain or all vehicle RC data/setting change notifications, (3) send notifications to subscribed applications when the monitored RC data/settings changes, (4) change vehicle RC settings, and (5) get vehicle RC capability, i.e. what are available for remote control in the vehicle. The following table list what control module and what control items are considered in the current implementation.
+SDL-RC provides common RPC messages and functions to allow a mobile application to (1) read current vehicle RC data/settings, (2) subscribe and un-subscribe certain or all vehicle RC data/setting change notifications, (3) send notifications to subscribed applications when the monitored RC data/settings changes, (4) change vehicle RC settings, and (5) get vehicle RC capability, i.e. what are available for remote control in the vehicle. The following table lists what control module and what control items are considered in the current implementation.
 
 
 | RC Module | Control Item | Value Range |Type | Comments | 
@@ -82,7 +82,7 @@ The interior of a vehicle is divided into zones or locations, for example, drive
 A new appHMIType: REMOTE_CONTROL is added: all and any remote-control applications must register with this type. The work flow of a remote control application on driver's device is simple. Like the existing applications, a RC application need to register with the system, be launched by driver via HMI or voice control. Usually it shall send a request for vehicle's RC capabilities to get a list of controllable RC modules available. Then it can start to read or change RC module settings. The first control message (setter request) with a specific RC module will trigger SDL to perform RC resource allocation process, which in general says at any time a RC module can be controlled by one and only one application. For example, if a climate control module is allocated to application ONE, any other applications will get rejected if they try to change the climate control settings. The climate control resource is freed when application ONE exits or disconnects. Until climate control resource gets free, no other application can perform climate control actions. RC resource allocation is first come, first serve.
 
 
-Things get complicated when passengers are allowed to control. The current implementation allows multiple (two to be exact) devices get connected at the same time. Dy default when a device connects to the system, it is treated as a passenger's device. The driver can change the rank of a device from PASSENGER to DRIVER or vice versa via HMI. SDL-RC allows only one device to be "DRIVER's" at a time. In this document, we refer an application running on a device marked as DRIVER as a driver's application, an application running on a device not marked as DRIVER as a passenger's application.
+Things get complicated when passengers are allowed to control. The current implementation allows multiple (two to be exact) devices get connected at the same time. By default when a device connects to the system, it is treated as a passenger's device. The driver can change the rank of a device from PASSENGER to DRIVER or vice versa via HMI. SDL-RC allows only one device to be "DRIVER's" at a time. In this document, we refer an application running on a device marked as DRIVER as a driver's application, an application running on a device not marked as DRIVER as a passenger's application.
 
 
 Driver's applications can access/control all available RC modules no matter where the RC module is. Policy rules control what RC modules and how a RC module can be accessed by a passenger's application. Depending on policy configuration, the system can automatically allow, deny or ask driver's permission to grant the access of a passenger's application. 
@@ -800,11 +800,11 @@ The changes are listed below.
 
 - The driver distraction rules and regional regulations are getting more stringent on driver's using mobile phones while driving. Current design cannot prevent a driver mark a phone as PASSENGER and use it while driving.
 
-- The driver must exit current control application before using another application to control the same RC module. There is no indication of which application is currently control the RC module. Driver doesn't know which application to be closed. This makes application switching cumbersome.
+- The driver must exit current controlling application before using another application to control the same RC module. There is no indication of which application is currently control the RC module. Driver doesn't know which application to close. This makes application switching cumbersome.
 
 - It lacks the policy control on which application can access which RC resource.
 
-- RPC messages are not encrypted. Attackers may try to eves-drop and spoof wireless communication.
+- RPC messages are not encrypted. Attackers may try to evesdrop and spoof wireless communication.
 
 - It can only subscribe to all radio or climate control data, cannot subscribe to individual item change notifications.
 
