@@ -11,17 +11,17 @@ This proposal is about adding a new parameter to the `VehicleType` structure to 
 
 ## Motivation
 
-Some apps want to use different templates based on the steering wheel location. As an example TEXT_WITH_BUTTONS_AND_GRAPHIC works great for left hand drives as buttons are closer to the driver. For right hand drives apps would want to use GRAPHIC_WITH_TEXT_AND_BUTTONS. Today apps would use the language/region code and **guess** the location of the steering wheel.
+Some apps want to use different templates based on the steering wheel location. As an example TEXT_WITH_BUTTONS_AND_GRAPHIC works great for left handed drives as buttons are closer to the driver. For right handed drives apps would want to use GRAPHIC_WITH_TEXT_AND_BUTTONS. Today apps would use the language/region code and **guess** the location of the steering wheel.
 
 ## Proposed solution
 
-In order to improve the user experience for right hand drive the app should know the steering wheel location. This information can be provided to the app right after the apps registration on the head unit. This newly added parameter should be optional for backwards compatibility. The type of the parameter should be an enum. Following values should be allowed:
+In order to improve the user experience for right handed drive the app should know the steering wheel location. This information can be provided to the app right after the app's registration on the head unit. This newly added parameter should be optional for backwards compatibility. The type of the parameter should be an enum. Following values should be allowed:
 
 - `null`: Either the head unit is of an old version and/or the steering wheel location is not known.
 - `.LEFT`: The steering wheel location is on the left hand side.
 - `.RIGHT`: The steering wheel location is on the right hand side.
 - `.CENTER`: The steering wheel location is centered.
-- `.NONE`: The vehicle does not contain a steering wheel (e.g. autonomous. different to `null` the app would definitely know that no steering wheel exist).
+- `.NONE`: The vehicle does not contain a steering wheel (e.g. autonomous. different to `null` the app would definitely know that no steering wheel exists).
 
 ### HMI and mobile API:
 
