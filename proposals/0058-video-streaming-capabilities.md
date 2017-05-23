@@ -22,8 +22,7 @@ The issue is resolved by capturing video related capabilities of the head unit a
 This document proposes to add video streaming related capabilities. They include:
  - preferred resolution of a video stream for decoding and rendering on HMI
    * This is merely a hint for optimization; SDL app may send a video stream whose resolution is higher or lower than this value. Also, this value can be different from the value of `DisplayCapabilities.ScreenParams.resolution` if, for instance, HMI is showing some buttons along with the video so the video area is smaller than the screen resolution.
- - video format(s) that the system supports. This is to sync with proposal [SDL-0048](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0048-H264-over-RTP-support-for-video-streaming.md).
- - maximum H.264 level that HMI supports
+ - maximum H.264 profile that HMI supports
  - maximum bitrate of H.264 video stream that HMI supports
 
 The capabilities are transferred to SDL core and proxy using "System Capabilities Query" RPC proposed by [SDL-0055 (https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0055-system_capabilities_query.md)](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0055-system_capabilities_query.md).
@@ -32,55 +31,22 @@ Currently, the capabilities focus on H.264 related properties since video projec
 
 ## Detailed design
 
-### Modification to existing RPCs (Mobile_API and HMI_API)
-
-Please also refer to "System Capabilities Query" proposal.
-
-```xml
-<struct name="HMICapabilities">
-    <param name="navigation" type="Boolean" mandatory="false">
-        <description>Availability of build in Nav. True: Available, False: Not Available</description>
-    </param>
-    <param name="phoneCall" type="Boolean" mandatory="false">
-        <description>Availability of build in phone. True: Available, False: Not Available </description>
-    </param>
-    <param name="videoStreaming" type="Boolean" mandatory="false">
-        <description>Availability of video streaming. </description>
-    </param>
-</struct>
-
-<struct name="SystemCapability">
-    <description>The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a "navigationCapability" should exist</description>
-    <param name="systemCapabilityType" type="SystemCapabilityType" mandatory="true">
-    </param>
-    <param name="videoStreamingCapability" type="VideoStreamingCapability" mandatory="false">
-    </param>
-</struct>
-
-<enum name="SystemCapabilityType">
-    <element name="VIDEO_STREAMING"/>
-</enum>
-```
-
 ### Additions to Mobile_API
 
-Add `VideoStreamingCapability` struct which includes `preferredResolution`, `supportedFormats`, `maxH264Level` and `maxH264Bitrate` parameters.
+Include `preferredResolution`, `maxH264Profile`, `maxH264Bitrate` parameters in `VideoStreamingCapability` struct. (If the struct does not exist then it should be newly added.)
 
 ```xml
   <struct name="VideoStreamingCapability">
-    <description>Contains information about this system's video streaming capabilities.</description>
+    <description>Contains information about HMI's video streaming capabilities.</description>
+
+      :
+      :
+
     <param name="preferredResolution" type="ImageResolution" mandatory="false">
       <description>The preferred resolution of a video stream for decoding and rendering on HMI.</description>
     </param>
-    <param name="supportedFormats" type="String" minlength="1" maxlength="255" minsize="1" maxsize="100" array="true" mandatory="false">
-      <description>
-        List of video formats that HMI supports, in its preferred order. Following strings are defined.
-        - "video/x-h264,stream-format=byte-stream" (Raw H.264 stream that contains no timestamp data and is the lowest supported video streaming.)
-        - "application/x-rtp-stream,media=video,encoding-name=h264" (H.264 video over RTP format defined by RFC 6184 and framed as defined by RFC 4571. This format includes timestamps and sequence numbers.)
-      </description>
-    </param>
-    <param name="maxH264Level" type="String" minlength="1" maxlength="7" mandatory="false">
-      <description>The highest H.264 level that HMI supports. Examples: "1b", "3", "4.2".</description>
+    <param name="maxH264Profile" type="String" minlength="1" maxlength="7" mandatory="false">
+      <description>The highest H.264 profile that HMI supports. Examples: "1b", "3", "4.2".</description>
     </param>
     <param name="maxH264Bitrate" type="Integer" minvalue="0" maxvalue="2147483647" mandatory="false">
       <description>The maximum bitrate of H.264 video stream that HMI supports, in kbps.</description>
@@ -90,23 +56,20 @@ Add `VideoStreamingCapability` struct which includes `preferredResolution`, `sup
 
 ### Additions to HMI_API
 
-Add `Common.VideoStreamingCapability` struct which includes `preferredResolution`,`supportedFormats`, `maxH264Level` and `maxH264Bitrate` parameters.
+Include `preferredResolution`, `maxH264Profile`, `maxH264Bitrate` parameters in `Common.VideoStreamingCapability` struct. (If the struct does not exist then it should be newly added.)
 
 ```xml
   <struct name="VideoStreamingCapability">
-    <description>Contains information about this system's video streaming capabilities.</description>
+    <description>Contains information about HMI's video streaming capabilities.</description>
+
+      :
+      :
+
     <param name="preferredResolution" type="Common.ImageResolution" mandatory="false">
       <description>The preferred resolution of a video stream for decoding and rendering on HMI.</description>
     </param>
-    <param name="supportedFormats" type="String" minlength="1" maxlength="255" minsize="1" maxsize="100" array="true" mandatory="false">
-      <description>
-        List of video formats that HMI supports, in its preferred order. Following strings are defined.
-        - "video/x-h264,stream-format=byte-stream" (Raw H.264 stream that contains no timestamp data and is the lowest supported video streaming.)
-        - "application/x-rtp-stream,media=video,encoding-name=h264" (H.264 video over RTP format defined by RFC 6184 and framed as defined by RFC 4571. This format includes timestamps and sequence numbers.)
-      </description>
-    </param>
-    <param name="maxH264Level" type="String" minlength="1" maxlength="7" mandatory="false">
-      <description>The highest H.264 level that HMI supports. Examples: "1b", "3", "4.2".</description>
+    <param name="maxH264Profile" type="String" minlength="1" maxlength="7" mandatory="false">
+      <description>The highest H.264 profile that HMI supports. Examples: "1b", "3", "4.2".</description>
     </param>
     <param name="maxH264Bitrate" type="Integer" minvalue="0" maxvalue="2147483647" mandatory="false">
       <description>The maximum bitrate of H.264 video stream that HMI supports, in kbps.</description>
