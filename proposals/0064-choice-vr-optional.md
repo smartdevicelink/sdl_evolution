@@ -1,8 +1,8 @@
 # Choice-VR optional
 
-* Proposal: [SDL-NNNN](NNNN-choice-vr-optional.md)
+* Proposal: [SDL-0064](0064-choice-vr-optional.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
