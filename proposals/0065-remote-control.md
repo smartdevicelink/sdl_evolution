@@ -1,8 +1,8 @@
 # SDL Remote Control
 
-* Proposal: [SDL-NNNN](NNNN-remote-control.md)
+* Proposal: [SDL-0065](0065-remote-control.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
