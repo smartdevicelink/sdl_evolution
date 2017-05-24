@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0063](0063-display-name-parameter.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
