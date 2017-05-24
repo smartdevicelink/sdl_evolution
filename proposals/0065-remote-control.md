@@ -11,11 +11,11 @@ SmartDeviceLink provides a framework that connects in-vehicle infotainment syste
 
 ## Motivation
 
-There are many cases that mobile application developers ask for new functions of SDL. For example, 
+There are many cases that mobile application developers ask for new functions of SDL. For example,
 
-- A radio application wants to use the in-vehicle radio. It needs the RPC function to select the radio band (AM/FM/XM/HD/DAB), tune the radio frequency or change the radio station, as well as obtain general radio information for decision making. 
+- A radio application wants to use the in-vehicle radio. It needs the RPC function to select the radio band (AM/FM/XM/HD/DAB), tune the radio frequency or change the radio station, as well as obtain general radio information for decision making.
 
-- A climate control application needs to turn on the AC, control the air circulation mode, change the fan speed and set the desired cabin temperature. 
+- A climate control application needs to turn on the AC, control the air circulation mode, change the fan speed and set the desired cabin temperature.
 
 - A user profile application wants to remember user's favorite settings and apply it later automatically when the users get into the same/another vehicle.
 
@@ -31,7 +31,7 @@ The common problem is that a mobile application needs the ability to control cer
 SDL-RC provides common RPC messages and functions to allow a mobile application to (1) read current vehicle RC data/settings, (2) subscribe and un-subscribe certain or all vehicle RC data/setting change notifications, (3) send notifications to subscribed applications when the monitored RC data/settings changes, (4) change vehicle RC settings, and (5) get vehicle RC capability, i.e. what are available for remote control in the vehicle. The following table lists what control module and what control items are considered in the current implementation.
 
 
-| RC Module | Control Item | Value Range |Type | Comments | 
+| RC Module | Control Item | Value Range |Type | Comments |
 | ------------ | ------------ |------------ | ------------ | ------------ |
 | Radio | Radio Enabled | true,false  | Get/Notification| read only, all other radio control items need radio enabled to work|
 | Radio | Radio Band | AM,FM,XM  | Get/Set/Notification| |
@@ -55,29 +55,29 @@ SDL-RC provides common RPC messages and functions to allow a mobile application 
 In addition to the above RC data/settings, the SDL-RC can also allow mobile application to send button press event or long press event for the follow common climate control buttons in vehicle.
 
 
-| RC Module | Control Button | 
+| RC Module | Control Button |
 | ------------ | ------------ |
-| Climate | AC Button | 
+| Climate | AC Button |
 | Climate | AC MAX Button |
-| Climate | RECIRCULATE Button | 
-| Climate | FAN UP Button | 
-| Climate | FAN DOWN Button | 
+| Climate | RECIRCULATE Button |
+| Climate | FAN UP Button |
+| Climate | FAN DOWN Button |
 | Climate | TEMPERATURE UP Button |
-| Climate | TEMPERATURE DOWN Button | 
-| Climate | DEFROST Button | 
-| Climate | DEFROST REAR Button | 
-| Climate | DEFROST MAX Button | 
-| Climate | UPPER VENT Button | 
-| Climate | LOWER WENT Button | 
-| Radio   | VOLUME UP Button | 
-| Radio   | VOLUME DOWN Button | 
-| Radio   | EJECT Button | 
+| Climate | TEMPERATURE DOWN Button |
+| Climate | DEFROST Button |
+| Climate | DEFROST REAR Button |
+| Climate | DEFROST MAX Button |
+| Climate | UPPER VENT Button |
+| Climate | LOWER WENT Button |
+| Radio   | VOLUME UP Button |
+| Radio   | VOLUME DOWN Button |
+| Radio   | EJECT Button |
 | Radio   | SOURCE Button |
-| Radio   | SHUFFLE Button | 
-| Radio   | REPEAT Button | 
+| Radio   | SHUFFLE Button |
+| Radio   | REPEAT Button |
 
 The interior of a vehicle is divided into zones or locations, for example, driver zone, front passenger zone, rear right/left/all passenger zone, etc. Zones are defined by three coordinates: row, column, level and their spans. A RC module is associated with a zone. For example, a seat control module can be driver's seat or front passenger's seat. Dual climate control can control driver side or passenger side. RC capability response message tells the mobile application what RC modules are located in which zone.
- 
+
 
 A new appHMIType: REMOTE_CONTROL is added: all and any remote-control applications must register with this type. The work flow of a remote control application on driver's device is simple. Like the existing applications, a RC application need to register with the system, be launched by driver via HMI or voice control. Usually it shall send a request for vehicle's RC capabilities to get a list of controllable RC modules available. Then it can start to read or change RC module settings. The first control message (setter request) with a specific RC module will trigger SDL to perform RC resource allocation process, which in general says at any time a RC module can be controlled by one and only one application. For example, if a climate control module is allocated to application ONE, any other applications will get rejected if they try to change the climate control settings. The climate control resource is freed when application ONE exits or disconnects. Until climate control resource gets free, no other application can perform climate control actions. RC resource allocation is first come, first serve.
 
@@ -85,13 +85,13 @@ A new appHMIType: REMOTE_CONTROL is added: all and any remote-control applicatio
 Things get complicated when passengers are allowed to control. The current implementation allows multiple (two to be exact) devices get connected at the same time. By default when a device connects to the system, it is treated as a passenger's device. The driver can change the rank of a device from PASSENGER to DRIVER or vice versa via HMI. SDL-RC allows only one device to be "DRIVER's" at a time. In this document, we refer an application running on a device marked as DRIVER as a driver's application, an application running on a device not marked as DRIVER as a passenger's application.
 
 
-Driver's applications can access/control all available RC modules no matter where the RC module is. Policy rules control what RC modules and how a RC module can be accessed by a passenger's application. Depending on policy configuration, the system can automatically allow, deny or ask driver's permission to grant the access of a passenger's application. 
+Driver's applications can access/control all available RC modules no matter where the RC module is. Policy rules control what RC modules and how a RC module can be accessed by a passenger's application. Depending on policy configuration, the system can automatically allow, deny or ask driver's permission to grant the access of a passenger's application.
 
-Unlike a driver's application, which must be launched by the driver on mobile phone and activated on vehicle HMI (HMI level from NONE to FULL), a passenger's application can be launched from a connected phone and automatically activated to HMI level BACKGROUND/LIMITED without HMI touch or voice command after GetIneriorVehicleDataConsent get a successful allowed response (may need driver's permission if configured so). 
+Unlike a driver's application, which must be launched by the driver on mobile phone and activated on vehicle HMI (HMI level from NONE to FULL), a passenger's application can be launched from a connected phone and automatically activated to HMI level BACKGROUND/LIMITED without HMI touch or voice command after GetIneriorVehicleDataConsent get a successful allowed response (may need driver's permission if configured so).
 
 By default SDL-RC allows passenger's application to use remote control feature. However, the driver can disable the feature via HMI by sending OnReverseAppsAllowing(false) message to SDL.
 
-Please see attached documents for detailed design. [HMI Guideline] (0064_SDLRC_HMI_Guidelines_v1.1.pdf) and [Mobile API Guideline] (0064_SDLRC_Mobile_API_Guidelines_v1.0.pdf)
+Please see attached documents for detailed design. [HMI Guideline](../assets/proposals/0065-remote-control/0065_SDLRC_HMI_Guidelines_v1.1.pdf) and [Mobile API Guideline](../assets/proposals/0065-remote-control/0065_SDLRC_Mobile_API_Guidelines_v1.0.pdf)
 
 ### Mobile API changes
 Full Mobile API can be found here:
@@ -124,7 +124,7 @@ The changes are listed below.
       <element name="SHUFFLE" />
       <element name="REPEAT" />
   </enum>
-  
+
   <!-- new additions -->
   <struct name="InteriorZone">
     <description>Describes the origin and span of a zone in the vehicle. Vehicle zones can be overlapping</description>
@@ -141,25 +141,25 @@ The changes are listed below.
     <param name="levelspan" type="Integer" minvalue="0" maxvalue="100">
     </param>
   </struct>
-  
+
   <enum name="ModuleType">
     <element name="CLIMATE"/>
     <element name="RADIO"/>
   </enum>
-  
+
   <struct name="ModuleDescription">
     <param name="moduleZone" type="InteriorZone">
     </param>
     <param name="moduleType" type="ModuleType">
     </param>
   </struct>
-  
+
   <enum name="RadioBand">
     <element name="AM"/>
     <element name="FM"/>
     <element name="XM"/>
   </enum>
-  
+
 <struct name="RdsData">
     <param name="PS" type="String" minlength="0" maxlength="8" mandatory="false">
       <description>Program Service Name</description>
@@ -186,7 +186,7 @@ The changes are listed below.
       <description>Region</description>
     </param>
   </struct>
-  
+
   <enum name="RadioState">
     <element name="ACQUIRING"/>
     <element name="ACQUIRED"/>
@@ -234,7 +234,7 @@ The changes are listed below.
     <element name="FAHRENHEIT"/>
     <element name="CELSIUS"/>
   </enum>
-  
+
   <struct name="ClimateControlData">
     <param name="fanSpeed" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
     </param>
@@ -277,7 +277,7 @@ The changes are listed below.
     <description>The device is ranked as passenger's</description>
    </element>
   </enum>
-  
+
   <!-- existing with updates -->
   <function name="ButtonPress" functionID="ButtonPressID" messagetype="request">
     <param name="zone" type="InteriorZone">
@@ -313,7 +313,7 @@ The changes are listed below.
         <description> true if successful; false, if failed </description>
     </param>
   </function>
-  
+
   <!-- new additions -->
   <function name="GetInteriorVehicleDataCapabilities" functionID="GetInteriorVehicleDataCapabilitiesID" messagetype="request">
     <description>Called to retrieve the available zones and supported control types</description>
@@ -418,7 +418,7 @@ The changes are listed below.
     <param name="moduleData" type="ModuleData">
     </param>
   </function>
-  
+
   <!-- existing with updates -->
   <function name="OnHMIStatus" functionID="OnHMIStatusID" messagetype="notification">
     <param name="hmiLevel" type="HMILevel">
@@ -438,7 +438,7 @@ The changes are listed below.
      <description>If "DRIVER" - the application is running on device ranked as driver's. If "PASSENGER" - the application is running on device ranked as passenger's. </description>
     </param>
   </function>
-  
+
   <enum name="AppHMIType">
     <description>Enumeration listing possible app types.</description>
     <element name="DEFAULT" />
