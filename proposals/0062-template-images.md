@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0062](0062-template-images.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
