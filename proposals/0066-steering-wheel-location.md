@@ -1,8 +1,8 @@
 # Steering wheel location
 
-* Proposal: [NNNN](NNNN-steering-wheel-location.md)
+* Proposal: [0066](0066-steering-wheel-location.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Review ready**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
