@@ -1,0 +1,23 @@
+@startuml
+
+frame "Script Executor"{ 
+  [API Facade] as FACADE
+  [Test cases executor] as RUNNER
+}
+
+[Test script] as SCRIPT
+
+node "Test workstation"{ 
+[SDL]
+[SDL Watchdog] as WATCHDOG 
+WATCHDOG -down-> SDL : start/stop/watch
+}
+
+SCRIPT -> FACADE : use
+RUNNER -> SCRIPT : execute and provide API Facade
+
+FACADE -left-> SDL : communication via mobile protocol
+FACADE -left-> WATCHDOG : communication via RPC
+
+
+@enduml

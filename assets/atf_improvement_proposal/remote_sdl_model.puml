@@ -1,0 +1,31 @@
+
+@startuml
+
+node "Engineer/CI workstation"{ 
+  [Test scripts] as SCRIPTS
+  [Script runner] as RUNNER
+  [SDL Deployer] as DEPLOYER
+  [Test set executor] as SET_EXECUTOR
+}
+
+node "Test workstation"{ 
+  [SDL WatchDog] as WATCHDOG
+  [SDL]
+}
+
+RUNNER .left.> SCRIPTS : execute
+RUNNER .down-> SDL
+RUNNER .down-> WATCHDOG
+
+DEPLOYER -down-> SDL 
+DEPLOYER -down-> WATCHDOG 
+note right of DEPLOYER : "deploy SDL and Watchdog and SDL"
+note left of RUNNER : "communicate with SDL and Watchdog view RPC"
+
+WATCHDOG -right.> SDL :Start/stop/watch
+
+SET_EXECUTOR -down-> SCRIPTS : use
+SET_EXECUTOR -down-> RUNNER : run
+SET_EXECUTOR -down-> DEPLOYER : run
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+
+package "ATF"{ 
+  [Test scripts] as SCRIPTS
+  [Script runner] as RUNNER
+  [SDL Deployer] as DEPLOYER
+  [SDL Watchdog] as WATCHDOG
+  [Test set executor] as SET_EXECUTOR
+  
+  SET_EXECUTOR -down-> DEPLOYER : uses
+  SET_EXECUTOR -left-> SCRIPTS : uses
+  
+  RUNNER <.down-> WATCHDOG : communication via RPC
+  RUNNER .right. SCRIPTS : execute
+  
+  DEPLOYER .left-> WATCHDOG : Run
+}
+@enduml
