@@ -2,7 +2,7 @@
 
 * Proposal: [0066](0066-steering-wheel-location.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
