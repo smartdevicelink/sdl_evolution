@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0058](0058-video-streaming-capabilities.md)
 * Author: Tomoya Suzuki, Sho Amano
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
