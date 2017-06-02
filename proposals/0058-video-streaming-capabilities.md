@@ -3,7 +3,7 @@
 * Proposal: [SDL-0058](0058-video-streaming-capabilities.md)
 * Author: Tomoya Suzuki, Sho Amano
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Android / RPC]
+* Impacted Platforms: [Core / iOS / Android / RPC / Protocol]
 
 ## Introduction
 
@@ -27,7 +27,7 @@ Head unit's video capabilities are transferred to SDL proxy based on "System Cap
  - preferred resolution of a video stream for decoding and rendering on HMI
    * This is merely a hint for optimization; SDL app may send a video stream whose resolution is higher or lower than this value. Also, this value can be different from the value of `DisplayCapabilities.ScreenParams.resolution` if, for instance, HMI is showing some buttons along with the video so the video area is smaller than the screen resolution.
  - maximum bitrate of a video stream that HMI supports
- - list of video formats that the head unit supports. Here, a video format is a combination of "protocol" and "codec".
+ - list of video formats that the head unit supports, in its preferred order. Here, a video format is a combination of "protocol" and "codec".
 
 ### Video format negotiation
 
@@ -42,6 +42,8 @@ As SDL core receives the Control Frame, it emits a `SetVideoConfig` request to H
 `Start Service NACK` includes a list of parameters which have not been accepted by HMI.
 
 After SDL proxy receives a `Start Service NACK` Control Frame from SDL core, it may initiate another `Start Service` Control Frame with updated parameters.
+
+When selecting a video format, SDL proxy should pick a format that is most preferable to the head unit and is also supported by the proxy itself. If HMI should reply a negative response with the format, then the proxy picks the second preferable format and try again. SDL proxy can continue this routine until it gets to the end of video format list. If none of the format is accepted (which is unlikely to happen), then the proxy may emit `Start Service` Control Frame without any video configuration parameters, to fall back to existing sequence.
 
 `SetVideoConfig` request shall be sent to HMI prior to `StartStream` request. SDL core shall send it every time before each `StartStream` request as long as video configurations are included in `Start Service` Control Frame. If HMI receives a `StartStream` request without `SetVideoConfig`, it shall treat the protocol is "RAW" and the codec is "H264". This is to keep backward compatibility with existing SDL proxy implementations.
 
@@ -133,7 +135,7 @@ Add `VideoStreamingCapability`, `VideoStreamingFormat`, `VideoStreamingProtocol`
         <description>The maximum bitrate of video stream that is supported, in kbps.</description>
     </param>
     <param name="supportedFormats" type="VideoStreamingFormat" array="true" mandatory="false">
-        <description>Detailed information on each format supported by this system. Each object will contain a VideoStreamingFormat that describes what can be expected.</description>
+        <description>Detailed information on each format supported by this system, in its preferred order (i.e. the first element in the array is most preferable to the system). Each object will contain a VideoStreamingFormat that describes what can be expected.</description>
     </param>
 </struct>
 
@@ -185,6 +187,8 @@ Add `VideoStreamingCapability`, `VideoStreamingFormat`, `VideoStreamingProtocol`
     </element>
 </enum>
 ```
+
+*NOTE:* Not all protocols and codecs are supported yet; they are added for completeness. Right now, only the pair of `H264` codec and `RAW` protocol is supported. With the proposal [SDL-0048](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0048-H264-over-RTP-support-for-video-streaming.md), the pair of `H264` and `RTP` will be added.
 
 SDL proxy should consider exposing the capabilities to SDL app. For example, a new property can be added in `SDLStreamingMediaManager` class in iOS SDL proxy.
 
