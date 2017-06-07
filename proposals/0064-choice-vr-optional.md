@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0064](0064-choice-vr-optional.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
