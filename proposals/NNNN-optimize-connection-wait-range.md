@@ -33,6 +33,14 @@ We currently see failures of iOS Apps to connect to sdl_core, when plugged in. T
 
 These two changes significantly improve the connection reliability. 
 
+We tested with 12 HelloSDL Apps on one phone. Percentage indicates the relative number of Apps that showed up after USB connection. 
+
+| Range | Result |
+|-------|--------|
+| 0-10	| 87%    |
+| 1-9   |	95%    |
+| 1.-9.5| 98%    |
+
 ## Potential downsides
 
 This shrinks the total available connection window from 10 seconds to 8 seconds. This will decrease the theoretical spacing between Apps trying to connect. We have not found this to be a problem. 
