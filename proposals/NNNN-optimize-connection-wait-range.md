@@ -1,11 +1,15 @@
-# Feature name
+# Optimize Connection Wait Range
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-NNNN](NNNN-optimize-connection-wait-range.md)
 * Author: [Timur Pulathaneli](https://github.com/tpulatha)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
+
+By changing the time the iOS library waits to connect from a random number in the range of 0-10 seconds to 1.5 - 9.5 seconds we improve the connection reliability of the hub strategy.
+
+## Motivation
 
 The iOS Library uses the `hub strategy` to connect to the external accessory (sdl_core). This strategy allows multiple apps to connect to sdl_core at the same time. The `hub strategy` works as follows:
 1. iOS App wakes up due to EAAccessory connected message (USB/BT connected)
@@ -19,7 +23,6 @@ Some iOS limitations have to be clear to understand the need of this strategy:
 * On older iOS versions, if one App is using a protocol string to connect to sdl_core, another App trying to open the connection will disconnect the original App. -> This requires the random delay, to ensure that not two apps connect to the control accessory string (`prot0`) at the same time. 
 * iOS suspends Apps that don't open the EAAccessory session inside of 10 seconds after receiving the notification.
 
-## Motivation
 
 We currently see failures of iOS Apps to connect to sdl_core, when plugged in. This happens for some Apps more often than others. We were able to root cause this to Apps, which have a random wait time that is close to the edges. (Close to 0 or close to 10).
 
