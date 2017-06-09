@@ -39,7 +39,7 @@ We tested with 12 HelloSDL Apps on one phone. Percentage indicates the relative 
 |-------|--------|
 | 0-10	| 87%    |
 | 1-9   |	95%    |
-| 1.-9.5| 98%    |
+| 1.5-9.5| 98%    |
 
 ## Potential downsides
 
