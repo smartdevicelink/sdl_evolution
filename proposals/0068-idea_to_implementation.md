@@ -1,8 +1,8 @@
 # Idea To Implementation
 
-* Proposal: [SDL-NNNN](NNNN-idea_to_implementation.md)
+* Proposal: [SDL-0068](0068-idea_to_implementation.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Meta / RPC]
 
 ## Introduction
