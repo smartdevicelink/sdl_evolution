@@ -74,6 +74,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0064" status="deferred" primary-platform="core" sdl-version="x.x" name="Choice-VR optional" filename="0064-choice-vr-optional.md"/>
 <proposal id="0065" status="active" primary-platform="core" sdl-version="x.x" name="SDL Remote Control" filename="0065-remote-control.md"/>
 <proposal id="0066" status="returned" primary-platform="core" sdl-version="x.x" name="Steering wheel location" filename="0066-steering-wheel-location.md"/>
+<proposal id="0067" status="active" primary-platform="ios" sdl-version="x.x" name="Optimize Connection Wait Range" filename="0067-optimize-connection-wait-range.md"/>
+<proposal id="0068" status="active" primary-platform="rpc" sdl-version="x.x" name="Idea To Implementation" filename="0068-idea_to_implementation.md"/>
 
 	
 <!--
