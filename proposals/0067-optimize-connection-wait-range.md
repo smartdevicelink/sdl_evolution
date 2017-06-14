@@ -1,8 +1,8 @@
 # Optimize Connection Wait Range
 
-* Proposal: [SDL-NNNN](NNNN-optimize-connection-wait-range.md)
+* Proposal: [SDL-0067](0067-optimize-connection-wait-range.md)
 * Author: [Timur Pulathaneli](https://github.com/tpulatha)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
