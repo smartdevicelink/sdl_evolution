@@ -11,11 +11,11 @@ This proposal aims to enhance SDL Android library for massive data transmission 
 
 ## Motivation
 
-The SDL Android library are currently using default java.io package, it uses `PipedInputStream` via `write()` function to stream data **Byte by Byte**, because CPU operation is very fast, in most cases, the operation performance as good as we expected. But for video streaming and projection, it is a botterneck for transmission according to test. It will cause very frequently CPU resources switch between read thread and write thread. Thus has an effect on video streaming performance. Another motivation here is that if read thread get the critical resource to read after write thread just write one byte or serveral bytes, this leads to slice one frame data to send by many times. It lso reduces the efficiency of data transmission and increase the CPU workload.
+The SDL Android library are currently using default java.io package, it uses `PipedInputStream` via `write()` function to stream data **Byte by Byte**, because CPU operation is very fast, in most cases, the operation performs as good as we expected. But for video streaming and projection, it is a bottleneck for transmission according to test. It will cause very frequent CPU resources switch between read thread and write thread. Thus has an effect on video streaming performance. Another motivation here is that if read thread get the critical resource to read after write thread just write one byte or serveral bytes, this leads to slice one frame data to send by many times. It also reduces the efficiency of data transmission and increase the CPU workload.
 
 ## Proposed solution
 
-The solution in this proposal is to refactor the class `PipedInputStream` and  the class `PipedOutputStream`, it gives parameter byteOffset and parameter byteCount in recevie function and write function. These will help these two function to call `System.arraycopy()` to receive and write block data into buffer one time.
+The solution in this proposal is to refactor the class `PipedInputStream` and  the class `PipedOutputStream`, it gives parameter byteOffset and parameter byteCount in receive function and write function. These will help these two functions to call `System.arraycopy()` to receive and write block data into buffer one time.
 
 Currently, we send data via write function as below:
 
@@ -108,8 +108,8 @@ N/A
 
 ## Impact on existing code
 
-There is no impact for the existing code. The changes in this proposal is to remove the default io PipedInputStream and PipedOutputStream packge and reimport PipedInputStream and PipedOutputStream from component streaming. The developer would not need to change their previous code if they do not wish to use the new library for video streaming.
+There is no impact for the existing code. The changes in this proposal are to remove the default io PipedInputStream and PipedOutputStream package and reimport PipedInputStream and PipedOutputStream from component streaming. The developer would not need to change their previous code if they do not wish to use the new library for video streaming.
  
 ## Alternatives considered
 
-There is a optional solution to improve the video streaming performance is to straightly send data from encoder byte buffer and handler to avoid using the pipe stream.
+There is a optional solution to improve the video streaming performance by directly sending data from encoder byte buffer and handler to avoid using the pipe stream.
