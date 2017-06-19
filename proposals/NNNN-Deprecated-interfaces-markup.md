@@ -54,7 +54,7 @@ int main() {
 }
 ```
 
-#### CompileRS output : 
+#### Compilers output : 
 
 ##### G++ :
 ```bash
