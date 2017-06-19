@@ -46,37 +46,58 @@ It will generate compile time warning in with c++98 or c++11 or c++14.
 
 ### Usage : 
 
+#### C++ Code :
 ```cpp
 DEPRECATED void bar() {}
 int main() {
   bar();
 }
 ```
-Compile : 
-```bash
-$ g++ --std=c++14 ./main.cc ; g++ --std=c++11 ./main.cc ; g++ --std=c++98 ./main.cc
-./main.cc: In function ‘int main()’:
-./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
-     bar();
-     ^
-./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
-     bar();
-         ^
-./main.cc: In function ‘int main()’:
-./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
-     bar();
-     ^
-./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
-     bar();
-         ^
-./main.cc: In function ‘int main()’:
-./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
-     bar();
-     ^
-./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
-     bar();
 
+Compile output : 
+
+```bash
+$ g++ --std=c++11 ./main.cc                            
+./main.cc: In function ‘int main()’:
+./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
+     bar();
+     ^
+./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
+     bar();
+g++ --std=c++11 ./main.cc                            
+./main.cc: In function ‘int main()’:
+./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
+     bar();
+     ^
+./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
+     bar();
+$  g++ --std=c++98 ./main.cc 
+./main.cc: In function ‘int main()’:
+./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
+     bar();
+     ^
+./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
+     bar();
+         ^
+$ clang --std=c++98 ./main.cc  
+./main.cc:23:5: warning: 'bar' is deprecated [-Wdeprecated-declarations]
+    bar();
+    ^
+./main.cc:19:17: note: 'bar' has been explicitly marked deprecated here
+DEPRECATED void bar() {}
+                ^
+1 warning generated.
+
+clang --std=c++11 ./main.cc  
+./main.cc:23:5: warning: 'bar' is deprecated [-Wdeprecated-declarations]
+    bar();
+    ^
+./main.cc:19:17: note: 'bar' has been explicitly marked deprecated here
+DEPRECATED void bar() {}
+                ^
+1 warning generated.
 ```
+
 Full usage example is available https://github.com/alexkutsan/RnD_fun/blob/master/deprecated/main.cc 
 
 Also doxygen `@deprecated` command should be used for documentation:
@@ -110,3 +131,4 @@ In some SDL core methods should be marked as deprecated and using this methods w
 ## Alternatives
 As alternative it is possible to remove deprecated methods, but it will breake backwardd capablity 
 of 3rd party developers code with newer versions of SDL.
+$ 
