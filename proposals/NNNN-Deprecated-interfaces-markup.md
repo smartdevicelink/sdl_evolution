@@ -88,7 +88,7 @@ DEPRECATED void bar() {}
                 ^
 1 warning generated.
 
-clang --std=c++11 ./main.cc  
+$ clang --std=c++11 ./main.cc  
 ./main.cc:23:5: warning: 'bar' is deprecated [-Wdeprecated-declarations]
     bar();
     ^
