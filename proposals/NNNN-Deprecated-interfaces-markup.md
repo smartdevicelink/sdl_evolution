@@ -58,21 +58,15 @@ int main() {
 
 ##### G++ :
 ```bash
-$ g++ --std=c++11 ./main.cc                            
+$ g++ --std=c++11 -Werror -Wno-error=deprecated-declarations ./main.cc                            
 ./main.cc: In function ‘int main()’:
 ./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
      bar();
      ^
 ./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
      bar();
-g++ --std=c++11 ./main.cc                            
-./main.cc: In function ‘int main()’:
-./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
-     bar();
-     ^
-./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
-     bar();
-$  g++ --std=c++98 ./main.cc 
+
+$  g++ --std=c++98 -Werror -Wno-error=deprecated-declarations ./main.cc 
 ./main.cc: In function ‘int main()’:
 ./main.cc:85:5: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
      bar();
@@ -84,7 +78,7 @@ $  g++ --std=c++98 ./main.cc
 
 ##### Clang : 
 ```bash
-$ clang --std=c++98 ./main.cc  
+$ clang --std=c++98 -Werror -Wno-error=deprecated-declarations ./main.cc  
 ./main.cc:23:5: warning: 'bar' is deprecated [-Wdeprecated-declarations]
     bar();
     ^
@@ -93,7 +87,7 @@ DEPRECATED void bar() {}
                 ^
 1 warning generated.
 
-$ clang --std=c++11 ./main.cc  
+$ clang --std=c++11 -Werror -Wno-error=deprecated-declarations ./main.cc  
 ./main.cc:23:5: warning: 'bar' is deprecated [-Wdeprecated-declarations]
     bar();
     ^
