@@ -13,7 +13,7 @@ Sometimes some features use interfaces that planed to be removed. And after remo
 Marking method as deprecated should trigger a compile time warning, but should not block project assemble.
 Reverse feature support plugins that can be created by 3rd party developers.
 Each public method should work to handle backward capabilities with other developers plugins code.
-Also some classes also can be deprecated and creating instances of this classes should prevent copile time warnings also.
+Also some classes also can be deprecated and creating instances of this classes should cause compile time warnings also.
 
 ## Proposed Solution
 Deprecating methods should enough explicit in code and in documentation. 
@@ -54,8 +54,9 @@ int main() {
 }
 ```
 
-Compile output : 
+#### CompileRS output : 
 
+##### G++ :
 ```bash
 $ g++ --std=c++11 ./main.cc                            
 ./main.cc: In function ‘int main()’:
@@ -79,6 +80,10 @@ $  g++ --std=c++98 ./main.cc
 ./main.cc:85:9: warning: ‘void bar()’ is deprecated (declared at ./main.cc:19) [-Wdeprecated-declarations]
      bar();
          ^
+```
+
+##### Clang : 
+```bash
 $ clang --std=c++98 ./main.cc  
 ./main.cc:23:5: warning: 'bar' is deprecated [-Wdeprecated-declarations]
     bar();
