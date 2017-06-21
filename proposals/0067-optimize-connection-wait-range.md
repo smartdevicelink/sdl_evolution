@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0067](0067-optimize-connection-wait-range.md)
 * Author: [Timur Pulathaneli](https://github.com/tpulatha)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS]
 
 ## Introduction
