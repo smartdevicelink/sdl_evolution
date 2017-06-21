@@ -1,8 +1,8 @@
 # Notification of iAP transport type
 
-* Proposal: [SDL-nnnn](nnnn-iap-transport-type-notification.md)
+* Proposal: [SDL-0070](0070-iap-transport-type-notification.md)
 * Author: [Sho Amano](https://github.com/shoamano83/)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Protocol]
 
 ## Introduction
