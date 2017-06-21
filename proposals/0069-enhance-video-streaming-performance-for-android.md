@@ -1,8 +1,8 @@
 # Enhance Video Streaming Performance for Android
 
-* Proposal: [SDL-NNNN](nnnn-enhance-video-streaming-performance-for-android.md)
+* Proposal: [SDL-0069](0069-enhance-video-streaming-performance-for-android.md)
 * Author: [BrandonHe](https://github.com/BrandonHe)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
