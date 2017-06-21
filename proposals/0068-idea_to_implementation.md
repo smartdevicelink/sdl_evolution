@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0068](0068-idea_to_implementation.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Meta / RPC]
 
 ## Introduction
