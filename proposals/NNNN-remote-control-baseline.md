@@ -102,7 +102,7 @@ The following table lists what control items are considered in the each control 
 |         | Fan Speed Setting | 0%-100% | Get/Set/Notification |  |
 |         | Ventilation Mode Setting | upper,lower,both,none  | Get/Set/Notification |  |
 
-In addition to the above RC data/settings, the SDL-RC can also allow mobile application to send button press event or long press event for the follow common climate control buttons in vehicle.
+In addition to the above RC data/settings, the SDL-RC can also allow mobile application to send button press event or long press event for the following common climate control buttons in vehicle.
 The system shall list all available RC radio buttons and RC climate buttons in the existing ButtonCapabilities list.
 
 | RC Module | Control Button |
