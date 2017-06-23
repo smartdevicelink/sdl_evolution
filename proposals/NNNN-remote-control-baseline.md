@@ -7,7 +7,7 @@
 
 ## Introduction
 
-SmartDeviceLink provides a framework that connects in-vehicle infotainment system to mobile phone applications. SDL  enables a driver to interact with their mobile phone applications using common in-vehicle interfaces such as a touch screen display, embedded voice recognition, steering wheel controls and various vehicle knobs and buttons. Although SDL provides some RPCs to allow mobile applications to obtain some vehicle status information, it does not allow a mobile application to change the vehicle settings, i.e. to control the vehicle. SDL remote control (or previously known as reverse SDL) provides the ability for mobile applications to control certain settings of the vehicle, such as, radio and climate.
+SmartDeviceLink provides a framework that connects in-vehicle infotainment system to mobile phone applications. SDL enables a driver to interact with their mobile phone applications using common in-vehicle interfaces such as a touch screen display, embedded voice recognition, steering wheel controls and various vehicle knobs and buttons. Although SDL provides some RPCs to allow mobile applications to obtain some vehicle status information, it does not allow a mobile application to change the vehicle settings, i.e. to control the vehicle. SDL remote control (or previously known as reverse SDL) provides the ability for mobile applications to control certain settings of the vehicle, such as, radio and climate.
 
 ## Motivation
 
@@ -21,48 +21,50 @@ There are many cases that mobile application developers ask for new functions of
 
 - A navigation application wants to set the application's display mode same as the vehicle's display mode and vice versa.
 
-The common problem is that a mobile application needs the ability to control certain settings of the vehicle. This proposal (SDL remote control or SDL-RC) tries to address this problem. This proposal describes the design of current implementation of SDL-RC feature branch.
+The common problem is that a mobile application needs the ability to control certain settings of the vehicle. This proposal (SDL remote control or SDL-RC) tries to address this problem. This proposal describes the baseline requirements of RC.
 
 ## Proposed solution
 
 ### Baseline features of SDL remote control in this proposal
 
 - A list of supported RC modules and specific (readable and or controllable) items within each module, and potentially value range of each item
-- Baseline only supports radio control moudle and climate control moudle
+- Baseline only supports radio control module and climate control module
 - API to get the RC capabilities (the list mentioned above)
 - API to read RC module status data
 - API to change RC module settings
 - API to subscribe RC module status/setting change notifications
 - API to unsubscribe RC module status/setting change notifications
 - RC Module status/data/setting change notifications
-- Appliations can control all available RC moudles of the vehicle (if the policy allows)
+- Basic app authorization support, the policy that control which app can access which type(s) of remote control module
+- Applications can control all available RC modules of the vehicle if the policy allows
 - One connected mobile device
 - Assumption that the app want to perform the control immediately at the time when a control request is issued.
 
-### The following features are not considered in this baseline propoal
+### The following features are not considered in this baseline proposal
 
 - app authentication (SDL has it already for Mobile Navigation apps, not for generic or remote control apps)
 - app authorization (policy control, which app can access which remote control module(s) or which control items)
 - encryption
 - RC status notifications (indicates whether an app has the control of a RC module)
 - Permission change notifications (due to policy update or driver grant/revoke permission for an app, SDL has it for generic apps)
-- Additional RC moudles (HMI settings, power seat control, windows control, lights control, etc.) or additional control items in climate and radio control
-- RC resouce management regarding how multiple apps access the same RC module with addtional requirements, for example "add to queue mode". That should be another proposal. 
+- Additional RC modules (HMI settings, power seat control, windows control, lights control, etc.) or additional control items in climate and radio control
+- RC resource management regarding how multiple apps access the same RC module with additional requirements, for example "add to queue mode". That should be another proposal. 
 
 ### Compared to the current implementation in the RC feature branch, the following sub-features are removed/changed/added
 
-- Remove the concept and the usage of resouce zones, including the resouce policy
-- Remove the device loation (in one of the zones)
-- Continue divide available controllabe items into RC moudles by functionality, give each module a short name/label/description (unique per type)
-- Provide new RemoteControlCapabilities data structure, which inlcudes specific controllable items in each module
+- Remove the concept and the usage of resource zones, including the resource policy. The lack of zones implies that the “primary zone” in the vehicle will be used, defined by OEM, (such as the driver’s zone, or all the vehicle being 1 zone).
+- Remove the device location (device is in one of the zones)
+- Continue divide available controllable items into RC modules by functionality, give each module a short name/label/description (unique per type)
+- Provide new RemoteControlCapabilities data structure, which includes specific controllable items in each module
 - Change ModuleDescription structure from using module zone to module name 
 - Keep concept of driver vs passenger device, but treat all devices as driver's device, and only allow one device
 - Add NONE to defrost zone
-- Remvoe OnDeviceLocationChanged notifications
+- Remove OnDeviceLocationChanged notifications
 - Keep but disable OnDeviceRankChanged notifications
 - Keep but disable OnReverseAppsAllowing API
 - Keep GetInteriorVehicleDataConsent request and response
 - OnHMIStatus does not contain deviceRank.
+- Add basic policy support
 
 
 
@@ -89,18 +91,19 @@ The following table lists what control items are considered in the each control 
 |       | Radio Signal Strength |  | Get/Notification | read only |
 |       | Signal Change Threshold |  | Get/Notification | read only |
 |       | Radio State | Acquiring, acquired, multicast, not_found | Get/Notification | read only |
-| Climate | Current Cabin Temperature |  | Get/Notification | read only |
-|         | Desired Cabin Temperature |  | Get/Set/Notification |  |
+| Climate | Current Cabin Temperature | -30 to 40C or -22 to 104F| Get/Notification | read only |
+|         | Desired Cabin Temperature | 14 to 30C or 60 to 90F  | Get/Set/Notification |  |
 |         | AC Setting | on,off | Get/Set/Notification |  |
 |         | AC MAX Setting | on,off  | Get/Set/Notification |  |
 |         | Air Recirculation Setting | on,off  | Get/Set/Notification |  |
 |         | Auto AC Mode Setting | on,off  | Get/Set/Notification |  |
-|         | Defrost Zone Setting | front,rear,all  | Get/Set/Notification |  |
+|         | Defrost Zone Setting | front,rear,all,none  | Get/Set/Notification |  |
 |         | Dual Mode Setting | on,off  | Get/Set/Notification |  |
 |         | Fan Speed Setting | 0%-100% | Get/Set/Notification |  |
+|         | Ventilation Mode Setting | upper,lower,both,none  | Get/Set/Notification |  |
 
 In addition to the above RC data/settings, the SDL-RC can also allow mobile application to send button press event or long press event for the follow common climate control buttons in vehicle.
-The system shall list all avaiable RC radio buttons and RC climate buttons in the existing ButtonCapabilities list.
+The system shall list all available RC radio buttons and RC climate buttons in the existing ButtonCapabilities list.
 
 | RC Module | Control Button |
 | ------------ | ------------ |
@@ -130,11 +133,13 @@ A new appHMIType: REMOTE_CONTROL is added: all and any remote-control applicatio
 
 The work flow of a remote control application on driver's device is simple. Like the existing applications, a RC application need to register with the system, be launched by driver via HMI or voice control. The app shall send a request for vehicle's RC capabilities to get a list of controllable RC modules available. Then it can start to read or change RC module settings. 
 
-The first control message (setter request) with a specific RC module will trigger SDL to perform RC resource allocation process. This RC resource allocation process shall be upgradable in the future. 
+The first control message (setter request) with a specific RC module will trigger SDL to perform RC resource allocation process. The coding of this RC resource allocation process shall be upgradable in the future without major code infrastructure revision. 
 
-One simple process can be at any given time a RC module can be controlled by one and only one application. For example, if a climate control module is allocated to application ONE, any other applications will get rejected if they try to change the climate control settings. The climate control resource is freed when application ONE exits or disconnects. Until climate control resource gets free, no other application can perform climate control actions. RC resource allocation is first come, first serve.
+One simple resource allocation process can be at any given time a RC module can be controlled by one and only one application. For example, if a climate control module is allocated to application ONE, any other applications will get rejected if they try to change the climate control settings. The climate control resource is freed when application ONE exits or disconnects. Until climate control resource gets free, no other application can perform climate control actions. RC resource allocation is first come, first serve.
 
 By default SDL-RC allows RC application to use remote control feature. However, the driver can disable the feature via HMI by sending OnReverseAppsAllowing(false) message to SDL.
+
+SDL policy already supports the function group that configures which application can access which RPC and which vehicle data, such as gps, deviceStatus, tirePressure, fuelLevel and so on. Similarly, SDL policy shall support the configuration on which application can access which type(s) of remote control resource in vehicle. For example, some applications can only control radio, some applications can only control climate, some applications can control both radio and climate. SDL shall check the policy configurations regarding which type(s) of remote control module can be accessed by a RC application.
 
 Please see attached documents for detailed design of existing implementation. [HMI Guideline](../assets/proposals/0065-remote-control/0065_SDLRC_HMI_Guidelines_v1.1.pdf) and [Mobile API Guideline](../assets/proposals/0065-remote-control/0065_SDLRC_Mobile_API_Guidelines_v1.0.pdf)
 
@@ -145,7 +150,7 @@ https://github.com/smartdevicelink/sdl_core/blob/feature/sdl_rc_functionality/sr
 The changes are listed below.
 ```xml
 <enum name="ButtonName">
-      <description>Defines the hard (physical) and soft (touchscreen) buttons available from SYNC</description>
+      <description>Defines the hard (physical) and soft (touch screen) buttons available from SYNC</description>
         <!-- Existing Buttons not listed here -->
         <!-- Climate Buttons -->
       <element name="AC_MAX" />
@@ -196,7 +201,13 @@ The changes are listed below.
     </param>
     <param name="acEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable AC. 
+        Availability of the control of turn on/off AC. 
+        True: Available, False: Not Available, Not present: Not Available.
+      </description>
+    </param>
+    <param name="acMaxEnableAvailable" type="Boolean" mandatory="false">
+      <description>
+        Availability of the control of enable/disable air conditioning is ON on the maximum level. 
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
@@ -229,6 +240,17 @@ The changes are listed below.
         A set of all defrost zones that are controllable. 
       </description>
     </param>
+    <param name="ventilationModeAvailable" type="Boolean" mandatory="false">
+      <description>
+        Availability of the control of air ventilation mode. 
+        True: Available, False: Not Available, Not present: Not Available.
+      </description>
+    </param>
+    <param name="ventilationMode" type="VentilationMode" minsize="1" maxsize="100" array="true" mandatory="false">
+      <description>
+        A set of all ventilation modes that are controllable. 
+      </description>
+    </param>
   </struct>
   
   <enum name="DefrostZone">
@@ -237,7 +259,13 @@ The changes are listed below.
     <element name="ALL"/>
     <element name="NONE"/>
   </enum>
-    
+  <enum name="VentilationMode">
+    <element name="UPPER"/>
+    <element name="LOWER"/>
+    <element name="BOTH"/>
+    <element name="NONE"/>
+  </enum>
+  
   <struct name="RadioControlCapabilities">
     <description>Contains information about a radio control module's capabilities.</description>
     <param name="name" type="String" maxlength="50">
@@ -387,20 +415,28 @@ The changes are listed below.
   </struct>
 
   <enum name="TemperatureUnit">
-    <element name="KELVIN"/>
     <element name="FAHRENHEIT"/>
     <element name="CELSIUS"/>
   </enum>
 
+  <struct name="Temperature">
+    <param name="unit" type="TemperatureUnit">
+      <description>Temperature Unit</description>
+    </param>
+    <param name="valueC" type="Float" minvalue="14.0" maxvalue="30.0" mandatory=”false”>
+      <description>Temperature Value in Celsius, the value range is for setter only</description>
+    </param>
+    <param name="valueF" type="Float" minvalue="60.0" maxvalue="90.0" mandatory=”false”>
+      <description>Temperature Value in Fahrenheit, the value range is for setter only</description>
+    </param>
+  </struct>
+ 
   <struct name="ClimateControlData">
     <param name="fanSpeed" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
     </param>
-    <param name="currentTemperature" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
+    <param name="currentTemperature" type="Temperature" mandatory="false">
     </param>
-    <param name="desiredTemperature" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
-    </param>
-    <param name="temperatureUnit" type="TemperatureUnit" mandatory="false">
-      <description> must be present if either currentTemperature or desiredTemperature exists</description>
+    <param name="desiredTemperature" type="Temperature" mandatory="false">
     </param>
     <param name="acEnable" type="Boolean" mandatory="false">
     </param>
@@ -411,6 +447,10 @@ The changes are listed below.
     <param name="defrostZone" type="DefrostZone" mandatory="false">
     </param>
     <param name="dualModeEnable" type="Boolean" mandatory="false">
+    </param>
+    <param name="acMaxEnable" type="Boolean" mandatory="false">
+    </param>
+    <param name="ventilationMode" type="VentilationMode" mandatory="false">
     </param>
   </struct>
 
@@ -593,9 +633,9 @@ The changes are similar to mobile api changes, they are not listed here.
 
 - The driver must exit current controlling application before using another application to control the same RC module. There is no indication of which application is currently control the RC module. Driver doesn't know which application to close. This makes application switching cumbersome.
 
-- It lacks the policy control on which application can access which RC resource.
+- It lacks the fine policy control on which application can access which RC module(s) and which control item(s) within each module.
 
-- RPC messages are not encrypted. Attackers may try to evesdrop and spoof wireless communication.
+- RPC messages are not encrypted. Attackers may try to eavesdrop and spoof wireless communication. For example in a replay attack, attackers record and then replay the “electro magnetic waves”.
 
 - It can only subscribe to all radio or climate control data, cannot subscribe to individual item change notifications.
 
