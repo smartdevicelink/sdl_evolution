@@ -54,7 +54,7 @@ The common problem is that a mobile application needs the ability to control cer
 
 - Remove the concept and the usage of resource zones, including the resource policy. The lack of zones implies that the “primary zone” in the vehicle will be used, defined by OEM, (such as the driver’s zone, or all the vehicle being 1 zone).
 - Remove the device location (device is in one of the zones)
-- Continue divide available controllable items into RC modules by functionality, give each module a short name/label/description (unique per type)
+- Continue divide available controllable items into RC modules by functionality, give each module a unique short name defined by OEM. This name string is not used to identify and classify modules. It should only be used as a user “friendly” name or a “readable” description of the module, not for parsing the modules. Zones or other similar schemes shall be in a seperate proposal.
 - Provide new RemoteControlCapabilities data structure, which includes specific controllable items in each module
 - Change ModuleDescription structure from using module zone to module name 
 - Keep concept of driver vs passenger device, but treat all devices as driver's device, and only allow one device
