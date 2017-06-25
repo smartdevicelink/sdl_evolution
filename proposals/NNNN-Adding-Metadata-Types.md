@@ -1,4 +1,4 @@
-#Adding Metadata Types
+# Adding Metadata Types
 
 * Proposal: [SDL-NNNN](NNNN-Adding-Metadata-Types.md)
 * Author: [Scott Betts](https://github.com/Toyota-Sbetts)
@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal introduces metadata types to the Show RPC in order to allow for more robust HMI designs.
+This proposal introduces metadata types to the text field struct in order to allow for more robust HMI designs.
 
 ## Motivation
 
@@ -64,7 +64,7 @@ For each text field, a new optional parameter "fieldType" could be set by applic
     <description>The data in this field describes the current weather (ex. cloudy, clear, etc.).</description>
   </element>
   <element name="humidity">
-    <description>The data in this field is a rating.</description>
+    <description>The data in this field describes the current humidity value.</description>
   </element>
   <element name="none">
     <description>The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameters it is considered as the none type.</description>
@@ -74,7 +74,7 @@ For each text field, a new optional parameter "fieldType" could be set by applic
 
 ### Additions to MOBILE_API
 
-The changes to enums and functions in the HMI API should also be applied to the Mobile API.
+The changes to enums and structs in the HMI API should also be applied to the Mobile API.
 
 ## Potential downsides
 
