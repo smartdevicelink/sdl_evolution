@@ -15,7 +15,9 @@ Traditionally, the SDL HMI is unaware of the context of the data provided in eac
 
 ## Proposed Solution
 
-For each text field, a new optional parameter "fieldType" could be set by applications to describe what type of data is available in the associated text field.  The "fieldType" parameter would consist of an enumeration of common metadata types.
+For each text field, a new optional parameter "fieldType" could be set by applications to describe what type of data is available in the associated text field.  The "fieldType" parameter would consist of an enumeration of common metadata types.  
+
+For the mobile side, we would update the "show" RPC to take in text field objects instead of strings and define the text field struct for mobile.  This would be a breaking change to the "show" command.
 
 ### Additions to HMI_API
 
@@ -33,20 +35,23 @@ For each text field, a new optional parameter "fieldType" could be set by applic
 </struct>
 
 <enum name="TextFieldType">
-  <element name="audioTitle">
+  <element name="mediaTitle">
     <description>The data in this field contains the title of the currently playing audio track.</description>
   </element>
-  <element name="audioArtist">
+  <element name="mediaArtist">
     <description>The data in this field contains the artist or creator of the currently playing audio track.</description>
   </element>
-  <element name="audioAlbum">
+  <element name="mediaAlbum">
     <description>The data in this field contains the album title of the currently playing audio track.</description>
   </element>
-  <element name="audioYear">
+  <element name="mediaYear">
     <description>The data in this field contains the creation year of the currently playing audio track.</description>
   </element>
-  <element name="audioGenre">
+  <element name="mediaGenre">
     <description>The data in this field contains the genre of the currently playing audio track.</description>
+  </element>
+  <element name="mediaStation">
+    <description>The data in this field contains the name of the current source for the media.</description>
   </element>
   <element name="rating">
     <description>The data in this field is a rating.</description>
@@ -73,9 +78,71 @@ For each text field, a new optional parameter "fieldType" could be set by applic
 ```
 
 ### Additions to MOBILE_API
+Changes to Mobile_API
+```xml
+  <function name="Show" functionID="ShowID" messagetype="request">
+    <description>Updates the persistent display. Supported fields depend on display capabilities.</description>
 
-The changes to enums and structs in the HMI API should also be applied to the Mobile API.
+    <param name="mainField1" type="TextFieldStruct" mandatory="false">
+      <description>
+      	The text that should be displayed in a single or upper display line.
+      	If this text is not set, the text of mainField1 stays unchanged.
+      	If this text is empty "", the field will be cleared.
+      </description>
+    </param>
 
+    <param name="mainField2" type="TextFieldStruct" mandatory="false">
+      <description>
+      	The text that should be displayed on the second display line.
+      	If this text is not set, the text of mainField2 stays unchanged.
+      	If this text is empty "", the field will be cleared.
+      </description>
+    </param>
+
+    <param name="mainField3" type="TextFieldStruct" mandatory="false">
+      <description>
+      	The text that should be displayed on the second "page" first display line.
+      	If this text is not set, the text of mainField3 stays unchanged.
+      	If this text is empty "", the field will be cleared.
+      </description>
+    </param>
+
+    <param name="mainField4" type="TextFieldStruct" mandatory="false">
+      <description>
+      	The text that should be displayed on the second "page" second display line.
+      	If this text is not set, the text of mainField4 stays unchanged.
+      	If this text is empty "", the field will be cleared.
+      </description>
+    </param>
+	:
+    <param name="mediaClock" type="TextFieldStruct" mandatory="false">
+      <description>
+      	Text value for MediaClock field. Has to be properly formatted by Mobile App according to Sync capabilities.
+      	If this text is set, any automatic media clock updates previously set with SetMediaClockTimer will be stopped.
+      </description>
+    </param>
+
+    <param name="mediaTrack" type="TextFieldStruct" mandatory="false">
+      <description>
+      	The text that should be displayed in the track field.
+      	If this text is not set, the text of mediaTrack stays unchanged.
+      	If this text is empty "", the field will be cleared.
+      </description>
+    </param>
+	:
+  </function>
+```
+Additions to Mobile_API
+```xml
+<struct name="TextFieldStruct">
+  <param name="fieldText" type="String" maxlength="500" mandatory="true">
+    <description>The  text itself.</description>
+  </param>
+  <param name="fieldType" type="Common.TextFieldType" mandatory="false">
+    <description>The type of data contained in the field.</description>
+  </param>
+</struct>
+```
 ## Potential downsides
 
 Not all applications will utilize this new parameter and the HMI will not be able to always distinguish the proper data types it wants to for the best user experience.
