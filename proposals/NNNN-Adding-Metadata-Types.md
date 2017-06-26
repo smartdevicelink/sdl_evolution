@@ -17,7 +17,7 @@ Traditionally, the SDL HMI is unaware of the context of the data provided in eac
 
 For each text field, a new optional parameter "fieldType" could be set by applications to describe what type of data is available in the associated text field.  The "fieldType" parameter would consist of an enumeration of common metadata types.  
 
-For the mobile side, we would update the "show" RPC to take in text field objects instead of strings and define the text field struct for mobile.  This would be a breaking change to the "show" command.
+For the mobile side, we would update the "show" RPC to take in text field objects instead of strings and define the text field struct for mobile.  The proxy should handle the interface with the application to accept the legacy string parameter so that apps are not forced to change their implementation.  If a string is received instead of a text field object, the proxy would create a text field object and give it a "fieldType" of "none".
 
 ### Additions to HMI_API
 
@@ -78,7 +78,7 @@ For the mobile side, we would update the "show" RPC to take in text field object
 ```
 
 ### Additions to MOBILE_API
-**Changes to Mobile_API:**
+
 ```xml
   <function name="Show" functionID="ShowID" messagetype="request">
     <description>Updates the persistent display. Supported fields depend on display capabilities.</description>
@@ -131,10 +131,11 @@ For the mobile side, we would update the "show" RPC to take in text field object
     </param>
 	:
   </function>
-```
-**Additions to Mobile_API:**
-```xml
+
 <struct name="TextFieldStruct">
+  <param name="fieldName" type="Common.TextFieldName" mandatory="true">
+    <description>The name of the field for displaying the text.</description>
+  </param>
   <param name="fieldText" type="String" maxlength="500" mandatory="true">
     <description>The  text itself.</description>
   </param>
@@ -203,3 +204,4 @@ A few alternatives were considered:
 2. We keep data fields ambiguous and HMI will not be able to distinguish data types.  This is not preferred because we have seen many HMIs want to design around specific data types (ex. bolding the song title or putting a CD icon next to the album title).
 3. We create a new RPC that applications can use to broadcast information.  This may increase chatter as multiple RPCs could be sent for the same information (ex. Show and new RPC every time a song changes).
 4. As metadata types are not expected to change often, we could define the type contained in each text field inside "setDisplayLayout".  This would reduce the work to maintain data types but make it more difficult to change the data type of a field as we would need to resend "setDisplayLayout" or add a new RPC to change existing types.
+5. For the Mobile_API, we could add new optional parameters for relevant RPCs that define the text field type (ex. "mainField1_type" parameter).
