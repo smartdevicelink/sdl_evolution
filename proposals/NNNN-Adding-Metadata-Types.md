@@ -78,7 +78,7 @@ For the mobile side, we would update the "show" RPC to take in text field object
 ```
 
 ### Additions to MOBILE_API
-Changes to Mobile_API
+**Changes to Mobile_API:**
 ```xml
   <function name="Show" functionID="ShowID" messagetype="request">
     <description>Updates the persistent display. Supported fields depend on display capabilities.</description>
@@ -132,7 +132,7 @@ Changes to Mobile_API
 	:
   </function>
 ```
-Additions to Mobile_API
+**Additions to Mobile_API:**
 ```xml
 <struct name="TextFieldStruct">
   <param name="fieldText" type="String" maxlength="500" mandatory="true">
@@ -142,6 +142,48 @@ Additions to Mobile_API
     <description>The type of data contained in the field.</description>
   </param>
 </struct>
+
+<enum name="TextFieldType">
+  <element name="mediaTitle">
+    <description>The data in this field contains the title of the currently playing audio track.</description>
+  </element>
+  <element name="mediaArtist">
+    <description>The data in this field contains the artist or creator of the currently playing audio track.</description>
+  </element>
+  <element name="mediaAlbum">
+    <description>The data in this field contains the album title of the currently playing audio track.</description>
+  </element>
+  <element name="mediaYear">
+    <description>The data in this field contains the creation year of the currently playing audio track.</description>
+  </element>
+  <element name="mediaGenre">
+    <description>The data in this field contains the genre of the currently playing audio track.</description>
+  </element>
+  <element name="mediaStation">
+    <description>The data in this field contains the name of the current source for the media.</description>
+  </element>
+  <element name="rating">
+    <description>The data in this field is a rating.</description>
+  </element>
+  <element name="currentTemperature">
+    <description>The data in this field is the current temperature.</description>
+  </element>
+  <element name="maximumTemperature">
+    <description>The data in this field is the maximum temperature for the day.</description>
+  </element>
+  <element name="minimumTemperature">
+    <description>The data in this field is the minimum temperature for the day.</description>
+  </element>
+  <element name="weatherTerm">
+    <description>The data in this field describes the current weather (ex. cloudy, clear, etc.).</description>
+  </element>
+  <element name="humidity">
+    <description>The data in this field describes the current humidity value.</description>
+  </element>
+  <element name="none">
+    <description>The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameters it is considered as the none type.</description>
+  </element>
+</enum>
 ```
 ## Potential downsides
 
@@ -160,3 +202,4 @@ A few alternatives were considered:
 1. SDL could define a best practice for specific data types. For example, for audio the song title should always be in mainField1 and artist in mainField2.  This is not ideal as it asks applications to follow the SDL defined behavior which may not match the standard application behavior.
 2. We keep data fields ambiguous and HMI will not be able to distinguish data types.  This is not preferred because we have seen many HMIs want to design around specific data types (ex. bolding the song title or putting a CD icon next to the album title).
 3. We create a new RPC that applications can use to broadcast information.  This may increase chatter as multiple RPCs could be sent for the same information (ex. Show and new RPC every time a song changes).
+4. As metadata types are not expected to change often, we could define the type contained in each text field inside "setDisplayLayout".  This would reduce the work to maintain data types but make it more difficult to change the data type of a field as we would need to resend "setDisplayLayout" or add a new RPC to change existing types.
