@@ -194,7 +194,7 @@ Also, currently there is no clear best practice on when applications should upda
 
 ## Impacts on existing code
 
-This change would required adding new optional parameters in SDL Core, both Android and iOS SDKs and the RPC spec.  This would require a minor version change and legacy HMIs would just ignore this added parameter.
+This change would required adding new optional parameters in SDL Core, both Android and iOS SDKs and the RPC spec.  Additionally, this proposal would change the type of the parameters accepted in "show" for the mobile API and require the proxy to handle the depricated string parameter types.  This would require a minor version change and legacy HMIs would just ignore this added parameter.
 
 ## Alternatives considered
 
