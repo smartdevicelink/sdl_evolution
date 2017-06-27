@@ -1,4 +1,4 @@
-#OEM specific Human Interface Device support as Plug-in architecture in SDL proxy
+##OEM specific Human Interface Device support as Plug-in architecture in SDL proxy
 
 * Proposal: [SDL-NNNN](NNNN-HID-Support-Plug-in.md)
 * Author: [Jennifer Hodges](https://github.com/jhodges55)
