@@ -1,8 +1,8 @@
 # New vehicle data - FuelRange
 
-* Proposal: [SDL-NNNN](NNNN-New-vehicle-data-FuelRange.md)
+* Proposal: [SDL-0072](0072-New-vehicle-data-FuelRange.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
