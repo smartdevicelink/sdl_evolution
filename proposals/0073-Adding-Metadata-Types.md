@@ -1,8 +1,8 @@
 # Adding Metadata Types
 
-* Proposal: [SDL-NNNN](NNNN-Adding-Metadata-Types.md)
+* Proposal: [SDL-0073](0073-Adding-Metadata-Types.md)
 * Author: [Scott Betts](https://github.com/Toyota-Sbetts)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
