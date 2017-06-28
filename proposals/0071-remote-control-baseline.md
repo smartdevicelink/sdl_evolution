@@ -1,8 +1,8 @@
 # SDL Remote Control Baseline (no zones, no driver/passenger, immediate control)
 
-* Proposal: [SDL-NNNN](NNNN-remote-control-baseline.md)
+* Proposal: [SDL-0071](0071-remote-control-baseline.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
