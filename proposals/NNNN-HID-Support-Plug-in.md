@@ -7,37 +7,38 @@
 
 ## Introduction
 
-To support OEM specific HID (ex. Lexus Remote Touch, Mazda Commander Control, BMW Gesture Control, and etc) without new RPC. In the mobile library, plugin architecture + OEM specific plugin module enable OEM specific HID.
+Many OEM head units (ex. Lexus Remote Touch, Mazda Commander Control, BMW Gesture Control, Audi MMI) do not support direct touch interaction, but rather support a focus and select model driven by physical controls. This proposal describes a proxy plug-in interface that models the physical controls as HID devices with OEM-specific plug-in implementations.
 
 ## Motivation
 
-Each OEM consider their original UX for safety driving, branding, and easy to operation. In such trend, some OEMs created and will create original specific Human Interface Device (HID). In the past before SDL, proprietary HU applications are implemented by each. And also SDL template architecture can support such specific HID in pre-defined layout properly, because SDL HMI has responsiblity to support HID event to control UI. However, video streaming application which uses NAV_FULLSCREEN_MAP cannot handle such specific HID properly, because there is only OnTouchEvent as RPC. Some devices require not only touch event but also other device specific in/out information. (ex. Haptic feedback, not absolute coordinates but relative, or widget level focus control)
-And, it's not realstic to add new RPC to support every OEM special device (existing device and future device) because SDL core version management and Application vendor effort to support every spec. This proposal is "plugin architecture" to solve "OEM's specific device" without deep discussion to Commonization and Generalization of HID. Each OEM can provide their special device support module quickly with using this architecture. And, it's unnecessary for Application vendors to customize for each OEM's specific device. In other words, Application vendors can avoid customization for each OEM's specific device not only in pre-defined layout (as template) but also in video streaming.
+OEMs have invested in branded, usability and safety tested user interfaces for their head units, including physical control design, visual and haptic feedback. For proprietary head unit and handset applications, OEMs can implement custom support for their interface. For SDL applications that use the standard UI templates, the SDL HMI can determine which template control has focus and render appropriate visual, audible and haptic feedback. However, for video streaming applications that use the NAV_FULLSCREEN_MAP template, the SDL HMI does not know which focusable elements exist in the projected window. It can only generate and send OnTouchEvent RPCs that the handset application needs to interpret. While OEMs could map their physical control events to touch events, this approach does not allow for consistent focusing and selection feedback.
+
+It's not realistic to add new SDL RPCs to support every OEM user interface because of the complex SDL core version management and ISV effort to support every custom spec. This proposal uses a plug-in architecture to represent the OEM controls as a HID device with corresponding device support module. OEMs can provide their support module quickly using this architecture and ISVs do not need to do OEM-specific integration work, even for video streaming.
 
 ## Proposed solution
 
-Premise condition: "High level UI/Widget library" which support Android/iOS widget for rendering video streaming application in SDL proxy. ex. Android:Virtual Display Encoder, iPhone:SDLCarWindow This library can retrieve High level UI/Widget layout information and create High level UI/Widget event.
-This proposal architecture: Adding "Remote Human Interface Device manager" to SDL proxy (Android/iPhone). This module will provide following functionalities.
-dynamic selection of proper plugin for connected HU. This functionalitiy will be implemented with using VehicleType and reflection of Android Java and iOS ObjectiveC/Swift.
-bridge from/to "High-level UI/Widget library" to/from "plug-in module" which is proxy of HU special device.
-Adding "Plug-in for each OEM's specific device" which will be provided by each OEMs. This module may realize following functionalities.
-converting low level event which is sent from HU driver as OnTouchEvent(existing RPC) and/or OnSytemRequest(existing RPC, if OnTouchEvent's information is not enough to realize special event), to High level UI/Widget event, if required.
-sharing High level UI/Widget layout information with HU driver with using OnSystemRequest and/or other RPCs (existing RPC). This information may be used for haptic feedback and/or focus management in HU.
-superimposing information on application rendering image. (ex. cursor, focus highlight). These feature requirements depend on each specific device's features and OEM's UI/UX policy. NOTE: These features may not be implemented in plugin. NOTE) Some features may be implemented in HU. NOTE) In some case of OEM specific plug-in, existing RPC may be used for not original purpose. However, this is closed spec between specific device and specific plug-in. So, this will not affect the SDL general spec.
+This solution assumes the iOS and Android proxies expose a video streaming manager that traverses the application control hierarchy and renders the hierarchy as a video stream. On iOS, the Ford developed SDLCarWindow class is a prototype for the video streaming manager. On Android, VirtualDisplayEncoder class is also a prototype which is base point to extended to include this logic rather than forcing Android app developers to roll their own.
+
+The video streaming manager exposes a remote HID device plug-in interface. The video streaming manager will load the correct plug-in by inspecting the VehicleType properties. The plug-in may provide the following functions, depending on the OEM’s requirements:
+
+1. For OEM head units that render their own focus and selection feedback, communication of the focusable element rectangles to the head unit. This information may be used for haptic feedback and/or focus management by the head unit, superimposing information on the video stream. (ex. cursor, focus highlight).
+
+2. Conversion of head unit control events to "OnTouchEvent"(RPC) or to native platform events if "OnTouchEvent"(RPC) is not sufficient
+
+No new RPCs are added to support the plug-in interface. Rather, SystemRequest and other existing RPCs will be repurposed. However, since the custom behaviors will be encapsulated in the plug-in and will only work in the repurposed way with the OEM head unit, there is no impact on other SDL implementations.
 
 ## Potential downsides
 
-Downside:
-OEM should prepare specific plug-in module for their specific device. If not prepared then, downside impact is only "the special device will not be applicable use. Full functionality of the device cannot be realized". However, this proposal includes by-pass plug-in which pass thru event. So, if all of event can be mapped to existing RPC (OnTouchEvent) then, applications can be run as minimum without specific plug-in. Of course, no special device and only touch-panel I/F then application behavior is not different.
-The applications not to use High-level UI/Widget library but to use application's UI library, cannot take benefit of this architecture. However, OEM can disclose each plug-in spec and such application may be able to customize to use plug-in feature directly.
-If some specific device behavior cannot be mapped to existing RPCs, then a new RPC may still be required.
+Downside: OEMs will need to implement plug-ins for their head unit physical control and interface versions. If they do not, a default bypass plug-in contemplated by this proposal will handle the events. So, if all events can be mapped to an existing RPC (e.g. OnTouchEvent), applications can run without any specific plug-in. OEMs can disclose their plug-in specs and applications can customize to use plug-in features directly. It is possible that some specific device behaviors cannot be mapped to existing RPCs, and so new RPCs may be required.
 
 ## Impact on existing code
 
-Will be modified and new source code is not small to support this architecture. However, impact range is limited in "encoder" part. And, from perspective of Application, this architecture is behind "High-level UI/Widget library". So, it's unnecessary to modify Application logic.
+There will be significant code changes required in the iOS and Android proxies, specifically in the video streaming manager. There is no application code impact beyond adopting the video streaming manager.
 
 ## Alternatives considered
 
-Another approach #1: Add some RPC (ex. OnPointerMove) to support a part of existing specifc device. Demerit of this approach: This solution may not cover future devices. In the case, we should consider next "new RPC" continuously. It may cause "flood of un-organized RPCs".
-Another approach #2: Add general RPC or session service to support general existing and future HID. Not in vehicle but in PC/Set-top-box, already existed standard HID spec. If the spec can be migrated to SDL, then it may be enough of a solution. However, this requires much modification in not only mobile library but also SDL core. And, "in vehicle" is special environment. So, in the future, if new input devices which have not yet been considered may be created. In that time, HID (and RPC) should be considered again. And, OEM must always worry how to map new devices to general HID spec when new device comes in.
-Another approach #3: OEM will disclose specific device spec to Application vendors. Each Application vendors will customize their app to support each devices. This cause much effort in each Application vendors.
+Alternative #1: Add new RPCs (ex. OnPointerMove) to support an OEM specific physical control set. Clearly this can lead to a proliferation of new RPCs as OEMs want to support new physical devices.
+
+Alternative #2: Leverage the USB HID spec by adding a HID Report RPC or session service to support existing and future HID device classes and reports. The HID device specification and standard is common in consumer devices, but not in automotive. OEMs and their suppliers may not have the resources to adapt their devices to the HID format, and may not be able to keep pace with the consumer device market.
+
+Alternative #3: OEMs disclose their specific device specs to ISVs. This forces the ISVs to do custom work for each OEM.
