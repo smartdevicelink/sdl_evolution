@@ -1,8 +1,8 @@
 # Android O Changes Phase 1
 
-* Proposal: [SDL-NNNN](NNNN-android_o_changes_phase_1.md)
+* Proposal: [SDL-0074](0074-android_o_changes_phase_1.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
