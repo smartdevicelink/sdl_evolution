@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0072](0072-New-vehicle-data-FuelRange.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
