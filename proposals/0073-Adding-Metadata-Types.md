@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0073](0073-Adding-Metadata-Types.md)
 * Author: [Scott Betts](https://github.com/Toyota-Sbetts)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
