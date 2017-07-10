@@ -38,7 +38,7 @@ The solution proposes adding the possibility to get and subscribe to the fuel ra
         <description>For FCEV (fuel cell electric vehicle).</description>
     </element>
     <element name="BATTERY">
-        <description>For BEV (Battery Electric Vehicle), PHEV (Plug-in Hybrid Electric Vehicle), solar vehicles and other vehicles which runs on a battery.</description>
+        <description>For BEV (Battery Electric Vehicle), PHEV (Plug-in Hybrid Electric Vehicle), solar vehicles and other vehicles which run on a battery.</description>
     </element>
 </enum>
 
