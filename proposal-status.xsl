@@ -52,6 +52,11 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Core v4.3</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.3']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
           <xsl:with-param name="title">Deferred for future discussion</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='deferred']"/>
         </xsl:call-template>

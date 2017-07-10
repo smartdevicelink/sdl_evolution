@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0050](0050-add-api-patch-version.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction

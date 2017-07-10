@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0043](0043-upgrade-c++-standard.md)
 * Author: [Alexandr Galiuzov](https://github.com/AGaliuzov)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction

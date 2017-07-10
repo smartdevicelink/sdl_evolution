@@ -2,8 +2,8 @@
 
 * Proposal: [SDL-0048](0048-H264-over-RTP-support-for-video-streaming.md)
 * Author: [Sho Amano](https://github.com/shoamano83)
-* Status: **In Review**
-* Impacted Platforms: [Core / iOS / Android / RPC]
+* Status: **Accepted with Revisions**
+* Impacted Platforms: [iOS / Android]
 
 ## Introduction
 
@@ -20,9 +20,7 @@ Currently, only raw H.264 video stream format is allowed for video streaming. Su
 
 ## Proposed solution
 
-This proposal includes two changes.
-
-(1) Add H.264 video over RTP format (as defined by RFC 6184) for video streaming
+### Add H.264 video over RTP format (as defined by RFC 6184) for video streaming
 
 RTP payload format defined by RFC 6184 is a simple packetization of H.264 NAL units, with timestamp included in RTP header. HMI can utilize the timestamp information to achieve smooth video playback and to recover from temporal overload.
 
@@ -34,73 +32,33 @@ SDL proxy shall correctly set the Marker bit in the RTP header to indicate the v
 
 Payload type (PT) in RTP header shall be chosen from range 96-127 by SDL proxy, and shall be simply ignored by HMI.
 
-For details of RTP packet format, please refer to RFC 6184. (https://www.ietf.org/rfc/rfc6184.txt) For details of the framing method, please refer to RFC 4571. (https://www.ietf.org/rfc/rfc4571.txt)
+For details of RTP packet format, please refer to RFC 6184. For details of the framing method, please refer to RFC 4571.
 
-(2) Add video format negotiation in the protocol
+### Video streaming capabilities and video format negotiation
 
-When a video format other than raw H.264 is used, SDL proxy must run *video format negotiation* prior to starting video streaming. Video format negotiation is a pair of `ChangeVideoFormat` request and response, which are sent by SDL proxy and HMI, respectively. SDL proxy specifies the video format it wants to use in `ChangeVideoFormat` request message. The video format is described as a string. Currently, following two strings are defined:
-- video/x-h264,stream-format=byte-stream
-    * raw H.264 video stream (used by current specification)
-- application/x-rtp-stream,media=video,encoding-name=h264
-    * H.264 video over RTP format defined by RFC 6184 and framed as defined by RFC 4571, proposed by this document
+To enable RTP format, HMI needs to advertise that it supports the format. Also, SDL proxy needs to notify HMI which video format it is going use.
 
-HMI shall send `ChangeVideoFormat` response with `success` parameter = true if it accepts the specified video format. HMI shall send `ChangeVideoFormat` response with `success` parameter = false if the video format is not currently supported. SDL proxy must not select the video format if it receives such negative response. SDL proxy may initiate another *video format negotiation* prior to starting video streaming to choose another video format.
+These are achieved by extending System Capabilities and adding "video format negotiation" procedure. They are covered by another proposal [SDL-0058](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0058-video-streaming-capabilities.md). Here is the brief summary:
 
-To keep backward compatibility with current specification, HMI must accept raw H.264 video stream if no video format negotiation took place.
+- HMI shall include its supported video formats in `VideoStreamingCapability` struct. SDL proxy acquires this struct after `RegisterAppInterface` response.
+- SDL proxy shall include the video format it is going to use in `Start Service` Control Frame, along with other video configuration parameters. Once it receives `Start Service ACK` Control Frame, it starts video streaming with the format.
 
+Please refer to proposal SDL-0058 for details.
 
 ## Detailed design
 
-### Additions to Mobile_API
+### Additional implementations
 
-```xml
-  <function name="ChangeVideoFormat" functionID="ChangeVideoFormatID" messagetype="request">
-    <description>Request from SDL to HMI to change video format used by video streaming.</description>
-    <param name="format" type="String" maxlength="255" minlength="1" mandatory="true">
-      <description>
-        Specify the video format. Following strings are defined.
-        - "video/x-h264,stream-format=byte-stream"
-        - "application/x-rtp-stream,media=video,encoding-name=h264"
-      </description>
-    </param>
-  </function>
-
-  <function name="ChangeVideoFormat" functionID="ChangeVideoFormatID" messagetype="response">
-    <param name="success" type="Boolean" platform="documentation">
-      <description>true if changing video format is successful, otherwise false.</description>
-    </param>
-  </function>
-```
-
-### Additions to HMI_API
-
-Under `BasicCommunication` interface:
-
-```xml
-  <function name="ChangeVideoFormat" messagetype="request">
-    <description>Request from SDL to HMI to change video format used by video streaming.</description>
-    <param name="format" type="String" maxlength="255" minlength="1" mandatory="true">
-      <description>
-        Specify the video format. Following strings are defined.
-        - "video/x-h264,stream-format=byte-stream"
-        - "application/x-rtp-stream,media=video,encoding-name=h264"
-      </description>
-    </param>
-    <param name="appID" type="Integer" mandatory="true">
-      <description>ID of application related to this RPC.</description>
-    </param>
-  </function>
-
-  <function name="ChangeVideoFormat" messagetype="response">
-  </function>
-```
-
-SDL proxy and HMI need additional implementations to support new video format as well as video format negotiation sequence.
+SDL proxy and HMI need additional implementations to support new video format.
 
 SDL proxy should also support receiving timestamp information from SDL app. For example, iOS SDL proxy can have additional public method in SDLStreamingMediaManager:
 ```
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer pts:(CMTime)pts;
 ```
+
+### Additions to Protocol specification, Mobile\_API and HMI\_API
+
+These are covered by proposal SDL-0058, thus are not included here.
 
 ## Potential downsides
 
@@ -108,12 +66,18 @@ The new video format introduces an overhead of RTP header and length field, whic
 
 ## Impact on existing code
 
-This feature should not have impacts on existing code other than introducing additional implementations to SDL proxy, SDL core and HMI. To get benefits of this feature, SDL apps should consider providing timestamp along with the video image buffers. Also, HMI should consider utilizing timestamp information delivered by RTP header.
+This feature should not have impacts on existing code other than introducing additional implementations to SDL proxy and HMI. To get benefits of this feature, SDL apps should consider providing timestamp along with the video image buffers. Also, HMI should consider utilizing timestamp information delivered by RTP header.
 
 ## Alternatives considered
 
 Another multimedia container format can be used, or a new SDL-proprietary container format can be invented instead. Nevertheless, RTP is chosen in this proposal because it is:
 - much simpler compared to other container formats (such as MPEG transport stream).
-- an open standard with many software implementation already available. Hence it should be faily easy to integrate into current implementations.
+- an open standard with many software implementation already available. Hence it should be fairly easy to integrate into current implementations.
 
 The video format negotiation can be omitted if current raw H.264 format is completely deprecated by specification. This does not keep backward compatibility with current implementation and thus is not considered to be a good idea.
+
+## References
+
+- [RFC 6184: RTP Payload Format for H.264 Video](https://www.ietf.org/rfc/rfc6184.txt)
+- [RFC 4571: Framing Real-time Transport Protocol (RTP) and RTP Control Protocol (RTCP) Packets over Connection-Oriented Transport](https://www.ietf.org/rfc/rfc4571.txt)
+- [Proposal #0058: Add video streaming capabilities](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0058-video-streaming-capabilities.md)
