@@ -26,25 +26,25 @@ The solution proposes adding the possibility to get and subscribe to the fuel ra
     <element name="DIESEL" />
     <element name="CNG">
         <description>
-            Is related to vehicles equipped with a tank for compressed natural gas.
+            For vehicles using compressed natural gas.
         </description>
     </element>
     <element name="LPG">
         <description>
-            Is related to vehicles equipped with a tank for liquefied petroleum gas.
+            For vehicles using liquefied petroleum gas.
         </description>
     </element>
     <element name="HYDROGEN">
-        <description>Is related to FCEV (fuel cell electric vehicle).</description>
+        <description>For FCEV (fuel cell electric vehicle).</description>
     </element>
     <element name="BATTERY">
-        <description>Is related to BEV, PHEV and solar vehicles.</description>
+        <description>For BEV (Battery Electric Vehicle), PHEV (Plug-in Hybrid Electric Vehicle), solar vehicles and other vehicles which run on a battery.</description>
     </element>
 </enum>
 
 <struct name="FuelRange">
-    <param name="type" type="FuelType" mandatory="true"/>
-    <param name="range" type="Float" minvalue="0" maxvalue="10000" mandatory="true">
+    <param name="type" type="FuelType" mandatory="false"/>
+    <param name="range" type="Float" minvalue="0" maxvalue="10000" mandatory="false">
         <description>
             The estimate range in KM the vehicle can travel based on fuel level and consumption.
         </description>
