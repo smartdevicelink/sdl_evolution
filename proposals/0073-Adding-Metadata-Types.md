@@ -115,7 +115,7 @@ In the Mobile API, an optional metadata struct "textFieldMetadata" will be intro
 
     <param name="textFieldMetadata" type="MetadataStruct" mandatory="false">
         <description>
-            App defiend metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4.
+            App defined metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4.
             If omitted on supported displays, the currently set metadata tags will not change.
             If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
         </description>
@@ -255,7 +255,7 @@ As discussed in the workshop, a few viable alternatives exist:
 </enum>
 ```
 
-2. A combination between the main proposal and alternative #1, we could define a metadata struct which only supports "fieldName" and "fieldType".  This avoids duplication of data but makes the metadata array more easily expandable. Changes to Mobile API (Respective enums defined above are not redefined):
+2. A combination between the main proposal and alternative #1, we could define a metadata struct which only supports "fieldName" and "fieldType".  This avoids duplication of data but makes the metadata array more easily expandable and allows the metadata struct to be used within other RPCs. Changes to Mobile API (Respective enums defined above are not redefined):
 
 ```xml
   <function name="Show" functionID="ShowID" messagetype="request">
@@ -278,11 +278,10 @@ As discussed in the workshop, a few viable alternatives exist:
     </param>
 	:
     <param name="textFieldMetadata" type="Common.MetadataStruct" mandatory="true" array="true" minsize="0" maxsize="4">
-      <description>Array of lines of show text fields. See TextFieldStruct. Uses mainField1, mainField2, mainField3, mainField4. If some field is not set, the corresponding text should stay unchanged. If field's text is empty "", the field must be cleared.
-          mainField1: The text that should be displayed in a single or upper display line.
-          mainField2: The text that should be displayed on the second display line.
-          mainField3: The text that should be displayed on the second "page" first display line.
-          mainField4: The text that should be displayed on the second "page" second display line.
+      <description>
+        App defined metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4.
+        If omitted on supported displays, the currently set metadata tags will not change.
+        If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
       </description>
     </param>
   </function>
@@ -295,4 +294,100 @@ As discussed in the workshop, a few viable alternatives exist:
     <description>The type of data contained in the field.</description>
   </param>
 </struct>
+
+<enum name="TextFieldName">
+  <element name="mainField1">
+    <description>The first line of first set of main fields of the persistent display; applies to "Show"</description>
+  </element>
+  <element name="mainField2">
+    <description>The second line of first set of main fields of the persistent display; applies to "Show"</description>
+  </element>
+  <element name="mainField3">
+    <description>The first line of second set of main fields of persistent display; applies to "Show"</description>
+  </element>
+  <element name="mainField4">
+    <description>The second line of second set of main fields of the persistent display; applies to "Show"</description>
+  </element>
+  <element name="statusBar">
+    <description>The status bar on NGN; applies to "Show"</description>
+  </element>
+  <element name="mediaClock">
+    <description>Text value for MediaClock field; applies to "Show"</description>
+  </element>
+  <element name="mediaTrack">
+    <description>The track field of NGN and GEN1.1 MFD displays. This field is only available for media applications; applies to "Show"</description>
+  </element>
+  <element name="alertText1">
+    <description>The first line of the alert text field; applies to "Alert"</description>
+  </element>
+  <element name="alertText2">
+    <description>The second line of the alert text field; applies to "Alert"</description>
+  </element>
+  <element name="alertText3">
+    <description>The third line of the alert text field; applies to "Alert"</description>
+  </element>
+  <element name="scrollableMessageBody">
+    <description>Long form body of text that can include newlines and tabs; applies to "ScrollableMessage"</description>
+  </element>
+  <element name="initialInteractionText">
+    <description> First line suggestion for a user response (in the case of VR enabled interaction</description>
+  </element>
+  <element name="navigationText1">
+    <description> First line of navigation text</description>
+  </element>
+  <element name="navigationText2">
+    <description> Second line of navigation text</description>
+  </element>
+  <element name="ETA">
+    <description> Estimated Time of Arrival time for navigation</description>
+  </element>
+  <element name="totalDistance">
+    <description> Total distance to destination for navigation</description>
+  </element>
+  <element name="audioPassThruDisplayText1">
+    <description> First line of text for audio pass thru</description>
+  </element>
+  <element name="audioPassThruDisplayText2">
+    <description> Second line of text for audio pass thru</description>
+  </element>
+  <element name="sliderHeader">
+    <description> Header text for slider</description>
+  </element>
+  <element name="sliderFooter">
+    <description> Footer text for slider</description>
+  </element>
+  <element name="menuName">
+    <description> Primary text for Choice</description>
+  </element>
+  <element name="secondaryText">
+    <description> Secondary text for Choice</description>
+  </element>
+  <element name="tertiaryText">
+    <description> Tertiary text for Choice</description>
+  </element>
+  <element name="menuTitle">
+    <description> Optional text to label an app menu button (for certain touchscreen platforms).</description>
+  </element>
+  <element name="navigationText">
+    <description>Navigation text for UpdateTurnList.</description>
+  </element>
+  <element name="notificationText">
+    <description>Text of notification to be displayed on screen.</description>
+  </element>
+  <element name="locationName">
+    <description> Optional name / title of intended location for SendLocation.</description>
+  </element>
+  <element name="locationDescription">
+    <description> Optional description of intended location / establishment (if applicable) for SendLocation.</description>
+  </element>
+  <element name="addressLines">
+    <description> Optional location address (if applicable) for SendLocation.</description>
+  </element>
+  <element name="phoneNumber">
+    <description> Optional hone number of intended location / establishment (if applicable) for SendLocation.</description>
+  </element>
+  <element name="timeToDestination"/>
+    <!-- TO DO to be removed -->
+    <element name="turnText"/>
+</enum>
 ```
