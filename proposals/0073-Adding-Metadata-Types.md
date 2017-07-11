@@ -113,11 +113,11 @@ In the Mobile API, an optional metadata struct "textFieldMetadata" will be intro
         </description>
     </param>
 
-	<param name="textFieldMetadata" type="MetadataStruct" mandatory="false">
+    <param name="textFieldMetadata" type="MetadataStruct" mandatory="false">
         <description>
-            App defiend metadata information.
-			If omitted on supported displays, the currently set metadata tags will not change.
-			If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
+            App defiend metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4.
+            If omitted on supported displays, the currently set metadata tags will not change.
+            If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
         </description>
     </param>
   </function>
@@ -248,6 +248,9 @@ As discussed in the workshop, a few viable alternatives exist:
   </element>
   <element name="statusBar">
     <description>The data in this field contains the text to be displayed in the Status Bar.</description>
+  </element>
+  <element name="none">
+    <description>The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameter it is considered as the none type.</description>
   </element>
 </enum>
 ```
