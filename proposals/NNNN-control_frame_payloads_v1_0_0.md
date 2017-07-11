@@ -7,8 +7,7 @@
 
 ## Introduction
 
-With the acceptance of [Constructed Payloads](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0052-constructed-payloads.md) for Control Frames 
-we need to ensure we spec out all the changes that will be needed for the first version of these payloads. This includes adding a new param to the `StartService`frame for RPC services that contains the max version supported for control frame payloads.
+With the acceptance of [Constructed Payloads](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0052-constructed-payloads.md) for Control Frames we need to ensure we spec out all the changes that will be needed for the first version of these payloads. This includes adding a new param to the `StartService` frame for RPC services that contains the max version supported for control frame payloads.
  
 ## Motivation
 It is important to have proper specs when it comes to the protocol API within SDL. The new constructed payloads feature presents a challenge to keep track of all changes and how to version those changes. 
@@ -16,7 +15,7 @@ It is important to have proper specs when it comes to the protocol API within SD
 ## Proposed solution
 The proposed solution is to document all the payloads in the protocol spec. Because of the introduction of control frame payloads we will also have to bump the protocol version.
 
-All changes are documented as folowed:
+All changes are documented as followed:
 
 #### Payloads
 >Added: Protocol Version 5<br>
@@ -127,7 +126,8 @@ No defined payloads at this time.
 
 
 ## Potential downsides
-
+- Introduces a new version that will have to be kept track of. 
+- Testing would have to be performed with legacy systems that do not support version 5 of the protocol to ensure adding the payload to the `StartService` frame doesn't break anything.
 
 
 ## Impact on existing code
