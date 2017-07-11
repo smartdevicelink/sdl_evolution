@@ -31,10 +31,16 @@ The common problem is that a mobile application needs the ability to control cer
 - Baseline only supports radio control module and climate control module
 - extend GetSystemCapability API to get the RC capabilities (the list mentioned above)
 ```xml
-  <enum name="SystemCapabilityType">
+<struct name="HMICapabilities">
+     ...
+    <param name="remoteControl" type="Boolean" mandatory="false">
+        <description>Availability of remote control. </description>
+    </param>
+</struct>
+<enum name="SystemCapabilityType">
          ....
     <element name="REMOTE_CONTROL"/>
-  </enum>
+</enum>
   
  <struct name="SystemCapability">
     <description>The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a "navigationCapability" should exist</description>
