@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0069](0069-enhance-video-streaming-performance-for-android.md)
 * Author: [BrandonHe](https://github.com/BrandonHe)
-* Status: **In Review**
+* Status: **Rejected**
 * Impacted Platforms: [Android]
 
 ## Introduction
