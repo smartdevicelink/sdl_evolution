@@ -31,18 +31,13 @@ The common problem is that a mobile application needs the ability to control cer
 - Baseline only supports radio control module and climate control module
 - extend GetSystemCapability API to get the RC capabilities (the list mentioned above)
 ```xml
-<struct name="HMICapabilities">
-     ...
-    <param name="remoteControl" type="Boolean" mandatory="false">
-        <description>Availability of remote control. </description>
-    </param>
-</struct>
+
 <enum name="SystemCapabilityType">
          ....
     <element name="REMOTE_CONTROL"/>
 </enum>
   
- <struct name="SystemCapability">
+<struct name="SystemCapability">
     <description>The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a "navigationCapability" should exist</description>
     <param name="systemCapabilityType" type="SystemCapabilityType" mandatory="true">
     </param>    
@@ -209,17 +204,14 @@ The RC resource allocatation/management rule is showed in the following table.
 - "free" means no applications currently hold the access to the requested resource.
 - "in use" means the requested resource currently can be controlled/held by an application.
 - "busy" means at least one RC RPC command is currently executing, and has not finished yet.
-- This proposal assumes the RC app want to obtain the access to a RC module and hold it. It is easy to extend the RPC to indicated the app does not want to lock the resouce, in that case the module status will change from free to busy when a SetInteriorVehicleData is in processing, and back to free when the processing is done.
+- This proposal assumes the RC app want to obtain the access to a RC module and hold it. It is easy to extend the RPC to indicated the app does not want to lock the resouce, in that case the module status will change from free to busy when a SetInteriorVehicleData or OnButtonPress with a RC button is in processing, and back to free when the processing is done.
 
 By default SDL-RC allows RC application to use remote control feature. However, the driver can disable the feature via HMI by sending OnRemoteControlSettings(allowed=false) message to SDL.
 
 SDL policy already supports the function group that configures which application can access which RPC and which vehicle data, such as gps, deviceStatus, tirePressure, fuelLevel and so on. Similarly, SDL policy shall support the configuration on which application can access which type(s) of remote control module and which control items within the module in vehicle. For example, some applications can only control radio, some applications can only control climate, some applications can control both radio and climate. SDL shall check the policy configurations regarding which type(s) of remote control module and which control items can be accessed by a RC application.
 
-Please see attached documents for detailed design of existing implementation. [HMI Guideline](../assets/proposals/0065-remote-control/0065_SDLRC_HMI_Guidelines_v1.1.pdf) and [Mobile API Guideline](../assets/proposals/0065-remote-control/0065_SDLRC_Mobile_API_Guidelines_v1.0.pdf)
 
 ### Mobile API changes
-Full Mobile API can be found here:
-https://github.com/smartdevicelink/sdl_core/blob/feature/sdl_rc_functionality/src/components/interfaces/MOBILE_API.xml
 
 The changes are listed below.
 ```xml
@@ -561,7 +553,8 @@ The changes are listed below.
     </param>
   </function>
 
-  <!-- new additions -->  
+  <!-- new additions -->
+  
   <function name="GetInteriorVehicleData" functionID="GetInteriorVehicleDataID" messagetype="request">
     <param name="moduleType" type="ModuleType">
       <description>The module data to retrieve from the vehicle for that type</description>
@@ -975,7 +968,16 @@ The changes are similar to mobile api changes, they are  listed here.
   </struct>
 </interface>
 
-<interface name="RC" >  
+<interface name="RC" >
+  <function name="GetCapabilities" messagetype="request">
+    <description>Method is invoked at system startup by SDL to request information about Remote Control capabilities of HMI.</description>
+  </function>
+  <function name="GetCapabilities" messagetype="response">
+    <param name="remoteControlCapabilities" type="Common.RemoteControlCapabilities" minsize="1" maxsize="100" array="true" mandatory="false">
+      <description>See RemoteControlCapabilities.</description>
+    </param>
+  </function>
+  
   <function name="SetInteriorVehicleData" functionID="SetInteriorVehicleDataID" messagetype="request">
     <param name="moduleData" type="Common.ModuleData">
       <description>The module type and data to set</description>
@@ -1054,8 +1056,6 @@ The changes are similar to mobile api changes, they are  listed here.
 ```
 
 ## Potential downsides
-
-- The driver must exit current controlling application before using another application to control the same RC module. There is no indication of which application is currently control the RC module. Driver doesn't know which application to close. This makes application switching cumbersome.
 
 - It lacks the fine policy control on which application can access which RC module(s) and which control item(s) within each module.
 
