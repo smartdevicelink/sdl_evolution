@@ -75,7 +75,7 @@ For each text field in the HMI API, a new optional parameter "fieldType" can be 
 </enum>
 ```
 
-In the Mobile API, an optional metadata struct "textFieldMetadata" will be introduced.  This struct will utilize each text field as a key and allow them to be assigned multiple metadata tags.  If a textfield or the entire metadata struct is omitted, the currently assigned tags will remain unchanged.  If the text field is included but has no tags assigned, any currently assigned tag wil be removed.  For self proclaiming metadata types (ex. "mediaClock", "statusBar" and "mediaTrack"), the HMI can already determine their type and are not included.
+In the Mobile API, an optional metadata struct "textFieldMetadata" will be introduced.  This struct will utilize each text field as a key and allow them to be assigned multiple metadata tags.  If a textfield or the entire metadata struct is omitted, the currently assigned tags will remain unchanged.  If the text field is included but has no tags assigned, any currently assigned tags will be removed.  For self proclaiming metadata types (ex. "mediaClock", "statusBar" and "mediaTrack"), the HMI can already determine their type and are not included.
 
 ### Additions to MOBILE_API
 
@@ -99,7 +99,7 @@ In the Mobile API, an optional metadata struct "textFieldMetadata" will be intro
       </description>
     </param>
 	:
-	<param name="softButtons" type="SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
+    <param name="softButtons" type="SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
         <description>
             App defined SoftButtons.
             If omitted on supported displays, the currently displayed SoftButton values will not change.
@@ -210,7 +210,7 @@ As discussed in the workshop, a few viable alternatives exist:
       </description>
     </param>
 	:
-	<param name="showStrings" type="Common.TextFieldStruct" mandatory="true" array="true" minsize="0" maxsize="7">
+    <param name="showStrings" type="Common.TextFieldStruct" mandatory="true" array="true" minsize="0" maxsize="7">
       <description>Array of lines of show text fields. See TextFieldStruct. Uses mainField1, mainField2, mainField3, mainField4. If some field is not set, the corresponding text should stay unchanged. If field's text is empty "", the field must be cleared.
           mainField1: The text that should be displayed in a single or upper display line.
           mainField2: The text that should be displayed on the second display line.
@@ -252,7 +252,7 @@ As discussed in the workshop, a few viable alternatives exist:
 </enum>
 ```
 
-2. As combination between the main proposal and alternative 1, we could define a metadata struct which only supports "fieldName" and "fieldType".  This avoids duplication of data but makes the metadata array more easily expandable. Changes to Mobile API (Respective enums defined above are not redefined):
+2. A combination between the main proposal and alternative #1, we could define a metadata struct which only supports "fieldName" and "fieldType".  This avoids duplication of data but makes the metadata array more easily expandable. Changes to Mobile API (Respective enums defined above are not redefined):
 
 ```xml
   <function name="Show" functionID="ShowID" messagetype="request">
@@ -274,7 +274,7 @@ As discussed in the workshop, a few viable alternatives exist:
       </description>
     </param>
 	:
-	<param name="textFieldMetadata" type="Common.MetadataStruct" mandatory="true" array="true" minsize="0" maxsize="4">
+    <param name="textFieldMetadata" type="Common.MetadataStruct" mandatory="true" array="true" minsize="0" maxsize="4">
       <description>Array of lines of show text fields. See TextFieldStruct. Uses mainField1, mainField2, mainField3, mainField4. If some field is not set, the corresponding text should stay unchanged. If field's text is empty "", the field must be cleared.
           mainField1: The text that should be displayed in a single or upper display line.
           mainField2: The text that should be displayed on the second display line.
