@@ -80,8 +80,13 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0070" status="returned" primary-platform="core" sdl-version="x.x" name="Notification of iAP transport type" filename="0070-iap-transport-type-notification.md"/>
 <proposal id="0071" status="active" primary-platform="core" sdl-version="x.x" name="SDL Remote Control Baseline (no zones, no driver/passenger, immediate control)" filename="0071-remote-control-baseline.md"/>
 <proposal id="0072" status="accepted" primary-platform="core" sdl-version="x.x" name="New vehicle data - FuelRange" filename="0072-New-vehicle-data-FuelRange.md"/>
-<proposal id="0073" status="deferred" primary-platform="core" sdl-version="x.x" name="Adding Metadata Types" filename="0073-Adding-Metadata-Types.md"/>
-<proposal id="0074" status="active" primary-platform="android" sdl-version="x.x" name="Android O Changes Phase 1" filename="0074-android_o_changes_phase_1.md"/>
+<proposal id="0073" status="active" primary-platform="core" sdl-version="x.x" name="Adding Metadata Types" filename="0073-Adding-Metadata-Types.md"/>
+<proposal id="0074" status="accepted" primary-platform="android" sdl-version="x.x" name="Android O Changes Phase 1" filename="0074-android_o_changes_phase_1.md"/>
+<proposal id="0075" status="active" primary-platform="core" sdl-version="x.x" name="OEM specific Human Interface Device support as Plug-in architecture in SDL proxy" filename="0075-HID-Support-Plug-in.md"/>
+<proposal id="0076" status="active" primary-platform="core" sdl-version="x.x" name="Support for Additional Languages" filename="0076-Support-For-Additional-Languages.md"/>
+<proposal id="0077" status="active" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements" filename="0077-sdl-policy-server-enhancements.md"/>
+<proposal id="0078" status="active" primary-platform="core" sdl-version="x.x" name="Control Frame Payloads v1.0.0" filename="0078-control_frame_payloads_v1_0_0.md"/>
+	
 
 	
 <!--
