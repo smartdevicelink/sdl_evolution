@@ -55,4 +55,4 @@ No actual changes to code. The SDL Core project will be able to take the MOBILE_
 ## Alternatives considered
 N/A
 
-[sdl-workflow]: ../assets/proposals/NNNN-idea_to_implementation/sdl_workflow.png
+[sdl-workflow]: ../assets/proposals/0068-idea_to_implementation/sdl_workflow.png
