@@ -1,9 +1,9 @@
 # SDL Policy Server Enhancements
 
-* Proposal: [SDL-NNNN](NNNN-policy-server.md)
+* Proposal: [SDL-0077](0077-sdl-policy-server-enhancements.md)
 * Author: [Christopher Rokita](https://github.com/crokita), [Nick Schwab](https://github.com/nickschwab), and [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
-* Impacted Platforms: [Web /Policy Server]
+* Status: **In Review**
+* Impacted Platforms: [Policy Server]
 
 ## Introduction
 
