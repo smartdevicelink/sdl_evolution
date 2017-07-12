@@ -26,91 +26,21 @@ The common problem is that a mobile application needs the ability to control cer
 ## Proposed solution
 
 ### Baseline features of SDL remote control in this proposal
-
-- A list of supported RC modules and specific (readable and or controllable) items within each module, and potentially value range of each item
-- Baseline only supports radio control module and climate control module
-- extend GetSystemCapability API to get the RC capabilities (the list mentioned above)
-```xml
-
-<enum name="SystemCapabilityType">
-         ....
-    <element name="REMOTE_CONTROL"/>
-</enum>
-  
-<struct name="SystemCapability">
-    <description>The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a "navigationCapability" should exist</description>
-    <param name="systemCapabilityType" type="SystemCapabilityType" mandatory="true">
-    </param>    
-         ...
-    <param name="remoteControlCapability" type="RemoteControlCapabilities" mandatory="false">
-    </param>
-</struct>
-
-  <struct name="RemoteControlCapabilities">
-    <param name="climateControlCapabilities" type="ClimateControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
-      <description>If included, the platform supports RC climate controls.</description >
-    </param>
-    <param name="radioControlCapabilities" type="RadioControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
-      <description>If included, the platform supports RC radio controls.</description >
-    </param>
-  </struct>
-```
-- API to read RC module status data
-- API to change RC module settings
-- API to subscribe RC module status/setting change notifications
-- API to unsubscribe RC module status/setting change notifications
-- RC Module status/data/setting change notifications
-- Basic app authorization support, i.e. the policy that control which app can access which type(s) of remote control module and which control items within each type
-- Applications can control all available RC modules of the vehicle if the policy allows
-- One connected mobile device
-- Assumption that the app want to perform the control immediately at the time when a control request is issued.
-
-### The following features are not considered in this baseline proposal
-
-- app authentication (SDL has it already for Mobile Navigation apps)
-- full app authorization policy control, i.e. which app can access which remote control module(s) and which control items within each module, the full RC app polciy control relies on a good zone or location scheme to identify a module, which is not covered in this baseline proppsal.
-- encryption
-- RC status notifications (indicates whether an app has the control of a RC module)
-- Permission change notifications (due to policy update or driver grant/revoke permission for an app, SDL has it for generic apps)
-- Additional RC modules (HMI settings, power seat control, windows control, lights control, etc.) or additional control items in climate and radio control
-- RC resource management regarding how multiple apps access the same RC module with additional requirements, for example "add to queue mode". That should be another proposal. 
-
-### Compared to the current implementation in the RC feature branch, the following sub-features are removed/changed/added
-
-- Remove the concept and the usage of resource zones, including the resource policy. The lack of zones implies that all the vehicle being 1 zone.
-- Remove the device location (device is in one of the zones)
-- Continue group available controllable items into RC modules by functionality. However, this proposal does not define how to ID a resource in resource level if there are multiple resource of the same type. This leaves the room for later zone related proposals to address the issue of how to identify of a RC module.
-- Provide new RemoteControlCapabilities data structure, which includes specific controllable items in each module
-- Remove concept and implemetation of driver vs passenger device, and only allow one RC device
-- Add NONE to defrost zone
-- Remove ModuleDescription 
-- Remove OnDeviceLocationChanged notifications
-- Remove OnDeviceRankChanged notifications
-- Update OnReverseAppsAllowing to OnRemoteControlSettings API. SDL shall support the feature to allow the driver to turn on/off remote control feature as a whole. For passenger's device, this can be achieved currently by OnReverseAppsAllowing(allowed: true or false) API between SDL and the HMI. We rename OnReverseAppsAllowing to OnRemoteControlSettings , and add more functions to this API to allow other driver configurable settings.
-- 1. If the driver changes remote control access mode settings via the HMI, the HMI shall send an OnRemoteControlSettings (“accessMode”) to SDL. Available setting options are: auto allow, auto deny, ask driver. The HMI shall also send a notification with initial value on system start.
-- 2. If the driver turns on or off the remote control, the HMI shall send OnRemoteControlSettings (allowed: true or false) system notification to SDL. (This is to replace the existing RC.OnReverseAppsAllowing API) The HMI shall also send a notification with initial value on device connection.
-- Keep and repurpose GetInteriorVehicleDataConsent request and response to ask driver's permission
-- OnHMIStatus does not contain deviceRank.
-- Add basic policy support
-- SDL RC shall support re-allocate/revoke access right without the driver closing all the RC applications.
-
-
-
-### Details
-
-The following table lists what control modules are defined in baseline 
+- Baseline only supports radio control module and climate control module.
+The following table lists what control modules are defined in baseline.
 
 | RC Module |
 | --------- |
 | Radio |
 | Climate |
 
-The following table lists what control items are considered in the each control module.
+- A list of supported RC modules and specific (readable and or controllable) items within each module, and potentially value range of each item.
 
+The following table lists what control items are considered in the each control module.
 
 | RC Module | Control Item | Value Range |Type | Comments |
 | ------------ | ------------ |------------ | ------------ | ------------ |
-| Radio | Radio Enabled | true,false  | Get/Notification| read only, all other radio control items need radio enabled to work|
+| Radio | Radio Enabled | true,false  | Get/Set/Notification| read only, all other radio control items need radio enabled to work|
 |       | Radio Band | AM,FM,XM  | Get/Set/Notification| |
 |       | Radio Frequency | | Get/Set/Notification | value range depends on band |
 |       | Radio RDS Data | | Get/Notification | read only |
@@ -119,8 +49,8 @@ The following table lists what control items are considered in the each control 
 |       | Radio Signal Strength |  | Get/Notification | read only |
 |       | Signal Change Threshold |  | Get/Notification | read only |
 |       | Radio State | Acquiring, acquired, multicast, not_found | Get/Notification | read only |
-| Climate | Current Cabin Temperature | -30 to 40C or -22 to 104F| Get/Notification | read only |
-|         | Desired Cabin Temperature | 14 to 30C or 60 to 90F  | Get/Set/Notification |  |
+| Climate | Current Cabin Temperature |  | Get/Notification | read only, value range depends on OEM |
+|         | Desired Cabin Temperature |  | Get/Set/Notification | value range depends on OEM |
 |         | AC Setting | on,off | Get/Set/Notification |  |
 |         | AC MAX Setting | on,off  | Get/Set/Notification |  |
 |         | Air Recirculation Setting | on,off  | Get/Set/Notification |  |
@@ -154,31 +84,207 @@ The system shall list all available RC radio buttons and RC climate buttons in t
 |         | SHUFFLE Button |
 |         | REPEAT Button |
 
-Each RC module shall have a short name (or a label) in order to uniquely identify the module in case there are multiple modules of the same type. SDL does not standardize the name for the modules. The name may or may not related to the location of the module within the vehicle. It is the OEM's choice to name each individual module. 
-
-
-A new appHMIType: REMOTE_CONTROL is added: all and any remote-control applications must register with this type. 
-
-The work flow of a remote control application on driver's device is simple. Like the existing applications, a RC application need to register with the system, be launched by driver via HMI or voice control. The app shall send a request for vehicle's RC capabilities to get a list of controllable RC modules available. Then it can start to read or change RC module settings. 
-
-The first control message (setter request) with a specific RC module will trigger SDL to perform RC resource allocation process. The coding of this RC resource allocation process shall be upgradable in the future without major code infrastructure revision. 
-
-Simliar to how the system manage media applcation accessing the audio streaming resource, a simple RC resource allocation process can be "A foreground running RC app can obtain and lock the RC access right to a RC module type(s) until driver exit the app or launch another RC app that controls the same type of RC module." In order to allow a background app be able to perform remote control, we add a user changable RC settings - RCAccessMode and correspoindg HMI API. Consider the case in which there is a running RC app that has the right to control a RC module type, another RC app wants to control the same RC module, depending on the RCAccessMode setting, the system will do differently.
-
+- Extend GetSystemCapability RPC to get the RC capabilities (the list mentioned above, ButtonCapabilities is existing data structure),
 ```xml
-<enum name="RCAccessMode">
-  <description>Enumeration that describes possible remote control access mode the application might be in on HU.</description>
-  <element name="AUTO_ALLOW">
-    <description>The system shall revoke the RC access right of the current app, and allows the new app's request to access the same RC module to do the remote control. This is exactly how the system deal with media apps for audio streaming.</description>
-  </element>
-  <element name="AUTO_DENY">
-    <description>The system keep the access right of the current app, and denies the new app's request to access the same RC module. This allows a background RC app keep controlling a RC module.</description>  
-  </element>
-  <element name="ASK_DRIVER">
-      <description>The system shall show a pop up and ask the driver's decision.</description>  
-  </element>
+
+<enum name="SystemCapabilityType">
+         ....
+    <element name="BUTTON"/>
+    <element name="REMOTE_CONTROL"/>
 </enum>
 
+<struct name="SystemCapability">
+    <description>
+      The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct.
+      For example, if the SystemCapability Type is NAVIGATION then a "navigationCapability" should exist
+    </description>
+    <param name="systemCapabilityType" type="SystemCapabilityType" mandatory="true">
+    </param>
+         ...
+    <param name="remoteControlCapability" type="RemoteControlCapabilities" mandatory="false">
+    </param>
+    <param name="buttonCapability" type="ButtonCapabilities" mandatory="false">
+    </param>
+</struct>
+
+<struct name="RemoteControlCapabilities">
+  <param name="climateControlCapabilities" type="ClimateControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
+    <description>
+      If included, the platform supports RC climate controls.
+      For this baseline version, maxsize=1. i.e. only one climate control module is supported.
+    </description >
+  </param>
+  <param name="radioControlCapabilities" type="RadioControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
+    <description>
+      If included, the platform supports RC radio controls.
+      For this baseline version, maxsize=1. i.e. only one radio control module is supported.
+    </description >
+  </param>
+</struct>
+```
+
+- A new appHMIType: REMOTE_CONTROL is added: all and any remote-control applications must register with this type. The appHMIType is not exclusive, if an app wants to change radio settings, it shall register as both a MEDIA and a REMOTE_CONTROL type application.
+
+- The work flow of a remote control application is the same as existing applications. A RC application need to register with the system, be launched by driver via HMI or voice control. The app shall send a request for vehicle's RC capabilities to get a list of controllable RC modules available. Then it can start to read or change RC module settings.
+
+- API to read RC module status data. A RC application needs to send one request per RC module to read data from multiple modules.
+```xml
+  <function name="GetInteriorVehicleData" functionID="GetInteriorVehicleDataID" messagetype="request">
+    <param name="moduleType" type="ModuleType">
+      <description>
+        The type of a RC module to retrieve module data from the vehicle.
+        In the future, this should be the Identification of a module.
+      </description>
+    </param>
+    <param name="subscribe" type="Boolean" mandatory="false" defvalue="false">
+      <description>
+        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
+        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
+      </description>
+    </param>
+  </function>
+
+  <function name="GetInteriorVehicleData" functionID="GetInteriorVehicleDataID" messagetype="response">
+    <param name="moduleData" type="ModuleData">
+    </param>
+    <param name="resultCode" type="Result" platform="documentation">
+      <description>See Result</description>
+      <element name="SUCCESS"/>
+      <element name="INVALID_DATA"/>
+      <element name="OUT_OF_MEMORY"/>
+      <element name="TOO_MANY_PENDING_REQUESTS"/>
+      <element name="APPLICATION_NOT_REGISTERED"/>
+      <element name="GENERIC_ERROR"/>
+      <element name="REJECTED"/>
+      <element name="IGNORED"/>
+      <element name="DISALLOWED"/>
+      <element name="USER_DISALLOWED"/>
+      <element name="UNSUPPORTED_RESOURCE"/>
+    </param>
+    <param name="info" type="String" maxlength="1000" mandatory="false">
+    </param>
+    <param name="success" type="Boolean" platform="documentation">
+        <description> true if successful; false, if failed </description>
+    </param>
+    <param name="isSubscribed" type="Boolean" mandatory="false" >
+      <description>
+       It is a conditional-mandatory parameter: must be returned in case "subscribe" parameter was present in the related request.
+       if "true" - the "moduleType" from request is successfully subscribed and the head unit will send onInteriorVehicleData notifications for the moduleType.
+       if "false" - the "moduleType" from request is either unsubscribed or failed to subscribe.
+     </description>
+   </param>
+  </function>
+```
+
+- API to change RC module settings.
+```xml
+  <function name="SetInteriorVehicleData" functionID="SetInteriorVehicleDataID" messagetype="request">
+    <param name="moduleData" type="ModuleData">
+      <description>The module data to set for the requested RC module.</description>
+    </param>
+  </function>
+
+  <function name="SetInteriorVehicleData" functionID="SetInteriorVehicleDataID" messagetype="response">
+    <description>Used to set the values of one remote control module </description>
+    <param name="moduleData" type="ModuleData">
+    </param>
+    <param name="resultCode" type="Result" platform="documentation">
+      <description>See Result</description>
+      <element name="SUCCESS"/>
+      <element name="INVALID_DATA"/>
+      <element name="OUT_OF_MEMORY"/>
+      <element name="TOO_MANY_PENDING_REQUESTS"/>
+      <element name="APPLICATION_NOT_REGISTERED"/>
+      <element name="GENERIC_ERROR"/>
+      <element name="REJECTED"/>
+      <element name="IGNORED"/>
+      <element name="DISALLOWED"/>
+      <element name="USER_DISALLOWED"/>
+      <element name="READ_ONLY"/>
+      <element name="UNSUPPORTED_RESOURCE"/>
+    </param>
+    <param name="info" type="String" maxlength="1000" mandatory="false">
+    </param>
+    <param name="success" type="Boolean" platform="documentation">
+        <description> true if successful; false, if failed </description>
+    </param>
+  </function>
+
+  <function name="ButtonPress" functionID="ButtonPressID" messagetype="request">
+    <param name="moduleType" type="ModuleType">
+      <description>The module where the button should be pressed</description>
+    </param>
+    <param name="buttonName" type="ButtonName">
+      <description>The name of supportted RC climate or radio button.</description>
+    </param>
+    <param name="buttonPressMode" type="ButtonPressMode">
+      <description>Indicates whether this is a LONG or SHORT button press event.</description>
+    </param>
+  </function>
+
+  <function name="ButtonPress" functionID="ButtonPressID" messagetype="response">
+    <param name="resultCode" type="Result" platform="documentation">
+        <description>See Result</description>
+        <element name="SUCCESS"/>
+        <element name="OUT_OF_MEMORY"/>
+        <element name="TOO_MANY_PENDING_REQUESTS"/>
+        <element name="APPLICATION_NOT_REGISTERED"/>
+        <element name="GENERIC_ERROR"/>
+        <element name="REJECTED"/>
+        <element name="IGNORED"/>
+        <element name="DISALLOWED"/>
+        <element name="USER_DISALLOWED"/>
+      </param>
+      <param name="info" type="String" maxlength="1000" mandatory="false">
+      </param>
+      <param name="success" type="Boolean" platform="documentation">
+      <description> true if successful; false, if failed </description>
+    </param>
+  </function>
+```
+
+- API to subscribe RC module status/setting change notifications. See parameter subscribe and isSubscribed in the above GetInteriorVehicleData RPC.
+
+- API to unsubscribe RC module status/setting change notifications. See parameter subscribe and isSubscribed in the above GetInteriorVehicleData RPC.
+
+- Basic app authorization support, i.e. the policy that control which app can access which type(s) of remote control module.
+- RC applications can control all available RC modules of the vehicle if the policy allows.
+- One connected mobile device.
+- Assumption that the app want to perform the control immediately at the time when a control request is issued.
+- Assumption that the app want to lock the RC module to control while the app is running. It is easy to extend the RPCs (SetInteriorVehicleData and ButtonPress) with an additional parameter to indicate the app does or does not want to lock the resource.
+
+### The following features are not considered in this baseline proposal
+
+- App authentication (SDL has it already for Mobile Navigation apps)
+- Full app authorization policy control, i.e. which app can access which remote control module(s) and which control items within each module, the full RC app policy control relies on a good zone or location scheme to identify a module, which is not covered in this baseline proposal.
+- Encryption
+- RC status notifications (indicates whether an app has the control of a RC module, useful when the system revoke the access right and allow other apps to control the same module )
+- Permission change notifications (due to policy update or driver grant/revoke permission for an app, SDL has it for generic apps)
+- Additional RC modules (HMI settings, power seat control, windows control, lights control, etc.) or additional control items in climate and radio control
+- RC resource management regarding how multiple apps access the same RC module with additional requirements, for example "add to queue mode". That should be another proposal.
+
+### Compared to the current implementation in the RC feature branch, the following sub-features are removed/changed/added
+
+- Remove the concept and the usage of resource zones, including the resource policy of equipment configuration. The lack of zones and ID schemes implies that all RC modules belongs to 1 zone.
+- Remove the concept and implementation of device location (device is in one of the zones)
+- Remove the concept and implementation of driver vs passenger device, and only allow one RC device
+- Continue group available controllable items into RC modules by functionality. Each module can have a short friendly name. However, this name shall not be used to parse and id a module by mobile apps. It is just a friendly name. This proposal does not define how to ID a resource if there are multiple resource of the same type. This leaves the room for later zone related proposal to address the issue of how to identify of a RC module.
+- Provide new RemoteControlCapabilities data structure, which includes specific controllable items in each module
+- Add NONE to defrost zone.
+- Remove ModuleDescription, since it (zone+moduleType) is the identification of a module.
+- Remove OnDeviceLocationChanged notifications.
+- Remove OnDeviceRankChanged notifications.
+- OnHMIStatus does not contain deviceRank.
+- Add basic policy support i.e. the policy that control which app can access which type(s) of remote control module.
+
+SDL policy already supports the function group that configures which application can access which RPC and which vehicle data, such as gps, deviceStatus, tirePressure, fuelLevel and so on. Similarly, SDL policy shall support the configuration on which application can access which type(s) of remote control module and potentially which control items within the module in vehicle. For example, some applications can only control radio, some applications can only control climate, some applications can control both radio and climate and other applications cannot do RC at all. SDL shall check the policy configurations regarding which type(s) of remote control module can be accessed by a RC application.
+
+- Keep and re-purpose GetInteriorVehicleDataConsent request and response to ask driver's permission of control a RC module.
+- Change OnReverseAppsAllowing to OnRemoteControlSettings API. SDL shall support the feature to allow the driver to turn on/off remote control feature as a whole. By default SDL-RC allows RC application to use remote control feature. However, the driver can disable the feature via HMI. In the existing implementation, for passenger's device, this can be achieved by OnReverseAppsAllowing(allowed: true or false) API between SDL and the HMI. We rename OnReverseAppsAllowing to OnRemoteControlSettings, and add more parameters to this API to allow other driver configurable settings.
+- 1. If the driver turns on or off the remote control, the HMI shall send OnRemoteControlSettings (allowed: true or false) system notification to SDL. The HMI shall also send a notification with initial value on system start. The default value in SDL is true.
+- 2. If the driver changes remote control access mode settings via the HMI, the HMI shall send an OnRemoteControlSettings (“accessMode”) to SDL. Available setting options are: auto (always) allow, auto (always) deny, ask driver. The HMI shall also send a notification with initial value on system start. The default value in SDL is allow.
+
+```xml
 <function name="OnRemoteControlSettings" messagetype="notification">
   <description>Sender: vehicle -> RSDL. Notification about remote-control settings changed. Sent after user changes settings through HMI.</description>
   <param name="allowed" type="Boolean" mandatory="false" >
@@ -190,25 +296,53 @@ Simliar to how the system manage media applcation accessing the audio streaming 
 </function>
 ```
 
-The RC resource allocatation/management rule is showed in the following table.
+
+The first control request message (SetInteriorVehicleData and ButtonPress) with a specific RC module will trigger SDL to perform RC resource allocation process. SDL RC shall support re-allocate/revoke access right without the driver closing all the RC applications. The coding of this RC resource allocation process shall be upgradable in the future without major code infrastructure revision.
+
+Similar to how the system manage media application accessing the audio streaming resource, a simple RC resource allocation rule can be "A foreground running RC app can obtain and lock the RC access right to a RC module until the app exits or the driver launches another RC app that controls the same RC module." In order to allow a background app be able to perform remote control, we add a user configurable RC settings - RCAccessMode and corresponding HMI-SDL API. Consider the case in which there is a running RC app that has the right to control a RC module type, another RC app wants to control the same RC module, depending on the RCAccessMode setting, the system will do differently.
+
+```xml
+<enum name="RCAccessMode">
+  <description>Enumeration that describes possible remote control access mode the application might be in on HU.</description>
+  <element name="AUTO_ALLOW">
+    <description>
+	  The system shall revoke the RC access right of the current app,
+	  and allows the new app's request to access the same RC module to do the remote control.
+	  This is exactly how the system deal with media apps for audio streaming.
+	</description>
+  </element>
+  <element name="AUTO_DENY">
+    <description>
+	  The system keep the access right of the current app,
+	  and denies the new app's request to access the same RC module.
+	  This allows a background RC app keep controlling a RC module.
+	</description>
+  </element>
+  <element name="ASK_DRIVER">
+      <description>SDL shall send GetInteriorVehicleDataConsent to HMI to trigger a pop up and ask the driver's decision.</description>
+  </element>
+</enum>
+```
+
+The RC resource allocation/management rule is showed in the following table.
 
 | Requesting Application state | Requested module status |  RC setting - Access mode | Expected SDL action  |
 | ---------- | ------ | ---------- | -----------------------------------  |
-| any        | free   | any        | **allow** without asking the driver      |
-| background | in use | any        | **disallow** without asking the driver   |
-| foreground | in use | auto allow | **allow** without asking the driver      |
-| foreground | in use | auto deny  | **disallow** without asking the driver   |
-| foreground | in use | ask driver | **ask driver** for permission via pop up |
-| any        | busy   | any        | **disallow** without asking the driver   |
+| any        | free   | any        | **allow**      |
+| background | in use | any        | **disallow**   |
+| foreground | in use | auto allow | **allow**      |
+| foreground | in use | auto deny  | **disallow**   |
+| foreground | in use | ask driver | **ask driver** for permission |
+| any        | busy   | any        | **disallow**   |
 
+- "background" mean HMI level BACKGROUND or LIMITED.
 - "free" means no applications currently hold the access to the requested resource.
 - "in use" means the requested resource currently can be controlled/held by an application.
-- "busy" means at least one RC RPC command is currently executing, and has not finished yet.
-- This proposal assumes the RC app want to obtain the access to a RC module and hold it. It is easy to extend the RPC to indicated the app does not want to lock the resouce, in that case the module status will change from free to busy when a SetInteriorVehicleData or OnButtonPress with a RC button is in processing, and back to free when the processing is done.
+- "busy" means at least one RC RPC request is currently executing, and has not finished yet.
+- This proposal assumes the RC app want to obtain the access to a RC module and hold it. It is easy to extend the RPC to indicate the app does not want to lock the resource, in that case the module status will change from free to busy when a SetInteriorVehicleData or OnButtonPress with a RC button is in processing, and back to free when the processing is done.
 
-By default SDL-RC allows RC application to use remote control feature. However, the driver can disable the feature via HMI by sending OnRemoteControlSettings(allowed=false) message to SDL.
 
-SDL policy already supports the function group that configures which application can access which RPC and which vehicle data, such as gps, deviceStatus, tirePressure, fuelLevel and so on. Similarly, SDL policy shall support the configuration on which application can access which type(s) of remote control module and which control items within the module in vehicle. For example, some applications can only control radio, some applications can only control climate, some applications can control both radio and climate. SDL shall check the policy configurations regarding which type(s) of remote control module and which control items can be accessed by a RC application.
+
 
 
 ### Mobile API changes
@@ -248,78 +382,82 @@ The changes are listed below.
     <element name="RADIO"/>
   </enum>
 
-      
+
   <struct name="ClimateControlCapabilities">
     <description>Contains information about a climate control module's capabilities.</description>
-    
     <!-- need an ID in the future -->
-    
+    <param name="moduleName" type="String" maxlength="100">   
+      <description>
+		The short friendly name of the climate control module. 
+		It should not be used to identify a module by mobile application.
+	  </description>
+    </param>  
     <param name="fanSpeedAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of fan speed. 
+        Availability of the control of fan speed.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="desiredTemperatureAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of desired temperature. 
+        Availability of the control of desired temperature.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="acEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of turn on/off AC. 
+        Availability of the control of turn on/off AC.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="acMaxEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable air conditioning is ON on the maximum level. 
+        Availability of the control of enable/disable air conditioning is ON on the maximum level.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="circulateAirEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable circulate Air mode. 
+        Availability of the control of enable/disable circulate Air mode.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="autoModeEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable auto mode. 
+        Availability of the control of enable/disable auto mode.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="dualModeEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable dual mode. 
+        Availability of the control of enable/disable dual mode.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="defrostZoneAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of defrost zones. 
+        Availability of the control of defrost zones.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="defrostZone" type="DefrostZone" minsize="1" maxsize="100" array="true" mandatory="false">
       <description>
-        A set of all defrost zones that are controllable. 
+        A set of all defrost zones that are controllable.
       </description>
     </param>
     <param name="ventilationModeAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of air ventilation mode. 
+        Availability of the control of air ventilation mode.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="ventilationMode" type="VentilationMode" minsize="1" maxsize="100" array="true" mandatory="false">
       <description>
-        A set of all ventilation modes that are controllable. 
+        A set of all ventilation modes that are controllable.
       </description>
     </param>
   </struct>
-  
+
   <enum name="DefrostZone">
     <element name="FRONT"/>
     <element name="REAR"/>
@@ -332,68 +470,74 @@ The changes are listed below.
     <element name="BOTH"/>
     <element name="NONE"/>
   </enum>
-  
+
   <struct name="RadioControlCapabilities">
     <description>Contains information about a radio control module's capabilities.</description>
     <!-- need an ID in the future -->
+    <param name="moduleName" type="String" maxlength="100">   
+      <description>
+		The short friendly name of the climate control module. 
+		It should not be used to identify a module by mobile application.
+	  </description>
+    </param> 
     <param name="radioEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable radio. 
+        Availability of the control of enable/disable radio.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="radioBandAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of radio band. 
+        Availability of the control of radio band.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="radioFrequencyAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of radio frequency. 
+        Availability of the control of radio frequency.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="hdChannelAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of HD radio channel. 
+        Availability of the control of HD radio channel.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="rdsDataAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting Radio Data System (RDS) data. 
+        Availability of the getting Radio Data System (RDS) data.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="availableHDsAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting the number of available HD channels. 
+        Availability of the getting the number of available HD channels.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="stateAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting the Radio state. 
+        Availability of the getting the Radio state.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="signalStrengthAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting the signal strength. 
+        Availability of the getting the signal strength.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="signalChangeThresholdAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting the signal Change Threshold. 
+        Availability of the getting the signal Change Threshold.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
   </struct>
-  
 
-  
+
+
   <struct name="ModuleDescription">
     <!-- module id is needed in the future -->
     <param name="moduleType" type="Common.ModuleType">
@@ -478,11 +622,11 @@ The changes are listed below.
     <param name="unit" type="TemperatureUnit">
       <description>Temperature Unit</description>
     </param>
-    <param name="value" type="Float" minvalue="-50.0" maxvalue="150.0">
-      <description>Temperature Value in TemperatureUnit specified unit.</description>
+    <param name="value" type="Float">
+      <description>Temperature Value in TemperatureUnit specified unit. Range depends on OEM and is not checked by SDL.</description>
     </param>
   </struct>
- 
+
   <struct name="ClimateControlData">
     <param name="fanSpeed" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
     </param>
@@ -554,7 +698,7 @@ The changes are listed below.
   </function>
 
   <!-- new additions -->
-  
+
   <function name="GetInteriorVehicleData" functionID="GetInteriorVehicleDataID" messagetype="request">
     <param name="moduleType" type="ModuleType">
       <description>The module data to retrieve from the vehicle for that type</description>
@@ -565,7 +709,7 @@ The changes are listed below.
   </function>
 
   <function name="GetInteriorVehicleData" functionID="GetInteriorVehicleDataID" messagetype="response">
-    <param name="moduleData" type="ModuleData">    
+    <param name="moduleData" type="ModuleData">
     </param>
       <param name="resultCode" type="Result" platform="documentation">
       <description>See Result</description>
@@ -625,14 +769,14 @@ The changes are listed below.
     </param>
   </function>
 
-  
+
   <enum name="AppHMIType">
     <description>Enumeration listing possible app types.</description>
           ...
     <!-- new additions -->
     <element name="REMOTE_CONTROL" />
   </enum>
-  
+
   <function name="OnRCStatus" messagetype="notification">
     <description>Sender: SDL -> Application. Notification about remote control status change on SDL</description>
     <param name="modules" type="ModuleType" minsize="0" maxsize="100" mandatory="true" array="true">
@@ -716,16 +860,16 @@ The changes are similar to mobile api changes, they are  listed here.
 </enum>
 
 <enum name="TemperatureUnit">
-  <element name="KELVIN"/>
   <element name="FAHRENHEIT"/>
+  <element name="CELSIUS"/>
 </enum>
 
 <struct name="Temperature">
   <param name="unit" type="TemperatureUnit">
       <description>Temperature Unit</description>
   </param>
-  <param name="value" type="Float" minvalue="-50.0" maxvalue="150.0">
-      <description>Temperature Value in TemperatureUnit specified unit.</description>
+  <param name="value" type="Float">
+      <description>The temperature value is in TemperatureUnit specified unit.</description>
   </param>
 </struct>
 
@@ -827,75 +971,75 @@ The changes are similar to mobile api changes, they are  listed here.
   </param>
   <param name="climateControlData" type="Common.ClimateControlData" mandatory="false">
   </param>
-</struct>  
+</struct>
 
 <struct name="ClimateControlCapabilities">
     <description>Contains information about a climate control module's capabilities.</description>
-    
+
     <!-- need an ID in the future -->
-    
+
     <param name="fanSpeedAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of fan speed. 
+        Availability of the control of fan speed.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="desiredTemperatureAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of desired temperature. 
+        Availability of the control of desired temperature.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="acEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of turn on/off AC. 
+        Availability of the control of turn on/off AC.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="acMaxEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable air conditioning is ON on the maximum level. 
+        Availability of the control of enable/disable air conditioning is ON on the maximum level.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="circulateAirEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable circulate Air mode. 
+        Availability of the control of enable/disable circulate Air mode.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="autoModeEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable auto mode. 
+        Availability of the control of enable/disable auto mode.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="dualModeEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable dual mode. 
+        Availability of the control of enable/disable dual mode.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="defrostZoneAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of defrost zones. 
+        Availability of the control of defrost zones.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="defrostZone" type="DefrostZone" minsize="1" maxsize="100" array="true" mandatory="false">
       <description>
-        A set of all defrost zones that are controllable. 
+        A set of all defrost zones that are controllable.
       </description>
     </param>
     <param name="ventilationModeAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of air ventilation mode. 
+        Availability of the control of air ventilation mode.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="ventilationMode" type="VentilationMode" minsize="1" maxsize="100" array="true" mandatory="false">
       <description>
-        A set of all ventilation modes that are controllable. 
+        A set of all ventilation modes that are controllable.
       </description>
     </param>
   </struct>
@@ -904,60 +1048,60 @@ The changes are similar to mobile api changes, they are  listed here.
     <!-- need an ID in the future -->
     <param name="radioEnableAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of enable/disable radio. 
+        Availability of the control of enable/disable radio.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="radioBandAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of radio band. 
+        Availability of the control of radio band.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="radioFrequencyAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of radio frequency. 
+        Availability of the control of radio frequency.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="hdChannelAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the control of HD radio channel. 
+        Availability of the control of HD radio channel.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="rdsDataAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting Radio Data System (RDS) data. 
+        Availability of the getting Radio Data System (RDS) data.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="availableHDsAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting the number of available HD channels. 
+        Availability of the getting the number of available HD channels.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="stateAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting the Radio state. 
+        Availability of the getting the Radio state.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="signalStrengthAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting the signal strength. 
+        Availability of the getting the signal strength.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
     <param name="signalChangeThresholdAvailable" type="Boolean" mandatory="false">
       <description>
-        Availability of the getting the signal Change Threshold. 
+        Availability of the getting the signal Change Threshold.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
   </struct>
-  
+
   <struct name="RemoteControlCapabilities">
     <param name="climateControlCapabilities" type="ClimateControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
       <description>If included, the platform supports RC climate controls.</description >
@@ -977,7 +1121,7 @@ The changes are similar to mobile api changes, they are  listed here.
       <description>See RemoteControlCapabilities.</description>
     </param>
   </function>
-  
+
   <function name="SetInteriorVehicleData" functionID="SetInteriorVehicleDataID" messagetype="request">
     <param name="moduleData" type="Common.ModuleData">
       <description>The module type and data to set</description>
@@ -1013,12 +1157,9 @@ The changes are similar to mobile api changes, they are  listed here.
   </function>
   <function name="GetInteriorVehicleDataConsent" messagetype="request">
     <description>Sender: SDL->HMI. </description>
-    <description>HMI is expected to display a permission prompt to the driver showing the module, zone, and app details (for example, app's name). The driver is expected to have an ability to grant or deny the permission.</description>
+    <description>HMI is expected to display a permission prompt to the driver showing the RC module and app details (for example, app's name). The driver is expected to have an ability to grant or deny the permission.</description>
     <param name="moduleType" type="Common.ModuleType" mandatory="true">
-      <description>The module that the app requests to control.</description>
-    </param>
-    <param name="zone" type="Common.InteriorZone" mandatory="true">
-      <description>A zone from which the app requests to control the named module.</description>
+      <description>The module type that the app requests to control.</description>
     </param>
     <param name="appID" type="Integer" mandatory="true">
       <description>ID of the application that triggers the permission prompt.</description>
@@ -1034,7 +1175,7 @@ The changes are similar to mobile api changes, they are  listed here.
     <param name="moduleData" type="Common.ModuleData">
     </param>
   </function>
-  
+
 <enum name="RCAccessMode">
   <description>Enumeration that describes possible remote control access mode the application might be in on HU.</description>
   <element name="AUTO_ALLOW"/>
