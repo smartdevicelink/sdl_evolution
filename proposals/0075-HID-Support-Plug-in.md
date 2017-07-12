@@ -1,15 +1,16 @@
 # OEM specific Human Interface Device support as Plug-in architecture in SDL proxy
 
-* Proposal: [SDL-NNNN](NNNN-HID-Support-Plug-in.md)
+
+* Proposal: [SDL-0075](0075-HID-Support-Plug-in.md)
 * Author: [Jennifer Hodges](https://github.com/jhodges55)
-+ Status: Awaiting review
-* Impacted Platforms: [ iOS / Android ]
+* Status: **In Review**
+* Impacted Platforms: [iOS/Android/Core/RPC ]
 
 ## Introduction
 
 Many OEM head units (ex. Lexus Remote Touch, Mazda Commander Control, BMW Gesture Control, Audi MMI) do not support direct touch interaction, but rather support a focus and select model driven by physical controls. This proposal describes a proxy plug-in interface that models the physical controls as HID devices with OEM-specific plug-in implementations. 
 
-Please see attached documents for [overview design](../assets/proposals/nnnn-OEM-specific-HID-support-on-video-streaming_overview.pptx).
+Please see attached documents for [overview design](../assets/proposals/0075-HID-support-plug-in/HID_Architecture_Overview.pdf).
 
 ## Motivation
 
@@ -20,6 +21,8 @@ It's not realistic to add new SDL RPCs to support every OEM user interface becau
 ## Proposed solution
 
 This solution assumes the iOS and Android proxies expose a "High-level UI/Widget library" that traverses the application control hierarchy and renders the hierarchy as a video stream. On iOS, the Ford developed SDLCarWindow class is a prototype for the "High-level UI/Widget library". On Android, VirtualDisplayEncoder class is also a prototype which is base point to extended to include this logic rather than forcing Android app developers to roll their own.
+
+![Architecture](../assets/proposals/0075-HID-support-plug-in/HID_Architecture_Overview.png)
 
 SDLCarWindow and VirtualDisplayEncoder can be thought of as native application views that app developers can draw "off-screen". This provides a centralized location for app developers to draw their video projection views without interfering with their on-phone UI.
 
@@ -54,14 +57,10 @@ Add `SendOEMSpecificData` request and response.
 
   <description>Send OEM specific Haptic information to head unit. This data will be defined and interpreted per the OEM's specs in the OEM plugin</description>
 
-
-
     <param name="ProprietaryHapticData" type="String" minlength="0" maxlength="5000" mandatory="false">
 
       <description>
-
         This parameter is proprietary parameter. This parameter's spec shall be defined by each OEMs who adds plug-in to support specific device.
-
       </description>
 
     </param>
@@ -69,17 +68,12 @@ Add `SendOEMSpecificData` request and response.
 </function>
 
 
-
 <function name="SendOEMSpecificData" functionID="SendOEMSpecificDataID" messagetype="response">
-
-
-
     <param name="success" type="Boolean" platform="documentation">
 
       <description> true if successful; false if failed </description>
 
     </param>
-
 
 
     <param name="resultCode" type="Result" platform="documentation">
@@ -91,7 +85,6 @@ Add `SendOEMSpecificData` request and response.
       <element name="GENERIC_ERROR"/>
 
     </param>
-
 
 
     <param name="info" type="String" minlength="0" maxlength="5000" platform="documentation">
@@ -110,29 +103,16 @@ Add `SendOEMSpecificData` request and response.
 
 
 
-Plug-in which is developped by OEM, there are three selectable options.
-
+Plug-in which is developed by OEM, there are three selectable options.
 
 
 1. Add the plugin code to the mobile library framework as open source code.
-
-
-
 2. Add the plugin compiled binary to the mobile library framework as library.
-
-
-
 3. Add the plugin to a separate open repository, and modify SDL's CocoaPods/Carthage/Android Dependency Manager configuration to pull them down automatically.
 
 
 
-
-
 ## Potential downsides
-
-
-
-Downside:
 
 OEMs will need to implement plug-ins for their head unit physical control and interface versions. If they do not, a default bypass plug-in contemplated by this proposal will handle the events. So, if all events can be mapped to an existing RPC (e.g. OnTouchEvent), applications can run without any specific plug-in. OEMs can disclose their plug-in specs and applications can customize to use plug-in features directly. It is possible that some specific device behaviors cannot be mapped to existing RPCs, and so new RPCs may be required.
 
@@ -141,15 +121,16 @@ OEM Plugins will need to be distributed to app developers individually, included
 
 ## Impact on existing code
 
-
-
 There will be significant code changes required in the iOS and Android proxies, specifically in the "High-level UI/Widget library". There is no application code impact beyond adopting the "High-level UI/Widget library".
 
 
 
 ## Alternatives considered
 
-Alternative #1: Plugin architecture is replaced with a more defined RPC interface. This RPC would be the standardized SDL interface for haptic events, and would be interpreted by OEM's on the HMI side.
+#### Alternative #1: 
+Plugin architecture is replaced with a more defined RPC interface. This RPC would be the standardized SDL interface for haptic events, and would be interpreted by OEM's on the HMI side.
+
+![Alt 1](../assets/proposals/0075-HID-support-plug-in/HID_Architecture_Overview_Alt_1.png)
 
 ```xml
 
@@ -180,16 +161,11 @@ Alternative #1: Plugin architecture is replaced with a more defined RPC interfac
 </function>
 
 
-
 <function name="SendHapticData" functionID="SendHapticDataID" messagetype="response">
-
-
 
     <param name="success" type="Boolean" platform="documentation">
       <description> true if successful; false if failed </description>
     </param>
-
-
 
     <param name="resultCode" type="Result" platform="documentation">
       <description>See Result</description>
@@ -201,6 +177,10 @@ Alternative #1: Plugin architecture is replaced with a more defined RPC interfac
 ```
 This RPC could be adjusted to work in a similar fashion to UI.Show, where each spatial struct has an id, and the proxy only reports deltas when the screen is updated.
 
-Alternative #2: No new RPCs are added to support the plug-in interface. Rather, SystemRequest and other existing RPCs will be repurposed. Since the custom behaviors will be encapsulated in the plug-in and will only work in the repurposed way with the OEM head unit, there is no impact on other SDL implementations. 
+#### Alternative #2: 
+No new RPCs are added to support the plug-in interface. Rather, SystemRequest and other existing RPCs will be repurposed. Since the custom behaviors will be encapsulated in the plug-in and will only work in the repurposed way with the OEM head unit, there is no impact on other SDL implementations. 
 
-Alternative #3: OEMs disclose their specific device specs to ISVs. This forces the ISVs to do custom work for each OEM.
+![Alt 1](../assets/proposals/0075-HID-support-plug-in/HID_Architecture_Overview_Alt_2.png)
+
+#### Alternative #3:
+OEMs disclose their specific device specs to ISVs. This forces the ISVs to do custom work for each OEM.
