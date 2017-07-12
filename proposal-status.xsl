@@ -271,6 +271,9 @@ on the gh-pages branch).
       a.number.platform-meta {
         background-color: #58bcb9; // SDL Teal
       }
+        a.number.platform-policy {
+        background-color: #394e50; // SDL Dark Grey
+      }
     </style>
   </xsl:template>
 
