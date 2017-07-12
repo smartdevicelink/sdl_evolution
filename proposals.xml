@@ -94,7 +94,7 @@ Recognized values for a proposal's status:
 	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected
 
 Recognized values for primary-platform:
-	protocol, rpc, core, ios, android, mobile (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
+	protocol, rpc, core, ios, android, policy, mobile (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
 
 Note: status="implemented" also requires sdl-version="XX".
 -->
