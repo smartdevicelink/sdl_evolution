@@ -214,7 +214,7 @@ The system shall list all available RC radio buttons and RC climate buttons in t
       <description>The module where the button should be pressed</description>
     </param>
     <param name="buttonName" type="ButtonName">
-      <description>The name of supportted RC climate or radio button.</description>
+      <description>The name of supported RC climate or radio button.</description>
     </param>
     <param name="buttonPressMode" type="ButtonPressMode">
       <description>Indicates whether this is a LONG or SHORT button press event.</description>
@@ -323,7 +323,7 @@ Similar to how the system manage media application accessing the audio streaming
 </enum>
 ```
 
-The RC resource allocation/management rule is showed in the following table.
+The RC resource allocation/management rule is shown in the following table.
 
 | Requesting Application state | Requested module status |  RC setting - Access mode | Expected SDL action  |
 | ---------- | ------ | ---------- | -----------------------------------  |
@@ -775,7 +775,7 @@ The changes are listed below.
       <description>The module where the button should be pressed</description>
     </param>
     <param name="buttonName" type="ButtonName">
-      <description>The name of supportted RC climate or radio button.</description>
+      <description>The name of supported RC climate or radio button.</description>
     </param>
     <param name="buttonPressMode" type="ButtonPressMode">
       <description>Indicates whether this is a LONG or SHORT button press event.</description>
@@ -1240,7 +1240,7 @@ The changes are similar to mobile api changes, they are  listed here.
     <description>If "true" - RC is allowed; if "false" - RC is disallowed.</description>
   </param>
   <param name="accessMode" type="RCAccessMode" mandatory="false" >
-    <description>The the remote control access mode specified by the driver via HMI.</description>
+    <description>The remote control access mode specified by the driver via HMI.</description>
   </param>
 </function>
 
