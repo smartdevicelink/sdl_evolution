@@ -1,8 +1,8 @@
 # Control Frame Payloads v1.0.0
 
-* Proposal: [SDL-NNN](NNNN-control_frame_payloads_v1_0_0.md)
+* Proposal: [SDL-0078](0078-control_frame_payloads_v1_0_0.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Protocol/Android/iOS/Core]
 
 ## Introduction
