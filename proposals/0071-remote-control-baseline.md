@@ -34,7 +34,7 @@ The following table lists what control modules are defined in baseline.
 | Radio |
 | Climate |
 
-- A list of supported RC modules and specific (readable and or controllable) items within each module, and potentially value range of each item.
+- Baseline defines a list of supported RC modules and specific (readable and or controllable) items within each module, and potentially value range of each item.
 
 The following table lists what control items are considered in the each control module.
 
@@ -86,10 +86,8 @@ The system shall list all available RC radio buttons and RC climate buttons in t
 
 - Extend GetSystemCapability RPC to get the RC capabilities (the list mentioned above, ButtonCapabilities is existing data structure),
 ```xml
-
 <enum name="SystemCapabilityType">
          ....
-    <element name="BUTTON"/>
     <element name="REMOTE_CONTROL"/>
 </enum>
 
@@ -102,8 +100,6 @@ The system shall list all available RC radio buttons and RC climate buttons in t
     </param>
          ...
     <param name="remoteControlCapability" type="RemoteControlCapabilities" mandatory="false">
-    </param>
-    <param name="buttonCapability" type="ButtonCapabilities" mandatory="false">
     </param>
 </struct>
 
@@ -120,6 +116,9 @@ The system shall list all available RC radio buttons and RC climate buttons in t
       For this baseline version, maxsize=1. i.e. only one radio control module is supported.
     </description >
   </param>
+  <param name="buttonCapabilities" type="ButtonCapabilities"  mandatory="false" minsize="1" maxsize="100" array="true" >
+    <description>If included, the platform supports RC button controls with the included button names.</description >
+  </param>  
 </struct>
 ```
 
@@ -265,10 +264,10 @@ The system shall list all available RC radio buttons and RC climate buttons in t
 
 ### Compared to the current implementation in the RC feature branch, the following sub-features are removed/changed/added
 
-- Remove the concept and the usage of resource zones, including the resource policy of equipment configuration. The lack of zones and ID schemes implies that all RC modules belongs to 1 zone.
-- Remove the concept and implementation of device location (device is in one of the zones)
-- Remove the concept and implementation of driver vs passenger device, and only allow one RC device
-- Continue group available controllable items into RC modules by functionality. Each module can have a short friendly name. However, this name shall not be used to parse and id a module by mobile apps. It is just a friendly name. This proposal does not define how to ID a resource if there are multiple resource of the same type. This leaves the room for later zone related proposal to address the issue of how to identify of a RC module.
+- Remove the concept and the usage of resource zones, including the equipment configuration resource policy. The lack of zones and ID schemes implies that all RC modules belongs to 1 zone.
+- Remove the concept and implementation of device location.
+- Remove the concept and implementation of driver vs passenger device, and only allow one RC device.
+- Continue group available controllable items into RC modules by functionality. Each module can have a short friendly name. However, this name shall not be used to parse and identify a module by mobile apps. It is just a friendly name. This proposal does not define how to ID a resource if there are multiple resource of the same type. This leaves the room for later zone related proposal to address the issue of how to identify of a RC module.
 - Provide new RemoteControlCapabilities data structure, which includes specific controllable items in each module
 - Add NONE to defrost zone.
 - Remove ModuleDescription, since it (zone+moduleType) is the identification of a module.
@@ -306,17 +305,17 @@ Similar to how the system manage media application accessing the audio streaming
   <description>Enumeration that describes possible remote control access mode the application might be in on HU.</description>
   <element name="AUTO_ALLOW">
     <description>
-	  The system shall revoke the RC access right of the current app,
-	  and allows the new app's request to access the same RC module to do the remote control.
-	  This is exactly how the system deal with media apps for audio streaming.
-	</description>
+      The system shall revoke the RC access right of the current app,
+      and allows the new app's request to access the same RC module to do the remote control.
+      This is exactly how the system deal with media apps for audio streaming.
+    </description>
   </element>
   <element name="AUTO_DENY">
     <description>
-	  The system keep the access right of the current app,
-	  and denies the new app's request to access the same RC module.
-	  This allows a background RC app keep controlling a RC module.
-	</description>
+      The system keep the access right of the current app,
+      and denies the new app's request to access the same RC module.
+      This allows a background RC app keep controlling a RC module.
+    </description>
   </element>
   <element name="ASK_DRIVER">
       <description>SDL shall send GetInteriorVehicleDataConsent to HMI to trigger a pop up and ask the driver's decision.</description>
@@ -339,7 +338,7 @@ The RC resource allocation/management rule is showed in the following table.
 - "free" means no applications currently hold the access to the requested resource.
 - "in use" means the requested resource currently can be controlled/held by an application.
 - "busy" means at least one RC RPC request is currently executing, and has not finished yet.
-- This proposal assumes the RC app want to obtain the access to a RC module and hold it. It is easy to extend the RPC to indicate the app does not want to lock the resource, in that case the module status will change from free to busy when a SetInteriorVehicleData or OnButtonPress with a RC button is in processing, and back to free when the processing is done.
+- This proposal assumes the RC app want to obtain the access to a RC module and hold it. It is easy to extend the RPC to indicate the app does not want to lock the resource, in that case the module status will change from free to busy when a SetInteriorVehicleData or ButtonPress with a RC button is in processing, and back to free when the processing is done.
 
 
 
@@ -349,6 +348,41 @@ The RC resource allocation/management rule is showed in the following table.
 
 The changes are listed below.
 ```xml
+<enum name="SystemCapabilityType">
+         ....
+    <element name="BUTTON"/>
+    <element name="REMOTE_CONTROL"/>
+</enum>
+
+<struct name="SystemCapability">
+    <description>
+      The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct.
+      For example, if the SystemCapability Type is NAVIGATION then a "navigationCapability" should exist
+    </description>
+    <param name="systemCapabilityType" type="SystemCapabilityType" mandatory="true">
+    </param>
+         ...
+    <param name="remoteControlCapability" type="RemoteControlCapabilities" mandatory="false">
+    </param>
+    <param name="buttonCapability" type="ButtonCapabilities" mandatory="false">
+    </param>
+</struct>
+
+<struct name="RemoteControlCapabilities">
+  <param name="climateControlCapabilities" type="ClimateControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
+    <description>
+      If included, the platform supports RC climate controls.
+      For this baseline version, maxsize=1. i.e. only one climate control module is supported.
+    </description >
+  </param>
+  <param name="radioControlCapabilities" type="RadioControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
+    <description>
+      If included, the platform supports RC radio controls.
+      For this baseline version, maxsize=1. i.e. only one radio control module is supported.
+    </description >
+  </param>
+</struct>
+
 <enum name="ButtonName">
       <description>Defines the hard (physical) and soft (touch screen) buttons available from SYNC</description>
         <!-- Existing Buttons not listed here -->
@@ -382,15 +416,14 @@ The changes are listed below.
     <element name="RADIO"/>
   </enum>
 
-
   <struct name="ClimateControlCapabilities">
     <description>Contains information about a climate control module's capabilities.</description>
     <!-- need an ID in the future -->
     <param name="moduleName" type="String" maxlength="100">   
       <description>
-		The short friendly name of the climate control module. 
-		It should not be used to identify a module by mobile application.
-	  </description>
+        The short friendly name of the climate control module. 
+        It should not be used to identify a module by mobile application.
+      </description>
     </param>  
     <param name="fanSpeedAvailable" type="Boolean" mandatory="false">
       <description>
@@ -476,9 +509,9 @@ The changes are listed below.
     <!-- need an ID in the future -->
     <param name="moduleName" type="String" maxlength="100">   
       <description>
-		The short friendly name of the climate control module. 
-		It should not be used to identify a module by mobile application.
-	  </description>
+        The short friendly name of the climate control module. 
+        It should not be used to identify a module by mobile application.
+      </description>
     </param> 
     <param name="radioEnableAvailable" type="Boolean" mandatory="false">
       <description>
@@ -535,8 +568,6 @@ The changes are listed below.
       </description>
     </param>
   </struct>
-
-
 
   <struct name="ModuleDescription">
     <!-- module id is needed in the future -->
@@ -661,57 +692,25 @@ The changes are listed below.
   </struct>
 
 
-  <!-- existing with updates -->
-  <function name="ButtonPress" functionID="ButtonPressID" messagetype="request">
-    <param name="moduleName" type="String">
-        <description>The zone where the button press should occur.</description>
-    </param>
-    <param name="moduleType" type="ModuleType">
-        <description>The module where the button should be pressed</description>
-    </param>
-    <param name="buttonName" type="ButtonName"/>
-
-    <param name="buttonPressMode" type="ButtonPressMode">
-        <description>Indicates whether this is a LONG or SHORT button press event.</description>
-    </param>
-  </function>
-
-  <function name="ButtonPress" functionID="ButtonPressID" messagetype="response">
-    <param name="resultCode" type="Result" platform="documentation">
-        <description>See Result</description>
-        <element name="SUCCESS"/>
-        <element name="OUT_OF_MEMORY"/>
-        <element name="TOO_MANY_PENDING_REQUESTS"/>
-        <element name="APPLICATION_NOT_REGISTERED"/>
-        <element name="GENERIC_ERROR"/>
-        <element name="REJECTED"/>
-        <element name="IGNORED"/>
-        <element name="DISALLOWED"/>
-        <element name="USER_DISALLOWED"/>
-      <element name="UNSUPPORTED_RESOURCE"/>
-    </param>
-        <param name="info" type="String" maxlength="1000" mandatory="false">
-    </param>
-    <param name="success" type="Boolean" platform="documentation">
-        <description> true if successful; false, if failed </description>
-    </param>
-  </function>
-
-  <!-- new additions -->
-
   <function name="GetInteriorVehicleData" functionID="GetInteriorVehicleDataID" messagetype="request">
     <param name="moduleType" type="ModuleType">
-      <description>The module data to retrieve from the vehicle for that type</description>
+      <description>
+        The type of a RC module to retrieve module data from the vehicle.
+        In the future, this should be the Identification of a module.
+      </description>
     </param>
     <param name="subscribe" type="Boolean" mandatory="false" defvalue="false">
-      <description>If subscribe is true, the head unit will send onInteriorVehicleData notifications for the moduleDescription</description>
+      <description>
+        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
+        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
+      </description>
     </param>
   </function>
 
   <function name="GetInteriorVehicleData" functionID="GetInteriorVehicleDataID" messagetype="response">
     <param name="moduleData" type="ModuleData">
     </param>
-      <param name="resultCode" type="Result" platform="documentation">
+    <param name="resultCode" type="Result" platform="documentation">
       <description>See Result</description>
       <element name="SUCCESS"/>
       <element name="INVALID_DATA"/>
@@ -730,11 +729,18 @@ The changes are listed below.
     <param name="success" type="Boolean" platform="documentation">
         <description> true if successful; false, if failed </description>
     </param>
+    <param name="isSubscribed" type="Boolean" mandatory="false" >
+      <description>
+       It is a conditional-mandatory parameter: must be returned in case "subscribe" parameter was present in the related request.
+       if "true" - the "moduleType" from request is successfully subscribed and the head unit will send onInteriorVehicleData notifications for the moduleType.
+       if "false" - the "moduleType" from request is either unsubscribed or failed to subscribe.
+     </description>
+   </param>
   </function>
 
   <function name="SetInteriorVehicleData" functionID="SetInteriorVehicleDataID" messagetype="request">
     <param name="moduleData" type="ModuleData">
-      <description>The name, module, and data to set for the (name, module) pair</description>
+      <description>The module data to set for the requested RC module.</description>
     </param>
   </function>
 
@@ -764,11 +770,42 @@ The changes are listed below.
     </param>
   </function>
 
+  <function name="ButtonPress" functionID="ButtonPressID" messagetype="request">
+    <param name="moduleType" type="ModuleType">
+      <description>The module where the button should be pressed</description>
+    </param>
+    <param name="buttonName" type="ButtonName">
+      <description>The name of supportted RC climate or radio button.</description>
+    </param>
+    <param name="buttonPressMode" type="ButtonPressMode">
+      <description>Indicates whether this is a LONG or SHORT button press event.</description>
+    </param>
+  </function>
+
+  <function name="ButtonPress" functionID="ButtonPressID" messagetype="response">
+    <param name="resultCode" type="Result" platform="documentation">
+        <description>See Result</description>
+        <element name="SUCCESS"/>
+        <element name="OUT_OF_MEMORY"/>
+        <element name="TOO_MANY_PENDING_REQUESTS"/>
+        <element name="APPLICATION_NOT_REGISTERED"/>
+        <element name="GENERIC_ERROR"/>
+        <element name="REJECTED"/>
+        <element name="IGNORED"/>
+        <element name="DISALLOWED"/>
+        <element name="USER_DISALLOWED"/>
+      </param>
+      <param name="info" type="String" maxlength="1000" mandatory="false">
+      </param>
+      <param name="success" type="Boolean" platform="documentation">
+      <description> true if successful; false, if failed </description>
+    </param>
+  </function>
+
   <function name="OnInteriorVehicleData" functionID="OnInteriorVehicleDataID" messagetype="notification">
     <param name="moduleData" type="ModuleData">
     </param>
   </function>
-
 
   <enum name="AppHMIType">
     <description>Enumeration listing possible app types.</description>
@@ -777,17 +814,9 @@ The changes are listed below.
     <element name="REMOTE_CONTROL" />
   </enum>
 
-  <function name="OnRCStatus" messagetype="notification">
-    <description>Sender: SDL -> Application. Notification about remote control status change on SDL</description>
-    <param name="modules" type="ModuleType" minsize="0" maxsize="100" mandatory="true" array="true">
-      <description>Contains a list (zero or more) of module types that the application can access to.</description>
-    </param>
-  </function>
 ```
 
 ### HMI  API changes
-Full HMI API can be found here:
-https://github.com/smartdevicelink/sdl_core/blob/feature/sdl_rc_functionality/src/components/interfaces/HMI_API.xml
 
 The changes are similar to mobile api changes, they are  listed here.
 ```xml
@@ -796,9 +825,7 @@ The changes are similar to mobile api changes, they are  listed here.
 <interface name="Buttons" >
     <function name="ButtonPress" messagetype="request">
       <description>Method is invoked when the application tries to press a button</description>
-      <param name="zone" type="Common.InteriorZone">
-        <description>The zone where the button press should occur.</description>
-      </param>
+
       <param name="moduleType" type="Common.ModuleType">
         <description>The module where the button should be pressed</description>
       </param>
@@ -812,7 +839,7 @@ The changes are similar to mobile api changes, they are  listed here.
     </function>
 </interface>
 
-<interface name="Common" version="1.5" date="2015-10-13">
+<interface name="Common">
   <enum name="ButtonName">
       <description>Defines the hard (physical) and soft (touchscreen) buttons available from SYNC</description>
        ...
@@ -940,32 +967,42 @@ The changes are similar to mobile api changes, they are  listed here.
   <element name="FRONT"/>
   <element name="REAR"/>
   <element name="ALL"/>
+  <element name="NONE"/>
 </enum>
 
-<struct name="ClimateControlData">
-  <param name="fanSpeed" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
-  </param>
-  <param name="currentTemperature" type="Temperature" mandatory="false">
-  </param>
-  <param name="desiredTemperature" type="Temperature" mandatory="false">
-  </param>
-  <param name="acEnable" type="Boolean" mandatory="false">
-  </param>
-  <param name="circulateAirEnable" type="Boolean" mandatory="false">
-  </param>
-  <param name="autoModeEnable" type="Boolean" mandatory="false">
-  </param>
-  <param name="defrostZone" type="Common.DefrostZone" mandatory="false">
-  </param>
-  <param name="dualModeEnable" type="Boolean" mandatory="false">
-  </param>
-</struct>
+<enum name="VentilationMode">
+  <element name="UPPER"/>
+  <element name="LOWER"/>
+  <element name="BOTH"/>
+  <element name="NONE"/>
+</enum>
+
+  <struct name="ClimateControlData">
+    <param name="fanSpeed" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
+    </param>
+    <param name="currentTemperature" type="Temperature" mandatory="false">
+    </param>
+    <param name="desiredTemperature" type="Temperature" mandatory="false">
+    </param>
+    <param name="acEnable" type="Boolean" mandatory="false">
+    </param>
+    <param name="circulateAirEnable" type="Boolean" mandatory="false">
+    </param>
+    <param name="autoModeEnable" type="Boolean" mandatory="false">
+    </param>
+    <param name="defrostZone" type="DefrostZone" mandatory="false">
+    </param>
+    <param name="dualModeEnable" type="Boolean" mandatory="false">
+    </param>
+    <param name="acMaxEnable" type="Boolean" mandatory="false">
+    </param>
+    <param name="ventilationMode" type="VentilationMode" mandatory="false">
+    </param>
+  </struct>
 
 <struct name="ModuleData">
   <description>The moduleType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the moduleType is CLIMATE then a "climateControlData" should exist</description>
   <param name="moduleType" type="Common.ModuleType">
-  </param>
-  <param name="moduleZone" type="Common.InteriorZone">
   </param>
   <param name="radioControlData" type="Common.RadioControlData" mandatory="false">
   </param>
@@ -977,7 +1014,12 @@ The changes are similar to mobile api changes, they are  listed here.
     <description>Contains information about a climate control module's capabilities.</description>
 
     <!-- need an ID in the future -->
-
+    <param name="moduleName" type="String" maxlength="100">   
+      <description>
+        The short friendly name of the climate control module. 
+        It should not be used to identify a module by mobile application.
+      </description>
+    </param>
     <param name="fanSpeedAvailable" type="Boolean" mandatory="false">
       <description>
         Availability of the control of fan speed.
@@ -1046,6 +1088,12 @@ The changes are similar to mobile api changes, they are  listed here.
   <struct name="RadioControlCapabilities">
     <description>Contains information about a radio control module's capabilities.</description>
     <!-- need an ID in the future -->
+    <param name="moduleName" type="String" maxlength="100">   
+      <description>
+        The short friendly name of the climate control module. 
+        It should not be used to identify a module by mobile application.
+      </description>
+    </param>
     <param name="radioEnableAvailable" type="Boolean" mandatory="false">
       <description>
         Availability of the control of enable/disable radio.
@@ -1104,10 +1152,13 @@ The changes are similar to mobile api changes, they are  listed here.
 
   <struct name="RemoteControlCapabilities">
     <param name="climateControlCapabilities" type="ClimateControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
-      <description>If included, the platform supports RC climate controls.</description >
+      <description>If included, the platform supports RC climate controls. For this baseline version, maxsize=1. i.e. only one climate control module is supported.</description >
     </param>
     <param name="radioControlCapabilities" type="RadioControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
-      <description>If included, the platform supports RC radio controls.</description >
+      <description>If included, the platform supports RC radio controls. For this baseline version, maxsize=1. i.e. only one climate control module is supported.</description >
+    </param>
+    <param name="buttonCapabilities" type="ButtonCapabilities"  mandatory="false" minsize="1" maxsize="100" array="true" >
+      <description>If included, the platform supports RC button controls with the included button names.</description >
     </param>
   </struct>
 </interface>
@@ -1117,8 +1168,8 @@ The changes are similar to mobile api changes, they are  listed here.
     <description>Method is invoked at system startup by SDL to request information about Remote Control capabilities of HMI.</description>
   </function>
   <function name="GetCapabilities" messagetype="response">
-    <param name="remoteControlCapabilities" type="Common.RemoteControlCapabilities" minsize="1" maxsize="100" array="true" mandatory="false">
-      <description>See RemoteControlCapabilities.</description>
+    <param name="remoteControlCapabilities" type="Common.RemoteControlCapabilities" mandatory="false">
+      <description>See RemoteControlCapabilities, all available RC modules and buttons shall be returned.</description>
     </param>
   </function>
 
@@ -1198,12 +1249,13 @@ The changes are similar to mobile api changes, they are  listed here.
 
 ## Potential downsides
 
-- It lacks the fine policy control on which application can access which RC module(s) and which control item(s) within each module.
-
 - RPC messages are not encrypted. Attackers may try to eavesdrop and spoof wireless communication. For example in a replay attack, attackers record and then replay the “electro magnetic waves”.
 
 - It can only subscribe to all radio or climate control data, cannot subscribe to individual item change notifications.
 
+- How to ID a RC module is not defined.
+
+- It lacks the fine policy control on which application can access which RC module(s) and which control item(s) within each module.
 
 ## Impact on existing code
 
