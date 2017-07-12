@@ -1,8 +1,8 @@
 # Support for Additional Languages
 
-* Proposal: [SDL-NNNN](NNNN-Support-For-Additional-Languages.md)
+* Proposal: [SDL-0076](0076-Support-For-Additional-Languages.md)
 * Author: [Scott Betts](https://github.com/Toyota-Sbetts)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
