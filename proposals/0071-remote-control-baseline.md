@@ -68,7 +68,7 @@ The common problem is that a mobile application needs the ability to control cer
 ### The following features are not considered in this baseline proposal
 
 - app authentication (SDL has it already for Mobile Navigation apps)
-- full app authorization policy control, i.e. which app can access which remote control module(s) and which control items within each module, the full RC app polciy control relies on a good zone or location scheme to identify a module, which is not covered in this baseline proppsal.
+- full app authorization policy control, i.e. which app can access which remote control module(s) and which control items within each module, the full RC app policy control relies on a good zone or location scheme to identify a module, which is not covered in this baseline proposal.
 - encryption
 - RC status notifications (indicates whether an app has the control of a RC module)
 - Permission change notifications (due to policy update or driver grant/revoke permission for an app, SDL has it for generic apps)
@@ -163,7 +163,7 @@ The work flow of a remote control application on driver's device is simple. Like
 
 The first control message (setter request) with a specific RC module will trigger SDL to perform RC resource allocation process. The coding of this RC resource allocation process shall be upgradable in the future without major code infrastructure revision. 
 
-Simliar to how the system manage media applcation accessing the audio streaming resource, a simple RC resource allocation process can be "A foreground running RC app can obtain and lock the RC access right to a RC module type(s) until driver exit the app or launch another RC app that controls the same type of RC module." In order to allow a background app be able to perform remote control, we add a user changable RC settings - RCAccessMode and correspoindg HMI API. Consider the case in which there is a running RC app that has the right to control a RC module type, another RC app wants to control the same RC module, depending on the RCAccessMode setting, the system will do differently.
+Simliar to how the system manage media applcation accessing the audio streaming resource, a simple RC resource allocation process can be "A foreground running RC app can obtain and lock the RC access right to a RC module type(s) until driver exit the app or launch another RC app that controls the same type of RC module." In order to allow a background app be able to perform remote control, we add a user changable RC settings - RCAccessMode and corresponding HMI API. Consider the case in which there is a running RC app that has the right to control a RC module type, another RC app wants to control the same RC module, depending on the RCAccessMode setting, the system will do differently.
 
 ```xml
 <enum name="RCAccessMode">
@@ -204,7 +204,7 @@ The RC resource allocatation/management rule is showed in the following table.
 - "free" means no applications currently hold the access to the requested resource.
 - "in use" means the requested resource currently can be controlled/held by an application.
 - "busy" means at least one RC RPC command is currently executing, and has not finished yet.
-- This proposal assumes the RC app want to obtain the access to a RC module and hold it. It is easy to extend the RPC to indicated the app does not want to lock the resouce, in that case the module status will change from free to busy when a SetInteriorVehicleData or OnButtonPress with a RC button is in processing, and back to free when the processing is done.
+- This proposal assumes the RC app want to obtain the access to a RC module and hold it. It is easy to extend the RPC to indicate the app does not want to lock the resouce, in that case the module status will change from free to busy when a SetInteriorVehicleData or OnButtonPress with a RC button is in processing, and back to free when the processing is done.
 
 By default SDL-RC allows RC application to use remote control feature. However, the driver can disable the feature via HMI by sending OnRemoteControlSettings(allowed=false) message to SDL.
 
