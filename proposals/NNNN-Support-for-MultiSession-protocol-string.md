@@ -24,7 +24,7 @@ Head Units would still need to support the 'Hub' protocol string and the Hub str
 ### iOS Proxy
 
 When the iOS Proxy begins to setup the connection with the head unit, it should check if the system supports the new protocol string. If the Head Unit supports the new protocol string then the iOS proxy should attempt to start a data session with the head unit over the new protocol string. If the Head Unit does not support the new protocol string, the iOS proxy should continue existing behavior of attempting a control session via the Hub protocol and negotiating a dedicated protocol string over which it should start a data session.
-<br />![iOS Proxy Flow](https://github.ford.com/AppLink-Partner-Development/sdl_evolution_fordinternal/blob/master/assets/F041/MultiSession-iOS_Proxy_Flow.png)
+<br />![iOS Proxy Flow](https://github.com/robinmk/sdl_evolution/blob/Support-for-MultiSession-protocol-string/assets/proposals/NNNN-Support-for-MultiSession-protocol-string/MultiSession-iOS_Proxy_Flow.png)
 
 ## Potential downsides
 
