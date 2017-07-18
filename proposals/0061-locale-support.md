@@ -19,23 +19,160 @@ The proposed solution is to deprecate the `Language` enum. Instead the locale st
 
 ### Mobile and HMI API
 
-The `Language` enum should be deprecated with no replacement. Every existing parameter of type `Language` should be deprecated. Furthermore they should be all optional. Making those parameters optional allows the use of unknown languages. Following parameters are affected:
+- The `Language` enum should be deprecated with no replacement.
+- On the HMI side `GetLanguage` functions should be deprecated and replaced by `GetLocale` functions.
 
-- KeyboardProperties.language
-- RegisterAppInterface.languageDesired
-- RegisterAppInterface.hmiDisplayLanguageDesired
-- RegisterAppInterfaceResponse.language
-- RegisterAppInterfaceResponse.hmiDisplayLanguage
-- ChangeRegistration.language
-- ChangeRegistration.hmiDisplayLanguage
-- OnLanguageChange.language
-- OnLanguageChange.hmiDisplayLanguage
+Every existing parameter of type `Language` should be deprecated. As a replacement to the affected parameters new string parameters called `locale` (and `localeDesired`) should be added. The legacy parameter `hmiDisplayLanguage` and `hmiDisplayLanguageDesired` should not be replaced. 
 
-As a replacement to `language` and `languageDesired` new string parameters called `locale` and `localeDesired` should be added. The legacy parameter `hmiDisplayLanguage` and `hmiDisplayLanguageDesired` should not be replaced. 
+#### Mobile API
+
+```xml
+<enum name="Language"> <!-- DEPRECATED -->
+  :
+</enum>
+
+<struct name="KeyboardProperties">
+  :
+  <param name="language" type="Language" mandatory="false"> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="false" /> <!-- NEW -->
+  :
+</struct>
+
+<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="request">
+  :
+  <param name="languageDesired" type="Language" mandatory="true"> <!-- DEPRECATED -->
+  <param name="localeDesired" type="String" mandatory="true" /> <!-- NEW -->
+  :
+  <param name="hmiDisplayLanguageDesired" type="Language" mandatory="true"> <!-- DEPRECATED -->
+  :
+</function>
+
+<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response">
+  :
+  <param name="language" type="Language" mandatory="false"> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="false" /> <!-- NEW -->
+  :
+  <param name="hmiDisplayLanguage" type="Language" mandatory="false"> <!-- DEPRECATED -->
+  :
+</function>
+
+<function name="ChangeRegistration" functionID="ChangeRegistrationID" messagetype="request">
+  :
+  <param name="language" type="Language" mandatory="true"> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
+  :
+  <param name="hmiDisplayLanguage" type="Language" mandatory="true"> <!-- DEPRECATED -->
+  :
+</function>
+
+<function name="OnLanguageChange" functionID="OnLanguageChangeID" messagetype="notification">
+  :
+  <param name="language" type="Language"> <!-- DEPRECATED -->
+  <param name="locale" type="String /> <!-- NEW -->
+  :
+  <param name="hmiDisplayLanguage" type="Language"> <!-- DEPRECATED -->
+  :
+</function>
+```
+
+#### HMI API
+
+#### Interface "Common"
+
+```xml
+<enum name="Language"> <!-- DEPRECATED -->
+  :
+</enum>
+:
+<struct name="HMIApplication">
+  :
+  <param name="hmiDisplayLanguageDesired" type="Common.Language" mandatory="false"> <!-- DEPRECATED -->
+  <param name="localeDesired" type="String" mandatory="false" /> <!-- NEW -->
+  :
+</struct>
+
+<struct name="KeyboardProperties">
+  :
+  <param name="language" type="Common.Language" mandatory="false"> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="false" /> <!-- NEW -->
+  :
+</struct>
+```
+
+#### Interface "BasicCommunication"
+
+```xml
+<function name="GetSystemInfo" messagetype="response">
+  :
+  <param name="language" type="Common.Language" mandatory="true"> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
+  :
+</function>
+:
+<function name="OnSystemInfoChanged" messagetype="notification">
+  :
+  <param name="language" type="Common.Language" mandatory="true"/> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
+  :
+</function>
+```
+
+#### Interface "VR", "TTS", "UI"
+
+```xml
+<function name="ChangeRegistration" messagetype="request">
+  :
+  <param name="language" type="Common.Language" mandatory="true"> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
+  :
+</function>
+:
+<function name="OnLanguageChange" messagetype="notification">
+  :
+  <param name="language" type="Common.Language" mandatory="true"> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
+  :
+</function>
+:
+<function name="GetSupportedLanguages" messagetype="request"> <!-- DEPRECATED -->
+:
+<function name="GetSupportedLanguages" messagetype="response"> <!-- DEPRECATED -->
+:
+<function name="GetSupportedLocales" messagetype="request"> <!-- NEW -->
+  <description>Request from SDL at system start-up. Response must provide the information about (VR|TTS|UI) supported languages.</description>
+</function>
+:
+<function name="GetSupportedLocales" messagetype="response"> <!-- NEW -->
+  :
+  <param name="locales" type="String" mandatory="true" array="true" minsize="1" maxsize="100" /> <!-- NEW -->
+  :
+</function>
+:
+<function name="GetLanguage" messagetype="request"> <!-- DEPRECATED -->
+:
+<function name="GetLanguage" messagetype="response"> <!-- DEPRECATED -->
+:
+<function name="GetLocale" messagetype="request"> <!-- NEW -->
+  <description>Request from SDL to HMI to get the currently active (VR|TTS|UI) language.</description>
+</function>
+<function name="GetLocale" messagetype="response"> <!-- NEW -->
+  <param name="locale" type="String" mandatory="true" />
+</function>
+```
+
+#### Interface "SDL"
+
+```xml
+<function name="GetUserFriendlyMessage" messagetype="request" scope="internal">
+  :
+  <param name="language" type="Common.Language" mandatory="false">
+  :
+</function>
+```
 
 ### Core & HMI 
 
-Core and HMI should continue to send the language parameters if the head unit is configured to a language which is known within the `Language` enum otherwise they should omit the `language` parameter from the JSON data. They should be always sending the `locale` parameter regardless of if the language is known by the enum.
+Core and HMI should continue to send the language parameters if the head unit is configured to a language which is listed in the `Language` enum. Otherwise they should use `EN_US` as a fallback.
 
 The `locale` parameters should follow the syntax of locale names. 
 
@@ -47,9 +184,9 @@ See http://www.unicode.org/reports/tr35/tr35-47/tr35.html#Unicode_Language_and_L
 
 The SDKs should follow the changes as per mobile API but the `locale` properties should be of type [NSLocale](https://developer.apple.com/reference/foundation/nslocale) for iOS or [java.util.Locale](https://developer.android.com/reference/java/util/Locale.html) for Android instead of String.
 
-The Android SDK should create a locale object by using the static method `Locale.forLanguageTag`. The iOS SDK should create a locale object by using the initializer `initWithLocaleIdentifier:`. 
+The Android SDK should create a locale object by using the static method `Locale.forLanguageTag`. The iOS SDK should create a locale object by using the `NSLocale` initializer `initWithLocaleIdentifier:`. 
 
-Depending on the JSON data the SDK should use the `locale` parameter as the input for the Locale object by default. If the JSON data does not contain a `locale` parameter the SDK should use the `language` parameter instead to keep backwards compatibility. If necessary the SDK should modify the `language` String to match the syntax of locale names ("EN_US" > "en-US").
+Depending on the JSON data the SDK should use the `locale` parameter as the input for the Locale object by default. If the JSON data does not contain a `locale` parameter the SDK should use the `language` parameter instead to keep backward compatibility. If necessary the SDK should modify the `language` String to match the syntax of locale names ("EN_US" > "en-US").
 
 ## Potential downsides
 
@@ -61,4 +198,4 @@ The impact on existing code is quite high for mobile apps. Every app uses langua
 
 ## Alternatives considered
 
-The alternative is to keep the enum and add every necessary language/region combination. This could end up with a very huge Language enum.
+As an alternative a new struct called `Locale` could be added to be more independent to the native phone OS SDKs.
