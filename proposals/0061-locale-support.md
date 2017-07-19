@@ -17,19 +17,18 @@ SDL is not flexible in adding new languages or countries. It requires changes to
 
 The proposed solution is to deprecate the `Language` enum. Instead the locale structure provided by the native phone SDKs should be used that follows locale names defined by the unicode CLDR. Using unicode would allow SDL adopters to be more flexible but still follow a standard to agree to language codes.
 
-### Mobile and HMI API
+### Mobile API
 
-- The `Language` enum should be deprecated with no replacement.
-- On the HMI side `GetLanguage` functions should be deprecated and replaced by `GetLocale` functions.
-
-Every existing parameter of type `Language` should be deprecated. As a replacement to the affected parameters new string parameters called `locale` (and `localeDesired`) should be added. The legacy parameter `hmiDisplayLanguage` and `hmiDisplayLanguageDesired` should not be replaced. 
-
-#### Mobile API
+The enum `Language` should be deprecated with no replacement.
+The function `OnLanguageChange` should be deprecated and replaced by `OnLocaleChange`.
+Every `language` parameter should be deprecated and replaced by a `locale` parameter of type String.
+The parameter `languageDesired` should be deprecated and replaced by a `localeDesired` parameter of type String.
+Every `hmiDisplayLanguage` and `hmiDisplayLanguageDesired` parameter should be deprecated with no replacement.
 
 ```xml
 <enum name="FunctionID">
   :
-  <element name="OnLocaleChangeID" value="..." hexvalue="..." /> <!-- NEW. Choosing value is not part of the proposal -->
+  <element name="OnLocaleChangeID" value="..." hexvalue="..." /> <!-- NEW -->
 </enum>
 :
 <enum name="Language"> <!-- DEPRECATED -->
@@ -77,7 +76,15 @@ Every existing parameter of type `Language` should be deprecated. As a replaceme
 </function>
 ```
 
-#### HMI API
+### HMI API
+
+The enum `Language` should be deprecated with no replacement.
+The function `OnLanguageChange` should be deprecated and replaced by `OnLocaleChange`.
+The function `GetSupportedLanguages` should be deprecated and replaced by `GetSupportedLocales`.
+The function `GetLanguage` should be deprecated and replaced by `GetLocale`.
+
+Every `language` parameter should be deprecated and replaced by a `locale` parameter of type String.
+The parameter `hmiDisplayLanguageDesired` should be deprecated and replaced by a `localeDesired` parameter of type String.
 
 #### Interface "Common"
 
@@ -166,14 +173,16 @@ Every existing parameter of type `Language` should be deprecated. As a replaceme
 ```xml
 <function name="GetUserFriendlyMessage" messagetype="request" scope="internal">
   :
-  <param name="language" type="Common.Language" mandatory="false">
+  <param name="language" type="Common.Language" mandatory="false"> <!-- DEPRECATED -->
+  <param name="locale" type="String" mandatory="false /> <!-- NEW -->
   :
 </function>
 ```
 
 ### Core & HMI 
 
-Core and HMI should continue to send the language parameters if the head unit is configured to a language which is listed in the `Language` enum. Otherwise they should use `EN_US` as a fallback.
+Core and HMI should continue to set the deprecated parameters and respond to the deprecated functions. 
+If the head unit is configured to a locale which is listed in the `Language` enum the deprecated parameters should be set to that enum value. Otherwise `EN_US` should be used as a fallback.
 
 The `locale` parameters should follow the syntax of locale names. 
 
