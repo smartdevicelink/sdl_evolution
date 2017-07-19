@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-0075](0075-HID-Support-Plug-in.md)
 * Author: [Jennifer Hodges](https://github.com/jhodges55)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS/Android/Core/RPC ]
 
 ## Introduction
