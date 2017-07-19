@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0071](0071-remote-control-baseline.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
