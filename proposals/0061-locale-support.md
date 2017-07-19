@@ -27,6 +27,11 @@ Every existing parameter of type `Language` should be deprecated. As a replaceme
 #### Mobile API
 
 ```xml
+<enum name="FunctionID">
+  :
+  <element name="OnLocaleChangeID" value="..." hexvalue="..." /> <!-- NEW. Choosing value is not part of the proposal -->
+</enum>
+:
 <enum name="Language"> <!-- DEPRECATED -->
   :
 </enum>
@@ -65,13 +70,10 @@ Every existing parameter of type `Language` should be deprecated. As a replaceme
   :
 </function>
 
-<function name="OnLanguageChange" functionID="OnLanguageChangeID" messagetype="notification">
+<function name="OnLanguageChange" functionID="OnLanguageChangeID" messagetype="notification"> <!-- DEPRECATED -->
   :
-  <param name="language" type="Language"> <!-- DEPRECATED -->
-  <param name="locale" type="String /> <!-- NEW -->
-  :
-  <param name="hmiDisplayLanguage" type="Language"> <!-- DEPRECATED -->
-  :
+<function name="OnLocaleChange" functionID="OnLocaleChangeID" messagetype="notification"> <!-- NEW -->
+  <param name="locale" type="String" /> <!-- NEW -->
 </function>
 ```
 
@@ -127,11 +129,10 @@ Every existing parameter of type `Language` should be deprecated. As a replaceme
   :
 </function>
 :
-<function name="OnLanguageChange" messagetype="notification">
-  :
-  <param name="language" type="Common.Language" mandatory="true"> <!-- DEPRECATED -->
-  <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
-  :
+<function name="OnLanguageChange" messagetype="notification"> <!-- DEPRECATED -->
+:
+<function name="OnLocaleChange" messagetype="notification"> <!-- NEW -->
+  <param name="locale" type="String" mandatory="true" />
 </function>
 :
 <function name="GetSupportedLanguages" messagetype="request"> <!-- DEPRECATED -->
