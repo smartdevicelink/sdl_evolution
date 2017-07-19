@@ -18,9 +18,8 @@ The proposed solution is to document all the payloads in the protocol spec. Beca
 All changes are documented as followed:
 
 #### Payloads
->Added: Protocol Version 5<br>
+>Added: Protocol Version 5.0.0<br>
 >*Note: All payloads are optional*<br>
->Current Version: 1.0.0
 
 Control frames use [BSON](http://bsonspec.org) to store payload data. All payload types are directly from the BSON spec. Each control frame info type will have a defined set of available data. Most types will also have differently available data based on their service type.
 
@@ -33,15 +32,17 @@ No defined payloads at this time.
 ###### Start Service
 | Tag Name| Type | Description |
 |------------|------|-------------|
-|controlVersion|string| The max version of control frame payloads supported by client requesting service to start. Must be in the format *"Major.Minor.Patch"*|
+|protocolVersion|string| The max version of the protocol supported by client requesting service to start. Must be in the format *"Major.Minor.Patch"*|
 
 ###### Start Service ACK
 | Tag Name| Type | Description |
 |------------|------|-------------|
 |hashId|int32| Hash ID to identify this service and used when sending an `EndService` control frame|
 |MTU| int64 | Max transport unit to be used for this service|. If not included the client should use the protocol version default.|
-|controlVersion|string| The max supported version of control frame payloads. Must be in the format *"Major.Minor.Patch"*|
+|protocolVersion|string| The negotiated version of the protocol. Must be in the format *"Major.Minor.Patch"*|
 
+
+**Note:** `protocolVersion` is used to have a higher granular approach to versioning the protocol without having to change the protocol header itself. This is necessary to prevent continuous changes based on control frame payloads. Changing the header would result in a breaking change for apps that haven't updated. This param also changes how version negotiation works, see **Version Negotiation**.
 
 ###### Start Service NAK
 | Tag Name| Type | Description |
@@ -124,6 +125,24 @@ No defined payloads at this time.
 | rejectedParams |String Array| An array of rejected parameters such as: [`hashId`]
 
 
+### Version Negotiation
+Since control frames will now have payloads we need to slightly modify how version negotiation takes place. 
+
+#### Version 1-4 Negotiation
+| Proxy| Direction | Core |
+|------------|------|-------------|
+|`StartService`<br> **Version:** v1 <br> **Payload:** no payload| ----------->|
+|| <-----------|`StartServiceACK`<br> **Version:** Max supported by Core<br> **Payload:** raw bytes for hashID
+|`SingleFrame`<br> **Version:** Highest version supported by both Core and Proxy <br> **Payload:** Lots of bytes| ----------->|
+
+#### Version 5+ Negotiation
+| Proxy| Direction | Core |
+|------------|------|-------------|
+|`StartService`<br> **Version:** v1 <br> **Payload:** Constructed payload [protocolVersion: 5.x.x]| ----------->| **v4 Core**: Ignores payload, sends protocol version 4 frame and uses previous negotiation scheme. <br> **v5 Core:** Reads in payload data, uses this information to determine version. 
+|| <-----------|`StartServiceACK`<br> **Version:** Highest version supported by both Core and Proxy<br> **Payload:** raw bytes for hashID
+|`SingleFrame`<br> **Version:** Highest version supported by both Core and Proxy <br> **Payload:** Lots of bytes| ----------->|
+
+The proxy would include it's max supported version in the `StartService` payload, however, it would still operate under the same logic when receiving a `StartServiceACK` from Core to ensure proper version.  
 
 ## Potential downsides
 - Introduces a new version that will have to be kept track of. 
