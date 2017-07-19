@@ -19,11 +19,11 @@ The proposed solution is to deprecate the `Language` enum. Instead the locale st
 
 ### Mobile API
 
-The enum `Language` should be deprecated with no replacement.
-The function `OnLanguageChange` should be deprecated and replaced by `OnLocaleChange`.
-Every `language` parameter should be deprecated and replaced by a `locale` parameter of type String.
-The parameter `languageDesired` should be deprecated and replaced by a `localeDesired` parameter of type String.
-Every `hmiDisplayLanguage` and `hmiDisplayLanguageDesired` parameter should be deprecated with no replacement.
+- The enum `Language` should be deprecated with no replacement.
+- The function `OnLanguageChange` should be deprecated and replaced by `OnLocaleChange`.
+- Every `language` parameter should be deprecated and replaced by a `locale` parameter of type String.
+- The parameter `languageDesired` should be deprecated and replaced by a `localeDesired` parameter of type String.
+- Every `hmiDisplayLanguage` and `hmiDisplayLanguageDesired` parameter should be deprecated with no replacement.
 
 ```xml
 <enum name="FunctionID">
@@ -78,31 +78,30 @@ Every `hmiDisplayLanguage` and `hmiDisplayLanguageDesired` parameter should be d
 
 ### HMI API
 
-The enum `Language` should be deprecated with no replacement.
-The function `OnLanguageChange` should be deprecated and replaced by `OnLocaleChange`.
-The function `GetSupportedLanguages` should be deprecated and replaced by `GetSupportedLocales`.
-The function `GetLanguage` should be deprecated and replaced by `GetLocale`.
-
-Every `language` parameter should be deprecated and replaced by a `locale` parameter of type String.
-The parameter `hmiDisplayLanguageDesired` should be deprecated and replaced by a `localeDesired` parameter of type String.
+- The enum `Language` should be removed with no replacement.
+- The function `OnLanguageChange` should be removed and replaced by `OnLocaleChange`.
+- The function `GetSupportedLanguages` should be removed and replaced by `GetSupportedLocales`.
+- The function `GetLanguage` should be removed and replaced by `GetLocale`.
+- Every `language` parameter should be removed and replaced by a `locale` parameter of type String.
+- The parameter `hmiDisplayLanguageDesired` should be removed and replaced by a `localeDesired` parameter of type String.
 
 #### Interface "Common"
 
 ```xml
-<enum name="Language"> <!-- DEPRECATED -->
+<enum name="Language"> <!-- REMOVE -->
   :
 </enum>
 :
 <struct name="HMIApplication">
   :
-  <param name="hmiDisplayLanguageDesired" type="Common.Language" mandatory="false"> <!-- DEPRECATED -->
+  <param name="hmiDisplayLanguageDesired" type="Common.Language" mandatory="false"> <!-- REMOVE -->
   <param name="localeDesired" type="String" mandatory="false" /> <!-- NEW -->
   :
 </struct>
 
 <struct name="KeyboardProperties">
   :
-  <param name="language" type="Common.Language" mandatory="false"> <!-- DEPRECATED -->
+  <param name="language" type="Common.Language" mandatory="false"> <!-- REMOVE -->
   <param name="locale" type="String" mandatory="false" /> <!-- NEW -->
   :
 </struct>
@@ -113,14 +112,14 @@ The parameter `hmiDisplayLanguageDesired` should be deprecated and replaced by a
 ```xml
 <function name="GetSystemInfo" messagetype="response">
   :
-  <param name="language" type="Common.Language" mandatory="true"> <!-- DEPRECATED -->
+  <param name="language" type="Common.Language" mandatory="true"> <!-- REMOVE -->
   <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
   :
 </function>
 :
 <function name="OnSystemInfoChanged" messagetype="notification">
   :
-  <param name="language" type="Common.Language" mandatory="true"/> <!-- DEPRECATED -->
+  <param name="language" type="Common.Language" mandatory="true"/> <!-- REMOVE -->
   <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
   :
 </function>
@@ -131,20 +130,20 @@ The parameter `hmiDisplayLanguageDesired` should be deprecated and replaced by a
 ```xml
 <function name="ChangeRegistration" messagetype="request">
   :
-  <param name="language" type="Common.Language" mandatory="true"> <!-- DEPRECATED -->
+  <param name="language" type="Common.Language" mandatory="true"> <!-- REMOVE -->
   <param name="locale" type="String" mandatory="true" /> <!-- NEW -->
   :
 </function>
 :
-<function name="OnLanguageChange" messagetype="notification"> <!-- DEPRECATED -->
+<function name="OnLanguageChange" messagetype="notification"> <!-- REMOVE -->
 :
 <function name="OnLocaleChange" messagetype="notification"> <!-- NEW -->
   <param name="locale" type="String" mandatory="true" />
 </function>
 :
-<function name="GetSupportedLanguages" messagetype="request"> <!-- DEPRECATED -->
+<function name="GetSupportedLanguages" messagetype="request"> <!-- REMOVE -->
 :
-<function name="GetSupportedLanguages" messagetype="response"> <!-- DEPRECATED -->
+<function name="GetSupportedLanguages" messagetype="response"> <!-- REMOVE -->
 :
 <function name="GetSupportedLocales" messagetype="request"> <!-- NEW -->
   <description>Request from SDL at system start-up. Response must provide the information about (VR|TTS|UI) supported languages.</description>
@@ -156,9 +155,9 @@ The parameter `hmiDisplayLanguageDesired` should be deprecated and replaced by a
   :
 </function>
 :
-<function name="GetLanguage" messagetype="request"> <!-- DEPRECATED -->
+<function name="GetLanguage" messagetype="request"> <!-- REMOVE -->
 :
-<function name="GetLanguage" messagetype="response"> <!-- DEPRECATED -->
+<function name="GetLanguage" messagetype="response"> <!-- REMOVE -->
 :
 <function name="GetLocale" messagetype="request"> <!-- NEW -->
   <description>Request from SDL to HMI to get the currently active (VR|TTS|UI) language.</description>
@@ -173,15 +172,25 @@ The parameter `hmiDisplayLanguageDesired` should be deprecated and replaced by a
 ```xml
 <function name="GetUserFriendlyMessage" messagetype="request" scope="internal">
   :
-  <param name="language" type="Common.Language" mandatory="false"> <!-- DEPRECATED -->
+  <param name="language" type="Common.Language" mandatory="false"> <!-- REMOVE -->
   <param name="locale" type="String" mandatory="false /> <!-- NEW -->
   :
 </function>
 ```
 
-### Core & HMI 
+### Core
 
-Core and HMI should continue to set the deprecated parameters and respond to the deprecated functions. 
+Depending on the app registration Core should be using the old `language` parameters or the new `locale` parameters.
+
+Example (assuming Locale support is implemented in version 4.5 of the mobile API):
+- An app registers using `RegisterAppInterface` with 
+    - `.sdlMsgVersion` set to `4.5.0` and
+    - `.localeDesired` set to `en-US` and
+    - `.languageDesired` set to a matching `Language.EN_US`
+- Core expects the app is working with locale parameters 
+- Core replies using `.locale` parameter instead of `.language` parameter.
+- If the language 
+
 If the head unit is configured to a locale which is listed in the `Language` enum the deprecated parameters should be set to that enum value. Otherwise `EN_US` should be used as a fallback.
 
 The `locale` parameters should follow the syntax of locale names. 
