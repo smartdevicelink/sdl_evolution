@@ -38,7 +38,7 @@ No defined payloads at this time.
 | Tag Name| Type | Description |
 |------------|------|-------------|
 |hashId|int32| Hash ID to identify this service and used when sending an `EndService` control frame|
-|MTU| int64 | Max transport unit to be used for this service|. If not included the client should use the protocol version default.|
+|mtu| int64 | Max transport unit to be used for this service|. If not included the client should use the protocol version default.|
 |protocolVersion|string| The negotiated version of the protocol. Must be in the format *"Major.Minor.Patch"*|
 
 
@@ -68,7 +68,7 @@ No defined payloads at this time.
 | Tag Name| Type | Description |
 |------------|------|-------------|
 |hashId|int32| Hash ID to identify this service and used when sending an `EndService` control frame|
-|MTU| int64 | Max transport unit to be used for this service. If not included the client should use the one set via the RPC service or protocol version default.|
+|mtu| int64 | Max transport unit to be used for this service. If not included the client should use the one set via the RPC service or protocol version default.|
 
 ###### Start Service NAK
 | Tag Name| Type | Description |
@@ -100,7 +100,7 @@ No defined payloads at this time.
 | Tag Name| Type | Description |
 |------------|------|-------------|
 |hashId|int32| Hash ID to identify this service and used when sending an `EndService` control frame|
-|MTU| int64 | Max transport unit to be used for this service. If not included the client should use the one set via the RPC service or protocol version default.|
+|mtu| int64 | Max transport unit to be used for this service. If not included the client should use the one set via the RPC service or protocol version default.|
 |height|int32| Accepted height in pixels from the client requesting the video service to start|
 |width|int32| Accepted width in pixels from the client requesting the video service to start|
 |videoProtocol|String| Accepted video protocol to be used. See `VideoStreamingProtocol ` RPC|
@@ -139,7 +139,7 @@ Since control frames will now have payloads we need to slightly modify how versi
 | Proxy| Direction | Core |
 |------------|------|-------------|
 |`StartService`<br> **Version:** v1 <br> **Payload:** Constructed payload [protocolVersion: 5.x.x]| ----------->| **v4 Core**: Ignores payload, sends protocol version 4 frame and uses previous negotiation scheme. <br> **v5 Core:** Reads in payload data, uses this information to determine version. 
-|| <-----------|`StartServiceACK`<br> **Version:** Highest version supported by both Core and Proxy<br> **Payload:** raw bytes for hashID
+|| <-----------|`StartServiceACK`<br> **Version:** Highest version supported by both Core and Proxy<br> **Payload:** Constructed payload [protocolVersion: 5.x.x, hashId: 0x9873, mtu: 130687]
 |`SingleFrame`<br> **Version:** Highest version supported by both Core and Proxy <br> **Payload:** Lots of bytes| ----------->|
 
 The proxy would include it's max supported version in the `StartService` payload, however, it would still operate under the same logic when receiving a `StartServiceACK` from Core to ensure proper version.  
