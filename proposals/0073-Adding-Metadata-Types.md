@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0073](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0073-Adding-Metadata-Types.md)
 * Author: [Scott Betts](https://github.com/Toyota-Sbetts)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
