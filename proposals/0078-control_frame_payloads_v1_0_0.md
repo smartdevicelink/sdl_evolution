@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0078](0078-control_frame_payloads_v1_0_0.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Protocol/Android/iOS/Core]
 
 ## Introduction
