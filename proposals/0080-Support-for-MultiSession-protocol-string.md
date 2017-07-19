@@ -1,8 +1,8 @@
 # Support for MultiSession protocol string
 
-* Proposal: [SDL-NNNN](NNNN-Support-for-MultiSession-protocol-string.md)
+* Proposal: [SDL-0080](0080-Support-for-MultiSession-protocol-string.md)
 * Author: [James Sokoll](https://github.com/jamescs), [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core/iOS]
 
 ## Introduction
@@ -100,4 +100,4 @@ NSString *const multiSessionProtocolString = @"com.smartdevicelink.multisession"
 
 NA
 
-[iOS-proxy-flow]: ../assets/proposals/NNNN-Support-for-MultiSession-protocol-string/MultiSession-iOS_Proxy_Flow.png
+[iOS-proxy-flow]: ../assets/proposals/0080-Support-for-MultiSession-protocol-string/MultiSession-iOS_Proxy_Flow.png
