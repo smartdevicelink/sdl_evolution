@@ -17,10 +17,68 @@ The proposed solution is to document all the payloads in the protocol spec. Beca
 
 All changes are documented as followed:
 
+#### Protocol Version 5.0.0 Header
+We will keep track of all payloads via the protocol version. Because of this we need to change the protocol header to better support minor updates. We will use the original version byte as a flag, if the value is >=5 the next three bytes are version bytes now. We have added an extra byte to make an even 16 byte header. For now this byte will be defaulted to `0x00`, however in the future it can be used if needed for flags.
+
+<table>
+  <tr>
+    <th colspan="3" width="25%">Byte 1</th>
+    <th colspan="1" width="25%">Byte 2</th>
+    <th width="25%">Byte 3</th>
+    <th width="25%">Byte 4</th>
+  </tr>
+  <tr>
+    <td width="12.5%" align="center">Version Flag</td>
+    <td width="3.125%" align="center">E</td>
+    <td width="9.375%" align="center">Frame Type</td>
+    <td align="center">Version Major</td>
+    <td align="center">Version Minor</td>
+    <td align="center">Version Patch</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th width="300">Byte 5</th>
+    <th width="25%">Byte 6</th>
+    <th width="25%">Byte 7</th>
+    <th width="25%">Byte 8</th>
+  </tr>
+  <tr>
+    <td align="center">(TBD)</td>
+    <td align="center">Service Type</td>
+    <td align="center">Frame Info</td>
+    <td align="center">Session ID</td>
+  </tr>
+</table>
+
+<table >
+  <tr>
+    <th width="300">Byte 9</th>
+    <th width="25%">Byte 10</th>
+    <th width="25%">Byte 11</th>
+    <th width="25%">Byte 12</th>
+  </tr>
+  <tr>
+    <td colspan="4" align="center">Data Size</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th width="300">Byte 13</th>
+    <th width="25%">Byte 14</th>
+    <th width="25%">Byte 15</th>
+    <th width="25%">Byte 16</th>
+  </tr>
+  <tr>
+    <td colspan="4" align="center">Message ID</td>
+  </tr>
+</table>
+
 #### Payloads
->Added: Protocol Version 5<br>
+>Added: Protocol Version 5.0.0<br>
 >*Note: All payloads are optional*<br>
->Current Version: 1.0.0
 
 Control frames use [BSON](http://bsonspec.org) to store payload data. All payload types are directly from the BSON spec. Each control frame info type will have a defined set of available data. Most types will also have differently available data based on their service type.
 
@@ -31,16 +89,14 @@ No defined payloads at this time.
 
 ##### RPC Service
 ###### Start Service
-| Tag Name| Type | Description |
-|------------|------|-------------|
-|controlVersion|string| The max version of control frame payloads supported by client requesting service to start. Must be in the format *"Major.Minor.Patch"*|
+Nothing at this time. It will always be a version 1 packet so it should never have a structured payload.
 
 ###### Start Service ACK
 | Tag Name| Type | Description |
 |------------|------|-------------|
 |hashId|int32| Hash ID to identify this service and used when sending an `EndService` control frame|
 |MTU| int64 | Max transport unit to be used for this service|. If not included the client should use the protocol version default.|
-|controlVersion|string| The max supported version of control frame payloads. Must be in the format *"Major.Minor.Patch"*|
+
 
 
 ###### Start Service NAK
@@ -134,66 +190,10 @@ No defined payloads at this time.
 Same impacts as the previously accepted [Constructed Payloads](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0052-constructed-payloads.md) with a few minor additions to keep track of control frame payload versions. 
 
 ## Alternatives considered
-- Not including `controlVersion` param into the RPC service `StartService` and ACK. This would force us to bump the protocol version every time we made a change. Unless we kept everything optional and agreed that param additions didn't require a bump, but that is messy. 
-- Expanding the protocol header to include more than a single digit version code: this introduces a bit of extra testing as we would change to a new header definition. It is doable. If the original 4bits for version were equal or greater than the header size would increase by 2 more bytes to hold the minor and patch versions. It would look like:
+-Including `controlVersion` param into the RPC service `StartService` and ACK. This would be an added version to keep track of. It would also introduce risks in terms of adding a payload to a version 1 packet.  Overall a messier solution that served only a single purpose rather than multiple. 
+- Not expanding the protocol header and not including `controlVersion` param into the RPC service `StartService` and ACK. This would force us to bump the protocol version every time we made a change. Unless we kept everything optional and agreed that param additions didn't require a bump, but that is messy. 
 
-Potential Version 5 Frame Header
 
-<table>
-  <tr>
-    <th colspan="3" width="25%">Byte 1</th>
-    <th colspan="1" width="25%">Byte 2</th>
-    <th width="25%">Byte 3</th>
-    <th width="25%">Byte 4</th>
-  </tr>
-  <tr>
-    <td width="12.5%" align="center">Version Flag</td>
-    <td width="3.125%" align="center">E</td>
-    <td width="9.375%" align="center">Frame Type</td>
-    <td align="center">Version Major</td>
-    <td align="center">Version Minor</td>
-    <td align="center">Version Patch</td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <th width="300">Byte 5</th>
-    <th width="25%">Byte 6</th>
-    <th width="25%">Byte 7</th>
-    <th width="25%">Byte 8</th>
-  </tr>
-  <tr>
-    <td align="center">(TBD)</td>
-    <td align="center">Service Type</td>
-    <td align="center">Frame Info</td>
-    <td align="center">Session ID</td>
-  </tr>
-</table>
-
-<table >
-  <tr>
-    <th width="300">Byte 9</th>
-    <th width="25%">Byte 10</th>
-    <th width="25%">Byte 11</th>
-    <th width="25%">Byte 12</th>
-  </tr>
-  <tr>
-    <td colspan="4" align="center">Data Size</td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <th width="300">Byte 13</th>
-    <th width="25%">Byte 14</th>
-    <th width="25%">Byte 15</th>
-    <th width="25%">Byte 16</th>
-  </tr>
-  <tr>
-    <td colspan="4" align="center">Message ID</td>
-  </tr>
-</table>
 
 
 
