@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0077](0077-sdl-policy-server-enhancements.md)
 * Author: [Christopher Rokita](https://github.com/crokita), [Nick Schwab](https://github.com/nickschwab), and [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Policy Server]
 
 ## Introduction
