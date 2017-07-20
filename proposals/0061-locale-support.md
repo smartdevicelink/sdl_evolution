@@ -15,7 +15,7 @@ SDL is not flexible in adding new languages or countries. It requires changes to
 
 ## Proposed solution
 
-The proposed solution is to deprecate the `Language` enum. Instead the locale structure provided by the native phone SDKs should be used that follows locale names defined by the unicode CLDR. Using unicode would allow SDL adopters to be more flexible but still follow a standard to agree to language codes.
+The proposed solution is to deprecate the `Language` enum. Instead the locale structure provided by the native phone SDKs should be used that follows locale names defined by the unicode CLDR. Using unicode allows SDL adopters to be more flexible but still follow a standard to agree to language codes.
 
 ### Mobile API
 
@@ -206,14 +206,18 @@ The proxies should follow the changes as per mobile API but the `locale` propert
 - [NSLocale](https://developer.apple.com/reference/foundation/nslocale) for iOS. The iOS proxy should create a locale object by using the `NSLocale` initializer `initWithLocaleIdentifier:`.
 - [java.util.Locale](https://developer.android.com/reference/java/util/Locale.html) for Android. The Android proxy should create a locale object by using the static method `Locale.forLanguageTag`.
 
+Although `RegisterAppInterface.localeDesired` and `ChangeRegistration.locale` are marked as mandatory in the mobile API they must not be marked as nonnull in the library. Otherwise nullability would be violated when using apps on existing head units.
+
 ## Potential downsides
 
-
+Apps would need to manually check `.locale` and `.language` parameters. On existing head units apps would not receive a `.locale`.
 
 ## Impact on existing code
 
-N/A
+Whenever an app wants to register or change an existing registration it has to set both `.language` and `.locale` as both are mandatory. Otherwise apps won't register. An app would receive two notifications when Core notifies about a language change. Both downsides should not cause any issue to existing apps or head units. Existing head units and apps would just ignore the locale parameters in the JSON data.
+
+The proposal should not cause a breaking change and can be integrated in a minor version increase.
 
 ## Alternatives considered
 
-N/A
+Deprecating `OnLanguageChange` on the mobile API is not key to this proposal. This proposal marks the RPC as deprecated only for naming reasons. 
