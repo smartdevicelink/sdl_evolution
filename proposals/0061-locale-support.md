@@ -187,13 +187,16 @@ The `.locale` parameters should follow the syntax of locale names.
 - See http://www.unicode.org/reports/tr35/tr35-47/tr35.html#Unicode_Language_and_Locale_Identifiers
 - See http://www.rfc-editor.org/rfc/bcp/bcp47.txt
 
-As an example US english would be `"en-US"` instead of `EN_US`. 
+Examples:
 
-### Core (communicating to an app)
+- `"en"` for english language or `"en-US"`, `"en-GB"`, `"en-AU"`, `"en-IN"` etc.
+- `"zh-Hans"` or `"zh-Hant"` for Chinese in the simplified or traditional script.
+
+### Core
 
 Core should continue to use `.language` parameters in addition to `.locale` parameters when sending RPCs to an app. If `.locale` is set to an identifier which matches an enum value of `Language` this enum value should be used for `.language`. Otherwise `.EN_US` should be used as a fallback to keep mandatory rules valid.
 
-Whenever Core receives an RPC from an app and `.locale` parameter is set Core should ignore `.language` parameter. This way Core should become 
+Whenever Core receives an RPC from an app and `.locale` parameter is set Core should ignore `.language` parameter. This way Core should be made ready when deprecations are removed.
 
 Core should continue to send `OnLanguageChange` notification followed by `OnLocaleChanged` notification to an app whenever the head unit language changes.
 
@@ -203,18 +206,14 @@ The proxies should follow the changes as per mobile API but the `locale` propert
 - [NSLocale](https://developer.apple.com/reference/foundation/nslocale) for iOS. The iOS proxy should create a locale object by using the `NSLocale` initializer `initWithLocaleIdentifier:`.
 - [java.util.Locale](https://developer.android.com/reference/java/util/Locale.html) for Android. The Android proxy should create a locale object by using the static method `Locale.forLanguageTag`.
 
-On head units that don't support locale the proxies should 
-
-Depending on the JSON data the SDK should use the `locale` parameter as the input for the Locale object by default. If the JSON data does not contain a `locale` parameter the SDK should use the `language` parameter instead to keep backward compatibility. If necessary the SDK should modify the `language` String to match the syntax of locale names ("EN_US" > "en-US").
-
 ## Potential downsides
 
-The language parameters are mandatory for existing SDL integrations (Ford SYNC1 & SYNC3 with AppLink). Therefore they should be deprecated but still available for a long period of time until a threshold of active head units with locale support is reached. This threshold should be quite high (>90%) and may require years to happen.
+
 
 ## Impact on existing code
 
-The impact on existing code is quite high for mobile apps. Every app uses language parameters at least to register on the head unit. 
+N/A
 
 ## Alternatives considered
 
-As an alternative a new struct called `Locale` could be added to be more independent to the native phone OS SDKs.
+N/A
