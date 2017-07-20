@@ -178,32 +178,32 @@ The proposed solution is to deprecate the `Language` enum. Instead the locale st
 </function>
 ```
 
-### Core
+### Locale format
 
-Depending on the app registration Core should be using the old `language` parameters or the new `locale` parameters.
-
-Example (assuming Locale support is implemented in version 4.5 of the mobile API):
-- An app registers using `RegisterAppInterface` with 
-    - `.sdlMsgVersion` set to `4.5.0` and
-    - `.localeDesired` set to `en-US` and
-    - `.languageDesired` set to a matching `Language.EN_US`
-- Core expects the app is working with locale parameters 
-- Core replies using `.locale` parameter instead of `.language` parameter.
-- If the language 
-
-If the head unit is configured to a locale which is listed in the `Language` enum the deprecated parameters should be set to that enum value. Otherwise `EN_US` should be used as a fallback.
-
-The `locale` parameters should follow the syntax of locale names. 
+The `.locale` parameters should follow the syntax of locale names. 
 
 > The identifiers can vary in case and in the separator characters. The "-" and "_" separators are treated as equivalent. All identifier field values are case-insensitive. Although case distinctions do not carry any special meaning, an implementation of LDML should use the casing recommendations in [BCP47], especially when a Unicode locale identifier is used for locale data exchange in software protocols. The recommendation is that: the region subtag is in uppercase, the script subtag is in title case, and all other subtags are in lowercase.
 
-See http://www.unicode.org/reports/tr35/tr35-47/tr35.html#Unicode_Language_and_Locale_Identifiers
+- See http://www.unicode.org/reports/tr35/tr35-47/tr35.html#Unicode_Language_and_Locale_Identifiers
+- See http://www.rfc-editor.org/rfc/bcp/bcp47.txt
 
-### SDKs
+As an example US english would be `"en-US"` instead of `EN_US`. 
 
-The SDKs should follow the changes as per mobile API but the `locale` properties should be of type [NSLocale](https://developer.apple.com/reference/foundation/nslocale) for iOS or [java.util.Locale](https://developer.android.com/reference/java/util/Locale.html) for Android instead of String.
+### Core (communicating to an app)
 
-The Android SDK should create a locale object by using the static method `Locale.forLanguageTag`. The iOS SDK should create a locale object by using the `NSLocale` initializer `initWithLocaleIdentifier:`. 
+Core should continue to use `.language` parameters in addition to `.locale` parameters when sending RPCs to an app. If `.locale` is set to an identifier which matches an enum value of `Language` this enum value should be used for `.language`. Otherwise `.EN_US` should be used as a fallback to keep mandatory rules valid.
+
+Whenever Core receives an RPC from an app and `.locale` parameter is set Core should ignore `.language` parameter. This way Core should become 
+
+Core should continue to send `OnLanguageChange` notification followed by `OnLocaleChanged` notification to an app whenever the head unit language changes.
+
+### Proxies
+
+The proxies should follow the changes as per mobile API but the `locale` properties should not be of type String. Instead it should be: 
+- [NSLocale](https://developer.apple.com/reference/foundation/nslocale) for iOS. The iOS proxy should create a locale object by using the `NSLocale` initializer `initWithLocaleIdentifier:`.
+- [java.util.Locale](https://developer.android.com/reference/java/util/Locale.html) for Android. The Android proxy should create a locale object by using the static method `Locale.forLanguageTag`.
+
+On head units that don't support locale the proxies should 
 
 Depending on the JSON data the SDK should use the `locale` parameter as the input for the Locale object by default. If the JSON data does not contain a `locale` parameter the SDK should use the `language` parameter instead to keep backward compatibility. If necessary the SDK should modify the `language` String to match the syntax of locale names ("EN_US" > "en-US").
 
