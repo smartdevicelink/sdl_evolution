@@ -70,7 +70,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
 ```xml
 
 <struct name="SpatialStruct">
-  <description>Defines spatial for each user control object for video streaming applicaion</description>
+  <description>Defines spatial for each user control object for video streaming application</description>
   <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="true">
     <description>A user control spatial identifier</description>
   </param>
@@ -173,6 +173,8 @@ This RPC would be the standardized SDL interface for haptic events, and would be
 
 
 ### New additions to Proxies
+
+To clarify, the new additions to Proxies is not in scope of this proposal and will be addressed at a later date with a more specific and detailed proxy implementation proposal. The purpose of this section is to provide an example for these future proxy changes.
 
 1. SDLCarWindow will need to be implemented into the iOS proxy
 2. VirtualDisplayEncoder will need to be implemented into the Android proxy
