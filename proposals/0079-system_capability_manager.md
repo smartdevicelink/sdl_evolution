@@ -1,7 +1,7 @@
 # System Capability Manager
 * Proposal: [SDL-0079](0079-system_capability_manager.md)
 * Author: [Austin Kirk](https://github.com/askirk), [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Android
 
 ## Introduction
