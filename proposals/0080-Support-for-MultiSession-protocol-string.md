@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0080](0080-Support-for-MultiSession-protocol-string.md)
 * Author: [James Sokoll](https://github.com/jamescs), [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core/iOS]
 
 ## Introduction
