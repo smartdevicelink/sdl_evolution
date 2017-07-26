@@ -11,11 +11,18 @@ This proposal is about changing the way how SDL treats languages and localizatio
 
 ## Motivation
 
-SDL is not flexible in adding new languages or countries. It requires changes to the HMI and mobile API as well as SDL core. Furthermore it would be counterproductive to enumerate all possible variations of language and country SDL should support.
+SDL is not flexible in adding new languages or countries. It requires changes to the HMI and mobile API as well as SDL core. Furthermore it would be counterproductive to enumerate all possible variations of language and country SDL should support. One critical issue that was seen is that apps fail to register if it desires a language which is not known to the head unit.
+
+1. App registers with indian english as desired language
+2. Existing head units which don't know indian english in the Language enum will reply with INVALID_DATA
 
 ## Proposed solution
 
 The proposed solution is to deprecate the `Language` enum. Instead the locale structure provided by the native phone SDKs should be used that follows locale names defined by the unicode CLDR. Using unicode allows SDL adopters to be more flexible but still follow a standard to agree to language codes.
+
+1. App registers with indian english as desired locale
+2. Proxy internally sets the deprecated langauge parameter to something known (en_US)
+3. Any head unit (old and new) would successfuly register the app. The head units reply with the language (and locale for new head units) the head unit is configured to.
 
 ### Mobile API
 
