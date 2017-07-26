@@ -18,7 +18,7 @@ OEMs have invested in branded, usability and safety tested user interfaces for t
 
 ## Proposed solution
 
-This solution assumes the iOS and Android proxies expose a "High-level UI/Widget library" that traverses the application control hierarchy and renders the hierarchy as a video stream. On iOS, the Ford developed SDLCarWindow class is a prototype for the "High-level UI/Widget library". On Android, VirtualDisplayEncoder class is already [accepted proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0051-enhance_video_streaming_apis_for_android.md) which is base point to extended to include this logic rather than forcing Android app developers to roll their own. View hierarchy can be retrieved as followings:
+This solution can be built upon by the iOS and Android proxies exposing a "High-level UI/Widget library" that traverses the application control hierarchy and renders the hierarchy as a video stream. On iOS, the Ford developed SDLCarWindow class is a prototype for the "High-level UI/Widget library". On Android, VirtualDisplayEncoder class is already [accepted proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0051-enhance_video_streaming_apis_for_android.md) which is base point to extended to include this logic rather than forcing Android app developers to roll their own. View hierarchy can be retrieved as followings:
 
 ```
     public static class SdlPresentation extends Presentation{
@@ -93,7 +93,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
     Send the spatial data gathered from SDLCarWindow or VirtualDisplayEncoder to the HMI. 
     This data will be utilized by the HMI to determine how and when haptic events should occur
   </description>
-    <param name="HapticSpatialData" type="SpatialStruct" minsize="0" maxsize="100" mandatory="false", array="true">
+    <param name="HapticSpatialData" type="SpatialStruct" minsize="0" maxsize="1000" mandatory="false", array="true">
       <description>
         Array of spatial data structures that represent the locations of all user controls present on the HMI. 
         This data should be updated if/when the application presents a new screen.
@@ -151,7 +151,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
     <param name="appID" type="Integer" mandatory="true">
       <description>Id of application related to this RPC.</description>
     </param>
-    <param name="HapticSpatialData" type="Common.SpatialStruct" minsize="0" maxsize="100" mandatory="false", array="true">
+    <param name="HapticSpatialData" type="Common.SpatialStruct" minsize="0" maxsize="1000" mandatory="false", array="true">
       <description>
         Array of spatial data structures that represent the locations of all user controls present on the HMI. 
         This data should be updated if/when the application presents a new screen.
