@@ -7,7 +7,7 @@
 
 ## Introduction
 
-With the acceptance of [0075 Human Interface Device Support](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0075-HID-Support-Plug-in.md) we introduced a new feature that should be settable by the module tha timplements it.
+With the acceptance of [0075 Human Interface Device Support](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0075-HID-Support-Plug-in.md) we introduced a new feature that should be settable by the module that implements it.
  
 ## Motivation
 There should be proper informing of whether or not the module supports the HID functionality. This will help reduce traffic if the system doesn't support it.
