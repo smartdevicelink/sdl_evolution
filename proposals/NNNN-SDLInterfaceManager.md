@@ -1,6 +1,6 @@
 # SDLInterfaceManager
 
-* Proposal: 
+* Proposal: [SDL-NNNN](NNNN-SDLInterfaceManager.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
 * Status: **Ready for Review**
 * Impacted Platforms: [iOS]
