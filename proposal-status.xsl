@@ -45,6 +45,11 @@ on the gh-pages branch).
           <xsl:with-param name="title">Implemented for SDL Android v4.3</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='android'][@sdl-version='4.3']"/>
         </xsl:call-template>
+          
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Android v4.4</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='android'][@sdl-version='4.4']"/>
+        </xsl:call-template>
         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Core v4.2.3</xsl:with-param>
@@ -54,6 +59,21 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Core v4.3</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.3']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Core v4.4</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.4']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL RPC Spec v4.5</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='rpc'][@sdl-version='4.5']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Protocol Spec v5.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='protocol'][@sdl-version='5.0']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
