@@ -114,6 +114,15 @@ This RPC would be the standardized SDL interface for haptic events, and would be
     </param>
 </function>
 
+<struct name="VideoStreamingCapability">
+	<description>Contains information about this system's video streaming capabilities.</description>
+	....
+	<param name="hapticSpatialDataSupported" type="Boolean" mandatory="false">
+      	<description>True if the system can utilize the haptic spatial data from the source being streamed. </description>
+	</param>
+    
+</struct>
+
 ```
 
 #### HMI_API
@@ -205,3 +214,7 @@ No new RPCs are added to support the plug-in interface. Rather, SystemRequest an
 
 #### Alternative #3:
 OEMs disclose their specific device specs to ISVs. This forces the ISVs to do custom work for each OEM.
+
+## Revisions
+- Alternative 1 was selected and proposal was rewritten to reflect it.
+- Added a new param `hapticSpatialDataSupported` to `VideoStreamingCapability`.
