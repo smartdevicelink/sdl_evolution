@@ -74,16 +74,16 @@ This RPC would be the standardized SDL interface for haptic events, and would be
   <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="true">
     <description>A user control spatial identifier</description>
   </param>
-  <param name="x" type="float" mandatory="true">
+  <param name="x" type="Integer" mandatory="true">
     <description>The X-coordinate of the user control</description>
   </param>
-  <param name="y" type="float" mandatory="true">
+  <param name="y" type="Integer" mandatory="true">
     <description>The Y-coordinate of the user control</description>
   </param>
-  <param name="width" type="float" mandatory="true">
+  <param name="width" type="Integer" mandatory="true">
     <description>The width of the user control's bounding rectangle</description>
   </param>
-  <param name="height" type="float" mandatory="true">
+  <param name="height" type="Integer" mandatory="true">
     <description>The height of the user control's bounding rectangle</description>
   </param>
 </struct>
@@ -136,16 +136,16 @@ This RPC would be the standardized SDL interface for haptic events, and would be
     <description>A user control's identifier.
     </description>
   </param>
-  <param name="x" type="float" mandatory="true">
+  <param name="x" type="Integer" mandatory="true">
     <description>The X-coordinate of the user control</description>
   </param>
-  <param name="y" type="float" mandatory="true">
+  <param name="y" type="Integer" mandatory="true">
     <description>The Y-coordinate of the user control</description>
   </param>
-  <param name="width" type="float" mandatory="true">
+  <param name="width" type="Integer" mandatory="true">
     <description>The width of the user control's bounding rectangle</description>
   </param>
-  <param name="height" type="float" mandatory="true">
+  <param name="height" type="Integer" mandatory="true">
     <description>The height of the user control's bounding rectangle</description>
   </param>
 </struct>
