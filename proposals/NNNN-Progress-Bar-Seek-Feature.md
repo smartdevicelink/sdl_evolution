@@ -1,7 +1,7 @@
 # Progress Bar Seek Feature 
-* Proposal: [SDL-F037](F037-progress-seek-bar.md)
-* Author: Michael Crimando & Derrick Portis
-* Status: **Under Review**
+* Proposal: [NNNN-Progress-Bar-Seek-Feature.md](NNNN-Progress-Bar-Seek-Feature.md)
+* Author: [Michael Crimando](https://github.com/MichaelCrimando) & [Derrick Portis](https://github.com/dportis)
+* Status: **Awaiting Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
