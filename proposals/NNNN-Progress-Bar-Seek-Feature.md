@@ -66,7 +66,7 @@ Example: Progress Bar with Seek feature
 
 ![pasted image at 2017_06_08 10_57 am](https://media.github.ford.com/user/3265/files/b7f0b016-50f2-11e7-86b2-d4d13499dc9c)
 
-There is a new parameter for SetMediaClockTimer that allows the Seek feature to exist.   
+There is a new parameter for SetMediaClockTimer in the Mobile and HMI APIs that allows the Seek feature to exist.   
 
 ```
     <param name="enableSeek" type="Boolean" mandatory="false">
@@ -76,7 +76,7 @@ There is a new parameter for SetMediaClockTimer that allows the Seek feature to 
     </param>
   </function>
 ```
-There is a new notification named OnSeekMediaClockTimer that will send the new start time to the app. 
+There is a new notification named OnSeekMediaClockTimer in the Mobile API that will send the new start time to the app. 
 ```
   <function name="OnSeekMediaClockTimer" functionID="OnSeekMediaClockTimerID" messagetype="notification">
      <description> Callback for the seek media clock timer notification. Notifies the application of progress bar seek event on the mediaclock timer. System will automatically update the media clock timer position based on the seek notification location. </description> 
@@ -85,6 +85,23 @@ There is a new notification named OnSeekMediaClockTimer that will send the new s
      </param>
   </function>
 ```
+
+There is a new notification named OnSeekMediaClockTimer in the HMI API that will send the new start time to the app.  
+```
+<function name="OnSeekMediaClockTimer" messagetype="notification">
+        <param name="seekTime" type="Common.TimeFormat" mandatory="true"/>
+            <description>See TimeFormat.</description>
+        </param>
+        <param name="appID" type="Integer" mandatory="true">
+            <description>
+		The ID of application that relates to this media clock status change.
+            </description>
+        </param>
+    </function>
+```
+
+
+
 
 
 ## Alternatives considered
