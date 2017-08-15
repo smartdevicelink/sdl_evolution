@@ -27,7 +27,7 @@ There will be a new notification called OnSeekMediaClockTimer, which gives the a
 
 Example: Progress Bar without Seek feature
 
-![Current](https://github.com/dportis/sdl_evolution/blob/Feature/progress-bar-seek/assets/proposals/NNNN-Progress-Bar-Seek-Feature/Current.png)
+![Current](https://github.com/dportis/sdl_evolution/blob/Feature/new-progress-bar-seek-feature/assets/proposals/NNNN-Progress-Bar-Seek-Feature/Current.png)
 
 ```
   <function name="SetMediaClockTimer" functionID="SetMediaClockTimerID" messagetype="request">
@@ -50,7 +50,7 @@ Example: Progress Bar without Seek feature
 
 Example: Progress Bar with Seek feature
 
-![Proposed](https://github.com/dportis/sdl_evolution/blob/Feature/progress-bar-seek/assets/proposals/NNNN-Progress-Bar-Seek-Feature/Proposed.png)
+![Proposed](https://github.com/dportis/sdl_evolution/blob/Feature/new-progress-bar-seek-feature/assets/proposals/NNNN-Progress-Bar-Seek-Feature/Proposed.png)
 
 There is a new parameter for SetMediaClockTimer in the Mobile and HMI APIs that allows the Seek feature to exist.   
 
