@@ -75,7 +75,7 @@ For each text field in the HMI API, a new optional parameter "fieldType" can be 
 </enum>
 ```
 
-In the Mobile API, an optional metadata struct "textFieldMetadata" will be introduced.  This struct will utilize each text field as a key and allow them to be assigned multiple metadata tags.  If a textfield or the entire metadata struct is omitted, the currently assigned tags will remain unchanged.  If the text field is included but has no tags assigned, any currently assigned tags will be removed.  For self proclaiming metadata types (ex. "mediaClock", "statusBar" and "mediaTrack"), the HMI can already determine their type and are not included.
+In the Mobile API, an optional metadata struct "MetadataTags" will be introduced.  This struct will utilize each text field as a key and allow them to be assigned multiple metadata tags.  If a textfield or the entire metadata struct is omitted, the currently assigned tags will remain unchanged.  If the text field is included but has no tags assigned, any currently assigned tags will be removed.  For self proclaiming metadata types (ex. "mediaClock", "statusBar" and "mediaTrack"), the HMI can already determine their type and are not included.
 
 ### Additions to MOBILE_API
 
@@ -113,7 +113,7 @@ In the Mobile API, an optional metadata struct "textFieldMetadata" will be intro
         </description>
     </param>
 
-    <param name="textFieldMetadata" type="MetadataStruct" mandatory="false">
+    <param name="metadataTags" type="MetadataTags" mandatory="false">
         <description>
             App defined metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4.
             If omitted on supported displays, the currently set metadata tags will not change.
@@ -122,22 +122,22 @@ In the Mobile API, an optional metadata struct "textFieldMetadata" will be intro
     </param>
   </function>
 
-<struct name="MetadataStruct">
-  <param name="mainField1" type="Common.TextFieldType" minsize="0" maxsize="5" array="true" mandatory="false">
+<struct name="MetadataTags">
+  <param name="mainField1" type="MetadataType" minsize="0" maxsize="5" array="true" mandatory="false">
     <description>The type of data contained in the "mainField1" text field.</description>
   </param>
-  <param name="mainField2" type="Common.TextFieldType" minsize="0" maxsize="5" array="true" mandatory="false">
+  <param name="mainField2" type="MetadataType" minsize="0" maxsize="5" array="true" mandatory="false">
     <description>The type of data contained in the "mainField2" text field.</description>
   </param>
-  <param name="mainField3" type="Common.TextFieldType" minsize="0" maxsize="5" array="true" mandatory="false">
+  <param name="mainField3" type="MetadataType" minsize="0" maxsize="5" array="true" mandatory="false">
     <description>The type of data contained in the "MainField3" text field.</description>
   </param>
-  <param name="mainField4" type="Common.TextFieldType" minsize="0" maxsize="5" array="true" mandatory="false">
+  <param name="mainField4" type="MetadataType" minsize="0" maxsize="5" array="true" mandatory="false">
     <description>The type of data contained in the "mainField4" text field.</description>
   </param>
 </struct>
 
-<enum name="TextFieldType">
+<enum name="MetadataType">
   <element name="mediaTitle">
     <description>The data in this field contains the title of the currently playing audio track.</description>
   </element>
