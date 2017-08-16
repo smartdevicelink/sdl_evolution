@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0081](0081-SDLInterfaceManager.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **Deferred**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS]
 
 ## Introduction
