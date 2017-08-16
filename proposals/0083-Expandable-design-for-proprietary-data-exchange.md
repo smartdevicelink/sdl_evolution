@@ -1,6 +1,6 @@
 # Expandable Design for Proprietary Data Exchange
 
-* Proposal: [SDL-0082](0082-Expandable-design-for-proprietary-data-exchange.md)
+* Proposal: [SDL-0083](0083-Expandable-design-for-proprietary-data-exchange.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
 * Status: **In Review**
 * Impacted Platforms: [Core/iOS/Android/RPC]
