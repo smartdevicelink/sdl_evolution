@@ -1,8 +1,8 @@
 # New vehicle data - EngineOilLife
 
-* Proposal: [NNNN](NNNN-New-vehicle-data-EngineOilLife.md)
+* Proposal: [SDL-0082](0082-New-vehicle-data-EngineOilLife.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **Under Review**
+* Status: **In Review**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
