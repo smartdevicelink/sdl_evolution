@@ -71,7 +71,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
 
 <struct name="SpatialStruct">
   <description>Defines spatial for each user control object for video streaming application</description>
-  <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="true">
+  <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="false">
     <description>A user control spatial identifier</description>
   </param>
   <param name="x" type="float" mandatory="true">
