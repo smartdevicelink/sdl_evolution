@@ -21,17 +21,26 @@ In order to make interfacing with the OEM haptic engine as painless as possible,
 
 The proxy (and later SDLCarWindow) could contain an instance of `SDLInterfaceManager` that crawls the view hierarchy and keeps track of what views should be reported to the haptic RPC. The app could choose to refresh this data manually (similar to `reloadData` with a UITableView) or could replace their `UIViewController` inheritance with `SDLViewController` which would automatically update the interface when a new view is presented.
 
-The following classes are examples of how this could be added to the SDK
+The following is an example of how this could be added to the SDK
 
 ```objc
 #import <UIKit/UIKit.h>
 
-@interface SDLInterfaceManager : NSObject
+@protocol SDLHapticInterface <NSObject>
+
 - (instancetype)initWithWindow:(UIWindow *)window;
 - (void)updateInterfaceLayout;
+// additional method should be added to allow pure openGL apps to specify an array of spatial data directly
 
-#pragma mark debug functions
-- (void)highlightAllViews;
+@end
+```
+
+```objc
+#import <UIKit/UIKit.h>
+//5
+@interface SDLInterfaceManager : NSObject <SDLHapticInterface>
+- (instancetype)initWithWindow:(UIWindow *)window;
+- (void)updateInterfaceLayout;
 @end
 ``` 
 
@@ -179,6 +188,7 @@ SDLNotificationName const SDLProjectionViewUpdate = @"com.sdl.notification.proje
 2. The currently displayed view on the manager's window is passed to the view parser method (more on that later)
 3. If the window's current view is setting a preferred focus view (ie, the view that should be initially focused as per the tvOS spec) it is moved to the front of the parsed focusable views list. This could be used by the OEM haptic engine, if so desired.
 4. This method recursively crawls through the entire view hierarchy in a fashion similar to the tvOS focus engine. It will identify every view that should be focusable as per Apple's available focus flags.
+5. This is the defined interface protocol. This is the interface that implementations would expect to interact with. In this example the HapticInterfaceManager implements this interface, but any class (currently in SDL, or added later) could take over this responsibility without integrations needing to change or be broken.
 
 ## Potential downsides
 
