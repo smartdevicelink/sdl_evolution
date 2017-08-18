@@ -131,7 +131,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
 
 <interface name="Common" version="x.x.x" date="yyyy-mm-dd">
 
-<struct name="SpatialStruct">
+<struct name="Rect">
   <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="true">
     <description>A user control's identifier.
     </description>
