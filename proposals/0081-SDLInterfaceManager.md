@@ -199,7 +199,7 @@ SDLNotificationName const SDLProjectionViewUpdate = @"com.sdl.notification.proje
 
 - The `SDLInterfaceManager` would be new code, it could be more closely coupled with `SDLCarWindow` once that is completed.
 
-##Out of Scope
+## Out of Scope
 Changes to the Android proxy are not in the scope of this proposal. While the SDLInterfaceManager should have the same interface as the one being proposed, the under-the-hood implementation details could potentially be different. In order to accommodate the iOS proxy change deadline, those changes are not in scope of this proposal.
 
 ## Alternatives considered
@@ -212,7 +212,7 @@ http://nshipster.com/method-swizzling/
 4. Instead of option 3, or using `SDLProjectionViewController` , the interface manager could use Key-Value-Observing (KVO) on the window's `sublayers` property. However `subviews` is not KVO compliant, and there is no promise that `sublayers` will be KVO compliant at any given time. Using KVO in this manner also comes with most of the warnings as swizzling.
 5. Refresh logic can be handled completely by the app, and `SDLProjectionViewController` can be dropped from the proposal. It is worth noting that even if `SDLProjectionViewController` is implemented, apps could still choose to do this.
 
-##Apple Documentation
+## Apple Documentation
 https://developer.apple.com/library/content/documentation/General/Conceptual/AppleTV_PG/WorkingwiththeAppleTVRemote.html
 
 https://developer.apple.com/accessibility/ios/
