@@ -8,8 +8,7 @@ This process and document is based on Apple's excellent [Swift Evolution](https:
 
 This document tracks the ongoing evolution of SDL. Proposals should be made for any public API surface change, that is, any change that would necessitate a minor or major version change in any SDL mobile library. If a protocol or RPC change does not change any API surface, they must still be brought through the proposal process. In sum, the following changes must be proposed:
 
-* Changes necessitating minor or major version updates to the mobile libraries according to [semantic versioning](http://www.semver.org), except those that are caused by a misspelling.
-* Major changes (Definition TBD) to SDL Core.
+* Changes necessitating minor or major version updates to SDL Core, the mobile libraries, Manticore, SDL Policy Server, and SHAID according to [semantic versioning](http://www.semver.org), except those that are caused by a misspelling.
 * **Any** change to the SDL Protocol.
 * **Any** change to the SDL RPC spec.
 
@@ -20,35 +19,116 @@ Important documents:
 * The [SDL evolution review process](process.md) to see how to propose and review proposals.
 * The [proposals versus issues document](proposals_versus_issues.md) to understand the differences between an SDL Evolution Proposal and an SDL Issue.
 
-## SDL Protocol Version Next: X.X
-Expected Release Date: N/A
+## Platforms
+When entering a proposal, only one platform will be listed as impacted on the [proposal status page][proposal-status].  It's inherent that some platforms impact others, as described below:
 
-The goal of the upcoming release is...
-You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
+#### Protocol
+The SmartDeviceLink protocol specification describes the method for establishing communication between an application and head unit and registering the application for continued communication with the head unit. The protocol is used as the base formation of packets sent from one module to another.
 
-## SDL RPC Spec Version Next: X.X
-Expected Release Date: N/A
+All new SDL implementations should implement the newest version of the protocol.
 
-The goal of the upcoming release is...
-You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
+**Repository**: [https://github.com/smartdevicelink/protocol_spec](https://github.com/smartdevicelink/protocol_spec)
 
-## Core Version Next: X.X
-Expected Release Date: N/A
+**Changes to Protocol also impact the following platforms**:
 
-The goal of the upcoming release is...
-You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
+- Core
+- iOS
+- Android
+ 
+#### RPC Spec
+Spec for RPC messages sent between mobile devices and hardware modules.
 
-## iOS SDK Version Next: 5.0
-Expected Release Date: N/A
+**Repository**: [https://github.com/smartdevicelink/rpc_spec](https://github.com/smartdevicelink/rpc_spec)
 
-The goal of this release is to rebuild and restructure the lower-level components of SDL iOS. Many of the lower-level protocol components are poorly designed and untestable. Many are unfortunately public classes when they should not be; these must be made private. RPCs, RPC Structs, and Enums are all difficult to update and add to, and unfortunately poorly designed (for example, enums are largely global, RPC properties are largely atomic, no nullability or generics). Code generation should be leveraged to make these easier to update in the future and for better compatibility with Swift.
-You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
+**Changes to RPC also impact the following platforms:**
 
-## Android SDK Version Next: X.X
-Expected Release Date: N/A
+- Core
+- iOS
+- Android
 
-The goal of the upcoming release is...
-You can see a detailed list of accepted and implemented proposals on the [proposal status page][proposal-status].
+#### Core
+The Core component is the software which Vehicle Manufacturers (OEMs) implement in their vehicle head units. Integrating this component into their head unit and HMI based on a set of guidelines and templates enables access to various smartphone applications.
+
+**Repository**: [https://github.com/smartdevicelink/sdl_core] (https://github.com/smartdevicelink/sdl_core)
+
+**Changes to Core also impact the following platforms:**
+
+- Manticore
+
+#### Android SDK
+The Android library is implemented by Android app developers into their applications to enable command and control via the connected head unit.
+
+**Repository**: [https://github.com/smartdevicelink/sdl_android](https://github.com/smartdevicelink/sdl_android)
+
+#### iOS SDK
+The iOS library is implemented by iOS app developers into their applications to enable command and control via the connected head unit.
+
+**Repository**: [https://github.com/smartdevicelink/sdl_ios](https://github.com/smartdevicelink/sdl_ios)
+
+#### Manticore 
+Manticore is used to dynamically provision SDL Core and SDL HMI instances in the cloud.
+
+**Repository**: [https://github.com/smartdevicelink/manticore](https://github.com/smartdevicelink/manticore)
+
+**SDL hosted instance**: [https://smartdevicelink.com/resources/manticore/](https://smartdevicelink.com/resources/manticore/)
+
+#### SDL Policy Server 
+The SDL Policy Server handles authentication, data collection, and basic configurations for SDL connected vehicles.
+
+**Repository**: [https://github.com/smartdevicelink/sdl_server](https://github.com/smartdevicelink/sdl_server)
+
+#### SHAID 
+SHAID is a centralized service designed to keep information about SDL-supported applications synchronized across the SmartDeviceLink (SDL) ecosystem.
+
+**Repository**: [https://github.com/smartdevicelink/sdl_shaid](https://github.com/smartdevicelink/sdl_shaid)
+
+## Recent and Upcoming Releases
+
+You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
+
+#### SHAID: 2.0.0
+**Release Date**: August 15, 2017
+
+**Contents**: This release enhances SHAID to allow application information (including name, description, default HMI level, RPCs required for integration, and ID) for SDLC-approved apps to be stored and accessible to "App Consumer" companies (OEMs and Suppliers).  SHAID will also send notifications to these App Consumer companies when an SDLC-approved application registered on SHAID has been modified.
+
+
+#### iOS SDK: 4.7.0
+**Expected Release Date**: August 31, 2017
+
+**Contents**: Bug fixes and new features included on the [iOS 4.7.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/5).
+
+
+#### SDL Protocol: 5.0.0
+**Expected Release Date**: October 30, 2017
+
+**Contents**: Introducing control frame payloads and a revised version negotiation scheme.  See the current draft of the new version of the spec [here](https://github.com/smartdevicelink/protocol_spec/pull/9).
+
+
+#### SDL RPC Spec: 4.5.0
+**Expected Release Date**: October 30, 2017
+
+**Contents**: See change log for alterations to the spec at a high level, and current draft of the new version of the spec [here](https://github.com/smartdevicelink/rpc_spec/pull/25).
+
+
+#### Core: 4.4.0
+**Expected Release Date**: October 30, 2017
+
+**Contents**: Core stabilization fixes and introduction of new features included on the [Core 4.4.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/7).
+
+
+#### Android SDK: 4.4.0
+**Expected Release Date**: October 30, 2017
+
+**Contents**: This release will focus on better continuous integration strategy, better video streaming APIs and various evolution items, described in detail on the [Android 4.4.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/4).
+
+
+#### Manticore: 1.1.0
+**Expected Release Date**: October 30, 2017
+
+**Contents**: Include enhancements and update to the latest version of Core and the Generic HMI.
+
+
+
 
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
