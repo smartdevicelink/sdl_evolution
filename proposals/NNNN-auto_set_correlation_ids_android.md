@@ -13,7 +13,7 @@ The current proxy forces developers to manually set a correlation ID to each req
 
 
 ## Proposed solution
-The proposed solution will be to atomically set the correlation ID during a get request if one doesn't exist. This will prevent developers from having to manually create/set one. The ID could still be overwritten by the developer if they wish. 
+The proposed solution will be to automatically set the correlation ID during a get request if one doesn't exist. This will prevent developers from having to manually create/set one. The ID could still be overwritten by the developer if they wish. 
 
 
 ###### RpcRequest.java
