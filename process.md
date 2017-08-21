@@ -2,7 +2,11 @@
 The SmartDeviceLink Consortium (SDLC) seeks the help of the community to help guide and shape how SDL changes. To do that effectively, we outline in this document a process for introducing ideas to SDL and how the SDLC Steering Committee will guide those ideas through the review process.
 
 ## Scope
-Any changes to the [SDL RPC spec](https://github.com/smartdevicelink/rpc_spec), the [SDL protocol](https://github.com/smartdevicelink/protocol_spec), public API changes to the SDL [iOS](https://github.com/smartdevicelink/sdl_ios) or [Android](https://github.com/smartdevicelink/sdl_android) SDKs, or major changes to [SDL Core](https://github.com/smartdevicelink/sdl_core) must go through the SDL evolution proposal and review process. SDL is versioned using [semantic versioning](http://www.semver.org). Therefore, any public API removal, alteration, or addition is a minor or major version change to the respective spec or library, no matter how small the change. The only minor or major change that does not need to go through this process is a misspelled API name in a mobile SDK. In that case, write an issue against the respective repository. Changes that do not make a spec or public API change should go through the normal contribution process, for example, [this is the iOS repository's process](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/CONTRIBUTING.md).
+Any changes to the [SDL RPC spec](https://github.com/smartdevicelink/rpc_spec), the [SDL protocol](https://github.com/smartdevicelink/protocol_spec), enhancements or major API changes to the SDL [iOS](https://github.com/smartdevicelink/sdl_ios) or [Android](https://github.com/smartdevicelink/sdl_android) SDKs, and [SDL Core](https://github.com/smartdevicelink/sdl_core) must go through the SDL evolution proposal and review process. An enhancement is defined as changing any behavior in a way that is different from the original definition of the behavior.  Please reference the [Proposals versus Issues document][proposals_versus_issues] for more information on what constitutes an Evolution Proposal versus a bug fix.  Major changes are defined according to [semantic versioning](http://www.semver.org).
+
+Bug fixes should go through the normal contribution process, for example, [this is the iOS repository's process](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/CONTRIBUTING.md).
+
+If you have questions about if a particular case should be an Evolution Proposal or bug fix, please ask on [SDL slack][sdl_slack].
 
 ## Participation
 Everyone is welcome to discuss and propose new changes to SDL on the [#sdl_evolution channel][sdl_evolution_channel] on the [SDL slack][sdl_slack]. Proposals under current review will be given an issue on the [sdl_evolution repository][sdl_evolution_repo]. Before posting a review, please read "What goes into a review?" below.
@@ -30,7 +34,6 @@ A review should be written as a comment on the Github issue of the proposal crea
 * **Address feedback**: in general, and especially [during the review period](#review), be responsive to questions and feedback about the proposal.
 
 ## Review process
-
 The review process for a particular proposal begins when the SDLC Steering Committee decides to accept a pull request of a new or updated proposal into the [sdl_evolution repository][sdl_evolution_repo]. The proposal is assigned a proposal number (if it is a new proposal), then enters the review queue.
 
 The SDLC Steering Committee will work with the author to assess when the proposal is ready for review. Reviews usually last a single week, but can run longer for particularly large or complex proposals.
@@ -47,8 +50,8 @@ After the review has completed, the SDLC Steering Committee will make a decision
 - **Deferred**: Proposal has been deemed not ready to be voted upon by the SDLC Steering Committee.  Proposals can be deferred if the SDLC plans to meet separately to discuss the proposal/feature in greater detail, or if the proposal is dependent on another proposal being submitted and/or accepted.
 
 Proposals can also remain in review if the SDLC Steering Committee needs more time to review and discuss on the associated review issue.
-## Review announcement
 
+## Review announcement
 When a proposal enters review, an email using the following template will be sent to the [#sdl_evolution slack channel][sdl_evolution_channel], the [genivi-smartdevicelink mailing list][sdl_mailing_list], and to a Github issue:
 
 ---
@@ -66,7 +69,6 @@ should be sent to the associated Github issue at:
 > <https://github.com/smartdevicelink/sdl_evolution/issues/NNNN_proposal_name/>
 
 ##### What goes into a review?
-
 The goal of the review process is to improve the proposal under review through constructive criticism and, eventually, determine the direction of SDL. When writing your review, here are some questions you might want to answer in your review:
 
 * Is the problem being addressed significant enough to warrant a change to SDL?
@@ -92,4 +94,5 @@ Thank you,
 [sdl_evolution_report_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution_report/ "#sdl_evolution_report slack channel"
 [sdl_mailing_list]: https://lists.genivi.org/mailman/listinfo/genivi-smartdevicelink "SDL mailing list"
 [sdl_proposals_xml]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals.xml "SDL Proposals XML"
-[sdl_evolution_proposal_status_page]: https://smartdevicelink.github.io/sdl_evolution/
+[sdl_evolution_proposal_status_page]: https://smartdevicelink.github.io/sdl_evolution/ "SDL Evolution Proposal Status Page"
+[proposals_versus_issues]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals_versus_issues.md "Proposals versus Issues"

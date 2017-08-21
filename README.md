@@ -1,5 +1,4 @@
 # SDL Evolution
-
 **Do not submit a proposal without reading this roadmap document.** Ideas should be discussed on the [SDL Slack][sdl_slack] [#sdl_evolution][sdl_evolution_channel] open channel before a proposal is created here.
 
 For more information about SDL, go to [www.smartdevicelink.com](https://www.smartdevicelink.com).
@@ -83,7 +82,6 @@ SHAID is a centralized service designed to keep information about SDL-supported 
 **Repository**: [https://github.com/smartdevicelink/sdl_shaid](https://github.com/smartdevicelink/sdl_shaid)
 
 ## Recent and Upcoming Releases
-
 You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
 
 #### SHAID: 2.0.0
