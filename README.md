@@ -98,7 +98,6 @@ SHAID is a centralized service designed to keep information about SDL-supported 
 ## Recent and Upcoming Releases
 You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
 
-
 #### SHAID: 2.0.0
 **Release Date**: August 15, 2017
 
