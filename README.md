@@ -33,7 +33,9 @@ All new SDL implementations should implement the newest version of the protocol.
 - Core
 - iOS
 - Android
- 
+
+---
+
 #### RPC Spec
 Spec for RPC messages sent between mobile devices and hardware modules.
 
@@ -45,6 +47,8 @@ Spec for RPC messages sent between mobile devices and hardware modules.
 - iOS
 - Android
 
+---
+
 #### Core
 The Core component is the software which Vehicle Manufacturers (OEMs) implement in their vehicle head units. Integrating this component into their head unit and HMI based on a set of guidelines and templates enables access to various smartphone applications.
 
@@ -54,15 +58,21 @@ The Core component is the software which Vehicle Manufacturers (OEMs) implement 
 
 - Manticore
 
+---
+
 #### Android SDK
 The Android library is implemented by Android app developers into their applications to enable command and control via the connected head unit.
 
 **Repository**: [https://github.com/smartdevicelink/sdl_android](https://github.com/smartdevicelink/sdl_android)
 
+---
+
 #### iOS SDK
 The iOS library is implemented by iOS app developers into their applications to enable command and control via the connected head unit.
 
 **Repository**: [https://github.com/smartdevicelink/sdl_ios](https://github.com/smartdevicelink/sdl_ios)
+
+---
 
 #### Manticore 
 Manticore is used to dynamically provision SDL Core and SDL HMI instances in the cloud.
@@ -71,10 +81,14 @@ Manticore is used to dynamically provision SDL Core and SDL HMI instances in the
 
 **SDL hosted instance**: [https://smartdevicelink.com/resources/manticore/](https://smartdevicelink.com/resources/manticore/)
 
+---
+
 #### SDL Policy Server 
 The SDL Policy Server handles authentication, data collection, and basic configurations for SDL connected vehicles.
 
 **Repository**: [https://github.com/smartdevicelink/sdl_server](https://github.com/smartdevicelink/sdl_server)
+
+---
 
 #### SHAID 
 SHAID is a centralized service designed to keep information about SDL-supported applications synchronized across the SmartDeviceLink (SDL) ecosystem.
@@ -89,36 +103,42 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 **Contents**: This release enhances SHAID to allow application information (including name, description, default HMI level, RPCs required for integration, and ID) for SDLC-approved apps to be stored and accessible to "App Consumer" companies (OEMs and Suppliers).  SHAID will also send notifications to these App Consumer companies when an SDLC-approved application registered on SHAID has been modified.
 
+---
 
 #### iOS SDK: 4.7.0
 **Expected Release Date**: August 31, 2017
 
 **Contents**: Bug fixes and new features included on the [iOS 4.7.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/5).
 
+---
 
 #### SDL Protocol: 5.0.0
 **Expected Release Date**: October 30, 2017
 
 **Contents**: Introducing control frame payloads and a revised version negotiation scheme.  See the current draft of the new version of the spec [here](https://github.com/smartdevicelink/protocol_spec/pull/9).
 
+---
 
 #### SDL RPC Spec: 4.5.0
 **Expected Release Date**: October 30, 2017
 
 **Contents**: See change log for alterations to the spec at a high level, and current draft of the new version of the spec [here](https://github.com/smartdevicelink/rpc_spec/pull/25).
 
+---
 
 #### Core: 4.4.0
 **Expected Release Date**: October 30, 2017
 
 **Contents**: Core stabilization fixes and introduction of new features included on the [Core 4.4.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/7).
 
+---
 
 #### Android SDK: 4.4.0
 **Expected Release Date**: October 30, 2017
 
 **Contents**: This release will focus on better continuous integration strategy, better video streaming APIs and various evolution items, described in detail on the [Android 4.4.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/4).
 
+---
 
 #### Manticore: 1.1.0
 **Expected Release Date**: October 30, 2017
