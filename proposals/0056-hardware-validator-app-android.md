@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0056](0056-hardware-validator-app-android.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Meta]
 
 ## Introduction
