@@ -68,12 +68,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
 #### Mobile_API
 
 ```xml
-
-<struct name="Rect">
-  <description>Defines spatial for each user control object for video streaming application</description>
-  <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="false">
-    <description>A user control spatial identifier</description>
-  </param>
+<struct name="Rectangle">
   <param name="x" type="float" mandatory="true">
     <description>The X-coordinate of the user control</description>
   </param>
@@ -85,6 +80,16 @@ This RPC would be the standardized SDL interface for haptic events, and would be
   </param>
   <param name="height" type="float" mandatory="true">
     <description>The height of the user control's bounding rectangle</description>
+  </param>
+</struct>
+
+<struct name="HapticData">
+  <description>Defines spatial for each user control object for video streaming application</description>
+  <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="true">
+    <description>A user control spatial identifier</description>
+  </param>
+  <param name="rect" type="Rectangle" mandatory="true">
+    <description>The position of the haptic rectangle to be highlighted. The center of this rectangle will be "touched" when a press occurs.</description>
   </param>
 </struct>
 
