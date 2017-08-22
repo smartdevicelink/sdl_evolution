@@ -70,20 +70,20 @@ This RPC would be the standardized SDL interface for haptic events, and would be
 ```xml
 <struct name="Rectangle">
   <param name="x" type="float" mandatory="true">
-    <description>The X-coordinate of the user control</description>
+    <description>The upper left X-coordinate of the rectangle</description>
   </param>
   <param name="y" type="float" mandatory="true">
-    <description>The Y-coordinate of the user control</description>
+    <description>The upper left Y-coordinate of the rectangle</description>
   </param>
   <param name="width" type="float" mandatory="true">
-    <description>The width of the user control's bounding rectangle</description>
+    <description>The width of the rectangle</description>
   </param>
   <param name="height" type="float" mandatory="true">
-    <description>The height of the user control's bounding rectangle</description>
+    <description>The height of the rectangle</description>
   </param>
 </struct>
 
-<struct name="HapticData">
+<struct name="HapticRect">
   <description>Defines haptic data for each user control object for video streaming application</description>
   <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="true">
     <description>A user control spatial identifier</description>
@@ -98,7 +98,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
     Send the spatial data gathered from SDLCarWindow or VirtualDisplayEncoder to the HMI. 
     This data will be utilized by the HMI to determine how and when haptic events should occur
   </description>
-    <param name="HapticSpatialData" type="SpatialStruct" minsize="0" maxsize="1000" mandatory="false", array="true">
+    <param name="hapticRectData" type="HapticRect" minsize="0" maxsize="1000" mandatory="false", array="true">
       <description>
         Array of spatial data structures that represent the locations of all user controls present on the HMI. 
         This data should be updated if/when the application presents a new screen.
@@ -151,7 +151,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
   </param>
 </struct>
 
-<struct name="HapticData">
+<struct name="HapticRect">
   <description>Defines haptic rectangle data for each user control object for video streaming application</description>
   <param name="id" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="true">
     <description>A user control spatial identifier</description>
@@ -171,7 +171,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
     <param name="appID" type="Integer" mandatory="true">
       <description>Id of application related to this RPC.</description>
     </param>
-    <param name="HapticSpatialData" type="Common.SpatialStruct" minsize="0" maxsize="1000" mandatory="false", array="true">
+    <param name="hapticRectData" type="Common.HapticRect" minsize="0" maxsize="1000" mandatory="false", array="true">
       <description>
         Array of spatial data structures that represent the locations of all user controls present on the HMI. 
         This data should be updated if/when the application presents a new screen.
