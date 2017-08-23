@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0083](0083-Expandable-design-for-proprietary-data-exchange.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core/iOS/Android/RPC]
 
 ## Introduction
