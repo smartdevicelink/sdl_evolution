@@ -1,8 +1,8 @@
 # iOS System Capability Manager
 
-* Proposal: [SDL-NNNN](NNNN-ios-system-capabiity-manager.md)
+* Proposal: [SDL-0088](0088-ios-system-capability-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
