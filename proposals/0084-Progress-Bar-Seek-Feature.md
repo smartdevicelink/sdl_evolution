@@ -1,7 +1,7 @@
 # Progress Bar Seek Feature 
 * Proposal: [0084-Progress-Bar-Seek-Feature.md](NNNN-Progress-Bar-Seek-Feature.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando) & [Derrick Portis](https://github.com/dportis)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
