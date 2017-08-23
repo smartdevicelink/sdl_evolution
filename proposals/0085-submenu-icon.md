@@ -1,8 +1,8 @@
 # SubMenu icon
 
-* Proposal: [SDL-NNNN](NNNN-submenu-icon.md)
+* Proposal: [SDL-0085](0085-submenu-icon.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
