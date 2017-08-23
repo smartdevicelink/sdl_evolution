@@ -93,7 +93,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
     Send the spatial data gathered from SDLCarWindow or VirtualDisplayEncoder to the HMI. 
     This data will be utilized by the HMI to determine how and when haptic events should occur
   </description>
-    <param name="HapticSpatialData" type="SpatialStruct" minsize="0" maxsize="1000" mandatory="false", array="true">
+    <param name="hapticSpatialData" type="SpatialStruct" minsize="0" maxsize="1000" mandatory="false", array="true">
       <description>
         Array of spatial data structures that represent the locations of all user controls present on the HMI. 
         This data should be updated if/when the application presents a new screen.
@@ -160,7 +160,7 @@ This RPC would be the standardized SDL interface for haptic events, and would be
     <param name="appID" type="Integer" mandatory="true">
       <description>Id of application related to this RPC.</description>
     </param>
-    <param name="HapticSpatialData" type="Common.SpatialStruct" minsize="0" maxsize="1000" mandatory="false", array="true">
+    <param name="hapticSpatialData" type="Common.SpatialStruct" minsize="0" maxsize="1000" mandatory="false", array="true">
       <description>
         Array of spatial data structures that represent the locations of all user controls present on the HMI. 
         This data should be updated if/when the application presents a new screen.
@@ -218,3 +218,4 @@ OEMs disclose their specific device specs to ISVs. This forces the ISVs to do cu
 ## Revisions
 - Alternative 1 was selected and proposal was rewritten to reflect it.
 - Added a new param `hapticSpatialDataSupported` to `VideoStreamingCapability`.
+- Changed `HapticSpatialData` parameter name to `hapticSpatialData`
