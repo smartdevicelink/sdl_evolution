@@ -1,8 +1,8 @@
 # Auto Set Correlation ID (Android)
 
-* Proposal: [SDL-NNNN](NNNN-auto_set_correlation_ids_android.md)
+* Proposal: [SDL-0086](0086-auto_set_correlation_ids_android.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
