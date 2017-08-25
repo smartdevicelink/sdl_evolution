@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0082](0082-New-vehicle-data-EngineOilLife.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
