@@ -2,7 +2,7 @@
 
 * Proposal: [SDL NNNN](NNNN-mobile-api-versioning.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Under review**
+* Status: **Awaiting review**
 * Impacted Platforms: [ RPC ]
 
 ## Introduction
