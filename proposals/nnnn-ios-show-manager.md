@@ -280,7 +280,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-A wrapper of one or multiple states for a soft
+A wrapper of one or multiple states for a soft button
 
 ##### SDLSoftButtonManager
 ```objc
@@ -300,6 +300,14 @@ NS_ASSUME_NONNULL_BEGIN
  @return A new instance of a soft button manager
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager;
+- 
+/**
+ Update a particular button's current state into a new state and update the screen.
+
+ @param connectionManager The manager that forwards RPCs
+ @return A new instance of a soft button manager
+ */
+- (void)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(SDLButtonState *)state;
 
 @end
 
@@ -326,8 +334,9 @@ The wrapper carries the event handler so that developers can transition states w
 To update the buttons, either developers can update an individual button to a new state through the `SDLSoftButtonWrapper`. If the buttons themselves are changing, the developer can set the `softButtons` array of the `SDLSoftButtonManager`.
 
 ## Potential downsides
+* The proposed `SDLSoftButtonManager` does not work particularly well for dynamic soft buttons. The best support is to use the `updateButtonNamed:replacingCurrentStateWithState:`.
 
-`Show` contains quite a number of sub-APIs within it and turns out to be fairly complex, with corner cases abounding. Dealing with those corner cases for developers is the goal of this API, but also presents its biggest risk. As developers rely more on this API, it must provide a consistent and reasonable interface to developers while providing them with clear guidelines on what may be going wrong when something does go wrong. Error handling and recovery is easier (in some senses) when you're manually sending RPCs, but as complexity gets layered on top of the manual RPCs, consistency and clarity are needed.
+* `Show` contains quite a number of sub-APIs within it and turns out to be fairly complex, with corner cases abounding. Dealing with those corner cases for developers is the goal of this API, but also presents its biggest risk. As developers rely more on this API, it must provide a consistent and reasonable interface to developers while providing them with clear guidelines on what may be going wrong when something does go wrong. Error handling and recovery is easier (in some senses) when you're manually sending RPCs, but as complexity gets layered on top of the manual RPCs, consistency and clarity are needed.
 
 With that said, this is still a vital improvement and these issues have been addressed before (for example with the File Manager). We just have to be good about continuous bug fixes and enhancements as needs arise.
 
