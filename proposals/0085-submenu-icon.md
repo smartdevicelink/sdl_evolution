@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0085](0085-submenu-icon.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
