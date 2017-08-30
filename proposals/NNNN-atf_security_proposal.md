@@ -1,4 +1,4 @@
-# Feature name
+# Security ATF feature
 
 * Proposal: [SDL-NNNN](NNNN-atf_security_proposal.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
