@@ -1,8 +1,8 @@
 # Mobile API versioning
 
-* Proposal: [SDL NNNN](NNNN-mobile-api-versioning.md)
+* Proposal: [SDL 0089](0089-mobile-api-versioning.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ RPC ]
 
 ## Introduction
