@@ -1,8 +1,8 @@
 # SDLHapticHitTester Protocol
 
-* Proposal: [SDL-NNNN](NNNN-SDLHapticHitTesterProtocol.md)
+* Proposal: [SDL-0090](0090-SDLHapticHitTesterProtocol.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **Ready for Review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
