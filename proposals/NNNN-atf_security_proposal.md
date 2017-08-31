@@ -8,9 +8,9 @@
 ## Introduction
 
 This proposal describes support of security sessions in ATF(Automated test framework).
-ATF should be able to test security SDL feature.
+ATF should be able to test SDL security feature.
 
-Main ATF features for checking security feature:
+Main ATF features for checking SDL security feature:
  - Support of secure sessions
  - Support of testing broken handshake
  - Support of sendng raw data in secure chanel
@@ -19,15 +19,15 @@ Main ATF features for checking security feature:
 
 ## Motivation
 Manual testing is slow, and expensive. Also there are big probability of error during manual testing.\
-Testing automatisation of all SDL use cases is best option to be sure that new code does not brerakes SDL functionality.
+Testing automatisation of all SDL use cases is best option to be sure that new code does not breakes SDL functionality.
 
-ATF is able to cover almoust all SDL use cases with automatic testing. 
+ATF is able to cover almost all SDL use cases with automatic testing.
 The only things that is not supported by ATF :
  - Bluetooth transport
  - USB transport
  - Security feature
- - Audio\Videostreaming (partialy supported) 
- 
+ - Audio\Video streaming (partially supported)
+
 Motivation of this proposal is to crete ability to cover most important not covered part of SDL functionality - secure sessions
 
 ## Proposed solution
@@ -37,11 +37,11 @@ Add new APIs in ATF:
  - session.SendEncryptedRPC
  - session.ExpectEncryptedResponse
  - session.ExpectEncryptedNotification
- - session.SendPacket 
+ - session.SendPacket
  - session.ExpectPacket
- 
-[mobile_session.lua](https://github.com/smartdevicelink/sdl_atf/blob/master/modules/mobile_session.lua) and 
-[mobile_session_impl.lua](https://github.com/smartdevicelink/sdl_atf/blob/master/modules/mobile_session_impl.lua) should be extended with secure session interfaces. 
+
+[mobile_session.lua](https://github.com/smartdevicelink/sdl_atf/blob/master/modules/mobile_session.lua) and
+[mobile_session_impl.lua](https://github.com/smartdevicelink/sdl_atf/blob/master/modules/mobile_session_impl.lua) should be extended with secure session interfaces.
 
 Should be added new ini file option : `SecurityProtocol`
 Should be added new command line option : `secutity_protocol`
@@ -49,40 +49,40 @@ In case if this option missed, use TLS by default.
 
 ### Detailed design
 
-#### New components : 
-Will be added new component : *SecurityManager* 
+#### New components :
+Will be added new component : *SecurityManager*
 
 Responsibility of SecurityManager :
  - Manage certificates
  - Manage TLS or DTLS
- - Handle ssl context
- - provide interface for crypting\decrypting
+ - Handle SSL context
+ - Provide interface for encrypting\decrypting
  - Be able to perform a handshake
 
-#### New APIs: 
+#### New APIs:
 
 ##### connection.StartSecureSession :
 ###### Description
  Start secure session :
   1. Send StartSession with `encrypted flag = true`
-  2. perform TLS handshake 
-  3. Expect StartSessionAck 
-  
-  This is blocking call. and will block execution until session won't be established or failed.
+  2. Perform TLS handshake
+  3. Expect StartSessionAck
+
+  This is blocking call and will block execution until session won't be established or failed.
 ###### Arguments :
-  - protocol ( if missed, used one from console or ini file options)
+  - protocol (if missed, used one from console or ini file options)
 ###### Return value :
   - session object
-  
+
 ##### session.SendEncryptedRPC :
 ###### Description
  Send encrypted RPC:
   1. Encrypts payload and binary data
-  3. Send RPC to SDL
+  2. Send RPC to SDL
 ###### Arguments :
-  - function name - stringified RPC name  
+  - function name - stringified RPC name
   - arguments  - lua table with arguments of RPC (payload)
-  - file name - pth to file with binary data
+  - file name - path to file with binary data
 ###### Return value :
   - correlation id of sent request
 
@@ -94,7 +94,7 @@ Responsibility of SecurityManager :
   - data  - expected payload (decrypted)
 ###### Return value :
   - expectation
-  
+
 ##### session.ExpectEncryptedNotification :
 ###### Description
  Add expectation to encrypted notification
@@ -102,7 +102,7 @@ Responsibility of SecurityManager :
   - data - expected payload (decrypted)
 ###### Return value :
   - expectation
-  
+
 ##### session.SendPacket :
 ###### Description
 Send Raw Packet for testing wrong TLS handshake
@@ -110,10 +110,10 @@ Send Raw Packet for testing wrong TLS handshake
   - data -  bytes to send
 ###### Return value :
   N\A
-  
+
 ##### session.ExpectPacket :
 ###### Description
-Expect custom packet for checking TLS Handshake 
+Expect custom packet for checking TLS Handshake
 ###### Arguments :
   - data -  bytes that ATF expects
 ###### Return value :
@@ -121,9 +121,9 @@ Expect custom packet for checking TLS Handshake
 
 ## Potential downsides
 
-- session.ExpectPacket - very common interface it may need deep analysing of input data and reduce efficience, also allows tester to send ant data.
+- session.ExpectPacket - very common interface it may need deep analysing of input data and reduce efficience, also allows tester to send any data.
 
-- session.SendPacket - very low level interface, may require a lot of additional complicated logic of constructing bytes to send in scrypt
+- session.SendPacket - very low level interface, may require a lot of additional complicated logic of constructing bytes to send in script
 
 ## Impact on existing code
 
@@ -131,4 +131,4 @@ Should be imcacted only ATF code.
 If during implementation will be founded blocker issues in SDL, it should be fixed.
 
 ## Alternatives considered
-Using mobile application and manual testing. 
+Using mobile application and manual testing.
