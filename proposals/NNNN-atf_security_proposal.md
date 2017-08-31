@@ -10,7 +10,7 @@
 This proposal describes support of security sessions in ATF (Automated Test Framework).
 ATF should be able to test SDL security feature.
 
-Main ATF features for checking SDL security feature:
+Main ATF features for checking SDL security are:
  - Support of secure SDL sessions;
  - Support of testing broken handshake;
  - Support of sending raw data in secure channel;
@@ -19,18 +19,17 @@ Main ATF features for checking SDL security feature:
 
 ## Motivation
 
-Manual testing of security SDL feature is slow and expensive. Also there are big probability of error during manual testing.\
-Testing automatization of all SDL use cases is best option to be sure that new code does not break SDL functionality.
+Motivation of this proposal is to create ability of coverage the secure sessions. Which is the most important not covered part of SDL functionality.
 
-ATF have possibility to cover almost all SDL use cases with automatic testing. 
-The only things that are not supported by ATF:
+Manual testing of security SDL feature is slow and expensive. Also there is a big probability of error during manual testing.
+Testing automatization of all SDL use cases is the best option to be sure that new code does not break SDL functionality.
+
+ATF has possibility to cover almost all SDL use cases with automatic testing. But there is still some functionality that remains uncovered my ATF:
  - Bluetooth transport;
  - USB transport;
  - Security feature;
  - Audio\Videostreaming (partially supported).
  
-Motivation of this proposal is to create ability for coverage the secure sessions. Which is the most important not covered part of SDL functionality.
-
 ## Proposed solution
 
 Add new APIs in ATF:
@@ -45,8 +44,8 @@ Add new APIs in ATF:
 [mobile_session_impl.lua](https://github.com/smartdevicelink/sdl_atf/blob/master/modules/mobile_session_impl.lua) should be extended with secure session interfaces. 
 
 Should be added new ini file option: `SecurityProtocol`\
-Should be added new command line option: `secutity_protocol`\
-In case if this option missed, use TLS security by default.
+Should be added new command line option: `security_protocol`\
+In case if this option is missed, use TLS security by default.
 
 ### Detailed design
 
@@ -54,10 +53,10 @@ In case if this option missed, use TLS security by default.
 Will be added new component : *SecurityManager* 
 
 Responsibility of SecurityManager :
- - Manage of the digital certificates;
- - Manage of TLS or DTLS protocols; 
+ - Manage digital certificates;
+ - Manage TLS or DTLS protocols; 
  - Handle Secure Sockets Layer (SSL) context;
- - Provide interface for encrypting\decrypting;
+ - Provide interface for encryption\decryption;
  - Be able to perform a handshake.
 
 #### New APIs: 
@@ -69,7 +68,7 @@ Responsibility of SecurityManager :
   2. Perform TLS/DTLS handshake; 
   3. Expect StartSessionAck.
   
-  This is blocking call. Will block current execution until session won't be established or failed.
+  This is a blocking call. Will block current execution until session won't be established or failed.
 ###### Arguments:
   - protocol (if missed, used one from console or ini file options).
 ###### Return value:
@@ -123,7 +122,7 @@ Expect custom packet for checking TLS Handshake.
 
 ## Potential downsides
 
-- session.ExpectPacket - very common interface, it might need more deep analysis of input data. Also present possibility to reduce efficiency of whole ATF system. This interface also allows tester to check any incoming data from SDL.
+- session.ExpectPacket - very common interface, it might need more deep analysis of input data. Also present possibility to reduce efficiency of the whole ATF system. This interface also allows tester to check any incoming data from SDL.
 
 - session.SendPacket - very low level interface, it might require a lot of additional complicated logic for constructing bytes to send in script. This interface also allows tester to send any data.
 
