@@ -122,9 +122,9 @@ Expect custom packet for checking TLS Handshake.
 
 ## Potential downsides
 
-- session.ExpectPacket - very common interface, it might need more deep analysis of input data. Also present possibility to reduce efficiency of testing. This interface also allows tester to send ant??? data.
+- session.ExpectPacket - very common interface, it might need more deep analysis of input data. This interface also allows tester to check any incoming data from SDL.
 
-- session.SendPacket - very low level interface, it might require a lot of additional complicated logic for constructing bytes to send in script.
+- session.SendPacket - very low level interface, it might require a lot of additional complicated logic for constructing bytes to send in script. This interface also allows tester to send any data.
 
 ## Impact on existing code
 
