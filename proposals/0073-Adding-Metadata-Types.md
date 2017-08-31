@@ -27,12 +27,12 @@ For each text field in the HMI API, a new optional parameter "fieldType" can be 
   <param name="fieldText" type="String" maxlength="500" mandatory="true">
     <description>The  text itself.</description>
   </param>
-  <param name="fieldType" type="Common.TextFieldType" minsize="0" maxsize="5" array="true" mandatory="false">
+  <param name="fieldType" type="Common.MetadataType" minsize="0" maxsize="5" array="true" mandatory="false">
     <description>The type of data contained in the field.</description>
   </param>
 </struct>
 
-<enum name="TextFieldType">
+<enum name="MetadataType">
   <element name="mediaTitle">
     <description>The data in this field contains the title of the currently playing audio track.</description>
   </element>
