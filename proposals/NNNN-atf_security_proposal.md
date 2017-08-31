@@ -100,6 +100,7 @@ Responsibility of SecurityManager :
 ###### Description
  Add expectation to encrypted notification.
 ###### Arguments:
+  - function_name - expected notificaiton name
   - data - expected payload (decrypted).
 ###### Return value:
   - expectation.
