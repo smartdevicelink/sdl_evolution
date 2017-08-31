@@ -69,9 +69,6 @@ For each text field in the HMI API, a new optional parameter "fieldType" can be 
   <element name="humidity">
     <description>The data in this field describes the current humidity value.</description>
   </element>
-  <element name="none">
-    <description>The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameter it is considered as the none type.</description>
-  </element>
 </enum>
 ```
 
@@ -248,9 +245,6 @@ As discussed in the workshop, a few viable alternatives exist:
   </element>
   <element name="statusBar">
     <description>The data in this field contains the text to be displayed in the Status Bar.</description>
-  </element>
-  <element name="none">
-    <description>The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameter it is considered as the none type.</description>
   </element>
 </enum>
 ```
