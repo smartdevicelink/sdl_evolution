@@ -1,9 +1,9 @@
-# Sequentially Send Multiple RPCs - iOS
+# Sequentially Send Multiple RPCs
 
 * Proposal: [SDL-0087](0087-send-multiple-rpcs-ios.md)
-* Author: [Joel Fischer](https://github.com/joeljfischer)
+* Author: [Joel Fischer](https://github.com/joeljfischer),[Joey Grover](https://github.com/joeygrover) 
 * Status: **Accepted with Revisions**
-* Impacted Platforms: iOS
+* Impacted Platforms: [iOS, Android]
 
 ## Introduction
 
@@ -14,6 +14,8 @@ This proposes to add an API allowing the developer to sequentially send multiple
 There are times that the developer may not care about the results of individual RPC sends, and / or may need to send a number of RPCs and cares when the whole lot have completed sending. This is currently frustrating and difficult as all the RPCs must be sent individually, and there is no API for knowing when all have completed.
 
 ## Proposed solution
+
+### iOS
 
 The solution is to add a few new methods to `SDLManager`:
 
@@ -54,6 +56,63 @@ typedef BOOL (^SDLMultipleRequestProgressHandler)(__kindof SDLRPCRequest *reques
  */
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler NS_SWIFT_NAME(sendSequential(requests:progressHandler:completionHandler:));
 ```
+### Android
+
+For Android it would be added the `SDLProxyBase`. As we are potentially moving away from the proxy implementation and towards a higher level API similar to iOS this would best implemented as an interface that could be reused.
+
+```java
+public void sendSequentialRequests(List<RPCMessage> rpcs, OnMultipleRPCListener listener );
+		
+public void sendRequests(List<RPCMessage> rpcs,OnMultipleRPCListener listener);
+
+```
+
+We would also have to add a new RPC listener that would give progression of the RPCs
+
+```java
+public abstract class OnMultipleRequestListener extends OnRPCResponseListener {
+
+    Vector<Integer> correlationIds;
+    OnRPCResponseListener rpcResponseListener;
+
+    public OnMultipleRequestListener(){
+        setListenerType(UPDATE_LISTENER_TYPE_MULTIPLE_REQUESTS);
+        correlationIds = new Vector<>();
+        rpcResponseListener = new OnRPCResponseListener() {
+            @Override
+            public void onResponse(int correlationId, RPCResponse response) {
+                correlationIds.remove(correlationId);
+                if(correlationIds.size()>0){
+                    onUpdate(correlationIds.size());
+                }else{
+                    onFinished();
+                }
+            }
+        };
+    }
+    public void setCorrelationIds(Vector<Integer> correlationIds){
+        this.correlationIds = correlationIds;
+    }
+    
+    public void addCorrelationId(int correlationid){
+        if(correlationIds == null){
+            correlationIds = new Vector<>();
+        }
+        correlationIds.add(correlationid);
+    }
+    /**
+     * onUpdate is called during multiple stream request
+     * @param remainingRequests of the original request
+     */
+    public abstract void onUpdate(int remainingRequests);
+    public abstract void onFinished();
+
+    public OnRPCResponseListener getSingleRpcResponseListener(){
+        return rpcResponseListener;
+    }
+}
+
+```
 
 ### Internals
 
@@ -70,3 +129,6 @@ This is a purely additive change and will have no impact on existing developers.
 ## Alternatives considered
 
 There are no alternatives to this approach. There could be suggestions for changes to the API, which I would welcome debate on if needed.
+
+## Revisions
+- Added Android implementations
