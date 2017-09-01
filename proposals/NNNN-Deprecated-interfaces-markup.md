@@ -2,7 +2,7 @@
 
 * Proposal: [SDL NNN](NNNN-NNNN-Deprecated-interfaces-markup.md)
 * Author: Alexander Kutsan
-* Status: **Waiting for review**
+* Status: **Awaiting review**
 * Impacted Platforms: Core
 
 ## Introduction
