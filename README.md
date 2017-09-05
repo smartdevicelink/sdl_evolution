@@ -106,7 +106,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 ---
 
 #### iOS SDK: 4.7.0
-**Expected Release Date**: August 31, 2017
+**Release Date**: August 31, 2017
 
 **Contents**: Bug fixes and new features included on the [iOS 4.7.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/5).
 
@@ -144,6 +144,13 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Expected Release Date**: October 30, 2017
 
 **Contents**: Include enhancements and update to the latest version of Core and the Generic HMI.
+
+---
+
+#### iOS SDK: 5.0.0
+**Expected Release Date**: November 30, 2017
+
+**Contents**: Bug fixes and new features included on the [iOS 5.0.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/2).
 
 
 
