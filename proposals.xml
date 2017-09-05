@@ -94,7 +94,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0084" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Progress Bar Seek Feature" filename="0084-Progress-Bar-Seek-Feature.md"/>
 <proposal id="0085" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SubMenu icon" filename="0085-submenu-icon.md"/>
 <proposal id="0086" status="accepted" primary-platform="android" sdl-version="x.x" name="Auto Set Correlation ID" filename="0086-auto_set_correlation_ids_android.md"/>
-<proposal id="0087" status="accepted" primary-platform="ios" sdl-version="x.x" name="Sequentially Send Multiple RPCs - iOS" filename="0087-send-multiple-rpcs-ios.md"/>
+<proposal id="0087" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Sequentially Send Multiple RPCs - iOS" filename="0087-send-multiple-rpcs-ios.md"/>
 <proposal id="0088" status="accepted" primary-platform="ios" sdl-version="x.x" name="iOS System Capability Manager" filename="0088-ios-system-capability-manager.md"/>
 <proposal id="0089" status="active" primary-platform="rpc" sdl-version="x.x" name="Mobile API versioning" filename="0089-mobile-api-versioning.md"/>
 <proposal id="0090" status="active" primary-platform="ios" sdl-version="x.x" name="SDLHapticHitTester Protocol" filename="0090-SDLHapticHitTesterProtocol.md"/>
