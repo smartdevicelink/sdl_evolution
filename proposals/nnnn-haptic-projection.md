@@ -14,12 +14,12 @@ located. This will allow projection apps to either automatically or manually set
 ## Motivation
 
 App developers must manually call the SendHapticData RPC. The automatic haptic data calculation 
-will insure more apps will support haptic touches. Manual haptic data allows OpenGL projection to
+will ensure more apps will support haptic touches. Manual haptic data allows OpenGL projection to
  set their data properly.
  
 ## Proposed solution
 
-Enhance the `VirtualDisplayEncoder.SdlPresentation` class to traverse it's view hierarchy looking
+Enhance the `VirtualDisplayEncoder.SdlPresentation` class to traverse its view hierarchy looking
  if each view `View#isFocusable()`.
 
 Examples of required changes:
@@ -106,8 +106,7 @@ class VirtualDisplayEncoder {
 1. This does not monitor changes in the view hierarchy (i.e. adding/removing a view, visibility 
 changes nor enable/disable). Any runtime changes will need to be manually calculated by the 
 developer or `SdlPresentation#refreshHapticData()` will need to be invoked again.
-2. This does not take into consideration layout overrides described [here](https://developer
-.android.com/reference/android/view/View.html#FocusHandling).
+2. This does not take into consideration layout overrides described [here](https://developer.android.com/reference/android/view/View.html#FocusHandling).
 3. How do apps with focusable ViewGroups handle having focusable views inside them?
 
 ## Impact on existing code
