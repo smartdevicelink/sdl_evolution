@@ -12,7 +12,7 @@ Sometimes some features use interfaces that are planned to be removed.
 ## Motivation
 Marking method as deprecated should trigger a compile time warning, but should not block project assemble.
 Reverse feature support plugins that can be created by 3rd party developers.
-Each public method should work to handle backward capabilities with other developers plugins code.
+Each public method should work to handle backward compatibility of 3rd party developers code with newer versions of SDL. 
 Also some classes can be deprecated and creating instances of these classes should cause compile time warnings.
 
 ## Proposed Solution
@@ -128,5 +128,5 @@ public:
 - Some existing SDL core methods should be marked as deprecated. If methods used in code it will cause compile time warnings.
 
 ## Alternatives
-As alternative it is possible to remove deprecated methods, but it will break backward compatibility. 
+As alternative it is possible to remove deprecated methods, but it will break backward compatibility of 3rd party developers code with newer versions of SDL.
 of 3rd party developers code with newer versions of SDL.
