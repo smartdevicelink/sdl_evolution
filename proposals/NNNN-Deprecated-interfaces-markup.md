@@ -121,7 +121,7 @@ public:
 };
 ```
 
-![Doxygen result](/assets/proposals/deprecated_doxygen_example.png)                                                                                                                                                                                                                                                    
+![Doxygen result](/assets/proposals/nnnn-deprecated-interfaces-markup/deprecated_doxygen_example.png)                                                                                                                                                                                                                                                    
 
 ## Impact on existing code
 - No changes in behaviour should be introduced. 
