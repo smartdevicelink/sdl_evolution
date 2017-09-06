@@ -1,8 +1,8 @@
 # Mark public deprecated methods
 
-* Proposal: [SDL NNN](NNNN-NNNN-Deprecated-interfaces-markup.md)
+* Proposal: [SDL 0092](0092-Deprecated-interfaces-markup.md)
 * Author: Alexander Kutsan
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: Core
 
 ## Introduction
