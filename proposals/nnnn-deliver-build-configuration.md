@@ -7,11 +7,11 @@
 
 ## Introduction
 
-Adding text file with information of build configuration as part of sdl delivery. 
+Add text file with information about SDL build configuration as part of SDL delivery. 
 
 ## Motivation
 
-After instalation of sdl `make install` there are couple of files except sdl binary :
+After installation of SDL (`make install`) there are couple of files besides SDL binary:
 
 - audio.8bit.wav         
 - libPolicy.so        
@@ -29,29 +29,29 @@ After instalation of sdl `make install` there are couple of files except sdl bin
 - smartDeviceLinkCore       
 
 
-Only this files(expect 3rd party libraries) required for sdl testing.
-But there is not information about flags that used for sdl compiling. 
+Only these files (expect 3rd party libraries) are required for SDL testing.
+But there is no information about flags that were used for SDL compiling. 
 And there is no way to find out it only from delivery files.
 
-Because of that automated scripts should be manualy configured for each build type of SDL.
-Adding information about build option will add possibility to find out what SDL build type is using
+Because of that automated scripts should be manually configured for each build type of SDL.
+Adding information about build options will add possibility to find out what SDL build type is used
 and autimaticaly modify some test steps during script execution. 
 
-SDL Build flags that affect sdl behaviour :
- - EXTENDED_POLICY (Regulates policy flow)
- - REMOTE_CONTROLL (switch on or switch of remote controll functionality)
- - BUILD_BT_SUPPORT (build SDL with Bluetooth support)
- - BUILD_USB_SUPPORT (build SDL with USB support)
- - ENABLE_SECURITY (build SDL with security  support)
- - EXTENDED_MEDIA_MODE (build SDL with additional media features)
- - TELEMETRY_MONITOR (share informatin about cpu/mem usage and time consuptions for RPC processing) 
- - HMI (hmi type, used : Dbus or web HMI)
+SDL build flags that affect SDL behaviour :
+ - EXTENDED_POLICY (regulates policy flow)
+ - REMOTE_CONTROLL (switch on/off remote control functionality)
+ - BUILD_BT_SUPPORT (switch on/off Bluetooth support)
+ - BUILD_USB_SUPPORT (switch on/off USB support)
+ - ENABLE_SECURITY (switch on/off security support)
+ - EXTENDED_MEDIA_MODE (switch on/off additional media features)
+ - TELEMETRY_MONITOR (share information about CPU/MEM usage and time consuptions for RPC processing) 
+ - HMI (used hmi type: Dbus or web HMI)
  
-Some of this flags not supported, but exist, may be regulated and affect sdl behaviour. 
+Some of this flags are not supported, but exist, and may affect SDL behavior. 
 
 
 ## Proposed solution
-Solution is to create text file `build_options.txt` in format :
+Solution is to create text file `build_options.txt` in format:
 
 ```ini
  // description of build option
@@ -64,14 +64,13 @@ Solution is to create text file `build_options.txt` in format :
 Syntax is the same as in CMakeCache.txt. 
 
 
-
 ## Potential downsides
 
 N/A
 
 ## Impact on existing code
 
-It should impact only configuration files, no behaviour and no code should be changed. 
+It should impact only configuration files, no SDL behavior and no SDL code should be changed. 
 
 ## Alternatives considered
 
