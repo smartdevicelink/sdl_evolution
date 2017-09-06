@@ -1,9 +1,9 @@
 # SDL Policy Server Enhancements - UI Framework
 
-* Proposal: [SDL-NNNN](NNNN-sdl-policy-server-ui.md)
+* Proposal: [SDL-0094](0094-sdl-policy-server-ui.md)
 * Author: [Christopher Rokita](https://github.com/crokita), and [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
-* Impacted Platforms: [Web /Policy Server]
+* Status: **In Review**
+* Impacted Platforms: [Policy Server]
 
 ## Introduction
 
