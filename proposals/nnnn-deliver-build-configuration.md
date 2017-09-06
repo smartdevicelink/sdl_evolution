@@ -1,6 +1,6 @@
-# Save build configuration
+# Deliver build configuration
 
-* Proposal: [SDL-NNNN](nnnn-save-build-configuration.md)
+* Proposal: [SDL-NNNN](nnnn-deliver-build-configuration.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core]
