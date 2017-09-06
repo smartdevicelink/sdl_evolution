@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0090](0090-SDLHapticHitTesterProtocol.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS]
 
 ## Introduction
