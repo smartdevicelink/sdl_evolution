@@ -17,7 +17,7 @@ This change introduces a better user experience as follows:
 
 ## Motivation
 
-Currently, only one AOA app can connect to SDL core because of AOA limitation. However, a few navigation apps will be released. And, video projection functionality will be opened for not only navigation but also other category apps. And apps which is not required projection but required wide band-width and stable transport, may be came. This proposal is for supporting and realizing these requirements.
+Currently, only one AOA app can connect to SDL core because of AOA limitation. However, a few navigation apps will be released. And, video projection functionality will be opened for not only navigation but also other category apps. And not projection but using wide band-width and stable transport apps (ex. using high quality audio streaming or pass thru), may be considered in the future. This proposal is for supporting and realizing these requirements.
  
 ## Proposed solution
 
@@ -39,7 +39,7 @@ This is also same architecture to BT/SPP multiplexing.
 ## Potential downsides
 
 Backward compatibility:  
-There is no change in SDL core. So that, new App linked SDL proxy which is modified as this proposal, can connect to old HU, too.
+There is no change in SDL core. So that, new App with new AOA-mutilplexing-SDL-proxy can connect to old HU, too.
 However there is issue in only the case of 'old app + new app in HS, and HU AOA parameter is set as __"1.0"__'.
 
 UX will be as follows:  
