@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0086](0086-auto_set_correlation_ids_android.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Android]
 
 ## Introduction

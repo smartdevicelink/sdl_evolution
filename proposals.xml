@@ -68,7 +68,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0058" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Add video streaming capabilities" filename="0058-video-streaming-capabilities.md"/>
 <proposal id="0059" status="implemented" primary-platform="android" sdl-version="4.4" name="Android RPC Refactor" filename="0059-android_rpc_refactor.md"/>
 <proposal id="0060" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Support Indian English and Thai" filename="0060-support-indian-english-thai.md"/>
-<proposal id="0061" status="active" primary-platform="core" sdl-version="x.x" name="Locale support" filename="0061-locale-support.md"/>
+<proposal id="0061" status="deferred" primary-platform="core" sdl-version="x.x" name="Locale support" filename="0061-locale-support.md"/>
 <proposal id="0062" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template images" filename="0062-template-images.md"/>
 <proposal id="0063" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Display name parameter" filename="0063-display-name-parameter.md"/>
 <proposal id="0064" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Choice-VR optional" filename="0064-choice-vr-optional.md"/>
@@ -92,11 +92,18 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0082" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - EngineOilLife" filename="0082-New-vehicle-data-EngineOilLife.md"/>
 <proposal id="0083" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Expandable Design for Proprietary Data Exchange" filename="0083-Expandable-design-for-proprietary-data-exchange.md"/>
 <proposal id="0084" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Progress Bar Seek Feature" filename="0084-Progress-Bar-Seek-Feature.md"/>
-<proposal id="0085" status="active" primary-platform="rpc" sdl-version="x.x" name="SubMenu icon" filename="0085-submenu-icon.md"/>
-<proposal id="0086" status="active" primary-platform="android" sdl-version="x.x" name="Auto Set Correlation ID" filename="0086-auto_set_correlation_ids_android.md"/>
-<proposal id="0087" status="active" primary-platform="ios" sdl-version="x.x" name="Sequentially Send Multiple RPCs - iOS" filename="0087-send-multiple-rpcs-ios.md"/>
-<proposal id="0088" status="active" primary-platform="ios" sdl-version="x.x" name="iOS System Capability Manager" filename="0088-ios-system-capability-manager.md"/>
+<proposal id="0085" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SubMenu icon" filename="0085-submenu-icon.md"/>
+<proposal id="0086" status="accepted" primary-platform="android" sdl-version="x.x" name="Auto Set Correlation ID" filename="0086-auto_set_correlation_ids_android.md"/>
+<proposal id="0087" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Sequentially Send Multiple RPCs - iOS" filename="0087-send-multiple-rpcs-ios.md"/>
+<proposal id="0088" status="accepted" primary-platform="ios" sdl-version="x.x" name="iOS System Capability Manager" filename="0088-ios-system-capability-manager.md"/>
+<proposal id="0089" status="returned" primary-platform="rpc" sdl-version="x.x" name="Mobile API versioning" filename="0089-mobile-api-versioning.md"/>
+<proposal id="0090" status="accepted" primary-platform="ios" sdl-version="x.x" name="SDLHapticHitTester Protocol" filename="0090-SDLHapticHitTesterProtocol.md"/>
+<proposal id="0091" status="active" primary-platform="ios" sdl-version="x.x" name="SDLCarWindow Video Projection Developer Interface" filename="0091-SDLScreen-SDLWindow-Projection.md"/>
+<proposal id="0092" status="active" primary-platform="core" sdl-version="x.x" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
+<proposal id="0093" status="active" primary-platform="android" sdl-version="x.x" name="Haptic Projection" filename="0093-haptic-projection.md"/>
+<proposal id="0094" status="active" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
 	
+
 
 	
 <!--

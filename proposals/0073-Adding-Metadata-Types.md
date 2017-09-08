@@ -27,12 +27,12 @@ For each text field in the HMI API, a new optional parameter "fieldType" can be 
   <param name="fieldText" type="String" maxlength="500" mandatory="true">
     <description>The  text itself.</description>
   </param>
-  <param name="fieldType" type="Common.TextFieldType" minsize="0" maxsize="5" array="true" mandatory="false">
+  <param name="fieldType" type="Common.MetadataType" minsize="0" maxsize="5" array="true" mandatory="false">
     <description>The type of data contained in the field.</description>
   </param>
 </struct>
 
-<enum name="TextFieldType">
+<enum name="MetadataType">
   <element name="mediaTitle">
     <description>The data in this field contains the title of the currently playing audio track.</description>
   </element>
@@ -68,9 +68,6 @@ For each text field in the HMI API, a new optional parameter "fieldType" can be 
   </element>
   <element name="humidity">
     <description>The data in this field describes the current humidity value.</description>
-  </element>
-  <element name="none">
-    <description>The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameter it is considered as the none type.</description>
   </element>
 </enum>
 ```
@@ -248,9 +245,6 @@ As discussed in the workshop, a few viable alternatives exist:
   </element>
   <element name="statusBar">
     <description>The data in this field contains the text to be displayed in the Status Bar.</description>
-  </element>
-  <element name="none">
-    <description>The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameter it is considered as the none type.</description>
   </element>
 </enum>
 ```
