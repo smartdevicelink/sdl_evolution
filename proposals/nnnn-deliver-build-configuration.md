@@ -29,22 +29,22 @@ After installation of SDL (`make install`) there are couple of files besides SDL
 - smartDeviceLinkCore       
 
 
-Only these files (expect 3rd party libraries) are required for SDL testing.
+Only these files (except 3rd party libraries) are required for SDL testing.
 But there is no information about flags that were used for SDL compiling. 
-And there is no way to find out it only from delivery files.
+And there is no way to find out it only from delivered files.
 
-Because of that automated scripts should be manually configured for each build type of SDL.
+Because of that automated scripts should be manually configured for each build options of SDL.
 Adding information about build options will add possibility to find out what SDL build type is used
-and autimaticaly modify some test steps during script execution. 
+and automatically modify some test steps during script execution. 
 
 SDL build flags that affect SDL behaviour :
  - EXTENDED_POLICY (regulates policy flow)
- - REMOTE_CONTROLL (switch on/off remote control functionality)
+ - REMOTE_CONTROL (switch on/off remote control functionality)
  - BUILD_BT_SUPPORT (switch on/off Bluetooth support)
  - BUILD_USB_SUPPORT (switch on/off USB support)
  - ENABLE_SECURITY (switch on/off security support)
  - EXTENDED_MEDIA_MODE (switch on/off additional media features)
- - TELEMETRY_MONITOR (share information about CPU/MEM usage and time consuptions for RPC processing) 
+ - TELEMETRY_MONITOR (share information about CPU/MEM usage and time consumptions for RPC processing) 
  - HMI (used hmi type: Dbus or web HMI)
  
 Some of this flags are not supported, but exist, and may affect SDL behavior. 
