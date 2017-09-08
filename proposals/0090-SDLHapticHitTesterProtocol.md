@@ -25,7 +25,7 @@ Below is an example of how this could be integrated into the current proxy:
 
 @protocol SDLHapticHitTester <NSObject>
 
-- (nullable UIView *)viewForSDLTouch:(SDLTouch *_Nonnull)touch;
+- (nullable UIView *)viewForTouch:(SDLTouch *_Nonnull)touch;
 
 @end
 ```
@@ -46,7 +46,7 @@ Additional function added to SDLInterfaceManager
 ```objc
 #pragma mark SDLHapticHitTester functions
 
-- (UIView *)viewForSDLTouch:(SDLTouch *)touch {
+- (UIView *)viewForTouch:(SDLTouch *)touch {
     
     UIView *selectedView = nil;
     
@@ -74,6 +74,28 @@ Additional function added to SDLInterfaceManager
 }
 ```
 
+The following changes could then be made to the SDLTouchManagerDelegate to expose the view, if available, to the app implementation.
+
+```objc
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol SDLTouchManagerDelegate <NSObject>
+
+@optional
+- (void)touchManager:(SDLTouchManager *)manager didReceiveSingleTapForView:(_Nullable UIView *)view atPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager didReceiveDoubleTapForView:(_Nullable UIView *)view atPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager panningDidStartInView:(_Nullable UIView *)view atPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager didReceivePanningFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint;
+- (void)touchManager:(SDLTouchManager *)manager panningDidEndInView:(_Nullable UIView *)view atPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager pinchDidStartInView:(_Nullable UIView *)view atCenterPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager didReceivePinchInView:(_Nullable UIView *)view atCenterPoint:(CGPoint)point withScale:(CGFloat)scale;
+- (void)touchManager:(SDLTouchManager *)manager pinchDidEndInView:(_Nullable UIView *)view atCenterPoint:(CGPoint)point;
+
+@end
+
+NS_ASSUME_NONNULL_END
+```
+
 ## Potential downsides
 
 1. Apps that do not utilize the SDL Haptic Interface Manager will see no benefit from this change
@@ -82,9 +104,6 @@ Additional function added to SDLInterfaceManager
 ## Impact on existing code
 
 - Impact to existing code is minimal. This is a new functionality, and in practice would most likely reside in the upcoming SDL Haptic Interface Manager.
-
-## Out of Scope
-How apps would receive the selected view data. Most likely the touch manager would query this protocol for a selected view before sending the SDLTouch to the app through current means. 
 
 ## Alternatives considered
 
