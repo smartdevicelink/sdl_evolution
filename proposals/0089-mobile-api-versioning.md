@@ -34,24 +34,24 @@ Example for the mobile API 4.5.0 which supports SDL starting from 1.0
 <interface name="Ford Sync RAPI" version="4.5.0" minVersion="1.0" ...>
 ```
 
-#### Attribute `added`
+#### Attribute `since`
 
-The attribute `added` should be used for any element (`enum`, `element`, `function`, `struct`, `param`) in the mobile API whenever an element is added to the API.
+The attribute `since` should be used for any element (`enum`, `element`, `function`, `struct`, `param`) in the mobile API whenever an element is added to the API. It should also be used within the `history` element to describe since what version a change is applied.
 
 Following example about video streaming capabilities which is added to 4.5.0:
 
 ```xml
 <struct name="HMICapabilities">
   :
-  <param name="videoStreaming" type="Boolean" mandatory="false" added="4.5.0" />
+  <param name="videoStreaming" type="Boolean" mandatory="false" since="4.5.0" />
 </struct>
 :
-<enum name="VideoStreamingProtocol" added="4.5.0">
+<enum name="VideoStreamingProtocol" since="4.5.0">
   :
 </enum>
 ```
 
-If an element (`enum`, `function` or `struct`) contains the `added` attribute every sub-element (`param` for `function` or `struct`, `element` for `enum`) implicitly inherits the attribute and value. Otherwise the element was added with version 1.0.
+If an element (`enum`, `function` or `struct`) contains the `since` attribute every sub-element (`param` for `function` or `struct`, `element` for `enum`) implicitly inherits the attribute and value. Otherwise the element was added with version 1.0.
 
 #### Attribute `deprecated`
 
@@ -67,7 +67,7 @@ Following example about locale support which should be deprecated in 4.5.0:
 <function name="RegisterAppInterface" ...>
   :
   <param name="languageDesired" type="Language" mandatory="true" deprecated="4.5.0" />
-  <param name="localeDesired" type="String" mandatory="true" added="4.5.0" />
+  <param name="localeDesired" type="String" mandatory="true" since="4.5.0" />
 </function
 ```
 
@@ -88,35 +88,43 @@ Following parameter can be taken as an example of a removed element:
 
 This attribute should only be used if the element can be used in an older version of SDL which is still supported. As an example if the mobile API minimum version is set to "2.0" the parameter `mediaClock` should be completely removed from the API and the proxies.
 
-### Parameter element signature
+### Attribute changes (aka parameter element signature)
 
-A `param` element and all the attributes including `name` define a parameter signature. Changes to an existing parameter would produce a new signature which replaces the old parameter. As an example changing `Choice.vrCommands` to be optional starting with version 4.5.0 would look like as followed:
+The elements `param` and `element` and all the attributes including `name` define a parameter signature. Changes to an existing parameter would produce a new signature which replaces the old parameter. The existing parameter element should be moved into a sub-element called `history` and the new parameter element should be added.
+
+Note: The `type` attribute of a `param` element should not be changed. This would always cause a breaking change and would lead to an API which is not backward compatible. Instead a new parameter should be invented which replaces the existing one. As an exception the type can be changed if the SDL libraries can safely manage different parameter types.
+
+As an example changing `Choice.vrCommands` to be optional starting with version 4.5.0 would look like as followed:
 
 ```xml
 <struct name="Choice">
-  <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" removed="4.5.0" /> <!-- implicitly mandatory -->
-  <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" mandatory="false" added="4.5.0" /> <!-- explicitly optional -->
+  <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" mandatory="false" since="4.5.0" /> <!-- explicitly optional since 4.5 -->
+  <history>
+    <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" removed="4.5.0" /> <!-- implicitly mandatory from v1.0 to v4.5-->
+  </history>
 </struct>
 ```
 
-Another example shows how play/pause should be properly defined in the mobile API (it's using a warning element; please read "Warning element" section for details):
+Another example shows how play/pause should be properly defined in the mobile API:
 
 ```xml
 <enum name="ButtonName">
-  <element name="OK" removed="4.5.0">
-    <description>
-      The button name for the Play/Pause 
-      toggle that can be used by media apps.
-    </description>
-  </element>
-  <element name="OK" added="4.5.0">
+  <element name="OK" since="4.5.0">
     <description>
       The button name for the physical OK button. 
       It is not related to the Play/Pause button. 
       Please use the physical `PLAY_PAUSE` button.
     </description>
+    <history>
+      <element name="OK" removed="4.5.0">
+        <description>
+          The button name for the Play/Pause 
+          toggle that can be used by media apps.
+        </description>
+      </element>
+    </history>
   </element>
-  <element name="PLAY_PAUSE" added="4.5.0">
+  <element name="PLAY_PAUSE" since="4.5.0">
     <description>
       The button name for the physical Play/Pause
       toggle that can be used by media apps.
@@ -128,6 +136,8 @@ Another example shows how play/pause should be properly defined in the mobile AP
   </element>
 </enum>
 ```
+
+It's using a warning element; please read "Warning element" section for details
 
 ### Warning element
 
