@@ -58,7 +58,7 @@ Connection object should provide ability to create sessions on it. Session inter
 In case if mobile device is absent, ATF should be able to test SDL via TCP connection (as it does now).
 
 High Level relationship diagram: 
-[!Hit Level relationship diagram](/assets/proposals/nnnn-ATF-Additional-Transports/atf_transport_adapter.png)
+![Hit Level relationship diagram](/assets/proposals/nnnn-ATF-Additional-Transports/atf_transport_adapter.png)
 
 ## Potential downsides
 
