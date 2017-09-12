@@ -92,7 +92,9 @@ ATF should provide folowing API for script:
 - GetArtifactoryFile : download from sdl workstation arbitary file
 - GetOnSDLStoppedEvent : return sdl stop event, may be used for expectations or delayed execution
 
-#### 
+#### Diagrams 
+![SDL watch dog and ATF communication](/assets/proposals/nnnn-Atf-Sdl-Watchdog-Service/SDL watchdog.png)
+
 ## Potential downsides
 
 Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
