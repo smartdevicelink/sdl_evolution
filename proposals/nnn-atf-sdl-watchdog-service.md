@@ -32,18 +32,19 @@ Responcibilities SDL Watchdog:
 In ATF will be created component that will communicate with SDL Watchog via API :
 
 Request name :
-  *StartSDL*
+ - **StartSDL**
+ 
 Decription : 
-  Start SDL instance
+ - Start SDL instance
 Options:
  - SDL build configuration
  - configuraiton files (preloaded_pt, ini, etc ...)
- Return value : 
-   - Ip adress and port of mobile connection
-   - Ip adress and port of HMI connection
-   - Ip adress and port of logs accessing
-   - Ip adress and port of SDL telemetry information   
-   - Some transport specific connection information (BT or USB ...) 
+Return value : 
+ - Ip adress and port of mobile connection
+ - Ip adress and port of HMI connection
+ - Ip adress and port of logs accessing
+ - Ip adress and port of SDL telemetry information   
+ - Some transport specific connection information (BT or USB ...) 
 
 ## Potential downsides
 
