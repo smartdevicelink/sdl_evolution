@@ -1,4 +1,3 @@
-```
 # Tire pressure additions
 
 * Proposal: [SDL-NNNN](NNNN-tire-pressure-additions.md)
@@ -8,15 +7,15 @@
 
 ## Introduction
 
-The proposal is about extending the existing tire pressure API by providing the actual pressure value and the TPMS status of an actual tire.
+The proposal is about extending the existing tire pressure API by providing the actual pressure value and the TPMS status of all mounted tires.
 
 ## Motivation
 
-The public API does not provide a sufficient information about the tire status and pressure. Apps that evaluate vehile information want to use the tire status from TPMS and the actual pressure. 
+The public API does not provide a sufficient information about the tire status and pressure. Apps that evaluate vehicle information want to use the tire status from TPMS and the actual pressure. 
 
 ## Proposed solution
 
-The proposed solution is to simply extend `SingleTireStatus`
+The proposed solution is to extend `SingleTireStatus` to provide these information and add a new enum to provide TPMS data.
 
 ```xml
 <enum name="TPMS">
@@ -63,7 +62,7 @@ The proposed solution is to simply extend `SingleTireStatus`
 
 ## Potential downsides
 
-As the proposal is only adding additional parameters inside the `tirePressure` vehicle data there's no potential downside identified.
+As the proposal is only adding additional parameters within `tirePressure` there's no potential downside identified.
 
 ## Impact on existing code
 
