@@ -34,7 +34,7 @@ Main reasons :
 
 Use real mobile device as transport adapter.
 Create Mobile application as part of ATF infrastructure. 
-Mobile application may use [sdl android liibrary](https://github.com/smartdevicelink/sdl_android)
+Mobile application may use [sdl android library](https://github.com/smartdevicelink/sdl_android)
 for communicating with SDL and TCP connection for communication with ATF.
 
 Mobile application(Mobile transport adapter) should provide ATF side such RPCs:
@@ -63,13 +63,13 @@ High Level relationship diagram:
 ## Potential downsides
 
 This solution is not scalable. 
-To run multiple scripts that test transport simultaneously required adding physical  mobile device. 
+To run multiple scripts that test transport simultaneously required adding physical mobile device. 
 
 ## Impact on existing code
 
 Impact on ATF internal structure.
-May impact some scripts that test multiple connection.
-Also if this solution will use sdl_android, some changes may required in sdl_android. 
+May impact some scripts that test multiple connections.
+Also if this solution uses sdl_android, some changes may be required in sdl_android. 
 
 ## Alternatives considered
 
@@ -79,11 +79,11 @@ Also if this solution will use sdl_android, some changes may required in sdl_and
  so porting SDL on customer hardware requires rewriting transport adapters from scratch.
  And any transport testing that is done on Ubuntu Linux x86 becomes not actual.
  But missing automatic transport testing make not possible to test business logic that is related to transport switch. 
- And this approach provide possibility event testing SDL on custom transports.
+ And this approach provide possibility of SDL testing on custom transports.
  
  #### Emulate transports
  
- Emulating USB\Bluetooth transports is probably possible, but it requires some research and development and PoC project. 
+ Emulating USB/Bluetooth transports is probably possible, but it requires some research and development and also PoC project. 
  Also emulating transport won't allow performing automatic testing of SDL on custom head nits,
  so any testing that will be done on Ubuntu Linux x86 becomes not actual. 
  
