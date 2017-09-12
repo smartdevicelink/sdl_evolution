@@ -25,29 +25,74 @@ Responcibilities SDL Watchdog:
  - Run SDL with custom configuration and resource files
  - Run multiple instances of SDL sumutaniously.
  - Kill certain SDL process
- - Monitor S DL lifecycle
+ - Monitor SDL lifecycle
  - Catch SDL crash and provide core file
  - Provide SDL logs
  
-In ATF will be created component that will communicate with SDL Watchog via API :
+SDL Watchdog should provide API
 
+#### SDL Watchdog API :
 
 **StartSDL**
 ``` 
 Decription : 
  - Start SDL instance
-
 Options:
  - SDL build configuration
  - configuraiton files (preloaded_pt, ini, etc ...)
-
 Return value : 
+ - ID of SDL process
  - Ip adress and port of mobile connection
  - Ip adress and port of HMI connection
  - Ip adress and port of logs accessing
  - Ip adress and port of SDL telemetry information   
  - Some transport specific connection information (BT or USB ...) 
 ```
+
+**StopSDL**
+``` 
+Decription : 
+ - Kill SDL Process
+Options:
+ - ID of SDL process
+Return value : 
+ - Result code
+```
+
+**GetSDLArtifact**
+``` 
+Decription : 
+ - Download some artifact file from some SDL process  
+Options:
+ - ID of SDL process (may be already not active)
+ - Path to file
+Return value : 
+ - file to download
+```
+
+**OnSDLStopped**
+``` 
+Decription : 
+ - Callback service send if SDL is stopped
+Options:
+ - ID of SDL process
+ - Stop reason (Crash, regular shutdown, kill ...) 
+ - Payload (core file in case if sdl was crashed) 
+```
+
+#### ATF internal implementation.
+
+On ATF silde should be created SDL component that is able to communicate with SDL Watchdog via API.
+Also on ATF side SDL component should be able to fetsh SDL logs by telnet, monitor SDL core crash and download stacktrace.
+
+ATF should provide folowing API for script:
+
+- StartSDL : start sdl with custom configuration
+- StopSDL : stop sdl by identifier
+- GetArtifactoryFile : download from sdl workstation arbitary file
+- GetOnSDLStoppedEvent : return sdl stop event, may be used for expectations or delayed execution
+
+#### 
 ## Potential downsides
 
 Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
