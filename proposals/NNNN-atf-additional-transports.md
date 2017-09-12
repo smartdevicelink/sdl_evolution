@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-atf-additional-transports.md)
 * Author: [SDL Developer](https://github.com/smartdevicelink)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Web / RPC / Protocol]
+* Impacted Platforms: [ATF, SPT]
 
 ## Introduction
 
@@ -68,7 +68,8 @@ To run multiple scripts that test transport simultaneously required adding physi
 ## Impact on existing code
 
 Impact on ATF internal structure.
-May impact some scripts that test multiple connection.  
+May impact some scripts that test multiple connection.
+Also if this solution will use sdl_android, some changes may required in sdl_android. 
 
 ## Alternatives considered
 
