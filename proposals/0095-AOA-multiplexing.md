@@ -1,8 +1,8 @@
 # AOA multiplexing similar to Android BT/SPP multiplexing
 
-* Proposal: [SDL-NNNN](NNNN-AOA-multiplexing.md)
+* Proposal: [SDL-0095](0095-AOA-multiplexing.md)
 * Author: [Jennifer Hodges](https://github.com/jhodges55)
-* Status: Awaiting review
+* Status: **In Review**
 * Impacted Platforms: [ Android ]
 
 
