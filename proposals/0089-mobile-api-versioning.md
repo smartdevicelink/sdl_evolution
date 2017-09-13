@@ -2,7 +2,7 @@
 
 * Proposal: [SDL 0089](0089-mobile-api-versioning.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [ RPC ]
 
 ## Introduction
