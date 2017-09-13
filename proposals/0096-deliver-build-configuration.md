@@ -1,8 +1,8 @@
 # Deliver build configuration
 
-* Proposal: [SDL-NNNN](nnnn-deliver-build-configuration.md)
+* Proposal: [SDL-0096](0096-deliver-build-configuration.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
+* Status: **In review**
 * Impacted Platforms: [Core]
 
 ## Introduction
