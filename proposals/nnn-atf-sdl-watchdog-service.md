@@ -7,21 +7,21 @@
 
 ## Introduction
 Create service that is responsible for running and monitoring multiple SDL processes and handling SDL configurations.
-Service will provide API to test scripts, ans script will be able to run SDL with certain configuration. 
-Also this service should provide possibility to run multiple SDL instances(for parallel testing), monitor and control their life cycle. 
+Service will provide API to test scripts, and script will be able to run SDL with certain configuration. 
+Also this service should provide possibility to run multiple SDL instances (for parallel testing), monitor and control their life cycle. 
 
 ## Motivation
 
 Major problem if current automated testing is that it is impossible to test multiple instances of SDL simultaneously.
 Currently SDL and ATF should be separated on the same workstation, because ATF actually runs SDL via bash scripts. 
-Also ATF is not able to control SDL configuration it just use SDL that separated in predefined place. 
+Also ATF is not able to control SDL configuration, it just uses SDL that located in predefined place. 
 It will reduce a lot of testing efforts, if script will be able to get SDL with certain build flags, or certain version of SDL. 
 Also separating logic of script running and controlling of SDL will provide possibility of automated testing SDL on head unit.
 
 ## Proposed solution
 
-Creating service SDL Watchdog.
-Responsibilities SDL Watchdog:
+Create SDL Watchdog service.
+Responsibilities of SDL Watchdog:
  - Run SDL with custom configuration and resource files
  - Run multiple instances of SDL simultaneously.
  - Kill certain SDL process
@@ -31,16 +31,16 @@ Responsibilities SDL Watchdog:
  
 SDL Watchdog should provide API
 
-#### SDL Watchdog API :
+#### SDL Watchdog API
 
 **StartSDL**
 ``` 
-Description : 
+Description: 
  - Start SDL instance
 Options:
  - SDL build configuration
  - configuration files (preloaded_pt, ini, etc ...)
-Return value : 
+Return value: 
  - ID of SDL process
  - Ip address and port of mobile connection
  - Ip address and port of HMI connection
@@ -51,18 +51,18 @@ Return value :
 
 **StopSDL**
 ``` 
-Description : 
+Description: 
  - Kill SDL Process
 Options:
  - ID of SDL process
-Return value : 
+Return value: 
  - Result code
 ```
 
 **GetSDLArtifact**
 ``` 
-Description : 
- - Download some artifact file from some SDL process  
+Description: 
+ - Download particular artifact file from defined SDL process  
 Options:
  - ID of SDL process (may be already not active)
  - Path to file
@@ -77,20 +77,20 @@ Description :
 Options:
  - ID of SDL process
  - Stop reason (Crash, regular shutdown, kill ...) 
- - Payload (core file in case if sdl was crashed) 
+ - Payload (core file in case if SDL crashed) 
 ```
 
-#### ATF internal implementation.
+#### ATF internal implementation
 
 On ATF side should be created SDL component that is able to communicate with SDL Watchdog via API.
 Also on ATF side SDL component should be able to fetch SDL logs by telnet, monitor SDL core crash and download stack trace.
 
 ATF should provide following API for script:
 
-- StartSDL : start sdl with custom configuration
-- StopSDL : stop sdl by identifier
-- GetArtifactoryFile : download from sdl workstation arbitrary file
-- GetOnSDLStoppedEvent : return sdl stop event, may be used for expectations or delayed execution
+- StartSDL : start SDL with custom configuration
+- StopSDL : stop SDL by defined identifier
+- GetArtifactoryFile : download from SDL workstation arbitrary file
+- GetOnSDLStoppedEvent : return SDL stop event, may be used for expectations or delayed execution
 
 #### Diagrams 
 ![SDL watch dog and ATF communication](/assets/proposals/nnnn-Atf-Sdl-Watchdog-Service/sdl-watchdog.png)
