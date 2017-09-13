@@ -1,8 +1,8 @@
 # Tire pressure additions
 
-* Proposal: [SDL-NNNN](NNNN-tire-pressure-additions.md)
+* Proposal: [SDL-0097](0097-tire-pressure-additions.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
