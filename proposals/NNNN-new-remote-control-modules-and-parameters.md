@@ -1,4 +1,4 @@
-# New remote control modules (LIGHT, ADUIO, HMI_SETTINGS) and parameters
+# New remote control modules (LIGHT, ADUIO, HMI_SETTINGS) and parameters (SIS Data)
 
 * Proposal: [SDL-NNNN](NNNN-new-remote-control-modules-and-parameters.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
@@ -7,7 +7,7 @@
 
 ## Introduction
 
-SDL remote control provides the ability for mobile applications to control certain components of the vehicle, such as, tune the radio, set the desired temperature or change the fan speed. However, currently only "CLIMATE" and "RADIO" modules are available for remote-control. Mobile application developers need more than basic climate or radio control. To meet developers' requirements, we propose to add three new modules (AUDIO, LIGHT, HMI_SETTINGS) and some new parameters (heatedXXXEnable and radio sisData) to the existing CLIMMATE and RADIO modules respectively. This proposal only defines new data types and new parameters added to the existing data types. It does not add or change any remote control RPCs.
+SDL remote control provides the ability for mobile applications to control certain components of the vehicle, such as, tune the radio, set the desired temperature or change the fan speed. However, currently only `CLIMATE` and `RADIO` modules are available for remote-control. Mobile application developers need more than basic climate or radio control. To meet developers' requirements, we propose to add three new modules (`AUDIO`, `LIGHT`, `HMI_SETTINGS`) and some new parameters (heatedXXXEnable and radio sisData) to the existing `CLIMMATE` and `RADIO` modules respectively. This proposal only defines new data types and new parameters added to the existing data types. It does not add or change any remote control RPCs.
 
 ## Motivation
 
@@ -27,11 +27,11 @@ Mobile application developers would like to develop applications that take fully
 ## Proposed solution
 
 As usual, the remote control mobile applications use the following RPCs
-- GetSystemCapability with REMOTE_CONTROL_TYPE to read available control modules and available control items within each module;
-- GetInteriorVechileData to read the current status value of a remote-control module;
-- GetInteriorVechileData with subscribe=true/false to register/un-register a module's data change notifications;
-- SetInteriorVechileData to change the settings/status of a remote-control module;
-- OnInteriorVechileData to receive any remote-control module value change notifications;
+- `GetSystemCapability` with `SystemCapabilityType=REMOTE_CONTROL` to read available control modules and available control items within each module;
+- `GetInteriorVechileData` to read the current status value of a remote-control module;
+- `GetInteriorVechileData` with `subscribe`=true/false to register/un-register a module's data change notifications;
+- `SetInteriorVechileData` to change the settings/status of a remote-control module;
+- `OnInteriorVechileData` to receive any remote-control module value change notifications;
 
 In addition, in a GetInteriorVechileData response or OnInteriorVechileData notifications, a `moduleControlData` indicates the current value of the module status; in SetInteriorVechileData request, a `moduleControlData` indicates the required target state of the module.
 
@@ -53,9 +53,9 @@ In addition, in a GetInteriorVechileData response or OnInteriorVechileData notif
 
 Any remote control applications can read the current audio data. A RC application cannot set audio source to other applications. It can only set audio source to either itself (with target `MOBILE_APP`) or other system sources. When a mobile application sends a SetInteriorVechileData request to change the audio source from MOBILE_APP to other types of audio source without `keepContext` parameter or with `keepContext=false`, after the system successfully executes the request, the application will go to HMI level 'BACKGROUND'.
 
-We recommend that SDL does not block audio source changing requests depending on HMI level. However, we recommend that HMI disallow applications running in background change the audio source in order to (1) prevent the application from stealing the audio, and (2) reduce confusion to the driver.  This restriction means applications (media and remote control type) running in HMI level `FULL` or `LIMTED` can change the audio source. Applications in HMI level `NONE` or `BACKGROUND` are not allowed to change the audio source. Instead, if an application running in `BACKGROUND` wants to switch the audio source from others to itself, the application shall send an alert with at least "yes" and "no" soft buttons to notify the driver the intention to change the audio source, and set value STEAL_FOCUS (the system will bring the application to foreground) as the system action of the "yes" soft button , so that the driver can click the soft button to confirm the switch.
+We recommend that SDL does not block audio source changing requests depending on HMI level. However, we recommend that HMI disallow applications running in background change the audio source in order to (1) prevent the application from stealing the audio, and (2) reduce confusion to the driver.  This restriction means applications (media and remote control type) running in HMI level `FULL` or `LIMTED` can change the audio source. Applications in HMI level `NONE` or `BACKGROUND` are not allowed to change the audio source. Instead, if an application running in `BACKGROUND` wants to switch the audio source from others to itself, the application shall send an alert with at least "yes" and "no" soft buttons to notify the driver the intention to change the audio source, and set value `STEAL_FOCUS` (the system will bring the application to foreground) as the `SystemAction` of the "yes" soft button , so that the driver can click the soft button to confirm the switch.
 
-For an example, if a media and remote-control application running in `FULL` want to switch the audio source from itself to radio and tune to a specified band and frequency, it shall do two SetInteriorVechileData RPC calls. The first one has `ADUIO` as targeted module type, `RADIO_TUNNER` as the new audio source and `keepContext`=true. The second one has `RADIO` as targeted module type, and include `band`=`AM\FM\XM` and corresponding frequency parameters.
+For an example, if a media and remote-control application running in `FULL` want to switch the audio source from itself to radio and tune to a specified band and frequency, it shall do two SetInteriorVechileData RPC calls. The first one has `ADUIO` as targeted module type, `RADIO_TUNNER` as the new audio source and `keepContext`=true. The second one has `RADIO` as targeted module type, and include `band`=`AM|FM|XM` and corresponding frequency parameters.
 
 #### For "HMI Setting" remote-control mobile application will be able to READ and SET:
 | Control Item | Value Range |Type | Comments |
@@ -89,10 +89,10 @@ Like Radio Data System (RDS) is a communications protocol standard for embedding
 #### In addition to existing "CLIMATE" control items, remote-control mobile applications will be able to READ and SET :
 | Control Item | Value Range |Type | Comments |
 | ------------ |------------ | ------------ | ------------ |
-| heated windsheild | ON, OFF| Get/Set/Notification |  |
-| heated rear window | ON, OFF| Get/Set/Notification |  |
-| heated steering wheel | ON, OFF| Get/Set/Notification |  |
-| heated mirror | ON, OFF| Get/Set/Notification |  |
+| heated windsheild | true, false| Get/Set/Notification | true means ON, false means OFF |
+| heated rear window | true, false| Get/Set/Notification | true means ON, false means OFF |
+| heated steering wheel | true, false| Get/Set/Notification | true means ON, false means OFF |
+| heated mirror | true, false| Get/Set/Notification | true means ON, false means OFF |
 
 ### Mobile API XML changes
 The changes are listed below.
@@ -136,25 +136,25 @@ Add new parameters to CLIMATE.
   <struct name="ClimateControlCapabilities">
     :
     :
-    <param name="heatedSteeringWheelEnable" type="Boolean" mandatory="false">
+    <param name="heatedSteeringWheelAvailable" type="Boolean" mandatory="false">
       <description>
         Availability of the control (enable/disable) of heated Steering Wheel.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
-    <param name="heatedWindshieldEnable" type="Boolean" mandatory="false">
+    <param name="heatedWindshieldAvailable" type="Boolean" mandatory="false">
       <description>
         Availability of the control (enable/disable) of heated Windshield.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param>
-    <param name="heatedRearWindowEnable" type="Boolean" mandatory="false">
+    <param name="heatedRearWindowAvailable" type="Boolean" mandatory="false">
       <description>
         Availability of the control (enable/disable) of heated Rear Window.
         True: Available, False: Not Available, Not present: Not Available.
       </description>
     </param> 
-    <param name="heatedMirrorsEnable" type="Boolean" mandatory="false">
+    <param name="heatedMirrorsAvailable" type="Boolean" mandatory="false">
       <description>
         Availability of the control (enable/disable) of heated Mirrors.
         True: Available, False: Not Available, Not present: Not Available.
@@ -223,7 +223,7 @@ Add new a parameter to RADIO.
     <param name="stationLocation" type="GPSLocation" mandatory="false">
       <description>Provides the 3-dimensional geographic station location.</description>
     </param>
-    <param name="stationMessage" type="String" minvalue="0" maxvalue="56"  mandatory="false">
+    <param name="stationMessage" type="String" minlength="0" maxlength="56"  mandatory="false">
       <description>May be used to convey textual information of general interest to the consumer such as weather forecasts or public service announcements. Includes a high priority delivery feature to convey emergencies that may be in the listening area.</description>
     </param>
   </struct>
@@ -240,24 +240,24 @@ Add new a parameter to RADIO.
 New ADUIO data types.
 ```xml
   <struct name="AudioControlCapabilities">
-      <param name="moduleName" type="String" maxlength="100">
-        <description>
-        The short friendly name of the light control module.
-        It should not be used to identify a module by mobile application.
-        </description>
-      </param>
-      <param name="sourceAvailable" type="Boolean" mandatory="false">
-        <description>Availability of the control of audio source. </description>
-      </param>
-      <param name="volumeAvailable" type="Boolean" mandatory="false">
-        <description>Availability of the control of audio volume.</description>
-      </param>
-      <param name="equalizerAvailable" type="Boolean" mandatory="false">
-        <description>Availability of the control of Equalizer Settings.</description>
-      </param>
-      <param name="equalizerMaxChannelId" type="Integer" minvalue="1" maxvalue="100" mandatory="false">
-        <description>Must be included if equalizerAvailable=true, and assume all IDs starting from 1 to this value are valid</description>
-      </param>
+    <param name="moduleName" type="String" maxlength="100" mandatory="true">
+      <description>
+      The short friendly name of the light control module.
+      It should not be used to identify a module by mobile application.
+      </description>
+    </param>
+    <param name="sourceAvailable" type="Boolean" mandatory="false">
+      <description>Availability of the control of audio source. </description>
+    </param>
+    <param name="volumeAvailable" type="Boolean" mandatory="false">
+      <description>Availability of the control of audio volume.</description>
+    </param>
+    <param name="equalizerAvailable" type="Boolean" mandatory="false">
+      <description>Availability of the control of Equalizer Settings.</description>
+    </param>
+    <param name="equalizerMaxChannelId" type="Integer" minvalue="1" maxvalue="100" mandatory="false">
+      <description>Must be included if equalizerAvailable=true, and assume all IDs starting from 1 to this value are valid</description>
+    </param>
   </struct>
   
   <struct name="EqualizerSettings">
@@ -277,7 +277,7 @@ New ADUIO data types.
       If the value is MOBILE_APP, the system shall switch to the mobile media app that issues the setter RPC.
       </description>
     </param>
-    <param name="keepContext" type="boolean" mandatory="false">
+    <param name="keepContext" type="Boolean" mandatory="false">
       <description>
       This parameter shall not be present in any getter responses or notifications.
       This parameter is optional in a setter request. The default value is false.
@@ -296,147 +296,149 @@ New ADUIO data types.
 ```
 New LIGHT data types.
 ```xml
-    <enum name="LightName">
-      <!-- Common Single Light 0~500 -->
-      <element name="FRONT_LEFT_HIGH_BEAM" value="0"/>
-      <element name="FRONT_RIGHT_HIGH_BEAM" value="1"/>
-      <element name="FRONT_LEFT_LOW_BEAM" value="2"/>
-      <element name="FRONT_RIGHT_LOW_BEAM" value="3"/>
-      <element name="FRONT_LEFT_PARKING_LIGHT" value="4"/>
-      <element name="FRONT_RIGHT_PARKING_LIGHT" value="5"/>
-      <element name="FRONT_LEFT_FOG_LIGHT" value="6"/>
-      <element name="FRONT_RIGHT_FOG_LIGHT" value="7"/>
-      <element name="FRONT_LEFT_DAYTIME_RUNNING_LIGHT" value="8"/>
-      <element name="FRONT_RIGHT_DAYTIME_RUNNING_LIGHT" value="9"/>
-      <element name="FRONT_LEFT_TURN_LIGHT" value="10"/>
-      <element name="FRONT_RIGHT_TURN_LIGHT" value="11"/>
-      <element name="REAR_LEFT_FOG_LIGHT" value="12"/>
-      <element name="REAR_RIGHT_FOG_LIGHT" value="13"/>
-      <element name="REAR_LEFT_TAIL_LIGHT" value="14"/>
-      <element name="REAR_RIGHT_TAIL_LIGHT" value="15"/>
-      <element name="REAR_LEFT_BREAK_LIGHT" value="16"/>
-      <element name="REAR_RIGHT_BREAK_LIGHT" value="17"/>
-      <element name="REAR_LEFT_TURN_LIGHT" value="18"/>
-      <element name="REAR_RIGHT_TURN_LIGHT" value="19"/>
-      <element name="REAR_REGISTRATION_PLATE_LIGHT" value="20"/>
-      
-      <!-- Exterior Lights by common function groups 501~800 -->
-      <element name="HIGH_BEAMS" value="501"/>
-      <element name="LOW_BEAMS" value="502"/>
-      <element name="FOG_LIGHTS" value="503"/>
-      <element name="RUNNING_LIGHTS" value="504"/>
-      <element name="PARKING_LIGHTS" value="505"/>
-      <element name="BRAKE_LIGHTS" value="506"/>
-      <element name="REAR_REVERSING_LIGHTS" value="507"/>
-      <element name="SIDE_MARKER_LIGHTS" value="508"/>
-      <element name="LEFT_TRUN_LIGHTS" value="509"/>
-      <element name="RIGHT_TRUN_LIGHTS" value="510"/>
-      <element name="HAZARD_LIGHTS" value="511"/>
-      
-      <!-- Interior Lights by common function groups 801~900 -->
-      <element name="AMBIENT_LIGHTS" value="801"/>
-      <element name="OVERHEAD_LIGHTS" value="802"/>
-      <element name="READING_LIGHTS" value="803"/>
-      <element name="TRUNK_LIGHTS" value="804"/>
-      
-      <!-- Lights by location 901~1000-->
-      <element name="EXTERIOR_FRONT_LIGHTS" value="901"/>
-      <element name="EXTERIOR_REAR_LIGHTS" value="902"/>
-      <element name="EXTERIOR_LEFT_LIGHTS" value="903"/>
-      <element name="EXTERIOR_RIGHT_LIGHTS" value="902"/>
-    </enum>
+  <enum name="LightName">
+    <!-- Common Single Light 0~500 -->
+    <element name="FRONT_LEFT_HIGH_BEAM" value="0"/>
+    <element name="FRONT_RIGHT_HIGH_BEAM" value="1"/>
+    <element name="FRONT_LEFT_LOW_BEAM" value="2"/>
+    <element name="FRONT_RIGHT_LOW_BEAM" value="3"/>
+    <element name="FRONT_LEFT_PARKING_LIGHT" value="4"/>
+    <element name="FRONT_RIGHT_PARKING_LIGHT" value="5"/>
+    <element name="FRONT_LEFT_FOG_LIGHT" value="6"/>
+    <element name="FRONT_RIGHT_FOG_LIGHT" value="7"/>
+    <element name="FRONT_LEFT_DAYTIME_RUNNING_LIGHT" value="8"/>
+    <element name="FRONT_RIGHT_DAYTIME_RUNNING_LIGHT" value="9"/>
+    <element name="FRONT_LEFT_TURN_LIGHT" value="10"/>
+    <element name="FRONT_RIGHT_TURN_LIGHT" value="11"/>
+    <element name="REAR_LEFT_FOG_LIGHT" value="12"/>
+    <element name="REAR_RIGHT_FOG_LIGHT" value="13"/>
+    <element name="REAR_LEFT_TAIL_LIGHT" value="14"/>
+    <element name="REAR_RIGHT_TAIL_LIGHT" value="15"/>
+    <element name="REAR_LEFT_BREAK_LIGHT" value="16"/>
+    <element name="REAR_RIGHT_BREAK_LIGHT" value="17"/>
+    <element name="REAR_LEFT_TURN_LIGHT" value="18"/>
+    <element name="REAR_RIGHT_TURN_LIGHT" value="19"/>
+    <element name="REAR_REGISTRATION_PLATE_LIGHT" value="20"/>
     
-    <enum name="LightStatus">
-      <element name="ON"/>
-      <element name="OFF"/>
-    </enum>
+    <!-- Exterior Lights by common function groups 501~800 -->
+    <element name="HIGH_BEAMS" value="501"/>
+    <element name="LOW_BEAMS" value="502"/>
+    <element name="FOG_LIGHTS" value="503"/>
+    <element name="RUNNING_LIGHTS" value="504"/>
+    <element name="PARKING_LIGHTS" value="505"/>
+    <element name="BRAKE_LIGHTS" value="506"/>
+    <element name="REAR_REVERSING_LIGHTS" value="507"/>
+    <element name="SIDE_MARKER_LIGHTS" value="508"/>
+    <element name="LEFT_TRUN_LIGHTS" value="509"/>
+    <element name="RIGHT_TRUN_LIGHTS" value="510"/>
+    <element name="HAZARD_LIGHTS" value="511"/>
     
-    <struct name="SRGBColor">
-      <param name="red" type="Integer" minValue="0" maxValue="255"/>
-      <param name="green" type="Integer" minValue="0" maxValue="255"/>
-      <param name="blue" type="Integer" minValue="0" maxValue="255"/>
-    </struct>
-
-    <struct name="LightCapabilities">
-      <param name="name" type="LightName" mandatory="true" />
-      <param name="supportsDensity" type="Boolean" mandatory="false">
-        <description>
-          Indicates if the light's density can be set remotely (similar to a dimmer).
-        </description>
-      </param>
-      <param name="supportsSRGBColorSpace" type="Boolean" mandatory="false">
-        <description>
-          Indicates if the light's color can be set remotely by using the sRGB color space.
-        </description>
-      </param>
-    </struct>
-
-    <struct name="LightControlCapabilities">
-      <param name="moduleName" type="String" maxlength="100">
-        <description>
-        The short friendly name of the light control module.
-        It should not be used to identify a module by mobile application.
-        </description>
-      </param>
-      <param name="supportedLights" type="LightCapabilities" minsize="1" maxsize="100" array="true">
-        <description> An array of available light names that are controllable. </description>
-      </param>      
-    </struct> 
-
-    <struct name="LightState">
-      <param name="id" type="LightName">
-        <description>The name of a light or a group of lights. </description>
-      </param>
-      <param name="status" type="LightStatus" mandatory="true"/>
-      <param name="density" type="Float" minValue="0" maxValue="1" mandatory="false" />
-      <param name="sRGBColor" type="SRGBColor" mandatory="false" />      
-    </struct>
+    <!-- Interior Lights by common function groups 801~900 -->
+    <element name="AMBIENT_LIGHTS" value="801"/>
+    <element name="OVERHEAD_LIGHTS" value="802"/>
+    <element name="READING_LIGHTS" value="803"/>
+    <element name="TRUNK_LIGHTS" value="804"/>
     
-    <struct name="LightControlData">
-      <param name="lightState" type="LightState" mandatory="true" minsize="1" maxsize="100" array="true">
-        <description>An array of LightNames and their current or desired status. No change to the status of the LightNames that are not listed in the array.</description>
-      </param>
-    </struct>    
+    <!-- Lights by location 901~1000-->
+    <element name="EXTERIOR_FRONT_LIGHTS" value="901"/>
+    <element name="EXTERIOR_REAR_LIGHTS" value="902"/>
+    <element name="EXTERIOR_LEFT_LIGHTS" value="903"/>
+    <element name="EXTERIOR_RIGHT_LIGHTS" value="902"/>
+  </enum>
+  
+  <enum name="LightStatus">
+    <element name="ON"/>
+    <element name="OFF"/>
+  </enum>
+  
+  <struct name="SRGBColor">
+    <param name="red" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
+    <param name="green" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
+    <param name="blue" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
+  </struct>
+
+  <struct name="LightCapabilities">
+    <param name="name" type="LightName" mandatory="true" />
+    <!-- Assuming light ON/OFF status is always available -->
+    <param name="densityAvailable" type="Boolean" mandatory="false">
+      <description>
+        Indicates if the light's density can be set remotely (similar to a dimmer).
+      </description>
+    </param>
+    <param name="sRGBColorSpaceAvailable" type="Boolean" mandatory="false">
+      <description>
+        Indicates if the light's color can be set remotely by using the sRGB color space.
+      </description>
+    </param>
+  </struct>
+
+  <struct name="LightControlCapabilities">
+    <param name="moduleName" type="String" maxlength="100" mandatory="true">
+      <description>
+      The short friendly name of the light control module.
+      It should not be used to identify a module by mobile application.
+      </description>
+    </param>
+    <param name="supportedLights" type="LightCapabilities" minsize="1" maxsize="100" array="true" mandatory="true">
+      <description> An array of available light names that are controllable. </description>
+    </param>      
+  </struct> 
+
+  <struct name="LightState">
+    <param name="id" type="LightName" mandatory="true">
+      <description>The name of a light or a group of lights. </description>
+    </param>
+    <param name="status" type="LightStatus" mandatory="true"/>
+    <param name="density" type="Float" minvalue="0" maxvalue="1" mandatory="false" />
+    <param name="sRGBColor" type="SRGBColor" mandatory="false" />      
+  </struct>
+    
+  <struct name="LightControlData">
+    <param name="lightState" type="LightState" mandatory="true" minsize="1" maxsize="100" array="true">
+      <description>An array of LightNames and their current or desired status. No change to the status of the LightNames that are not listed in the array.</description>
+    </param>
+  </struct>    
 ```
+
 
 New HMI_SETTINGS data types.
 ```xml
-    <struct name="HMISettingsCapabilities">
-      <param name="moduleName" type="String" maxlength="100">
-        <description>
-        The short friendly name of the hmi setting module.
-        It should not be used to identify a module by mobile application.
-        </description>
-      </param>
-      <param name="distanceUnitAvailable" type="Boolean" mandatory="false">
-        <description>Availability of the control of distance unit. </description>
-      </param>      
-      <param name="temperatureUnitAvailable" type="Boolean" mandatory="false">
-        <description>Availability of the control of temperature unit. </description>
-      </param> 
-      <param name="displayModeUnitAvailable" type="Boolean" mandatory="false">
-        <description>Availability of the control of HMI display mode. </description>
-      </param>      
-    </struct> 
-    
-    <enum name="DisplayMode">
-      <element name="DAY"/>
-      <element name="NIGHT"/>
-      <element name="AUTO"/>
-    </enum>
-    <enum name="DistanceUnit">
-        <element name="MILES"/>
-        <element name="KILOMETERS"/>
-    </enum>
-    
-    <!-- TemperatureUnit is an existing data type -->
-    
-    <struct name="HMISettingsControlData">
-      <description>Corresponds to "HMI_SETTINGS" ModuleType</description>
-        <param name="displayMode" type="DisplayMode" mandatory="false"></param>
-        <param name="temperatureUnit" type="TemperatureUnit" mandatory="false"></param>
-        <param name="distanceUnit" type="DistanceUnit" mandatory="false"></param>
-    </struct>
+  <struct name="HMISettingsControlCapabilities">
+    <param name="moduleName" type="String" maxlength="100" mandatory="true">
+      <description>
+      The short friendly name of the hmi setting module.
+      It should not be used to identify a module by mobile application.
+      </description>
+    </param>
+    <param name="distanceUnitAvailable" type="Boolean" mandatory="false">
+      <description>Availability of the control of distance unit. </description>
+    </param>      
+    <param name="temperatureUnitAvailable" type="Boolean" mandatory="false">
+      <description>Availability of the control of temperature unit. </description>
+    </param> 
+    <param name="displayModeUnitAvailable" type="Boolean" mandatory="false">
+      <description>Availability of the control of HMI display mode. </description>
+    </param>      
+  </struct> 
+  
+  <enum name="DisplayMode">
+    <element name="DAY"/>
+    <element name="NIGHT"/>
+    <element name="AUTO"/>
+  </enum>
+  <enum name="DistanceUnit">
+      <element name="MILES"/>
+      <element name="KILOMETERS"/>
+  </enum>
+  
+  <!-- TemperatureUnit is an existing data type -->
+  
+  <struct name="HMISettingsControlData">
+    <description>Corresponds to "HMI_SETTINGS" ModuleType</description>
+      <param name="displayMode" type="DisplayMode" mandatory="false"></param>
+      <param name="temperatureUnit" type="TemperatureUnit" mandatory="false"></param>
+      <param name="distanceUnit" type="DistanceUnit" mandatory="false"></param>
+  </struct>
 ```
 
 ```xml
@@ -446,7 +448,7 @@ New HMI_SETTINGS data types.
     <param name="audioControlCapabilities" type="AudioControlCapabilities" mandatory="false" minsize="1" maxsize="100" array="true">
         <description> If included, the platform supports audio controls. </description >
     </param>
-    <param name="hmiSettingsCapabilities" type="HMISettingsCapabilities" mandatory="false">
+    <param name="hmiSettingsControlCapabilities" type="HMISettingsControlCapabilities" mandatory="false">
         <description> If included, the platform supports hmi setting controls. </description >
     </param>
     <param name="lightControlCapabilities" type="LightControlCapabilities" mandatory="false">
@@ -458,33 +460,51 @@ New HMI_SETTINGS data types.
     :
     :
     <param name="audioControlData" type="AudioControlData" mandatory="false">
+    </param>
     <param name="lightControlData" type="LightControlData" mandatory="false">
+    </param>
     <param name="hmiSettingsControlData" type="HMISettingsControlData" mandatory="false">
     </param>
   </struct>
 ```
 
-### HMI API XML changes
-The changes are similar to mobile api changes, they are listed here.
 
+For full mobile API xml file, please see https://github.com/yang1070/sdl_core/blob/newRCModule/src/components/interfaces/MOBILE_API.xml
+
+The changes can also be found here https://github.com/yang1070/sdl_core/commit/93c8c48565776fee2c73fd256c207f4fc1403833
+
+### HMI API XML changes
+The changes are similar to mobile api changes, they are not listed here.
+For full HMI API xml file please see https://github.com/yang1070/sdl_core/blob/newRCModule/src/components/interfaces/HMI_API.xml
 
 
 ## Potential downsides
 
-Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
+None
 
 ## Impact on existing code
 
-There is no impact on existing mobile applications or SDL integrations if they do not used the new module or new parameters.
-The proposal has the impact on:
--RPCs: SetInteriorVehicleData, GetInteriorVehicleData, OnInteriorVehicleData, GeSystemCapability
--new iOS and Android remote-control applications need to support new parameters
--RSDL Policies need to support new ModuleTypes ("LIGHT", "HMI_SETTINGS", "AUDIO")
--RSDL need to transfer RPCs with new parameters to appropriate vehicle's module. The response resultCode depends on vehicle's result of processing.
+RPC changes:
+- Add new AUDIO, LIGHT,HIM_SETTINGS module and corresponding capabilities and control data types to RC APIs.
+- The proposal has the impact on: SetInteriorVehicleData, GetInteriorVehicleData, OnInteriorVehicleData, GeSystemCapability
 
+HMI changes:
+- New HMI API parameters support
 
+Mobile iOS/Android SDK changes:
+- New Mobile API parameters support
 
+SDL core changes:
+- New API parameters support
+- New remote control modules support
+
+Mobile Apps:
+- There is no impact on existing mobile applications or SDL integrations if they do not used the new module or new parameters.
+
+Policy:
+- Policies need to support new ModuleTypes ("LIGHT", "HMI_SETTINGS", "AUDIO")
+- SDL need to transfer RPCs with new parameters to appropriate vehicle's module. The response resultCode depends on vehicle's result of processing.
 
 ## Alternatives considered
 
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+HD Radio and traditional radio have specification for broadcasting meta-data, but less broadcasters respect this specification. An Alternate solution to handle such issue is by dumping all the meta-data received from radio receiver to the application via SDL. That is without decoding and parsing the SIS block. In this case, mobile applications shall be responsible for decoding meta-data.
