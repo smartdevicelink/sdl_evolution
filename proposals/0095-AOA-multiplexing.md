@@ -8,7 +8,7 @@
 
 ## Introduction
 
-Add "multiplexing" to AOA transport. ![Overview](../assets/proposals/nnnn-AOA-multiplexing/nnnn-AOA-multiplexing_overview.png)
+Add "multiplexing" to AOA transport. ![Overview](../assets/proposals/0095-AOA-multiplexing/0095-AOA-multiplexing_overview.png)
 This change introduces a better user experience as follows:
 - Multiple navigation apps can be selected by user without any operation on HS. It's same as iPhone's UX.
 - Non-navigation apps can use not only BT/SPP but AOA as transport. 
