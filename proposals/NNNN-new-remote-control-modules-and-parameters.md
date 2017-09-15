@@ -33,7 +33,7 @@ As usual, the remote control mobile applications use the following RPCs
 - `SetInteriorVechileData` to change the settings/status of a remote-control module;
 - `OnInteriorVechileData` to receive any remote-control module value change notifications;
 
-In addition, in a GetInteriorVechileData response or OnInteriorVechileData notifications, a `moduleControlData` indicates the current value of the module status; in SetInteriorVechileData request, a `moduleControlData` indicates the required target state of the module.
+In addition, in a GetInteriorVechileData response or OnInteriorVechileData notifications, an `xyzmoduleControlData` indicates the current value of the module status; in SetInteriorVechileData request, an `xyzmoduleControlData` indicates the required target state of the module.
 
 #### Add there new module types to the existing module list.
 | RC Module |
@@ -51,11 +51,11 @@ In addition, in a GetInteriorVechileData response or OnInteriorVechileData notif
 | keep Context | true, false| Set only | control whether HMI shall keep current application context or switch to default media UI/APP associated with the audio source|
 | Equilizer Settings | Struct {Channel ID as integer, Channel setting as 0%-100%} | Get/Set/Notification | Defines the list of supported channels (band) and their current/desired settings on HMI
 
-Any remote control applications can read the current audio data. A RC application cannot set audio source to other applications. It can only set audio source to either itself (with target `MOBILE_APP`) or other system sources. When a mobile application sends a SetInteriorVechileData request to change the audio source from MOBILE_APP to other types of audio source without `keepContext` parameter or with `keepContext=false`, after the system successfully executes the request, the application will go to HMI level 'BACKGROUND'.
+Any remote control applications can read the current audio data. A RC and media application can set audio source to either itself (with target `MOBILE_APP`) or other system sources. It CANNOT set audio source to other mobile applications. When a mobile application sends a SetInteriorVechileData request to change the audio source from MOBILE_APP to other types of audio source without `keepContext` parameter or with `keepContext=false`, after the system successfully executes the request, the application will go to HMI level 'BACKGROUND'. If in the same request `keepContext`=true, the system shall not change this application's HMI level.
 
-We recommend that SDL does not block audio source changing requests depending on HMI level. However, we recommend that HMI disallow applications running in background change the audio source in order to (1) prevent the application from stealing the audio, and (2) reduce confusion to the driver.  This restriction means applications (media and remote control type) running in HMI level `FULL` or `LIMTED` can change the audio source. Applications in HMI level `NONE` or `BACKGROUND` are not allowed to change the audio source. Instead, if an application running in `BACKGROUND` wants to switch the audio source from others to itself, the application shall send an alert with at least "yes" and "no" soft buttons to notify the driver the intention to change the audio source, and set value `STEAL_FOCUS` (the system will bring the application to foreground) as the `SystemAction` of the "yes" soft button , so that the driver can click the soft button to confirm the switch.
+We recommend that SDL does not block audio source changing requests depending on HMI level. However, we recommend that HMI disallow applications running in background change the audio source in order to (1) prevent the application from stealing the audio, and (2) reduce confusion to the driver.  This restriction means (media and remote control type) applications running in HMI level `FULL` or `LIMTED` (already has access to audio) can change the audio source. Applications in HMI level `NONE` or `BACKGROUND` are not allowed to change the audio source. Instead, if an application running in `BACKGROUND` wants to switch the audio source from others to itself, the application shall send an `alert` with at least "yes" and "no" soft buttons to notify the driver the intention to change the audio source, and set value `STEAL_FOCUS` (the system shall bring the application to foreground and set audio source to this media application) as the `SystemAction` of the "yes" soft button, so that the driver can click the soft button to confirm the switch.
 
-For an example, if a media and remote-control application running in `FULL` want to switch the audio source from itself to radio and tune to a specified band and frequency, it shall do two SetInteriorVechileData RPC calls. The first one has `ADUIO` as targeted module type, `RADIO_TUNNER` as the new audio source and `keepContext`=true. The second one has `RADIO` as targeted module type, and include `band`=`AM|FM|XM` and corresponding frequency parameters.
+If the target audio source is `RADIO_TUNER`, the system shall turn on the radio and start playing with the last used band (AM|FM|XM) and frequency or station. For an example, if a media and remote-control application running in `FULL` want to switch the audio source from itself to radio and tune to a specified band and frequency (not last used band and frequency), it shall do two SetInteriorVechileData RPC calls. The first one has `ADUIO` as targeted module type, `RADIO_TUNNER` as the new audio `source` and `keepContext`=true. The second one has `RADIO` as targeted module type, and include `band`=`AM|FM|XM` and corresponding desired frequency parameters.
 
 #### For "HMI Setting" remote-control mobile application will be able to READ and SET:
 | Control Item | Value Range |Type | Comments |
@@ -92,7 +92,7 @@ Like Radio Data System (RDS) is a communications protocol standard for embedding
 | heated windsheild | true, false| Get/Set/Notification | true means ON, false means OFF |
 | heated rear window | true, false| Get/Set/Notification | true means ON, false means OFF |
 | heated steering wheel | true, false| Get/Set/Notification | true means ON, false means OFF |
-| heated mirror | true, false| Get/Set/Notification | true means ON, false means OFF |
+| heated mirrors | true, false| Get/Set/Notification | true means ON, false means OFF |
 
 ### Mobile API XML changes
 The changes are listed below.
@@ -233,7 +233,7 @@ Add new a parameter to RADIO.
     :
     :
     <param name="sisData" type="SisData" mandatory="false">
-      <description>Station Information Service (SIS) data provides basic information about the station such as call sign, as well as information not displayable to the consumer such as the station identification number</description>
+      <description>Read-only Station Information Service (SIS) data provides basic information about the station such as call sign, as well as information not displayable to the consumer such as the station identification number</description>
     </param>
   </struct>
 ```
@@ -264,9 +264,11 @@ New ADUIO data types.
     <description>Defines the each Equalizer channel settings.</description>
     <param name="channelId" type="Integer" minvalue="1" maxvalue="100" mandatory="true"></param>
     <param name="channelName" type="String" mandatory="false" maxlength="50">
-            <description>read-only channel / frequency name (e.i. "Treble, Midrange, Bass" or "125 Hz")</description>
+            <description>Read-only channel / frequency name (e.i. "Treble, Midrange, Bass" or "125 Hz")</description>
     </param>
-    <param name="channelSetting" type="Integer" minvalue="0" maxvalue="100" mandatory="true"></param>
+    <param name="channelSetting" type="Integer" minvalue="0" maxvalue="100" mandatory="true">
+      <description>Reflects the setting, from 0%-100%.</description>
+    </param>
   </struct>
     
   <struct name="AudioControlData">
@@ -281,9 +283,8 @@ New ADUIO data types.
       <description>
       This parameter shall not be present in any getter responses or notifications.
       This parameter is optional in a setter request. The default value is false.
-      If it is true, the system not only changes the audio source but also brings the default application
-      or system UI associated with the audio source to foreground.
-      If it is false, the system changes the audio source, but still keeps the current application in foreground.
+      If it is true, the system not only changes the audio source but also brings the default infotainment system UI associated with the audio source to foreground and set the application to background.
+      If it is false, the system changes the audio source, but keeps the current application's context.
       </description>
     </param>
     <param name="volume" type="Integer" mandatory="false" minvalue="0" maxvalue="100">
@@ -380,7 +381,7 @@ New LIGHT data types.
       </description>
     </param>
     <param name="supportedLights" type="LightCapabilities" minsize="1" maxsize="100" array="true" mandatory="true">
-      <description> An array of available light names that are controllable. </description>
+      <description> An array of available LightCapabilities that are controllable. </description>
     </param>      
   </struct> 
 
@@ -395,7 +396,7 @@ New LIGHT data types.
     
   <struct name="LightControlData">
     <param name="lightState" type="LightState" mandatory="true" minsize="1" maxsize="100" array="true">
-      <description>An array of LightNames and their current or desired status. No change to the status of the LightNames that are not listed in the array.</description>
+      <description>An array of LightNames and their current or desired status. Status of the LightNames that are not listed in the array shall remain unchanged.</description>
     </param>
   </struct>    
 ```
@@ -490,6 +491,7 @@ RPC changes:
 
 HMI changes:
 - New HMI API parameters support
+- SDL HMI shall support the emulation of new RC modules.
 
 Mobile iOS/Android SDK changes:
 - New Mobile API parameters support
