@@ -97,12 +97,11 @@ ATF should provide following API for script:
 
 ## Potential downsides
 
-Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
+N/A
 
 ## Impact on existing code
 
-Describe the impact that this change will have on existing code. Will some SDL integration's stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
+Impacts ATF code, some scripts, and required implementation of Watchdog service.
 
 ## Alternatives considered
-
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+Run SDL via command prompt, but it requires ATF to be separated on the same workstation with SDL and do not support automated testing on Head unit. 
