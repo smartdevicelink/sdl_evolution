@@ -16,13 +16,11 @@ Android and iOS provide smart APIs to localize the app based on specifications o
 - languages/locale supported by the app
 - Preferred languages set by the user on the phone
 
-The locale gets chosen by the phone OS. In multilingual regions (e.g. Europe) it may happen that the language set on the users phone is different to the language set in the vehicle.
-
-The attempt of app developers to solve this issue and use the vehicle language is challenging.
+In multilingual regions (e.g. Europe) it may happen that the language set on the users phone is different to the language set in the vehicle. The attempt of app developers to solve this issue and use the vehicle language is challenging.
 
 ## Proposed solution
 
-This proposal is about inventing a localization class to the SDL library. This class can load the localization files bundled in the app based on a specified locale (language, region, script). The SDL manager can load (or reload) localization instances based on the head unit language and provide those instances to the app developer.
+This proposal is about adding a localization class to the SDL library. This class can load the localization files bundled in the app based on a specified locale (language, region, script). The SDL manager can create localization objects based on the head unit language and provide those to the app developer.
 
 ### Example for iOS:
 
@@ -52,7 +50,7 @@ would be
 getLocalization().getText(R.string.some_key); // loading string from SDL language
 ```
 
-The Android library don't contain SDL managers yet. The app developer can use the class if necessary. Once Android includes a lifecycle manager it can automatically provide a proper localization object.
+The Android library don't contain SDL managers yet. The app developer can use the class manually if needed. Once Android includes a lifecycle manager it can automatically provide a localization object.
 
 ### Detailed design
 
@@ -67,7 +65,6 @@ and for iOS see
 #### Android
 
 For Android the Localization class is basically creating a new context with a custom locale and then provide the resource instance of the newly created context.
-
 
 ```java
 Resources resources = context.getResources();
@@ -89,13 +86,15 @@ This class should be added to the Android SDL library and be used when Android g
 
 #### iOS
 
-For iOS the localization class loads language bundles based on a specified locale (language, script, region). iOS prioritizes script rather than the region (see [Hant](http://www.unicode.org/cldr/charts/latest/summary/root.html#71) and [Hans](http://www.unicode.org/cldr/charts/latest/summary/root.html#70)). Therefore the localization class accepts scripts although it's not used at SDL (yet).
+For iOS the localization class loads language bundles based on a specified locale (language, script, region). iOS prioritizes script rather than the region (see [Hant](http://www.unicode.org/cldr/charts/latest/summary/root.html#71) and [Hans](http://www.unicode.org/cldr/charts/latest/summary/root.html#70)). That said: the localization class supports scripts.
 
-At the end the localization class has loaded a list of bundles including localizable files. The localization class can then provide access to those files with `-stringForKey: ...` which include support of format and plural rules.
+At the end the localization class loads a list of bundles including localizable files. The localization class provide access to those files with `-stringForKey: ...` which include support of format and plural rules.
 
 This localization class should be used by the SDLLifecycleManager. An instance should be created right after the app got connected. This instance should be made accessible to the developer by a property e.g. `@property ... SDLLocalization *localization;`
 
 ## Potential downside
+
+No downside identified for iOS. Downside of Android mentioned above.
 
 ## Impact on existing code
 
@@ -103,5 +102,6 @@ This change whould not affect any existing code as it's adding classes and a sin
 
 ## Alternatives considered
 
-1. **Change language configuration of the entire app** easy approach (very few lines of code) but causes the UI of the app on the phone to change to the SDL language. This was dropped as it is too agressive.
-2. **Create custom localization files** separate from the existing and known ones. This would make localization is independent of the Android or iOS API  but it's much more effort to follow CLDR specifications especially when it comes to plural rules (which are very helpful for natural voice output). Furthermore the app developer has to do translations outside of the known environment which may not be accepted.
+**Change language configuration of the entire app** would be an easy approach (very few lines of code) but causes the UI of the app on the phone to change to the SDL language. This was dropped as it is too agressive.
+
+**Create custom localization files** separate from the existing and known ones. This would make localization is independent of the Android or iOS API  but it's much more effort to follow CLDR specifications especially when it comes to plural rules (which are very helpful for natural voice output). Furthermore the app developer has to do translations outside of the known environment which may not be accepted.
