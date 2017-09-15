@@ -1,4 +1,4 @@
-# New remote control modules (LIGHT, ADUIO, HMI_SETTINGS) and parameters (SIS Data)
+# New remote control modules (LIGHT, AUDIO, HMI_SETTINGS) and parameters (SIS Data)
 
 * Proposal: [SDL-NNNN](NNNN-new-remote-control-modules-and-parameters.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
@@ -55,7 +55,7 @@ Any remote control applications can read the current audio data. A RC and media 
 
 We recommend that SDL does not block audio source changing requests depending on HMI level. However, we recommend that HMI disallow applications running in background change the audio source in order to (1) prevent the application from stealing the audio, and (2) reduce confusion to the driver.  This restriction means (media and remote control type) applications running in HMI level `FULL` or `LIMITED` (already has access to audio) can change the audio source. Applications in HMI level `NONE` or `BACKGROUND` are not allowed to change the audio source. Instead, if an application running in `BACKGROUND` wants to switch the audio source from others to itself, the application shall send an `alert` with at least "yes" and "no" soft buttons to notify the driver the intention to change the audio source, and set value `STEAL_FOCUS` (the system shall bring the application to foreground and set audio source to this media application) as the `SystemAction` of the "yes" soft button, so that the driver can click the soft button to confirm the switch.
 
-If the target audio source is `RADIO_TUNER`, the system shall turn on the radio and start playing with the last used band (AM|FM|XM) and frequency or station. For an example, if a media and remote-control application running in `FULL` want to switch the audio source from itself to radio and tune to a specified band and frequency (not last used band and frequency), it shall do two SetInteriorVehicleData RPC calls. The first one has `ADUIO` as targeted module type, `RADIO_TUNER` as the new audio `source` and `keepContext`=true. The second one has `RADIO` as targeted module type, and include `band`=`AM|FM|XM` and corresponding desired frequency parameters.
+If the target audio source is `RADIO_TUNER`, the system shall turn on the radio and start playing with the last used band (AM|FM|XM) and frequency or station. For an example, if a media and remote-control application running in `FULL` want to switch the audio source from itself to radio and tune to a specified band and frequency (not last used band and frequency), it shall do two SetInteriorVehicleData RPC calls. The first one has `AUDIO` as targeted module type, `RADIO_TUNER` as the new audio `source` and `keepContext`=true. The second one has `RADIO` as targeted module type, and include `band`=`AM|FM|XM` and corresponding desired frequency parameters.
 
 #### For "HMI Setting" remote-control mobile application will be able to READ and SET:
 | Control Item | Value Range |Type | Comments |
@@ -237,7 +237,7 @@ Add new a parameter to RADIO.
     </param>
   </struct>
 ```
-New ADUIO data types.
+New AUDIO data types.
 ```xml
   <struct name="AudioControlCapabilities">
     <param name="moduleName" type="String" maxlength="100" mandatory="true">
