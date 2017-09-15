@@ -1,32 +1,55 @@
-# Feature name
+# ATF Video streaming support
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
-* Author: [SDL Developer](https://github.com/smartdevicelink)
+* Proposal: [SDL-NNNN](nnnn-atf-videostreaming-full-support.md)
+* Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Web / RPC / Protocol]
+* Impacted Platforms: [ATF]
 
 ## Introduction
 
-A short description of what the feature is. Try to keep it to a single-paragraph "elevator pitch" so the reader understands what problem this proposal is addressing.
+Video streaming is major feature of SDL. 
+Currently it should be tested manually on each release. 
+Testing video streaming is rather complicated and expensive, and there are big probability of human error during testing.
+
+Currently ATF is able to stream data from mobile side, but not able to handle streaming from HMI side, and check that data received and not corrupted.
+
+ATF should provide ability to cover all use cases related to video streaming. 
 
 ## Motivation
 
-Describe the problems that this proposal seeks to address. If the problem is that some common pattern is currently hard to express, show how one can currently get a similar effect and describe its drawbacks. If it's completely new functionality that cannot be emulated, motivate why this new functionality would help SDL mobile developers or OEMs provide users with useful functionality.
+Full streaming feature support will provide ability to cover all streaming cases with automated tests and reduce efforts for manual testing. 
+
+Streaming tests should be part of smoke SDL test cases and should be performed on each pull request. 
+
+Automatizing of video streaming use cases should also reduce time consumption's for testing video streaming.  
+
+Also ATF should provide ability to perform other testing activities (send requests, notifications , etc ... ) during streaming. 
 
 ## Proposed solution
 
-Describe your solution to the problem. Provide examples and describe how they work. Show how your solution is better than current workarounds: is it cleaner, safer, or more efficient? Use subsections if necessary.
+ATF should support reading data from pipe/socket and save them to file on file system.
+List of provided API to test script:
 
-Describe the design of the solution in detail. Use subsections to describe various details. If it involves new protocol changes or RPC changes, show the full XML of all changes and how they changed. Show documentation comments detailing what it does. Show how it might be implemented on the Mobile Library and Core. The detail in this section should be sufficient for someone who is *not* one of the authors to be able to reasonably implement the feature and future [smartdevicelink.com](https://www.smartdevicelink.com) guides.
+#### ListenStreaming
+
+**Parameters** : 
+ - Streaming source (pipe or socket)
+ - Count of bytes for event call : event with custom callback will be called after streaming some amount of bytes
+
+**Return value** :
+ - Event that will be triggered each "*count of bytes*" received and on closing port\pipe. 
+   In event callback should be access to file with received data and count of received bytes and root cause of event 
+
 
 ## Potential downsides
 
-Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
+N/A
 
 ## Impact on existing code
 
-Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
+
+Should impact only ATF code
 
 ## Alternatives considered
 
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+Do not test wide streaming with automated test framework.
