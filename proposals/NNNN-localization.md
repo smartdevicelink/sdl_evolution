@@ -50,11 +50,11 @@ would be
 getLocalization().getText(R.string.some_key); // loading string from SDL language
 ```
 
-The Android library don't contain SDL managers yet. The app developer can use the class manually if needed. Once Android includes a lifecycle manager it can automatically provide a localization object.
+The Android library doesn't contain SDL managers yet. The app developer can use the class manually if needed. Once Android includes a lifecycle manager it can automatically provide a localization object.
 
 ### Detailed design
 
-First of all the localization code already exist:
+First of all the localization code already exists:
 
 for Android see 
 [Localization.java](https://github.com/kshala-ford/sdl_android/blob/feature/localization/sdl_android_lib/src/com/smartdevicelink/util/Localization.java)
@@ -76,7 +76,7 @@ this.context = wrapper.createConfigurationContext(config);
 
 This proposal is using an API called [createConfigurationContext()](https://developer.android.com/reference/android/content/ContextWrapper.html#createConfigurationContext(android.content.res.Configuration)) which was added at API level 17 (Android 4.2 Jelly Beans MR1). This method creates a new context separated from the apps configuration which allows the app to access resources of another language.
 
-The downside is the API level (see [Android dashboards](https://developer.android.com/about/dashboards/index.html)). As it is expected this number to become lower overtime and as it already reached a low number it is proposed to just use the phone language instead.
+The downside is the API level (see [Android dashboards](https://developer.android.com/about/dashboards/index.html)). As it is expected that this number will become lower over time, and as it has already reached a low number, it is proposed to just use the phone language instead.
 
 ```java
 this.context = context.getApplicationContext(); // just use the original context
@@ -104,4 +104,4 @@ This change whould not affect any existing code as it's adding classes and a sin
 
 **Change language configuration of the entire app** would be an easy approach (very few lines of code) but causes the UI of the app on the phone to change to the SDL language. This was dropped as it is too agressive.
 
-**Create custom localization files** separate from the existing and known ones. This would make localization is independent of the Android or iOS API  but it's much more effort to follow CLDR specifications especially when it comes to plural rules (which are very helpful for natural voice output). Furthermore the app developer has to do translations outside of the known environment which may not be accepted.
+**Create custom localization files** separate from the existing and known ones. This would make localization independent of the Android and iOS API but it's much more effort to follow CLDR specifications especially when it comes to plural rules (which are very helpful for natural voice output). Furthermore the app developer has to do translations outside of the known environment which may not be accepted.
