@@ -6,7 +6,7 @@
 * Impacted Platforms: [Android]
 
 ## Introduction
-The internal SDL interface will help reduce the depandancy on the SDLProxyBase class and allow us to move away from it in the future when we introduce a more enhanced framework.
+The internal SDL interface will help reduce the dependency on the SDLProxyBase class and allow us to move away from it in the future when we introduce a more enhanced framework.
 
 ## Motivation
 The proxy object is passed around the Android library constantly. This forces a maintenance burden around SDLProxyBase and the managers that reference it. Creating a simple interface that the proxy implements will reduce the dependency on the actual proxy class. It will also help create a consistent interface to the proxy so that different managers won't introduce new methods that essentially do the same thing.
