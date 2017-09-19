@@ -59,7 +59,7 @@ typedef enum{
 @property(nonatomic, readonly, assign) SDLCarWindowType type;
 @property(nonatomic, readonly, assign) CGSize size;
 @property(nonatomic, readonly, assign) CGFloat pixelAspectRatio;
-@property(nonatomic, readyonly, assign) BOOL focusableItemLocatorEnabled;
+@property(nonatomic, readonly, assign) BOOL focusableItemLocatorEnabled;
 
 @end
 ```For the near term, SDL will support only a single car window corresponding to the head unit display. In the future, there may be multiple screens available for video streaming and this design allows for such configurations by virtue of the delegate pattern and SDLCarWindowType property.If the head unit communicates that it implements a focus/select interaction model rather than direct touch, the focusableItemLocatorEnabled property will be set to YES. As part of setting up streaming of the rootViewController views, SDLCarWindow will pass the view hierarchy to the focusable item locator so it can determine and send the haptic spatial configuration to the head unit. 
