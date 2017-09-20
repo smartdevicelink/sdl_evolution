@@ -21,7 +21,7 @@ SDLCarWindow will also handle VPM focusable view selection. The focusable view r
 
 ### Building the focusable view region list
 
-SDLCarWindow holds the view associated with its StreamingViewController. SDLCarWindow is therefore able to interate the subviews of the VPM view and build a a list of focusable view regions to be sent to the HU for remote focus navigation and selection.
+SDLCarWindow holds the view associated with its StreamingViewController. SDLCarWindow is therefore able to interate the subviews of the VPM view and build a list of focusable view regions to be sent to the HU for remote focus navigation and selection.
 
 ```objc
 @interface SDLSendHapticData ()
