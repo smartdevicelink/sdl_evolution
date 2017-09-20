@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0091](0091-SDLScreen-SDLWindow-Projection.md)
 * Author: [David Switzer](https://github.com/davidswi)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [iOS]
 
 ## Introduction

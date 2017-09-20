@@ -289,7 +289,6 @@ on the gh-pages branch).
         a.number.platform-policy {
         background-color: #394e50; // SDL Dark Grey
       }
-      }
         a.number.platform-mobile {
         background-color: #6397cd; // SDL Light Blue
       }

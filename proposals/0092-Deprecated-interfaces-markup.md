@@ -2,7 +2,7 @@
 
 * Proposal: [SDL 0092](0092-Deprecated-interfaces-markup.md)
 * Author: Alexander Kutsan
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Core
 
 ## Introduction
