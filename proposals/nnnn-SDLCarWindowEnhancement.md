@@ -212,7 +212,7 @@ Addition of new optional SDLTouchManagerDelegate method. Called by SDLCarWindow.
  *
  *  @return value
  *      YES if the app handled the event
- *      NO is the app id not handle the event
+ *      NO if the app did not handle the event
  */
 - (BOOL)view:(UIView *)view didReceiveSingleTapAtPoint:(CGPoint)point;
 ```
