@@ -1,8 +1,8 @@
 # Android SDL Internal Interface
 
-* Proposal: [SDL-NNNN](NNNN-android_proxy_interface.md)
+* Proposal: [SDL-0101](0101-android_internal_interface.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
