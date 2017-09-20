@@ -1,8 +1,8 @@
 # New data transfer interface in Android Proxy for streaming
 
-* Proposal: [SDL-NNNN](nnnn-new-data-transfer-interface-for-streaming-android.md)
+* Proposal: [SDL-0100](0100-new-data-transfer-interface-for-streaming-android.md)
 * Author: [Sho Amano](https://github.com/shoamano83/)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
