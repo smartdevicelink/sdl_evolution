@@ -198,7 +198,7 @@ NSString *const SDLTouchEventNotification = @"com.sdl.onTouchEvent";
 * Features and fixes propogate to all apps.
 
 ## Potential downsides
-* SDLCarWindow swizzles one method. It is a public API and will likely remain in future versions of iOS. If it does change, it will follow Apple's standard deprecation cycle.
+* SDLCarWindow swizzles one method. However, the method is public and will therefore likely remain in future versions of iOS. If it does change, it will follow Apple's standard deprecation cycle.
 * Difficulties may arise when inplementing action triggers for other UIKit types. This can be mitigated by building upon existing Xevo implementations of the same.
 
 ## Impact on existing code
@@ -206,6 +206,6 @@ NSString *const SDLTouchEventNotification = @"com.sdl.onTouchEvent";
 * These changes will be brought in with the integration of SDLCarWindow.
 
 ## Alternatives considered
-* Force the application developer to handle touch events using a delegate. The developer then has to handle the translation of a view and a point into some sort of desired action. 
+* Force the application developer to handle touch events using a delegate. The developer then has to handle the translation of a view and a point into the desired action. 
 
 
