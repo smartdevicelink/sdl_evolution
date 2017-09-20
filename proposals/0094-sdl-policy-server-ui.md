@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0094](0094-sdl-policy-server-ui.md)
 * Author: [Christopher Rokita](https://github.com/crokita), and [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Policy Server]
 
 ## Introduction
