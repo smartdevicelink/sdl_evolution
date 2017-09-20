@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0096](0096-deliver-build-configuration.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
