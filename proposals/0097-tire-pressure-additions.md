@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0097](0097-tire-pressure-additions.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
