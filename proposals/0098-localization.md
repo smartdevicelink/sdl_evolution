@@ -1,8 +1,8 @@
 # SDL Localization
 
-* Proposal: [NNNN](NNNN-localization.md)
+* Proposal: [SDL-0098](0098-localization.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ iOS / Android ]
 
 ## Introduction
