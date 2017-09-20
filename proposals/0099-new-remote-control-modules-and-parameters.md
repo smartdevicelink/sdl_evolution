@@ -1,8 +1,8 @@
 # New remote control modules (LIGHT, AUDIO, HMI_SETTINGS) and parameters (SIS Data)
 
-* Proposal: [SDL-NNNN](NNNN-new-remote-control-modules-and-parameters.md)
+* Proposal: [SDL-0099](0099-new-remote-control-modules-and-parameters.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
