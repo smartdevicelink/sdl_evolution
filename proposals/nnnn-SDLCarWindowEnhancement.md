@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-nnnn](nnnn-SDLCarWindow-Projection.md)
 * Author: [Michael Pitts](mailto:mpitts@xevo.com)
-* Status: **PoC**
+* Status: **Implemented as PoC**
 * Impacted Platforms: [iOS]
 
 ## Introduction
