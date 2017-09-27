@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0100](0100-new-data-transfer-interface-for-streaming-android.md)
 * Author: [Sho Amano](https://github.com/shoamano83/)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Android]
 
 ## Introduction
