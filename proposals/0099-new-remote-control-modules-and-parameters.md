@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0099](0099-new-remote-control-modules-and-parameters.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
