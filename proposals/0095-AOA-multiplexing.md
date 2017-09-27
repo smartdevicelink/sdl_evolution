@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0095](0095-AOA-multiplexing.md)
 * Author: [Jennifer Hodges](https://github.com/jhodges55)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [ Android ]
 
 
