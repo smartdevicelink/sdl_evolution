@@ -1,8 +1,8 @@
 # New vehicle data - ElectronicParkBrakeStatus
 
-* Proposal: [SDL-NNNN](NNNN-New-vehicle-data-ElectronicParkBrakeStatus.md)
+* Proposal: [SDL-0102](0102-New-vehicle-data-ElectronicParkBrakeStatus.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
