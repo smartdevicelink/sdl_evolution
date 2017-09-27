@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0101](0101-android_internal_interface.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Android]
 
 ## Introduction
