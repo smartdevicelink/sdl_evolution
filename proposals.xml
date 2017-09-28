@@ -88,7 +88,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0078" status="implemented" primary-platform="protocol" sdl-version="5.0" name="Control Frame Payloads v1.0.0" filename="0078-control_frame_payloads_v1_0_0.md"/>
 <proposal id="0079" status="implemented" primary-platform="android" sdl-version="4.4" name="System Capability Manager" filename="0079-system_capability_manager.md"/>
 <proposal id="0080" status="accepted" primary-platform="core" sdl-version="x.x" name="Support for MultiSession protocol string" filename="0080-Support-for-MultiSession-protocol-string.md"/>
-<proposal id="0081" status="accepted" primary-platform="ios" sdl-version="x.x" name="SDLInterfaceManager" filename="0081-SDLInterfaceManager.md"/>
+<proposal id="0081" status="accepted" primary-platform="ios" sdl-version="5.0" name="SDLInterfaceManager" filename="0081-SDLInterfaceManager.md"/>
 <proposal id="0082" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - EngineOilLife" filename="0082-New-vehicle-data-EngineOilLife.md"/>
 <proposal id="0083" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Expandable Design for Proprietary Data Exchange" filename="0083-Expandable-design-for-proprietary-data-exchange.md"/>
 <proposal id="0084" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Progress Bar Seek Feature" filename="0084-Progress-Bar-Seek-Feature.md"/>
@@ -97,7 +97,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0087" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Sequentially Send Multiple RPCs - iOS" filename="0087-send-multiple-rpcs-ios.md"/>
 <proposal id="0088" status="accepted" primary-platform="ios" sdl-version="x.x" name="iOS System Capability Manager" filename="0088-ios-system-capability-manager.md"/>
 <proposal id="0089" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Mobile API versioning" filename="0089-mobile-api-versioning.md"/>
-<proposal id="0090" status="accepted" primary-platform="ios" sdl-version="x.x" name="SDLHapticHitTester Protocol" filename="0090-SDLHapticHitTesterProtocol.md"/>
+<proposal id="0090" status="accepted" primary-platform="ios" sdl-version="5.0" name="SDLHapticHitTester Protocol" filename="0090-SDLHapticHitTesterProtocol.md"/>
 <proposal id="0091" status="active" primary-platform="ios" sdl-version="x.x" name="SDLCarWindow Video Projection Developer Interface" filename="0091-SDLScreen-SDLWindow-Projection.md"/>
 <proposal id="0092" status="accepted" primary-platform="core" sdl-version="x.x" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
 <proposal id="0093" status="accepted" primary-platform="android" sdl-version="x.x" name="Haptic Projection" filename="0093-haptic-projection.md"/>
