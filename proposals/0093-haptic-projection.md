@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0093](0093-haptic-projection.md)
 * Author: [Drew Dobson](https://github.com/drewd)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Android]
 
 ## Introduction
