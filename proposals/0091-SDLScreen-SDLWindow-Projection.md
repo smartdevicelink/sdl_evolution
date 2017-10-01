@@ -18,6 +18,7 @@ Provide a convenient and simple programming model for SDL app developers to remo
 SDLCarWindow leverages SDLStreamingMediaManager and SDLTouchManager to hide the management of video projection and touch event handling from the app developer. For apps which use only UIKit derived UI elements, no SDL specific code is necessary. [1]
 
 **Application Interface**
+
 The video projection interface is exposed to the application as a UIScreen object representing a virtual external display. The external view is separate from the view rendered on the device's LCD. This allows the developer to optionally forego the lock screen, instead displaying a different interface on the device than what is projected onto the head unit.
 
 ![Separate Displays](https://i.imgur.com/dIBQnyZ.png "Separate Displays")
@@ -52,10 +53,12 @@ The app enables rendering to the external display using [standard Apple recommen
 [-[UIWindow setScreen:]](https://developer.apple.com/documentation/uikit/uiwindow/1621597-screen?language=objc) and [-[UIWindow setRootViewController:]](https://developer.apple.com/documentation/uikit/uiwindow/1621581-rootviewcontroller?language=objc) overrides are used to link an SDLCarWindow object to the UIWindow object. The UIWindow supplied by the application is used as the video projection source and touch event sink (key window).
 
 **Video Projection**
+
 SDLCarWindow uses the existing SDLStreamingMediaManager created by SDLLifecycleManager to manage video streaming.
 SDLStreamingMediaManager is used to project the contents of the virtual external display. 
 
 **Touch Events**
+
 SDLCarWindow adopts the SDLHapticHitTester protocol to enable correlation of SDLTouch events with the corresponding haptic region. In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS. [2]
 
 Ownership of SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow. SDLStreamingMediaLifecycleManager links to SDLCarWindow. SDLCarWindow creates an instance of SDLTouchManager and sets itself as the delegate. In this configuration, touch events are delivered from SDLTouchManager to SDLCarWindow. 
