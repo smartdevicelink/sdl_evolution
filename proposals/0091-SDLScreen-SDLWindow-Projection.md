@@ -1,110 +1,198 @@
 # SDLCarWindow Video Projection Developer Interface
 
 * Proposal: [SDL-0091](0091-SDLScreen-SDLWindow-Projection.md)
-* Author: [David Switzer](https://github.com/davidswi)
-* Status: **Returned for Revisions**
+* Author: [Michael Pitts](mailto:mpitts@xevo.com)
+* Status: **Awaiting review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
 
-The iOS SDL proxy exposes the SDLCarWindow class to provide an easy-to-integrate developer interface to SDL video projection and the associated task of defining focusable and selectable UI elements. The SDLCarWindow attaches to the SDLStreamingMediaManager and exposes the SDLInterfaceManager described in the [SDLInterfaceManager](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0081-SDLInterfaceManager.md) proposal to allow the latter to determine the spatial arrangement of controls. The SDLInterfaceManager adopts the [SDLHapticHitTester](https://github.com/smartdevicelink/sdl_evolution/issues/270) protocol to enable correlation of SDLTouch events with the corresponding haptic region. In a later proposal, the SDLInterfaceManager will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS.
+The iOS SDL framework implements an SDLCarWindow class to provide an easy-to-integrate developer interface to SDL video projection the associated task of defining focusable and selectable UI elements and the translation of remote touch events into standard UIKit actions. 
 
 ## Motivation
 
-This proposal builds on the SDLStreamingMediaManager to provide a convenient and simple programming model for SDL app developers to project and enable interaction with the appropriate subset of their UIKit, OpenGL and hybrid UIKit/OpenGL user interfaces.
+This proposal leverages SDLStreamingMediaManager and SDLTouchManager to provide a convenient and simple programming model for SDL app developers to remotely project and enable interaction with the appropriate subset of their UIKit, OpenGL and hybrid UIKit/OpenGL user interfaces.
 
 ## Proposed solution
 
-The SDLStreamingMediaManager class is extended to include a car window property:
+SDLCarWindow hides the management of video projection and touch event handling from the developer. For apps which use only UIKit derived UI elements, no SDL specific code is necessary. 
 
-```objc  
-@interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>
-:
-:
-/**
- *  Touch Manager responsible for providing touch event notifications.
- */
-@property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
+**Application Interface**
+The video projection interface is exposed to the application as a UIScreen object representing a virtual external display. This external view is separate from the view rendered on the device's LCD.
 
-/**
-* Car Window instance responsible for providing video projection.
-* /
-@property (nonatomic, strong, readonly) SDLCarWindow *carWindow;
-:
-:
+![Separate Displays](https://imgur.com/a/NAEKL "Separate Displays")
+
+When SDL determines a video stream has been established, it creates a UIScreen object using the attributes of the SDL VPM screen. SDL will then post [UIScreenDidConnectNotification](https://developer.apple.com/documentation/uikit/uiscreendidconnectnotification). This informs the app of the new screen. SDLCarWindow watches for application calls to [-[UIScreen screens]](https://developer.apple.com/documentation/uikit/uiscreen/1617812-screens?language=objc). When called, the SDL managed UIScreen is added to the list of available screens. 
+
+The app enables rendering to the external display using [standard Apple recommended steps](https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/WindowAndScreenGuide/UsingExternalDisplay/UsingExternalDisplay.html#//apple_ref/doc/uid/TP40012555-CH3-SW3). 
+```objc
+// When an external screen becomes available, attach SDLWindow storyboard.
+// This renders into an offscreen window for SDL Video Projection Mode.
+- (void) updateCarWindow:(NSNotification *)notification
+{
+    if (UIScreen.screens.count <= 1) {
+        self.sdlWindow = nil;
+        return;
+    }
+
+    UIScreen*           sdlScreen   = [UIScreen screens][1];
+    UIStoryboard*       storyboard  = [UIStoryboard storyboardWithName:@"SDLWindow" bundle:[NSBundle mainBundle]];
+    UIViewController*   vc          = [storyboard instantiateInitialViewController]; 
+
+    vc.view.frame  = sdlScreen.bounds;
+    vc.view.bounds = sdlScreen.bounds;
+
+    self.sdlWindow = [[UIWindow alloc] initWithFrame:sdlScreen.bounds];
+    self.sdlWindow.screen = sdlScreen;
+    self.sdlWindow.rootViewController = vc;
+    [self.sdlWindow addSubview:vc.view];
+    [self.sdlWindow makeKeyAndVisible];
+}
 ```
-The SDLCarWindow interface is defined as follows:
+SDLCarWindow watches for calls to [-[UIWindow setScreen:]](https://developer.apple.com/documentation/uikit/uiwindow/1621597-screen?language=objc) and [-[UIWindow setRootViewController:]](https://developer.apple.com/documentation/uikit/uiwindow/1621581-rootviewcontroller?language=objc). These are used to create an instance if SDLCarWindow and attach it to the UIWindow. The UIWindow supplied by the application is used as the video projection source and touch event sink (key window).
+
+**Video Projection**
+SDLCarWindow uses the SDLStreamingMediaManager created by SDLLifecycleManager to manage video streaming.
+SDLStreamingMediaManager is used to project the contents of the virtual external display. 
+
+**Touch Events**
+SDLCarWindow adopts the SDLHapticHitTester protocol to enable correlation of SDLTouch events with the corresponding haptic region. In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS.
+
+Ownership of SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow. SDLStreamingMediaLifecycleManager links to SDLCarWindow. SDLCarWindow creates an instance of SDLTouchManager and sets itself as the delegate. In this configuration, touch events are delivered from SDLTouchManager to SDLCarWindow. 
+
+SDLCarWindow handles SDL touch events by first giving the app a chance to handle them, then translating them directly into actions if the app doesn't handle them. By translating touch events into view actions within SDLCarWindow, no additional effort is required on the part of the app developer to handle touch events. This is provided for UIKit view types only. 
+
+Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField and UITabBarController. [1]
+
+Touch events for custom views defined by the app must be handled by the app. This is acomplished using SDLTouchManager delegation. An app which adopts the SDLTouchManagerDelegate protocol will have the first chance at handling each touch event. If the app handles the event, it returns YES. A return value of NO instructs SDL to handle the event.
+
+**SDLTouchManagerDelegate support in the application's view controller:**
+```objc
+- (BOOL)touchManager:(SDLTouchManager *)manager didReceiveSingleTapForView:(UIView*)view atPoint:(CGPoint)point {
+    BOOL handled = NO;
+    if ([view isEqual:self.customView] == YES) {
+        [CustomAlertViewController displayText:@"'CustomView' was tapped" parent:self];
+        handled = YES;
+    }
+    return handled;
+}
+```
+**Maintaining the list of focusable and selectable UI elements**
+SDLCarWindow interates the subviews of the VPM view and builds a list of focusable views. This list is sent to the core as SDLHapticData.
 
 ```objc
-@interface SDLCarWindow : NSObject
+- (void)updateInterfaceLayout
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        // Compile the array of focusable views
+        [self buildFocusableView:self.streamingViewController.view];
 
-/**
- *  View Controller that will be streamed.
- */
-@property (strong, nonatomic, nullable) UIViewController *streamingViewController;
+        // Extract hapticRects to send to SDL core
+        NSMutableArray<SDLHapticRect*>* hapticRects = [NSMutableArray new];
+        for (SDLFocusableView* fView in self.focusableViews) {
+            [hapticRects addObject:fView.hapticRect];
+        }
 
-/**
- * Dimensions of the target in-car screen
- */
-@property (assign, nonatomic, readonly) CGSize screenDimensions;
+        // Build and send the request
+        SDLHapticRectData* request = [[SDLHapticRectData alloc] initWithHapticRectData:hapticRects];
 
-/**
- * SDLInterfaceManager instance for head-unit focusing and selection
- */
-@property (strong, nonatomic) SDLInterfaceManager *interfaceManager;
+        // Avoid sending duplicate requests
+        if ([request isEqual:self.prevHapticRectRequest]) {
+            return;
+        }
+        _prevHapticRectRequest = request;
+        
+        if (request != nil) {
+            [self.sdlManager sendRequest:request withResponseHandler:^( __kindof SDLRPCRequest * _Nullable request,
+                                                                       __kindof SDLRPCResponse * _Nullable response,
+                                                                       NSError * _Nullable error )
+             {
+                 if (error != nil) {
+                     SDLLogW(@"SDLHapticData: %@", error);
+                 } else {
+                     SDLLogV(@"Received SDLHapticDataResponse from SDL");
+                     SDLLogV(@"%@", response);
+                 }
+             }];
+        }
+    });
+}
 
-@end
+- (instancetype)buildFocusableView:(UIView*)view {
+    if (_focusableViews == nil) {
+        _focusableViews = [NSMutableArray<SDLFocusableView*> new];
+    } else {
+        [_focusableViews removeAllObjects];
+    }
+    NSMutableArray<SDLHapticRect*>* spatialData = [NSMutableArray new];
+    [self focusableControlsInView:view result:spatialData];
+    return self;
+}
+
+- (void)focusableControlsInView:(UIView*)view result:(NSMutableArray<SDLHapticRect*>*)result {
+    // UIButtons returns canBecomeFocused==NO, unless idiom is carPlay or tvOS
+    BOOL canBecomeFocused = ([view isKindOfClass:[UIButton class]] == YES) || (view.canBecomeFocused == YES);
+    if ((canBecomeFocused == YES) &&
+        (view.frame.size.width > 0) && (view.frame.size.height > 0) &&
+        (view.isHidden == NO) && (view.alpha > 0.0) && (view.userInteractionEnabled == YES))
+    {
+        CGRect rect = [view convertRect:view.bounds toView:nil];
+        SDLHapticRect* hapticRect = [[SDLHapticRect alloc] initWithId:((UInt32)(_focusableViews.count + 1))
+                                                                   x:rect.origin.x
+                                                                   y:rect.origin.y
+                                                               width:rect.size.width
+                                                              height:rect.size.height];
+        [_focusableViews addObject:[[SDLFocusableView alloc] initWithView:view hapticRect:hapticRect]];
+    }
+    for (UIView* subview in view.subviews) { // Recursively walk subviews
+        [self focusableControlsInView:subview result:result];
+    }
+}
+
+
 ```
- 
-The app developer uses the carWindow property on the streaming media manager to obtain the SDLCarWindow instance. Then to begin capture, encoding and streaming of view hierarchy video frames, the developer assigns the root view controller to be projected to the streamingViewController property on the car window instance.
 
-If the head unit communicates that it handles focus and selection, the SDLInterfaceManager will use the BOOL appHandlesTouches property on the SDLStreamingMediaConfiguration class to determine whether to iterate over the views contained in the SDLCarWindow streamingViewController property to determine and send the haptic spatial configuration to the head unit. It will also return nil from the viewForTouch SDLHapticHitTester method. Otherwise, it will attempt to find the view that matches the passed-in SDLTouch object.
-
-### Handling focusable UIButtons
-The UIButton class returns NO for the UIFocusItem canBecomeFocused method unless it is being displayed on a CarPlay window. However, the SDLInterfaceManager relies on the canBecomeFocused property to determine which buttons should have spatial data sent to the head unit. To overcome this issue, the SDL proxy will implement the following category on UIButton that will return YES for canBecomeFocused.
+SDLCarWindow automatically handles view layout updates by inserting a listener into -[[CALayer layoutSublayers]](https://developer.apple.com/documentation/quartzcore/calayer/1410935-layoutsublayers?language=objc). 
 
 ```objc
-@interface UIButton (SDLFocusable)
-
-@property(nonatomic, readonly) BOOL canBecomeFocused;
-
-@end
+//==========================================================================================
+// Update focus regions whenever the layout has changed
+// https://developer.apple.com/documentation/quartzcore/calayer/1410935-layoutsublayers
+//==========================================================================================
+static void (*pfnCALayer_layoutSublayers)(CALayer*, SEL) = nil;
+static void CALayer_layoutSublayers(CALayer* layer, SEL methodName)
+{
+    if (pfnCALayer_layoutSublayers) {
+        pfnCALayer_layoutSublayers(layer, methodName);
+    }
+    SDLCarWindow* carWindowForLayer = objc_getAssociatedObject(layer, KEY_CARWINDOW);
+    if (([carWindowForLayer isKindOfClass:[SDLCarWindow class]] == YES) &&
+        ([carWindowForLayer.sdlLayer isEqual:layer] == YES)) {
+        [carWindowForLayer updateInterfaceLayout];
+    }
+}
 ```
-
-For head units that allow the app to manage focus and selection, the SDLInterfaceManager provides the local logic to do so and interacts with the views through the [UIFocusEnvironment protocol](https://developer.apple.com/documentation/uikit/uifocusenvironment).
- 
-The SDLCarWindow class will also include the previously app-level common logic that interacts with the existing SDLStreamingMediaManager class to stream pixel buffers and receive audio data. It relies on the helper class SDLStreamingMediaLifecycleManager to ensure streaming is allowed and manage the streaming state.
-
-```objc
-extern NSString *const SDLVideoStreamDidStartNotification;
-extern NSString *const SDLVideoStreamDidStopNotification;
-
-extern NSString *const SDLAudioStreamDidStartNotification;
-extern NSString *const SDLAudioStreamDidStopNotification;
-
-@class SDLManager;
-
-@interface SDLStreamingMediaLifecycleManager : NSObject
-
-@property (nonatomic, weak, nullable) SDLManager *sdlManager;
-
-@property (nonatomic, assign, readonly, getter=isVideoConnected) BOOL videoConnected;
-@property (nonatomic, assign, readonly, getter=isAudioConnected) BOOL audioConnected;
-
-@property (nonatomic, assign, readonly, getter=isVideoStreamingAllowed) BOOL videoStreamingAllowed;
-
-@end
-```
+## Benefits
+* The projected video view is separate from the view on the device's LCD.
+* Separate views for device and head unit allow for used of device while attached and projecting. (Apps which do not use the lock screen)
+* Video projection is achieved using documented Apple procedures for external display support. 
+* The app developer doesn't need to write any code to handle touch events. From the app's perpective, view actions are triggered identically as if UIKit had fired them.
+* The app developer has the option to handle touch events in the app should they wish to do so. (Custom views)
+* Touch event behavior of the iOS proxy remains consistent across all apps using the same version of the SDL framework. 
+* Features and fixes propogate to all apps.
 
 ## Potential downsides
-
-In choosing a projection API that differs from the standard UIScreen/UIWindow model for displaying content on an external screen, we are asking developers to adopt a model that is somewhat unfamiliar. However, it is also similar enough that the learning curve should be short and it avoids the possibility of strange side-effects due to subclassing UIKit controls.
+* SDLCarWindow uses swizzling. However all methods are public and have not changed since iOS 3.2 (most since iOS 2.0).
+* Unforeseen challenges may arise when implementing action triggers for other UIKit types. This can be mitigated by building upon existing and tested Xevo implementations [1]. 
 
 ## Impact on existing code
-
-This proposal has no impact on existing video/audio streaming applications. It provides a new higher level interface that should improve developer productivity and a foundation for both touch and physical button focus/select interactions.
+* Apps adopting SDLTouchManagerDelegate will need to return a BOOL instead of void for delegate methods.
+* SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow
+* SDLCarWindow deprecates SDLHapticManager. Functionality previously found in SDLHapticManager has been moved into SDLCarWindow.  
 
 ## Alternatives considered
+* Force the each application to handle touch events using a delegate. The developer then has to handle the translation of a view and a point into some sort of desired action. Touch management will be different for each app which will lead to inconsistency amongst SDL apps, which in-turn will lead to user dismay. 
 
-This proposal provides no support for SDLCarWindow and SDLInterfaceManager encoding of pure OpenGL interfaces. Since all OpenGL content must be displayed within a UIView on iOS, it might be possible to intelligently encode video for the OpenGL layer(s) in SDLCarWindow. The SDLInterfaceManager could expose a CGRect collection property for defining the haptic spatial regions of an OpenGL UI.
-
+## References
+[1] Xevo production code
