@@ -81,7 +81,8 @@ Touch events for custom views defined by the app must be handled by the app. An 
 }
 ```
 **Focusable and selectable UI elements**
-SDLCarWindow interates the subviews of the VPM view and builds a list of focusable views. This list is sent to the head unit as SDLHapticRectData.
+
+SDLCarWindow walks the view hierarchy and builds a list of focusable views. This list is sent to the head unit as SDLHapticRectData.
 
 ```objc
 - (void)updateInterfaceLayout
