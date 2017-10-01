@@ -11,23 +11,23 @@ The iOS SDL framework implements an SDLCarWindow class to provide an easy-to-int
 
 ## Motivation
 
-This proposal leverages SDLStreamingMediaManager and SDLTouchManager to provide a convenient and simple programming model for SDL app developers to remotely project and enable interaction with the appropriate subset of their UIKit, OpenGL and hybrid UIKit/OpenGL user interfaces.
+Provide a convenient and simple programming model for SDL app developers to remotely project and enable interaction with the appropriate subset of their UIKit, OpenGL and hybrid UIKit/OpenGL user interfaces. [1]
 
 ## Proposed solution
 
-SDLCarWindow hides the management of video projection and touch event handling from the developer. For apps which use only UIKit derived UI elements, no SDL specific code is necessary. 
+SDLCarWindow leverages SDLStreamingMediaManager and SDLTouchManager to hide the management of video projection and touch event handling from the app developer. For apps which use only UIKit derived UI elements, no SDL specific code is necessary. [1]
 
 **Application Interface**
-The video projection interface is exposed to the application as a UIScreen object representing a virtual external display. This external view is separate from the view rendered on the device's LCD.
+The video projection interface is exposed to the application as a UIScreen object representing a virtual external display. The external view is separate from the view rendered on the device's LCD. This allows the developer to optionally forego the lock screen, instead displaying a different interface on the device than what is projected onto the head unit.
 
-![Separate Displays](https://i.imgur.com/ZP1oHJH.png "Separate Displays")
+![Separate Displays](https://i.imgur.com/dIBQnyZ.png "Separate Displays")
 
-When SDL determines a video stream has been established, it creates a UIScreen object using the attributes of the SDL VPM screen. SDL will then post [UIScreenDidConnectNotification](https://developer.apple.com/documentation/uikit/uiscreendidconnectnotification). This informs the app of the new screen. SDLCarWindow watches for application calls to [-[UIScreen screens]](https://developer.apple.com/documentation/uikit/uiscreen/1617812-screens?language=objc). When called, the SDL managed UIScreen is added to the list of available screens. 
+When SDL determines a video stream has been established, a UIScreen object is created using the attributes of the head unit's display. SDL then posts [UIScreenDidConnectNotification](https://developer.apple.com/documentation/uikit/uiscreendidconnectnotification) to inform the app the display configuration has changed. [-[UIScreen screens]](https://developer.apple.com/documentation/uikit/uiscreen/1617812-screens?language=objc) is overidden to add the SDL managed UIScreen to the list of available screens. 
 
 The app enables rendering to the external display using [standard Apple recommended steps](https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/WindowAndScreenGuide/UsingExternalDisplay/UsingExternalDisplay.html#//apple_ref/doc/uid/TP40012555-CH3-SW3). 
 ```objc
-// When an external screen becomes available, attach SDLWindow storyboard.
-// This renders into an offscreen window for SDL Video Projection Mode.
+// When an external screen becomes available, attach a storyboard  
+// designed specifically for the head unit's display.
 - (void) updateCarWindow:(NSNotification *)notification
 {
     if (UIScreen.screens.count <= 1) {
@@ -49,22 +49,22 @@ The app enables rendering to the external display using [standard Apple recommen
     [self.sdlWindow makeKeyAndVisible];
 }
 ```
-SDLCarWindow watches for calls to [-[UIWindow setScreen:]](https://developer.apple.com/documentation/uikit/uiwindow/1621597-screen?language=objc) and [-[UIWindow setRootViewController:]](https://developer.apple.com/documentation/uikit/uiwindow/1621581-rootviewcontroller?language=objc). These are used to create an instance if SDLCarWindow and attach it to the UIWindow. The UIWindow supplied by the application is used as the video projection source and touch event sink (key window).
+[-[UIWindow setScreen:]](https://developer.apple.com/documentation/uikit/uiwindow/1621597-screen?language=objc) and [-[UIWindow setRootViewController:]](https://developer.apple.com/documentation/uikit/uiwindow/1621581-rootviewcontroller?language=objc) overrides are used to link an SDLCarWindow object to the UIWindow object. The UIWindow supplied by the application is used as the video projection source and touch event sink (key window).
 
 **Video Projection**
-SDLCarWindow uses the SDLStreamingMediaManager created by SDLLifecycleManager to manage video streaming.
+SDLCarWindow uses the existing SDLStreamingMediaManager created by SDLLifecycleManager to manage video streaming.
 SDLStreamingMediaManager is used to project the contents of the virtual external display. 
 
 **Touch Events**
-SDLCarWindow adopts the SDLHapticHitTester protocol to enable correlation of SDLTouch events with the corresponding haptic region. In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS.
+SDLCarWindow adopts the SDLHapticHitTester protocol to enable correlation of SDLTouch events with the corresponding haptic region. In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS. [2]
 
 Ownership of SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow. SDLStreamingMediaLifecycleManager links to SDLCarWindow. SDLCarWindow creates an instance of SDLTouchManager and sets itself as the delegate. In this configuration, touch events are delivered from SDLTouchManager to SDLCarWindow. 
 
-SDLCarWindow handles SDL touch events by first giving the app a chance to handle them, then translating them directly into actions if the app doesn't handle them. By translating touch events into view actions within SDLCarWindow, no additional effort is required on the part of the app developer to handle touch events. This is provided for UIKit view types only. 
+SDLCarWindow handles SDL touch events by first giving the app a chance to handle them, translating any unhandled events into view actions. By translating touch events into view actions within SDLCarWindow, no additional effort is required on the part of the app developer to handle touch events. This is provided for UIKit view types only. 
 
-Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField and UITabBarController. [1]
+Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField and UITabBarController. [3]
 
-Touch events for custom views defined by the app must be handled by the app. This is acomplished using SDLTouchManager delegation. An app which adopts the SDLTouchManagerDelegate protocol will have the first chance at handling each touch event. If the app handles the event, it returns YES. A return value of NO instructs SDL to handle the event.
+Touch events for custom views defined by the app must be handled by the app. An app wishing to handle touch events adopts the SDLTouchManagerDelegate protocol. The app will then have the choice of handling a touch event, or passing the event on to SDL to handle it automatically. When the app handles the event, it returns YES from the delegate method. A return value of NO instructs SDL to handle the event.
 
 **SDLTouchManagerDelegate support in the application's view controller:**
 ```objc
@@ -77,8 +77,8 @@ Touch events for custom views defined by the app must be handled by the app. Thi
     return handled;
 }
 ```
-**Maintaining the list of focusable and selectable UI elements**
-SDLCarWindow interates the subviews of the VPM view and builds a list of focusable views. This list is sent to the core as SDLHapticData.
+**Focusable and selectable UI elements**
+SDLCarWindow interates the subviews of the VPM view and builds a list of focusable views. This list is sent to the head unit as SDLHapticRectData.
 
 ```objc
 - (void)updateInterfaceLayout
@@ -149,11 +149,11 @@ SDLCarWindow interates the subviews of the VPM view and builds a list of focusab
         [self focusableControlsInView:subview result:result];
     }
 }
-
-
 ```
 
-SDLCarWindow automatically handles view layout updates by inserting a listener into -[[CALayer layoutSublayers]](https://developer.apple.com/documentation/quartzcore/calayer/1410935-layoutsublayers?language=objc). 
+SDLCarWindow automatically handles view layout updates by listening for calls to -[[CALayer layoutSublayers]](https://developer.apple.com/documentation/quartzcore/calayer/1410935-layoutsublayers?language=objc).
+
+The app may optionally notify SDL of a layout change by posting SDLDidUpdateProjectionView. This tells SDL to recompile and refresh the head unit's list of focusable and selectable UI elements. 
 
 ```objc
 //==========================================================================================
@@ -174,25 +174,26 @@ static void CALayer_layoutSublayers(CALayer* layer, SEL methodName)
 }
 ```
 ## Benefits
-* The projected video view is separate from the view on the device's LCD.
-* Separate views for device and head unit allow for used of device while attached and projecting. (Apps which do not use the lock screen)
+* The projected video view is separate from the view on the device's LCD allowing for optional use of device while projecting.
 * Video projection is achieved using documented Apple procedures for external display support. 
-* The app developer doesn't need to write any code to handle touch events. From the app's perpective, view actions are triggered identically as if UIKit had fired them.
-* The app developer has the option to handle touch events in the app should they wish to do so. (Custom views)
+* The app developer doesn't need to write any code to handle touch events when using supported UIKit responders. From the app's perpective, actions are triggered identically to UIKit.
+* The app developer has the option to handle touch events in the app should they wish to do so. (Custom views, OpenGL)
 * Touch event behavior of the iOS proxy remains consistent across all apps using the same version of the SDL framework. 
-* Features and fixes propogate to all apps.
+* VPM features and fixes propogate to all apps.
 
 ## Potential downsides
-* SDLCarWindow uses swizzling. However all methods are public and have not changed since iOS 3.2 (most since iOS 2.0).
-* Unforeseen challenges may arise when implementing action triggers for other UIKit types. This can be mitigated by building upon existing and tested Xevo implementations [1]. 
+* SDLCarWindow uses swizzling. All swizzled methods are public and have not changed since iOS 2.0-3.2.
+* Unforeseen challenges may arise when adding support for new UIKit types. 
 
 ## Impact on existing code
-* Apps adopting SDLTouchManagerDelegate will need to return a BOOL instead of void for delegate methods.
+* Apps adopting SDLTouchManagerDelegate will need to return BOOL instead of void for delegate methods.
 * SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow
 * SDLCarWindow deprecates SDLHapticManager. Functionality previously found in SDLHapticManager has been moved into SDLCarWindow.  
 
 ## Alternatives considered
-* Force the each application to handle touch events using a delegate. The developer then has to handle the translation of a view and a point into some sort of desired action. Touch management will be different for each app which will lead to inconsistency amongst SDL apps, which in-turn will lead to user dismay. 
+* Force the each application to handle touch events via SDLTouchManagerDelegate. The developer has to handle the translation of a view and location into the desired action. Touch management will be inconsist amongst SDL apps, which could lead to user dismay. 
 
-## References
-[1] Xevo production code
+## Notes
+[1] OpenGL based views require SDLTouchManagerDelegate adoption to handle touch events
+[2] Device managed focus navigation is preferred, but has not been PoC'd
+[3] Xevo production code
