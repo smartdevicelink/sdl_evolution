@@ -20,7 +20,7 @@ SDLCarWindow hides the management of video projection and touch event handling f
 **Application Interface**
 The video projection interface is exposed to the application as a UIScreen object representing a virtual external display. This external view is separate from the view rendered on the device's LCD.
 
-![Separate Displays](https://imgur.com/a/NAEKL "Separate Displays")
+![Separate Displays](https://i.imgur.com/ZP1oHJH.png "Separate Displays")
 
 When SDL determines a video stream has been established, it creates a UIScreen object using the attributes of the SDL VPM screen. SDL will then post [UIScreenDidConnectNotification](https://developer.apple.com/documentation/uikit/uiscreendidconnectnotification). This informs the app of the new screen. SDLCarWindow watches for application calls to [-[UIScreen screens]](https://developer.apple.com/documentation/uikit/uiscreen/1617812-screens?language=objc). When called, the SDL managed UIScreen is added to the list of available screens. 
 
