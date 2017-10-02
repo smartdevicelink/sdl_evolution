@@ -320,31 +320,57 @@ New LIGHT data types.
     <element name="REAR_LEFT_TURN_LIGHT" value="18"/>
     <element name="REAR_RIGHT_TURN_LIGHT" value="19"/>
     <element name="REAR_REGISTRATION_PLATE_LIGHT" value="20"/>
-    
+
     <!-- Exterior Lights by common function groups 501~800 -->
-    <element name="HIGH_BEAMS" value="501"/>
-    <element name="LOW_BEAMS" value="502"/>
-    <element name="FOG_LIGHTS" value="503"/>
-    <element name="RUNNING_LIGHTS" value="504"/>
-    <element name="PARKING_LIGHTS" value="505"/>
-    <element name="BRAKE_LIGHTS" value="506"/>
+    <element name="HIGH_BEAMS" value="501">
+      <description>Include all high beam lights: front_left and front_right.</description>
+    </element>
+    <element name="LOW_BEAMS" value="502">
+      <description>Include all low beam lights: front_left and front_right.</description>
+    </element>
+    <element name="FOG_LIGHTS" value="503">
+      <description>Include all fog lights: front_left, front_right, rear_left and rear_right.</description>
+    </element>
+    <element name="RUNNING_LIGHTS" value="504">
+      <description>Include all daytime running lights: front_left and front_right.</description>
+    </element>
+    <element name="PARKING_LIGHTS" value="505">
+      <description>Include all parking lights: front_left and front_right.</description>
+    </element>
+    <element name="BRAKE_LIGHTS" value="506">
+      <description>Include all brake lights: rear_left and rear_right.</description>
+    </element>
     <element name="REAR_REVERSING_LIGHTS" value="507"/>
     <element name="SIDE_MARKER_LIGHTS" value="508"/>
-    <element name="LEFT_TRUN_LIGHTS" value="509"/>
-    <element name="RIGHT_TRUN_LIGHTS" value="510"/>
-    <element name="HAZARD_LIGHTS" value="511"/>
-    
+    <element name="LEFT_TURN_LIGHTS" value="509">
+      <description>Include all left turn signal lights: front_left, rear_left, left_side and mirror_mounted.</description>
+    </element>
+    <element name="RIGHT_TURN_LIGHTS" value="510">
+      <description>Include all right turn signal lights: front_right, rear_right, right_side and mirror_mounted.</description>
+    </element>
+    <element name="HAZARD_LIGHTS" value="511">
+      <description>Include all hazard lights: front_left, front_right, rear_left and rear_right.</description>
+    </element>
+
     <!-- Interior Lights by common function groups 801~900 -->
     <element name="AMBIENT_LIGHTS" value="801"/>
     <element name="OVERHEAD_LIGHTS" value="802"/>
     <element name="READING_LIGHTS" value="803"/>
     <element name="TRUNK_LIGHTS" value="804"/>
-    
+
     <!-- Lights by location 901~1000-->
-    <element name="EXTERIOR_FRONT_LIGHTS" value="901"/>
-    <element name="EXTERIOR_REAR_LIGHTS" value="902"/>
-    <element name="EXTERIOR_LEFT_LIGHTS" value="903"/>
-    <element name="EXTERIOR_RIGHT_LIGHTS" value="902"/>
+    <element name="EXTERIOR_FRONT_LIGHTS" value="901">
+      <description>Include exterior lights located in front of the vehicle. For example, fog lights and low beams.</description>
+    </element>
+    <element name="EXTERIOR_REAR_LIGHTS" value="902">
+      <description>Include exterior lights located at the back of the vehicle. For example, license plate lights, reverse lights, cargo lights, bed lights an trailer assist lights.</description>
+    </element>
+    <element name="EXTERIOR_LEFT_LIGHTS" value="903">
+      <description>Include exterior lights located at the left side of the vehicle. For example, left puddle lights and spot lights.</description>
+    </element>
+    <element name="EXTERIOR_RIGHT_LIGHTS" value="902">
+      <description>Include exterior lights located at the right side of the vehicle. For example, right puddle lights and spot lights.</description>
+    </element>
   </enum>
   
   <enum name="LightStatus">
