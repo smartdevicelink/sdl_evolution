@@ -17,6 +17,8 @@ Provide a convenient and simple programming model for SDL app developers to remo
 
 SDLCarWindow leverages SDLStreamingMediaManager and SDLTouchManager to hide the management of video projection and touch event handling from the app developer. For apps which use only UIKit derived UI elements, no SDL specific code is necessary. [1]
 
+SDLTouchManager is embellished to invoke view actions based on remote touch events.
+
 **Application Interface**
 
 The video projection interface is exposed to the application as a UIScreen object representing a virtual external display. The external view is separate from the view rendered on the device's LCD. This allows the developer to optionally forego the lock screen, instead displaying a different interface on the device than what is projected onto the head unit.
@@ -59,15 +61,15 @@ SDLStreamingMediaManager is used to project the contents of the virtual external
 
 **Touch Events**
 
-SDLCarWindow adopts the SDLHapticHitTester protocol to enable correlation of SDLTouch events with the corresponding haptic region. In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS. [2]
+Ownership of SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow. SDLStreamingMediaLifecycleManager links to SDLCarWindow to retain access to SDLTouchManager. 
 
-Ownership of SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow. SDLStreamingMediaLifecycleManager links to SDLCarWindow. SDLCarWindow creates an instance of SDLTouchManager and sets itself as the delegate. In this configuration, touch events are delivered from SDLTouchManager to SDLCarWindow. 
+SDLTouchManager handles each touch event by first giving SDLTouchManagerDelegate delegate a chance to handle it. If the event remains unhandled, SDLTouchManager will attempt to translate the event directly into a view action and invoke that action. By translating touch events into view actions within SDLTouchManager, no additional effort is required on the part of the app developer to handle touch events. This is provided for UIKit view types only. 
 
-SDLCarWindow handles SDL touch events by first giving the app a chance to handle them, translating any unhandled events into view actions. By translating touch events into view actions within SDLCarWindow, no additional effort is required on the part of the app developer to handle touch events. This is provided for UIKit view types only. 
+Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField, UISegmentedControl and UITabBarController. [2]
 
-Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField, UISegmentedControl and UITabBarController. [3]
+Touch events for custom views defined by the app must be handled by the app. An app wishing to handle touch events must adopt and implement the SDLTouchManagerDelegate protocol. The app will then have the choice of handling a touch event, or passing the event on to SDL to handle it automatically. When the app handles the event, it returns YES from the delegate method. A return value of NO instructs SDL to handle the event.
 
-Touch events for custom views defined by the app must be handled by the app. An app wishing to handle touch events adopts the SDLTouchManagerDelegate protocol. The app will then have the choice of handling a touch event, or passing the event on to SDL to handle it automatically. When the app handles the event, it returns YES from the delegate method. A return value of NO instructs SDL to handle the event.
+In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS. [3]
 
 **SDLTouchManagerDelegate support in the application's view controller:**
 ```objc
@@ -199,5 +201,5 @@ static void CALayer_layoutSublayers(CALayer* layer, SEL methodName)
 
 ## Notes
 [1] OpenGL based views require SDLTouchManagerDelegate adoption to handle touch events
-[2] Device managed focus navigation is preferred, but has not been PoC'd
-[3] Xevo production code
+[2] Xevo production code
+[3] Device managed focus navigation is preferred, but has not been PoC'd
