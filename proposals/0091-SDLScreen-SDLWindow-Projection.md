@@ -65,7 +65,7 @@ Ownership of SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDL
 
 SDLCarWindow handles SDL touch events by first giving the app a chance to handle them, translating any unhandled events into view actions. By translating touch events into view actions within SDLCarWindow, no additional effort is required on the part of the app developer to handle touch events. This is provided for UIKit view types only. 
 
-Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField and UITabBarController. [3]
+Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField, UISegmentedControl and UITabBarController. [3]
 
 Touch events for custom views defined by the app must be handled by the app. An app wishing to handle touch events adopts the SDLTouchManagerDelegate protocol. The app will then have the choice of handling a touch event, or passing the event on to SDL to handle it automatically. When the app handles the event, it returns YES from the delegate method. A return value of NO instructs SDL to handle the event.
 
