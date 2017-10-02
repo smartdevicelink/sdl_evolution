@@ -332,7 +332,7 @@ New LIGHT data types.
       <description>Include all fog lights: front_left, front_right, rear_left and rear_right.</description>
     </element>
     <element name="RUNNING_LIGHTS" value="504">
-      <description>Include all daytime running lights: front, left and right.</description>
+      <description>Include all daytime running lights: front_left and front_right.</description>
     </element>
     <element name="PARKING_LIGHTS" value="505">
       <description>Include all parking lights: front_left and front_right.</description>
