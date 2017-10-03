@@ -203,5 +203,7 @@ static void CALayer_layoutSublayers(CALayer* layer, SEL methodName)
 
 ## Notes
 [1] OpenGL based views require SDLTouchManagerDelegate adoption to handle touch events
+
 [2] Xevo production code
+
 [3] Device managed focus navigation is preferred, but has not been PoC'd
