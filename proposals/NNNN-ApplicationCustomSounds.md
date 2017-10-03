@@ -1,7 +1,7 @@
 # HMI Application Custom Sounds Proposal 
 * Proposal: [SDL-NNNN](NNNN-filename.md)
 * Author: [Emily Lerner](https://github.com/eslerner)
-* Status: **Review Ready**
+* Status: **Awaiting Review**
 * Impacted Platforms: [Web]
 
 ## Introduction
