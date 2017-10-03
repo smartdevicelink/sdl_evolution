@@ -19,6 +19,8 @@ SDLCarWindow leverages SDLStreamingMediaManager and SDLTouchManager to hide the 
 
 SDLTouchManager is embellished to invoke view actions based on remote touch events.
 
+If the head unit communicates that it implements a focus/select interaction model rather than direct touch, the focusableItemLocatorEnabled property will be set to YES. 
+
 **Application Interface**
 
 The video projection interface is exposed to the application as a UIScreen object representing a virtual external display. The external view is separate from the view rendered on the device's LCD. This allows the developer to optionally forego the lock screen, instead displaying a different interface on the device than what is projected onto the head unit.
