@@ -65,25 +65,10 @@ SDLStreamingMediaManager is used to project the contents of the virtual external
 
 Ownership of SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow. SDLStreamingMediaLifecycleManager links to SDLCarWindow to retain access to SDLTouchManager. 
 
-SDLTouchManager handles each touch event by first giving SDLTouchManagerDelegate delegate a chance to handle it. If the event remains unhandled, SDLTouchManager will attempt to translate the event directly into a view action and invoke that action. By translating touch events into view actions within SDLTouchManager, no additional effort is required on the part of the app developer to handle touch events. This is provided for UIKit view types only. 
+The app handles touch events by adopting the SDLTouchManagerDelegate protocol.
 
-Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField, UISegmentedControl and UITabBarController. [2]
+In a later proposal, SDLTouchManager will be extended to automatically handle touch events for any UIResponder derived class, removing this burden from the app developer and deprecating SDLTouchManagerDelegate.
 
-Touch events for custom views defined by the app must be handled by the app. An app wishing to handle touch events must adopt and implement the SDLTouchManagerDelegate protocol. The app will then have the choice of handling a touch event, or passing the event on to SDL to handle it automatically. When the app handles the event, it returns YES from the delegate method. A return value of NO instructs SDL to handle the event.
-
-In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS. [3]
-
-**SDLTouchManagerDelegate support in the application's view controller:**
-```objc
-- (BOOL)touchManager:(SDLTouchManager *)manager didReceiveSingleTapForView:(UIView*)view atPoint:(CGPoint)point {
-    BOOL handled = NO;
-    if ([view isEqual:self.customView] == YES) {
-        [CustomAlertViewController displayText:@"'CustomView' was tapped" parent:self];
-        handled = YES;
-    }
-    return handled;
-}
-```
 **Focusable and selectable UI elements**
 
 SDLCarWindow walks the view hierarchy and builds a list of focusable views. This list is sent to the head unit as SDLHapticRectData.
@@ -181,6 +166,9 @@ static void CALayer_layoutSublayers(CALayer* layer, SEL methodName)
     }
 }
 ```
+
+In a kater proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS. [2]
+
 ## Benefits
 * The projected video view is separate from the view on the device's LCD allowing for optional use of device while projecting.
 * Video projection is achieved using documented Apple procedures for external display support. 
@@ -204,6 +192,4 @@ static void CALayer_layoutSublayers(CALayer* layer, SEL methodName)
 ## Notes
 [1] OpenGL based views require SDLTouchManagerDelegate adoption to handle touch events
 
-[2] Xevo production code
-
-[3] Device managed focus navigation is preferred, but has not been PoC'd
+[2] Device managed focus navigation is preferred, but has not been PoC'd
