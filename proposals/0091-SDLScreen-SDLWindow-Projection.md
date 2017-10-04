@@ -57,7 +57,7 @@ The app developer uses SDLLifecycleConfiguration to set the app type to SDLAppHM
     [lifecycleConfig setStreamingViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
 ```
 
-The reason the root view is set here instead of assigning it directly to streamingViewController property is because SDLHapticManager looks for the window early on in the SDL setup process. The window must be available to SDL by the time the app calls SDLManager's initWithConfiguration:delegate: method.
+The reason the root view is set here instead of assigning it directly to the streamingViewController property is because SDLHapticManager looks for the window early in the SDL setup process. The window must be available to SDL by the time the app calls SDLManager's initWithConfiguration:delegate: method.
 
 The SDLCarWindow class will also include the previously app-level common logic that interacts with the existing SDLStreamingMediaManager class to stream pixel buffers and receive audio data. It relies on the helper class SDLStreamingMediaLifecycleManager to ensure streaming is allowed and manage the streaming state.
 
