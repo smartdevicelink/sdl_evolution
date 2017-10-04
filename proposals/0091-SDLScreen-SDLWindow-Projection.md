@@ -20,7 +20,7 @@ If the head unit communicates that it implements a focus/select interaction mode
 
 The video projection interface is exposed to the application as a UIScreen object representing a virtual external display. The external view is separate from the view rendered on the device's LCD. This allows the developer to optionally forego the lock screen, instead displaying a different interface on the device than what is projected onto the head unit.
 
-![Separate Displays](https://i.imgur.com/dIBQnyZ.png "Separate Displays")
+![Separate Displays](../assets/proposals/0091-SDLScreen-SDLWindowProjection/Handset_HeadUnit.png "Separate Displays")
 
 When SDL determines a video stream has been established, a UIScreen object is created using the attributes of the head unit's display. SDL then posts [UIScreenDidConnectNotification](https://developer.apple.com/documentation/uikit/uiscreendidconnectnotification) to inform the app the display configuration has changed. [-[UIScreen screens]](https://developer.apple.com/documentation/uikit/uiscreen/1617812-screens?language=objc) is overidden to add the SDL managed UIScreen to the list of available screens. 
 
