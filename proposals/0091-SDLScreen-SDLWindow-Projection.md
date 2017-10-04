@@ -1,23 +1,20 @@
 # SDLCarWindow Video Projection Developer Interface
 
 * Proposal: [SDL-0091](0091-SDLScreen-SDLWindow-Projection.md)
-* Author: [Michael Pitts](mailto:mpitts@xevo.com)
+* Author: [Michael Pitts](https://github.com/gnxclone)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
-
-The iOS SDL framework implements an SDLCarWindow class to provide an easy-to-integrate developer interface to SDL video projection the associated task of defining focusable and selectable UI elements and the translation of remote touch events into standard UIKit actions. 
+The iOS SDL framework implements an SDLCarWindow class to provide an easy-to-integrate developer interface to SDL video projection and the associated task of defining focusable and selectable UI elements. 
 
 ## Motivation
-
-Provide a convenient and simple programming model for SDL app developers to remotely project and enable interaction with the appropriate subset of their UIKit, OpenGL and hybrid UIKit/OpenGL user interfaces. [1]
+Provide a convenient and simple programming model for SDL app developers to remotely project and enable interaction with the appropriate subset of their UIKit, OpenGL and hybrid UIKit/OpenGL user interfaces. 
 
 ## Proposed solution
+SDLCarWindow leverages SDLStreamingMediaManager and SDLTouchManager to hide the management of video projection from the app developer. 
 
-SDLCarWindow leverages SDLStreamingMediaManager and SDLTouchManager to hide the management of video projection and touch event handling from the app developer. For apps which use only UIKit derived UI elements, no SDL specific code is necessary. [1]
-
-SDLTouchManager is embellished to invoke view actions based on remote touch events.
+If the head unit communicates that it implements a focus/select interaction model rather than direct touch, the focusableItemLocatorEnabled property will be set to YES. 
 
 **Application Interface**
 
@@ -56,35 +53,17 @@ The app enables rendering to the external display using [standard Apple recommen
 
 **Video Projection**
 
-SDLCarWindow uses the existing SDLStreamingMediaManager created by SDLLifecycleManager to manage video streaming.
-SDLStreamingMediaManager is used to project the contents of the virtual external display. 
+SDLCarWindow uses the existing SDLStreamingMediaManager created by SDLLifecycleManager to manage video streaming. SDLStreamingMediaManager is used to project the contents of the virtual external display. 
 
 **Touch Events**
 
 Ownership of SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow. SDLStreamingMediaLifecycleManager links to SDLCarWindow to retain access to SDLTouchManager. 
 
-SDLTouchManager handles each touch event by first giving SDLTouchManagerDelegate delegate a chance to handle it. If the event remains unhandled, SDLTouchManager will attempt to translate the event directly into a view action and invoke that action. By translating touch events into view actions within SDLTouchManager, no additional effort is required on the part of the app developer to handle touch events. This is provided for UIKit view types only. 
+At the time of this proposal, the app handles touch events by adopting the SDLTouchManagerDelegate protocol. In a later proposal, SDLTouchManager will be extended to automatically handle touch events for any UIResponder derived class, removing this burden from the app developer and deprecating SDLTouchManagerDelegate.
 
-Currently supported types are: UIButton, UIControl, UINavigationViewController, UITableView, UICollectionViewCell, UIScrollView, UISearchBar, UITextField, UISegmentedControl and UITabBarController. [2]
-
-Touch events for custom views defined by the app must be handled by the app. An app wishing to handle touch events must adopt and implement the SDLTouchManagerDelegate protocol. The app will then have the choice of handling a touch event, or passing the event on to SDL to handle it automatically. When the app handles the event, it returns YES from the delegate method. A return value of NO instructs SDL to handle the event.
-
-In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS. [3]
-
-**SDLTouchManagerDelegate support in the application's view controller:**
-```objc
-- (BOOL)touchManager:(SDLTouchManager *)manager didReceiveSingleTapForView:(UIView*)view atPoint:(CGPoint)point {
-    BOOL handled = NO;
-    if ([view isEqual:self.customView] == YES) {
-        [CustomAlertViewController displayText:@"'CustomView' was tapped" parent:self];
-        handled = YES;
-    }
-    return handled;
-}
-```
 **Focusable and selectable UI elements**
 
-SDLCarWindow walks the view hierarchy and builds a list of focusable views. This list is sent to the head unit as SDLHapticRectData.
+SDLCarWindow walks the view hierarchy to build a list of focusable views. This list is sent to the head unit as SDLHapticRectData.
 
 ```objc
 - (void)updateInterfaceLayout
@@ -179,27 +158,16 @@ static void CALayer_layoutSublayers(CALayer* layer, SEL methodName)
     }
 }
 ```
+
+In a later proposal, SDL will be extended to include focus and selection control on the handset, following the UIFocusEngine model from tvOS. 
+
 ## Benefits
 * The projected video view is separate from the view on the device's LCD allowing for optional use of device while projecting.
 * Video projection is achieved using documented Apple procedures for external display support. 
-* The app developer doesn't need to write any code to handle touch events when using supported UIKit responders. From the app's perpective, actions are triggered identically to UIKit.
-* The app developer has the option to handle touch events in the app should they wish to do so. (Custom views, OpenGL)
-* Touch event behavior of the iOS proxy remains consistent across all apps using the same version of the SDL framework. 
-* VPM features and fixes propogate to all apps.
 
 ## Potential downsides
-* SDLCarWindow uses swizzling. All swizzled methods are public and have not changed since iOS 2.0-3.2.
-* Unforeseen challenges may arise when adding support for new UIKit types. 
+* SDLCarWindow uses swizzling. However, all swizzled methods are public and have not changed since iOS 2.0-3.2.
 
 ## Impact on existing code
-* Apps adopting SDLTouchManagerDelegate will need to return BOOL instead of void for delegate methods.
 * SDLTouchManager moves from SDLStreamingMediaLifecycleManager to SDLCarWindow
 * SDLCarWindow deprecates SDLHapticManager. Functionality previously found in SDLHapticManager has been moved into SDLCarWindow.  
-
-## Alternatives considered
-* Force the each application to handle touch events via SDLTouchManagerDelegate. The developer has to handle the translation of a view and location into the desired action. Touch management will be inconsist amongst SDL apps, which could lead to user dismay. 
-
-## Notes
-[1] OpenGL based views require SDLTouchManagerDelegate adoption to handle touch events
-[2] Xevo production code
-[3] Device managed focus navigation is preferred, but has not been PoC'd
