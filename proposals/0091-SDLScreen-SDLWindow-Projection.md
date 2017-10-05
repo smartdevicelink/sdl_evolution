@@ -71,5 +71,5 @@ This proposal has no impact on existing video/audio streaming applications. It p
 
 ## Alternatives considered
 
-This proposal provides no support for SDLCarWindow encoding of pure OpenGL interfaces. Since all OpenGL content must be displayed within a UIView on iOS, it might be possible to intelligently encode video for the OpenGL layer(s) in SDLCarWindow. \
+This proposal provides no support for SDLCarWindow encoding of pure OpenGL interfaces. Since all OpenGL content must be displayed within a UIView on iOS, it might be possible to intelligently encode video for the OpenGL layer(s) in SDLCarWindow. 
 
