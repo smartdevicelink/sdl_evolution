@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0102](0102-New-vehicle-data-ElectronicParkBrakeStatus.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
