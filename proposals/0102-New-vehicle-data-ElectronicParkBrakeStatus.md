@@ -20,7 +20,7 @@ The solution proposes adding the possibility to subscribe and get the Park Brake
 ### Additions to Mobile_API
 
 ```xml
-<enum name="EletronicParkBrakeStatus">
+<enum name="ElectronicParkBrakeStatus">
   <element name="CLOSED" />
     <description>
       Park brake actuators have been fully applied.
