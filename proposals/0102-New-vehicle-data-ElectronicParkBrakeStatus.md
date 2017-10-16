@@ -89,14 +89,14 @@ The solution proposes adding the possibility to subscribe and get the Park Brake
 </function>
 <function name="GetVehicleData" functionID="GetVehicleDataID" messagetype="response">
             :
-    <param name="electronicParkBrakeStatus" type="EletronicParkBrakeStatus" mandatory="false">
+    <param name="electronicParkBrakeStatus" type="ElectronicParkBrakeStatus" mandatory="false">
         <description>The status of the park brake as provided by Electric Park Brake (EPB) system.</description>
     </param>
 </function>
 
 <function name="OnVehicleData" functionID="OnVehicleDataID" messagetype="notification">
             :
-    <param name="electronicParkBrakeStatus" type="EletronicParkBrakeStatus" mandatory="false">
+    <param name="electronicParkBrakeStatus" type="ElectronicParkBrakeStatus" mandatory="false">
         <description>The status of the park brake as provided by Electric Park Brake (EPB) system.</description>
     </param>
 </function>
