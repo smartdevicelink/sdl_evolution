@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-NNNN](NNNN-atf_security_proposal.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Ready for review**
+* Status: **Awaiting review**
 * Impacted Platforms: [ATF]
 
 ## Introduction
