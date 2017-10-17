@@ -19,12 +19,12 @@ Main ATF features for checking SDL security are:
 
 ## Motivation
 
-Motivation of this proposal is to create ability of coverage the secure sessions. Which is the most important not covered part of SDL functionality.
+Motivation for this proposal is to create the ability to cover secure sessions, which is an important part of SDL functionality not currently covered by ATF.
 
-Manual testing of security SDL feature is slow and expensive. Also there is a big probability of error during manual testing.
+Manual testing of security SDL feature is slow and expensive. Also there is a probability of error during manual testing.
 Testing automatization of all SDL use cases is the best option to be sure that new code does not break SDL functionality.
 
-ATF has possibility to cover almost all SDL use cases with automatic testing. But there is still some functionality that remains uncovered my ATF:
+ATF has possibility to cover almost all SDL use cases with automatic testing, but there is still some functionality that remains uncovered by ATF:
  - Bluetooth transport;
  - USB transport;
  - Security feature;
@@ -43,14 +43,14 @@ Add new APIs in ATF:
 [mobile_session.lua](https://github.com/smartdevicelink/sdl_atf/blob/master/modules/mobile_session.lua) and 
 [mobile_session_impl.lua](https://github.com/smartdevicelink/sdl_atf/blob/master/modules/mobile_session_impl.lua) should be extended with secure session interfaces. 
 
-Should be added new ini file option: `SecurityProtocol`\
-Should be added new command line option: `security_protocol`\
-In case if this option is missed, use TLS security by default.
+Should add new ini file option: `SecurityProtocol`\
+Should add new command line option: `security_protocol`\
+If this option is missed, use TLS security by default.
 
 ### Detailed design
 
 #### New component: 
-Will be added new component : *SecurityManager* 
+Will add new component: *SecurityManager* 
 
 Responsibility of SecurityManager :
  - Manage digital certificates;
@@ -70,7 +70,7 @@ Responsibility of SecurityManager :
   
   This is a blocking call. Will block current execution until session won't be established or failed.
 ###### Arguments:
-  - protocol (if missed, used one from console or ini file options).
+  - protocol (if missed, use one from console or ini file options).
 ###### Return value:
   - session object.
   
@@ -128,8 +128,8 @@ Expect custom packet for checking TLS Handshake.
 
 ## Impact on existing code
 
-Should be impacted only ATF code.
-If during implementation will be found some blocker issues in SDL, they should be fixed.
+Should only impact ATF code.
+If blocker issues in SDL Core are found during implementation, they should be fixed.
 
 ## Alternatives considered
 Manual testing with using mobile application and Web HMI.
