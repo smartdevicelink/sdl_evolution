@@ -1,7 +1,7 @@
 # HMI Application Custom Sounds Proposal 
 * Proposal: [SDL-0103](0103-ApplicationCustomSounds.md)
 * Author: [Emily Lerner](https://github.com/eslerner)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Meta]
 
 ## Introduction
