@@ -7,28 +7,28 @@
 
 ## Introduction
 
-Video streaming is major feature of SDL. 
-Currently it should be tested manually on each release. 
-Testing video streaming is rather complicated and expensive, and there are big probability of human error during testing.
+Video streaming is a major feature of SDL. 
+Currently it should be tested manually for each release. 
+Testing of video streaming is rather complicated and expensive, and there is big probability of human mistakes during testing.
 
-Currently ATF is able to stream data from mobile side, but not able to handle streaming from HMI side, and check that data received and not corrupted.
+Currently ATF is able to stream data from mobile side, but not able to handle streaming from HMI side, and to check data is received and not corrupted.
 
-ATF should provide ability to cover all use cases related to video streaming. 
+ATF should provide ability to cover mentioned use cases related to video streaming. 
 
 ## Motivation
 
-Full streaming feature support will provide ability to cover all streaming cases with automated tests and reduce efforts for manual testing. 
+Full video streaming feature support will provide ability to cover mentioned streaming use cases with automated tests and reduce efforts for manual testing.
 
-Streaming tests should be part of smoke SDL test cases and should be performed on each pull request. 
+Tests related to video streaming will be included into smoke SDL test cases and could be performed on each pull request.
 
-Automatizing of video streaming use cases should also reduce time consumption's for testing video streaming.  
+Automatization of testing of video streaming use cases could reduce time consumption for testing video streaming.
 
-Also ATF should provide ability to perform other testing activities (send requests, notifications , etc ... ) during streaming. 
+In addition ATF will provide ability to create tests for complicated use cases like send requests, notifications, etc during streaming. 
 
 ## Proposed solution
 
-ATF should support reading data from pipe/socket and save them to file on file system.
-List of provided API to test script:
+ATF should support reading data from pipe/socket and save it to file system.
+List of provided APIs to test script:
 
 #### ListenStreaming
 
@@ -37,8 +37,8 @@ List of provided API to test script:
  - Count of bytes for event call : event with custom callback will be called after streaming some amount of bytes
 
 **Return value** :
- - Event that will be triggered each "*count of bytes*" received and on closing port\pipe. 
-   In event callback should be access to file with received data and count of received bytes and root cause of event 
+ - Event that will be triggered on each "*count of bytes*" received or on closing port\pipe. 
+   Event callback should provide access to file with received data, count of received bytes and root cause of event. 
 
 
 ## Potential downsides
@@ -47,9 +47,8 @@ N/A
 
 ## Impact on existing code
 
-
-Should impact only ATF code
+Should impact only ATF code.
 
 ## Alternatives considered
 
-Do not test wide streaming with automated test framework.
+Do not test video streaming with automated test framework.
