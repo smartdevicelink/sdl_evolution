@@ -6,30 +6,31 @@
 * Impacted Platforms: [ATF]
 
 ## Introduction
-Create service that is responsible for running and monitoring multiple SDL processes and handling SDL configurations.
+Create service responsible for running and monitoring multiple SDL processes and handling SDL configurations.
 Service will provide API to test scripts, and script will be able to run SDL with certain configuration. 
 Also this service should provide possibility to run multiple SDL instances (for parallel testing), monitor and control their life cycle. 
 
 ## Motivation
 
-Major problem if current automated testing is that it is impossible to test multiple instances of SDL simultaneously.
-Currently SDL and ATF should be separated on the same workstation, because ATF actually runs SDL via bash scripts. 
+Major problem of current automated testing approach is that it is impossible to test multiple instances of SDL simultaneously.
+Currently SDL and ATF should be located on the same workstation because ATF actually runs SDL via bash scripts. 
+Implementation of SDL watchdog gives possibility to locate ATF and SDL independently (on one or on separate workstations).
 Also ATF is not able to control SDL configuration, it just uses SDL that located in predefined place. 
-It will reduce a lot of testing efforts, if script will be able to get SDL with certain build flags, or certain version of SDL. 
-Also separating logic of script running and controlling of SDL will provide possibility of automated testing SDL on head unit.
+If script be able to get SDL with certain build flags, or certain version of SDL, that will reduce a lot of testing efforts.
+Separating of script run logic and SDL control logic will provide possibility to test SDL with automated scripts on head unit.
 
 ## Proposed solution
 
 Create SDL Watchdog service.
 Responsibilities of SDL Watchdog:
  - Run SDL with custom configuration and resource files
- - Run multiple instances of SDL simultaneously.
- - Kill certain SDL process
+ - Run multiple instances of SDL simultaneously
+ - Stop certain SDL instance
  - Monitor SDL life cycle
  - Catch SDL crash and provide core file
  - Provide SDL logs
  
-SDL Watchdog should provide API
+SDL Watchdog should provide following API
 
 #### SDL Watchdog API
 
@@ -39,20 +40,20 @@ Description:
  - Start SDL instance
 Options:
  - SDL build configuration
- - configuration files (preloaded_pt, ini, etc ...)
+ - resource files (preloaded_pt, ini, etc ...)
 Return value: 
  - ID of SDL process
- - Ip address and port of mobile connection
- - Ip address and port of HMI connection
- - Ip address and port of logs accessing
- - Ip address and port of SDL telemetry information   
- - Some transport specific connection information (BT or USB ...) 
+ - IP address and port of mobile connection
+ - IP address and port of HMI connection
+ - IP address and port of logs accessing
+ - IP address and port of SDL telemetry information   
+ - Some transport specific connection information (BT, USB, etc) 
 ```
 
 **StopSDL**
 ``` 
 Description: 
- - Kill SDL Process
+ - Stop SDL process
 Options:
  - ID of SDL process
 Return value: 
@@ -65,25 +66,25 @@ Description:
  - Download particular artifact file from defined SDL process  
 Options:
  - ID of SDL process (may be already not active)
- - Path to file
+ - Path to artifact file
 Return value : 
- - file to download
+ - Requested artifact file data
 ```
 
 **OnSDLStopped**
 ``` 
 Description : 
- - Callback service send if SDL is stopped
+ - Callback triggered by watchdog service when SDL stops
 Options:
  - ID of SDL process
- - Stop reason (Crash, regular shutdown, kill ...) 
+ - Stop reason (crash, regular shutdown, kill, etc) 
  - Payload (core file in case if SDL crashed) 
 ```
 
 #### ATF internal implementation
 
-On ATF side should be created SDL component that is able to communicate with SDL Watchdog via API.
-Also on ATF side SDL component should be able to fetch SDL logs by telnet, monitor SDL core crash and download stack trace.
+On ATF side should be created component (for example: `SDL`) that is able to communicate with SDL Watchdog via API.
+Also on ATF side SDL watchdog component should be able to fetch SDL logs by telnet, monitor SDL core crash and download stack trace.
 
 ATF should provide following API for script:
 
@@ -101,7 +102,7 @@ N/A
 
 ## Impact on existing code
 
-Impacts ATF code, some scripts, and required implementation of Watchdog service.
+Impacts ATF code, some scripts
 
 ## Alternatives considered
-Run SDL via command prompt, but it requires ATF to be separated on the same workstation with SDL and do not support automated testing on Head unit. 
+Run SDL via command prompt, but it requires ATF to be located on the same workstation with SDL and does not support automated testing on Head unit. 
