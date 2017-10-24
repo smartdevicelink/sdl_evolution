@@ -7,8 +7,8 @@
 
 ## Introduction
 
-Currently some number of test sets requires manual checking on real transport. 
-This part of manual work should be also automated via Automated test framework.
+Currently some number of test scripts require manual checks using real transport. 
+This part of manual work should be also automated with Automated test framework.
 
 Automated test framework should support communication with SDL via :
  - TCP (already supported)
@@ -16,34 +16,34 @@ Automated test framework should support communication with SDL via :
  - USB
  
 Full Bluetooth and USB testing of ATF should use real device for communication with SDL.
-In future this approach also will allow test SDL on custom OEM head units.
+In future this approach also will allow to test SDL on custom OEM head units.
 
 ## Motivation
 
-Some features of SDL assumes usage of certain transport : USB or Bluetooth.
-Some features even describe SDL behavior in case of transport switch or multiple device connection.
-Also main usage of SDL on head units is Bluetooth or USB. 
+Some features of SDL assume usage of certain transport : USB or Bluetooth.
+Some features describe SDL behavior in case of transport switch or multiple device connection.
+Also generally SDL is used Bluetooth or USB as connection protocol on head unit. 
 ATF should support custom transports. 
 
 Main reasons :
- - Automated testing transport specific use cases
+ - Automated testing of transport specific use cases
  - Automated smoke and full regression testing of SDL via Bluetooth and USB
- - Automated testing SDL on real hardware
+ - Automated testing of SDL on real hardware
  
 ## Proposed solution
 
-Use real mobile device as transport adapter.
-Create Mobile application as part of ATF infrastructure. 
-Mobile application may use [sdl android library](https://github.com/smartdevicelink/sdl_android)
+Use real mobile device as a transport adapter.
+Create Mobile application as a part of ATF infrastructure. 
+Mobile application may use [SDL android library](https://github.com/smartdevicelink/sdl_android)
 for communicating with SDL and TCP connection for communication with ATF.
 
-Mobile application(Mobile transport adapter) should provide ATF side such RPCs:
+Mobile application (Mobile transport adapter) should provide to ATF side such RPCs:
  - ConnectToSDL(transport)
  - RemoveConnection(connection_id)
  - GetListOfAvailableTransports()
  - SendData(connection_id, data)
  
-ATF should be able to connect to multiple Mobile transport adapters and provide to test engineer ability to use any of them. 
+ATF should be able to connect to multiple Mobile transport adapters and provide ability to use any of them to test engineer. 
 
 ATF should provide such API to test engineer: 
  - ConnectToSDL(device, connection type)
@@ -75,16 +75,12 @@ Also if this solution uses sdl_android, some changes may be required in sdl_andr
 
 #### Avoid automatic transport testing
 
- In SDL transport implemented throw adapters,
- so porting SDL on customer hardware requires rewriting transport adapters from scratch.
+ SDL has implemented transport using adapters, so porting SDL on customer hardware requires rewriting transport adapters from scratch.
  And any transport testing that is done on Ubuntu Linux x86 becomes not actual.
- But missing automatic transport testing make not possible to test business logic that is related to transport switch. 
- And this approach provide possibility of SDL testing on custom transports.
+ But missing of automated testing of transport makes not possible to check business logic that is related to transport switch. 
+ In addition proposed approach provides possibility of SDL testing on custom transports.
  
  #### Emulate transports
  
- Emulating USB/Bluetooth transports is probably possible, but it requires some research and development and also PoC project. 
- Also emulating transport won't allow performing automatic testing of SDL on custom head nits,
- so any testing that will be done on Ubuntu Linux x86 becomes not actual. 
- 
- 
+ Emulating of USB/Bluetooth transports probably is possible, but it requires some research, development and also PoC project. 
+ Also emulating of transport won't allow performing of automated testing of SDL on custom head units, so any testing that will be performed on Ubuntu Linux x86 becomes not actual. 
