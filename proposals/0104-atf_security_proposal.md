@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0103](0104-atf_security_proposal.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
