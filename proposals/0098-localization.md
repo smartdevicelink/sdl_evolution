@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0098](0098-localization.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [ iOS / Android ]
 
 ## Introduction

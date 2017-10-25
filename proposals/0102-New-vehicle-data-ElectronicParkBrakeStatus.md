@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0102](0102-New-vehicle-data-ElectronicParkBrakeStatus.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
@@ -20,7 +20,7 @@ The solution proposes adding the possibility to subscribe and get the Park Brake
 ### Additions to Mobile_API
 
 ```xml
-<enum name="EletronicParkBrakeStatus">
+<enum name="ElectronicParkBrakeStatus">
   <element name="CLOSED" />
     <description>
       Park brake actuators have been fully applied.
@@ -89,14 +89,14 @@ The solution proposes adding the possibility to subscribe and get the Park Brake
 </function>
 <function name="GetVehicleData" functionID="GetVehicleDataID" messagetype="response">
             :
-    <param name="electronicParkBrakeStatus" type="EletronicParkBrakeStatus" mandatory="false">
+    <param name="electronicParkBrakeStatus" type="ElectronicParkBrakeStatus" mandatory="false">
         <description>The status of the park brake as provided by Electric Park Brake (EPB) system.</description>
     </param>
 </function>
 
 <function name="OnVehicleData" functionID="OnVehicleDataID" messagetype="notification">
             :
-    <param name="electronicParkBrakeStatus" type="EletronicParkBrakeStatus" mandatory="false">
+    <param name="electronicParkBrakeStatus" type="ElectronicParkBrakeStatus" mandatory="false">
         <description>The status of the park brake as provided by Electric Park Brake (EPB) system.</description>
     </param>
 </function>
