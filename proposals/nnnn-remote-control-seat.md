@@ -7,7 +7,7 @@
 
 ## Introduction
 
-SDL remote control allows a user to control certain modules of the vehicle. This proposal allows mobile applications control powered seats within a vehicle (while the vehicle is in parking). A mobile application can send a remote control command to adjust seat positions, turn on or off cooled/heated seat, or change massage settings. The application can also get the status of each seat as well as receive notifications once the status of any seat changes.
+This proposal allows mobile applications to control powered seats within a vehicle (while the vehicle is in parking). A mobile application can send a remote control command to adjust seat positions, turn on or off cooled/heated seat, or change massage settings. The application can also get the status of each seat as well as receive notifications once the status of any seat changes.
 
 ## Motivation
 
@@ -24,9 +24,9 @@ Add a `SEAT` RC module, the capabilities of each seat, and the related control d
 | Seat Heating  level | 0-100% | Get/Set/Notification | Level of the seat heating |
 | Seat Cooling  level | 0-100% | Get/Set/Notification | Level of the seat cooling |
 | Seat Horizontal Positon | 0-100% | Get/Set/Notification | Adjust a seat forward/backward, 0 means the nearest position to the steering wheel, 100% means the furthest position from the steering wheel |
-| Seat Vertical Position | 0-100% | Get/Set/Notification | Adjust seat height (up or down) in case there is only one actutator for seat height, 0 means the lowest position, 100% means the highest position|
-| Seat-Front Vertical Position | 0-100% | Get/Set/Notification | Adjust seat front height (in case there are two actutators for seat height), 0 means the lowest position, 100% means the highest position|
-| Seat-Back Vertical Position | 0-100% | Get/Set/Notification | Adjust seat back height (in case there are two actutators for seat height), 0 means the lowest position, 100% means the highest position|
+| Seat Vertical Position | 0-100% | Get/Set/Notification | Adjust seat height (up or down) in case there is only one actuator for seat height, 0 means the lowest position, 100% means the highest position|
+| Seat-Front Vertical Position | 0-100% | Get/Set/Notification | Adjust seat front height (in case there are two actuators for seat height), 0 means the lowest position, 100% means the highest position|
+| Seat-Back Vertical Position | 0-100% | Get/Set/Notification | Adjust seat back height (in case there are two actuators for seat height), 0 means the lowest position, 100% means the highest position|
 | Seat Back Tilt Angle | 0-100% | Get/Set/Notification | Backrest recline, 0 means the angle that back top is nearest to the steering wheel, 100% means the angle that back top is furthest from the steering wheel|
 | Head Support Horizontal Positon | 0-100% | Get/Set/Notification | Adjust head support forward/backward, 0 means the nearest position to the front, 100% means the furthest position from the front |
 | Head Support Vertical Position | 0-100% | Get/Set/Notification | Adjust head support height (up or down), 0 means the lowest position, 100% means the highest position|
@@ -64,7 +64,7 @@ Add a `SEAT` RC module, the capabilities of each seat, and the related control d
 <struct name="MassageModeData">
   <description>Specify the mode of a massage zone.</description>
   <param name="massageZone" type="MassageZone" mandatory="true"></param>
-  <param name="massagegMode" type="MassageMode" mandatory="true"></param>
+  <param name="massageMode" type="MassageMode" mandatory="true"></param>
 </struct>
 
 <enum name="MassageCushion">
@@ -164,9 +164,9 @@ Add a `SEAT` RC module, the capabilities of each seat, and the related control d
   </param> 
   <param name="massageModeAvailable" type="Boolean" mandatory="false">
   </param> 
-  <param name="massageCushionFirmnessAvailable" type="Boolean" array="false">
+  <param name="massageCushionFirmnessAvailable" type="Boolean" mandatory="false">
   </param>
-  <param name="memoryAvailable" type="Boolean" array="false">
+  <param name="memoryAvailable" type="Boolean" mandatory="false">
   </param> 
 </struct> 
 
@@ -192,7 +192,7 @@ The changes are the same as mobile api changes, they are not duplicated here.
 
 ## Potential downsides
 
-Due to the lack of an agreed control resource ID/Zone scheme, we define `SupportedSeat` enum as a work around to allow control both driver seat and front passenger seat.
+Due to the lack of an agreed control resource ID/Zone scheme, we define `SupportedSeat` enum as a work around to allow control of both driver seat and front passenger seat.
 We shall have a global remote-control-resource ID/Zone scheme, that assigns an ID to each remote controllable resource within a vehicle.
 
 ## Impact on existing code
@@ -225,7 +225,7 @@ Mobile Apps:
 Policy:
 
 - Policies need to support new ModuleTypes (`SEAT`)
-- SDL need to transfer RPCs with new parameters to appropriate vehicle's module. The response resultCode depends on vehicle's result of processing.
+- SDL need to transfer RPCs with new parameters to appropriate vehicle modules. The response resultCode depends on vehicle's result of processing.
 
 ## Alternatives considered
 
