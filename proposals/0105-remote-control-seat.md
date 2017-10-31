@@ -1,8 +1,8 @@
 # Remote Control - Seat
 
-* Proposal: [SDL-NNNN](nnnn-remote-control-seat.md)
+* Proposal: [SDL-0105](0105-remote-control-seat.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
