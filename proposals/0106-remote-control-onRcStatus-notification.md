@@ -1,8 +1,8 @@
 # Remote Control - OnRCStatus notification
 
-* Proposal: [SDL-NNNN](nnnn-remote-control-onRcStatus-notification.md)
+* Proposal: [SDL-0106](0106-remote-control-onRcStatus-notification.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
