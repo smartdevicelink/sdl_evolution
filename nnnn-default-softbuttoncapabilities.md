@@ -35,7 +35,7 @@ To resolve this shortcoming for any given template, the mobile libraries need to
 | NON_MEDIA                          | 8    |
 
 ## Potential downsides
-Complexity in the mobile libraries increases to recover from incorrect HMI side implementations, however in this case the changes are warranted.
+Complexity in the mobile libraries is being introduced to recover from incorrect HMI side implementations, however in this case the changes are warranted.
 
 ## Impact on existing code
 Introduce new / update existing methods in the mobile API to accommodate for default list size values per template.
