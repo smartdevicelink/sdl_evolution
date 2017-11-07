@@ -21,27 +21,27 @@ Main ATF Facade purposes:
 ## Motivation
 
 Currently ATF has a lot of functionality for testing most of SDL features, but each automated test uses different ATF modules.
-ATF does not have unified interface for provide its functionality for test scripts. Instead that ATF has many separated modules with its own interfaces which is used for create automated scripts for SDL testing purposes.
+ATF does not have unified interface to provide its functionality for test scripts. Instead of this ATF has many separated modules with their own interfaces which are used in automated scripts for SDL testing purposes.
 
 So current approach leads to create test scripts which have multiple direct dependencies on different modules of ATF.
-In other words automated test scripts are fully dependent from ATF implementation and each change in ATF can lead to need for change of test scripts.
+In other words automated test scripts are fully dependent on ATF implementation and each change in ATF can lead to need for change of test scripts.
 
-In addition current approach demand a strong knowledge in ATF modules purposes and interactions between them for create good automated test scenario using ATF.
-So creation of automated test scripts take a lot of time and it can be a bit complicated for Mobile application developers in the beginning.
+In addition current approach requires a strong knowledge in ATF modules purposes and interactions between them for create good automated test scenario using ATF.
+So creation of automated test scripts takes a lot of time and it can be a bit complicated for Mobile application developers in the beginning.
 
 Creation of ATF Facade will allow:
- - to create test scripts which are independent from ATF implementation
+ - to create test scripts which are independent of ATF implementation
  - to unify ATF use approach
  - to document ATF functionality
- - to improve tests script readability and its structure on base of scenarious
+ - to improve test scripts readability and their structure on base of scenarious
 
 ## Proposed solution
 
 Add new module Facade with next submodules in ATF:
  - Runner - Manage of run test scenario
  - SDL - Provide access to manage SDL
- - HMI - Provide access to emulate HMI actions and mange its expectations
- - Mobile - Provide access to emulate Mobile device and manage its expectations
+ - HMI - Provide ability to emulate HMI and manage its expectations
+ - Mobile - Provide ability to emulate Mobile device and manage its expectations
  - Utilities - Provide access to utilities of ATF
  - Constants - Provide access to all constants used in ATF
 
@@ -59,7 +59,7 @@ Add new module Facade with next submodules in ATF:
  - StopSDL - Stop SDL
  - CheckStatusSDL - Check current status of SDL
 
-#### HMI - Provide access to emulate HMI actions and mange its expectations
+#### HMI - Provide ability to emulate HMI and manage its expectations
 
  - Connect - Create emulated HMI and connect it to SDL
  - Disconnect - Disconnect HMI from SDL
@@ -71,7 +71,7 @@ Add new module Facade with next submodules in ATF:
  - ExpectNotification - Create expectation for notification from SDL
  - ExpectRequest - Create expectation for request from SDL
 
-#### Mobile - Provide access to emulate Mobile device and manage its expectations
+#### Mobile - Provide ability to emulate Mobile device and manage its expectations
 
  - Connect - Create emulated Mobile device and connect it to SDL
  - Disconnect - Disconnect Mobile device from SDL
@@ -244,11 +244,11 @@ Runner.Step("Stop SDL", postcondition)
 
 ## Potential downsides
 
-For backward compatibility for existing test scripts ATF will contain some amount of deprecated code.
+For backward compatibility with existing test scripts ATF will contain some amount of deprecated code.
 
 ## Impact on existing code
 
-Is expected only impact on ATF code. Existing scripts will not be affected.
+It is expected only impact on ATF code. Existing scripts will not be affected.
 
 ## Alternatives considered
 
