@@ -12,11 +12,11 @@ ATF should provide unified and flexible interface for creation test scripts to p
 
 Main ATF Facade purposes:
  - Simplify access to ATF features for test scripts
- - To separate test scripts from ATF
+ - Separate test scripts from ATF
  - Provide well-structured intuitive interface of ATF for test scripts
  - Unify way of use ATF for creating automated tests
  - Create single point of ATF features documentation
- - To provide ability to create more human-readable tests
+ - Provide ability to create more human-readable tests
 
 ## Motivation
 
