@@ -3,20 +3,24 @@
 * Proposal: [SDL-xxxx](xxxx-Configuration-Management.md)
 * Author: [Vadym Kushnirenko](https://github.com/vkushnirenko-luxoft)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core/??]
+* Impacted Platforms: [Build/Test server]
 
 ## Introduction
 
-This proposal is about configuration management system for continuous building and testing code.
+This proposal is about providing a set of scripts to easy manage our build/test system.
 
 ## Motivation
 
-The development process should be open and transparent. Any person should be able to deploy it on his side, use it and propose recomendations about improvements.
-Configuration must be saved into the file, be flexible and be applied in any moment from public resources.
+The building process should be transparent. Any person should be able to deploy build server on his side, use it and propose recomendations about improvements.
+Build server configuration must be saved into files, be flexible and be applied in any moment from public resources.
 
 ## Proposed solution
 
-The solution proposes to use docker containers for components deployment. For building and keeping artifacts we must use next tools:
+Key components of build system are:
+- jenkins master - it manages build/test processes,
+- jenkins slaves - servers which builds and tests,
+- artifactory - keeps archive with binaries and log files.
+The solution proposes to use docker containers for components deployment. 
 ### 1) Jenkins - continuous integration system.
 https://jenkins.io/
 Jenkins is the system for automation routine operations:
@@ -26,7 +30,7 @@ Jenkins is the system for automation routine operations:
 - it is free.
 ### 2) Docker containers - to run clean environment quickly and scalable.
 https://www.docker.com/
-Docker containers allow quickly run new environment for code building. At the end of job container collapses and deletes temporary files after previous job.
+Docker containers allow to quickly run and stop environment for code building. At the end of job container collapses and deletes temporary files after previous job. For example, jenkins master runs docker container, then starts build process inside this container, archives artifacts and send it to artifactory, and send notifications to developers. Then it stops the container and waits for the next job.
 ### 3) Github - to keep Dockerfiles and Jenkins jobs.
 https://github.com/
 Create a repository to save to store build environment configurations. This repository includes:
