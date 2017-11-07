@@ -12,7 +12,7 @@ This proposal is about adding a new RPC GetSystemTime to SDL Core for correct re
 
 ## Motivation
 
-Allow SDL Core obtaine time from the system in UTC format. Exclude possibility of UTC time distortion in case using system time from other components.
+Allow SDL Core obtaine time from the system in UTC format. Exclude possibility of UTC time distortion in case using system time from other components of the system.
 
 
 ## Proposed solution
@@ -56,7 +56,7 @@ N/A
 
 Requires changes on SDL core,  and HMI_API.
 
-Would require a minor version change.
+Would require a major version change.
 
 ## Alternatives considered
 
