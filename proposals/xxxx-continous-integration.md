@@ -23,11 +23,6 @@ The solution proposes to use  docker containers for deploying all components. Fo
 4) Ansible - to prevent human mistakes.
 5) Artifactory - to keep artifacts - builds and test results.
 
-### Additions to
-
-### Additions to 
-
-
 
 ### HMI
 
