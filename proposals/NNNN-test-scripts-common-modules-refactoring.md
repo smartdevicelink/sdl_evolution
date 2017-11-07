@@ -7,7 +7,7 @@
 
 ## Introduction
 
-ATF Test Scripts use a lot of commonly used functions. Such as:
+[ATF test scripts](https://github.com/smartdevicelink/sdl_atf_test_scripts/) use a lot of functions in commonly used modules, like:
 
   - data accessors: file, database
   - functions for tables: print, copy
@@ -17,7 +17,7 @@ ATF Test Scripts use a lot of commonly used functions. Such as:
     - perform policy table update
   - etc.
 
-The purpose of this proposal is to clean up these common modules.
+All these functionality are not tests artifacts but tools that tests use.
 
 ## Motivation
 
@@ -31,7 +31,9 @@ Current downsides of common modules are:
 
 ## Proposed solution
 
-### Leave existing modules as is
+The purpose of this proposal is to clean up these common modules.
+
+### Leave existing modules as is for backward compatibility
 
 By leaving all existing modules currently located in ./user_modules folder as is
 it will be possible to use all existing ATF test scripts without changes.
@@ -67,24 +69,20 @@ In test scripts repository create the following folders structure:
   - utils - folder for modules with utility functions (e.g.: data accessors, table functions, data converters, etc.)
   - sequences - folder for modules with common sequences (e.g.: register/activate mobile application, policy update, put file, etc.)
 
-TBD: Names of the module files.
-
 ### Transfer most used common functions into a new folder
 
-Most used functions needs to be transferred from existing "user_modules" to a new "common_modules" folder in appropriate module file.
-And they also need to be updated according to a new template.
+Most used functions need to be transferred from existing "user_modules" to a new "common_modules" folder in appropriate module file.
+Also they need to be updated according to a new template.
 A few functions can be placed in one module file.
-
-TBD: Define module file for each function.
 
 ### Follow new approach when developing new ATF test scripts
 
   - In newly created ATF scripts use only functions from new "common_modules" folder and not from an old "user_modules" one
-  - If some utility or common sequence function doesn't exist create it in a new "common_modules" in appropriate module file using standard template
+  - If some utility or common sequence function doesn't exist - create it in a new "common_modules" in appropriate module file using standard template
 
 ## Potential downsides
 
-Existing ATF test scripts may need to be updated if some function from new common modules is required.
+Existing ATF test scripts must be updated if some function from new common modules is required.
 
 ## Impact on existing code
 
