@@ -17,7 +17,7 @@ Configuration must be saved as a code, be flexible and be renewal in any moment 
 ## Proposed solution
 
 The solution proposes to use docker containers for deploying all components. For building and keeping artifacts we must use next tools:
-1) Jenkins - continous integration system.
+1) Jenkins - continuous integration system.
 2) Docker containers - to up clean build environment quickly and scalable.
 3) Github - to keep Dockerfiles and Jenkins jobs.
 4) Artifactory - to keep artifacts - builds and test results.
