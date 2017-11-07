@@ -14,7 +14,6 @@ This proposal is about adding a new RPC GetSystemTime to SDL Core for correct re
 
 Allow SDL Core obtaine time from the system in UTC format. Exclude possibility of UTC time distortion in case using system time from other components.
 
-Describe the problems that this proposal seeks to address. If the problem is that some common pattern is currently hard to express, show how one can currently get a similar effect and describe its drawbacks. If it's completely new functionality that cannot be emulated, motivate why this new functionality would help SDL mobile developers or OEMs provide users with useful functionality.
 
 ## Proposed solution
 
