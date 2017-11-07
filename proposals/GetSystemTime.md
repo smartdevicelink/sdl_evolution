@@ -1,7 +1,7 @@
 # GetSystemTime RPC
 
 * Proposal: [SDL-NNNN](NNNN-filename.md)
-* Author: [SDL Developer](https://github.com/smartdevicelink)
+* Author: [Aleksandr Stasiuk](https://github.com/AStasiuk)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / RPC ]
 
