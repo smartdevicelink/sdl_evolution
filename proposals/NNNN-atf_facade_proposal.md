@@ -1,6 +1,6 @@
 # ATF Facade
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-NNNN](NNNN-atf_facade_proposal.md)
 * Author: [Oleksandr Deriabin](https://github.com/aderiabin)
 * Status: **Awaiting review**
 * Impacted Platforms: [ATF]
@@ -31,8 +31,8 @@ So creation of automated test scripts take a lot of time and it can be a bit com
 
 Creation of ATF Facade will allow:
  - to create test scripts which are independent from ATF implementation
- - to unify ATF use approach for test script creation
- - to document ATF functionality create test script creation
+ - to unify ATF use approach
+ - to document ATF functionality
  - to improve tests script readability and its structure on base of scenarious
 
 ## Proposed solution
@@ -245,12 +245,11 @@ Runner.Step("Stop SDL", postcondition)
 ## Potential downsides
 
 For backward compatibility for existing test scripts ATF will contain some amount of deprecated code.
-That can be removed in case old scripts will be rewritten with approach proposed in current document.
 
 ## Impact on existing code
 
-Is expected only impact on ATF code.
+Is expected only impact on ATF code. Existing scripts will not be affected.
 
 ## Alternatives considered
 
-Use current approach without unified ATF interface with separated interfaces for each of module of ATF.
+Use current approach with separated interfaces for each of ATF modules.
