@@ -115,6 +115,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0104" status="accepted" primary-platform="core" sdl-version="x.x" name="Security ATF feature" filename="0104-atf_security_proposal.md"/>
 <proposal id="0105" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Seat" filename="0105-remote-control-seat.md"/>
 <proposal id="0106" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control - OnRCStatus" filename="0106-remote-control-onRcStatus-notification.md"/>
+<proposal id="0107" status="active" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - TurnSignal" filename="0107-New-vehicle-data-turnSignal.md"/>
+<proposal id="0108" status="active" primary-platform="rpc" sdl-version="x.x" name="AutoCompleteList" filename="0108-AutoCompleteList.md"/>
+<proposal id="0109" status="active" primary-platform="rpc" sdl-version="x.x" name="SetAudioStreamingIndicator RPC" filename="0109-set-audio-streaming-indicator.md"/>
+<proposal id="0110" status="active" primary-platform="core" sdl-version="x.x" name="Remove QT HMI from SDL Core" filename="0110-remove-qt-hmi-from-sdl-core.md"/>
 
 	
 
