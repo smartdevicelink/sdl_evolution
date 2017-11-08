@@ -14,7 +14,7 @@ Safety requirements are very strong in automotive, so possibility to use Voice R
 ## Motivation
 
 If there is no SetGlobalProperties issued, the help items list will be populated with command list sent to voice module or with default values from [smartDeviceLink.ini](https://github.com/smartdevicelink/sdl_core/blob/master/src/appMain/smartDeviceLink.ini#L122) file. If application issues a SetGlobalProperties with help item list, then this list will have precedence and it will be displayed on HMI.
-But there is no guarantee that Application provide "vrHelp" and "helpPrompt", and possible situation when driver couldn't use Voice Recognition.
+But there is no guarantee that Application provide "vrHelp" and "helpPrompt" and it is possible that driver won't be able to use Voice Recognition.
 The purpose of proposal is to implement logic for values of "vrHelp" item and "helpPrompt" in case they are not provided by application.
 
 ## Proposed solution
