@@ -1,8 +1,8 @@
 # SetAudioStreamingIndicator RPC
 
-* Proposal: [NNNN](NNNN-set-audio-streaming-indicator.md)
+* Proposal: [SDL-0109](0109-set-audio-streaming-indicator.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Under review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
