@@ -1,8 +1,8 @@
 # Remove QT HMI from SDL Core
 
-* Proposal: [SDL-NNNN](NNNN-remove-qt-hmi-from-sdl-core.md)
+* Proposal: [SDL-0110](0110-remove-qt-hmi-from-sdl-core.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
