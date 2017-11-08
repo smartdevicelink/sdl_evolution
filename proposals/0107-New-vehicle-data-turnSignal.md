@@ -1,8 +1,8 @@
 # New vehicle data - TurnSignal
 
-* Proposal: [NNNN](NNNN-New-vehicle-data-turnSignal.md)
+* Proposal: [SDL-0107](0107-New-vehicle-data-turnSignal.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
