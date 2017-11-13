@@ -1,7 +1,7 @@
 # SDLCarWindow
 
 * Proposal: [SDL-NNNN](nnnn-ios-carwindow.md)
-* Author: [SDL Developer](https://github.com/joeljfischer/)
+* Author: [Joel Fischer](https://github.com/joeljfischer/)
 * Status: **Awaiting review**
 * Impacted Platforms: iOS
 
