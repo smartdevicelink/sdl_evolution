@@ -67,3 +67,4 @@ This will be a minor version change and will not affect any existing application
 1. Use [RPScreenRecorder](https://developer.apple.com/documentation/replaykit/rpscreenrecorder) API method `startCaptureWithHandler:completionHandler:`, which will give us a `CMSampleBuffer` at a constant framerate. While this is a significant performance and energy win, it has some major downsides:
   * Requires the UI to be displayed on the screen of the app. This means a lock screen is impossible, and the resolution is going to be incorrect.
   * iOS 11 only
+  * Requires the user to press "OK" on an alert on the screen before streaming, every time (unless the time between streaming is less than 7 minutes.
