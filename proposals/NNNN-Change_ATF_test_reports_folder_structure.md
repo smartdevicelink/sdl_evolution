@@ -7,38 +7,28 @@
 
 ## Introduction
 
-For now ATF reports folder has inconvenient nested structure. ATF creates structure of folders from relative path to script, e.g. runned script fom test_scripts/API/Navidation/Subscriptions/.
-With current implementation will be created the next structure
-<pre><code>
-TestingReports
-  ->ATF_timestamp
-    ->test_scripts
-      ->API
-      	->Navigation
-	  ->Subscriptions
-  ->SDL_timestamp
-    ->test_scripts
-      ->API
-      	->Navigation
-	  ->Subscriptions
-  ->Reports_timestamp
-    ->test_scripts
-      ->API
-      	->Navigation
-	  ->Subscriptions
-</pre></code>
+Main output of ATF is test reports.
+ATF provide such reports:
+* Console logs
+* SDL logs
+* Transport logs
+* Detailed report
+
+This proposal is about creating clear and useful structure of test scripts reports.
 
 ## Motivation
 
-Create more convenient reports structure, less nested.
+Create more convenient reports structure, less nested. Multiple running of test script should not override old reports. Structure of reports should be clear for easy searching certain report.
 
 ## Proposed solution
 
 The solution is to create new structure:
-<pre><code>TestingReports
-	-> ScriptName_timestamp
+```
+TestingReports
+	-> ScriptName_YYYYMMDDHHMMSS
 		-> ATF
-		-> SDL</pre></code>
+		-> SDL 
+```
 Subfolder ATF will contain ATF logs and report.
 Subfolder SDL will contain SDL logs.
 
@@ -52,4 +42,4 @@ Impact on ATF reporting functionality.
 
 ## Alternatives considered
 
-n/a
+Leave as is.
