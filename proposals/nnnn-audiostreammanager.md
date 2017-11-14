@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-sdlaudiostreammanager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer/), [Joey Grover](https://github.com/joeygrover)
 * Status: **Awaiting review**
-* Impacted Platforms: Mobile
+* Impacted Platforms: iOS, Android
 
 ## Introduction
 
