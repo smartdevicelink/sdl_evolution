@@ -3,7 +3,7 @@
 * Proposal: [NNNN](NNNN-mobile-api-versioning-revision.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / RPC ]
+* Impacted Platforms: [ RPC ]
 
 ## Introduction
 
