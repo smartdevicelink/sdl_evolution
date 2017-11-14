@@ -11,7 +11,7 @@ This proposal is about providing the capability to open the built-in app-menu wh
 
 ## Motivation
 
-Projection apps like mobile navigation apps made it difficult to keep a built-in menu button on the screen which shows the list of menu entries added with `AddCommand`. The initial solution was to hide everything on top of the projection app's viewport. It doesn't make much sense anymore for a projection app to continue to use `AddCommands` for menu entries if this menu is not accessible anymore. Furthermore it also leads to the problem that "Exit {AppName}" is not available anymore to the user.
+Projection apps like mobile navigation apps made it difficult to keep a built-in menu button on the screen which shows the list of menu entries added with `AddCommand`. The initial solution was to hide everything on top of the projection app's viewport. It doesn't make much sense anymore for a projection app to continue to use `AddCommand` for menu entries if this menu is not accessible anymore. Furthermore it also leads to the problem that "Exit {AppName}" is not available anymore to the user.
 
 ## Proposed solution
 
