@@ -21,7 +21,7 @@ To resolve this shortcoming for any given template, the mobile libraries need to
 | MEDIA                              | 8    |
 | GRAPHIC_WITH_TEXT                  | 0    |
 | TEXT_WITH_GRAPHIC                  | 0    |
-| TILES_ONLY                         | 8    |
+| TILES_ONLY                         | 7    |
 | TEXTBUTTONS_ONLY                   | 8    |
 | GRAPHIC_WITH_TILES                 | 3    |
 | TILES_WITH_GRAPHIC                 | 3    |
@@ -41,4 +41,4 @@ Complexity in the mobile libraries is being introduced to recover from incorrect
 Introduce new / update existing methods in the mobile API to accommodate for default list size values per template.
 
 ## Alternatives considered
-None as the wrong HMI implementation already exists in the field.
+Setting a fixed number of SoftButtons per template was also considered in our SoftButtonCapabilities workshop.
