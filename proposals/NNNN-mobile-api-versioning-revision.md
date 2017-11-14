@@ -39,6 +39,10 @@ This document will show scenarios for the mobile API and how to solve them using
 
 To compare the parser complexity the comparison includes xpaths to locate the relevant information including versioning.
 
+## Motivation
+
+After elaborating the maintainers proposal it was seen that it requires more effort to get realized compared to the authors proposal. The XML filesize would increase much more than expected and the risk of potential errors is higher. At the end the effort to get the parser to work with versioning is expected to be higher with the maintainers proposal.
+
 ## Scenarios
 
 Below you will find all possible scenarios and comparisons this proposal addresses:
@@ -341,3 +345,18 @@ Very easy. Little to no effort for the parser to work. Extremely complicated and
 /interface/struct[@name=’MsgVersion’]/previousVersions*
 ```
 
+## Proposed solution
+
+The proposed solution is to reconsider the original decision and compare the complexity and benefits of each proposal. It's proposed to accept the original authors proposal (see [0089](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0089-mobile-api-versioning.md) ) instead.
+
+## Potential downside
+
+This paper is about eliminating and avoiding downsides of the selected proposal. The downside of the author's proposal take place.
+
+## Impact on existing code
+
+Existing code is not affected. The proposal would only add elements and attributes to the mobile API. The parser and generator don't require any update to work with the XML additions.
+
+## Alternatives considered
+
+No other alternatives are considered.
