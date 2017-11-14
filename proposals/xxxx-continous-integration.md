@@ -1,13 +1,14 @@
 # Configuration management
 
-* Proposal: [SDL-xxxx](xxxx-Configuration-Management.md)
+* Proposal: [SDL-NNNN](xxxx-Configuration-Management.md)
 * Author: [Vadym Kushnirenko](https://github.com/vkushnirenko-luxoft)
 * Status: **Awaiting review**
-* Impacted Platforms: [Build/Test server]
+* Impacted Platforms: [Build server]
 
 ## Introduction
 
-This proposal is about providing a set of scripts to easy manage our build/test system.
+This proposal is about an order of creating build jobs in our buiding system, running tests and keeping results of theese tests.
+Also a good practice to provide a set of scripts to easy manage our build system.
 
 ## Motivation
 
@@ -20,7 +21,29 @@ Key components of build system are:
 - jenkins master - it manages build/test processes,
 - jenkins slaves - servers which builds and tests,
 - artifactory - keeps archive with binaries and log files.
+- Github - keeps Dockerfiles and Jenkins jobs, allows to keep different versions of configuration and to download a configuration at any time.
 The solution proposes to use docker containers for components deployment. 
+### Jenkins jobs creating.
+Every task that implies alterations in Git repository should be represented as separated branch. The template for naming the branch is the following:
+feature/<task name> , fix/<task name> or hotfix/<task name>
+All changes related to the task should be applied to this branch.
+The next list of jobs will be created after creating new branch:
+- push,
+- pull request,
+- nightly.
+  
+Each job runs check style scripts, cpp check, unit tests.
+ATF feature test sets run after each push job. 
+ATF feature test and ATF smoke test sets run after nightly job.
+
+Summary, the next set of jenkins job will be created for each feature/fix/hotfix branch:
+- PUSH_feature
+  - ATF_feature
+- PR_feature
+  - ATF_SMOKE_feature
+- NIGHTLY_feature
+  - ATF_feature
+  - ATF_SMOKE_feature
 ### 1) Jenkins - continuous integration system.
 https://jenkins.io/
 Jenkins is the system for automation routine operations:
