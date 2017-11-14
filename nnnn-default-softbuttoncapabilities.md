@@ -2,12 +2,12 @@
 
 * Proposal: [SDL-NNNN](nnnn-default-softbuttoncapabilities.md)
 * Author: [Markos Rapitis](https://github.com/mrapitis) 
-* Status: **Awaiting Review**
+* Status: **Awaiting review**
 * Impacted Platforms: [iOS, Android]
 
 ## Introduction
 
-This proposal is to update the iOS and Android mobile libraries with a specified default list size value for SoftButtonCapabilities when a headunit erroneously returns a SoftButtonCapabilities list that contains just one item.  The purpose of the SoftButtonCapabilities list is to inform the mobile application how many SoftButtons are available for the utilized template and the capabilites of each SoftButton. The  SoftButtonCapabilities list is received by the mobile application from the RegisterAppInterface and SetDisplayLayout RPC responses.
+This proposal is to update the iOS and Android mobile libraries with a specified default list size value for SoftButtonCapabilities when a headunit erroneously returns a SoftButtonCapabilities list that contains just one item.  The purpose of the SoftButtonCapabilities list is to inform the mobile application how many SoftButtons are available for the utilized template and the capabilities of each SoftButton. The  SoftButtonCapabilities list is received by the mobile application from the RegisterAppInterface and SetDisplayLayout RPC responses.
 
 ## Motivation
 
