@@ -1,13 +1,13 @@
-# CloseApp RPC
+# CloseApplication RPC
 
-* Proposal: [NNNN](NNNN-close-app.md)
+* Proposal: [NNNN](NNNN-close-application.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Awaiting review**
 * Impacted Platforms: [ Core / iOS / Android / RPC ]
 
 ## Introduction
 
-This proposal is about adding a new RPC called `CloseApp` which can be used by an app to send itself into `HMI_NONE`.
+This proposal is about adding a new RPC called `CloseApplication` which can be used by an app to send itself into `HMI_NONE`.
 
 ## Motivation
 
@@ -40,7 +40,7 @@ The proposed solution is to add an opaque RPC called `CloseApplication`.
 </function>
 ```
 
-A registerd application can send this RPC to transit from any HMI level to `HMI_NONE`. The application will receive an `OnHMIStatus` notification which then leads to remove the lock screen from the phone app. Different to unregister or re-register the application stays registered but will not be used as the preferred mobile-nav application anymore.
+A registered application can send this RPC to transit from any HMI level to `HMI_NONE`. The application will receive an `OnHMIStatus` notification which then leads to remove the lock screen from the phone app. Different to unregister or re-register the application stays registered but will not be used as the preferred mobile-nav application anymore.
 
 ## Potential downsides
 
