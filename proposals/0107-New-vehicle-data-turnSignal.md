@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0107](0107-New-vehicle-data-turnSignal.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
