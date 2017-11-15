@@ -1,7 +1,7 @@
 # AutoCompleteList
 * Proposal: [SDL-0108](0108-AutoCompleteList.md)
 * Author: [Derrick Portis](https://github.com/dportis)
-* Status: **In Review** 
+* Status: **Accepted** 
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
