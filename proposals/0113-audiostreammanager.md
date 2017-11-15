@@ -1,8 +1,8 @@
 # SDLAudioStreamManager
 
-* Proposal: [SDL-NNNN](NNNN-sdlaudiostreammanager.md)
+* Proposal: [SDL-0113](0113-audiostreammanager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer/), [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS, Android
 
 ## Introduction
