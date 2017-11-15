@@ -1,8 +1,8 @@
 # Default SoftButtonCapabilities
 
-* Proposal: [SDL-NNNN](nnnn-default-softbuttoncapabilities.md)
+* Proposal: [SDL-0114](0114-default-softbuttoncapabilities.md)
 * Author: [Markos Rapitis](https://github.com/mrapitis) 
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS, Android]
 
 ## Introduction
