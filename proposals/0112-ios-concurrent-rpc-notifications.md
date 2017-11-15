@@ -1,8 +1,8 @@
 # SDL iOS Move RPC Notifications to a Concurrent Background Queue
 
-* Proposal: [SDL-NNNN](NNNN-ios-concurrent-rpc-notifications.md)
+* Proposal: [SDL-0112](0112-ios-concurrent-rpc-notifications.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
