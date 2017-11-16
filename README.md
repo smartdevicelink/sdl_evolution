@@ -113,35 +113,35 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 ---
 
 #### SDL Protocol: 5.0.0
-**Expected Release Date**: October 30, 2017
+**Release Date**: October 30, 2017
 
 **Contents**: Introducing control frame payloads and a revised version negotiation scheme.  See the current draft of the new version of the spec [here](https://github.com/smartdevicelink/protocol_spec/pull/9).
 
 ---
 
 #### SDL RPC Spec: 4.5.0
-**Expected Release Date**: October 30, 2017
+**Release Date**: October 30, 2017
 
 **Contents**: See change log for alterations to the spec at a high level, and current draft of the new version of the spec [here](https://github.com/smartdevicelink/rpc_spec/pull/25).
 
 ---
 
 #### Core: 4.4.0
-**Expected Release Date**: October 30, 2017
+**Release Date**: October 30, 2017
 
 **Contents**: Core stabilization fixes and introduction of new features included on the [Core 4.4.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/7).
 
 ---
 
 #### Android SDK: 4.4.0
-**Expected Release Date**: October 30, 2017
+**Release Date**: October 30, 2017
 
 **Contents**: This release will focus on better continuous integration strategy, better video streaming APIs and various evolution items, described in detail on the [Android 4.4.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/4).
 
 ---
 
 #### Manticore: 1.1.0
-**Expected Release Date**: October 30, 2017
+**Expected Release Date**: November 1, 2017
 
 **Contents**: Include enhancements and update to the latest version of Core and the Generic HMI.
 
