@@ -23,7 +23,7 @@ SDL can free the allocated resource for various reasons. In most of the cases, t
 
 Add an `OnRCStatus` notification RPC to `Mobile_API.xml` and `HMI_API.xml`
 
-SDL shall send OnRCStatus notifications to all the mobile applications and the HMI whenever SDL allocates a module to an application or it de-allocates a module from an application.
+SDL shall send OnRCStatus notifications to all registered mobile applications and the HMI whenever SDL allocates a module to an application or it de-allocates a module from an application.
 
 #### Existing data related to the change
 ```
@@ -35,6 +35,17 @@ SDL shall send OnRCStatus notifications to all the mobile applications and the H
   <element name="HMI_SETTINGS">
   <element name="SEAT">
 </enum>
+
+    <struct name="ModuleData">
+        <description>The moduleType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the moduleType is CLIMATE then a "climateControlData" should exist</description>
+        <param name="moduleType" type="ModuleType" mandatory="true">
+        </param>
+        <param name="radioControlData" type="RadioControlData" mandatory="false">
+        </param>
+        <param name="climateControlData" type="ClimateControlData" mandatory="false">
+        </param>
+        ...
+    </struct>
 ```
 
 #### Additions to Mobile_API
@@ -52,7 +63,7 @@ SDL shall send OnRCStatus notifications to all the mobile applications and the H
   </param>    
 </function>
 ```
-Since there is not currently agreement on the ID/ZONE scheme of the resources, we use `ModuleData` here. All the optional control data inside of `ModuleData` shall not be included in the notification. In the future, when we define an id for a module, we can extend `ModuleData` to include the module id, without a breaking change.
+In theory, ```allocatedModules``` and ```freeModules``` shall be two module ID arrays. Since there is not currently agreement on the ID/ZONE scheme of the resources, we use `ModuleData` here. All the optional control data inside of `ModuleData` shall not be included in the notifications. In the future, when we define an ID for a module, we can extend `ModuleData` to include the module ID, without a breaking change.
 
 #### Additions to HMI_API
 ```xml
