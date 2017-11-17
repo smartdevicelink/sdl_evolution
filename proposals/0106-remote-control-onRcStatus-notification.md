@@ -23,7 +23,7 @@ SDL can free the allocated resource for various reasons. In most of the cases, t
 
 Add an `OnRCStatus` notification RPC to `Mobile_API.xml` and `HMI_API.xml`
 
-SDL shall send OnRCStatus notifications to all registered mobile applications and the HMI whenever SDL allocates a module to an application or it de-allocates a module from an application.
+SDL shall send OnRCStatus notifications to all registered mobile applications and the HMI whenever (1) SDL allocates a module to an application or (2) it de-allocates a module from an application, or (3) an application registers with SDL.
 
 #### Existing data related to the change
 ```
