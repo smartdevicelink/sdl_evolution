@@ -36,16 +36,16 @@ SDL shall send OnRCStatus notifications to all registered mobile applications an
   <element name="SEAT">
 </enum>
 
-    <struct name="ModuleData">
-        <description>The moduleType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the moduleType is CLIMATE then a "climateControlData" should exist</description>
-        <param name="moduleType" type="ModuleType" mandatory="true">
-        </param>
-        <param name="radioControlData" type="RadioControlData" mandatory="false">
-        </param>
-        <param name="climateControlData" type="ClimateControlData" mandatory="false">
-        </param>
-        ...
-    </struct>
+<struct name="ModuleData">
+    <description>The moduleType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the moduleType is CLIMATE then a "climateControlData" should exist</description>
+    <param name="moduleType" type="ModuleType" mandatory="true">
+    </param>
+    <param name="radioControlData" type="RadioControlData" mandatory="false">
+    </param>
+    <param name="climateControlData" type="ClimateControlData" mandatory="false">
+    </param>
+    ...
+</struct>
 ```
 
 #### Additions to Mobile_API
@@ -94,7 +94,8 @@ SDL core changes:
 ## Alternatives considered
 We can remove the array of free modules in the notification. The difference is that without free module list SDL shall send notifications to the affected application instead of to all applications.
 
-```xml<function name="OnRCStatus" messagetype="notification">
+```xml
+<function name="OnRCStatus" messagetype="notification">
   <description>Issued by SDL to notify the application about remote control status change on SDL</description>
   <param name="allocatedModules" type="ModuleData" minsize="0" maxsize="100" array="true" mandatory="true">
     <description>Contains a list (zero or more) of module types that are allocated to the application.</description>
