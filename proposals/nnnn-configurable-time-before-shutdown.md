@@ -7,17 +7,19 @@
 
 ## Introduction
 
-This proposal is about adding new parameters in ini file for configuration time to stopping SDL process after receiving Ignition off signal.
-And configuring option if SDL should write all logs to the file system before shutdown. 
-
+To prevent missing logs in SDL shutdown add Additional ini file options:
+ - Write all logs to file system before shutdown 
+ - Maximum time of sdl shutting down
+ 
 ## Motivation
 
-In debug mode SDL produce a lot of logs.
-Logging is asynchronous not to reduce efficiency of SDL business logic. 
-In some use cases (like video streaming orbit Put file) SDL produce more logs than it can write to file system. 
-SDL collect this logs in queue and write to file system in separate thread. 
-After receiving IGNITION_OFF signal currently SDL drop all logs that was not written yet.
-Such behavior prevents analyzing of SDL issues that found by ATF script by SDL logs, and requires adding additional timeouts in test scripts before SDL shutdown.
+In debug mode SDL produce a lot of logs in is asynchronous mode. 
+In some use cases (like video streaming or big Put file) SDL produce a lot of logs.
+SDL collect this logs in queue and write to file system in separate thread.
+Writing to file system may requir big amount of time.
+
+In current implementation after receiving IGNITION_OFF signal SDL drop all logs that was not written yet.
+Such behavior sometimes prevents analyzing of SDL issues that found by ATF script, and requires adding additional timeouts in test scripts before SDL shutdown.
 
 This is example of sequence in script:
 
@@ -29,7 +31,7 @@ PutFile(some_big_file)
 StopSDL()
 ```
 
-After run of this script with bit probability Logs of Put file request wind be written to SDL. 
+Logs of Put file request won't be written to file system, likey.
 To avoid such behavior script should be modified :
 ```
 StartSDL()
@@ -40,7 +42,7 @@ Sleep(SomeMagicTime)
 StopSDL()
 ```
 
-But SomeMagicTime will be different for different workstations and depend from operation system load.
+But `SomeMagicTime` will be different for different workstations and depend from operation system load.
 So this problem can be solved only with modifications on SDL side. 
 
 ## Proposed solution
@@ -67,7 +69,7 @@ N/A
 
 ## Impact on existing code
 
-Impact ignition off process of SDL core.
+Impacts ignition off process of SDL core.
 
 ## Alternatives considered
  1. Do not write all logs to SDL before shutdown ( some logs may  be missed)
