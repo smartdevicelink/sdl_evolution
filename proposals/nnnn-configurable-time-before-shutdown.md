@@ -9,16 +9,16 @@
 
 To prevent missing logs after SDL shutdown, additional ini file options should be added : 
  - Write all logs to file system before shutdown 
- - Maximum time of sdl shutting down
+ - Maximum time of SDL shutting down
  
 ## Motivation
 
 SDL produces a tone of logs in the asynchronous mode in some use cases (like video streaming or big put file),
-SDL collect these logs in queue and write to file system in a separate thread
+SDL collects these logs in queue and write them to file system in a separate thread.
 Writing to the file system may require big amount of time.
 
 In current implementation after receiving IGNITION_OFF signal SDL drops all logs that was not written yet.
-Such behavior sometimes prevents analyzing of SDL issues that found by ATF script, and requires requires adding extra timeouts in test scripts before SDL shutdown.
+Such behavior sometimes prevents analyzing of SDL issues that found by ATF script, and requires adding extra timeouts in test scripts before SDL shutdown.
 
 This is an example of sequence in script:
 
@@ -30,7 +30,7 @@ PutFile(some_big_file)
 StopSDL()
 ```
 
-Logs of Put file request won't be written to file system, ikely?
+Logs of Put file request won't be written to file system, likely.
 To avoid such behavior script should be modified :
 ```
 StartSDL()
@@ -53,7 +53,7 @@ So this problem can be solved only with modifications on SDL side.
 // Write all logs in queue to file system before shutdown 
 FlushLogMessagesBeforeShutdown = false
 
-// Maximum time to wait for writing all data before exit sdl in seconds
+// Maximum time to wait for writing all data before exit SDL in seconds
 MaxTimeBeforeShutdown = 30
 ```
 
