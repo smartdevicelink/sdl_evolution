@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is about adding a new RPC GetSystemTime inorder for SDL Core to get accurate system time information which is utilized by the TLS handshake mechanism.
+This proposal is about adding a new RPC GetSystemTime in order for SDL Core to get accurate system time information which is utilized by the TLS handshake mechanism.
 
 
 ## Motivation
@@ -21,7 +21,7 @@ This proposal provides a solution to this problem by having SDL Core request the
 
 The solution proposes adding a new RPC between SDL and HMI called `GetSystemTime`. This RPC allows SDL Core to query the HMI for the accurate system time.
 
-SDL Core must send the  `GetSystemTime` RPC to HMI for obtaining the system time during Security TLS Handshake.
+SDL Core must send the  `GetSystemTime` RPC to HMI for obtaining the system time during the Security TLS Handshake.
 
 The expectation is that HMI will provide the accurate system time with the GetSystemTime response.
 
