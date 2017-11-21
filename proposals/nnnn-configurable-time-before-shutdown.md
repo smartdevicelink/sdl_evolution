@@ -7,21 +7,20 @@
 
 ## Introduction
 
-To prevent missing logs in SDL shutdown add Additional ini file options:
+To prevent missing logs after SDL shutdown, additional ini file options should be added : 
  - Write all logs to file system before shutdown 
  - Maximum time of sdl shutting down
  
 ## Motivation
 
-In debug mode SDL produce a lot of logs in is asynchronous mode. 
-In some use cases (like video streaming or big Put file) SDL produce a lot of logs.
-SDL collect this logs in queue and write to file system in separate thread.
-Writing to file system may requir big amount of time.
+SDL produces a tone of logs in the asynchronous mode in some use cases (like video streaming or big put file),
+SDL collect these logs in queue and write to file system in a separate thread
+Writing to the file system may require big amount of time.
 
-In current implementation after receiving IGNITION_OFF signal SDL drop all logs that was not written yet.
-Such behavior sometimes prevents analyzing of SDL issues that found by ATF script, and requires adding additional timeouts in test scripts before SDL shutdown.
+In current implementation after receiving IGNITION_OFF signal SDL drops all logs that was not written yet.
+Such behavior sometimes prevents analyzing of SDL issues that found by ATF script, and requires requires adding extra timeouts in test scripts before SDL shutdown.
 
-This is example of sequence in script:
+This is an example of sequence in script:
 
 ```
 StartSDL()
@@ -31,36 +30,36 @@ PutFile(some_big_file)
 StopSDL()
 ```
 
-Logs of Put file request won't be written to file system, likey.
+Logs of Put file request won't be written to file system, ikely?
 To avoid such behavior script should be modified :
 ```
 StartSDL()
 RegisterApplication()
 ActivateApplication
 PutFile(some_big_file)
-Sleep(SomeMagicTime)
+Sleep(SomeUndefinedTime)
 StopSDL()
 ```
 
-But `SomeMagicTime` will be different for different workstations and depend from operation system load.
+But `SomeUndefinedTime` will be different for different workstations and depend on operation system load.
 So this problem can be solved only with modifications on SDL side. 
 
 ## Proposed solution
 
  - Add option to flush log messages before shutdown.
- - Add option that specifies time maximum before shutdown.
+ - Add option that specifies maximum time before shutdown.
 
 ```
 // Write all logs in queue to file system before shutdown 
-FushLogMessagesBeforeShutdown = false
+FlushLogMessagesBeforeShutdown = false
 
 // Maximum time to wait for writing all data before exit sdl in seconds
 MaxTimeBeforeShutdown = 30
 ```
 
-By default `FushLogMessagesBeforeShutdown` should be false. In that case SDL should not wait for writing all data to file system ans stop process after receiving `OnExitAllApplications` notification. 
+By default `FlushLogMessagesBeforeShutdown` should be false. In that case SDL should not wait for writing all data to file system ans stop process after receiving `OnExitAllApplications` notification. 
 
-`MaxTimeBeforeShutdown` doe used in case if `FushLogMessagesBeforeShutdown` is `true`. It should measure timer from `OnExitAllApplications` notification received. In case if writing logs to file system takes more than specified, SDL should terminate writing and finish process. 
+`MaxTimeBeforeShutdown` would be used in case if `FlushLogMessagesBeforeShutdown` is `true`. It should measure time from `OnExitAllApplications` notification received. In case if writing logs to file system takes more time than specified, SDL should terminate writing and finish process. 
 
 
 ## Potential downsides
@@ -73,6 +72,6 @@ Impacts ignition off process of SDL core.
 
 ## Alternatives considered
  1. Do not write all logs to SDL before shutdown ( some logs may  be missed)
- 2. Write all logs before shutdown ( shutdown may take a log time)
+ 2. Write all logs before shutdown ( shutdown may take a long time)
  
 
