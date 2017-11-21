@@ -31,9 +31,9 @@ The proposed mechanism is detailed below:
 7. The same process shall be followed during application resumption as well.
 
 Note:
-10 second timer - 
-	a. When an application moves from HMI state of NONE, then applications send a bunch of `AddCommand` requests. This timer helps to buffer the requests so that SDL Core can send a single `SetGlobalProperties` request to HMI instead of several.
-	b. The value of 10 seconds is chosen to give sufficient time for buffering and before the user is likely to trigger a "help" request. This is based on a subjective analysis.
+10 second timer:
+  - When an application moves from HMI state of NONE, then applications send a bunch of `AddCommand` requests. This timer helps to buffer the requests so that SDL Core can send a single `SetGlobalProperties` request to HMI instead of several.
+  - The value of 10 seconds is chosen to give sufficient time for buffering and before the user is likely to trigger a "help" request. This is based on a subjective analysis.
 
 
 ## Potential downsides
