@@ -11,17 +11,16 @@ The proposal to add versioning to the mobile API was accepted with the revision 
 
 ```xml
 <enum name="ButtonName">
-</element>
-  <element name="OK" mandatory="false" deleted="4.6.0">
+  <element name="OK" mandatory="false" deleted="true" from="4.6.0">
     <description>
       The button name for the physical OK button.
       It is not related to the Play/Pause button.
       Please use the physical `PLAY_PAUSE` button.
     </description>
     <previousVersions>
-      <element name="OK" mandatory="true" since="1.0.0" removed="4.5.0"/>
-      <element name="OK" mandatory="false" since="4.5.0" deprecated="4.5.2"/>
-      <element name="OK" mandatory="false" deprecated="4.5.2" removed="4.6.0"/>
+      <element name="OK" mandatory="true" from="1.0.0" until="4.5.0"/>
+      <element name="OK" mandatory="false" from="4.5.0" until="4.5.2"/>
+      <element name="OK" mandatory="false" deprecated="true" from="4.5.2" until="4.6.0"/>
     </previousVersions>     
   </element>
 </enum>
@@ -96,10 +95,10 @@ Very easy. When the parser reaches the parameter every attribute will be provide
   <description>Specifies the version number of the SYNC V4 protocol, that is supported by the mobile application</description>
   <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" />
   <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
-  <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false">
+  <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" deleted="true" from="5.0.0">
     <previousVersions>
-      <param name="patchVersion" since="4.5" deprecated="true" />
-      <param name="patchVersion" since="5.0" removed="true" />
+      <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" from="4.4.0" until="4.5.0">
+      <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" deprecated="true"  from="4.5.0" until="5.0.0" />
     </previousVersions>
   </param>
 </struct>
@@ -166,28 +165,25 @@ Very easy. The parser can immediately see that SyncMsgVersion should not be eval
 ### Maintainer proposal
 
 ```xml
-<struct name="SyncMsgVersion">
+<struct name="SyncMsgVersion" deleted="true" from="6.0.0">
   <description>Specifies the version number of the SYNC V4 protocol, that is supported by the mobile application</description>
   <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" />
   <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
-  <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false">
+  <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" deleted="true" from="5.0.0">
     <previousVersions>
-      <param name="patchVersion" since="4.5" deprecated="true" />
-      <param name="patchVersion" since="5.0" removed="true" />
+      <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" from="4.4.0" until="4.5.0">
+      <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" deprecated="true" from="4.5.0" until="5.0.0" />
     </previousVersions>
   </param>
   <previousVersions>
-    <struct name="SyncMsgVersion" since="5.0" deprecated="true" />
-    <struct name="SyncMsgVersion" since="6.0" removed="true" />
+    <struct name="SyncMsgVersion" from="1.0.0" until="5.0.0" />
+    <struct name="SyncMsgVersion" deprecated="true" from="5.0.0" until="6.0.0" />
   </previousVersions>
 </struct>
-
-<struct name="MsgVersion">
+ 
+<struct name="MsgVersion" from="5.0.0">
   <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" />
   <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
-  <previousVersions>
-    <struct name="MsgVersion" since="5.0" added="true" />
-  </previousVersions>
 </struct>
 ```
 
@@ -248,10 +244,10 @@ Very easy. Little to no effort for the parser to work.
 ### Maintainer proposal
 
 ```xml
-<struct name="MsgVersion" added="5.0">
-  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100">
+<struct name="MsgVersion" from="5.0.0">
+  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100" from="5.1.0">
     <previousVersions>
-      <param name="majorVersion" since="5.0" maxvalue="10" until="5.1" />
+      <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" from="5.0.0" until="5.1.0" />
     </previousVersions>
   <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
 </struct>
@@ -314,13 +310,13 @@ Very easy. Little to no effort for the parser to  support specific target versio
 ### Maintainer proposal
 
 ```xml
-<struct name="MsgVersion" added="5.0">
-  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100">
+<struct name="MsgVersion" from="5.0.0">
+  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100" deleted="true" from="6.0.0">
     <previousVersions>
-      <param name="majorVersion" since="6.0" removed="true" />
-      <param name="majorVersion" since="5.1" deprecated="true" />
-      <param name="majorVersion" since="5.0" maxvalue="10" until="5.1" />
-    </ previousVersions>
+      <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" from="5.0.0" until="5.1.0" />
+      <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100" from="5.1.0" until="5.2.0" />
+      <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100" deprecated="true"  from="5.2.0" until="6.0.0" />
+    </previousVersions>
   </param>
   <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
 </struct>
