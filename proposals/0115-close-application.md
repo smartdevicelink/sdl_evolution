@@ -1,8 +1,8 @@
 # CloseApplication RPC
 
-* Proposal: [NNNN](NNNN-close-application.md)
+* Proposal: [SDL-0115](0115-close-application.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Android / RPC ]
 
 ## Introduction
