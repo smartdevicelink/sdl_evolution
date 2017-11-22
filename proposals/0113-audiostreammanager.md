@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0113](0113-audiostreammanager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer/), [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS, Android
 
 ## Introduction
