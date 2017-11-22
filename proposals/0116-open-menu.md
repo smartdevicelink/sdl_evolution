@@ -1,8 +1,8 @@
 # Open Menu RPC
 
-* Proposal: [NNNN](NNNN-open-menu.md)
+* Proposal: [SDL-0116](0116-open-menu.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
