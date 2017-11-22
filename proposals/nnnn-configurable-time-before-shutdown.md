@@ -14,11 +14,12 @@ To prevent missing logs after SDL shutdown, additional ini file options should b
 ## Motivation
 
 SDL produces a tone of logs in the asynchronous mode in some use cases (like video streaming or big put file),
-SDL collects these logs in queue and write them to file system in a separate thread.
-Writing to the file system may require big amount of time.
+In som use cases (like video streaming or big put file) SDL can procude tone (up to gigabyte) of logs in asynchronous mode. 
+SDL collects these logs in queue and and writes them to a file system in a separate thread.
+Writing to the file system may require big amount of time (sometimes up to 5 - 10 minutes).
 
-In current implementation after receiving IGNITION_OFF signal SDL drops all logs that was not written yet.
-Such behavior sometimes prevents analyzing of SDL issues that found by ATF script, and requires adding extra timeouts in test scripts before SDL shutdown.
+In the current implementation, after receiving IGNITION_OFF signal, SDL drops all logs that have not yet been written.
+Such behavior sometimes prevents analyzing of SDL issues that are found by the ATF script, and requires adding extra timeouts in test scripts before SDL shutdown.
 
 This is an example of sequence in script:
 
@@ -57,7 +58,7 @@ FlushLogMessagesBeforeShutdown = false
 MaxTimeBeforeShutdown = 30
 ```
 
-By default `FlushLogMessagesBeforeShutdown` should be false. In that case SDL should not wait for writing all data to file system ans stop process after receiving `OnExitAllApplications` notification. 
+By default `FlushLogMessagesBeforeShutdown` should be false. In that case, SDL should not wait for all data to be written to the file system and stop process after receiving `OnExitAllApplications` notification. 
 
 `MaxTimeBeforeShutdown` would be used in case if `FlushLogMessagesBeforeShutdown` is `true`. It should measure time from `OnExitAllApplications` notification received. In case if writing logs to file system takes more time than specified, SDL should terminate writing and finish process. 
 
