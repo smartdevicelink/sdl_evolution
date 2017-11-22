@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0109](0109-set-audio-streaming-indicator.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
