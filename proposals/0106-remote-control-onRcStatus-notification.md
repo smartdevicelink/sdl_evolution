@@ -23,7 +23,7 @@ SDL can free the allocated resource for various reasons. In most of the cases, t
 
 Add an `OnRCStatus` notification RPC to `Mobile_API.xml` and `HMI_API.xml`
 
-SDL shall send OnRCStatus notifications to both the mobile application and the HMI whenever SDL allocates a module to an application or it de-allocates a module from an application.
+SDL shall send OnRCStatus notifications to all registered mobile applications and the HMI whenever (1) SDL allocates a module to an application or (2) it de-allocates a module from an application, or (3) an application registers with SDL.
 
 #### Existing data related to the change
 ```
@@ -35,6 +35,17 @@ SDL shall send OnRCStatus notifications to both the mobile application and the H
   <element name="HMI_SETTINGS">
   <element name="SEAT">
 </enum>
+
+<struct name="ModuleData">
+    <description>The moduleType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the moduleType is CLIMATE then a "climateControlData" should exist</description>
+    <param name="moduleType" type="ModuleType" mandatory="true">
+    </param>
+    <param name="radioControlData" type="RadioControlData" mandatory="false">
+    </param>
+    <param name="climateControlData" type="ClimateControlData" mandatory="false">
+    </param>
+    ...
+</struct>
 ```
 
 #### Additions to Mobile_API
@@ -44,12 +55,15 @@ SDL shall send OnRCStatus notifications to both the mobile application and the H
 
 <function name="OnRCStatus" messagetype="notification">
   <description>Issued by SDL to notify the application about remote control status change on SDL</description>
-  <param name="allocatedModules" type="ModuleType" minsize="0" maxsize="100" array="true" mandatory="true">
+  <param name="allocatedModules" type="ModuleData" minsize="0" maxsize="100" array="true" mandatory="true">
     <description>Contains a list (zero or more) of module types that are allocated to the application.</description>
   </param>
+  <param name="freeModules" type="ModuleData" minsize="0" maxsize="100" array="true" mandatory="true">
+    <description>Contains a list (zero or more) of module types that are free to access for the application.</description>
+  </param>    
 </function>
 ```
-Since there is not currently agreement on the ID/ZONE scheme of the resources, we use `ModuleType` here. We shall use the id of a resource if we want to support multiple resources of the same type in the future.
+In theory, ```allocatedModules``` and ```freeModules``` shall be two module ID arrays. Since there is not currently agreement on the ID/ZONE scheme of the resources, we use `ModuleData` here. All the optional control data inside of `ModuleData` shall not be included in the notifications. In the future, when we define an ID for a module, we can extend `ModuleData` to include the module ID, without a breaking change.
 
 #### Additions to HMI_API
 ```xml
@@ -58,9 +72,12 @@ Since there is not currently agreement on the ID/ZONE scheme of the resources, w
   <param name="appID" type="Integer" mandatory="true">
     <description>ID of selected application.</description>
   </param>
-  <param name="allocatedModules" type="ModuleType" minsize="0" maxsize="100" array="true" mandatory="true">
+  <param name="allocatedModules" type="ModuleData" minsize="0" maxsize="100" array="true" mandatory="true">
     <description>Contains a list (zero or more) of module types that are allocated to the application.</description>
   </param>
+  <param name="freeModules" type="ModuleData" minsize="0" maxsize="100" array="true" mandatory="true">
+    <description>Contains a list (zero or more) of module types that are free to access for the application.</description>
+  </param>    
 </function>
 ```
 
@@ -75,17 +92,14 @@ SDL core changes:
 - Send notifications when a module is allocated/de-allocated to an application.
 
 ## Alternatives considered
-In addition to the allocatedModules, we can add an array of free modules in the notification.
-However, that means whenever there is a status change in modules, SDL shall send notifications to all connected RC applications (instead of just sending a notification to the affected application).
+We can remove the array of free modules in the notification. The difference is that without free module list SDL shall send notifications to the affected application instead of to all applications.
 
-```xml<function name="OnRCStatus" messagetype="notification">
+```xml
+<function name="OnRCStatus" messagetype="notification">
   <description>Issued by SDL to notify the application about remote control status change on SDL</description>
-  <param name="allocatedModules" type="ModuleType" minsize="0" maxsize="100" array="true" mandatory="true">
+  <param name="allocatedModules" type="ModuleData" minsize="0" maxsize="100" array="true" mandatory="true">
     <description>Contains a list (zero or more) of module types that are allocated to the application.</description>
   </param>
-  <param name="freeModules" type="ModuleType" minsize="0" maxsize="100" array="true" mandatory="true">
-    <description>Contains a list (zero or more) of module types that are free to access for the application.</description>
-  </param>  
 </function>
 ```
 
