@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0112](0112-ios-concurrent-rpc-notifications.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: iOS
 
 ## Introduction
