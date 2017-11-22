@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0114](0114-default-softbuttoncapabilities.md)
 * Author: [Markos Rapitis](https://github.com/mrapitis) 
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS, Android]
 
 ## Introduction
