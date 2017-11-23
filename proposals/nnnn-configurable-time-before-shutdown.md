@@ -13,7 +13,7 @@ To prevent missing logs after SDL shutdown, additional ini file options should b
  
 ## Motivation
 
-In some use cases (like video streaming or big put file) SDL can procude tone (up to gigabyte) of logs in asynchronous mode. 
+In some use cases (like video streaming or big put file) SDL can produce a ton (up to 1 gigabyte) of logs in asynchronous mode. 
 SDL collects these logs in queue and and writes them to a file system in a separate thread.
 Writing to the file system may require big amount of time (sometimes up to 5 - 10 minutes).
 
