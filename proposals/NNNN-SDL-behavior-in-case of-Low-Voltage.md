@@ -1,7 +1,7 @@
 # SDL behavior in case of LOW_VOLTAGE event
 
 * Proposal: [SDL-NNNN](NNNN-filename.md)
-* Author: [SDL Developer](https://github.com/smartdevicelink)
+* Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / Web / RPC / Protocol]
 
