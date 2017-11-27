@@ -18,6 +18,7 @@ When a video streaming `NAVIGATION` or `PROJECTION` app enters the background on
 The proposed solution is to display a black screen with white text saying:
 
 > "Open \(appname) on the iPhone to continue"
+
 > "Open \(appname) on the Android to continue"
 
 ## Potential downsides
