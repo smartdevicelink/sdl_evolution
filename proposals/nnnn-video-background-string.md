@@ -11,7 +11,7 @@ Display a string of text on the head unit screen when the app leaves the foregro
 
 ## Motivation
 
-When a video streaming `NAVIGATION` or `PROJECTION` app enters the background on the phone, the video stream stops sending data due to background limitations. On current iOS devices as the device is entering the background, it sends a few frames of pure black. Instead we should send a black screen with some white text telling the driver why their stream stopped.
+This was originally discussed in [SDL-0033](https://github.com/smartdevicelink/sdl_evolution/issues/103) but put on hold at the time. When a video streaming `NAVIGATION` or `PROJECTION` app enters the background on the phone, the video stream stops sending data due to background limitations. On current iOS devices as the device is entering the background, it sends a few frames of pure black. Instead we should send a black screen with some white text telling the driver why their stream stopped.
 
 ## Proposed solution
 
