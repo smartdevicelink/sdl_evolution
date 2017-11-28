@@ -1,4 +1,4 @@
-# SDL iOS Move RPC Notifications to a Concurrent Background Queue
+# SDL iOS Move RPC Notifications to a Serial Background Queue
 
 * Proposal: [SDL-0112](0112-ios-concurrent-rpc-notifications.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal seeks to move iOS RPC notifications from being sent on the main thread to a concurrent background queue.
+This proposal seeks to move iOS RPC notifications from being sent on the main thread to a serial background queue.
 
 ## Motivation
 
@@ -15,12 +15,12 @@ Currently, RPC `NSNotification`s which are used for RPC responses and notificati
 
 ## Proposed solution
 
-This proposal ensures that RPC reception is entirely off the main thread, and making it concurrent means that developers will respond to RPC responses and notifications concurrently, vastly improving speed, especially in resource constrained conditions such as video streaming (which must often run on the main thread).
+This proposal ensures that RPC reception is entirely off the main thread, this should improve speed, especially in resource constrained conditions such as video streaming (which must often run on the main thread) because it can run on a separate CPU core.
 
 `SDLNotificationDispatcher` creates a new property with a concurrent queue:
 
 ```objc
-_rpcResponseQueue = dispatch_queue_create("com.smartdevicelink.rpcNotificationQueue", DISPATCH_QUEUE_CONCURRENT);
+_rpcResponseQueue = dispatch_queue_create("com.sdl.rpcNotificationQueue", DISPATCH_QUEUE_SERIAL);
 ```
 
 Posting of notifications changes from:
@@ -37,15 +37,7 @@ dispatch_async(_rpcResponseQueue, ^{
 
 ## Potential downsides
 
-1. The primary potential downside lies in if a developer is counting on the code being serial. Because SDL is inherently asynchronous, this issue is significantly mitigated. In other words, the developer should already know that just because they sent one RPC before another does not necessarily mean they will receive the response of RPC 1 before RPC 2. The likelihood of this happening, while still high, is diminished in the new code, and if developers are counting on it, this could be an issue.
-
-  * An important caveat must be placed here, this **does not** mean that the remote system will receive requests out of order, or that the SDL library will process them out of order, just that at the last point in the chain, the developer may receive them out of order.
-
-2. If the developer is assuming that several RPC callbacks all happen on the same thread, they no longer will. Therefore, they will have to run synchronization code themselves.
-
-  * This is an unlikely requirement for the developer, and easy for them to workaround (by doing their own synchronization) if necessary.
-
-These caveats are not considered to overcome the benefit provided by this change. This change greatly speeds up SDL integrations and is, in nearly all cases, invisible to the developer. We have tested with a large, complex integration which needed no code changes and experienced an immediately noticable speed increase.
+1. If there is code that previously assumed to run on the main thread, it no longer will and that code will have to manually change queues back to the main queue for that code (e.g. UI code).
 
 ## Impact on existing code
 
@@ -53,4 +45,4 @@ The rest of the SDL library continues to run without significant alteration, jus
 
 ## Alternatives considered
 
-1. Move the responses to a background serial queue instead of a concurrent queue. This will force response notifications to be fired in order, with one completing before another happens (like it does now, but on a background thread instead of the main thread). This was seriously considered, but the additional performance benefit of concurrent usage was considered to be more beneficial than any potential downsides.
+1. Move the responses to a background concurrent queue instead of a serial queue. This was the original proposal. It would offer additional performance benefits, but at too great a risk to out of order events that must be serialized – such as audio pass thru notifications.
