@@ -9,10 +9,10 @@
 
 Main output of ATF is test reports.
 ATF provide such reports:
-* Console logs
-* SDL logs
-* Transport logs
-* Detailed report
+* Console logs - name of test cases with execution status FAILED/PASSED.
+* SDL logs - SDL log received by ATF via telnet logger.
+* Transport logs -  all received and sent data from/to SDL. Transport log can have default view - messages on protocol level (except binaries) and full view - log will be expanded with packages: streamings, service messages, heartbeat, json files.   
+* Detailed report - all expected and sent massages related to test cases with expected and actual result.Also contains info about test cases: name, time, sequence, status, duration.
 
 This proposal is about creating clear and useful structure of test scripts reports.
 
