@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0106](0106-remote-control-onRcStatus-notification.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
