@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0091](0091-SDLScreen-SDLWindow-Projection.md)
 * Author: [Michael Pitts](https://github.com/GNXClone)
-* Status: **Returned for Revisions**
+* Status: **Rejected**
 * Impacted Platforms: [iOS]
 
 ## Introduction
