@@ -1,8 +1,8 @@
 # Configurable time before shutdown
 
-* Proposal: [SDL-NNNN](nnnn-configurable-time-before-shutdown.md)
+* Proposal: [SDL-0117](0117-configurable-time-before-shutdown.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
