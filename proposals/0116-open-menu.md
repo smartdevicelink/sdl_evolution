@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0116](0116-open-menu.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
