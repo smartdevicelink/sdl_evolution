@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0115](0115-close-application.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [ Core / iOS / Android / RPC ]
 
 ## Introduction
