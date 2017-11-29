@@ -1,8 +1,8 @@
 # Video Streaming Backgrounded String
 
-* Proposal: [SDL-NNNN](nnnn-video-background-string.md)
+* Proposal: [SDL-0118](0118-video-background-string.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS, Android
 
 ## Introduction
