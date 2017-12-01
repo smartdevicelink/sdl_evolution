@@ -105,52 +105,68 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### iOS SDK: 4.7.0
-**Release Date**: August 31, 2017
-
-**Contents**: Bug fixes and new features included on the [iOS 4.7.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/5).
-
----
-
 #### SDL Protocol: 5.0.0
 **Release Date**: October 30, 2017
 
-**Contents**: Introducing control frame payloads and a revised version negotiation scheme.  See the current draft of the new version of the spec [here](https://github.com/smartdevicelink/protocol_spec/pull/9).
+**Contents**: Introducing control frame payloads and a revised version negotiation scheme.  Release information can be found [here](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.0.0).
 
 ---
 
 #### SDL RPC Spec: 4.5.0
 **Release Date**: October 30, 2017
 
-**Contents**: See change log for alterations to the spec at a high level, and current draft of the new version of the spec [here](https://github.com/smartdevicelink/rpc_spec/pull/25).
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/rpc_spec/releases/tag/4.5.0).
 
 ---
 
 #### Core: 4.4.0
 **Release Date**: October 30, 2017
 
-**Contents**: Core stabilization fixes and introduction of new features included on the [Core 4.4.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/7).
+**Contents**: Core stabilization fixes and introduction of new features included in the [Core 4.4.0 Release Notes](https://github.com/smartdevicelink/sdl_core/releases/tag/4.4.0).
 
 ---
 
 #### Android SDK: 4.4.0
 **Release Date**: October 30, 2017
 
-**Contents**: This release will focus on better continuous integration strategy, better video streaming APIs and various evolution items, described in detail on the [Android 4.4.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/4).
+**Contents**: This release focuses on better continuous integration strategy, better video streaming APIs and various evolution items, described in detail in the [Android 4.4.0 Release Notes](https://github.com/smartdevicelink/sdl_android/releases/tag/4.4.0).
 
 ---
 
 #### Manticore: 1.1.0
-**Expected Release Date**: November 1, 2017
+**Release Date**: November 8, 2017
 
 **Contents**: Include enhancements and update to the latest version of Core and the Generic HMI.
 
 ---
 
 #### iOS SDK: 5.0.0
-**Expected Release Date**: November 30, 2017
+**Release Date**: November 30, 2017
 
-**Contents**: Bug fixes and new features included on the [iOS 5.0.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/2).
+**Contents**: Bug fixes and new features included in the [iOS 5.0.0 Release Notes](https://github.com/smartdevicelink/sdl_ios/releases/tag/5.0.0).
+
+---
+
+#### iOS SDK: 5.1.0
+**Expected Release Date**: January 15, 2018
+
+**Contents**: This release will focus on improving video and audio streaming.  Contents of this release can be tracked on the [iOS 5.1.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/6).
+
+---
+
+#### Core: 4.5.0
+**Expected Release Date**: March 30, 2018
+
+**Contents**: This release will include stabilization fixes and the Connectivity via iAP-BT and Transport Switch feature described [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0053-Connectivity-via-iAP-BT-and-Transport-Switch.md).  Contents of this release can be tracked on the [Core 4.5.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/9).
+
+---
+
+#### Android SDK: 4.5.0
+**Expected Release Date**: March 30, 2018
+
+**Contents**: This release will focus on bug fixes and making integration easier for application developers.  Contents of this release can be tracked on the [Android 4.5.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/5).
+
+---
 
 
 
