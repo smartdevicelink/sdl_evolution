@@ -15,22 +15,27 @@ Projection apps like mobile navigation apps made it difficult to keep a built-in
 
 ## Proposed solution
 
-The proposed solution is to specify the built-in "menu" button to not exist anymore at all for projection apps. Instead those apps should be allowed to send a request to show the menu view.
+The proposed solution is to specify the built-in "menu" button to not exist anymore at all for projection apps. Instead those apps should be allowed to send a request to show the built-in menu view.
+
+### HMI & Mobile API 
 
 ```xml
-<function name="Show" messagetype="request">
-  <param name="appMenu" type="Integer" mandatory="false">
+<function name="ShowAppMenu" messagetype="Request">
+  <param name="menuID" type="Integer" mandatory="false">
     <description>
-      If set to the value 0 (zero) the HMI opens the built-in menu. 
-      Any other value than 0 opens the corresponding sub-menu 
+      If omitted the HMI opens the apps menu.
+      If set to a sub-menu ID the HMI opens the corresponding sub-menu
       previously added using `AddSubMenu`.
   </description>
+</param>
 </function>
 ```
 
+### Requirements
+
 This parameter should only be allowed if the app is in the level `HMI_FULL` with System context being `MAIN` or `MENU`. Otherwise it should not be allowed for an app to show the apps menu.
 
-Projection apps would project a button which the user can press. The app would react on this button press and send the Show request.
+Projection apps should project a button which the user can press. The app would react on this button press and send the `ShowAppMenu` request.
 
 ## Potential downsides
 
@@ -41,17 +46,6 @@ There's no downside identified.
 This proposal is an additional feature which allows projection apps to decide how they want to manage the apps menu.
 
 ## Alternatives considered
-
-### `ShowAppMenu` RPC
-
-Instead of a parameter the feature could also be provided by adding another RPC.
-
-```xml
-<function name="ShowAppMenu" messagetype="Request">
-</function>
-```
-
-However compared to an additional parameter it is of more effort to add a new RPC.
 
 ### Make "Menu" button moveable
 
