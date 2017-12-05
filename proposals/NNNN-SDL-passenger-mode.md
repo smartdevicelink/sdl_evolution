@@ -11,13 +11,13 @@ Allow a passenger to dismiss the lockscreen to improve usability of applications
 
 ## Motivation
 
-Having used SDL extensively, it is annoying to passengers of SDL enabled vehicles to be locked out of in-app UI while the vehicle is in motion. SDL, for safety purposes, uses a boolean based on the vehicle's speed to enable or disable the lock screen. While this logic is good when there is only the driver in the vehicle, it is prohibitive when others are in the vehicle, forcing users to abandon their use of SDL in favor of Carplay, Android Auto, or plain old Bluetooth. Other platforms currently allow this, with Carplay's lock screen being dismissible and Apple's *I'm not driving* action sheet being added in iOS 11.
+Having used SDL extensively, passengers of SDL enabled vehicles may find it frustrating to be locked out of in-app UI while the vehicle is in motion. SDL, for safety purposes, uses a boolean based on the vehicle's speed to enable or disable the lock screen. While this logic is good when there is only the driver in the vehicle, it is prohibitive when others are in the vehicle, forcing users to abandon their use of SDL in favor of Carplay, Android Auto, or Bluetooth. Other platforms currently allow this, with Carplay's lock screen being dismissible and Apple's *I'm not driving* action sheet being added in iOS 11.
 
 Additionally, this functionality would benefit app developers, allowing access to their UI by a passenger of a vehicle while maintaining the lock screen for the driver. 
 
 ## Proposed solution
 
-The proposed solution is to have a button in the default lock screen that certifies that the user *is not driving*, similar to inputting an address in Waze while the vehicle is in motion. 
+The proposed solution is to have a button in the default lock screen that certifies that the user *is not driving*.
 
 > "I am not driving"
 
