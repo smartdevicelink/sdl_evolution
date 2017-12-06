@@ -1,8 +1,8 @@
 # SDL Passenger Mode
 
-* Proposal: [SDL-NNNN](NNNN-mobile-api-versioning-revision.md)
+* Proposal: [SDL-0119](0119-SDL-passenger-mode.md)
 * Author: [Brett McIsaac](https://github.com/brettywhite)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: iOS, Android
 
 ## Introduction
