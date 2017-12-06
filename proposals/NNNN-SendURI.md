@@ -28,11 +28,12 @@ To figure what would be necessary for this feature, we looked at how Twitter and
 
 **Facebook:**
 
-![alt text](https://github.ford.com/mcriman1/sdl_evolution_fordinternal/blob/SendWebAd/assets/F049/FacebookArticleShare.JPG "Facebook Article Sharing")
+![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/NNNN-SendURI/FacebookArticleShare.jpg "Facebook Article Sharing")
+
 
 **Twitter:**
 
-![alt text](https://github.ford.com/mcriman1/sdl_evolution_fordinternal/blob/SendWebAd/assets/F049/TwitterArticleShare.JPG "Twitter Article Sharing")
+![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/NNNN-SendURI/TwitterArticleShare.jpg "Twitter Article Sharing")
 
 There is a new parameter for SendURI in the Mobile and HMI APIs that allows the feature to exist.
 
