@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0117](0117-configurable-time-before-shutdown.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
