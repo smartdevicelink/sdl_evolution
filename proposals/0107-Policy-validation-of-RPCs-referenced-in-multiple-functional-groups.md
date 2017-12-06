@@ -8,14 +8,14 @@
 ## Introduction
 Current SDL implementation of PRCs policy check includes the following simple flow. Application could have several functional groupings assigned to it and RPC could be a member of several groupings. Moreover, in each grouping RPC could have different sets of parameters allowed to be processed. In case of user disallows some grouping, it will add restrictions for processing RPC with allowed parameters if request contains also some disallowed.
 
-A new idea is to implement extended policy check for the case when SendLocation RPC is included into different functional groupings and such groupings have different user permissions. 
+A new idea is to implement extended policy check for the case when some RPC is included into different functional groupings and such groupings have different user permissions. 
 
 ## Motivation
 
 Mobile applications need to know which RPC parameters are allowed and can be processed. 
 
 SDL core has policy mechanism which is the part of RPC processing. It regulates RPC permissions based on groups of RPCs that are allowed to the application. 
-SendLocation RPC can belong to different functional groupings with different set of parameters for this RPC. SDL core must handle such cases when this RPC is being sent from mobile application. SDL must calculate final permissions for incoming RPC based on permissions of functional groupings assigned to application where this RPC is present.
+Any RPC can belong to different functional groupings with different set of parameters for this RPC. SDL core must handle such cases when this RPC is being sent from mobile application. SDL must calculate final permissions for incoming RPC based on permissions of functional groupings assigned to application where this RPC is present.
 
 
 ## Proposed solution
@@ -26,7 +26,7 @@ in functional groupinging assigned to application and not disallowed by user(the
 
 Pre-condition: 
 
-`SendLocation` RPC exists at:
+RPC exists at:
 *<functional_groupinging_1>* with *<param_1>*, *<param_2>*
 *<functional_groupinging_2>* with *<param_3>*, *<param_4>*
 and *<functional_groupinging_1>* is disallowed by user
