@@ -1,9 +1,8 @@
 # SendURI
 
-* Proposal: [SDL-F049]((FXXX-SendURI.md))
-* SDL Proposal: [To be filled later](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/)
+* Proposal: [SDL-NNNN]((NNNN-SendURI.md))
 * Author: [Michael Crimando](https://github.com/MichaelCrimando) & [Derrick Portis](https://github.com/dportis)
-* Status: **Under review**
+* Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
@@ -150,6 +149,12 @@ If the system does not have the capability of navigating to a web address sent f
 * Annoying popups - Apps may bring up website popups unsolicited. We should list in the developer guidelines to not do this and OEMs can do validation testing on apps.
 * Internet speed, bad URLs - If the internet speed in the car is slow or if the user is brought to bad/slow web pages, then they may find the feature more annoying than anything.  The speed of the internet will have to be handled by the OEM, it will be up to the app to bring the user to optimized web pages, and OEMs will have to do some validation testing to verify.  
 * May not be needed at the moment - Most cars at the moment don't have a built in web browser. However, in the future with autonmous vehicles, this will probably become much more common.
+
+## Impact on existing code
+
+RPC changes:
+
+* New RPC for Mobile and Core
 
 ## Alternatives considered
 
