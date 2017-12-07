@@ -3,7 +3,7 @@
 * Proposal: [SDL-0071](0071-remote-control-baseline.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
 * Status: **Accepted**
-* Impacted Platforms: [Core / iOS / Android / RPC ]
+* Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
 
@@ -40,7 +40,7 @@ The following table lists what control items are considered in the each control 
 
 | RC Module | Control Item | Value Range |Type | Comments |
 | ------------ | ------------ |------------ | ------------ | ------------ |
-| Radio | Radio Enabled | true,false  | Get/Set/Notification| read only, all other radio control items need radio enabled to work|
+| Radio | Radio Enabled | true,false  | Get/Set/Notification| when the radio is disabled, no data other than `radioEnable` is included in a `GetInteriorVehicleData` response|
 |       | Radio Band | AM,FM,XM  | Get/Set/Notification| |
 |       | Radio Frequency | | Get/Set/Notification | value range depends on band |
 |       | Radio RDS Data | | Get/Notification | read only |
