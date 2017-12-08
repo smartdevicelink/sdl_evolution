@@ -23,11 +23,11 @@ When battery voltage hits below 7v SDL will "freeze" all operation untill it wil
 - SDL stops audio/video streaming
 - During LOW_VOLTAGE all transports are unavailable for SDL
 - SDL persists resumption related data stored before receiving LOW_VOLTAGE message
-- After WAKE_UP applications data will be resumed to the state before LOW_VOLTAGE event
+- After WAKE_UP application will be unregistered and device disconnected
 - If LOW_VOLTAGE was received at the moment of writing to policies database, SDL and Policies Manager must keep policies database correct and working. After "WAKE_UP" policy database reflects the last known correct state.
 - SDL and PoliciesManager must persist 'consumer data' (resumption-related + local PT) periodically and independently of the external events
 - SDL resumes its regular work after receiving "WAKE_UP"
-- SDL must be able to start up correctly in the next ignition cycle after it was powered off
+- SDL must be able to start up correctly in the next ignition cycle after it was powered off in low voltage state
 
 ## Details of implementation
 
@@ -53,8 +53,8 @@ It is expected that in case LOW_VOLTAGE state will be during 10 seconds VMCU sha
 
 SDL must to start up correctly in the next ignition cycle after LOW_VOLTAGE event
 
-When battery voltage recovers, HMI will send "OnAwakeSDL", SDL must resume its regular behavior.
-SDL must resume HMILevel of connected applications according to HMILevel resumption requirements
+When battery voltage recovers, HMI will send "OnAwakeSDL", disconnected application will re-register, SDL must resume its regular behavior.
+SDL must resume HMILevel of re-registred applications according to HMILevel resumption requirements
 
 ## Potential downsides
 
@@ -62,7 +62,9 @@ During LOW_VOLTAGE event SDL won't be able to notify or unregister applictions d
 
 ## Impact on existing code
 
-SDL core must be able to support new element in "ApplicationsCloseReason" enum
+* SDL core must be able to support new element in "ApplicationsCloseReason" enum  
+* Policies and resumption writing to database process
+
 
 ## Alternatives considered
 
