@@ -7,8 +7,8 @@
 
 ## Introduction
 
-This proposal is about an order of creating build jobs in our buiding system, running tests and keeping results of theese tests.
-Also a good practice to provide a set of scripts to easy manage our build system.
+This proposal is about a structure of the buiding system, running tests and keeping results of these tests.
+Also a good practice to provide a set of scripts to easy manage the build system.
 
 ## Motivation
 
@@ -19,8 +19,8 @@ Build server configuration must be saved into files, be flexible and be applied 
 
 Key components of build system are:
 - jenkins master - it manages build/test processes,
-- jenkins slaves - servers which builds and tests,
-- artifactory - keeps archive with binaries and log files.
+- jenkins slaves - docker containers that build SDL with different options and run tests,
+- artifactory - keeps archive with binaries and log files,
 - Github - keeps Dockerfiles and Jenkins jobs, allows to keep different versions of configuration and to download a configuration at any time.
 The solution proposes to use docker containers for components deployment. 
 ### Jenkins jobs creating.
@@ -28,9 +28,9 @@ Every task that implies alterations in Git repository should be represented as s
 feature/<task name> , fix/<task name> or hotfix/<task name>
 All changes related to the task should be applied to this branch.
 The next list of jobs will be created after creating new branch:
-- push,
-- pull request,
-- nightly.
+- push - the job run when push to github happends,
+- pull request - the job run whe pull request is opened or closed,
+- nightly - the job run by timer at midnight.
   
 Each job runs check style scripts, cpp check, unit tests.
 ATF feature test sets run after each push job. 
