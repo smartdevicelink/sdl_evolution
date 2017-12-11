@@ -47,7 +47,8 @@ N/A
 
 ## Impact on existing code
 
-Should impact only ATF code.
+Add additional components to ATF project, add additional API to ATF Facade. 
+After implementation scripts that test videostreaming could be extended. 
 
 ## Alternatives considered
 
