@@ -15,8 +15,8 @@ Also this service should provide possibility to run multiple SDL instances (for 
 Major problem of current automated testing approach is that it is impossible to test multiple instances of SDL simultaneously.
 Currently SDL and ATF should be located on the same workstation because ATF actually runs SDL via bash scripts. 
 Implementation of SDL watchdog gives possibility to locate ATF and SDL independently (on one or on separate workstations).
-Also ATF is not able to control SDL configuration, it just uses SDL that located in predefined place. 
-If script be able to get SDL with certain build flags, or certain version of SDL, that will reduce a lot of testing efforts.
+Also ATF is not able to control SDL configuration, it just uses SDL that is located in a predefined place. 
+If script is able to get SDL with certain build flags, or certain version of SDL, that will reduce a lot of testing efforts.
 Separating of script run logic and SDL control logic will provide possibility to test SDL with automated scripts on head unit.
 
 ## Proposed solution
@@ -83,7 +83,7 @@ Options:
 
 #### ATF internal implementation
 
-On ATF side should be created component (for example: `SDL`) that is able to communicate with SDL Watchdog via API.
+On ATF side, should create a component (for example: `SDL`) that is able to communicate with SDL Watchdog via API.
 Also on ATF side SDL watchdog component should be able to fetch SDL logs by telnet, monitor SDL core crash and download stack trace.
 
 ATF should provide following API for script:
@@ -102,7 +102,8 @@ N/A
 
 ## Impact on existing code
 
-Impacts ATF code, some scripts
+Impacts atf component named SDL, also impacts Fasade of ATF. 
+Impacts all scripts that related to multiple ignition cycles 
 
 ## Alternatives considered
 Run SDL via command prompt, but it requires ATF to be located on the same workstation with SDL and does not support automated testing on Head unit. 
