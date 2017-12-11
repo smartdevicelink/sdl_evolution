@@ -1,9 +1,9 @@
 # ATF support of additional transports(BT and USB)
 
 * Proposal: [SDL-NNNN](NNNN-atf-additional-transports.md)
-* Author: [SDL Developer](https://github.com/smartdevicelink)
+* Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Awaiting review**
-* Impacted Platforms: [ATF, SPT]
+* Impacted Platforms: [Core]
 
 ## Introduction
 
@@ -22,7 +22,7 @@ In future this approach also will allow to test SDL on custom OEM head units.
 
 Some features of SDL assume usage of certain transport : USB or Bluetooth.
 Some features describe SDL behavior in case of transport switch or multiple device connection.
-Also generally SDL is used Bluetooth or USB as connection protocol on head unit. 
+Also generally SDL uses Bluetooth or USB as connection protocol on head unit. 
 ATF should support custom transports. 
 
 Main reasons :
@@ -55,15 +55,15 @@ ATF should provide such API to test engineer:
 _СonnectToSDL_ should return connection object.
 Connection object should provide ability to create sessions on it. Session interface should not be changed.  
 
-In case if mobile device is absent, ATF should be able to test SDL via TCP connection (as it does now).
+In the case where a mobile device is absent, ATF should be able to test SDL via TCP connection (as it does now).
 
 High Level relationship diagram: 
-![Hit Level relationship diagram](/assets/proposals/nnnn-ATF-Additional-Transports/atf_transport_adapter.png)
+![High Level relationship diagram](/assets/proposals/nnnn-ATF-Additional-Transports/atf_transport_adapter.png)
 
 ## Potential downsides
 
 This solution is not scalable. 
-To run multiple scripts that test transport simultaneously required adding physical mobile device. 
+To run multiple scripts that test transport simultaneously, it will require adding a physical mobile device.
 
 ## Impact on existing code
 
@@ -77,7 +77,7 @@ Also if this solution uses sdl_android, some changes may be required in sdl_andr
 
  SDL has implemented transport using adapters, so porting SDL on customer hardware requires rewriting transport adapters from scratch.
  And any transport testing that is done on Ubuntu Linux x86 becomes not actual.
- But missing of automated testing of transport makes not possible to check business logic that is related to transport switch. 
+ But not having automated testing of transport makes it impossible to check the business logic that is related to the transport switch.
  In addition proposed approach provides possibility of SDL testing on custom transports.
  
  #### Emulate transports
