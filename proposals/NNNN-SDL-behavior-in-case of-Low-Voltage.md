@@ -49,7 +49,7 @@ On getting "OnExitAllApplications(LOW_VOLTAGE)", SDL must:
   - ignore all RPC from mobile side
   - ignore all RPCs from HMI side, except "OnAppInterfaceUnregistered(IGNITION_OFF)" or "OnAwakeSDL"
 
-It is expected that in case LOW_VOLTAGE state will be during 10 seconds VMCU shall power off the CCPU and HMI will send "OnAppInterfaceUnregistered(IGNITION_OFF)" to SDL and SDL will finish its work.
+It is expected that after LOW_VOLTAGE state timeout (amount of time specified by PowerManager), VMCU shall power off the CCPU and HMI will send "OnAppInterfaceUnregistered(IGNITION_OFF)" to SDL and SDL will finish its work.
 
 SDL must to start up correctly in the next ignition cycle after LOW_VOLTAGE event
 
