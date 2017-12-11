@@ -11,29 +11,29 @@ The SendURI feature is a new RPC that would allow SDL Apps on systems that conta
 
 ## Motivation
 
-In the future, vehicles may contain web browsers that a user could use (while stationary or in motion - depending on OEM), rear family entertainment systems that are SDL-enabled may start to exist, and SDL-enabled autonomous vehicles will become common. Getting this feature would enable an SDL conneciton to the built-in features for situations where it may be more comfortable to use in the vehicle displays. Examples include but are not limited to, emails, calls, SMS messages, video content, real estate listings, news articles, restuarant menus, charging station info, flight info, and shopping information. Sometimes a SDL app can emulate certain views using display layouts - but the system might not be able to show the desired amount of information.
+In the future, vehicles may contain web browsers that a user could use (while stationary or in motion - depending on OEM), rear family entertainment systems that are SDL-enabled may start to exist, and SDL-enabled autonomous vehicles will become common. Getting this feature would enable an SDL connection to the built-in features for situations where it may be more comfortable to use in the vehicle displays. Examples include but are not limited to, emails, calls, SMS messages, video content, real estate listings, news articles, restuarant menus, charging station info, flight info, and shopping information. Sometimes a SDL app can emulate certain views using display layouts - but the system might not be able to show the desired amount of information.
 
 ## Proposed solution
 
-The SendURI RPC would bring new functionality to SDL by giving app the ability to explore web addresses and more outside of SDL apps. This will lead to more versatile interactions with SDL.  
+The SendURI RPC would bring new functionality to SDL by giving apps the ability to explore web addresses and more outside of SDL apps. This will lead to more versatile interactions with SDL.  
 
 Some example user stories that this would solve:
 "As a user, I want to be able to find more info on the world around me, so that I have more enjoyable road trips"
 "As a User, I want real estate info displayed in the car, so that I can easily pull up photos and history on homes before I deal with any agents"
 "As a user, I want to be able to view videos and media on the rear screens because it's much more comfortable to view on"
-"As a user, I want to be able to bring up web addresses through Waze so I can see more about a location"
+"As a user, I want to be able to bring up web addresses through a navigation app so I can see more about a location"
 "As a User, I want to setup bookmark keywords within in an app so that I can pull up web addresses easily"
 
 To figure what would be necessary for this feature, we looked at how Twitter and Facebook display URI previews to users, and have that formatting in mind for an actual system implementation.
 
 **Facebook:**
 
-![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/NNNN-SendURI/FacebookArticleShare.jpg "Facebook Article Sharing")
+![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/NNNN-SendURI/FacebookArticleShare2.jpg "Facebook Article Sharing")
 
 
 **Twitter:**
 
-![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/NNNN-SendURI/TwitterArticleShare.jpg "Twitter Article Sharing")
+![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/NNNN-SendURI/TwitterArticleShare2.jpg "Twitter Article Sharing")
 
 There is a new parameter for SendURI in the Mobile and HMI APIs that allows the feature to exist.
 
@@ -149,7 +149,7 @@ If the system does not have the capability of navigating to a web address sent f
 * Malware - Have to worry about the security of the websites that users are being sent to. Potentially could just be handled by the integrated web browser
 * Annoying popups - Apps may bring up website popups unsolicited. We should list in the developer guidelines to not do this and OEMs can do validation testing on apps.
 * Internet speed, bad URLs - If the internet speed in the car is slow or if the user is brought to bad/slow web pages, then they may find the feature more annoying than anything.  The speed of the internet will have to be handled by the OEM, it will be up to the app to bring the user to optimized web pages, and OEMs will have to do some validation testing to verify.  
-* May not be needed at the moment - Most cars at the moment don't have a built in web browser. However, in the future with autonmous vehicles, this will probably become much more common.
+* May not be needed at the moment - Most cars at the moment don't have a built in web browser. However, in the future with autonomous vehicles, this will probably become much more common.
 
 ## Impact on existing code
 
