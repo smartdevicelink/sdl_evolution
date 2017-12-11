@@ -16,7 +16,7 @@ Implement logic that will allow SDL to resume after battery charge is restored o
 
 ## Proposed solution
 
-When battery voltage hits below 7v SDL will "freeze" all operation untill it will be switched off or resumed. During LOW_VOLTAGE state proposed the following SDL behavior:
+When battery voltage hits below predifined by PowerManager threshold (e.g.7v) SDL will "freeze" all operation untill it will be switched off or resumed. During LOW_VOLTAGE state proposed the following SDL behavior:
 
 - SDL ignores all requests from mobile applications
 - SDL ignores all responses and messages from HMI except messages for "WAKE_UP" or "IGNITION_OFF"
