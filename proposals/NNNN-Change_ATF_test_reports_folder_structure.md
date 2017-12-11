@@ -18,7 +18,7 @@ This proposal is about creating clear and useful structure of test scripts repor
 
 ## Motivation
 
-Create more convenient reports structure, less nested. Multiple running of test script should not override old reports. Structure of reports should be clear for easy searching certain report.
+Create more convenient reports structure, less nested. Running multiple test scripts should not override old reports. Structure of reports should be clear, so you can easily search for a certain report.
 
 ## Proposed solution
 
