@@ -19,6 +19,8 @@
 
 All these functionality are not tests artifacts but tools that tests use.
 
+The purpose of this proposal is to clean up these common modules that everyone who create ATF test scripts be able to use them.
+
 ## Motivation
 
 Current downsides of common modules are:
@@ -31,7 +33,7 @@ Current downsides of common modules are:
 
 ## Proposed solution
 
-The purpose of this proposal is to clean up these common modules.
+In order to clean up the common modules there are following items needs to be done.
 
 ### Leave existing modules as is for backward compatibility
 
