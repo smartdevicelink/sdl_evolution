@@ -19,7 +19,7 @@
 
 All these functionality are not tests artifacts but tools that tests use.
 
-The purpose of this proposal is to clean up these common modules that everyone who create ATF test scripts be able to use them.
+The purpose of this proposal is to clean up these common modules that everyone be able to use them while creating ATF test scripts.
 
 ## Motivation
 
