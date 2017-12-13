@@ -1,8 +1,8 @@
 # SDLImageUploadManager
 
-* Proposal: [SDL-NNNN](NNNN-SDLImageUploadManager.md)
+* Proposal: [SDL-0124](0124-SDLImageUploadManager.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **Ready for Review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
