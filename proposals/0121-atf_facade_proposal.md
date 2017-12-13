@@ -1,9 +1,9 @@
 # ATF Facade
 
-* Proposal: [SDL-NNNN](NNNN-atf_facade_proposal.md)
+* Proposal: [SDL-0121](0121-atf_facade_proposal.md)
 * Author: [Oleksandr Deriabin](https://github.com/aderiabin)
-* Status: **Awaiting review**
-* Impacted Platforms: [ATF]
+* Status: **In Review**
+* Impacted Platforms: [Core]
 
 ## Introduction
 
