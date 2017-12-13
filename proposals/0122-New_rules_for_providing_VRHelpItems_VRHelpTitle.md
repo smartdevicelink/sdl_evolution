@@ -1,8 +1,8 @@
 # Handling VR help requests when application does not send VR help prompt
 
-* Proposal: [SDL-NNNN](NNNN-New_rules_for_providing_VRHelpItems_VRHelpTitle.md)
+* Proposal: [SDL-0122](0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md)
 * Author: [Irina Getmanets](https://github.com/GetmanetsIrina)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: Core, RPC
 
 ## Introduction
