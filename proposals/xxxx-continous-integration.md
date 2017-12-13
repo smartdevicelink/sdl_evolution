@@ -36,8 +36,8 @@ ATF feature test sets run after each PUSH/NIGHTLY job.
 ATF smoke test sets run after each job.
 
 Summary, the next set of jenkins job will be created for each feature branch:
-- PUSH_feature
-  - ATF_feature (SDL build, Unit test)
+- PUSH_feature (SDL build, Unit test)
+  - ATF_feature 
   - ATF_SMOKE_feature
 - PR_feature (SDL build, Unit test)
   - ATF_SMOKE_feature
