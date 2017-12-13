@@ -1,8 +1,8 @@
 # GetSystemTime RPC
 
-* Proposal: [SDL-NNNN](NNNN-GetSystemTime.md)
+* Proposal: [SDL-0120](0120-GetSystemTime.md)
 * Author: [Aleksandr Stasiuk](https://github.com/AStasiuk)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
