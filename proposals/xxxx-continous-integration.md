@@ -24,8 +24,7 @@ Key components of build system are:
 - Github - keeps Dockerfiles and Jenkins jobs, allows to keep different versions of configuration and to download a configuration at any time.
 The solution proposes to use docker containers for components deployment. 
 ### Jenkins jobs creating.
-Every task that implies alterations in Git repository should be represented as separated branch. The template for naming the branch is the following:
-feature/<task name> , fix/<task name> or hotfix/<task name>
+Every task that implies alterations in Git repository should be represented as separated branch. The template for naming the branch is the following: feature/<task name>
 All changes related to the task should be applied to this branch.
 The next list of jobs will be created after creating new branch:
 - push - the job run when push to github happends,
@@ -33,15 +32,16 @@ The next list of jobs will be created after creating new branch:
 - nightly - the job run by timer at midnight.
   
 Each job runs check style scripts, cpp check, unit tests.
-ATF feature test sets run after each push job. 
-ATF feature test and ATF smoke test sets run after nightly job.
+ATF feature test sets run after each PUSH/NIGHTLY job. 
+ATF smoke test sets run after each job.
 
-Summary, the next set of jenkins job will be created for each feature/fix/hotfix branch:
+Summary, the next set of jenkins job will be created for each feature branch:
 - PUSH_feature
-  - ATF_feature
-- PR_feature
+  - ATF_feature (SDL build, Unit test)
   - ATF_SMOKE_feature
-- NIGHTLY_feature
+- PR_feature (SDL build, Unit test)
+  - ATF_SMOKE_feature
+- NIGHTLY_feature (SDL build, Unit test, Coverage)
   - ATF_feature
   - ATF_SMOKE_feature
 ### 1) Jenkins - continuous integration system.
