@@ -24,7 +24,7 @@ Key components of build system are:
 - Github - keeps Dockerfiles and Jenkins jobs, allows to keep different versions of configuration and to download a configuration at any time.
 The solution proposes to use docker containers for components deployment. 
 ### Jenkins jobs creating.
-Every task that implies alterations in Git repository should be represented as separated branch. The template for naming the branch is the following: feature/<task name>
+Every task that implies alterations in Git repository should be represented as separated branch. The template for naming the branch is the following: feature/\<task name\>
 All changes related to the task should be applied to this branch.
 The next list of jobs will be created after creating new branch:
 - push - the job run when push to github happends,
