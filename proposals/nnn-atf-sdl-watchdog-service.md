@@ -103,7 +103,7 @@ N/A
 ## Impact on existing code
 
 Impacts atf component named SDL, also impacts Fasade of ATF. 
-Impacts all scripts that related to multiple ignition cycles 
+Impacts all scripts related to multiple ignition cycles.
 
 ## Alternatives considered
 Run SDL via command prompt, but it requires ATF to be located on the same workstation with SDL and does not support automated testing on Head unit. 
