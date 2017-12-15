@@ -20,11 +20,7 @@ Working on new features (e.g. play/pause button, locale support, manual only cho
 
 The proposal is not about solving the issue of a version mismatch but rather add version related information to the elements of the mobile API. These version related information can be used as the foundation to improve versioning and the behavior of version mismatch. The version information can be added to the mobile API by using additional XML attributes.
 
-### XML attributes
-
-Following XML attributes should be used to add version information to the mobile API.
-
-#### Attribute `minVersion`
+### Attribute `minVersion`
 
 The attribute `minVersion` should be used by the `interface` element to mention the minimum version number which is supported by the mobile API. The minimum version should be as low as possible (1.0) but it allows to remove support for obsolete SDL versions.
 
@@ -34,9 +30,9 @@ Example for the mobile API 4.5.0 which supports SDL starting from 1.0
 <interface name="Ford Sync RAPI" version="4.5.0" minVersion="1.0" ...>
 ```
 
-#### Attribute `since`
+### Attributes `since` and `until`
 
-The attribute `since` should be used for any element (`enum`, `element`, `function`, `struct`, `param`) in the mobile API whenever an element is added to the API. It should also be used within the `history` element to describe since what version a change is applied.
+The attribute `since` and `until` should be used for any element (`enum`, `element`, `function`, `struct`, `param`) in the mobile API to define the version range in that the element is valid. It should be read as "This element exist since version X until version Y".
 
 Following example about video streaming capabilities which is added to 4.5.0:
 
@@ -51,29 +47,31 @@ Following example about video streaming capabilities which is added to 4.5.0:
 </enum>
 ```
 
-If an element (`enum`, `function` or `struct`) contains the `since` attribute every sub-element (`param` for `function` or `struct`, `element` for `enum`) implicitly inherits the attribute and value. Otherwise the element was added with version 1.0.
+If an element (`enum`, `function` or `struct`) contains the `since` attribute every sub-element (`param` for `function` or `struct`, `element` for `enum`) implicitly inherits the attribute and value. Otherwise the element exists since version 1.0.
 
-#### Attribute `deprecated`
+### Attribute `deprecated`
 
 The attribute `deprecated` should be used for any element (`enum`, `element`, `function`, `struct`, `param`) in the mobile API whenever an element is about to be removed to the API.
 
 Following example about locale support which should be deprecated in 4.5.0:
 
 ```xml
-<enum name="Language" deprecated="4.5.0">
+<enum name="Language" deprecated="true" since="4.5.0">
   :
 </enum>
 
 <function name="RegisterAppInterface" ...>
   :
-  <param name="languageDesired" type="Language" mandatory="true" deprecated="4.5.0" />
+  <param name="languageDesired" type="Language" mandatory="true" deprecated="true" since="4.5.0">
   <param name="localeDesired" type="String" mandatory="true" since="4.5.0" />
 </function
 ```
 
 If an element (`enum`, `function` or `struct`) contains the `deprecated` attribute every sub-element (`param` for `function` or `struct`, `element` for `enum`) implicitly inherits the attribute and value.
 
-#### Attribute  `removed`
+Elements are not deprecated by default. Deprecating an element changes it's signature (causes another history item).
+
+### Attribute  `removed`
 
 The attribute `removed` should be used for any element (`enum`, `element`, `function`, `struct`, `param`) whenever an element is removed but can be used by an older version which is still supported by the mobile API.
 
@@ -82,17 +80,19 @@ Following parameter can be taken as an example of a removed element:
 ```xml
 <function name="Show" ...>
   :
-  <param name="mediaClock" type="String" minlength="0" maxlength="500" mandatory="false" removed="2.0" />
+  <param name="mediaClock" type="String" minlength="0" maxlength="500" mandatory="false" removed="true" since="2.0" />
 </function>
 ```
 
-This attribute should only be used if the element can be used in an older version of SDL which is still supported. As an example if the mobile API minimum version is set to "2.0" the parameter `mediaClock` should be completely removed from the API and the proxies.
+This attribute should only be used if the element will not be implemented by Core starting with version `since` but the libraries should still support older Core versions. This support is defined by the `minVersion` attribute. Increasing `minVersion` to "2.0" allows to stop support for the above example.
 
-### Attribute changes (aka parameter element signature)
+Elements are not removed by default. Removing an element changes it's signature (causes another history item).
 
-The elements `param` and `element` and all the attributes including `name` define a parameter signature. Changes to an existing parameter would produce a new signature which replaces the old parameter. The existing parameter element should be moved into a sub-element called `history` and the new parameter element should be added.
+### Element signature changes
 
-Note: The `type` attribute of a `param` element should not be changed. This would always cause a breaking change and would lead to an API which is not backward compatible. Instead a new parameter should be invented which replaces the existing one. As an exception the type can be changed if the SDL libraries can safely manage different parameter types.
+The elements `param` and `element` and all the attributes including `name`, `deprecated` and `removed` define a parameter signature. Changes to an existing parameter would produce a new signature which replaces the old parameter. The existing parameter element should be moved into a sub-element called `history` and the new parameter element should be added.
+
+Note: The `type` attribute of a `param` element should not be changed. This would always cause a breaking change and would lead to an API which is not backward compatible. Instead a new parameter should be invented which replaces the existing one. The only exception is if the SDL libraries can safely manage different parameter types.
 
 As an example changing `Choice.vrCommands` to be optional starting with version 4.5.0 would look like as followed:
 
@@ -100,7 +100,7 @@ As an example changing `Choice.vrCommands` to be optional starting with version 
 <struct name="Choice">
   <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" mandatory="false" since="4.5.0" /> <!-- explicitly optional since 4.5 -->
   <history>
-    <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" removed="4.5.0" /> <!-- implicitly mandatory from v1.0 to v4.5-->
+    <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" until="4.5.0" /> <!-- implicitly mandatory from v1.0 to v4.5-->
   </history>
 </struct>
 ```
@@ -116,7 +116,7 @@ Another example shows how play/pause should be properly defined in the mobile AP
       Please use the physical `PLAY_PAUSE` button.
     </description>
     <history>
-      <element name="OK" removed="4.5.0">
+      <element name="OK" until="4.5.0">
         <description>
           The button name for the Play/Pause 
           toggle that can be used by media apps.
@@ -137,11 +137,9 @@ Another example shows how play/pause should be properly defined in the mobile AP
 </enum>
 ```
 
-It's using a warning element; please read "Warning element" section for details
+### Element `warning`
 
-### Warning element
-
-It should be possible to add a warning element to any XML element. The warning element should contain a human readable message which helps developers to understand:
+It should be possible to add a `warning` element next to `description` to any XML element. The warning element should contain a human readable message which helps developers to understand:
 
 - That a new feature is added and not supported in older head units. If possible the warning should give advice how to deliver a similar experience for older head units. Example: PLAY_PAUSE button is not supported in head units <4.5. Use OK button instead for older head units.
 - That a feature is deprecated (or even fully removed) and should not be used anymore. If possible the warning should give an advice if the feature is replaced by a successor. Example: Language enum should not be used with 4.5. Use locale parameters instead.
@@ -158,4 +156,84 @@ Existing code is not affected. The proposal would only add elements and attribut
 
 ## Alternatives considered
 
-Every enum `element` and every `param` element has to explicitly specify the newly added attributes appropriately (every element have to have the `added` attribute but only affected elements should have `deprecated` or `removed` attributes). However it is recommended to inherit the attributes from the parent element (`enum`, `struct` or `function`) if possible to avoid unnecessary duplicates.
+Every enum `element` and every `param` element has to explicitly specify the newly added attributes appropriately (every element have to have the `since` attribute but only affected elements should have `deprecated` or `removed` attributes). However it is recommended to inherit the attributes from the parent element (`enum`, `struct` or `function`) if possible to avoid unnecessary duplicates.
+
+## Appendix (other examples)
+
+### Scenario 1: Deprecate and remove sub-elements element, param
+
+The parameter `patchVersion` will be deprecated with 4.5
+
+```xml
+<struct name="SyncMsgVersion">
+  <description>Specifies the version number of the SYNC V4 protocol, that is supported by the mobile application</description>
+  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" />
+  <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
+  <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" deleted="true" since="5.0.0">
+    <previousVersions>
+      <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" since="4.4.0" until="4.5.0">
+      <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" deprecated="true"  since="4.5.0" until="5.0.0" />
+    </previousVersions>
+  </param>
+</struct>
+```
+
+### Scenario 2: Deprecate and remove container elements enum, struct, function
+
+The example is about replacing SyncMsgVersion with MsgVersion
+
+```xml
+<struct name="SyncMsgVersion" deleted="true" since="6.0.0">
+  <description>Specifies the version number of the SYNC V4 protocol, that is supported by the mobile application</description>
+  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" />
+  <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
+  <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" deleted="true" since="5.0.0">
+    <previousVersions>
+      <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" since="4.4.0" until="4.5.0">
+      <param name="patchVersion" type="Integer" minvalue="0" maxvalue="1000" mandatory="false" deprecated="true" since="4.5.0" until="5.0.0" />
+    </previousVersions>
+  </param>
+  <previousVersions>
+    <struct name="SyncMsgVersion" since="1.0.0" until="5.0.0" />
+    <struct name="SyncMsgVersion" deprecated="true" since="5.0.0" until="6.0.0" />
+  </previousVersions>
+</struct>
+ 
+<struct name="MsgVersion" since="5.0.0">
+  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" />
+  <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
+</struct>
+```
+
+### Scenario 3: Change signature of sub-element param
+
+This example  will increase the maxsize of majorVersion parameter with 5.1
+
+
+```xml
+<struct name="MsgVersion" since="5.0.0">
+  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100" since="5.1.0">
+    <previousVersions>
+      <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" since="5.0.0" until="5.1.0" />
+    </previousVersions>
+  <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
+</struct>
+```
+
+## Scenario 4: Deprecate and remove signature changed sub-element param 
+
+This example will deprecate the majorVersion parameter (it's just an example...).
+
+```xml
+<struct name="MsgVersion" since="5.0.0">
+  <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100" deleted="true" since="6.0.0">
+    <previousVersions>
+      <param name="majorVersion" type="Integer" minvalue="1" maxvalue="10" since="5.0.0" until="5.1.0" />
+      <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100" since="5.1.0" until="5.2.0" />
+      <param name="majorVersion" type="Integer" minvalue="1" maxvalue="100" deprecated="true"  since="5.2.0" until="6.0.0" />
+    </previousVersions>
+  </param>
+  <param name="minorVersion" type="Integer" minvalue="0" maxvalue="1000" />
+</struct>
+```
+
