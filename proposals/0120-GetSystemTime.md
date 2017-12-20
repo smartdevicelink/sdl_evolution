@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0120](0120-GetSystemTime.md)
 * Author: [Aleksandr Stasiuk](https://github.com/AStasiuk)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
