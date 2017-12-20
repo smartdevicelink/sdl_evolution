@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0121](0121-atf_facade_proposal.md)
 * Author: [Oleksandr Deriabin](https://github.com/aderiabin)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
