@@ -131,7 +131,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0120" status="accepted" primary-platform="rpc" sdl-version="x.x" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
 <proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
 <proposal id="0122" status="returned" primary-platform="rpc" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
-<proposal id="0123" status="active" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
+<proposal id="0123" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
 <proposal id="0124" status="returned" primary-platform="ios" sdl-version="x.x" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
 
 
