@@ -34,12 +34,12 @@ Implement logic that will allow SDL to resume after battery charge is restored o
 
 
 ## Details of implementation
-
-
+Mqueue channel of communication between HMI and SDL must be added.
 
 ## Potential downsides
-
+Major requirements for OEM manufactures (additional channel of communication is needed) 
 
 ## Alternatives considered
-
+Using existing Web Socket transport 
+adding new RPCs in HMI_API to implement new logic for triggering "frozen" mode
 
