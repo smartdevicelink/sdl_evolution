@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0123](0123-SendURI.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando) & [Derrick Portis](https://github.com/dportis)
-* Status: **In Review**
+* Status: **Rejected**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
