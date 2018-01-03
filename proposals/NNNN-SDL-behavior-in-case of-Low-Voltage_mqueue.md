@@ -17,7 +17,8 @@ Implement logic that will allow SDL to resume after battery charge is restored o
 
 ## Proposed solution
 
- When battery voltage hits below predifined by PowerManager threshold (e.g.7v) SDL will "freeze" all operation untill it will be switched off or resumed. 
+ When battery voltage hits below predifined by PowerManager threshold (e.g.7v) SDL will "freeze" all operation untill it will be switched off or resumed.  
+ 
  During LOW_VOLTAGE state proposed the following SDL behavior:
  
 * In case SDL receives "SDL_LOW_VOLTAGE" message via mqueue, SDL must stop any read/write activities until getting "WAKE_UP" message via mqueue.
@@ -33,13 +34,16 @@ Implement logic that will allow SDL to resume after battery charge is restored o
 * SDL must be able to start up correctly in the next ignition cycle after it was powered off in low voltage state  
 
 
-## Details of implementation
+## Details of implementation  
+
 Mqueue channel of communication between HMI and SDL must be added.
 
-## Potential downsides
+## Potential downsides  
+
 Major requirements for OEM manufactures (additional channel of communication is needed) 
 
-## Alternatives considered
-Using existing Web Socket transport 
+## Alternatives considered  
+
+Using existing Web Socket transport  
 adding new RPCs in HMI_API to implement new logic for triggering "frozen" mode
 
