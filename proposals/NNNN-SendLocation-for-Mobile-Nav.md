@@ -122,5 +122,5 @@ NA
 2. This design assumes that the time that SDL core waits for a response from the Service Application is statically defined by SDLC. An alternate method would be for the value to be provided by the Service Application and SDL Core to provide `TIMED_OUT` response only after its expiry. However, this would seem to unnecessarily complicate the design without much benefit.
 
 
-[SendLocationForMobileNav-RAI]: assets/FNNN1/SendLocationForMobileNav_RAI.jpg
-[SendLocationForMobileNav-RqRs]: assets/FNNN1/SendLocationForMobileNav_RequestResponse.jpg
+[SendLocationForMobileNav-RAI]: ../assets/proposals/NNN1/SendLocationForMobileNav_RAI.jpg
+[SendLocationForMobileNav-RqRs]: ../assets/proposals/NNN1/SendLocationForMobileNav_RequestResponse.jpg
