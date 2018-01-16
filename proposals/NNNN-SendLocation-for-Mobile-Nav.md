@@ -1,6 +1,6 @@
 # SendLocation for Mobile Nav
 
-* Proposal: [NNNN](NNNN-SendLocation-for-Mobile-Nav.md)
+* Proposal: [SDL-NNNN](NNNN-SendLocation-for-Mobile-Nav.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
 * Status: **Awaiting Review**
 * Impacted Platforms: [Core/Android/iOS/RPC]
@@ -28,7 +28,7 @@ This feature introduces new challenges which requires new concepts to solve them
 ### Design Details
 
 1) *There must be a mechanism for the system to notify apps that it has an enhanced capability (by virtue of another app providing this capability)*  
-Today, applications can query the system for its supported capability through the `GetSystemCapability` request. Now, with this proposal, applications ("Service applications")would have the ability to enhance the system's capability by providing certain services. To other apps, this should appear as a capability of the system itself and the apps should request for services to the system as they normally would. Hence it becomes necessary for the system to notify all registered applications when its capability has been enhanced so that the applications can take advantage of these capabilities.    
+Today, applications can query the system for its supported capability through the `GetSystemCapability` request. Now, with this proposal, applications ("Service applications") would have the ability to enhance the system's capability by providing certain services. To other apps, this should appear as a capability of the system itself and the apps should request for services to the system as they normally would. Hence it becomes necessary for the system to notify all registered applications when its capability has been enhanced so that the applications can take advantage of these capabilities.    
 a) A Service Application will need to inform the system that it provides certain services. This can be done during the registration process. Since the Service Application only enhances the capability of the system it would be appropriate to reuse the `SystemCapability` structure. The `RegisterAppInterface` request has to be enhanced with the following parameter:
 
  ```xml
@@ -60,7 +60,7 @@ For a Service Application which supports SendLocation, this param in the `Regist
   ```
   i) SDL Core shall send this notification to all registered applications.  
   ii) SDL Core shall send this notification only when the Service Application becomes active. In the case of SendLocation for Mobile Nav, the app can service the request only when the Service Application (Mobile Nav) app is active (i.e. in HMI state of FULL/LIMITED).  
-  iii) SDL Core shall only send this notificaiton when there is a change in system's capability. For example, if the system has an embedded navigation source which supports SendLocation and then the user activates a Mobile Nav app which also supports SendLocation then there is no actual change in the capability of the system and hence SDL Core shall not send the notification in this case.
+  iii) SDL Core shall only send this notification when there is a change in system's capability. For example, if the system has an embedded navigation source which supports SendLocation and then the user activates a Mobile Nav app which also supports SendLocation then there is no actual change in the capability of the system and hence SDL Core shall not send the notification in this case.
   
 2) *There must be a mechanism for the request/response from one app to be routed to another app.*  
 a)The proposed solution is to re-use the existing `SendLocation` RPC and have the ability for SDL Core to send this RPC as a request to the Service Application and for the Service Application to provide the `SendLocation` response. SDL Core will then need to provide the response provided by the Service Application as the response to the original requesting application.  
@@ -68,8 +68,8 @@ b)SDL Core will need to track the request coming from an application to the requ
 c)When SDL Core re-routes the request to the Service Application, it should add a valid Correlation ID unlike the '-1' value it sends for notifications. The suggestion is for SDL Core to maintain its own Correlation ID which will be incremented by 1 whenever SDL Core will need to send a request out to a Service Application. The Service Application should provide the same Correlation ID in its response.  
 d)SDL Core should start a timer waiting for the response from the Service Application. If the timer expires before the SDL Core receives a response from the Service Application, then SDL Core should provide a response of `TIMED_OUT` to the requesting application.  
 e)The value of this timer should be carefully selected to cover various scenarios.  
-f)If the Service Application is not in FULL (i.e. being actively viewed on HMI) and this application receives a SendLocation request, the Service Application can draw attention to the user by using an Alert RPC informing that there is a destination informaiton ready to be viewed on the app.
-f)Please refer to the sequence diagram for other scenarios that need to be covered.
+f)If the Service Application is not in FULL (i.e. being actively viewed on HMI) and this application receives a SendLocation request, the Service Application can draw attention to the user by informing that there is a destination information ready to be viewed on the app.  
+g)Please refer to the sequence diagram for other scenarios that need to be covered.
 <br />![SendLocationForMobileNav_RAI][SendLocationForMobileNav-RAI]
 <br />![SendLocationForMobileNav_RqRs][SendLocationForMobileNav-RqRs]
 ### Additions to Mobile_API
