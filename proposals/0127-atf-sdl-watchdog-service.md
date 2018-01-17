@@ -1,9 +1,9 @@
 # SDL watchdog
 
-* Proposal: [SDL-NNNN](nnn-atf-sdl-watchdog-service.md)
+* Proposal: [SDL-0127](0127-atf-sdl-watchdog-service.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
-* Impacted Platforms: [ATF]
+* Status: **In Review**
+* Impacted Platforms: [Core]
 
 ## Introduction
 Create service responsible for running and monitoring multiple SDL processes and handling SDL configurations.
