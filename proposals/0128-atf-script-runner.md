@@ -1,9 +1,9 @@
 # ATF Script Runner
 
-* Proposal: [SDL-NNNN](NNNN-atf-script-runner.md)
+* Proposal: [SDL-0128](0128-atf-script-runner.md)
 * Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
-* Status: **Awaiting review**
-* Impacted Platforms: [ATF]
+* Status: **In Review**
+* Impacted Platforms: [Core]
 
 ## Introduction
 
