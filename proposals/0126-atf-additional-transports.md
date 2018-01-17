@@ -1,4 +1,4 @@
-# ATF support of additional transports(BT and USB)
+# ATF support of additional transports (BT and USB)
 
 * Proposal: [SDL-0126](0126-atf-additional-transports.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
