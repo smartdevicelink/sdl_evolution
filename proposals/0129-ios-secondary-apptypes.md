@@ -1,8 +1,8 @@
 # Add Secondary AppHMIType Array iOS
 
-* Proposal: [SDL-NNNN](NNNN-ios-seconary-apptypes.md)
+* Proposal: [SDL-0129](0129-ios-secondary-apptypes.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
