@@ -127,13 +127,20 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0115" status="accepted" primary-platform="rpc" sdl-version="x.x" name="CloseApplicationRPC" filename="0115-close-application.md"/>
 <proposal id="0116" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Open Menu RPC" filename="0116-open-menu.md"/>	
 <proposal id="0117" status="accepted" primary-platform="core" sdl-version="x.x" name="Configurable time before shutdown" filename="0117-configurable-time-before-shutdown.md"/>	
-<proposal id="0118" status="active" primary-platform="mobile" sdl-version="x.x" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
+<proposal id="0118" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
 <proposal id="0119" status="returned" primary-platform="mobile" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
 <proposal id="0120" status="accepted" primary-platform="rpc" sdl-version="x.x" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
 <proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
 <proposal id="0122" status="returned" primary-platform="rpc" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
 <proposal id="0123" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
 <proposal id="0124" status="returned" primary-platform="ios" sdl-version="x.x" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
+<proposal id="0125" status="active" primary-platform="core" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
+<proposal id="0126" status="active" primary-platform="core" sdl-version="x.x" name="ATF support of additional transports (BT and USB)" filename="0126-atf-additional-transports.md"/>
+<proposal id="0127" status="active" primary-platform="core" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
+<proposal id="0128" status="active" primary-platform="core" sdl-version="x.x" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
+<proposal id="0129" status="active" primary-platform="ios" sdl-version="x.x" name="Add Secondary AppHMIType Array iOS" filename="0129-ios-secondary-apptypes.md"/>
+<proposal id="0130" status="active" primary-platform="rpc" sdl-version="x.x" name="SendLocation for Mobile Nav" filename="0130-SendLocation-for-Mobile-Nav.md"/>	
+
 
 
 	
