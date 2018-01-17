@@ -1,9 +1,9 @@
 # ATF Video streaming support
 
-* Proposal: [SDL-NNNN](nnnn-atf-videostreaming-full-support.md)
+* Proposal: [SDL-0125](0125-atf-videostreaming-full-support.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
-* Impacted Platforms: [ATF]
+* Status: **In Review**
+* Impacted Platforms: [Core]
 
 ## Introduction
 
