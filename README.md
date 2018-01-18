@@ -140,17 +140,17 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### iOS SDK: 5.0.0
-**Release Date**: November 30, 2017
+#### iOS SDK: 5.1.0
+**Release Date**: January 16, 2018
 
-**Contents**: Bug fixes and new features included in the [iOS 5.0.0 Release Notes](https://github.com/smartdevicelink/sdl_ios/releases/tag/5.0.0).
+**Contents**: This release will focus on improving video and audio streaming.  Contents of this release can be tracked on the [iOS 5.1.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/6).
 
 ---
 
-#### iOS SDK: 5.1.0
-**Expected Release Date**: January 16, 2018
+#### iOS SDK: 5.2.0
+**Expected Release Date**: March 29, 2018
 
-**Contents**: This release will focus on improving video and audio streaming.  Contents of this release can be tracked on the [iOS 5.1.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/6).
+**Contents**: This release will focus on bug fixes and making integration easier for application developers. Contents of this release can be tracked on the [iOS 5.2.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/7).
 
 ---
 
