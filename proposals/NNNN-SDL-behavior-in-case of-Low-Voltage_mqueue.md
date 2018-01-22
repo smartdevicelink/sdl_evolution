@@ -35,15 +35,11 @@ Implement logic that will allow SDL to resume after battery charge is restored o
 
 
 ## Details of implementation  
-
-Mqueue channel of communication between HMI and SDL must be added.
+To implement changes in SDL regarding LOW_VOLTAGE event it is proposed to add mqueue channel of communication between HMI and SDL.
 
 ## Potential downsides  
-
 Major requirements for OEM manufactures (additional channel of communication is needed) 
 
 ## Alternatives considered  
-
-Using existing Web Socket transport  
-adding new RPCs in HMI_API to implement new logic for triggering "frozen" mode
+Using existing Web Socket transport, adding new RPCs in HMI_API to implement new logic for triggering "frozen" mode.
 
