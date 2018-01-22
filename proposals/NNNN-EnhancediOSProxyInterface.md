@@ -18,7 +18,7 @@ Native iOS development is heavily tied to the concept of Model View Controller (
 ![MVC](https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/Art/model_view_controller_2x.png "MVC")
 [Apple Documentation](https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/MVC.html)
 
-These view controller's often conform to delegation interfaces which allow an eloquent way of populating their view components with content.
+These view controllers often conform to delegation interfaces which allow an eloquent way of populating their view components with content.
 
 ![Delegation](https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/Art/delegation_2x.png "Delegation")
 [Apple Documentation](https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/Delegation.html)
@@ -104,7 +104,7 @@ Technically impact to existing code would be minimal, however this would be a la
 ## Alternatives considered
 
 1. Continue requiring apps to understand all SDL implementation details, and continue to not have a smooth integration experience.
-3. Implement code that manages some of the trickier SDL logic, but still requires app developers to develop independent SDL code modules that don't really conform to MVC or other familiar iOS patterns [268](https://github.com/smartdevicelink/sdl_evolution/pull/268)
+2. Implement code that manages some of the trickier SDL logic, but still requires app developers to develop independent SDL code modules that don't really conform to MVC or other familiar iOS patterns [268](https://github.com/smartdevicelink/sdl_evolution/pull/268)
 
 
 ## Out of Scope
