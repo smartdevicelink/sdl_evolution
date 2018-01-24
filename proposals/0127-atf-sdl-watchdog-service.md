@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0127](0127-atf-sdl-watchdog-service.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
