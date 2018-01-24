@@ -28,12 +28,12 @@ To figure what would be necessary for this feature, we looked at how Twitter and
 
 **Facebook:**
 
-![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/NNNN-SendURI/FacebookArticleShare2.jpg "Facebook Article Sharing")
+![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/0123-SendURI/FacebookArticleShare2.jpg "Facebook Article Sharing")
 
 
 **Twitter:**
 
-![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/NNNN-SendURI/TwitterArticleShare2.jpg "Twitter Article Sharing")
+![alt text](https://github.com/dportis/sdl_evolution/blob/Feature/SendURI/assets/proposals/0123-SendURI/TwitterArticleShare2.jpg "Twitter Article Sharing")
 
 There is a new parameter for SendURI in the Mobile and HMI APIs that allows the feature to exist.
 

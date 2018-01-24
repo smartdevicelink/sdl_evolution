@@ -32,7 +32,7 @@ Script runner is a command line tool with the following features:
 
 Input data could be defined as a set of input parameters and options.
 
-![Component relations](../assets/proposals/NNNN-atf-script-runner/atf_script_runner_diagram.png)
+![Component relations](../assets/proposals/0128-atf-script-runner/atf_script_runner_diagram.png)
 
 Functionality of 'SDL Watchdog' and 'ATF Facade' is described in other proposals.
 

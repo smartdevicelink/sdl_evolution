@@ -94,7 +94,7 @@ ATF should provide following API for script:
 - GetOnSDLStoppedEvent : return SDL stop event, may be used for expectations or delayed execution
 
 #### Diagrams 
-![SDL watch dog and ATF communication](/assets/proposals/nnnn-Atf-Sdl-Watchdog-Service/sdl-watchdog.png)
+![SDL watch dog and ATF communication](/assets/proposals/0127-Atf-Sdl-Watchdog-Service/sdl-watchdog.png)
 
 ## Potential downsides
 

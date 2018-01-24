@@ -15,18 +15,18 @@ This leads to a large burden on 3rd party app developers, and requires a lot of 
 
 Native iOS development is heavily tied to the concept of Model View Controller (MVC), and organizing your app flow via View Controllers and the view stack.
 
-![MVC](../assets/proposals/NNNN-EnhancediOSProxyInterface.md/model_view_controller_2x.png "MVC")
+![MVC](../assets/proposals/0133-EnhancediOSProxyInterface.md/model_view_controller_2x.png "MVC")
 [Apple Documentation](https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/MVC.html)
 
 These view controllers often conform to delegation interfaces which allow an eloquent way of populating their view components with content.
 
-![Delegation](../assets/proposals/NNNN-EnhancediOSProxyInterface.md/delegation_2x.png "Delegation")
+![Delegation](../assets/proposals/0133-EnhancediOSProxyInterface.md/delegation_2x.png "Delegation")
 [Apple Documentation](https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/Delegation.html)
 
 
 However, the current SDL proxy interface is designed at a lower level than this. It does not currently mesh well with these higher level design patterns. This often results in app integrations having to write completely custom SDL modules of code within their code base.
 
-![App Flow](../assets/proposals/NNNN-EnhancediOSProxyInterface.md/f4kekYV.jpg "App Flow")
+![App Flow](../assets/proposals/0133-EnhancediOSProxyInterface.md/f4kekYV.jpg "App Flow")
 
 ## Proposed solution
 
