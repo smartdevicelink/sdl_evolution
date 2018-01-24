@@ -1,9 +1,9 @@
 # Change ATF test reports folder structure
 
-* Proposal: [SDL-NNNN](NNNN-Change_ATF_test_reports_folder_structure.md)
+* Proposal: [SDL-0132](0132-Change_ATF_test_reports_folder_structure.md)
 * Author: [Irina Getmanets](https://github.com/GetmanetsIrina)
-* Status: **Awaiting review**
-* Impacted Platforms: ATF
+* Status: **In Review**
+* Impacted Platforms: Core
 
 ## Introduction
 
