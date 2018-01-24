@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0125](0125-atf-videostreaming-full-support.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
