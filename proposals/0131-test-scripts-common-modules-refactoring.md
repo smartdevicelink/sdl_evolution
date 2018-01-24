@@ -1,9 +1,9 @@
 # Test Scripts - Refactoring of Common modules
 
-* Proposal: [SDL-NNNN](NNNN-test-scripts-common-modules-refactoring.md)
+* Proposal: [SDL-0131](0131-test-scripts-common-modules-refactoring.md)
 * Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
-* Status: **Awaiting review**
-* Impacted Platforms: [ATF]
+* Status: **In Review**
+* Impacted Platforms: [Core]
 
 ## Introduction
 
