@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0129](0129-ios-secondary-apptypes.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: iOS
 
 ## Introduction
