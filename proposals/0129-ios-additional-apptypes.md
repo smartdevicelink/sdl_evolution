@@ -1,6 +1,6 @@
-# Add Secondary AppHMIType Array iOS
+# Add Additional AppHMIType Array iOS
 
-* Proposal: [SDL-0129](0129-ios-secondary-apptypes.md)
+* Proposal: [SDL-0129](0129-ios-additional-apptypes.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Accepted with Revisions**
 * Impacted Platforms: iOS
@@ -18,10 +18,10 @@ Due to an oversight, only one AppHMITypes is currently possible for any app usin
 The proposed solution is very simple, in addition to the current optional `appType` to add the following:
 
 ```objc
-@property (strong, nonatomic, nullable) NSArray<SDLAppHMIType> *secondaryHMITypes;
+@property (strong, nonatomic, nullable) NSArray<SDLAppHMIType> *additionalHMITypes;
 ```
 
-When not set, only the primary app type will be used. When set, the `secondaryHMITypes` array will be concatenated with the primary app type and all the values sent over in the `RegisterAppInterface`.
+When not set, only the primary app type will be used. When set, the `additionalHMITypes` array will be concatenated with the primary app type and all the values sent over in the `RegisterAppInterface`.
 
 ## Potential downsides
 
