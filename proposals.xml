@@ -138,7 +138,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0126" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF support of additional transports (BT and USB)" filename="0126-atf-additional-transports.md"/>
 <proposal id="0127" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
 <proposal id="0128" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
-<proposal id="0129" status="accepted" primary-platform="ios" sdl-version="x.x" name="Add Secondary AppHMIType Array iOS" filename="0129-ios-secondary-apptypes.md"/>
+<proposal id="0129" status="accepted" primary-platform="ios" sdl-version="x.x" name="Add Additional AppHMIType Array iOS" filename="0129-ios-additional-apptypes.md"/>
 <proposal id="0130" status="deferred" primary-platform="rpc" sdl-version="x.x" name="SendLocation for Mobile Nav" filename="0130-SendLocation-for-Mobile-Nav.md"/>	
 <proposal id="0131" status="active" primary-platform="core" sdl-version="x.x" name="Test Scripts - Refactoring of Common modules" filename="0131-test-scripts-common-modules-refactoring.md"/>	
 <proposal id="0132" status="active" primary-platform="core" sdl-version="x.x" name="Change ATF test reports folder structure" filename="0132-Change_ATF_test_reports_folder_structure.md"/>
