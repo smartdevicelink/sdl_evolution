@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0126](0126-atf-additional-transports.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
