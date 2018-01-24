@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0130](0130-SendLocation-for-Mobile-Nav.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [Core/Android/iOS/RPC]
 
 ## Introduction
