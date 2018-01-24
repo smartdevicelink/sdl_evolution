@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0128](0128-atf-script-runner.md)
 * Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
