@@ -1,8 +1,8 @@
 ## Enhanced iOS Proxy Interface
 
-* Proposal: [SDL-NNNN](NNNN-EnhancediOSProxyInterface.md)
+* Proposal: [SDL-0133](0133-EnhancediOSProxyInterface.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **Ready for Review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
