@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0124](0124-SDLImageUploadManager.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **Returned for Revisions**
+* Status: **Ready For Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
@@ -37,59 +37,44 @@ Many integration issues stem from workflows that fall somewhere between integrat
 
 ## Proposed solution
 
-The SDL proxy provides an ImageUploadManager class that handles all of the SDL-specific image upload logic. Its interface accepts the standard UIImage object, and it either returns the ID of the uploaded image immediately, or once the upload operation is complete. This class can optimize image uploads to prevent constant overwrites of the same file name and can reduce RPC chatter by tracking what images the app has already uploaded. This will help app partners by reducing how much SDL logic they must handle, and by moving the logic into the proxy they will not have to worry about most of the edge cases.
+Several targetted enhancements are made to the existing APIs to reduce the burden on app developers.
 
-Proposed workflow
-1. App has UIImage from static or generated/dynamic image asset
-2. App passes UIImage to ImageUploadManager class
-3. ImageUploadManager takes UIImage and determines if the image already exists on the head unit via its local image cache/remotefilenames RPC
-4. If the image is already uploaded, ImageUploadManager immediately returns the image id/name of the uploaded image for app developer to use in current Show request.
-5. If image is not uploaded, ImageUploadManager generates a unique image name, uses FileManager to upload the generated SDLArtwork object, handles any error on behalf of the app, and returns the image ID of the completed upload to the app.
-6. App receives id/name of uploaded image. Dispatches show request accordingly. In this case almost all implementation details of the previous workflows are handled by the ImageUploadManager within the Proxy.
-
-
-Proposed Interface
-
-````swift
-class SDLImageUploadManager {
-    static let sharedInstance: SDLImageUploadManager = SDLImageUploadManager()
-    func uploadImage(image: UIImage?, overwrite: Bool, completion: ((String?) ->())?)  -> String?
-}
-````
+1. A SDLArtwork init method is added that takes a UIImage and the current required arguments, and generates the image name/id based on a hash of the image.
+2. A upload function variant is added to the file manager that will return the image arguments name/ID if the file is reported as existing in the remote file list, or will perform the upload and return the name/id in a callback block once uploaded.
 
 Proposed Usage (assuming app is in process of sending initial Show request for a template)
 
 ````swift
 //existingShowRequest has already been initialized and populated
 
-let imageId = SDLImageUploadManager.sharedInstance.uploadImage(image: imageview, overwrite: false, completion: { (newImageID) in
-                let imageShow = SDLShow()
-                imageShow?.graphic = SDLImage(name: newImageID, of: SDLImageType.dynamic())
-                //send show request to update template now that image is available
-            })
-            
-if imageId != nil {
-    //generate SDLImage and set it on existingShowRequest
+let sdlImage = SDLArtwork(uiImage) //add a SDLArtwork init that generates the ID from a hash of the image. This could have default arguments for persistence and image type, or could remain verbose as it is currently
+
+let existingImage = fileManager.upload(sdlImage) { newImageId in //Add a upload variant that will return the generated ID if the file is reported as existing in the remote file list, or performs the upload and returns the id in a callback block once uploaded. 
+    let show = UIShow()
+   show.graphic = SDLImage(newImageId)
+  //send show
+}.map { existingImageId -> SDLImage in
+   return SDLImage(existingImageId)
 }
+
+existingShowRequest.graphic = existingImage
 ````
 
-Under the hood the ImageUploadManager class will generate file names, track previously uploaded images with a basic image cache system, sync with the remote file list when necessary, etc.
+Under the hood the new SDLArtwork init method would handle the naming of images, and the new upload method would abstract away some of the image upload logic apps currently have to reason through.
 
 ## Potential downsides
 
 1. Apps that already implement SDL may not adopt the new interface immediately (or at all)
-2. It is technically possible that the cache mechanism could fall out of sync with the remote, though this can be mitigated with strategies that use remoteFileList to sync when errors are detected, etc.
-3. Complexity and error handling are added to the proxy (but abstracted out of app implementations)
+2. Complexity and error handling are added to the proxy (but abstracted out of app implementations)
 
 ## Impact on existing code
 
-- Impact to existing code should be minimal if implemented as a new class. However since FileManager already exists, this could also be added there as additional functionality
+FileManager will receive a new upload method, SDLArtwork will receive a new initializer
 
 ## Alternatives considered
 
-1. Modifying FileManager to perform some of these capabilities on behalf of SDL applications
-2. Leaving the image upload workflow as-is. Future implementations will need to use Putfile or FileManager
-3. Implementing functionality similar to as-described in this proposal, but only expose it through the SDL graphical interface (ie, image uploads would only be optimized when images are sent using something like proposal [268](https://github.com/smartdevicelink/sdl_evolution/pull/268)
+1. Leaving the image upload workflow as-is. Future implementations will need to use Putfile or FileManager
+2. Implementing functionality similar to as-described in this proposal, but only expose it through the SDL graphical interface (ie, image uploads would only be optimized when images are sent using something like proposal [268](https://github.com/smartdevicelink/sdl_evolution/pull/268)
 
 
 ## Out of Scope
