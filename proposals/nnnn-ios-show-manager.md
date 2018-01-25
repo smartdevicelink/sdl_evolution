@@ -136,8 +136,8 @@ The internals of this are generally up in the air. The main question comes when 
 
 * If there is no current update, the requested update will be performed immediately.
 * If there is an in-progress update, the current update will be queued and performed immediately after the current one returns.
-* If there is an in-progress update and a queued update, the queued update will be replaced by the new update and sent when the current update completes.
-* If there is text and a non-uploaded image, the text will be immediately sent and the image will be queued to be set when it finishes uploading.
+* If there is an in-progress update and a queued update, the queued update will be replaced by the new update and sent when the current update completes. The completion handler for the removed update will be called with an error.
+* If there is text and a non-uploaded image, the text will be immediately sent and the image will be queued to be set when it finishes uploading. This is the most complex case, and **the completion handler will only fire when the artwork update is complete**. Another option is to fire the completion handler multiple times.
 
 #### Auto-pull manual `Show` requests
 Any `SDLShow` message sent through `SDLTextAndImageManager` will be cached in the `currentField1` etc. If the developer needs to manually send an `SDLShow`, the `SDLManager` will watch for it and forward that message to the `SDLTextAndImageManager` which will update its properties.
