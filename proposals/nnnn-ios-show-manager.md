@@ -83,12 +83,12 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
  */
 @property (copy, nonatomic) SDLTextAndImageConfiguration *configuration;
 
-@property (copy, nonatomic, readonly, nullable) NSString *currentField1;
-@property (copy, nonatomic, readonly, nullable) NSString *currentField2;
-@property (copy, nonatomic, readonly, nullable) NSString *currentField3;
-@property (copy, nonatomic, readonly, nullable) NSString *currentField4;
-@property (strong, nonatomic, readonly, nullable) SDLArtwork *currentPrimaryGraphic;
-@property (strong, nonatomic, readonly, nullable) SDLArtwork *currentSecondaryGraphic;
+@property (copy, nonatomic, readonly, nullable) NSString *textField1;
+@property (copy, nonatomic, readonly, nullable) NSString *textField2;
+@property (copy, nonatomic, readonly, nullable) NSString *textField3;
+@property (copy, nonatomic, readonly, nullable) NSString *textField4;
+@property (strong, nonatomic, readonly, nullable) SDLArtwork *primaryGraphic;
+@property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryGraphic;
 
 /**
  Create a Text and Image Manager with the default SDLTextAndImageConfiguration.
@@ -106,7 +106,7 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLTextAndImageConfiguration *)configuration;
 
 /**
- Update text fields with new text. Pass an empty string `\@""` to clear the text field. Pass `nil` to leave the field as it is currently set.
+ Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
  
  If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
  
@@ -115,45 +115,14 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
  If 2 lines are available: [field1 - field2, field3 - field4]
  
  If 1 line is available: [field1 - field2 - field3 - field4]
-
- @param textField1 The text for the top text field
- @param textField2 The text for the 2nd text field
- @param textField3 The text for the 3rd text field
- @param textField4 The text for the 4th text field
- @param handler A handler run when the text fields have finished updating, with an error if the update failed
- */
-- (void)updateTextField1:(nullable NSString *)textField1 textField2:(nullable NSString *)textField2 textField3:(nullable NSString *)textField3 textField4:(nullable NSString *)textField4 completionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler;
-
-/**
- Update the primary image with a new image. This method will take care of naming the file (based on a hash). This is assumed to be a non-persistant image.
+ 
+ Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.
  
  If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
 
- @param artwork The artwork to be presented in the primary graphic spot
- @param handler A handler run when the artwork has finished updating, with an error if the update failed
+ @param handler A handler run when the fields have finished updating, with an error if the update failed
  */
-- (void)updatePrimaryArtwork:(SDLArtwork *)artwork completionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler;
-
-/**
- Update the primary image with a new image. This method will take care of naming the file (based on a hash). This is assumed to be a non-persistant image.
-
- If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
-
- @param artwork The artwork to be presented in the secondary graphic spot
- @param handler A handler run when the artwork has finished updating, with an error if the update failed
- */
-- (void)updateSecondaryArtwork:(SDLArtwork *)artwork completionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler;
-
-/**
- Update the primary image with a new image. This method will take care of naming the file (based on a hash). This is assumed to be a non-persistant image.
-
- If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
-
- @param primaryArtwork The artwork to be presented in the primary graphic spot
- @param secondaryArtwork The artwork to be presented in the secondary graphic spot
- @param handler A handler run when the artworks have finished updating, with an error if the update failed
- */
-- (void)updatePrimaryArtwork:(SDLArtwork *)primaryArtwork secondaryArtwork:(SDLArtwork *)secondaryArtwork completionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler;
+- (void)updateWithCompletionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler;
 
 @end
 
@@ -163,16 +132,15 @@ NS_ASSUME_NONNULL_END
 Similar to other managers, the `SDLTextAndGraphicManager` is initialized with a configuration to setup its metadata and alignment. Because the metadata and alignment may need to change over the course of the app's lifetime, the configuration may be updated with a new metadata and alignment. Future text updates will then use that new configuration.
 
 #### Internals
-The internals of this are generally up in the air. The main question comes when the user sends a second update within a short span of time, or even before the previous one completes. This will be implemented as a very simply two update queue for both text and graphics.
+The internals of this are generally up in the air. The main question comes when the user sends a second update within a short span of time, or even before the previous one completes. Or, when the user sends an update with text and an image that is not currently uploaded. This will be implemented as a very simple two update queue for both text and graphics.
 
 * If there is no current update, the requested update will be performed immediately.
 * If there is an in-progress update, the current update will be queued and performed immediately after the current one returns.
 * If there is an in-progress update and a queued update, the queued update will be replaced by the new update and sent when the current update completes.
+* If there is text and a non-uploaded image, the text will be immediately sent and the image will be queued to be set when it finishes uploading.
 
 #### Auto-pull manual `Show` requests
-Any `SDLShow` message sent through `SDLTextAndImageManager` will be cached in the `currentField1` etc. If the developer needs to manually send an `SDLShow`, the `SDLManager` will watch for it and forward that message to the `SDLTextAndImageManager` and update those `Show` requests as well.
-
-This will happen by the `SDLLifecycleManager` calling a private method on the `SDLTextAndGraphicManager` by defining it in an interface extension.
+Any `SDLShow` message sent through `SDLTextAndImageManager` will be cached in the `currentField1` etc. If the developer needs to manually send an `SDLShow`, the `SDLManager` will watch for it and forward that message to the `SDLTextAndImageManager` which will update its properties.
 
 ### SDLSoftButtonManager
 
@@ -316,20 +284,10 @@ NS_ASSUME_NONNULL_END
 
 The actual manager that handles translating the soft button wrappers and states into RPCs.
 
-#### SDLLifecycleConfiguration
-```objc
-/**
- A set of initial soft buttons to be sent upon the first HMI FULL
- */
-@property (copy, nonatomic, nullable) NSArray<SDLSoftButtonWrapper *> *initialSoftButtons;
-```
-
-An additional property added to `SDLLifecycleConfiguration` that allows the developer to have a set of soft buttons that are sent immediately upon connection.
-
 #### Internals
 The soft button manager attempts to make it clearer and easier to set soft buttons, especially those that change themselves with different states when pressed, such as repeat or shuffle buttons. Developers create states for a specific button (though some buttons may need only one state), which is then composed into a button wrapper (because our naming sucks here), which is then set into the manager.
 
-The wrapper carries the event handler so that developers can transition states within the handler (initially the `eventHandler` was on the state, which would be cleaner, but transitions would be impossible).
+The wrapper carries the event handler so that developers can transition states within the handler.
 
 To update the buttons, either developers can update an individual button to a new state through the `SDLSoftButtonWrapper`. If the buttons themselves are changing, the developer can set the `softButtons` array of the `SDLSoftButtonManager`.
 
