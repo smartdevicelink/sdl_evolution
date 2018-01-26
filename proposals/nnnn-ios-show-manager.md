@@ -11,7 +11,7 @@ This proposal is to create a manager (akin to the file manager) that will give d
 
 ## Motivation
 
-The current `Show` request is rather complex and hard to work with. It has several different components, all related to the home screen, some for media only (such as the media clock), and some more general. Because of the complexity of dealing with `Show` and it's components, we should provide a high level API to encapsulate it.
+The current `Show` request is rather complex and hard to work with. It has several different components, all related to the home screen, some for media only (such as the media clock), and some more general. Because of the complexity of dealing with `Show` and its components, we should provide a high level API to encapsulate it.
 
 ## Proposed solution
 
@@ -216,7 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLRPCButtonNotificationHandler eventHandler;
 
 /**
- Create a multi-state (or single-state, but you should use initWithName:state: instead for that case) soft button. For example, a button that changes it's image or text, such as a repeat or shuffle button.
+ Create a multi-state (or single-state, but you should use initWithName:state: instead for that case) soft button. For example, a button that changes its image or text, such as a repeat or shuffle button.
 
  @param name The name of the button
  @param states The states available to the button
@@ -285,11 +285,11 @@ NS_ASSUME_NONNULL_END
 The actual manager that handles translating the soft button wrappers and states into RPCs.
 
 #### Internals
-The soft button manager attempts to make it clearer and easier to set soft buttons, especially those that change themselves with different states when pressed, such as repeat or shuffle buttons. Developers create states for a specific button (though some buttons may need only one state), which is then composed into a button wrapper (because our naming sucks here), which is then set into the manager.
+The soft button manager attempts to make it clearer and easier to set soft buttons, especially those that change themselves with different states when pressed, such as repeat or shuffle buttons. Developers create states for a specific button (though some buttons may need only one state), which is then composed into a button wrapper, which is then set into the manager.
 
 The wrapper carries the event handler so that developers can transition states within the handler.
 
-To update the buttons, either developers can update an individual button to a new state through the `SDLSoftButtonWrapper`. If the buttons themselves are changing, the developer can set the `softButtons` array of the `SDLSoftButtonManager`.
+To update the buttons, either developers can update an individual button to a new state through the `SDLSoftButtonWrapper`, or if the buttons themselves are changing, the developer can set the `softButtons` array of the `SDLSoftButtonManager`.
 
 ## Potential downsides
 * The proposed `SDLSoftButtonManager` does not work particularly well for dynamic soft buttons. The best support is to use the `updateButtonNamed:replacingCurrentStateWithState:`.
