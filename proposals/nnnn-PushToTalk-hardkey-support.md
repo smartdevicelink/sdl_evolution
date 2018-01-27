@@ -56,11 +56,11 @@ If a voice agent app would like to receive "PUSH\_TO\_TALK" event, it SHOULD NOT
 
 * Wake up word
 
- * This is app-launching feature with certain keyword. It MAY already available to use RegisterApp(vrSynonym).
+  * This is app-launching feature with certain keyword. It MAY already available to use RegisterApp(vrSynonym).
 
 * Mapping PTT key to specific app
 
- * HMI can launch a specific app (either pre-defined one, or one of the apps with AppHMIType being COMMUNICATION) when the hard key is pressed. This is similar to launching a navigation app when "MAP" or "NAVI" hard key is pressed. Such feature is vendor specific, and coordination with "PUSH\_TO\_TALK" button event handling is out of scope.
+  * HMI can launch a specific app (either pre-defined one, or one of the apps with AppHMIType being COMMUNICATION) when the hard key is pressed. This is similar to launching a navigation app when "MAP" or "NAVI" hard key is pressed. Such feature is vendor specific, and coordination with "PUSH\_TO\_TALK" button event handling is out of scope.
 
 
 ## Potential downsides
