@@ -11,7 +11,7 @@ Updates `TouchCoord` for gesture recognition across the SDL Video screen and the
 
 ## Motivation
 
-We have use cases for keeping gesture recognition from the SDL Video screen to the Native screen. Since the current `TouchCoord` does not support negative values, the SDL applications can not keep to recognize some gestures for upward or leftward direction.
+We have use cases for keeping gesture recognition from the SDL Video screen to the Native screen. Since the current `TouchCoord` does not support negative values, SDL applications cannot recognize some gestures for upward or leftward direction.
 
 ![pic1](../assets/proposals/nnnn-TouchCoord-outside-video-screen-range/nnnn-TouchCoord-outside-video-screen-range-pic1.png)
 
@@ -61,7 +61,11 @@ Current iOS and Android SDL Proxy do not have implementation of checking minvalu
 
 ## Impact on existing code
 
-Due to lack of the validation, SDL applications might want to have the range check.
+The impact on Core and Proxy codes should be small.
+* Core doesn't have any logic that uses touch coordinates, thus no code change is required. Only the interface files are updated.
+* Currently Proxy doesn't have implementation of checking minvalue and maxvalue, therefore no code change is required.
+
+SDL applications might want to add range checking since they will receive negative coordinate values after this change.
 
 ## Alternatives considered
 
