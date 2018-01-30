@@ -3,26 +3,34 @@
 * Proposal: [SDL-nnnn](NNNN-rc-sdl-module.md)
 * Author: [Joey Grover](https://github.com/joeygrover/)
 * Status: **Awaiting Review**
-* Impacted Platforms: [RPC]
+* Impacted Platforms: [Android, Core, iOS, RPC]
 
 ## Introduction
 
-There is a strong desire to implement some method of inter-app communication between SDL apps. The SDL protocol can be enhanced to facilitate this feature. Leveraging the previously accepted Remote Control functionality, we can introduce a new module type, SDL_APP.
+There is a strong desire to implement some method of inter-app communication between SDL apps. The SDL protocol can be enhanced to facilitate this feature. Leveraging the previously accepted Remote Control functionality, we can introduce a new module type, SDL_APP. 
 
 
 ## Motivation
 
-SDL connected apps provide augmented functionality to an SDL enabled IVI system. This includes mobile navigation or even off-board voice recognition. Most apps focus on a particular feature or experience they provide and therefore leverage libraries, 3rd party solutions, or other apps to perform the features that not part of their main line user experience. One of the ways an app augments itself is using SDL enabled features, send location, voice req, etc.
+SDL connected apps provide augmented functionality to an SDL enabled IVI system. This includes mobile navigation or even off-board voice recognition. Most apps focus on a particular feature or experience they provide and therefore leverage libraries, 3rd party solutions, or other apps to perform the features that are not part of their main line user experience. One of the ways an app augments itself is using SDL enabled features, send location, voice req, etc. This is a potential alternative to [SDL-0130](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0130-SendLocation-for-Mobile-Nav.md)
 
 
 ## Proposed solution
 
 This proposal introduces a new module type into the Remote Control feature titled SdlApp.
 
-Core would monitor which apps are connected and create the virtual modules for each of the SDL apps that are connected and have registered as a RC module. When an app connects, it can register with a flag that will allow other apps to access/subscribe to that app. Core takes this flag and creates a new virtual module, and sends out an `OnRCStatus` notification that includes this new module.   
+Core would monitor which apps are connected and create the virtual modules for each of the SDL apps that are connected and have registered as a RC module. When an app connects, it can register with a flag that will allow other apps to access/subscribe to that app. Core takes this flag and creates a new virtual module, and sends out an `OnRCStatus` notification that includes this new module.
+
+The way in which data and control is actually passed between the apps is by attaching a second RPC to the original RPC through the bulk data. The receiving app will be responsible for pulling the raw data out of the packet, parsing it, and pushing it through the normal callback system for RPCs.
+
+#### Packet Structure
+As stated, the RPC that is desired to be sent for either setting or getting purposes will be attched as the raw data in the Set/Get Interior Vehicle Data RPC pairs. The structure will be as followed:
+
+![Packet Structure](../assets/proposals/NNNN-rc-sdl-module/packet_structure.png "Packet Structure")
+   
 
 #### SDL App Identification
-In order to talk to specific modules we will need to introduce some sort of identification. For this reason we will add a `moduleUUID` field to the `GetInteriorVehicleData` request and m`ModuleData`.
+In order to talk to specific modules we will need to introduce some sort of identification. For this reason we will add a `moduleUUID` field to the `GetInteriorVehicleData` request and `ModuleData`.
 
 #### Subscription
 When an app is subscribed to another app,(App A is subscribed to App B), Core will take the RPC sent by App B and create `OnInteriorVehicleData` RPCs for the corresponding SDL_APP module created for App B. It should then send an update to all subscribed apps, in this case App A. 
@@ -31,9 +39,9 @@ When an app is subscribed to another app,(App A is subscribed to App B), Core wi
 When a new app registers with an available RC service, the Core module will be responsible for sending `OnRCStatus` that contains the new virtualized module.
 
 #### Use Case
-Apps can display `Show` updates using the supplied metadata and HMI type to determine where it should be displayed. An example of when this is useful is for a passenger app that allows the user to see what is playing through the SDL connected app as well as have basic control.
+Apps can display `Show` updates using the supplied metadata and HMI type to determine if and where the updates should be displayed. An example of when this is useful is for a passenger app that allows the user to see what is playing through the SDL connected app as well as have basic control.
 
-![SDL Module Flow](../assets/proposals/NNNN-rc-sdl-module/IMG_1125.jpg "SDL Module Flow")
+![Use Case](../assets/proposals/NNNN-rc-sdl-module/IMG_1125.jpg "Use Case")
 
 ## Detailed design
 
@@ -81,9 +89,8 @@ Apps can display `Show` updates using the supplied metadata and HMI type to dete
     <description>Contains information about an SDL control module's capabilities.</description>
     <!-- need an ID in the future -->
     <param name="moduleName" type="String" maxlength="100" mandatory="true">
-        <description>The short friendly name of the radio module.
-                     It should not be used to identify a module by mobile 
-                     aplication.</description>
+        <description>The short friendly name of the SDL App module (app name).                      It should not be used to identify a module by mobile application. 
+        </description>
     </param>
     <param name="moduleUUID" type="String" mandatory="false">
         <description>This is a unique identifier for this module. 
@@ -154,11 +161,11 @@ Apps can display `Show` updates using the supplied metadata and HMI type to dete
 ## Potential downsides
 - App developers may have to keep track of which module to send RPCs.
 - The solution bends the guidelines of how the protocol works. 
-- We have to add some sort of identifier to modules. In this proposals they are simple UUIDs. 
+- We have to add some sort of identifier to modules. In this proposal they are simple UUIDs. 
 
 ## Impact on existing code
 - The new type of module would have to be created and code that would allow one RPC to be combined into another packet's bulk data.
-- The proxies will need to call handle parsing the bulk data into an RPC and pass through the correct callbacks. 
+- The proxies will need to handle parsing the bulk data into an RPC and pass through the correct callbacks. 
 
 
 
@@ -168,7 +175,7 @@ Apps can display `Show` updates using the supplied metadata and HMI type to dete
 Instead of using the already existing HMI_TYPE enum, it would be possible to introduce a new set of enums that are defined specifically for what service type is offered through its virtual RC module.
 
 #### Core Sends Bulk Data RPC
-Instead for forwarding on the SetInteriorVehicle data packet as a whole, Core would parse the packet and the bulk data. It was decode the bulk data into an RPC and form a new SDL packet that would get sent to the destination app.
+Instead of forwarding on the SetInteriorVehicle data packet as a whole, Core would parse the packet and the bulk data. It would decode the bulk data into an RPC and form a new SDL packet that would get sent to the destination app.
 
 
 #### SDL Module Types
