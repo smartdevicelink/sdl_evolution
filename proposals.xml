@@ -103,7 +103,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0092" status="accepted" primary-platform="core" sdl-version="x.x" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
 <proposal id="0093" status="implemented" primary-platform="android" sdl-version="4.4" name="Haptic Projection" filename="0093-haptic-projection.md"/>
 <proposal id="0094" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
-<proposal id="0095" status="returned" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
+<proposal id="0095" status="active" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
 <proposal id="0096" status="accepted" primary-platform="core" sdl-version="x.x" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
 <proposal id="0097" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
 <proposal id="0098" status="accepted" primary-platform="mobile" sdl-version="x.x" name="SDL Localization" filename="0098-localization.md"/>
@@ -133,16 +133,19 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
 <proposal id="0122" status="returned" primary-platform="rpc" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
 <proposal id="0123" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
-<proposal id="0124" status="returned" primary-platform="ios" sdl-version="x.x" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
+<proposal id="0124" status="active" primary-platform="ios" sdl-version="x.x" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
 <proposal id="0125" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
 <proposal id="0126" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF support of additional transports (BT and USB)" filename="0126-atf-additional-transports.md"/>
 <proposal id="0127" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
 <proposal id="0128" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
 <proposal id="0129" status="accepted" primary-platform="ios" sdl-version="x.x" name="Add Additional AppHMIType Array iOS" filename="0129-ios-additional-apptypes.md"/>
 <proposal id="0130" status="deferred" primary-platform="rpc" sdl-version="x.x" name="SendLocation for Mobile Nav" filename="0130-SendLocation-for-Mobile-Nav.md"/>	
-<proposal id="0131" status="active" primary-platform="core" sdl-version="x.x" name="Test Scripts - Refactoring of Common modules" filename="0131-test-scripts-common-modules-refactoring.md"/>	
-<proposal id="0132" status="active" primary-platform="core" sdl-version="x.x" name="Change ATF test reports folder structure" filename="0132-Change_ATF_test_reports_folder_structure.md"/>
+<proposal id="0131" status="accepted" primary-platform="core" sdl-version="x.x" name="Test Scripts - Refactoring of Common modules" filename="0131-test-scripts-common-modules-refactoring.md"/>	
+<proposal id="0132" status="accepted" primary-platform="core" sdl-version="x.x" name="Change ATF test reports folder structure" filename="0132-Change_ATF_test_reports_folder_structure.md"/>
 <proposal id="0133" status="active" primary-platform="ios" sdl-version="x.x" name="EnhancediOSProxyInterface" filename="0133-EnhancediOSProxyInterface.md"/>
+<proposal id="0134" status="active" primary-platform="ios" sdl-version="x.x" name="Show Manager - iOS" filename="0134-ios-show-manager.md"/>
+<proposal id="0135" status="active" primary-platform="rpc" sdl-version="x.x" name=""Push To Talk" key support" filename="0135-PushToTalk-hardkey-support.md"/>
+<proposal id="0136" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
 	
 
 
