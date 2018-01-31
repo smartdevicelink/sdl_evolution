@@ -26,7 +26,7 @@ The way in which data and control is actually passed between the apps is by atta
 #### Packet Structure
 As stated, the RPC that is desired to be sent for either setting or getting purposes will be attched as the raw data in the Set/Get Interior Vehicle Data RPC pairs. The structure will be as followed:
 
-![Packet Structure](../assets/proposals/NNNN-rc-sdl-module/packet_structure.png "Packet Structure")
+![Packet Structure](../assets/proposals/0136-rc-sdl-module/packet_structure.png "Packet Structure")
    
 
 #### SDL App Identification
@@ -41,11 +41,11 @@ When a new app registers with an available RC service, the Core module will be r
 #### Use Case
 Apps can display `Show` updates using the supplied metadata and HMI type to determine if and where the updates should be displayed. An example of when this is useful is for a passenger app that allows the user to see what is playing through the SDL connected app as well as have basic control.
 
-![Use Case](../assets/proposals/NNNN-rc-sdl-module/IMG_1125.jpg "Use Case")
+![Use Case](../assets/proposals/0136-rc-sdl-module/IMG_1125.jpg "Use Case")
 
 ## Detailed design
 
-![SDL Module Flow](../assets/proposals/NNNN-rc-sdl-module/SDL_App_RC.png "SDL Module Flow")
+![SDL Module Flow](../assets/proposals/0136-rc-sdl-module/SDL_App_RC.png "SDL Module Flow")
 
 
 #### Mobile_API.xml changes
