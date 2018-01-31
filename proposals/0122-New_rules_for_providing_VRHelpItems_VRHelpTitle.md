@@ -42,7 +42,7 @@ Create HelpPromptManager with folowing interface:
  - OnVrCommandDeleted (command) : Removes command from constructed values, and send SetGlobalProperties if required
  - OnTimeoutExpired () : Send SetGlobalProperties with constructed `vrHelp` **and/or** `helpPrompt` parameters
  - OnSetGlobalPropertiesReceived (message) : Stop constructing `vrHelp` **and/or** `helpPrompt` if they are presend in message
- ![Class diagramm](/assets/proposals/0122-new_rules_for_providing_vr_help_items_vr_help_title/0122-New_rules_for_providing_VRHelpItems_VRHelpTitl.png)
+ ![Class diagramm](/assets/proposals/0122-new_rules_for_providing_vr_help_items_vr_help_title/0122-New_rules_for_providing_VRHelpItems_VRHelpTitl.png#)
 ## Potential downsides
 
 N/A
