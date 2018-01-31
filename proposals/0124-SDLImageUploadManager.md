@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0124](0124-SDLImageUploadManager.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **Ready For Review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
