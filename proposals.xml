@@ -144,7 +144,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0132" status="accepted" primary-platform="core" sdl-version="x.x" name="Change ATF test reports folder structure" filename="0132-Change_ATF_test_reports_folder_structure.md"/>
 <proposal id="0133" status="active" primary-platform="ios" sdl-version="x.x" name="EnhancediOSProxyInterface" filename="0133-EnhancediOSProxyInterface.md"/>
 <proposal id="0134" status="active" primary-platform="ios" sdl-version="x.x" name="Show Manager - iOS" filename="0134-ios-show-manager.md"/>
-<proposal id="0135" status="active" primary-platform="rpc" sdl-version="x.x" name="\"Push To Talk\" key support" filename="0135-PushToTalk-hardkey-support.md"/>
+<proposal id="0135" status="active" primary-platform="rpc" sdl-version="x.x" name="Push To Talk key support" filename="0135-PushToTalk-hardkey-support.md"/>
 <proposal id="0136" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
 	
 
