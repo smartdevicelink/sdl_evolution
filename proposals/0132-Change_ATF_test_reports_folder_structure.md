@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0132](0132-Change_ATF_test_reports_folder_structure.md)
 * Author: [Irina Getmanets](https://github.com/GetmanetsIrina)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Core
 
 ## Introduction
