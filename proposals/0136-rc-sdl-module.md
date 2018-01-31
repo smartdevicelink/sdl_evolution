@@ -1,8 +1,8 @@
 # Remote Control - SDL Module
 
-* Proposal: [SDL-nnnn](NNNN-rc-sdl-module.md)
+* Proposal: [SDL-0136](0136-rc-sdl-module.md)
 * Author: [Joey Grover](https://github.com/joeygrover/)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Android, Core, iOS, RPC]
 
 ## Introduction
