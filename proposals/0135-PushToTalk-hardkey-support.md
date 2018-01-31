@@ -1,8 +1,8 @@
 # "Push To Talk" key support
 
-* Proposal: [SDL-NNNN](nnnn-PushToTalk-hardkey-support.md)
+* Proposal: [SDL-0135](0135-PushToTalk-hardkey-support.md)
 * Author: [Tomoya Suzuki](https://github.com/tsuzuki-uie)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Android / RPC ]
 
 
