@@ -37,12 +37,15 @@ Note:
   - The value of 10 seconds is chosen to give sufficient time for buffering and before the user is likely to trigger a "help" request. This is based on a subjective analysis.
 
 ### Design approach:
-Create HelpPromptManager with folowing interface:
+Create HelpPromptManager with following interface:
  - OnVrCommandAdd (command) : Adds command to constructed values, and send SetGlobalProperties if required
  - OnVrCommandDeleted (command) : Removes command from constructed values, and send SetGlobalProperties if required
  - OnTimeoutExpired () : Send SetGlobalProperties with constructed `vrHelp` **and/or** `helpPrompt` parameters
- - OnSetGlobalPropertiesReceived (message) : Stop constructing `vrHelp` **and/or** `helpPrompt` if they are presend in message
- ![Class diagramm](/assets/proposals/0122-new_rules_for_providing_vr_help_items_vr_help_title/0122-New_rules_for_providing_VRHelpItems_VRHelpTitl.png##)
+ - OnSetGlobalPropertiesReceived (message) : Stop constructing `vrHelp` **and/or** `helpPrompt` if they are present in message
+ ![Class diagram](/assets/proposals/0122-new_rules_for_providing_vr_help_items_vr_help_title/0122-New_rules_for_providing_VRHelpItems_VRHelpTitl.png##)
+
+ This implementation approach won't affect current implementation of Global properties and Add\Delete command.
+ 
 ## Potential downsides
 
 N/A
