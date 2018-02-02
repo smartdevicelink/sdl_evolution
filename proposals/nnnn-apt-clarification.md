@@ -50,7 +50,7 @@ The format of audio data is described as follows:
 - It does not include any header like RIFF header at the beginning.
 - The audio sample is in linear PCM format.
 - The audio data includes only one channel (i.e. monaural).
-- For bit rates of 8 bits, the audio samples are unsigned. For bit rates of 16 bits, the audio samples are signed and is in little endian.
+- For bit rates of 8 bits, the audio samples are unsigned. For bit rates of 16 bits, the audio samples are signed and are in little endian.
 ```
 
 
@@ -130,8 +130,8 @@ The author does not come up with any potential downsides.
 
 ## Impact on existing code
 
-- The changes in interface files do not impact on any implementation.
-- The changes in Core are small and have impact on only AudioPassThru feature.
+- The changes in interface files do not have an impact on any implementation.
+- The changes in Core are small and have an impact on only AudioPassThru feature.
 - If a mobile developer is testing its AudioPassThru feature only against SDL Core and/or Ford emulator and not against TDK, then s/he needs to update the implementation to support the correct audio format.
 
 
