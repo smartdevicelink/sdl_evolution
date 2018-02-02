@@ -20,7 +20,7 @@ Implement logic that will allow SDL to resume after battery charge is restored o
 In case SDL receives "SDL_LOW_VOLTAGE" message via mqueue, SDL must stop any read/write activities until getting "WAKE_UP" message via mqueue.  
 
 During LOW_VOLTAGE state proposed the following SDL behavior:
-* SDL ignores all requests from mobile applications
+* SDL drops off all the requests from mobile applications withough providing any kind of response
 * SDL ignores all responses and messages from HMI except messages for "WAKE_UP" or "IGNITION_OFF"
 * SDL stops audio/video streaming
 * All transports are unavailable for SDL
