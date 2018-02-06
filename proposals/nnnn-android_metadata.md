@@ -52,9 +52,13 @@ While it is not recommended to create custom integrations of router service, the
 #### Developer Manifest Additions
 
 ```xml
-<meta-data android:name="@string/router_service_version_name" android:value="@integer/router_service_version_value" />
-<meta-data android:name="sdl_router_location" android:value="com.livio.service.SdlRouterService" />
-<meta-data android:name="@string/router_service_is_custom_name" android:value="false" />
+ <receiver android:name="com.livio.SdlReceiver" >
+           ....
+    <meta-data android:name="@string/router_service_version_name" android:value="@integer/router_service_version_value" />
+    <meta-data android:name="sdl_router_location" android:value="com.livio.service.SdlRouterService" />
+    <meta-data android:name="@string/router_service_is_custom_name" android:value="false" />
+
+</receiver>
 
 ```
 
