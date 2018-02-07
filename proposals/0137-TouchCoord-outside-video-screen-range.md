@@ -13,11 +13,11 @@ Updates `TouchCoord` for gesture recognition across the SDL Video screen and the
 
 We have use cases for keeping gesture recognition from the SDL Video screen to the Native screen. Since the current `TouchCoord` does not support negative values, SDL applications cannot recognize some gestures for upward or leftward direction.
 
-![pic1](../assets/proposals/nnnn-TouchCoord-outside-video-screen-range/nnnn-TouchCoord-outside-video-screen-range-pic1.png)
+![pic1](../assets/proposals/0137-TouchCoord-outside-video-screen-range/0137-TouchCoord-outside-video-screen-range-pic1.png)
 
 We also have a use case for multi-touch recognition on the Haptic device. The screen cursor position becomes the 1st touch coordinate, and the 2nd touch coordinate becomes the 1st touch relative coordinates. Therefore, depending on the position of the screen cursor, 2nd touch becomes coordinates outside the screen area, the SDL application can not recognize the coordinates of upward and leftward direction.
 
-![pic2](../assets/proposals/nnnn-TouchCoord-outside-video-screen-range/nnnn-TouchCoord-outside-video-screen-range-pic2.png)
+![pic2](../assets/proposals/0137-TouchCoord-outside-video-screen-range/0137-TouchCoord-outside-video-screen-range-pic2.png)
 
 ## Proposed solution
 
