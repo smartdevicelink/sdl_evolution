@@ -1,8 +1,8 @@
 # Clarification of audio format details of AudioPassThru
 
-* Proposal: [SDL-nnnn](nnnn-apt-clarification.md)
+* Proposal: [SDL-0139](0139-apt-clarification.md)
 * Author: [Sho Amano](https://github.com/shoamano83)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Document / Core / RPC]
 
 ## Introduction
