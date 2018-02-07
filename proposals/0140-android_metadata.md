@@ -1,7 +1,7 @@
 # Android Manifest Metadata
-* Proposal: [SDL-NNNN](nnnn-android_metadata.md)
+* Proposal: [SDL-0140](0140-android_metadata.md)
 * Author: [Joey Grover](https://github.com/joeygrover/)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
