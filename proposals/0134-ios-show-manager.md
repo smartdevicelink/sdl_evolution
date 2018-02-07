@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0134](0134-ios-show-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction
