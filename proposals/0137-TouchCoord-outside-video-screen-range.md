@@ -1,8 +1,8 @@
 # TouchCoord outside video screen range
 
-* Proposal: [SDL-XXXX](nnnn-TouchCoord-outside-video-screen-range.md)
+* Proposal: [SDL-0137](0137-TouchCoord-outside-video-screen-range.md)
 * Author: [Masato Ogawa](https://github.com/masatoogawa)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
