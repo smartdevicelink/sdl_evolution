@@ -1,8 +1,8 @@
 # Make 'audioPassThruCapabilities' of HMI an array
 
-* Proposal: [SDL-nnnn](nnnn-hmi-audiopassthru-capability.md)
+* Proposal: [SDL-0138](0138-hmi-audiopassthru-capability.md)
 * Author: [Sho Amano](https://github.com/shoamano83)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
