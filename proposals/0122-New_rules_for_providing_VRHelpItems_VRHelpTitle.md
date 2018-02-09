@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0122](0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md)
 * Author: [Irina Getmanets](https://github.com/GetmanetsIrina)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: Core, RPC
 
 ## Introduction
@@ -23,11 +23,12 @@ The proposed mechanism is detailed below:
 3. While the timer is running, if the application sends any `DeleteCommand` requests then SDL Core shall remove the added `vrCommands` from its list.
 4. If the timer times out then SDL Core shall:
 	1. construct the `vrHelp` parameter using the data from the list SDL Core internally created.
-  	2. construct the `helpPrompt` parameter using the data from the list SDL Core internally created and shall also add a **300 ms** period of `SILENCE` between each item of the list. (The period of `SILENCE` is to ensure the TTS is spoken out clearly).
+  	2. construct the `helpPrompt` parameter using the data from the list SDL Core internally created.
   	3. then send these parameters to the HMI via the `SetGlobalProperties` RPC.
 5. If after SDL Core sends the `SetGlobalProperties` RPC, applications sends further AddCommmand/DeleteCommand requests then SDL Core shall send `SetGlobalProperties` with the updated parameters.(The full list of parameters needs to be sent and not just the recently added one).
-6. If at any point in time, the applications sends `SetGlobalProperties` RPC with the `vrHelp` and `helpPrompt` parameters, then SDL Core shall continue with the existing behavior of forwarding such requests to HMI and SDL Core shall delete its internal list.
-7. If at any point in time, the applications sends `SetGlobalProperties` RPC with either of `vrHelp` or `helpPrompt` parameters, then SDL Core shall continue with the existing behavior of forwarding such requests to HMI and SDL Core shall not delete its internal list and shall continue to update the parameter which was not provided by the application.
+6. If at any point in time, the applications sends `SetGlobalProperties` RPC with the `vrHelp` **and** `helpPrompt` parameters, then SDL Core shall continue with the existing behavior of forwarding such requests to HMI and SDL Core shall delete its internal list and stop sending `SetGlobalProperties` RPC to HMI after each AddCommmand/DeleteCommand requests received from mobile.
+
+7. If at any point in time, the applications sends `SetGlobalProperties` RPC with **either** of `vrHelp` **or** `helpPrompt` parameters, then SDL Core shall continue with the existing behavior of forwarding such requests to HMI and SDL Core shall not delete its internal list and shall continue to update the parameter which was not provided by the application.
 8. The same process shall be followed during application resumption as well.
 
 Note:
@@ -35,7 +36,16 @@ Note:
   - When an application moves from HMI state of NONE, then applications send a bunch of `AddCommand` requests. This timer helps to buffer the requests so that SDL Core can send a single `SetGlobalProperties` request to HMI instead of several.
   - The value of 10 seconds is chosen to give sufficient time for buffering and before the user is likely to trigger a "help" request. This is based on a subjective analysis.
 
+### Design approach:
+Create HelpPromptManager with following interface:
+ - OnVrCommandAdd (command) : Adds command to constructed values, and send SetGlobalProperties if required
+ - OnVrCommandDeleted (command) : Removes command from constructed values, and send SetGlobalProperties if required
+ - OnTimeoutExpired () : Send SetGlobalProperties with constructed `vrHelp` **and/or** `helpPrompt` parameters
+ - OnSetGlobalPropertiesReceived (message) : Stop constructing `vrHelp` **and/or** `helpPrompt` if they are present in message
+ ![Class diagram](/assets/proposals/0122-new_rules_for_providing_vr_help_items_vr_help_title/0122-New_rules_for_providing_VRHelpItems_VRHelpTitl.png##)
 
+ This implementation approach won't affect current implementation of Global properties and Add\Delete command.
+ 
 ## Potential downsides
 
 N/A
@@ -46,3 +56,4 @@ SDL Core logic alone has to be modified according to the proposed design.
 ## Alternatives considered
 
 N/A
+

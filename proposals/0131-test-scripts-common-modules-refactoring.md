@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0131](0131-test-scripts-common-modules-refactoring.md)
 * Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
