@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This document is a sub-proposal of [SDL-nnnn: Supporting simultaneous multiple transports][multiple_transports]. It describes how Core and Proxy should choose an appropriate transport to communicate each other when multiple transports are available.
+This document is a sub-proposal of [SDL-nnnn: Supporting simultaneous multiple transports][multiple_transports]. It describes how Core and Proxy should choose an appropriate transport to communicate with each other when multiple transports are available.
 
 
 ## Motivation
