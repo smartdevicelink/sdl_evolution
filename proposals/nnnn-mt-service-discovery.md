@@ -122,7 +122,7 @@ It is desirable that a SDL app automatically launches and starts service discove
 
 ## References
 
-- [Background Execution][apple_background] from App Programming Guide for iOS
+- [Background Execution][ios_background] from App Programming Guide for iOS
 - [Using Network Service Discovery][android_nsd] from Android Developers
 - [Implicit Broadcast Exceptions][android_bc_exception] from Android Developers
 - [SDL-nnnn: Supporting simultaneous multiple transports][multiple_transports]
