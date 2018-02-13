@@ -24,12 +24,9 @@ For the service discovery mechanism, this document proposes to employ DNS Servic
 It is possible that some head units integrate proprietary DNS-SD/mDNS service. Since we cannot support all of such implementations, this document proposes to add reference implementation in SDL Core which interacts with reference DNS-SD/mDNS service (avahi-daemon). OEMs should update the code to meet with their DNS-SD/mDNS services.
 
 Since service discovery is expensive and may drain battery, it should not be running all the time on the phone.
-* According to Apple's official document (*1), it should be running only when the app is in foreground state.
-* Official Android document (*2) also states that service discovery should be stopped when parent Activity is paused. However, since Android allows network communication in background, setting up Wi-Fi transport in background should improve user's experience. This document therefore proposes to run service discovery for a short time (e.g. 2 minutes) on Android even in background.
+* According to [Apple's official document][ios_background], it should be running only when the app is in foreground state.
+* [Official Android document][android_nsd] also states that service discovery should be stopped when parent Activity is paused. However, since Android allows network communication in background, setting up Wi-Fi transport in background should improve user's experience. This document therefore proposes to run service discovery for a short time (e.g. 2 minutes) on Android even in background.
 * Also, we should configure a reasonable timeout value (e.g. 2 minutes) and let Proxy stop service discovery automatically.
-
-(*1) https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html <br>
-(*2) https://developer.android.com/training/connect-devices-wirelessly/nsd.html
 
 
 ## Detailed design
@@ -41,7 +38,7 @@ Define Service type as follows:
 Service type: "_sdl._tcp"
 ```
 
-Service name can be anything and OEMs are free to define it. It is recommended that each head unit has different service name to distinguish.
+Service name can be anything and OEMs are free to define it. It is recommended that each head unit has a different service name to distinguish it from others.
 
 An example of a config file for avahi-daemon is shown below. Here, the service name is "sdl\_zeroconf\_abc123" and the TCP port number is 12345.
 
@@ -82,7 +79,7 @@ Service discovery can be stopped after acquiring IP address and port number succ
 
 A new class `TcpServiceAdvertiser` is added under `transport_adapter` namespace.
 
-The class includes a reference implementation to start and stop advertising. When starting advertisement, it generates a config file under /etc/avahi/service/ directory and send a SIGHUP signal to avahi-daemon. When stopping advertisement, it removes the config file and send a SIGHUP signal again.
+The class includes a reference implementation to start and stop advertising. When starting advertisement, it generates a config file under /etc/avahi/service/ directory and sends a SIGHUP signal to avahi-daemon. When stopping advertisement, it removes the config file and sends a SIGHUP signal again.
 
 `TcpClientListener` class is extended to call the methods of `TcpServiceAdvertiser` during `StartListening()` and `StopListening()`.
 
@@ -112,9 +109,7 @@ There are multiple types of Wi-Fi network topology; the head unit acts as an acc
 
 It is desirable that a SDL app automatically launches and starts service discovery once the phone is connected to a head unit over Wi-Fi. This sounds quite difficult:
 - Starting from iOS 10, an app will be launched in background when an external iAP accessory (head unit in this case) is connected over Bluetooth or USB. Or, a head unit may have custom implementation to launch specific app using iAP's launch request. Either case, iAP connection is required before launching an app.
-- Previously Android app could receive `WIFI_STATE_CHANGED_ACTION` (android.net.wifi.WIFI\_STATE\_CHANGED) broadcast intent, which is similar to ACTION\_ACL\_CONNECTED in the case of Bluetooth. Starting from Android O, apps are not able to register broadcast receivers for implicit broadcasts. ACTION\_ACL\_CONNECTED is an exception(*3) and apps can still receive it.
-
-(*3) https://developer.android.com/guide/components/broadcast-exceptions.html
+- Previously Android app could receive `WIFI_STATE_CHANGED_ACTION` (android.net.wifi.WIFI\_STATE\_CHANGED) broadcast intent, which is similar to `ACTION_ACL_CONNECTED` in the case of Bluetooth. Starting from Android O, apps are not able to register broadcast receivers for implicit broadcasts. `ACTION_ACL_CONNECTED` is an exception (see [here][android_bc_exception]) and apps can still receive it.
 
 
 ## Alternatives considered
@@ -127,8 +122,14 @@ It is desirable that a SDL app automatically launches and starts service discove
 
 ## References
 
+- [Background Execution][apple_background] from App Programming Guide for iOS
+- [Using Network Service Discovery][android_nsd] from Android Developers
+- [Implicit Broadcast Exceptions][android_bc_exception] from Android Developers
 - [SDL-nnnn: Supporting simultaneous multiple transports][multiple_transports]
 
 
+  [ios_background]: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html  "Background Execution"
+  [android_nsd]: https://developer.android.com/training/connect-devices-wirelessly/nsd.html  "Using Network Service Discovery"
+  [android_bc_exception]: https://developer.android.com/guide/components/broadcast-exceptions.html  "Implicit Broadcast Exceptions"
   [multiple_transports]: nnnn-multiple-transports.md  "Supporting simultaneous multiple transports"
 
