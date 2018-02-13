@@ -27,9 +27,9 @@ When multiple transports are utilized between Proxy and Core, Receiver Report fr
 
 This frame is used for two purposes:
 1. When `Receiver Report` frame has not been received for a given period of time, the receiver of the frame considers the transport as unavailable.
-2. Both Core and Proxy buffer sent frames until they receive a specific `Receiver Report` frame; sent frames whose Message IDs are less than or equal to the Message ID included in `Receiver Report` frame are safely removed from the buffers. This procedure is performed per service, i.e. both Core and Proxy have individual buffers for RPC, Video and Audio services. When switching between transports, Core and Proxy resend all buffered frames on the new transport to avoid data loss.
+2. Both Core and Proxy buffers send frames until they receive a specific `Receiver Report` frame; sent frames whose Message IDs are less than or equal to the Message ID included in `Receiver Report` frame are safely removed from the buffers. This procedure is performed per service, i.e. both Core and Proxy have individual buffers for RPC, Video and Audio services. When switching between transports, Core and Proxy resend all buffered frames on the new transport to avoid data loss.
 
-To avoid exhaustion of RAM, the buffers should have capacity limits. When the buffer gets full, the owner of the buffer should deny queuing new frames. Note that buffers are prepared per services. So if the buffer for Video service gets full for example, queuing RPC messages will not be affected.
+To avoid exhaustion of RAM, the buffers should have capacity limits. When the buffer gets full, the owner of the buffer should deny queuing new frames. Note that buffers are allocated individually for each service. So if the buffer for Video service gets full for example, queuing RPC messages will not be affected.
 
 Core and Proxy should also check Message IDs of received frames and discard duplicate frames.
 
@@ -59,7 +59,7 @@ Description of Receiver Report frame is as follows:
 ```
 "After a successful Version Negotiation, both Core and Proxy start sending Receiver Report frame periodically on the transport. The frame includes `MessageID`s of latest frames on each service that has been received by the receiver. Receiver Report frames are sent using the Control Service Type (0x00).
 Sender should buffer frames that have been sent until it receives a Receiver Report frame and confirms that the frames are received successfully.
-If Receiver Report frame is not received for a given number of times, receiver may consider it as transport getting unavailable. In this case the receiver may use another transport to re-send buffered frames. Right now, only TCP transport uses this feature to detect transport's unavailability."
+If Receiver Report frame is not received for a given number of times, receiver may consider the transport as unavailable. In this case the receiver may use another transport to re-send buffered frames. Right now, only TCP transport uses this feature to detect transport's unavailability."
 ```
 
 Also, add following tag in "3.1.3.2.2 Start Service ACK":
@@ -99,7 +99,7 @@ Currently Core generates sequence of Message IDs per session (refer to protocol\
 
 ## Potential downsides
 
-- Core and Proxy buffer sent data until Receiver Report frame is received, thereby increasing RAM usage. As described, we should put a limit on the buffer to avoid RAM exhaustion.
+- Core and Proxy buffers send data until Receiver Report frame is received, thereby increasing RAM usage. As described, we should put a limit on the buffer to avoid RAM exhaustion.
 Actually, RAM consumption is not a new issue; Core and Proxy already have buffers for sending frames(*1), so when network bandwidth is small, more and more frames may be queued in the buffers and RAM usage may grow.
 - If network bandwidth is small and Core/Proxy tries to send a lot of data on it, frames will be delivered with a large delay. In this case, Receiver Report frames may not be delivered on time and Core/Proxy may treat that the transport becomes unavailable.<br>
 The fundamental solution is to introduce a mechanism like flow control. However, in this document it is proposed to utilize "detection of disconnection using Receiver Report" feature only for TCP transport, and not to use it on low-bandwidth transports (like Bluetooth) to avoid such regression.
