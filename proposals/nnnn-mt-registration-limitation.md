@@ -12,7 +12,7 @@ This document proposes to add an advanced feature to limit app's registration ba
 
 ## Motivation
 
-According to Apple's document (*1), iOS may close network sockets when an iOS app goes to background. This means, the Wi-Fi (TCP) transport of an iOS SDL app can be suddenly disconnected while the app is in background. Since most of the users are not aware of such OS limitation, this app's behavior looks very confusing.
+According to [Apple's document][ios_background], iOS may close network sockets when an iOS app goes to background. This means, the Wi-Fi (TCP) transport of an iOS SDL app can be suddenly disconnected while the app is in background. Since most of the users are not aware of such OS limitation, this app's behavior looks very confusing.
 
 A possible solution for this issue is to prevent the user from using SDL app while the app is connected only through Wi-Fi (TCP) transport. For example, registration of an app is rejected when the app does not establish iAP transport yet. Or, the registration can succeed but Core prevents the app from being started on HMI.
 
@@ -20,8 +20,6 @@ Typical use-case is as follows. An OEM wants to allow using Wi-Fi transport only
 - When a navigation or mobile projection iOS app is connected to Core only with Wi-Fi transport, Core grants the registration but keeps its HMI level to NONE. No resumption is triggered, and Core won't notify BC.OnAppRegistered to HMI. Once the app adds a connection through iAP transport, resumption and BC.OnAppRegistered notification will be triggered.
 - When other types of iOS apps are connected to Core only with Wi-Fi transport, Core rejects their registrations. Proxy will use another transport (iAP) to try the registration.
 - When an iOS app is connected and registered through iAP transport, then Wi-Fi transport is established, then these restrictions will not apply.
-
-(*1) https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html
 
 
 ## Proposed solution
@@ -72,7 +70,7 @@ AOA = *
 
 [DisabledAppHMITypeTable]
 ; This section is used to specify apps that can be registered but not allowed to launch.
-; Apps with AppHMITypes specified in this section are allowed to register. However, they will be kept in HMILevel being NONE level and
+; Apps with AppHMITypes specified in this section are allowed to register. However, they will be kept in HMILevel NONE and
 ; will not be notified to HMI.
 ; AppHMITypes are specified per transport and OS type. OEM can, for example, disable specific type(s) of apps which are connected
 ; through specific transport.
@@ -83,7 +81,7 @@ AOA = *
 ; ignored and apps with the AppHMIType are launched as usual.
 ; also, if an app has multiple AppHMITypes, and they are listed in both AcceptedAppHMITypeTable and DisabledAppHMITypeTable, then the
 ; app is launched as usual.
-; If an AppHMIType is not specified to neither of AcceptedAppHMITypeTable and DisabledAppHMITypeTable, then apps with the AppHMIType
+; If an AppHMIType is not specified to neither AcceptedAppHMITypeTable nor DisabledAppHMITypeTable, then apps with the AppHMIType
 ; are rejected for registration through the transport. WiFi-iOS = NAVIGATION, PROJECTION
 WiFi-Android = none
 iAP = none
@@ -108,7 +106,7 @@ iOS and Android Proxies should handle the new RegisterAppInterface response erro
 ## Potential downsides
 
 * App registration sequence, especially the retry logic in Proxy, gets more complicated.
-* Since smartDeviceLink.ini file is not visible to mobile application developers, they may be confused that some apps are allowed to use a transport (such as Wi-Fi) but others don't. They may also be confused that an app may be kept in HMI level NONE under a condition that is not open to them.
+* Since smartDeviceLink.ini file is not visible to mobile application developers, they may be confused that some apps are allowed to use a transport (such as Wi-Fi) but others aren't. They may also be confused that an app may be kept in HMI level NONE under a condition that is not open to them.
 
 
 ## Impact on existing code
@@ -126,8 +124,10 @@ This approach should have less impact to the system since we do not update Core 
 
 ## References
 
+- [Background Execution][ios_background] from App Programming Guide for iOS
 - [SDL-nnnn: Supporting simultaneous multiple transports][multiple_transports]
 
 
+  [ios_background]:  https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html  "Background Execution"
   [multiple_transports]: nnnn-multiple-transports.md  "Supporting simultaneous multiple transports"
 
