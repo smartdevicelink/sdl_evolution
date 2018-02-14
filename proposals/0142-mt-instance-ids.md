@@ -1,8 +1,8 @@
 # Addition of 'App Instance ID' and 'Core Instance ID'
 
-* Proposal: [SDL-nnnn](nnnn-mt-instance-ids.md)
+* Proposal: [SDL-0142](0142-mt-instance-ids.md)
 * Author: [Sho Amano](https://github.com/shoamano83), [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / Protocol / BSON library]
 
 ## Introduction
