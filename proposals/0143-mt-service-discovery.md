@@ -1,8 +1,8 @@
 # Add Service Discovery mechanism for TCP transport
 
-* Proposal: [SDL-nnnn](nnnn-mt-service-discovery.md)
+* Proposal: [SDL-0143](0143-mt-service-discovery.md)
 * Author: [Sho Amano](https://github.com/shoamano83)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android]
 
 ## Introduction
