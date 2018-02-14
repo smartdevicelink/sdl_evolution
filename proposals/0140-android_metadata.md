@@ -1,7 +1,7 @@
 # Android Manifest Metadata
 * Proposal: [SDL-0140](0140-android_metadata.md)
 * Author: [Joey Grover](https://github.com/joeygrover/)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Android]
 
 ## Introduction
@@ -35,7 +35,7 @@ Adding the router service version into the metadata fields we are able to remove
 ###### Location of Router Service
 This metadata entry can serve as an option for developers to place their `SdlRouterService` into a different package than the `SdlBroadcastReceiver`. This entry is optional, as if it is not included the location will be assumed as the same as the `SdlBroadcastReceiver`.
 
-###### Location of Router Service
+###### Custom Router Service Flag
 While it is not recommended to create custom integrations of router service, the SDLC recognizes that it is the only way to integrate into specific systems. A way in which to help prevent these custom integrations from having adverse affects on the traditional flow is including a metadata flag that signals if the included router service is custom or not. This flag is also optional as it will be assumed to be `false`.
 
 #### res/values/sdl.xml
