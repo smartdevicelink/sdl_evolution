@@ -1,8 +1,8 @@
 # Supporting simultaneous multiple transports
 
-* Proposal: [SDL-nnnn](nnnn-multiple-transports.md)
+* Proposal: [SDL-0141](0141-multiple-transports.md)
 * Author: [Sho Amano](https://github.com/shoamano83), [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC / Protocol]
 
 ## Introduction
