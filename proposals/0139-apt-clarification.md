@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0139](0139-apt-clarification.md)
 * Author: [Sho Amano](https://github.com/shoamano83)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Document / Core / RPC]
 
 ## Introduction
