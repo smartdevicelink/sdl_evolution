@@ -142,5 +142,5 @@ It looks like Ford emulator also appends a RIFF header in front of the audio dat
 
 ## Alternatives considered
 
-Instead of fixing the channel number to 1, extend `AudioPassThruCapabilities` struct to include channel number information. The author did not investigate whether this change keeps backward compatibility. If the channel number is required, another proposal can be developed in future.
+Instead of fixing the audio stream to be monaural, extend `AudioPassThruCapabilities` struct to include information of the number of channels in the audio stream. The author did not investigate whether this change keeps backward compatibility. If such information is required, another proposal can be developed in future.
 
