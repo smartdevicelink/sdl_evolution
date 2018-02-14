@@ -47,7 +47,7 @@ During Version Negotiation, Start Service frame of RPC service includes a parame
 
 As described in previous section, Start Service ACK frame of RPC service also includes a parameter called `transportPriority` to indicate the priority of the transport to Proxy.
 
-Detailed specification of these IDs and the frames will be discussed in a separate proposal [SDL-nnnn: Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
+Detailed specification of these IDs and the frames will be discussed in a separate proposal [SDL 0142 - Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
 
 ### Detecting transport unavailability and resending data
 
@@ -85,7 +85,7 @@ Please note that when connecting to old version of Core, only one transport that
 
 ### Extension of SDL Protocol
 
-Start Service frame of RPC service will include a parameter called `appInstanceId`. Start Service ACK frame of RPC service will include a parameter called `coreInstanceId`. Details of these parameters are discussed in proposal [SDL-nnnn: Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
+Start Service frame of RPC service will include a parameter called `appInstanceId`. Start Service ACK frame of RPC service will include a parameter called `coreInstanceId`. Details of these parameters are discussed in proposal [SDL 0142 - Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
 
 Start Service ACK frame of RPC service will also include a parameter called `transportPriority` to convey the prioritization of transports from Core to Proxy. Details of this parameter is discussed in proposal [SDL-nnnn: Configuring transport priority][transport_priority].
 
@@ -106,7 +106,7 @@ iOS Proxy introduces a new class called `SDLProtocolSelector` which is placed be
 
 Fig. 1 illustrates newly added and modified classes related to SDLProtocolSelector.
 
-![Class diagram of iOS Proxy](../assets/proposals/nnnn-multiple-transports/nnnn-multiple-transports-class-diagram-ios.png)
+![Class diagram of iOS Proxy](../assets/proposals/0141-multiple-transports/0141-multiple-transports-class-diagram-ios.png)
 
 **Fig. 1: Added and modified classes in iOS Proxy**
 
@@ -128,7 +128,7 @@ Where `transports` indicates a list of transports that the app is intended to en
 ```
 `SDLLifecycleConfiguration` will include additional parameters to keep this list. `SDLLifecycleManager` creates a `SDLProxy` instance which uses `SDLProtocolSelector`, and passes the list to the selector.
 
-`SDLTCPTransport` is likely to be updated to support head unit discovery feature over Wi-Fi, which will be discussed in separate proposal [SDL-nnnn: Add Service Discovery mechanism for TCP transport][service_discovery].
+`SDLTCPTransport` is likely to be updated to support head unit discovery feature over Wi-Fi, which will be discussed in separate proposal [SDL 0143 - Add Service Discovery mechanism for TCP transport][service_discovery].
 
 ### Extension of Android Proxy
 
@@ -144,7 +144,7 @@ Also, `WiProProtocol` class and `IProtocolListener` interface are extended to su
 
 Fig. 2 illustrates newly added and modified classes related to SdlConnectionSelector.
 
-![Class diagram of Android Proxy](../assets/proposals/nnnn-multiple-transports/nnnn-multiple-transports-class-diagram-android.png)
+![Class diagram of Android Proxy](../assets/proposals/0141-multiple-transports/0141-multiple-transports-class-diagram-android.png)
 
 **Fig. 2: Added and modified classes in Android Proxy**
 
@@ -162,7 +162,7 @@ public SdlProxyALM(IProxyListenerALM listener, SdlProxyConfigurationResources sd
 
 Note that `BTTransportConfig` and `MultiplexTransportConfig` should not be specified at the same time, as both of the transports will try to use Bluetooth device. `SdlProxyBase` class should detect this error during construction.
 
-`TCPTransport` class is likely to be updated to support head unit discovery feature over Wi-Fi, which will be discussed in separate proposal [SDL-nnnn: Add Service Discovery mechanism for TCP transport][service_discovery].
+`TCPTransport` class is likely to be updated to support head unit discovery feature over Wi-Fi, which will be discussed in separate proposal [SDL 0143 - Add Service Discovery mechanism for TCP transport][service_discovery].
 
 ### Extension of Core
 
@@ -185,7 +185,7 @@ Secondary, SDL Core introduces a new component called `ConnectionSelector`. It i
   - Currently MessageID is generated in ProtocolHandler (refer to `message_counters_`). This has to be moved to `ConnectionSelector` so that the IDs will be consistent within an app for different connections.
 * Handling Core Instance ID
   - Upon starting, it generates a Core Instance ID.
-  - It adds Core Instance ID value in Start Service ACK frame when corresponding Start Service frame includes App Instance ID. The details of Core Instance ID specification is discussed in separate proposal [SDL-nnnn: Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
+  - It adds Core Instance ID value in Start Service ACK frame when corresponding Start Service frame includes App Instance ID. The details of Core Instance ID specification is discussed in separate proposal [SDL 0142 - Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
 
 Other classes have to be updated accordingly. Here are a few examples:
 - ProtocolHandler implements receiving and sending `Receiver Report` frame. It periodically sends `Receiver Report` messages on all connections. When it receives a `Receiver Report` message, it notifies ConnectionSelector that sent message(s) is/are successfully received by peer. When it detects a timeout on a particular connection, it notifies ConnectionSelector that the connection becomes unavailable.
@@ -195,7 +195,7 @@ Other classes have to be updated accordingly. Here are a few examples:
 
 Fig. 3 illustrates newly added and modified classes in SDL Core. (Note: it does not include IP address and port number advertising feature over Wi-Fi.)
 
-![Class diagram of SDL Core](../assets/proposals/nnnn-multiple-transports/nnnn-multiple-transports-class-diagram-core.png)
+![Class diagram of SDL Core](../assets/proposals/0141-multiple-transports/0141-multiple-transports-class-diagram-core.png)
 
 **Fig. 3: Added and modified classes in SDL Core**
 
@@ -235,7 +235,7 @@ When a single device is connected to SDL Core through multiple transports, diffe
 
 ## Out of scope of this proposal
 
-For better user experience, SDL Proxies need a means to automatically detect Core's IP address and TCP port number. Otherwise, a user needs to enter them manually on every SDL apps s/he is going to use. Such mechanism is not covered by this proposal and will be discussed in another proposal [SDL-nnnn: Add Service Discovery mechanism for TCP transport][service_discovery].
+For better user experience, SDL Proxies need a means to automatically detect Core's IP address and TCP port number. Otherwise, a user needs to enter them manually on every SDL apps s/he is going to use. Such mechanism is not covered by this proposal and will be discussed in another proposal [SDL 0143 - Add Service Discovery mechanism for TCP transport][service_discovery].
 
 An advanced feature which allows usage of Wi-Fi transport only to specific apps is proposed along with this multiple-transports idea. It will be discussed in [SDL-nnnn: Add capability to disable or reject an app based on app type, transport type and OS type][reg_limitation].
 
@@ -248,15 +248,15 @@ An advanced feature which allows usage of Wi-Fi transport only to specific apps 
 ## References
 
 - [SDL-nnnn: Configuring transport priority][transport_priority]
-- [SDL-nnnn: Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids]
+- [SDL 0142 - Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids]
 - [SDL-nnnn: Addition of 'Receiver Report' control frame][receiver_report]
-- [SDL-nnnn: Add Service Discovery mechanism for TCP transport][service_discovery]
+- [SDL 0143 - Add Service Discovery mechanism for TCP transport][service_discovery]
 - [SDL-nnnn: Add capability to disable or reject an app based on app type, transport type and OS type][reg_limitation]
 
 
   [transport_priority]: nnnn-mt-transport-priority.md       "Configuring transport priority"
-  [instance_ids]:       nnnn-mt-instance-ids.md             "Addition of 'App Instance ID' and 'Core Instance ID'"
+  [instance_ids]:      0142-mt-instance-ids.md             "Addition of 'App Instance ID' and 'Core Instance ID'"
   [receiver_report]:    nnnn-mt-receiver-report.md          "Addition of 'Receiver Report' control frame"
-  [service_discovery]:  nnnn-mt-service-discovery.md        "Add Service Discovery mechanism for TCP transport"
+  [service_discovery]:  0143-mt-service-discovery.md        "Add Service Discovery mechanism for TCP transport"
   [reg_limitation]:     nnnn-mt-registration-limitation.md  "Add capability to disable or reject an app based on app type, transport type and OS type"
 
