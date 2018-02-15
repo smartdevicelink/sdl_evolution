@@ -45,6 +45,11 @@ on the gh-pages branch).
           <xsl:with-param name="title">Implemented for SDL iOS v5.1</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='5.1']"/>
         </xsl:call-template>
+      
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL iOS v5.2</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='5.2']"/>
+        </xsl:call-template>
         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Android v4.3</xsl:with-param>
