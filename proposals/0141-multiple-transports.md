@@ -254,9 +254,9 @@ An advanced feature which allows usage of Wi-Fi transport only to specific apps 
 - [SDL-nnnn: Add capability to disable or reject an app based on app type, transport type and OS type][reg_limitation]
 
 
-  [transport_priority]: nnnn-mt-transport-priority.md       "Configuring transport priority"
+  [transport_priority]: https://github.com/XevoInc/sdl_evolution/blob/4a2a045b701e75a322c1adf43967554fbea6aac0/proposals/nnnn-mt-transport-priority.md
   [instance_ids]:      0142-mt-instance-ids.md             "Addition of 'App Instance ID' and 'Core Instance ID'"
-  [receiver_report]:    nnnn-mt-receiver-report.md          "Addition of 'Receiver Report' control frame"
+  [receiver_report]:    https://github.com/XevoInc/sdl_evolution/blob/fb2ea8f6fd7262ed4645420774fcbcb33d922c76/proposals/nnnn-mt-receiver-report.md          "Addition of 'Receiver Report' control frame"
   [service_discovery]:  0143-mt-service-discovery.md        "Add Service Discovery mechanism for TCP transport"
-  [reg_limitation]:     nnnn-mt-registration-limitation.md  "Add capability to disable or reject an app based on app type, transport type and OS type"
+  [reg_limitation]:     https://github.com/XevoInc/sdl_evolution/blob/4242b3ec23c9102cd595e9c7d37f664e785dfdba/proposals/nnnn-mt-registration-limitation.md  "Add capability to disable or reject an app based on app type, transport type and OS type"
 
