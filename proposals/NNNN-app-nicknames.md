@@ -1,7 +1,7 @@
-# Feature name
+# Allow clients to specify legacy nicknames
 
 * Proposal: [SDL-NNNN](NNNN-app-nicknames.md)
-* Author: [Timon Kanters](https://github.com/tvkanters)
+* Author: [Timon Kanters](https://github.com/tvkanters) (TomTom)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core, Android, iOS]
 
