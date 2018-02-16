@@ -21,12 +21,12 @@ For developers, there currently does not seem to be a clean way to work around t
 * Connectivity will be unnecessarily slowed down.
 * The reconnection attempts may be futile because the core does not give a reason as to _why_ the connection was disallowed.
 * Each app developer would need to create their own logic for this mechanism.
-* If there are issues in a certain client version with creating multiple SDL proxy instances or disposing of old ones (which is not uncommon), the custom solution might not be able work.
+* If there are issues in a certain client version with creating multiple SDL proxy instances or disposing of old ones (which is not uncommon), the custom solution might not work.
 
 
 ## Proposed solution
 
-When creating an SDL proxy to instantiate the connection in the client, the developer should be able to provide a list of app names instead of just a single one. This list should be in order of preference, such that preferred names precede less desired legacy names. The core should use this list to determine which name to show for the app. If the first name is in their application policies for the given app ID, it should select that. If not, it should try the second, and so on. If none of the provided names is present, the connection would be disallowed as is currently the case.
+When creating an SDL proxy to instantiate the connection in the client, the developer should be able to provide a list of app names instead of just a single one. This list should be in order of preference, such that preferred names precede less desired legacy names. The core should use this list to determine which name to show for the app. If the first name is in their application policies for the given app ID, it should select that. If not, it should try the second, and so on. If none of the provided names are present, the connection would be disallowed as is currently the case.
 
 The documentation for nicknames should also be clarified and aligned across all SDL modules; it's currently not entirely clear to developers how nicknames are used in the validation process.
 
