@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0065](0065-remote-control.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Deferred**
+* Status: **Rejected**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
