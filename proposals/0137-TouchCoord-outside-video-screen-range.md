@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0137](0137-TouchCoord-outside-video-screen-range.md)
 * Author: [Masato Ogawa](https://github.com/masatoogawa)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
