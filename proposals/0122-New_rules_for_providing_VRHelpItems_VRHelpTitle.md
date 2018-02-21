@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0122](0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md)
 * Author: [Irina Getmanets](https://github.com/GetmanetsIrina)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: Core, RPC
 
 ## Introduction
