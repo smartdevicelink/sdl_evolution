@@ -94,6 +94,7 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Rejected or withdrawn</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='rejected']"/>
+          <xsl:with-param name="proposals" select="proposal[@status='withdrawn']"/>
         </xsl:call-template>
       </body>
     </html>
@@ -276,6 +277,9 @@ on the gh-pages branch).
         background-color: #c691c5; // SDL Purple
       }
       a.number.status-rejected {
+        background-color: #ef5e69; // SDL Red
+      }
+      a.number.status-withdrawn {
         background-color: #ef5e69; // SDL Red
       }
       a.number.platform-protocol {
