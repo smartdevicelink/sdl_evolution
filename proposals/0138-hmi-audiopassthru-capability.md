@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0138](0138-hmi-audiopassthru-capability.md)
 * Author: [Sho Amano](https://github.com/shoamano83)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
