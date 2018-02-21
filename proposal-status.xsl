@@ -93,8 +93,7 @@ on the gh-pages branch).
       
         <xsl:call-template name="section">
           <xsl:with-param name="title">Rejected or withdrawn</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='rejected']"/>
-          <xsl:with-param name="proposals" select="proposal[@status='withdrawn']"/>
+          <xsl:with-param name="proposals" select="proposal[@status='rejected'] or [@status='withdrawn']"/>
         </xsl:call-template>
       </body>
     </html>
