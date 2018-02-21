@@ -1,8 +1,8 @@
 # Driver Distraction Notification Upon Registration
 
-* Proposal: [SDL-NNNN](nnnn-distraction-notification-after-registration.md)
+* Proposal: [SDL-0145](0145-distraction-notification-after-registration.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
