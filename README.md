@@ -52,7 +52,7 @@ Spec for RPC messages sent between mobile devices and hardware modules.
 #### Core
 The Core component is the software which Vehicle Manufacturers (OEMs) implement in their vehicle head units. Integrating this component into their head unit and HMI based on a set of guidelines and templates enables access to various smartphone applications.
 
-**Repository**: [https://github.com/smartdevicelink/sdl_core] (https://github.com/smartdevicelink/sdl_core)
+**Repository**: [https://github.com/smartdevicelink/sdl_core](https://github.com/smartdevicelink/sdl_core)
 
 **Changes to Core also impact the following platforms:**
 
