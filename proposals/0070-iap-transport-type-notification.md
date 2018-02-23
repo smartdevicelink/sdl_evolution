@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0070](0070-iap-transport-type-notification.md)
 * Author: [Sho Amano](https://github.com/shoamano83/)
-* Status: **Returned for Revisions**
+* Status: **Withdrawn**
 * Impacted Platforms: [Core / iOS / Protocol]
 
 ## Introduction
