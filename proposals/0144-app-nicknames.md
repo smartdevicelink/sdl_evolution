@@ -51,6 +51,4 @@ This change would warrant a minor version increment, both in the core and the An
 
 ## Alternatives considered
 
-Instead of letting the client provide a list of nicknames in the client, we could allow developers to make the nicknames field optional. This would allow them to change the name of their app at any time without leading to connectivity issues for some users. This has the added benefit of showing users an old name, but comes with the downside of allowing other apps to use others' app IDs without naming constraints.
-
-
+Instead of letting the client provide a list of nicknames in the client, we could allow developers to make the nicknames field optional. This would allow them to change the name of their app at any time without leading to connectivity issues for some users. This has the added benefit of not having to show users an old name, but comes with the downside of allowing other apps to use others' app IDs without naming constraints. This downside appears too significant, and this alternative was thus not proposed.
