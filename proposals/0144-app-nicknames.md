@@ -46,6 +46,8 @@ Regarding backward/forward compatibility:
 * An old client SDK version will be compatible with newer cores if the core continues accepting a single app name as is currently the case.
 * An old core version will be compatible with newer client SDKs if the client SDK sends the preferred name in the list as a single, main, app name. Naturally, this will still cause a name change to break the connection for some users with older cores.
 
+This change would warrant a minor version increment, both in the core and the Android/iOS SDKs.
+
 
 ## Alternatives considered
 
