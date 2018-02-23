@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0119](0119-SDL-passenger-mode.md)
 * Author: [Brett McIsaac](https://github.com/brettywhite)
-* Status: **Returned for Revisions**
+* Status: **Withdrawn**
 * Impacted Platforms: iOS, Android
 
 ## Introduction

@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0135](0135-PushToTalk-hardkey-support.md)
 * Author: [Tomoya Suzuki](https://github.com/tsuzuki-uie)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [ Core / iOS / Android / RPC ]
 
 

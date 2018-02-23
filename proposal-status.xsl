@@ -45,6 +45,11 @@ on the gh-pages branch).
           <xsl:with-param name="title">Implemented for SDL iOS v5.1</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='5.1']"/>
         </xsl:call-template>
+      
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL iOS v5.2</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='5.2']"/>
+        </xsl:call-template>
         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Android v4.3</xsl:with-param>
@@ -57,13 +62,13 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Core v4.2.3</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.2.3']"/>
+          <xsl:with-param name="title">Implemented for SDL Core v4.3</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.3']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Core v4.3</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.3']"/>
+          <xsl:with-param name="title">Implemented for SDL Core v4.5</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.5']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -88,7 +93,7 @@ on the gh-pages branch).
       
         <xsl:call-template name="section">
           <xsl:with-param name="title">Rejected or withdrawn</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='rejected']"/>
+          <xsl:with-param name="proposals" select="proposal[@status= 'rejected' or @status= 'withdrawn']"/>
         </xsl:call-template>
       </body>
     </html>
@@ -271,6 +276,9 @@ on the gh-pages branch).
         background-color: #c691c5; // SDL Purple
       }
       a.number.status-rejected {
+        background-color: #ef5e69; // SDL Red
+      }
+      a.number.status-withdrawn {
         background-color: #ef5e69; // SDL Red
       }
       a.number.platform-protocol {

@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0124](0124-SDLImageUploadManager.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS]
 
 ## Introduction
@@ -40,7 +40,12 @@ Many integration issues stem from workflows that fall somewhere between integrat
 Several targetted enhancements are made to the existing APIs to reduce the burden on app developers.
 
 1. A SDLArtwork init method is added that takes a UIImage and the current required arguments, and generates the image name/id based on a hash of the image.
-2. A upload function variant is added to the file manager that will return the image arguments name/ID if the file is reported as existing in the remote file list, or will perform the upload and return the name/id in a callback block once uploaded.
+2. Two SDLImage init methods are added
+````objc
+[SDLImage initWithName:(NSString *)] and [SDLImage initWithStaticImageValue:(UInt16)]
+````
+
+3. A upload function variant is added to the file manager that will return the image arguments name/ID if the file is reported as existing in the remote file list, or will perform the upload and return the name/id in a callback block once uploaded.
 
 Proposed Usage (assuming app is in process of sending initial Show request for a template)
 

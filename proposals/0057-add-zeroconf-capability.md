@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0057](0057-add-zeroconf-capability.md)
 * Author: Shinichi Watanabe
-* Status: **Deferred**
+* Status: **Withdrawn**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction

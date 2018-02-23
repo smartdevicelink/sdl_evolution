@@ -61,11 +61,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0050" status="implemented" primary-platform="rpc" sdl-version="4.4" name="Add API Patch Version" filename="0050-add-api-patch-version.md"/>
 <proposal id="0051" status="implemented" primary-platform="android" sdl-version="4.4" name="Enhance Video Streaming API's for Android" filename="0051-enhance_video_streaming_apis_for_android.md"/>
 <proposal id="0052" status="implemented" primary-platform="protocol" sdl-version="5.0" name="Constructed Payloads" filename="0052-constructed-payloads.md"/>
-<proposal id="0053" status="accepted" primary-platform="core" sdl-version="x.x" name="Connectivity via iAP-BT and Transport Switch" filename="0053-Connectivity-via-iAP-BT-and-Transport-Switch.md"/>
-<proposal id="0054" status="accepted" primary-platform="ios" sdl-version="5.0" name="ChangeRegistration-Manager" filename="0054-change-registration-manager.md"/>
+<proposal id="0053" status="implemented" primary-platform="core" sdl-version="4.5" name="Connectivity via iAP-BT and Transport Switch" filename="0053-Connectivity-via-iAP-BT-and-Transport-Switch.md"/>
+<proposal id="0054" status="implemented" primary-platform="ios" sdl-version="5.2" name="ChangeRegistration-Manager" filename="0054-change-registration-manager.md"/>
 <proposal id="0055" status="implemented" primary-platform="rpc" sdl-version="4.5" name="System Capabilities Query" filename="0055-system_capabilities_query.md"/>
 <proposal id="0056" status="accepted" primary-platform="meta" sdl-version="x.x" name="Hardware Validator App (Android)" filename="0056-hardware-validator-app-android.md"/>
-<proposal id="0057" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Add zeroconf capability to WiFi transport" filename="0057-add-zeroconf-capability.md"/>
+<proposal id="0057" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add zeroconf capability to WiFi transport" filename="0057-add-zeroconf-capability.md"/>
 <proposal id="0058" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Add video streaming capabilities" filename="0058-video-streaming-capabilities.md"/>
 <proposal id="0059" status="implemented" primary-platform="android" sdl-version="4.4" name="Android RPC Refactor" filename="0059-android_rpc_refactor.md"/>
 <proposal id="0060" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Support Indian English and Thai" filename="0060-support-indian-english-thai.md"/>
@@ -78,7 +78,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0067" status="implemented" primary-platform="ios" sdl-version="4.6" name="Optimize Connection Wait Range" filename="0067-optimize-connection-wait-range.md"/>
 <proposal id="0068" status="implemented" primary-platform="meta" sdl-version="x.x" name="Idea To Implementation" filename="0068-idea_to_implementation.md"/>
 <proposal id="0069" status="rejected" primary-platform="android" sdl-version="x.x" name="Enhance Video Streaming Performance for Android" filename="0069-enhance-video-streaming-performance-for-android.md"/>
-<proposal id="0070" status="returned" primary-platform="protocol" sdl-version="x.x" name="Notification of iAP transport type" filename="0070-iap-transport-type-notification.md"/>
+<proposal id="0070" status="withdrawn" primary-platform="protocol" sdl-version="x.x" name="Notification of iAP transport type" filename="0070-iap-transport-type-notification.md"/>
 <proposal id="0071" status="implemented" primary-platform="rpc" sdl-version="4.5" name="SDL Remote Control Baseline (no zones, no driver/passenger, immediate control)" filename="0071-remote-control-baseline.md"/>
 <proposal id="0072" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - FuelRange" filename="0072-New-vehicle-data-FuelRange.md"/>
 <proposal id="0073" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Adding Metadata Types" filename="0073-Adding-Metadata-Types.md"/>
@@ -100,10 +100,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0089" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Mobile API versioning" filename="0089-mobile-api-versioning.md"/>
 <proposal id="0090" status="implemented" primary-platform="ios" sdl-version="5.0" name="SDLHapticHitTester Protocol" filename="0090-SDLHapticHitTesterProtocol.md"/>
 <proposal id="0091" status="rejected" primary-platform="ios" sdl-version="x.x" name="SDLCarWindow Video Projection Developer Interface" filename="0091-SDLScreen-SDLWindow-Projection.md"/>
-<proposal id="0092" status="accepted" primary-platform="core" sdl-version="x.x" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
+<proposal id="0092" status="implemented" primary-platform="core" sdl-version="4.5" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
 <proposal id="0093" status="implemented" primary-platform="android" sdl-version="4.4" name="Haptic Projection" filename="0093-haptic-projection.md"/>
 <proposal id="0094" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
-<proposal id="0095" status="active" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
+<proposal id="0095" status="returned" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
 <proposal id="0096" status="accepted" primary-platform="core" sdl-version="x.x" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
 <proposal id="0097" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
 <proposal id="0098" status="accepted" primary-platform="mobile" sdl-version="x.x" name="SDL Localization" filename="0098-localization.md"/>
@@ -128,32 +128,40 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0116" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Open Menu RPC" filename="0116-open-menu.md"/>	
 <proposal id="0117" status="accepted" primary-platform="core" sdl-version="x.x" name="Configurable time before shutdown" filename="0117-configurable-time-before-shutdown.md"/>	
 <proposal id="0118" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
-<proposal id="0119" status="returned" primary-platform="mobile" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
+<proposal id="0119" status="withdrawn" primary-platform="mobile" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
 <proposal id="0120" status="accepted" primary-platform="rpc" sdl-version="x.x" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
 <proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
-<proposal id="0122" status="returned" primary-platform="rpc" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
+<proposal id="0122" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
 <proposal id="0123" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
-<proposal id="0124" status="active" primary-platform="ios" sdl-version="x.x" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
+<proposal id="0124" status="accepted" primary-platform="ios" sdl-version="x.x" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
 <proposal id="0125" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
 <proposal id="0126" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF support of additional transports (BT and USB)" filename="0126-atf-additional-transports.md"/>
 <proposal id="0127" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
 <proposal id="0128" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
-<proposal id="0129" status="accepted" primary-platform="ios" sdl-version="x.x" name="Add Additional AppHMIType Array iOS" filename="0129-ios-additional-apptypes.md"/>
+<proposal id="0129" status="implemented" primary-platform="ios" sdl-version="5.2" name="Add Additional AppHMIType Array iOS" filename="0129-ios-additional-apptypes.md"/>
 <proposal id="0130" status="deferred" primary-platform="rpc" sdl-version="x.x" name="SendLocation for Mobile Nav" filename="0130-SendLocation-for-Mobile-Nav.md"/>	
 <proposal id="0131" status="accepted" primary-platform="core" sdl-version="x.x" name="Test Scripts - Refactoring of Common modules" filename="0131-test-scripts-common-modules-refactoring.md"/>	
 <proposal id="0132" status="accepted" primary-platform="core" sdl-version="x.x" name="Change ATF test reports folder structure" filename="0132-Change_ATF_test_reports_folder_structure.md"/>
-<proposal id="0133" status="active" primary-platform="ios" sdl-version="x.x" name="EnhancediOSProxyInterface" filename="0133-EnhancediOSProxyInterface.md"/>
-<proposal id="0134" status="active" primary-platform="ios" sdl-version="x.x" name="Show Manager - iOS" filename="0134-ios-show-manager.md"/>
-<proposal id="0135" status="active" primary-platform="rpc" sdl-version="x.x" name="Push To Talk key support" filename="0135-PushToTalk-hardkey-support.md"/>
-<proposal id="0136" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
-	
+<proposal id="0133" status="deferred" primary-platform="ios" sdl-version="x.x" name="EnhancediOSProxyInterface" filename="0133-EnhancediOSProxyInterface.md"/>
+<proposal id="0134" status="accepted" primary-platform="ios" sdl-version="x.x" name="Show Manager - iOS" filename="0134-ios-show-manager.md"/>
+<proposal id="0135" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Push To Talk key support" filename="0135-PushToTalk-hardkey-support.md"/>
+<proposal id="0136" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
+<proposal id="0137" status="deferred" primary-platform="rpc" sdl-version="x.x" name="TouchCoord outside video screen range" filename="0137-TouchCoord-outside-video-screen-range.md"/>
+<proposal id="0138" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Make 'audioPassThruCapabilities' of HMI an array" filename="0138-hmi-audiopassthru-capability.md"/>
+<proposal id="0139" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Clarification of audio format details of AudioPassThru" filename="0139-apt-clarification.md"/>
+<proposal id="0140" status="accepted" primary-platform="android" sdl-version="x.x" name="Android Manifest Metadata" filename="0140-android_metadata.md"/>
+<proposal id="0141" status="returned" primary-platform="rpc" sdl-version="x.x" name="Supporting simultaneous multiple transports" filename="0141-multiple-transports.md"/>
+<proposal id="0142" status="returned" primary-platform="protocol" sdl-version="x.x" name="Addition of 'App Instance ID' and 'Core Instance ID'" filename="0142-mt-instance-ids.md"/>
+<proposal id="0143" status="rejected" primary-platform="core" sdl-version="x.x" name="Add Service Discovery mechanism for TCP transport" filename="0143-mt-service-discovery.md"/>
+<proposal id="0144" status="active" primary-platform="core" sdl-version="x.x" name="Allow clients to specify legacy nicknames" filename="0144-app-nicknames.md"/>
+<proposal id="0145" status="active" primary-platform="core" sdl-version="x.x" name="Driver Distraction Notification Upon Registration" filename="0145-distraction-notification-after-registration.md"/>
 
 
 
 	
 <!--
 Recognized values for a proposal's status:
-	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected
+	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected, withdrawn
 
 Recognized values for primary-platform:
 	protocol, rpc, core, ios, android, policy, mobile (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
