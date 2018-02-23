@@ -42,6 +42,26 @@ In the Android and iOS clients, we should expand the SDL proxy interface to acce
 
 The core, upon connecting to a client that provides a list of app names, should use the list in the [validation process](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/application_manager/src/commands/mobile/register_app_interface_request.cc#L925) instead of the regular app name.
 
+An example of the solution's impact on `RegisterAppInterface` looks like:
+```
+<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="request">
+  :
+  <!-- existing parameter -->
+  <param name="appName" type="String" maxlength="100">
+     <description> ... </description>
+  </param>
+  <!-- newly added parameter -->
+  <param name="appNicknames" type="String" maxlength="100" minsize="1" maxsize="100" array="true" mandatory="false">
+    <description>
+      The list of nicknames configured for the app ID. Depending on the head unit's stored
+      policies, one of the listed nicknames will be used to register the application. The 
+      list should be ordered such that preferred nicknames preceed less desireable names.
+    </description>
+  </param>
+  :
+</function>
+```
+
 Regarding backward/forward compatibility:
 * An old client SDK version will be compatible with newer cores if the core continues accepting a single app name as is currently the case.
 * An old core version will be compatible with newer client SDKs if the client SDK sends the preferred name in the list as a single, main, app name. Naturally, this will still cause a name change to break the connection for some users with older cores.
