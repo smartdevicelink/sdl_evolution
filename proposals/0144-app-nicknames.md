@@ -28,7 +28,7 @@ For developers, there currently does not seem to be a clean way to work around t
 
 When creating an SDL proxy to instantiate the connection in the client, the developer should be able to provide a list of app names instead of just a single one. This list should be in order of preference, such that preferred names precede less desired legacy names. The core should use this list to determine which name to show for the app. If the first name is in their application policies for the given app ID, it should select that. If not, it should try the second, and so on. If none of the provided names are present, the connection would be disallowed as is currently the case.
 
-The documentation for nicknames should also be clarified and aligned across all SDL modules; it's currently not entirely clear to developers how nicknames are used in the validation process.
+The documentation for nicknames should also be clarified and aligned across all SDL modules. That is, by reading the documentation for app names or nicknames it should be clear to developers how the names affect the authentication process and what they should consider when specifying the names. E.g., the fact that they're used for authentication along with the app ID is not apparent at all from the documentation of [application policies](https://smartdevicelink.com/zh-hans/docs/sdl-server/master/policy-table/application-policies/), [`RegisterAppInterface`](https://www.smartdevicelink.com/en/docs/android/master/com/smartdevicelink/proxy/rpc/RegisterAppInterface/) or [`SdlProxyALM`](https://www.smartdevicelink.com/en/docs/android/master/com/smartdevicelink/proxy/SdlProxyALM/). It should also be clear how the newly introduced nicknames should be used and why they're there.
 
 
 ## Potential downsides
