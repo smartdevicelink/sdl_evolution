@@ -33,7 +33,7 @@ The documentation for nicknames should also be clarified and aligned across all 
 
 ## Potential downsides
 
-The user may see an outdated name of the app in the core's UI, potentially causing confusion if the app presents itself using the new name. A possible way to mitigate this downside (to a certain extend) could be to have the core return the name that it selected for the app. This would enable the client to use that name in the rest of the app, or show a message making the user aware of the inconsistent naming.
+The user may see an outdated name of the app in the core's UI, potentially causing confusion if the app presents itself using the new name. A possible way to mitigate this downside (to a certain extent) could be to have the core return the name that it selected for the app. This would enable the client to use that name in the rest of the app, or show a message making the user aware of the inconsistent naming.
 
 
 ## Impact on existing code
@@ -55,7 +55,7 @@ An example of the solution's impact on `RegisterAppInterface` looks like:
     <description>
       The list of nicknames configured for the app ID. Depending on the head unit's stored
       policies, one of the listed nicknames will be used to register the application. The 
-      list should be ordered such that preferred nicknames preceed less desireable names.
+      list should be ordered such that preferred nicknames preceed less desirable names.
     </description>
   </param>
   :
