@@ -31,9 +31,9 @@ Following sections will describe the idea in more detail.
 
 Proxy should set up Secondary Transport as soon as it is notified of available transport types for Secondary Transport and information that is necessary to set up the transport becomes available.
 
-During Version Negotiation, Core includes additional information in Start Service ACK frame to notify Proxy of the available transport types for Second Transport. At this point, Proxy can initiate setting up Secondary Transport. Because the additional information is conveyed in Start Service ACK, Secondary Transport is always set up after RPC service is started on Primary Transport.
+During Version Negotiation, Core includes additional information in Start Service ACK frame to notify Proxy of the available transport types for Secondary Transport. At this point, Proxy can initiate setting up Secondary Transport. Because the additional information is conveyed in Start Service ACK, Secondary Transport is always set up after RPC service is started on Primary Transport.
 
-The available transport types for Second Transport can be configured through smartDeviceLink.ini file.
+The available transport types for Secondary Transport can be configured through smartDeviceLink.ini file.
 
 Note that some transports require additional information for configuration (for example, TCP transport requires IP address and TCP port number of Core). In such case, Proxy waits until the necessary information becomes available then initiates Secondary Transport.
 
@@ -58,7 +58,7 @@ The reason that we use a Control Frame rather than RPC Notification is simply be
 During Version Negotiation, Core sends a matrix through Start Service ACK frame describing which service is allowed to run on which transports. Proxy honors this information and starts services only on an allowed transport (no matter if it is Primary or Secondary Transport.) The matrix can be configured through smartDeviceLink.ini file. Since RPC and Hybrid services always run on Primary Transport, only Video and Audio services are configurable.
 
 Our primary use-case is to run Video and Audio services on Wi-Fi and USB transports, but not on Bluetooth transport which has low bandwidth. A matrix can be set up to support this scenario:
-- When Proxy is connected using Bluetooth as Primary Transport, it initiates Video and Audio services only after TCP connection is added as Secondary Transport. If Second Transport is disconnected, Proxy stops these services. It will start Video and Audio services again once Secondary Transport is reconnected.
+- When Proxy is connected using Bluetooth as Primary Transport, it initiates Video and Audio services only after TCP connection is added as Secondary Transport. If Secondary Transport is disconnected, Proxy stops these services. It will start Video and Audio services again once Secondary Transport is reconnected.
 - When Proxy is connected using USB as Primary Transport, it initiates Video and Audio services on Primary Transport.
 
 The transport types included in the matrix are listed in preferred order, for example, Wi-Fi > USB > Bluetooth. In case the priority of Secondary Transport is higher than that of Primary Transport, Proxy will stop and restart services when Secondary Transport is added or removed. For example, when Video service is running on Bluetooth Primary Transport then Wi-Fi transport is added as Secondary Transport, Proxy stops the service and starts another Video service on Wi-Fi transport. When Wi-Fi transport is then disconnected, Proxy stops the service and starts another Video service on Bluetooth Transport. Please note that since we do not have such use-case right now, implementation of this feature will be in low priority.
@@ -252,7 +252,7 @@ HMI should be notified that an app is connected over multiple transports. Add an
 
 ## Potential downsides
 
-- This feature introduces additional logics in both Core and Proxy and will increase their complexity.
+- This feature introduces additional logic in both Core and Proxy and will increase their complexity.
 - When a single device is connected to SDL Core through multiple transports, different values of `DeviceUID` will be assigned per transport. Also, HMI receives multiple `DeviceInfo` information through `BasicCommunication.UpdateDeviceList` request, although there is actually one device. These behaviors may confuse HMI developers.<br>
 Note: these behaviors are already seen on current SDL Core when an app on a phone is connected through a transport and another app on the same phone is connected through a different transport.
 - Transferring a service between Primary and Secondary Transports may not be smooth as it involves terminating the service on a transport then restarting it on another transport.
@@ -271,7 +271,7 @@ Note: these behaviors are already seen on current SDL Core when an app on a phon
 ## Out of scope of this proposal
 
 - The authors have a use-case to prevent a video-streaming app from automatically launching on HMI if it is not connected with a high-bandwidth transport (i.e. Wi-Fi or USB). To realize this use-case, the resumption logic in SDL Core has to be modified. This feature will be addressed in another proposal [SDL-nnnn: Add capability to disable or reject an app based on app type, transport type and OS type][reg_limitation].
-- In some cases, SDL Core should not accept TCP connections on all network interfaces. For example, a head unit is equipped with a Wi-Fi network device and a communication module for cellar network, in which case the system will have two network interfaces. An OEM may want to accept SDL connection only through Wi-Fi's network interface and not through Internet connection. If we need to support such scenario, another proposal should be entered.
+- In some cases, SDL Core should not accept TCP connections on all network interfaces. For example, a head unit is equipped with a Wi-Fi network device and a communication module for cellular network, in which case the system will have two network interfaces. An OEM may want to accept SDL connection only through Wi-Fi's network interface and not through Internet connection. If we need to support such scenario, another proposal should be entered.
 
 
 ## Alternatives considered
