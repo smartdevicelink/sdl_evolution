@@ -71,6 +71,12 @@ Currently Session ID is managed per transport, so it is possible that two apps r
 
 The downside of this proposal is that maximum number of SDL apps that can connect to Core will be limited to 255.
 
+### Notification of transport type information from Core to Proxy
+
+The multiple-transports feature requires Proxy to control services based on the types of the transports. An issue with this approach is that iOS Proxy cannot know whether iAP transport is constructed over Bluetooth, USB or Wi-Fi (in the case of CarPlay wireless). This is because iOS system doesn't offer such information to apps.
+
+In this document, it is proposed that Core retrieves such transport information from its transport adapters and forward the information to Proxy. A parameter `transportType` is added to Start Service ACK frame to convey the information.
+
 ### Backward compatibility
 
 Proxy includes a new parameter `multipleTransports` in Start Service frames (both Version Negotiation and starting Video/Audio services) to indicate that it supports multiple-transports feature.
@@ -94,7 +100,7 @@ The new frame includes following parameter:
 
 Tag Name           | Type     | Description
 -------------------|----------|------------
-tcpTransportConfig | document | (Optional) Specify information necessary to set up TCP transport. The document may include following optional key-value pairs:<br><br>"ipv4Address": value is a string representation of IP address that SDL Core is listening on. Example: "192.168.1.1"<br>"ipv6Address: value is a string representation of IPv6 address that SDL Core is listening on. Example: "fd12:3456:789a::1"<br>"tcpPort": value is a 32-bit integer representing the TCP port number that SDL Core is listening on. Example: 12345<br><br>If neither "ipv4Address" nor "ipv6Address" is included, it indicates that the TCP transport becomes unavailable.
+tcpTransportConfig | document | (Optional) Specify information necessary to set up TCP transport. The document may include following optional key-value pairs:<br><br>"ipv4Address": value is a string representation of IP address that SDL Core is listening on. Example: "192.168.1.1"<br>"ipv6Address: value is a string representation of IPv6 address that SDL Core is listening on. Example: "fd12:3456:789a::1"<br>"tcpPort": value is a 32-bit integer representing the TCP port number that SDL Core is listening on. This value should be same as `TCPAdapterPort` in smartDeviceLink.ini file. Example: 12345<br><br>If neither "ipv4Address" nor "ipv6Address" is included, it indicates that the TCP transport becomes unavailable.
 
 Here is an example of a parameter included in Transport Config Update frame:
 
@@ -185,10 +191,10 @@ With this config class, Android Proxy sets up Bluetooth transport (preferably Mu
 
 ### Extension of Core
 
-* Conversion of `connection_key` values between Primary and Secondary Transports<br>
-`connection_key` value is included by `application_manager::Message` and `protocol_handler::RawMessage` classes. It is used to distinguish not only between connections but also between apps. Since connections through Primary Transport and Secondary Transports are different, the values of `connection_key` will be also different.<br>
-When Core receives a frame from Proxy through Secondary Transport, it should replace the value of `connection_key` with that of frames coming through Primary Transport. With this modification, Media Manager class should treat the frames from Secondary Transport as if they were received through Primary Transport.<br>
-Core uses the value of Session ID included in Start Service frame to find out the services initiated by a single app.
+* Handling messages from Secondary Transport as if they were received through Primary Transport<br>
+To minimize impacts on existing implementation, Core should treat incoming messages received through Secondary Transport as if they came from Primary Transport.<br>
+An idea is to overwrite `connection_key` value of the messages. The value is included in `application_manager::Message` and `protocol_handler::RawMessage` classes, and is used to distinguish between connections. Core remembers the value of `connection_key` of the frames that come from Primary Transport. When Core receives a frame through Secondary Transport, it replaces the value of `connection_key` with that of frames coming through Primary Transport.<br>
+Core uses the value of Session ID included in Start Service frame to find out which services are initiated by a single app.
 * Including additional parameters in Start Service ACK frame
 Core should include `secondaryTransport`, `servicesMap` and `transportType` parameters in Start Service ACK frame. The values of `secondaryTransport` and `servicesMap` are acquired from smartDeviceLink.ini file. For the value of `transportType`, ConnectionHandler keeps connection type (such as Bluetooth, USB, Wi-Fi) when a new connection is detected through OnConnectionEstablished() callback. Then it includes the connection type in `ConnectionHandlerObserver::OnServiceStartedCallback`.
 * Sending out `Transport Config Update` Control Frame<br>
