@@ -1,7 +1,7 @@
 # AOA multiplexing similar to Android BT/SPP multiplexing
 
 * Proposal: [SDL-0095](0095-AOA-multiplexing.md)
-* Author: [Jennifer Hodges](https://github.com/jhodges55), [Shinichi Watanabe](https://github.com/shinimwat)
+* Author: [Jennifer Hodges](https://github.com/jhodges55), [Shinichi Watanabe](https://github.com/shiniwat)
 * Status: **Returned for Revisions**
 * Impacted Platforms: [ Android ]
 
@@ -30,7 +30,7 @@ Currently, SDL app chooses the transport (either Bluetooth multiplexing, legacy 
  
 The affected classes in Android Proxy are shown below:
 
-![Class diagram of Android Proxy]0095-aoa-multiplexing-class-diagram.png)
+![Class diagram of Android Proxy](../assets/proposals/0095-aoa-multiplexing-class-diagram.png)
 
 **Fig. 1: affected classes in Android Proxy**
 
