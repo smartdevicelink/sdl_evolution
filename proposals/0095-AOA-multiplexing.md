@@ -13,7 +13,7 @@ This proposal aims to add AOA multiplexing capability to SdlRouterService.
 ## Motivation
 
 Currently SdlRouterService works for MultiplexTransport, which supports Bluetooth transport as the underlying transport. This proposal extends SdlRouterService to support both Bluetooth and AOA (Android Open Accessory) transports, so that multiple SDL applications can share the AOA transport without having to worry about USB connection.
-AOA protocol basically allows only single application to access the USB accessory -- if multiple applications are designed to use the same accessory, Android system asks which application to use the accessory and shows a permission dialog. This proposal allows multiple SDL applications to share the USB accessory. 
+AOA protocol basically allows only a single application to access the USB accessory -- if multiple applications are designed to use the same accessory, the Android system asks which application should use the accessory and shows a permission dialog. This proposal allows multiple SDL applications to share the USB accessory.
  
 ## Proposed solution
 
@@ -176,13 +176,13 @@ public class SdlRouterService extends Service {
 This feature introduces TransportType for TransportBroker and SdlRouterService. While this approach should have no obvious downsides, backward compatibility should be taken into account as much as we can.
 In particular, the following cases need to be confirmed:
 - Case #1: Older proxy's TransportBroker binds to new SdlRouterService. In this case, SdlRouterService assumes TransportType == MULTIPLEX for backward compatibility.
-- Case #2: Newer proxy's TransportBroker binds to older SdlRouterService. The older SdlRouterService won't support AOA multiplexing. In this case, the expected behavior is "don't bind to older SdlRouterService; instead, start and bind to newer (local) SdlRouterService". We can utilize existing version check and trusted router logic to make this case to work.
+- Case #2: Newer proxy's TransportBroker binds to older SdlRouterService. The older SdlRouterService won't support AOA multiplexing. In this case, the expected behavior is "don't bind to older SdlRouterService; instead, start and bind to newer (local) SdlRouterService". We can utilize existing version check and trusted router logic to make this case work.
 
-This feature also increases the IPC transaction between TransportBroker and SdlRouterService. While Android system has Binder Transaction Limit, which is explained at [TransactionTooLargeException Android document](https://developer.android.com/reference/android/os/TransactionTooLargeException.html), we won’t run into TransactionTooLargeException cases in real scenario based on our test, unless underlying transport has a fatal error. The fatal error case would be, for example, the case where we cannot write Bluetooth socket and/or USB's ParcelFileDescriptor for some reason. Those fatal error cases can be discussed in outside of this proposal.
+This feature also increases the IPC transaction between TransportBroker and SdlRouterService. While Android system has Binder Transaction Limit, which is explained at [TransactionTooLargeException Android document](https://developer.android.com/reference/android/os/TransactionTooLargeException.html), we won’t run into TransactionTooLargeException cases in real scenario based on our test, unless underlying transport has a fatal error. The fatal error case would be, for example, the case where we cannot write Bluetooth socket and/or USB's ParcelFileDescriptor for some reason. Those fatal error cases can be discussed outside of this proposal.
 
 ## Impact on existing code
 
-All the change will be made to Android Proxy, and there's no change required to SDL Core and/or other components.
+All changes will be made to Android Proxy, and there's no change required to SDL Core and/or other components.
 The proposed solution keeps existing logic of SdlRouterService intact, and hence there should be no obvious side effect for existing Bluetooth multiplexing.
 Because AOA multiplexing application explicitly specifies the transport, existing applications that use other transports should have no impact, as AOA multiplexing transport is not enabled. 
 
