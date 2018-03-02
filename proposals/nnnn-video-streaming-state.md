@@ -11,7 +11,7 @@ This proposal adds a new parameter `videoStreamingState` to `onHMIStatus` notifi
 
 ## Motivation
 
-Currently, without Projection apps, a mobile navigation app can start video streaming in HMI level `FULL` and can continue streaming while in HMI level `LIMITED` in order to have a good user experience. The app must stop video streaming after receiving `onHMIStatus` with HMI level `NONE` or `BACKGROUND`. If the app does not stop streaming after certain time, SDL Core will send a `StopService` Control Frame to the app in protocol layer. Therefore, the HMI level implies when a navigation app shall stop video streaming or not. There is no dedicate RPC message or parameter from SDL Core to mobile app to say ‘stop video streaming’ in application layer. 
+Currently, without Projection apps, a mobile navigation app can start video streaming in HMI level `FULL` and can continue streaming while in HMI level `LIMITED` in order to have a good user experience. The app must stop video streaming after receiving `onHMIStatus` with HMI level `NONE` or `BACKGROUND`. If the app does not stop streaming after certain amount of time, SDL Core will send a `StopService` Control Frame to the app in protocol layer. Therefore, the HMI level implies when a navigation app shall stop video streaming or not. There is no dedicated RPC message or parameter from SDL Core to mobile app to say ‘stop video streaming’ in application layer. 
 
 With the new projection apps coming, HMI level itself is not enough to tell when a navigation app or a projection app shall stop video streaming. For example, a driver launches a navigation app first, launches a non-media projection app next. The driver shall still be able to hear turn-by-turn instructions. The navigation app is in HMI level `LIMITED` with `audioStreamingState`=`AUDIBLE`. Because the projection app is streaming, the navigation app shall stop video streaming while it is still in `LIMITED`. (Compare to the case that the driver launches a navigation app and a media app in sequence. The navigation app is in HMI level `LIMITED` with `audioStreamingState`=` ATTENUATED`. It continues streaming video.)
 
@@ -34,7 +34,7 @@ Assume there is at most one app that can do video streaming at any time, the fol
 As before, if the app does not stop video service after receiving `onHMIStatus` with `videoStreamingState`=`NOT_STREAMABLE` for certain time, SDL Core shall send stop service control frame to the app.
 
 
-The transition of videoStreamingState is independent of the transition of hmiLevel. However, the transition of hmiLevel depends on both audioStreamingState and videoStreamingState. SDL Core shall move a meida/project/navigation app which is not `AUDIBLE` and not `STREAMABLE` to `BACKGROUND` HMI level. There are at most two meida/project/navigation apps which can be placed in HMI level `LIMITED`. In `LIMITED` level, an app can be either `AUDIBLE` or `STREAMABLE` or both.
+The transition of videoStreamingState is independent of the transition of hmiLevel. However, the transition of hmiLevel depends on both audioStreamingState and videoStreamingState. SDL Core shall move a media/project/navigation app which is not `AUDIBLE` and not `STREAMABLE` to `BACKGROUND` HMI level. There are at most two media/project/navigation apps which can be placed in HMI level `LIMITED`. In `LIMITED` level, an app can be either `AUDIBLE` or `STREAMABLE` or both.
 
 #### Mobile API
 ```xml
@@ -68,7 +68,7 @@ The transition of videoStreamingState is independent of the transition of hmiLev
 
 #### HMI API
 This proposal also adds a new enum value `PROJECTION` to data type `EventTypes`.
-HMI shall send a `OnEventChanged` notification with `EventTypes`=`PROJECTION` to SDL Core when HMI brings a projection app to foreground (`isActive`=`true`) or HMI switches from the foreground projection app (`isActive`=`false`).
+HMI shall send an `OnEventChanged` notification with `EventTypes`=`PROJECTION` to SDL Core when HMI brings a projection app to foreground (`isActive`=`true`) or HMI switches from the foreground projection app (`isActive`=`false`).
 
 
 ```xml
@@ -131,7 +131,7 @@ On iOS devices, we still lack an effective way to bring a background Navigation/
 </function>
 ```
 
-- Another alternative is that we can seperate one `STREAMABLE` state into two sub-states : `STREAMABLE_VISIBLE` and `STREAMABLE_NOT_VISIBLE`. However, this makes videoStreamingState coupled with HMI level. `VISIBLE` must be with `FULL` and `NOT_VISIBLE` must be with `LIMITED`.
+- Another alternative is that we can separate one `STREAMABLE` state into two sub-states : `STREAMABLE_VISIBLE` and `STREAMABLE_NOT_VISIBLE`. However, this makes videoStreamingState coupled with HMI level. `VISIBLE` must be with `FULL` and `NOT_VISIBLE` must be with `LIMITED`.
 
 ```xml
 <enum name="VideoStreamingState">
@@ -142,7 +142,7 @@ On iOS devices, we still lack an effective way to bring a background Navigation/
 </enum>
 ```
 
-- With the navigation apps, parameter `audioStreamingState` was extened from the original design purpose (an indicator just for A2DP BT audio service) to include new binary audio service. Along the same line of this proposal, add a new parameter `isAudioSource` for binary audio service only and make existing `audioStreamingState` just for A2DP audio. This makes things clear but needs more modifications to the existing code.
+- With the navigation apps, parameter `audioStreamingState` was extended from the original design purpose (an indicator just for A2DP BT audio service) to include new binary audio service. Along the same lines of this proposal, add a new parameter `isAudioSource` for binary audio service only and make existing `audioStreamingState` just for A2DP audio. This makes things clear but needs more modifications to the existing code.
 
 ```xml
 <function name="OnHMIStatus" functionID="OnHMIStatusID" messagetype="notification">
