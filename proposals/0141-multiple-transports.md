@@ -169,8 +169,7 @@ Android Proxy implementation should include:
 - support new Control Frame `Transport Config Update` to retrieve IP address and TCP port number, and
 - logic to stop and start services when Secondary Transport with higher priority becomes available or unavailable (in low priority)
 
-A new transport config class (derived from `BaseTransportConfig`) is added to enable multiple-transports feature. `SdlProxyALM` class may add a new constructor to use this transport config class.
-With this config class, Android Proxy sets up Bluetooth transport (preferably Multiplex transport) as Primary Transport and supports to add Secondary Transport. Initial implementation will target "Bluetooth as Primary, Wi-Fi as Secondary" use-case. The behavior of transport config may be extended in future, for instance to support AOA transport as Secondary Transport, or to use Wi-Fi transport as Primary Transport.
+Public API of `SdlProxyALM` is unchanged. App developers choose one of the constructors in `SdlProxyALM` to start Proxy as they do today. Secondary Transport will be automatically enabled and used inside Proxy.
 
 
 ### Extension of Core
@@ -253,7 +252,6 @@ Note: these behaviors are already seen on current SDL Core when an app on a phon
 
 * Most of the code changes are limited to protocol layer and below.
 * This proposal does not break compatibility, so basic sequence should be kept intact.
-* This proposal introduces a small update on Android Proxy's API.
 
 
 ## Out of scope of this proposal
