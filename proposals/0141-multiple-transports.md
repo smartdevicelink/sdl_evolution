@@ -67,7 +67,7 @@ The transport types included in the matrix are listed in preferred order, for ex
 
 One of the issues arising from multiple-transports feature is that SDL Core needs to distinguish between two cases: "a single SDL app connecting to SDL Core using two different transports" and "two instances of a SDL app on two phones connecting to SDL Core using different transports". For this purpose, this document proposes to update the specification of how Core assigns Session IDs.
 
-Currently Session ID is managed per transport, so it is possible that two apps receive same Session ID if they are connected through different transports. This behavior will be updated so that Core will assign different Session IDs to each app. Core will accept Start Service frame with a known Session ID and `multipleTransports` parameter (refer to the section below) even if the frame is received through Secondary Transport.
+Currently Session ID is managed per transport, so it is possible that two apps receive same Session ID if they are connected through different transports. This behavior will be updated so that Core will assign different Session IDs to each app. Core will accept Start Service frame with a known Session ID even if the frame is received through Secondary Transport.
 
 The downside of this proposal is that maximum number of SDL apps that can connect to Core will be limited to 255.
 
@@ -79,11 +79,11 @@ In this document, it is proposed that Core retrieves such transport information 
 
 ### Backward compatibility
 
-Proxy includes a new parameter `multipleTransports` in Start Service frames (both Version Negotiation and starting Video/Audio services) to indicate that it supports multiple-transports feature.
+Since we are adding a new Control Frame, the Protocol Version should be bumped, probably to 5.1.0. Core recognizes that Proxy supports multiple-transports feature by checking the version number.
 
 **New Proxy connecting to old version of Core:** SDL Core that does not support multiple-transports feature does not include additional parameters in Start Service ACK frame. When Proxy detects that the parameters are missing, it should disable multiple-transport feature (i.e. don't start Secondary Transport and run all services on Primary Transport.)
 
-**Old version of Proxy connecting to new Core:** Proxy that does not support multiple-transports feature does not include `multipleTransports` parameter in Start Service frame. When SDL Core detects that the parameter is missing, it should not include the additional parameters in Start Service ACK frame. It should also suppress sending `Transport Config Update` Control Frame to Proxy.
+**Old version of Proxy connecting to new Core:** Proxy that does not support multiple-transports feature uses Protocol version 5.0.0 or earlier. When SDL Core detects that the version is not 5.1.0 or higher, it should not include the additional parameters in Start Service ACK frame. It should also suppress sending `Transport Config Update` Control Frame since Proxy doesn't support it.
 
 
 ## Detailed design
@@ -100,25 +100,19 @@ The new frame includes following parameter:
 
 Tag Name           | Type     | Description
 -------------------|----------|------------
-tcpTransportConfig | document | (Optional) Specify information necessary to set up TCP transport. The document may include following optional key-value pairs:<br><br>"ipv4Address": value is a string representation of IP address that SDL Core is listening on. Example: "192.168.1.1"<br>"ipv6Address: value is a string representation of IPv6 address that SDL Core is listening on. Example: "fd12:3456:789a::1"<br>"tcpPort": value is a 32-bit integer representing the TCP port number that SDL Core is listening on. This value should be same as `TCPAdapterPort` in smartDeviceLink.ini file. Example: 12345<br><br>If neither "ipv4Address" nor "ipv6Address" is included, it indicates that the TCP transport becomes unavailable.
+tcpTransportConfig | document | (Optional) Specify information necessary to set up TCP transport. The document may include following optional key-value pairs:<br><br>"ipAddress": value is a string representation of IP address that SDL Core is listening on. It can be IPv4 address (example: "192.168.1.1") or IPv6 address (example: "fd12:3456:789a::1").<br>"tcpPort": value is a 32-bit integer representing the TCP port number that SDL Core is listening on. This value should be same as `TCPAdapterPort` in smartDeviceLink.ini file. Example: 12345<br><br>If "ipAddress" is not included, or it is empty, then it indicates that the TCP transport becomes unavailable.
 
 Here is an example of a parameter included in Transport Config Update frame:
 
 ```json
 {
   "tcpTransportConfig": {
-    "ipv4Address": "192.168.1.1",
+    "ipAddress": "192.168.1.1",
     "tcpPort": 12345
   }
 }
 ```
 
-
-Start Service frame for RPC, Video and Audio services include following parameter:
-
-Tag Name           | Type     | Description
--------------------|----------|------------
-multipleTransports | boolean  | (Optional) A flag to indicate that Proxy supports multiple-transports feature. A value of "true" indicates that it supports and enables the feature.<br>A proxy that does not intend to use multiple transports can omit this parameter.<br>This parameter should be included in Start Service frames on both Primary and Secondary Transports.
 
 Start Service ACK frame of RPC service includes following parameters:
 
@@ -195,6 +189,8 @@ With this config class, Android Proxy sets up Bluetooth transport (preferably Mu
 To minimize impacts on existing implementation, Core should treat incoming messages received through Secondary Transport as if they came from Primary Transport.<br>
 An idea is to overwrite `connection_key` value of the messages. The value is included in `application_manager::Message` and `protocol_handler::RawMessage` classes, and is used to distinguish between connections. Core remembers the value of `connection_key` of the frames that come from Primary Transport. When Core receives a frame through Secondary Transport, it replaces the value of `connection_key` with that of frames coming through Primary Transport.<br>
 Core uses the value of Session ID included in Start Service frame to find out which services are initiated by a single app.
+* Updating the logic to assign Session IDs<br>
+Implementation is updated so that SDL Core will not manage Session IDs per transport, but it will assign different Session ID to each app.
 * Including additional parameters in Start Service ACK frame
 Core should include `secondaryTransport`, `servicesMap` and `transportType` parameters in Start Service ACK frame. The values of `secondaryTransport` and `servicesMap` are acquired from smartDeviceLink.ini file. For the value of `transportType`, ConnectionHandler keeps connection type (such as Bluetooth, USB, Wi-Fi) when a new connection is detected through OnConnectionEstablished() callback. Then it includes the connection type in `ConnectionHandlerObserver::OnServiceStartedCallback`.
 * Sending out `Transport Config Update` Control Frame<br>
@@ -259,6 +255,8 @@ Note: these behaviors are already seen on current SDL Core when an app on a phon
 - When SDL Core supports multiple-transports feature, Proxy will always open Secondary Transport even if no service will run on it.
 - This proposal enables communication over Bluetooth and Wi-Fi transports at the same time. It may introduce wireless interference when Wi-Fi is running in 2.4GHz band. Note that the degree of interference depends on hardware, so we cannot tell if it is a significant issue.
 - Because of the updated specification of Session ID, maximum number of SDL apps that can connect to Core will be limited to 255.
+- Core may not return a Start Service NAK frame when a malformed Proxy sends a Start Service frame on a transport with Session ID != 0.
+- Protocol version is bumped.
 
 
 ## Impact on existing code
