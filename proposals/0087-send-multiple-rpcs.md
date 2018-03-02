@@ -1,6 +1,6 @@
 # Sequentially Send Multiple RPCs
 
-* Proposal: [SDL-0087](0087-send-multiple-rpcs-ios.md)
+* Proposal: [SDL-0087](0087-send-multiple-rpcs.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer),[Joey Grover](https://github.com/joeygrover) 
 * Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS, Android]
