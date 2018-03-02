@@ -20,7 +20,7 @@ This proposal aims to address such limitations by utilizing multiple transports,
 
 The basic idea is that:
 - After Proxy is connected to Core, it initiates another connection over a different transport. (Hereafter, the transport used by the first connection is called `Primary Transport`. The transport used by the additional connection is called `Secondary Transport`.)
-- Core tells Proxy which transports can be used as Secondary Transport.
+- Core tells Proxy which transport can be used as Secondary Transport.
 - Core and Proxy run some of the services on Secondary Transport. The services that are allowed on the Secondary Transport are specified by Core. Note that RPC and Hybrid services always run on Primary Transport.
 - Core notifies Proxy of the information that is necessary to establish a TCP connection.
 - Core's behavior on generating Session ID is changed, so that a unique Session ID is assigned to each app.
@@ -33,7 +33,7 @@ Proxy should set up Secondary Transport as soon as it is notified of available t
 
 During Version Negotiation, Core includes additional information in Start Service ACK frame to notify Proxy of the available transport types for Secondary Transport. At this point, Proxy can initiate setting up Secondary Transport. Because the additional information is conveyed in Start Service ACK, Secondary Transport is always set up after RPC service is started on Primary Transport.
 
-The available transport types for Secondary Transport can be configured through smartDeviceLink.ini file.
+The available transport type for Secondary Transport can be configured through smartDeviceLink.ini file.
 
 Note that some transports require additional information for configuration (for example, TCP transport requires IP address and TCP port number of Core). In such case, Proxy waits until the necessary information becomes available then initiates Secondary Transport.
 
@@ -55,13 +55,13 @@ The reason that we use a Control Frame rather than RPC Notification is simply be
 
 ### Services that are allowed on each transport
 
-During Version Negotiation, Core sends a matrix through Start Service ACK frame describing which service is allowed to run on which transports. Proxy honors this information and starts services only on an allowed transport (no matter if it is Primary or Secondary Transport.) The matrix can be configured through smartDeviceLink.ini file. Since RPC and Hybrid services always run on Primary Transport, only Video and Audio services are configurable.
+During Version Negotiation, Core sends a matrix through Start Service ACK frame describing which service is allowed to run on which transports (Primary, Secondary or both). Proxy honors this information and starts services only on an allowed transport. The matrix can be configured through smartDeviceLink.ini file. Since RPC and Hybrid services always run on Primary Transport, only Video and Audio services are configurable.
 
 Our primary use-case is to run Video and Audio services on Wi-Fi and USB transports, but not on Bluetooth transport which has low bandwidth. A matrix can be set up to support this scenario:
 - When Proxy is connected using Bluetooth as Primary Transport, it initiates Video and Audio services only after TCP connection is added as Secondary Transport. If Secondary Transport is disconnected, Proxy stops these services. It will start Video and Audio services again once Secondary Transport is reconnected.
 - When Proxy is connected using USB as Primary Transport, it initiates Video and Audio services on Primary Transport.
 
-The transport types included in the matrix are listed in preferred order, for example, Wi-Fi > USB > Bluetooth. In case the priority of Secondary Transport is higher than that of Primary Transport, Proxy will stop and restart services when Secondary Transport is added or removed. For example, when Video service is running on Bluetooth Primary Transport then Wi-Fi transport is added as Secondary Transport, Proxy stops the service and starts another Video service on Wi-Fi transport. When Wi-Fi transport is then disconnected, Proxy stops the service and starts another Video service on Bluetooth Transport. Please note that since we do not have such use-case right now, implementation of this feature will be in low priority.
+The transport types included in the matrix are listed in preferred order, for example, Secondary > Primary. In case the priority of Secondary Transport is higher than that of Primary Transport, Proxy will stop and restart services when Secondary Transport is added or removed. For example, when Video service is running on Bluetooth Primary Transport then Wi-Fi transport is added as Secondary Transport, Proxy stops the service and starts another Video service on Wi-Fi transport. When Wi-Fi transport is then disconnected, Proxy stops the service and starts another Video service on Bluetooth Transport. Please note that since we do not have such use-case right now, implementation of this feature will be in low priority.
 
 ### How Core determines that a single app initiates multiple transports
 
@@ -70,12 +70,6 @@ One of the issues arising from multiple-transports feature is that SDL Core need
 Currently Session ID is managed per transport, so it is possible that two apps receive same Session ID if they are connected through different transports. This behavior will be updated so that Core will assign different Session IDs to each app. Core will accept Start Service frame with a known Session ID even if the frame is received through Secondary Transport.
 
 The downside of this proposal is that maximum number of SDL apps that can connect to Core will be limited to 255.
-
-### Notification of transport type information from Core to Proxy
-
-The multiple-transports feature requires Proxy to control services based on the types of the transports. An issue with this approach is that iOS Proxy cannot know whether iAP transport is constructed over Bluetooth, USB or Wi-Fi (in the case of CarPlay wireless). This is because iOS system doesn't offer such information to apps.
-
-In this document, it is proposed that Core retrieves such transport information from its transport adapters and forward the information to Proxy. A parameter `transportType` is added to Start Service ACK frame to convey the information.
 
 ### Backward compatibility
 
@@ -118,9 +112,8 @@ Start Service ACK frame of RPC service includes following parameters:
 
 Tag Name           | Type             | Description
 -------------------|------------------|------------
-secondaryTransport | Array of strings | (Optional) List of transport types which Core allows to use for Secondary Transport. The transport types are listed in preferred order. Refer to Table 1 for possible values.<br>This parameter is included in the Start Service frame for Version Negotiation. It should not be included in the Start Service frame on Secondary Transport.<br>If Core does not allow setting up the Secondary Transport, it can omit this parameter.
-servicesMap        | document         | (Optional) A map indicating which service is allowed on which transport(s).<br>The keys of this map are string representations of service number in hex, i.e. "0x00" through "0xFF". The values are arrays of strings, whose possible values are listed in Table 1. The transports are listed in preferred order. Proxy must not start the service on a transport that is not listed in the values.<br>Values for "0x00" (Control Service), "0x07" (Remote Procedure Call Service) and "0x0F" (Hybrid Service) will be ignored by Proxy since they are set up on specific transports.<br>This parameter should not be included in the Start Service frame on Secondary Transport.
-transportType      | string           | (Optional) Notifies current type of transport to Proxy. This is mostly for iOS Proxy, but should also be sent for Android Proxy for consistency. <br>This parameter should be included in Start Service ACK frames on both Primary and Secondary transports.<br>Refer to Table 1 for the available strings.
+secondaryTransport | string           | (Optional) Transport type which Core allows to use for Secondary Transport. Refer to Table 1 for possible values.<br>This parameter is included in the Start Service frame for Version Negotiation. It should not be included in the Start Service frame on Secondary Transport.<br>If Core does not allow setting up the Secondary Transport, it can omit this parameter.
+servicesMap        | document         | (Optional) A map indicating which service is allowed on which transport(s).<br>The keys of this map are string representations of service number in hex, i.e. "0x00" through "0xFF". The values are arrays of int32, whose possible values are either 1 (meaning "Primary Transport") or 2 (meaning "Secondary Transport"). The transports are listed in preferred order. Proxy must not start the service on a transport that is not listed in the values.<br>Values for "0x00" (Control Service), "0x07" (Remote Procedure Call Service) and "0x0F" (Hybrid Service) will be ignored by Proxy since they are set up on specific transports.<br>This parameter should not be included in the Start Service frame on Secondary Transport.
 
 **Table 1: list of transport type strings**
 
@@ -134,25 +127,22 @@ IAP\_CARPLAY           | iAP over Carplay wireless
 SPP\_BLUETOOTH         | Bluetooth SPP. Either legacy SPP or SPP multiplexing.
 AOA\_USB               | Android Open Accessory
 TCP\_WIFI              | TCP connection over Wi-Fi
-UNKNOWN                | This indicates that SDL Protocol is running on a transport not listed above. This value is only used for `transportType`.
 
 
 Here is an example of parameters in Start Service ACK frame:
 
 ```json
 {
-  "secondaryTransport": ["TCP_WIFI"],
+  "secondaryTransport": "TCP_WIFI",
   "servicesMap": {
-    "0x0A": ["TCP_WIFI", "IAP_CARPLAY", "IAP_USB_HOST_MODE", "IAP_USB_DEVICE_MODE", "IAP_USB", "AOA_USB"],
-    "0x0B": ["TCP_WIFI", "IAP_CARPLAY", "IAP_USB_HOST_MODE", "IAP_USB_DEVICE_MODE", "IAP_USB", "AOA_USB"]
-  },
-  "transportType": "IAP_BLUETOOTH"
+    "0x0A": [2],
+    "0x0B": [2]
+  }
 }
 ```
 This indicates:
-- that Core supports multiple-transports feature and allows Wi-Fi (TCP) transport to be used as a Secondary Transport,
-- that current transport (Primary Transport) is iAP over Bluetooth, and
-- that Core allows video and audio services to run on Wi-Fi and USB transports (either Primary or Secondary) but does NOT allow to run them on a Bluetooth transport.
+- that Core supports multiple-transports feature and allows Wi-Fi (TCP) transport to be used as a Secondary Transport, and
+- that Core allows video and audio services to run on Secondary Transport but does NOT allow to run them on Primary Transport.
 
 Note: Start Service, Start Service ACK, Start Service NAK, End Service, End Service ACK, and End Service NAK are sent on both Primary and Secondary Transports. Other Control Frames are always transferred on Primary Transport. (Currently, only `Transport Config Update` frame is applied.)
 
@@ -192,7 +182,7 @@ Core uses the value of Session ID included in Start Service frame to find out wh
 * Updating the logic to assign Session IDs<br>
 Implementation is updated so that SDL Core will not manage Session IDs per transport, but it will assign different Session ID to each app.
 * Including additional parameters in Start Service ACK frame
-Core should include `secondaryTransport`, `servicesMap` and `transportType` parameters in Start Service ACK frame. The values of `secondaryTransport` and `servicesMap` are acquired from smartDeviceLink.ini file. For the value of `transportType`, ConnectionHandler keeps connection type (such as Bluetooth, USB, Wi-Fi) when a new connection is detected through OnConnectionEstablished() callback. Then it includes the connection type in `ConnectionHandlerObserver::OnServiceStartedCallback`.
+Core should include `secondaryTransport` and `servicesMap` parameters in Start Service ACK frame. The value of `secondaryTransport` is acquired from smartDeviceLink.ini file. The value of `servicesMap` is calculated based on input from smartDeviceLink.ini file and transport type of Primary Transport.
 * Sending out `Transport Config Update` Control Frame<br>
 When the state of a network interface changes, Core should send out `Transport Config Update` frame to Proxy. `TcpClientListener` and related classes are likely to be updated to support this feature.
 * Notifying HMI of Secondary Transport being added or removed<br>
@@ -280,6 +270,7 @@ Note: these behaviors are already seen on current SDL Core when an app on a phon
 * Use a service discovery mechanism to convey IP address and TCP port number of SDL Core to Proxy. Right now, this is not needed as Wi-Fi transport is always used as Secondary Transport. It will be required if we want to utilize Wi-Fi transport as Primary Transport in future.
 * Instead of using Session ID as app identifier, introduce a new ID such as "App Instance ID" which is generated by Proxy and sent to Core during Version Negotiation. This approach should also work. The only downside is that we need to create a specification for the ID and Proxy may have additional complexity.
 * Support Hybrid service running on Secondary Transport. For this use-case, we will need a mechanism to seamlessly transfer the service between Primary and Secondary Transports. (Note that since Hybrid service is an extension of RPC service, it will be always started on Primary Transport.)
+* Extend the value of `secondaryTransport` parameter to accept multiple candidates of Secondary Transport. This will end up with Android Proxy running all three kinds of transports (Wi-Fi, Bluetooth and AOA) waiting for connections at the same time, and will introduces much complexity. If we need such advanced feature, perhaps another proposal can be entered in future, with a simplified implementation that Android Proxy will switch to another Secondary Transport only when current Secondary Transport is disconnected.
 * Introduce existing protocol like MPTCP (Multi-path TCP) or SCTP (Stream Control Transport Protocol). This will introduce a large amount of code (either implemented by SDLC members or using existing open-source library) and increases complexity.
 
 
