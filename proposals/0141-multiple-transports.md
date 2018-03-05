@@ -180,7 +180,8 @@ Public API of `SdlProxyALM` is unchanged. App developers choose one of the const
 ### Extension of Core
 
 * Detecting connection of Secondary Transport<br>
-When Core receives a Start Service frame for RPC service with non-zero Session ID, and the ID is not known on that connection, then Core recognizes that Proxy initiates Secondary Transport. The implementation of `ConnectionHandlerImpl` and `Connection` classes will be updated. `ConnectionHandlerImpl` class will also notify `ApplicationManagerImpl` class of the event through `OnServiceStartedCallback`.
+When Core receives a Start Service frame for RPC service with non-zero Session ID, and the ID is not known on that connection, then Core recognizes that Proxy initiates Secondary Transport. The implementation of `ConnectionHandlerImpl` and `Connection` classes will be updated. `ConnectionHandlerImpl` class will also notify `ApplicationManagerImpl` class of the event through `OnServiceStartedCallback`.<br>
+`Application` and `ApplicationImpl` classes are updated to keep `DeviceHandle` for Secondary Transport.
 * Handling messages from Secondary Transport as if they were received through Primary Transport<br>
 To minimize impacts on existing implementation, Core should treat incoming messages received through Secondary Transport as if they came from Primary Transport.<br>
 An idea is to overwrite `connection_key` value of the messages. The value is included in `application_manager::Message` and `protocol_handler::RawMessage` classes, and is used to distinguish between connections. Core remembers the value of `connection_key` of the frames that come from Primary Transport. When Core receives a frame through Secondary Transport, it replaces the value of `connection_key` with that of frames coming through Primary Transport.<br>
