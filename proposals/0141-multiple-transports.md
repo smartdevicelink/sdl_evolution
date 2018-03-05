@@ -216,9 +216,9 @@ SecondaryTransportForWiFi =
 ; If the entry of a service is completely omitted, the service will be allowed on all transports.
 ; Possible values are: IAP_BLUETOOTH, IAP_USB, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_CARPLAY, SPP_BLUETOOTH, AOA_USB and TCP_WIFI.
 ; Note: this configuration is applied even if multiple-transports feature is not enabled.
-; Video service
-0x0A = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
 ; Audio service
+0x0A = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
+; Video service
 0x0B = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
 ```
 
