@@ -1,133 +1,122 @@
-# Add capability to disable or reject an app based on app type, transport type and OS type
+# Add capability to disable resumption based on app type and transport type
 
 * Proposal: [SDL-nnnn](nnnn-mt-registration-limitation.md)
 * Author: [Sho Amano](https://github.com/shoamano83), [Robin Kurian](https://github.com/robinmk)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / RPC]
+* Impacted Platforms: [Core]
 
 ## Introduction
 
-This document proposes to add an advanced feature to limit app's registration based on AppHMIType, transport type and OS type. This is related to the proposal [SDL-nnnn: Supporting simultaneous multiple transports][multiple_transports].
+This document proposes to add an advanced feature to disable resumption feature based on AppHMIType and transport type. This is related to proposal [SDL-0141: Supporting simultaneous multiple transports][multiple_transports].
 
 
 ## Motivation
 
-According to [Apple's document][ios_background], iOS may close network sockets when an iOS app goes to background. This means, the Wi-Fi (TCP) transport of an iOS SDL app can be suddenly disconnected while the app is in background. Since most of the users are not aware of such OS limitation, this app's behavior looks very confusing.
+With the feature discussed in [SDL-0141: Supporting simultaneous multiple transports][multiple_transports], an mobile projection app will be able to utilize an additional high-bandwidth transport (called `Secondary Transport`) for video and audio streaming. However, the Secondary Transport may not be always available. For example, Wi-Fi functionality may be disabled on a head unit through user's configuration. Or the functionality can take time to initialize right after ignition on.
 
-A possible solution for this issue is to prevent the user from using SDL app while the app is connected only through Wi-Fi (TCP) transport. For example, registration of an app is rejected when the app does not establish iAP transport yet. Or, the registration can succeed but Core prevents the app from being started on HMI.
+In such cases, it is possible that the mobile projection app will connect through Bluetooth transport, will receive HMILevel FULL and will not start video streaming according to configuration provided by Core (please refer to the proposal [SDL-0141][multiple_transports] for the configuration). HMI will show nothing on the screen since the streaming isn't started. This will lead to user's confusion.
 
-Typical use-case is as follows. An OEM wants to allow using Wi-Fi transport only for navigation and mobile projection apps on iOS. It wants to allow only iAP transport for other types of apps to avoid user's confusion.
-- When a navigation or mobile projection iOS app is connected to Core only with Wi-Fi transport, Core grants the registration but keeps its HMI level to NONE. No resumption is triggered, and Core won't notify BC.OnAppRegistered to HMI. Once the app adds a connection through iAP transport, resumption and BC.OnAppRegistered notification will be triggered.
-- When other types of iOS apps are connected to Core only with Wi-Fi transport, Core rejects their registrations. Proxy will use another transport (iAP) to try the registration.
-- When an iOS app is connected and registered through iAP transport, then Wi-Fi transport is established, then these restrictions will not apply.
+This document proposes to disable resumption feature in such case, so that HMI will not show the app until Secondary Transport is connected (and video streaming is eventually started.) HMI will stay in another screen, for example app selection list. Also, HMI may implement an error message stating that Wi-Fi or USB transport is required for a mobile projection app to work.
+
+Note: the author thinks the resumption procedure has two stages. The first stage is that Core restores an app's HMILevel to non-NONE after the app is registered. The second stage is that Core restores the app's data based on stored information and Hash ID sent by the app. We discuss the first stage in this document. The term "disable resumption" means that Core doesn't restore an app's HMILevel after registration.
 
 
 ## Proposed solution
 
-The proposed solution is to add an advanced feature in Core to:
-- Reject an app's registration based on its AppHMIType, the transport type and/or OS type.
-  * Core will also unregister an app after certain timeout if above condition is met while the app is running. (For example, the mandatory transport is disconnected and does not recover within the timeout.)
-- Prevent an app being launched based on its AppHMIType, the transport type and/or OS type.
-  * After the app is registered, Core keeps its HMI level to NONE, it will not trigger resumption, and it will not notify BC.OnAppRegistered to HMI.
-  * Core will also put the app's HMI level to NONE and notify BC.OnAppUnregistered to HMI after certain timeout if above condition is met while the app is running. (For example, the mandatory transport is disconnected and does not recover within the timeout.)
+The proposed solution is to make the resumption feature configurable based on app's AppHMIType and transport type. The use-case in mind is to keep HMILevel of navigation and mobile projection apps to NONE until they are also connected through a high-bandwidth transport. The solution can be also used to specify AppHMIType that are allowed to receive non-NONE HMILevel after registration. For example, we can specify that only `MEDIA` apps receive non-NONE level.
 
-These features can be configured through smartDeviceLink.ini so that OEMs can enable, disable or customize their behavior.
+The solution can be configured through smartDeviceLink.ini so that each OEM can customize the behavior.
 
 
 ## Detailed design
-
-### Modification of MOBILE\_API.xml
-
-Add `UNAUTHORIZED_TRANSPORT_REGISTRATION` error enum. This value is used by RegisterAppInterface response, so `resultCode` param of RegisterAppInterface response should be updated as well.
-
-```xml
-    <enum name="Result" internal_scope="base">
-
-        :
-
-        <element name="UNAUTHORIZED_TRANSPORT_REGISTRATION">
-            <description>Core doesn't accept registration based on the app's transport type, AppHMIType and OS type. Try registration using another transport.</description>
-        </element>
-```
 
 ### Modification of Core
 
 smartDeviceLink.ini includes following new sections. (Note: the default values are provided as an example.)
 
 ```ini
-[AcceptedAppHMITypeTable]
-; This section is used to filter apps that can be registered.
-; Apps with AppHMITypes specified in this section are allowed to register.
-; AppHMITypes are specified per transport and OS type. OEM can, for example, reject registration request from specific transport.
-; The AppHMIType(s) is/are specified as comma-separated list. If the list should be empty, specify 'none'.
-; 'empty' is a special word indicating apps that do not specify AppHMIType.
-; '*' indicates all apps, including those that do not have AppHMIType specified.
-WiFi-iOS = none
-WiFi-Android = *
-iAP = *
-Bluetooth-SPP = *
-AOA = *
+[TransportRequiredForResumption]
+; This section specifies transport types that are required to trigger resumption for each AppHMIType.
+; App has to be connected through at least one of the transport listed (either as the Primary
+; Transport or Secondary Transport) to trigger resumption. If the app is not connected with any of
+; the transports listed, its HMIlevel will be kept in NONE and the state stays in NOT_AUDIBLE.
+; In case an app has multiple AppHMIType, requirements of all of the AppHMITypes are applied.
+; Possible AppHMITypes: DEFAULT, COMMUNICATION, MEDIA, MESSAGING, NAVIGATION, INFORMATION, SOCIAL,
+;                       BACKGROUND_PROCESS, TESTING, SYSTEM, PROJECTION, REMOTE_CONTROL, NONE
+; Possible transport types: TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB,
+;                           AOA_USB, IAP_BLUETOOTH, SPP_BLUETOOTH
+;
+; The default behavior is to always enable resumption. If an AppHMIType is not listed in this
+: section, resumption is enabled for an app with the AppHMIType.
+; On the other hand, if you want to disable resumption and always keep an app in NONE and
+; NOT_AUDIBLE state after registration, specify an empty value for the AppHMIType.
 
-[DisabledAppHMITypeTable]
-; This section is used to specify apps that can be registered but not allowed to launch.
-; Apps with AppHMITypes specified in this section are allowed to register. However, they will be kept in HMILevel NONE and
-; will not be notified to HMI.
-; AppHMITypes are specified per transport and OS type. OEM can, for example, disable specific type(s) of apps which are connected
-; through specific transport.
-; The AppHMIType(s) is/are specified as comma-separated list. If the list should be empty, specify 'none'.
-; 'empty' is a special word indicating apps that do not specify AppHMIType.
-; '*' indicates all apps, including those that do not have AppHMIType specified.
-; If same AppHMIType is specified in both AcceptedAppHMITypeTable and DisabledAppHMITypeTable, the entry in DisabledAppHMITypeTable is
-; ignored and apps with the AppHMIType are launched as usual.
-; also, if an app has multiple AppHMITypes, and they are listed in both AcceptedAppHMITypeTable and DisabledAppHMITypeTable, then the
-; app is launched as usual.
-; If an AppHMIType is not specified to neither AcceptedAppHMITypeTable nor DisabledAppHMITypeTable, then apps with the AppHMIType
-; are rejected for registration through the transport. WiFi-iOS = NAVIGATION, PROJECTION
-WiFi-Android = none
-iAP = none
-Bluetooth-SPP = none
-AOA = none
+; DEFAULT =
+; COMMUNICATION =
+; MEDIA =
+; MESSAGING =
+NAVIGATION = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
+; INFORMATION =
+; SOCIAL =
+; BACKGROUND_PROCESS =
+; TESTING =
+; SYSTEM =
+PROJECTION = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
+; REMOTE_CONTROL =
+; "NONE" applies to apps that don't specify any AppHMIType
+; NONE =
 ```
 
-In these sections, `WiFi-iOS` entry is for registration from iOS app through Wi-Fi transport. `WiFi-Android` is for registration from Android app through Wi-Fi transport. `iAP` is for iOS apps. `Bluetooth-SPP` and `AOA` are for Android apps.
+The example shown in the smartDeviceLink.ini above indicates that `NAVIGATION` and `PROJECTION` apps require one of Wi-Fi or USB transports to enable resumption. Which means, when they are connected only with Bluetooth transport, their HMILevels are kept in NONE and they are put in NOT\_AUDIBLE state. Other AppHMITypes do not have restriction, so resumption will be always enabled for them.
 
-For backward compatibility, these features should be disabled when the sections do not exist in smartDeviceLink.ini file.
+Resumption for an app with an AppHMIType should be always enabled if the AppHMIType is not listed in the section of the smartDeviceLink.ini file. This is to keep compatibility with existing file.
+
+The transport type strings are described by Table 1 in [SDL-0141][multiple_transports]. The table is also copied below for convenience:
+
+String                 | Description
+-----------------------|------------
+IAP\_BLUETOOTH         | iAP over Bluetooth
+IAP\_USB               | iAP over USB, and Core cannot distinguish between Host Mode and Device Mode.
+IAP\_USB\_HOST\_MODE   | iAP over USB, and the phone is running as host
+IAP\_USB\_DEVICE\_MODE | iAP over USB, and the phone is running as device
+IAP\_CARPLAY           | iAP over Carplay wireless
+SPP\_BLUETOOTH         | Bluetooth SPP. Either legacy SPP or SPP multiplexing.
+AOA\_USB               | Android Open Accessory
+TCP\_WIFI              | TCP connection over Wi-Fi
+
 
 Core is updated to include following implementations:
+- `ApplicationManagerImpl` class includes additional logic to disable resumption based on the configuration and app's transport when processing RegisterAppInterface request.
+- `ApplicationManagerImpl` class detects a connection of Secondary Transport through `OnServiceStartedCallback` callback (please refer to the proposal [SDL-0141][multiple_transports]) and triggers a resumption procedure if the condition is met.
 - `Profile` class is updated to read and parse the new configuration sections
-- `ApplicationManagerImpl` class includes additional implementation to reject RegisterAppInterface request based on the given condition, or accept it but prevents resumption and BC.OnAppRegistered notification.
-- `ApplicationManagerImpl` class includes additional implementation to start a timer when given condition are not met (due to transport disconnection). When the timer is fired, the class either puts the app's HMI level to NONE and notify BC.OnAppUnregistered notification, or unregister the app.
-
-### Modifications of Proxies
-
-iOS and Android Proxies should handle the new RegisterAppInterface response error `UNAUTHORIZED_TRANSPORT_REGISTRATION`. Proxy should continue trying to connect to Core and register through another transport. Also, once registration is successful with a transport, it should retry establishing the transport in which RegisterAppInterface has failed.
 
 
 ## Potential downsides
 
-* App registration sequence, especially the retry logic in Proxy, gets more complicated.
-* Since smartDeviceLink.ini file is not visible to mobile application developers, they may be confused that some apps are allowed to use a transport (such as Wi-Fi) but others aren't. They may also be confused that an app may be kept in HMI level NONE under a condition that is not open to them.
+* The resumption sequence in Core will be more complicated.
+* Since smartDeviceLink.ini file is not visible to mobile application developers, they may be confused that apps with certain AppHMITypes are launched automatically while other apps aren't. Or, they may also be confused that an app is automatically launched on a head unit from an OEM while it isn't on a head unit from another OEM.
 
 
 ## Impact on existing code
 
-This proposal impacts the basic app registration sequence in Core.
+* This proposal impacts resumption sequence in Core that runs after app's registration.
+* This proposal will not affect Proxy, HMI and RPC.
+
+
+## Out of scope of this proposal
+
+When a mobile projection app is connected through Bluetooth and Wi-Fi transports then the Wi-Fi transport is disconnected, HMI may want to terminate the app instead of showing a frozen screen. Since this proposal only changes the behavior of resumption, such use-case is not covered. OEMs may implement logic in HMI to terminate the app (using `BC.OnExitApplication` with `reason` being `USER_EXIT`) when the Secondary Transport is disconnected.
 
 
 ## Alternatives considered
 
-* Instead of adding the features in Core, update iOS Proxy to meet the basic requirement. That is, iOS Proxy always tries iAP connection before starting Wi-Fi transport (unless the app specifies to use TCP transport for debugging). When the Proxy uses both iAP and Wi-Fi transports, and iAP gets disconnected, Proxy closes Wi-Fi transport after certain time.<br>
-This approach should have less impact to the system since we do not update Core implementation. The disadvantage is that it is not a generic solution and is not flexible. Also, OEMs cannot choose to enable or disable the feature.
-* Instead of adding logic in Core, add it in HMI. The issue with this approach is that HMI cannot control app launching completely, since Core may launch an app using resumption.
-* Instead of rejecting RegisterAppInterface, send Start Service NACK during Version Negotiation. In this approach, Proxy's implementation can get more complex since it should initiate Start Service again after RegisterAppInterface is succeeded and another transport is established on it.
+* Instead of adding logic in Core, add it in HMI. The issue with this approach is that an app will be shown on HMI for a short time until HMI terminates it. Such behavior may lead to user's another confusion. Also, the author thinks that logic to manage and control apps' states should be implemented in Core, not in HMI.
 
 
 ## References
 
-- [Background Execution][ios_background] from App Programming Guide for iOS
-- [SDL-nnnn: Supporting simultaneous multiple transports][multiple_transports]
+- [SDL-0141: Supporting simultaneous multiple transports][multiple_transports]
 
 
-  [ios_background]:  https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html  "Background Execution"
-  [multiple_transports]: nnnn-multiple-transports.md  "Supporting simultaneous multiple transports"
+  [multiple_transports]: 0141-multiple-transports.md  "Supporting simultaneous multiple transports"
 
