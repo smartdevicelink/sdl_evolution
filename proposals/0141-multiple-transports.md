@@ -37,7 +37,9 @@ The available transport type for Secondary Transport can be configured through s
 
 Note that some transports require additional information for configuration (for example, TCP transport requires IP address and TCP port number of Core). In such case, Proxy waits until the necessary information becomes available then initiates Secondary Transport.
 
-When starting a service over Secondary Transport, Proxy simply runs the sequence of Start Service and Start Service ACK frames.
+After Secondary Transport is established, Proxy sends a Start Service frame for RPC service on it. Note that Proxy and Core don't run RPC service on Secondary Transport. This procedure is just for Core to recognize that Proxy initiates Secondary Transport, because Core cannot know which transport belongs to which app(s) at transport layer's level. The Start Service frame includes Session ID which has been provided by Start Service ACK frame on Primary Transport. (Please refer to the section "How Core determines that a single app initiates multiple transports".) Core receives Start Service frame on Secondary Transport, remembers which Proxy uses which transports, then sends Start Service ACK frame back.
+
+When starting a service over Secondary Transport, Proxy simply runs the sequence of Start Service and Start Service ACK frames. Again, the Start Service frame includes Session ID which has been provided by Start Service ACK frame on Primary Transport.
 
 ### Transport disconnection
 
@@ -67,7 +69,9 @@ The transport types included in the matrix are listed in preferred order, for ex
 
 One of the issues arising from multiple-transports feature is that SDL Core needs to distinguish between two cases: "a single SDL app connecting to SDL Core using two different transports" and "two instances of a SDL app on two phones connecting to SDL Core using different transports". For this purpose, this document proposes to update the specification of how Core assigns Session IDs.
 
-Currently Session ID is managed per transport, so it is possible that two apps receive same Session ID if they are connected through different transports. This behavior will be updated so that Core will assign different Session IDs to each app. Core will accept Start Service frame with a known Session ID even if the frame is received through Secondary Transport.
+Currently Session ID is managed per transport, so it is possible that two apps receive same Session ID if they are connected through different transports. This behavior will be updated so that Core will assign different Session IDs to each app (i.e. Core will make sure to assign different Session IDs in each Version Negotiation procedure).
+
+When Proxy sends a Start Service frame on Secondary Transport, it always includes the Session ID provided by Start Service ACK frame on Primary Transport. This means that Start Service frame will include a non-zero value for Session ID on Secondary Transport. Core uses the Session ID value to recognize which transports are used by a single Proxy. Core's implementation will be updated to accept Start Service frame with a known Session ID even if the frame is received through Secondary Transport.
 
 The downside of this proposal is that maximum number of SDL apps that can connect to Core will be limited to 255.
 
@@ -107,6 +111,7 @@ Here is an example of a parameter included in Transport Config Update frame:
 }
 ```
 
+The definition of Start Service frame is updated to allow including a non-zero value for Session Id field. When Proxy sends a Start Service frame on Secondary Transport, it must include the Session ID provided by Core through Start Service ACK frame on Primary Transport in the Session Id field. (Note that looking at Core's current implementation, Core accepts a Start Service frame with non-zero Session ID to update existing service from unprotected to protected. It may not be documented through.)
 
 Start Service ACK frame of RPC service includes following parameters:
 
@@ -174,6 +179,8 @@ Public API of `SdlProxyALM` is unchanged. App developers choose one of the const
 
 ### Extension of Core
 
+* Detecting connection of Secondary Transport<br>
+When Core receives a Start Service frame for RPC service with non-zero Session ID, and the ID is not known on that connection, then Core recognizes that Proxy initiates Secondary Transport. The implementation of `ConnectionHandlerImpl` and `Connection` classes will be updated. `ConnectionHandlerImpl` class will also notify `ApplicationManagerImpl` class of the event through `OnServiceStartedCallback`.
 * Handling messages from Secondary Transport as if they were received through Primary Transport<br>
 To minimize impacts on existing implementation, Core should treat incoming messages received through Secondary Transport as if they came from Primary Transport.<br>
 An idea is to overwrite `connection_key` value of the messages. The value is included in `application_manager::Message` and `protocol_handler::RawMessage` classes, and is used to distinguish between connections. Core remembers the value of `connection_key` of the frames that come from Primary Transport. When Core receives a frame through Secondary Transport, it replaces the value of `connection_key` with that of frames coming through Primary Transport.<br>
