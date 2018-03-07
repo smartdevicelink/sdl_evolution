@@ -56,7 +56,7 @@ An example of the solution's impact on `RegisterAppInterface` looks like:
       The list of previously used app names configured for the app ID. Depending on the 
       head unit's stored policies, one of the listed legacy app names will be used to 
       register the application. The list should be ordered such that preferred legacy app
-      names preceed less desirable names.
+      names precede less desirable names.
     </description>
   </param>
   :
