@@ -69,10 +69,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0058" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Add video streaming capabilities" filename="0058-video-streaming-capabilities.md"/>
 <proposal id="0059" status="implemented" primary-platform="android" sdl-version="4.4" name="Android RPC Refactor" filename="0059-android_rpc_refactor.md"/>
 <proposal id="0060" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Support Indian English and Thai" filename="0060-support-indian-english-thai.md"/>
-<proposal id="0061" status="deferred" primary-platform="core" sdl-version="x.x" name="Locale support" filename="0061-locale-support.md"/>
+<proposal id="0061" status="returned" primary-platform="core" sdl-version="x.x" name="Locale support" filename="0061-locale-support.md"/>
 <proposal id="0062" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template images" filename="0062-template-images.md"/>
 <proposal id="0063" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Display name parameter" filename="0063-display-name-parameter.md"/>
-<proposal id="0064" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Choice-VR optional" filename="0064-choice-vr-optional.md"/>
+<proposal id="0064" status="returned" primary-platform="rpc" sdl-version="x.x" name="Choice-VR optional" filename="0064-choice-vr-optional.md"/>
 <proposal id="0065" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SDL Remote Control" filename="0065-remote-control.md"/>
 <proposal id="0066" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Steering wheel location" filename="0066-steering-wheel-location.md"/>
 <proposal id="0067" status="implemented" primary-platform="ios" sdl-version="4.6" name="Optimize Connection Wait Range" filename="0067-optimize-connection-wait-range.md"/>
@@ -104,7 +104,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0092" status="implemented" primary-platform="core" sdl-version="4.5" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
 <proposal id="0093" status="implemented" primary-platform="android" sdl-version="4.4" name="Haptic Projection" filename="0093-haptic-projection.md"/>
 <proposal id="0094" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
-<proposal id="0095" status="returned" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
+<proposal id="0095" status="active" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
 <proposal id="0096" status="accepted" primary-platform="core" sdl-version="x.x" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
 <proposal id="0097" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
 <proposal id="0098" status="accepted" primary-platform="mobile" sdl-version="x.x" name="SDL Localization" filename="0098-localization.md"/>
@@ -151,11 +151,14 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0138" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Make 'audioPassThruCapabilities' of HMI an array" filename="0138-hmi-audiopassthru-capability.md"/>
 <proposal id="0139" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Clarification of audio format details of AudioPassThru" filename="0139-apt-clarification.md"/>
 <proposal id="0140" status="implemented" primary-platform="android" sdl-version="4.5" name="Android Manifest Metadata" filename="0140-android_metadata.md"/>
-<proposal id="0141" status="returned" primary-platform="rpc" sdl-version="x.x" name="Supporting simultaneous multiple transports" filename="0141-multiple-transports.md"/>
+<proposal id="0141" status="active" primary-platform="rpc" sdl-version="x.x" name="Supporting simultaneous multiple transports" filename="0141-multiple-transports.md"/>
 <proposal id="0142" status="returned" primary-platform="protocol" sdl-version="x.x" name="Addition of 'App Instance ID' and 'Core Instance ID'" filename="0142-mt-instance-ids.md"/>
 <proposal id="0143" status="rejected" primary-platform="core" sdl-version="x.x" name="Add Service Discovery mechanism for TCP transport" filename="0143-mt-service-discovery.md"/>
 <proposal id="0144" status="active" primary-platform="core" sdl-version="x.x" name="Allow clients to specify legacy nicknames" filename="0144-app-nicknames.md"/>
-<proposal id="0145" status="active" primary-platform="core" sdl-version="x.x" name="Driver Distraction Notification Upon Registration" filename="0145-distraction-notification-after-registration.md"/>
+<proposal id="0145" status="accepted" primary-platform="core" sdl-version="x.x" name="Driver Distraction Notification Upon Registration" filename="0145-distraction-notification-after-registration.md"/>
+<proposal id="0146" status="active" primary-platform="meta" sdl-version="x.x" name="Updating Mobile Version Dependencies" filename="0146-updating-mobile-version-dependencies.md"/>
+<proposal id="0147" status="active" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Color Scheme" filename="0147-template-color-scheme.md"/>
+<proposal id="0148" status="active" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Additional SubMenus" filename="0148-template-additional-submenus.md"/>
 
 
 
