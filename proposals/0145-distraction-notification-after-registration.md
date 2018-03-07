@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0145](0145-distraction-notification-after-registration.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
