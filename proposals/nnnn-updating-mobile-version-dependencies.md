@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-NNNN](nnnn-updating-mobile-version-dependencies.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer), [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Meta]
 
 ## Introduction
