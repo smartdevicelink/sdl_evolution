@@ -7,201 +7,226 @@
 
 ## Introduction
 
-This proposal aims to support multiple transports between Core and Proxy. Some parts of this proposal are split into separate proposal documents in order to get better discussion.
+This proposal aims to support multiple transports between Core and Proxy.
 
 ## Motivation
 
 The initial motivation was to utilize Wi-Fi transport for apps that require high bandwidth, such as video projection apps. After discussions in SDLC workshop, it turned out that using Wi-Fi transport has a few limitations. For example, Wi-Fi transport may be disabled when an iOS app goes background or the iPhone's screen is locked. The app will be then unregistered from Core, so it will significantly decrease user's experience.
 
-This proposal aims to address such limitations by utilizing multiple transports, for example iAP and Wi-Fi, at the same time. The app will keep iAP connection when using Wi-Fi transport, so if the transport becomes unavailable it will switch to iAP transport and continue working.
-The proposal should also benefit app developers since it will remove the burden of selecting appropriate transport and/or implementing transport switching in their apps.
+This proposal aims to address such limitations by utilizing multiple transports, for example iAP and Wi-Fi, at the same time. The app will start off with establishing iAP connection. Then, it will also open a TCP connection on Wi-Fi transport if it's available. iAP connection will be kept for RPC messaging and TCP connection is used for video/audio streaming. Even if Wi-Fi transport becomes unavailable, the app will not be unregistered as long as iAP connection is sustained.
 
 
 ## Proposed solution
 
 The basic idea is that:
-- Proxy enables multiple instances of transports and uses all of them to connect to Core
-- Proxy runs Version Negotiation procedure on every transport. The frames used by Version Negotiation include extra data so that Core knows a single Proxy has initiated multiple connections.
-- Core accepts and maintains multiple sessions of a single service (e.g. RPC service) over multiple connections
-- Core and Proxy choose appropriate connection when sending data
-- Core and Proxy support detecting connection unavailability and switching to another one
-- Core and Proxy buffer transmit data and resend them when switching connection. They also support discarding duplicate messages received from multiple transports, if any.
+- After Proxy is connected to Core, it initiates another connection over a different transport. (Hereafter, the transport used by the first connection is called `Primary Transport`. The transport used by the additional connection is called `Secondary Transport`.)
+- Core tells Proxy which transport can be used as Secondary Transport.
+- Core and Proxy run some of the services on Secondary Transport. The services that are allowed on the Secondary Transport are specified by Core. Note that RPC and Hybrid services always run on Primary Transport.
+- Core notifies Proxy of the information that is necessary to establish a TCP connection.
+- Core's behavior on generating Session ID is changed, so that a unique Session ID is assigned to each app.
 
 Following sections will describe the idea in more detail.
 
-### Selection of a transport
+### Starting Secondary Transport
 
-In this document, a simple prioritization of the transport is proposed. For example, Wi-Fi (TCP) > USB > Bluetooth; both Core and Proxy transmit frames over TCP when it is available, if not then over USB (iAP over USB and AOA), and if USB is not available either then over Bluetooth (iAP over Bluetooth and Bluetooth SPP).
+Proxy should set up Secondary Transport as soon as it is notified of available transport types for Secondary Transport and information that is necessary to set up the transport becomes available.
 
-OEMs may prefer one prioritization over another, so it is a good idea to make the prioritization configurable through smartDeviceLink.ini file. Core reads it from the file and forwards it to Proxy, so that they both use same prioritization. For this purpose, it is proposed to add `transportPriority` parameter in the payload of Start Service ACK frame of RPC service.
+During Version Negotiation, Core includes additional information in Start Service ACK frame to notify Proxy of the available transport types for Secondary Transport. At this point, Proxy can initiate setting up Secondary Transport. Because the additional information is conveyed in Start Service ACK, Secondary Transport is always set up after RPC service is started on Primary Transport.
 
-Details of the parameter and .ini file format will be discussed in separate proposal [SDL-nnnn: Configuring transport priority][transport_priority].
+The available transport type for Secondary Transport can be configured through smartDeviceLink.ini file.
 
-### Modification to Version Negotiation
+Note that some transports require additional information for configuration (for example, TCP transport requires IP address and TCP port number of Core). In such case, Proxy waits until the necessary information becomes available then initiates Secondary Transport.
 
-One of the issues arising from multiple-transports feature is that SDL Core needs to distinguish between two cases: "a single SDL app connecting to SDL Core using two different transports" and "two instances of a SDL app on two phones connecting to SDL Core using different transports". For this purpose, this document proposes to introduce an ID called "App Instance ID". It is generated by each instance of SDL Proxy, and Proxy should keep the ID at least until all transports are disconnected from Core.
+After Secondary Transport is established, Proxy sends a Start Service frame for RPC service on it. Note that Proxy and Core don't run RPC service on Secondary Transport. This procedure is just for Core to recognize that Proxy initiates Secondary Transport, because Core cannot know which transport belongs to which app(s) at transport layer's level. The Start Service frame includes Session ID which has been provided by Start Service ACK frame on Primary Transport. (Please refer to the section "How Core determines that a single app initiates multiple transports".) Core receives Start Service frame on Secondary Transport, remembers which Proxy uses which transports, then sends Start Service ACK frame back.
 
-We will also need same checking for Proxy. When a Proxy is connecting to Core through multiple transports, Proxy should make sure that it is not connecting to two different head units (which is unlikely to happen in real use-case though). For this purpose, SDL Core generates an ID called "Core Instance ID". Core keeps the ID at least until ignition off. When Proxy detects that its second transport is connecting to a different head unit, Proxy should disconnect it.
+When starting a service over Secondary Transport, Proxy simply runs the sequence of Start Service and Start Service ACK frames. Again, the Start Service frame includes Session ID which has been provided by Start Service ACK frame on Primary Transport.
 
-During Version Negotiation, Start Service frame of RPC service includes a parameter called `appInstanceId` in the payload and Proxy adds its App Instance ID in this parameter. Start Service ACK frame of RPC service includes a parameter called `coreInstanceId` in the payload and Core adds its Core Instance ID in it.
+### Transport disconnection
 
-As described in previous section, Start Service ACK frame of RPC service also includes a parameter called `transportPriority` to indicate the priority of the transport to Proxy.
+When Secondary Transport becomes unavailable, Core and Proxy should abort any services that are running on Secondary Transport. Also, if possible Proxy should retry setting up Secondary Transport on a regular interval.
 
-Detailed specification of these IDs and the frames will be discussed in a separate proposal [SDL 0142 - Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
+When Primary Transport becomes unavailable, Core and Proxy should stop Secondary Transport.
 
-### Detecting transport unavailability and resending data
+### Notification of the information required to set up TCP transport
 
-The main reason of utilizing multiple transports is to seamlessly switch to another connection when the transport currently in use becomes unavailable. Unfortunately, TCP connection is not good at detecting underlying transport unavailability. In some cases, applications don't detect it until the connection generates timed out event.
+To set up a TCP transport, Proxy needs to know the IP address and TCP port number on which Core is listening. A new Control Frame is proposed to convey the information. It is called `Transport Config Update` frame and is sent by Core to Proxy on Primary Transport. It should not be sent prior to Version Negotiation.
 
-To quickly identify transport unavailability, a new control frame called `Receiver Report` is introduced. The frame is periodically sent by both Core and Proxy and includes the Message IDs of the latest frames that has been received on each service. When `Receiver Report` frame is not received for a given period of time, the receiver of the frame considers the transport as unavailable and switches to another connection (if any).
+The reason that we do not include the information in Start Service ACK frame is that Wi-Fi feature may not be available at the time of Version Negotiation. For example, consider a case where a head unit can turn off its Wi-Fi feature through user's operation. The user can turn on Wi-Fi after an SDL app is connected to Core, i.e. after the app exchanges Start Service and Start Service ACK frames.
 
-When a transport becomes unavailable, it is possible that messages which are being transmitted are not delivered to peer. To cope with this case, Proxy and Core should buffer messages even after sending them, and retransmit them when a transport becomes unavailable and it switches to another connection. The Message IDs in `Receiver Report` frame are used for this purpose. Core and Proxy buffer send frames until they receive a `Receiver Report` frame and confirm that the messages are successfully received by peer.
+The reason that we use a Control Frame rather than RPC Notification is simply because we would like to keep transport related information in protocol layer. RPC should concentrate on exchanging application-level information.
 
-Core and Proxy should check Message IDs and should discard any duplicate messages.
+### Services that are allowed on each transport
 
-The details of `Receiver Report` frame and its related features are discussed in a separate proposal [SDL-nnnn: Addition of 'Receiver Report' control frame][receiver_report].
+During Version Negotiation, Core sends a matrix through Start Service ACK frame describing which service is allowed to run on which transports (Primary, Secondary or both). Proxy honors this information and starts services only on an allowed transport. The matrix can be configured through smartDeviceLink.ini file. Since RPC and Hybrid services always run on Primary Transport, only Video and Audio services are configurable.
+
+Our primary use-case is to run Video and Audio services on Wi-Fi and USB transports, but not on Bluetooth transport which has low bandwidth. A matrix can be set up to support this scenario:
+- When Proxy is connected using Bluetooth as Primary Transport, it initiates Video and Audio services only after TCP connection is added as Secondary Transport. If Secondary Transport is disconnected, Proxy stops these services. It will start Video and Audio services again once Secondary Transport is reconnected.
+- When Proxy is connected using USB as Primary Transport, it initiates Video and Audio services on Primary Transport.
+
+The transport types included in the matrix are listed in preferred order, for example, Secondary > Primary. In case the priority of Secondary Transport is higher than that of Primary Transport, Proxy will stop and restart services when Secondary Transport is added or removed. For example, when Video service is running on Bluetooth Primary Transport then Wi-Fi transport is added as Secondary Transport, Proxy stops the service and starts another Video service on Wi-Fi transport. When Wi-Fi transport is then disconnected, Proxy stops the service and starts another Video service on Bluetooth Transport. Please note that since we do not have such use-case right now, implementation of this feature will be in low priority.
+
+### How Core determines that a single app initiates multiple transports
+
+One of the issues arising from multiple-transports feature is that SDL Core needs to distinguish between two cases: "a single SDL app connecting to SDL Core using two different transports" and "two instances of a SDL app on two phones connecting to SDL Core using different transports". For this purpose, this document proposes to update the specification of how Core assigns Session IDs.
+
+Currently Session ID is managed per transport, so it is possible that two apps receive same Session ID if they are connected through different transports. This behavior will be updated so that Core will assign different Session IDs to each app (i.e. Core will make sure to assign different Session IDs in each Version Negotiation procedure).
+
+When Proxy sends a Start Service frame on Secondary Transport, it always includes the Session ID provided by Start Service ACK frame on Primary Transport. This means that Start Service frame will include a non-zero value for Session ID on Secondary Transport. Core uses the Session ID value to recognize which transports are used by a single Proxy. Core's implementation will be updated to accept Start Service frame with a known Session ID even if the frame is received through Secondary Transport.
+
+The downside of this proposal is that maximum number of SDL apps that can connect to Core will be limited to 255.
 
 ### Backward compatibility
 
-It is important that Proxy does not initiate multiple connections to an old version of Core. The behavior of Proxy is described below.
+Since we are adding a new Control Frame, the Protocol Version should be bumped, probably to 5.1.0. Core recognizes that Proxy supports multiple-transports feature by checking the version number.
 
-**iOS Proxy:** Once Proxy is started, it initiates all of the transports which are specified by the app. iAP Transport waits for accessory connection, and TCP transport scans a head unit on the network.
+**New Proxy connecting to old version of Core:** SDL Core that does not support multiple-transports feature does not include additional parameters in Start Service ACK frame. When Proxy detects that the parameters are missing, it should disable multiple-transport feature (i.e. don't start Secondary Transport and run all services on Primary Transport.)
 
-When it receives an accessory connected event, it sets up an RPC session over iAP transport and proceeds with RegisterAppInterface sequence. It also checks if Core supports multiple transport feature during Version Negotiation. If it doesn't, then Proxy may stop using TCP transport.
-
-When it finds a head unit on Wi-Fi network first, it sets up an RPC session over TCP transport and proceeds with RegisterAppInterface sequence. It continues to wait for iAP accessory connected event, since a Core that supports Wi-Fi advertising feature should also support multiple transport feature.
-
-
-**Android Proxy:** Once Proxy is started, it initiates all of the transports which are specified by the app. Bluetooth transport waits for incoming connection from the head unit, AOA transport waits for accessory connected event, and TCP transport scans a head unit on the network.
-
-When it detects a connection through Bluetooth or AOA, it sets up an RPC session over the transport and proceeds with RegisterAppInterface sequence. It also checks if Core supports multiple transport feature during Version Negotiation. If it doesn't, then Proxy may keep the first transport that has been connected and stop the rest of transports.
-
-When Proxy finds a head unit on Wi-Fi network first, it sets up an RPC session over TCP transport and proceeds with RegisterAppInterface sequence. It continues to wait for Bluetooth and AOA connections, since a Core that supports Wi-Fi advertising feature should also support multiple transport feature.
-
-Please note that when connecting to old version of Core, only one transport that has been set up at first will be used. Additional feature like automatic transport switching is not used. This is to keep the behavior of Proxy similar to previous version.
+**Old version of Proxy connecting to new Core:** Proxy that does not support multiple-transports feature uses Protocol version 5.0.0 or earlier. When SDL Core detects that the version is not 5.1.0 or higher, it should not include the additional parameters in Start Service ACK frame. It should also suppress sending `Transport Config Update` Control Frame since Proxy doesn't support it.
 
 
 ## Detailed design
 
 ### Extension of SDL Protocol
 
-Start Service frame of RPC service will include a parameter called `appInstanceId`. Start Service ACK frame of RPC service will include a parameter called `coreInstanceId`. Details of these parameters are discussed in proposal [SDL 0142 - Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
+A new Control Frame `Transport Config Update` is added:
 
-Start Service ACK frame of RPC service will also include a parameter called `transportPriority` to convey the prioritization of transports from Core to Proxy. Details of this parameter is discussed in proposal [SDL-nnnn: Configuring transport priority][transport_priority].
+Frame Info Value | Name                    | Description
+-----------------|-------------------------|------------
+0xFD             | Transport Config Update | This frame is sent from Core to Proxy to indicate that configuration(s) of transport(s) is/are updated.<br>This frame should not be sent prior to Version Negotiation.
 
-A new control frame called `Receiver Report` will be introduced. Details are discussed in proposal [SDL-nnnn: Addition of 'Receiver Report' control frame][receiver_report].
+The new frame includes following parameter:
+
+Tag Name           | Type     | Description
+-------------------|----------|------------
+tcpTransportConfig | document | (Optional) Specify information necessary to set up TCP transport. The document may include following optional key-value pairs:<br><br>"ipAddress": value is a string representation of IP address that SDL Core is listening on. It can be IPv4 address (example: "192.168.1.1") or IPv6 address (example: "fd12:3456:789a::1").<br>"tcpPort": value is a 32-bit integer representing the TCP port number that SDL Core is listening on. This value should be same as `TCPAdapterPort` in smartDeviceLink.ini file. Example: 12345<br><br>If "ipAddress" is not included, or it is empty, then it indicates that the TCP transport becomes unavailable.
+
+Here is an example of a parameter included in Transport Config Update frame:
+
+```json
+{
+  "tcpTransportConfig": {
+    "ipAddress": "192.168.1.1",
+    "tcpPort": 12345
+  }
+}
+```
+
+The definition of Start Service frame is updated to allow including a non-zero value for Session Id field. When Proxy sends a Start Service frame on Secondary Transport, it must include the Session ID provided by Core through Start Service ACK frame on Primary Transport in the Session Id field. (Note that looking at Core's current implementation, Core accepts a Start Service frame with non-zero Session ID to update existing service from unprotected to protected. It may not be documented through.)
+
+Start Service ACK frame of RPC service includes following parameters:
+
+Tag Name           | Type             | Description
+-------------------|------------------|------------
+secondaryTransport | string           | (Optional) Transport type which Core allows to use for Secondary Transport. Refer to Table 1 for possible values.<br>This parameter is included in the Start Service frame for Version Negotiation. It should not be included in the Start Service frame on Secondary Transport.<br>If Core does not allow setting up the Secondary Transport, it can omit this parameter.
+servicesMap        | document         | (Optional) A map indicating which service is allowed on which transport(s).<br>The keys of this map are string representations of service number in hex, i.e. "0x00" through "0xFF". The values are arrays of int32, whose possible values are either 1 (meaning "Primary Transport") or 2 (meaning "Secondary Transport"). The transports are listed in preferred order. Proxy must not start the service on a transport that is not listed in the values.<br>Values for "0x00" (Control Service), "0x07" (Remote Procedure Call Service) and "0x0F" (Hybrid Service) will be ignored by Proxy since they are set up on specific transports.<br>This parameter should not be included in the Start Service frame on Secondary Transport.
+
+**Table 1: list of transport type strings**
+
+String                 | Description
+-----------------------|------------
+IAP\_BLUETOOTH         | iAP over Bluetooth
+IAP\_USB               | iAP over USB, and Core cannot distinguish between Host Mode and Device Mode.
+IAP\_USB\_HOST\_MODE   | iAP over USB, and the phone is running as host
+IAP\_USB\_DEVICE\_MODE | iAP over USB, and the phone is running as device
+IAP\_CARPLAY           | iAP over Carplay wireless
+SPP\_BLUETOOTH         | Bluetooth SPP. Either legacy SPP or SPP multiplexing.
+AOA\_USB               | Android Open Accessory
+TCP\_WIFI              | TCP connection over Wi-Fi
+
+
+Here is an example of parameters in Start Service ACK frame:
+
+```json
+{
+  "secondaryTransport": "TCP_WIFI",
+  "servicesMap": {
+    "0x0A": [2],
+    "0x0B": [2]
+  }
+}
+```
+This indicates:
+- that Core supports multiple-transports feature and allows Wi-Fi (TCP) transport to be used as a Secondary Transport, and
+- that Core allows video and audio services to run on Secondary Transport but does NOT allow to run them on Primary Transport.
+
+Note: Start Service, Start Service ACK, Start Service NAK, End Service, End Service ACK, and End Service NAK are sent on both Primary and Secondary Transports. Other Control Frames are always transferred on Primary Transport. (Currently, only `Transport Config Update` frame is applied.)
+
 
 ### Extension of iOS Proxy
 
-iOS Proxy introduces a new class called `SDLProtocolSelector` which is placed between `SDLProxy` and `SDLProtocol` classes. SDLProtocolSelector class creates two SDLProtocol instances (one for iAP transport and other for Wi-Fi) and manages them. It implements most of the features described in this proposal, such as:
-- Receiving priority of connections from Core through Start Service ACK
-- Selecting best SDLProtocol instance when transmitting messages
-- Buffering transmit messages until SDLProtocol instance notifies that Receiver Report is received
-- Discarding duplicate messages
-- Receiving connection unavailable events from SDLProtocol instances and resending buffered messages on another connection
-- Managing MessageID (since it should be shared between two SDLProtocol instances)
-- Generating App Instance ID when starting Proxy
+iOS Proxy implementation should include:
+- logic to set up and tear down Secondary Transport,
+- logic to start and stop services based on the matrix provided by Core,
+- support to use two instances of transports, and logic to choose appropriate one when sending frames,
+- support new Control Frame `Transport Config Update` to retrieve IP address and TCP port number,
+- logic to stop and start services when Secondary Transport with higher priority becomes available or unavailable (in low priority), and
+- logic to stop TCP transport when the app goes to background, and restart it when it comes back to foreground.
 
-`SDLProtocol` and `SDLProtocolListener` classes are extended to support `Receiver Report` frame handling.
+Public API of `SDLManager` is unchanged. The multiple-transports feature will be automatically enabled unless the app uses `SDLLifecycleConfiguration` created by `[SDLLifecycleConfiguration debugConfigurationWithAppName]`.
 
-Fig. 1 illustrates newly added and modified classes related to SDLProtocolSelector.
-
-![Class diagram of iOS Proxy](../assets/proposals/0141-multiple-transports/0141-multiple-transports-class-diagram-ios.png)
-
-**Fig. 1: Added and modified classes in iOS Proxy**
-
-`ProxyManager` class adds an API to enable this multiple-transports feature.
-
-```objc
-typedef NS_ENUM(NSUInteger, ProxyTransportType) {
-    ProxyTransportTypeUnknown,
-    ProxyTransportTypeTCP,      // TCP transport with automatic IP address and TCP port configuration
-    ProxyTransportTypeIAP,
-    ProxyTransportTypeTCPDebug  // (for debugging only) IP address and TCP port should be manually configured
-};
-
-- (void)startWithTransports:(NSArray *)transports;
-```
-Where `transports` indicates a list of transports that the app is intended to enable. App calls this API like this:
-```objc
-[[ProxyManager sharedManager] startWithTransports:@[@(ProxyTransportTypeIAP), @(ProxyTransportTypeTCP)]];
-```
-`SDLLifecycleConfiguration` will include additional parameters to keep this list. `SDLLifecycleManager` creates a `SDLProxy` instance which uses `SDLProtocolSelector`, and passes the list to the selector.
-
-`SDLTCPTransport` is likely to be updated to support head unit discovery feature over Wi-Fi, which will be discussed in separate proposal [SDL 0143 - Add Service Discovery mechanism for TCP transport][service_discovery].
 
 ### Extension of Android Proxy
 
-Android Proxy introduces a new class called `SdlConnectionSelector` which is placed between `SdlSession` and `SdlConnection` classes. SdlConnectionSelector class creates multiple SdlConnection instances (each of which is dedicated for a single type of a transport) and manages them. It implements most of the features described in this proposal, such as:
-- Receiving priority of connections from Core through Start Service ACK
-- Selecting best SdlConnection instance when transmitting messages
-- Buffering transmit messages until SdlConnection instance notifies that `Receiver Report` is received
-- Discarding duplicate messages
-- Receiving connection unavailable events from SdlConnection instances and resending buffered messages on another connection
-- Managing MessageID (since it should be shared between multiple WiProProtocol instances)
-- Generating App Instance ID when starting Proxy
-Also, `WiProProtocol` class and `IProtocolListener` interface are extended to support `Receiver Report` frame handling.
+Android Proxy implementation should include:
+- logic to set up and tear down Secondary Transport,
+- logic to start and stop services based on the matrix provided by Core,
+- support to use two instances of transports, and logic to choose appropriate one when sending frames,
+- support new Control Frame `Transport Config Update` to retrieve IP address and TCP port number, and
+- logic to stop and start services when Secondary Transport with higher priority becomes available or unavailable (in low priority)
 
-Fig. 2 illustrates newly added and modified classes related to SdlConnectionSelector.
+Public API of `SdlProxyALM` is unchanged. App developers choose one of the constructors in `SdlProxyALM` to start Proxy as they do today. Secondary Transport will be automatically enabled and used inside Proxy.
 
-![Class diagram of Android Proxy](../assets/proposals/0141-multiple-transports/0141-multiple-transports-class-diagram-android.png)
-
-**Fig. 2: Added and modified classes in Android Proxy**
-
-`SdlProxyALM` class adds new constructors to enable this multiple-transports feature, such as:
-```java
-public SdlProxyALM(IProxyListenerALM listener, SdlProxyConfigurationResources sdlProxyConfigurationResources,
-    String appName, Vector<TTSChunk> ttsName, String ngnMediaScreenAppName, Vector<String> vrSynonyms, Boolean isMediaApp,
-    SdlMsgVersion sdlMsgVersion, Language languageDesired, Language hmiDisplayLanguageDesired, Vector<AppHMIType> appType,
-    String appID, String autoActivateID, boolean callbackToUIThread, boolean preRegister, String sHashID,
-    List<BaseTransportConfig> transportConfigs) throws SdlException {
-    ....
-}
-```
-`SdlProxyBase` class will be tweaked to keep the list of transport configs, and create `SdlSession` instance that uses SdlConnectionSelector.
-
-Note that `BTTransportConfig` and `MultiplexTransportConfig` should not be specified at the same time, as both of the transports will try to use Bluetooth device. `SdlProxyBase` class should detect this error during construction.
-
-`TCPTransport` class is likely to be updated to support head unit discovery feature over Wi-Fi, which will be discussed in separate proposal [SDL 0143 - Add Service Discovery mechanism for TCP transport][service_discovery].
 
 ### Extension of Core
 
-First of all, the ID value returned by `ApplicationImpl::app_id()` has to be connection independent. Currently the value is generated from a pair of `connection_handle` and `session_id` (please refer to `ApplicationManagerImpl::RegisterApplication()` implementation). We propose to replace it with the value of App Instance ID and make it connection independent.
+* Detecting connection of Secondary Transport<br>
+When Core receives a Start Service frame for RPC service with non-zero Session ID, and the ID is not known on that connection, then Core recognizes that Proxy initiates Secondary Transport. The implementation of `ConnectionHandlerImpl` and `Connection` classes will be updated. `ConnectionHandlerImpl` class will also notify `ApplicationManagerImpl` class of the event through `OnServiceStartedCallback`.<br>
+`Application` and `ApplicationImpl` classes are updated to keep `DeviceHandle` for Secondary Transport.
+* Handling messages from Secondary Transport as if they were received through Primary Transport<br>
+To minimize impacts on existing implementation, Core should treat incoming messages received through Secondary Transport as if they came from Primary Transport.<br>
+An idea is to overwrite `connection_key` value of the messages. The value is included in `application_manager::Message` and `protocol_handler::RawMessage` classes, and is used to distinguish between connections. Core remembers the value of `connection_key` of the frames that come from Primary Transport. When Core receives a frame through Secondary Transport, it replaces the value of `connection_key` with that of frames coming through Primary Transport.<br>
+Core uses the value of Session ID included in Start Service frame to find out which services are initiated by a single app.
+* Updating the logic to assign Session IDs<br>
+Implementation is updated so that SDL Core will not manage Session IDs per transport, but it will assign different Session ID to each app.
+* Including additional parameters in Start Service ACK frame
+Core should include `secondaryTransport` and `servicesMap` parameters in Start Service ACK frame. The value of `secondaryTransport` is acquired from smartDeviceLink.ini file. The value of `servicesMap` is calculated based on input from smartDeviceLink.ini file and transport type of Primary Transport.
+* Sending out `Transport Config Update` Control Frame<br>
+When the state of a network interface changes, Core should send out `Transport Config Update` frame to Proxy. `TcpClientListener` and related classes are likely to be updated to support this feature.
+* Notifying HMI of Secondary Transport being added or removed<br>
+Application Manager should be updated to trigger sending `BasicCommunication.UpdateAppList` request when Secondary Transport of an app is added or removed.
+* Making the feature configurable through smartDeviceLink.ini file<br>
+This document proposes to append following sections in smartDeviceLink.ini file:
 
-Likewise, `connection_key` value in `application_manager::Message` class should be replaced with App Instance ID. Any implementation above ApplicationManager that uses `connection_key` as an identification of an app should be updated to use App Instance ID instead.
+```ini
+[MultipleTransports]
+; Whether multiple-transports feature is enabled
+Enabled = true
 
-Secondary, SDL Core introduces a new component called `ConnectionSelector`. It is placed in between `ConnectionHandler` and `ApplicationManager`. It implements following features:
-* Conversion between `connection_key` and App Instance ID
-  - It receives OnServiceStartedCallback and OnServiceEndedCallback from ConnectionHandler, and keeps relationship between App Instance ID and `connection_key` in a table. For a legacy app that does not send App Instance ID, ConnectionSelector generates one when OnServiceStartedCallback of RPC service is received.
-  - When a message is received from ProtocolHandler through OnMessageReceived(), it converts `connection_key` into appropriate App Instance ID and notifies ApplicationManager.
-  - It calls OnServiceStartedCallback of ApplicationManager when a new type of service is started on an app. For example, it calls the callback when RPC service is started on a transport for an app, but it will not call when another RPC service is started on a different transport for the same app. Likewise, it calls OnServiceEndedCallback of ApplicationManager when *all* instances of a service for an app are ended.
-* Selection of a connection to send out messages
-  - It receives transmit data from ApplicationManager, looks for the App Instance ID attached with the message and selects the best connection available for the app. Then it converts App Instance ID into connection\_key, creates a RawMessage instance and sends it to ProtocolHandler. The priority of the connections should be pre-configured, through smartDeviceLink.ini setting.
-  - It also sends the priority of connection types to mobile app using Start Service ACK frame.
-* Re-transmission when a connection gets unavailable
-  - It buffers transmit messages until it receives `Receiver Report` event from ProtocolHandler. Also, when ProtocolHandler notifies connection unavailable event, it clears the connection from the table and resends buffered messages on another connection.
-* Discarding duplicate messages
-* Managing MessageID
-  - Currently MessageID is generated in ProtocolHandler (refer to `message_counters_`). This has to be moved to `ConnectionSelector` so that the IDs will be consistent within an app for different connections.
-* Handling Core Instance ID
-  - Upon starting, it generates a Core Instance ID.
-  - It adds Core Instance ID value in Start Service ACK frame when corresponding Start Service frame includes App Instance ID. The details of Core Instance ID specification is discussed in separate proposal [SDL 0142 - Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids].
+; Comma-separated list of transports that can be used as Secondary Transport for each Primary Transport.
+; Possible values are: WiFi, USB and Bluetooth.
+; Core will not suggest Secondary Transport if the value is empty.
+SecondaryTransportForBluetooth = WiFi
+SecondaryTransportForUSB =
+SecondaryTransportForWiFi =
 
-Other classes have to be updated accordingly. Here are a few examples:
-- ProtocolHandler implements receiving and sending `Receiver Report` frame. It periodically sends `Receiver Report` messages on all connections. When it receives a `Receiver Report` message, it notifies ConnectionSelector that sent message(s) is/are successfully received by peer. When it detects a timeout on a particular connection, it notifies ConnectionSelector that the connection becomes unavailable.
-- ConnectionHandler keeps connection type (such as Bluetooth, USB, Wi-Fi) when a new connection is detected through OnConnectionEstablished() callback. When it notifies ConnectionSelector that a new service is started through ConnectionHandlerObserver::OnServiceStartedCallback(), it includes the connection type.
-- ApplicationManager is updated to call ConnectionSelector's methods instead of ConnectionHandler.
-- Profile and ProtocolHandlerImpl classes include support to read transport priority from smartDeviceLink.ini file and include it in Start Service ACK frame of RPC service.
+[ServicesMap]
+; A matrix to specify which service is allowed on which transports. The transports are listed
+; in preferred order. If a transport is not listed, then the service is not allowed
+; to run on the transport.
+; Only video and audio services are configurable.
+; If the entry of a service is completely omitted, the service will be allowed on all transports.
+; Possible values are: IAP_BLUETOOTH, IAP_USB, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_CARPLAY, SPP_BLUETOOTH, AOA_USB and TCP_WIFI.
+; Note: this configuration is applied even if multiple-transports feature is not enabled.
+; Audio service
+0x0A = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
+; Video service
+0x0B = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
+```
 
-Fig. 3 illustrates newly added and modified classes in SDL Core. (Note: it does not include IP address and port number advertising feature over Wi-Fi.)
-
-![Class diagram of SDL Core](../assets/proposals/0141-multiple-transports/0141-multiple-transports-class-diagram-core.png)
-
-**Fig. 3: Added and modified classes in SDL Core**
 
 ### Modification of HMI\_API.xml
 
-HMI should be notified that an app is connected over multiple transports. Update `deviceInfo` param of `HMIApplication` to an array, so that HMI can recognize the app using multiple transports.
+HMI should be notified that an app is connected over multiple transports. Add an optional param `secondaryDeviceInfo` into `HMIApplication`. The change of `HMIApplication` struct is notified through `BasicCommunication.UpdateAppList` request.
 
 ```diff
 <struct name="HMIApplication">
@@ -209,54 +234,55 @@ HMI should be notified that an app is connected over multiple transports. Update
  
      :
  
--    <param name="deviceInfo" type="Common.DeviceInfo" mandatory="true">
-+    <param name="deviceInfo" type="Common.DeviceInfo" minsize="1" maxsize="10" array="true" mandatory="true">
+    <param name="deviceInfo" type="Common.DeviceInfo" mandatory="true">
         <description>The ID, serial number, transport type the named-app's-device is connected over to HU.</description>
      </param>
++    <param name="secondaryDeviceInfo" type="Common.DeviceInfo" mandatory="false">
++       <description>The ID, serial number, transport type that are acquired through Secondary Transport.</description>
++    </param>
 ```
+
 
 ## Potential downsides
 
-This feature introduces additional logics in both Core and Proxy. They may increase CPU usage on a head unit and mobile phone.
+- This feature introduces additional logic in both Core and Proxy and will increase their complexity.
+- When a single device is connected to SDL Core through multiple transports, different values of `DeviceUID` will be assigned per transport. Also, HMI receives multiple `DeviceInfo` information through `BasicCommunication.UpdateDeviceList` request, although there is actually one device. These behaviors may confuse HMI developers.<br>
+Note: these behaviors are already seen on current SDL Core when an app on a phone is connected through a transport and another app on the same phone is connected through a different transport.
+- Transferring a service between Primary and Secondary Transports may not be smooth as it involves terminating the service on a transport then restarting it on another transport.
+- When SDL Core supports multiple-transports feature, Proxy will always open Secondary Transport even if no service will run on it.
+- This proposal enables communication over Bluetooth and Wi-Fi transports at the same time. It may introduce wireless interference when Wi-Fi is running in 2.4GHz band. Note that the degree of interference depends on hardware, so we cannot tell if it is a significant issue.
+- Because of the updated specification of Session ID, maximum number of SDL apps that can connect to Core will be limited to 255.
+- Core may not return a Start Service NAK frame when a malformed Proxy sends a Start Service frame on a transport with Session ID != 0.
+- Protocol version is bumped.
 
-This feature requires Core and Proxies to buffer sent messages for a while. This will increase memory usage.
-
-When a single device is connected to SDL Core through multiple transports, different values of `DeviceUID` will be assigned per transport. Also, HMI receives multiple `DeviceInfo` information, although there is actually one device. (Note that these behaviors are same as of now and it is not a new issue.) The cause of these issues is that the device information is strictly tied to TransportAdapter classes in Core, and we have no way to merge multiple device information into one. It may cause an issue if HMI implements a "Device chooser" GUI based on information from `BasicCommunication.OnUpdateDeviceList` notification.
 
 ## Impact on existing code
 
-* Most of the code changes are limited to transport and protocol handler layers, notably:
-  - Addition of new selector classes in Proxies and Core
-  - Modification to protocol handlers to support new parameters in Version Negotiation
-  - Additional implementation in protocol handlers to support Receiver Report frame
-* SDL Core's Application Manager also needs updates on app\_id usage (i.e. replacing connection\_key with App Instance ID).
-* This proposal also introduces small update on Proxies' APIs.
-* This proposal includes HMI\_API.xml changes that are not backward compatible. When Core is updated, HMI should be updated accordingly.
+* Most of the code changes are limited to protocol layer and below.
+* This proposal does not break compatibility, so basic sequence should be kept intact.
+
 
 ## Out of scope of this proposal
 
-For better user experience, SDL Proxies need a means to automatically detect Core's IP address and TCP port number. Otherwise, a user needs to enter them manually on every SDL apps s/he is going to use. Such mechanism is not covered by this proposal and will be discussed in another proposal [SDL 0143 - Add Service Discovery mechanism for TCP transport][service_discovery].
+- The authors have a use-case to prevent a video-streaming app from automatically launching on HMI if it is not connected with a high-bandwidth transport (i.e. Wi-Fi or USB). To realize this use-case, the resumption logic in SDL Core has to be modified. This feature will be addressed in another proposal [SDL-nnnn: Add capability to disable or reject an app based on app type, transport type and OS type][reg_limitation].
+- In some cases, SDL Core should not accept TCP connections on all network interfaces. For example, a head unit is equipped with a Wi-Fi network device and a communication module for cellular network, in which case the system will have two network interfaces. An OEM may want to accept SDL connection only through Wi-Fi's network interface and not through Internet connection. If we need to support such scenario, another proposal should be entered.
 
-An advanced feature which allows usage of Wi-Fi transport only to specific apps is proposed along with this multiple-transports idea. It will be discussed in [SDL-nnnn: Add capability to disable or reject an app based on app type, transport type and OS type][reg_limitation].
 
 ## Alternatives considered
 
-- Introduce transport switching mechanism while keeping current "single transport" design. This should have less impact on existing implementation since we only keep one transport between Proxy and Core at the same time. However, it will not resolve the limitation raised during SDLC workshop to utilize Wi-Fi transport.
-- Extend RegisterAppInterface request and response instead of Version Negotiation to convey App Instance ID and Core Instance ID. This approach has more impact on implementations since ApplicationManager layers of SDL Core and Proxies need to be updated.
-- Introduce existing protocol like MPTCP (Multi-path TCP) or SCTP (Stream Control Transport Protocol). This will introduce a large amount of code (either implemented by SDLC members or using existing open-source library) and increases complexity. Since we only need retransmission mechanism, this approach seems to be "too much".
+* Introduce a mechanism to transfer all services between the transports, including RPC service. This was the approach of the original proposal. After some discussions, it turned out that it will introduce much more impacts on implementations.
+* Keep current "single transport" design and introduce transport switching. This approach will not resolve the limitation raised during SDLC workshop to utilize Wi-Fi transport, since iAP transport will be turned off.
+* Extend RegisterAppInterface request and response instead of Version Negotiation to convey additional parameters. The merit of this approach is that Core will have a flexibility to return different values based on app's identification. However, this approach has more impacts on implementations since Application Manager layers of SDL Core and Proxies need to be updated.
+* Use a service discovery mechanism to convey IP address and TCP port number of SDL Core to Proxy. Right now, this is not needed as Wi-Fi transport is always used as Secondary Transport. It will be required if we want to utilize Wi-Fi transport as Primary Transport in future.
+* Instead of using Session ID as app identifier, introduce a new ID such as "App Instance ID" which is generated by Proxy and sent to Core during Version Negotiation. This approach should also work. The only downside is that we need to create a specification for the ID and Proxy may have additional complexity.
+* Support Hybrid service running on Secondary Transport. For this use-case, we will need a mechanism to seamlessly transfer the service between Primary and Secondary Transports. (Note that since Hybrid service is an extension of RPC service, it will be always started on Primary Transport.)
+* Extend the value of `secondaryTransport` parameter to accept multiple candidates of Secondary Transport. This will end up with Android Proxy running all three kinds of transports (Wi-Fi, Bluetooth and AOA) waiting for connections at the same time, and will introduce much complexity. If we need such advanced feature, perhaps another proposal can be entered in the future, with a simplified implementation that Android Proxy will switch to another Secondary Transport only when current Secondary Transport is disconnected.
+* Introduce existing protocol like MPTCP (Multi-path TCP) or SCTP (Stream Control Transport Protocol). This will introduce a large amount of code (either implemented by SDLC members or using existing open-source library) and increases complexity.
+
 
 ## References
 
-- [SDL-nnnn: Configuring transport priority][transport_priority]
-- [SDL 0142 - Addition of 'App Instance ID' and 'Core Instance ID'][instance_ids]
-- [SDL-nnnn: Addition of 'Receiver Report' control frame][receiver_report]
-- [SDL 0143 - Add Service Discovery mechanism for TCP transport][service_discovery]
 - [SDL-nnnn: Add capability to disable or reject an app based on app type, transport type and OS type][reg_limitation]
 
 
-  [transport_priority]: https://github.com/XevoInc/sdl_evolution/blob/4a2a045b701e75a322c1adf43967554fbea6aac0/proposals/nnnn-mt-transport-priority.md
-  [instance_ids]:      0142-mt-instance-ids.md             "Addition of 'App Instance ID' and 'Core Instance ID'"
-  [receiver_report]:    https://github.com/XevoInc/sdl_evolution/blob/fb2ea8f6fd7262ed4645420774fcbcb33d922c76/proposals/nnnn-mt-receiver-report.md          "Addition of 'Receiver Report' control frame"
-  [service_discovery]:  0143-mt-service-discovery.md        "Add Service Discovery mechanism for TCP transport"
   [reg_limitation]:     https://github.com/XevoInc/sdl_evolution/blob/4242b3ec23c9102cd595e9c7d37f664e785dfdba/proposals/nnnn-mt-registration-limitation.md  "Add capability to disable or reject an app based on app type, transport type and OS type"
-
