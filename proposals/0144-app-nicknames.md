@@ -51,11 +51,12 @@ An example of the solution's impact on `RegisterAppInterface` looks like:
      <description> ... </description>
   </param>
   <!-- newly added parameter -->
-  <param name="appNicknames" type="String" maxlength="100" minsize="1" maxsize="100" array="true" mandatory="false">
+  <param name="legacyAppNames" type="String" maxlength="100" minsize="1" maxsize="100" array="true" mandatory="false">
     <description>
-      The list of nicknames configured for the app ID. Depending on the head unit's stored
-      policies, one of the listed nicknames will be used to register the application. The 
-      list should be ordered such that preferred nicknames preceed less desirable names.
+      The list of previously used app names configured for the app ID. Depending on the 
+      head unit's stored policies, one of the listed legacy app names will be used to 
+      register the application. The list should be ordered such that preferred legacy app
+      names preceed less desirable names.
     </description>
   </param>
   :
@@ -71,4 +72,4 @@ This change warrants a minor version increment, both in the core and the Android
 
 ## Alternatives considered
 
-Instead of letting the client provide a list of nicknames in the client, we could allow developers to make the nicknames field optional. This would allow them to change the name of their app at any time without leading to connectivity issues for some users. This has the added benefit of not having to show users an old name, but comes with the downside of allowing other apps to use others' app IDs without naming constraints. This downside appears too significant, and this alternative was thus not proposed.
+Instead of letting the client provide a list of legacy app names in the client, we could allow developers to make the nicknames field optional. This would allow them to change the name of their app at any time without leading to connectivity issues for some users. This has the added benefit of not having to show users an old name, but comes with the downside of allowing other apps to use others' app IDs without naming constraints. This downside appears too significant, and this alternative was thus not proposed.
