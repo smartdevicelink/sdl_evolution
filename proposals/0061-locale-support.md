@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0061](0061-locale-support.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Deferred**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
