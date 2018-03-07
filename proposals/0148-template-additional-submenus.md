@@ -1,8 +1,8 @@
 # Template Improvements: Additional SubMenus
 
-* Proposal: [SDL-NNNN](nnnn-template-additional-submenus.md)
+* Proposal: [SDL-0148](0148-template-additional-submenus.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC / HMI]
 
 ## Introduction
