@@ -1,72 +1,193 @@
 # AOA multiplexing similar to Android BT/SPP multiplexing
 
 * Proposal: [SDL-0095](0095-AOA-multiplexing.md)
-* Author: [Jennifer Hodges](https://github.com/jhodges55)
+* Author: [Jennifer Hodges](https://github.com/jhodges55), [Shinichi Watanabe](https://github.com/shiniwat)
 * Status: **Returned for Revisions**
 * Impacted Platforms: [ Android ]
 
 
 ## Introduction
 
-Add "multiplexing" to AOA transport. ![Overview](../assets/proposals/0095-AOA-multiplexing/0095-AOA-multiplexing_overview.png)
-This change introduces a better user experience as follows:
-- Multiple navigation apps can be selected by user without any operation on HS. It's same as iPhone's UX.
-- Non-navigation apps can use not only BT/SPP but AOA as transport. 
-- In the future, projection will be applied to not only navigation but also other category app then, multi "projection apps" can be supported.
- NOTICE: It will be depend on HU capability, "Whether multi projection app can be run in parallel (multi view port for each projection app) or not".
+This proposal aims to add AOA multiplexing capability to SdlRouterService.  
 
 ## Motivation
 
-Currently, only one AOA app can connect to SDL core because of AOA limitation. However, a few navigation apps will be released. And, video projection functionality will be opened for not only navigation but also other category apps. And not projection but using wide band-width and stable transport apps (ex. using high quality audio streaming or pass thru), may be considered in the future. This proposal is for supporting and realizing these requirements.
+Currently SdlRouterService works for MultiplexTransport, which supports Bluetooth transport as the underlying transport. This proposal extends SdlRouterService to support both Bluetooth and AOA (Android Open Accessory) transports, so that multiple SDL applications can share the AOA transport without having to worry about USB connection.
+AOA protocol basically allows only a single application to access the USB accessory -- if multiple applications are designed to use the same accessory, the Android system asks which application should use the accessory and shows a permission dialog. This proposal allows multiple SDL applications to share the USB accessory.
  
 ## Proposed solution
 
-Implement multiplexing functionality to AOA transport of SDL Android library. This architecture is similar to existing BT/SPP multiplexing. However, in Android, SPP and AOA may exist in parallel. So, another multiplexing router service for AOA will be added. SDL core is unnecessary to be changed because SDL core already supported multi session in single transport with using session id.
-If HU manufacture supports only multiplexing AOA app then, AOA parameter must be set as "SDL", "Core", __"1.1"__. On the other hands, if HU manufacture supports both multiplexing and single AOA app then, AOA parameter can be set as "SDL", "Core", __"1.0"__.
-App which is linked SDL proxy of multiplexing AOA support version, must include accessory_filter.xml as followings:
-```
-<usb-accessory manufacturer="SDL" model="Core" version="1.0"/>
-<usb-accessory manufacturer="SDL" model="Core" version="1.1"/> <!-- AOA multiplexing support -->
-```
-The spec must be applied to "SDLC web"->Guide->Android->Getting Started->Using AOA protocol.
+Currently, SDL app chooses the transport (either Bluetooth multiplexing, legacy Bluetooth, USB, or TCP), by specifying BaseTransportConfig when it launches SdlProxyALM instance.
+ This proposal adds yet another transport (= AOA multiplexing), and SDL app can specify which transport to use explicitly. 
+ Current SdlRouterService works for Bluetooth multiplexing, and this proposal basically extends the SdlRouterService to support both Bluetooth multiplexing and AOA multiplexing.
+ To do that, the basic idea is:
+- MultiplexTrannsportConfig is extended to be aware of TransportType. A new TransportType "MULTIPLEX_AOA" is supported in addition to "MULTIPLEX".
+- SDL application specifies TransportType when configuring MultiplexTransportConfig.
+- SdlRouterService internally holds separate Handlers according to the TransportType, and returns the right Handler when binding to the service, so that IPC channel is isolated per TransportType.
+- SdlRouterService recognizes the expected TransportType when registering the app to router. SdlRouterService internally recognizes the expected TransportType per appId.
+- SdlRouterService uses (newly added) BluetoothTransportWriter or AoaTransportWriter depending on TransportType
+- The affected component is Android proxy only. No change is required for SDL Core.
+ 
+The affected classes in Android Proxy are shown below:
 
-Optionally, even if some of OEMs/Tier1s are already using AOA for not SDL then, this proposal architecture can be applied with customized SDL Android library which includes customized router service to arbitrate SDL session and proprietary service using AOA.  
-ex. proprietary AOA parameter (in customized router service) App + standard AOA parameter Apps.
-* Special HU (with proprietary AOA parameter) <-> customized router service <-arbitrate to SDL or proprietary service-> standard SDL apps or proprietary service
-* Standard SDL HU (with standard SDL AOA parameter) <-> one of standard SDL app <-> other standard SDL apps.
-This is also same architecture to BT/SPP multiplexing.
+![Class diagram of Android Proxy](../assets/proposals/0095-aoa-multiplexing-class-diagram.png)
+
+**Fig. 1: affected classes in Android Proxy**
+
+
+## Detailed design
+### Extends MultiplexTransportConfig
+Extends MultiplexTransportConfig by adding TransportType. Current MultiplexTransportConfig assumes the underlying transport is Bluetooth only, but this proposal introduces TransportType in the class.
+
+```java
+public class MultiplexTransportConfig extends BaseTransportConfig{
+	TransportType transportType;
+
+	public TransportType getTransportType() {
+		return transportType;
+	}
+
+	public void setTransportType(TransportType transportType) {
+		this.transportType = transportType;
+	}
+}
+```
+
+### SDL app specifies TransportType when using MultiplexTransportConfig.
+Specifies TransportType explicitly in MultiplexTransportConfig if the app uses AOA multiplexing. This would be simpler than adding another TransportConfig class from SDL application's perspective.
+```java
+    transport = new MultiplexTransportConfig(getApplicationContext(), getAppId());
+    ((MultiplexTransportConfig) transport).setTransportType(TransportType.MULTIPLEX_AOA);
+    proxy = new SdlProxyALM(this,
+                    ....
+                    transport);
+```
+
+### SdlRouterService holds newly added Handler for AOA clients
+Extends SdlRouterService by adding AoaRouterHandler:
+```java
+
+	final Messenger aoaMessenger = new Messenger(new AoaRouterHandler(this));
+
+	/**
+	 * Handler of incoming messages from AOA clients.
+	 */
+	static class AoaRouterHandler extends Handler {
+	    ...
+	}
+	
+	@Override
+	public IBinder onBind(Intent intent) {
+	    ...
+			}else if(TransportConstants.BIND_REQUEST_TYPE_AOA_CLIENT.equals(requestType)) {
+				return this.aoaMessenger.getBinder();
+			}
+	    ...
+	}
+```
+and extends TransportBroker to specify (newly added) action (== BIND_REQUEST_TYPE_AOA_CLIENT) for the binding Intent:
+```java
+	private boolean sendBindingIntent(){
+        ...
+		if (mTransportType.equals(TransportType.MULTIPLEX_AOA)) {
+			bindingIntent.setAction(TransportConstants.BIND_REQUEST_TYPE_AOA_CLIENT);
+		} else {
+            ...
+		}
+        ...
+	}
+```
+
+### SdlRouterService recognizes expected TransportType
+Extends SdlRouterService so that internal class (RegisteredApp) is aware of TransportType:
+```java
+	class RegisteredApp {
+		/**
+		 * This is a simple class to hold onto a reference of a registered app.
+		 * @param appId
+		 * @param messenger
+		 * @param theType
+		 */
+		public RegisteredApp(String appId, Messenger messenger, TransportType theType){
+		    ...
+			transportType = theType;
+		}
+	}
+	
+	@Override
+	public void handleMessage(Message msg) {
+	    ....    
+        switch (msg.what) {
+	        case TransportConstants.ROUTER_REGISTER_CLIENT:
+	            RegisteredApp app = service.new RegisteredApp(appId,msg.replyTo, TransportType.MULTIPLEX); // This is the case for Bluetooth. AOA's message handler specifies TransportType.MULTIPLEX_AOA
+	    }
+	}
+```
+
+### SdlRouterService uses (newly added) ITransportWriter to write into actual transport
+Introduces BluetoothTransportWriter and AoaTransportWriter class that utilize actual transports to send data to SDL Core:
+```java
+public interface ITransportWriter {
+	boolean writeBytesToTransport(Bundle bundle);
+	boolean manuallyWriteBytes(byte[] bytes, int offset, int count);
+}
+
+// BluetoothTransportWriter internally utilizes MultiplexBluetoothTransport
+public class BluetoothTransportWriter implements ITransportWriter {
+    private MultiplexBluetoothTransport mSerialService = null;
+    ...
+    public boolean writeBytesToTransport(Bundle bundle){
+        ...
+    }
+    
+    public boolean manuallyWriteBytes(byte[] bytes, int offset, int count){
+        ...
+    }
+}
+
+// AoaTransportWriter internally utilizes (new) MultiplexAOATransport
+public class AoaTransportWriter implements ITransportWriter {
+    private MultiplexAOATransport mSerialService = null;
+
+    public boolean writeBytesToTransport(Bundle bundle){
+        ...
+    }
+    
+    public boolean manuallyWriteBytes(byte[] bytes, int offset, int count){
+        ...
+    }
+}
+```
+
+SdlRouterService selects either BluetoothTransportWriter or AoaTransportWriter according to the TransportType of the RegisteredApp instance:
+```java
+public class SdlRouterService extends Service {
+    ...
+    // TransportWriters -- for now BT and USB.
+	private BluetoothTransportWriter bluetoothTransportWriter;
+	private AoaTransportWriter aoaTransportWriter;
+    ...
+    // utilizes the TransportWriter in accordance with the TransportType for each registered app.
+}
+```
 
 ## Potential downsides
 
-Backward compatibility:  
-There is no change in SDL core. So that, new App with new AOA-mutilplexing-SDL-proxy can connect to old HU, too.
-However there is issue in only the case of 'old app + new app in HS, and HU AOA parameter is set as __"1.0"__'.
+This feature introduces TransportType for TransportBroker and SdlRouterService. While this approach should have no obvious downsides, backward compatibility should be taken into account as much as we can.
+In particular, the following cases need to be confirmed:
+- Case #1: Older proxy's TransportBroker binds to new SdlRouterService. In this case, SdlRouterService assumes TransportType == MULTIPLEX for backward compatibility.
+- Case #2: Newer proxy's TransportBroker binds to older SdlRouterService. The older SdlRouterService won't support AOA multiplexing. In this case, the expected behavior is "don't bind to older SdlRouterService; instead, start and bind to newer (local) SdlRouterService". We can utilize existing version check and trusted router logic to make this case work.
 
-UX will be as follows:  
-User can select both new apps and old apps on HS selection dialog (at the first time. If user checked "default" then, automatically selected from next). If one of old app will be selected then, other apps cannot be connected.  
-On the other hand, in the case of 'HU AOA parameter is set as __"1.1"__' (support only multiplexing), user can select only new app ("default" behavior is same as above). All of apps can be connected via router service. User can select any apps on HU. Old app (only __"1.0"__ declared in accessory_filter.xml) cannot connect New HU.
-
-So that, recommendation is choose __"1.1"__ as AOA parameter, to avoid user confusion.
-
-Case Matrix is as follows:  
-In the case of New AOA parameter "SDL","Core",__"1.1"__:
-- Case: "old apps + new apps": "old apps" cannot be activated because of different accessory parameter. Only one new app can be router of AOA, other new apps can connect via router.
-- Case: "old apps" only: old apps __cannot__ connect.
-- Case: "new apps, no old apps": normal case, all apps can connect.
-
-In the case of same AOA parameter "SDL","Core",__"1.0"__:
-- Case: "old apps + new apps": if end-user choose one of "old apps" in Android user confirmation dialog "which app should be used for this accessory" then, only one of old apps can connect. If end-user choose one of "new apps" then, all of "new apps" can connect, and old apps __cannot__ connect.
-- Case: "old apps" only: Only one of old apps can connect.
-- Case: "new apps, no old apps": normal case, all apps can connect.
-
+This feature also increases the IPC transaction between TransportBroker and SdlRouterService. While Android system has Binder Transaction Limit, which is explained at [TransactionTooLargeException Android document](https://developer.android.com/reference/android/os/TransactionTooLargeException.html), we won’t run into TransactionTooLargeException cases in real scenario based on our test, unless underlying transport has a fatal error. The fatal error case would be, for example, the case where we cannot write Bluetooth socket and/or USB's ParcelFileDescriptor for some reason. Those fatal error cases can be discussed outside of this proposal.
 
 ## Impact on existing code
 
-New service and TransportConfig will be added. These modification is not big impact to existing code.
+All changes will be made to Android Proxy, and there's no change required to SDL Core and/or other components.
+The proposed solution keeps existing logic of SdlRouterService intact, and hence there should be no obvious side effect for existing Bluetooth multiplexing.
+Because AOA multiplexing application explicitly specifies the transport, existing applications that use other transports should have no impact, as AOA multiplexing transport is not enabled. 
 
 ## Alternatives considered
 
-Alternative #1: Transparency transport architecture in Android similar to iAP. It may be a better solution for app vendors because they don't care which transport will/should be used. However, all apps should use the new library. It may be big impact to SDL market launching.
-
-Alternative #2: General protocol build on AOA to support multi session. SDL protocol (wipro protocol) already supported. Issue is only AOA open and the file descriptor can be used by only 1 context in Android. So, the general protocol is not solution.
-
+Alternative solution would be to utilize (existing) AltTransport. AltTransport is essentially just another Message Handler provided externally by binding to SdlRouterService. 
+If apps are using Bluetooth multiplexing, it appears that existing Bluetooth sessions need to be disconnected first before setting up AltTransport. This proposal takes different approach, so that existing SDL apps don't have to disconnect when another app starts utilizing AOA multiplexing transport.
+Logically speaking, however, it is possible to implement the same transport-aware logic by using AltTransport. From router client's perspective, AltTransport consumes additional IPC channel for communicating with SDL Core. So it may have performance overhead when compared with this proposed approach. 
