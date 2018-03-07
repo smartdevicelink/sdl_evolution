@@ -1,6 +1,6 @@
 # Updating Mobile Version Dependencies
 
-* Proposal: [SDL-NNNN](nnnn-updating-mobile-version-dependencies.md)
+* Proposal: [SDL-0146](0146-updating-mobile-version-dependencies.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer), [Joey Grover](https://github.com/joeygrover)
 * Status: **In Review**
 * Impacted Platforms: [Meta]
