@@ -1,8 +1,8 @@
 # Template Improvements: Color Scheme
 
-* Proposal: [SDL-NNNN](nnnn-template-color-scheme.md)
+* Proposal: [SDL-0147](0147-template-color-scheme.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [RPC, Android, iOS, Core]
 
 ## Introduction
