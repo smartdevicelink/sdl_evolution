@@ -85,7 +85,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0074" status="implemented" primary-platform="android" sdl-version="4.4" name="Android O Changes Phase 1" filename="0074-android_o_changes_phase_1.md"/>
 <proposal id="0075" status="implemented" primary-platform="rpc" sdl-version="4.5" name="OEM specific Human Interface Device support as Plug-in architecture in SDL proxy" filename="0075-HID-Support-Plug-in.md"/>
 <proposal id="0076" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Support for Additional Languages" filename="0076-Support-For-Additional-Languages.md"/>
-<proposal id="0077" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements" filename="0077-sdl-policy-server-enhancements.md"/>
+<proposal id="0077" status="implemented" primary-platform="policy" sdl-version="2.0" name="SDL Policy Server Enhancements" filename="0077-sdl-policy-server-enhancements.md"/>
 <proposal id="0078" status="implemented" primary-platform="protocol" sdl-version="5.0" name="Control Frame Payloads v1.0.0" filename="0078-control_frame_payloads_v1_0_0.md"/>
 <proposal id="0079" status="implemented" primary-platform="android" sdl-version="4.4" name="System Capability Manager" filename="0079-system_capability_manager.md"/>
 <proposal id="0080" status="accepted" primary-platform="core" sdl-version="x.x" name="Support for MultiSession protocol string" filename="0080-Support-for-MultiSession-protocol-string.md"/>
