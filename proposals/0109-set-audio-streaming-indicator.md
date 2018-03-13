@@ -17,7 +17,7 @@ In order to allow an app to indicate the action of the Play/Pause button a new R
 
 ## Proposed solution
 
-Referring to the enum `AudioStreamingState` SDL should provide another enum called `AudioStreamingIndicator`. This enum should be used in an RPC called `SetAudioStreamingIndicator`.
+Referring to the enum `AudioStreamingState` SDL should provide another enum called `AudioStreamingIndicator`. This enum should be used in the RPC `SetMediaClockTimer` as the indicator changes with updates of the media clock.
 
 ### HMI & Mobile API 
 
@@ -37,14 +37,16 @@ Referring to the enum `AudioStreamingState` SDL should provide another enum call
   </element>
 </enum> 
 
-<function name="SetAudioStreamingIndicator" messagetype="request">
-  <param name="audioStreamingIndicator" type="AudioStreamingIndicator" mandatory="true" />
+<function name="SetMediaClockTimer" messagetype="request">
+  :
+  <param name="audioStreamingIndicator" type="AudioStreamingIndicator" mandatory="false" />
 </function>
 ```
 
 By default the playback indicator should be `PLAY_PAUSE` when:
 - the media app is newly registered on the head unit (after `RegisterAppInterface`)
 - the media app was closed by the user (App enteres `HMI_NONE`)
+- the app sends `SetMediaClockTimer` with `audioStreamingIndicator` not set to any value.
 
 ## Potential downsides
 
