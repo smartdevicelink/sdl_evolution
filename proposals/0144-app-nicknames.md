@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0144](0144-app-nicknames.md)
 * Author: [Timon Kanters](https://github.com/tvkanters) (TomTom)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core, Android, iOS]
 
 
