@@ -45,13 +45,13 @@ When starting a service over Secondary Transport, Proxy simply runs the sequence
 
 When Secondary Transport becomes unavailable, Core and Proxy should abort any services that are running on Secondary Transport.
 
-Also, Proxy should retry setting up Secondary Transport on a regular interval, unless Core notifies Proxy of transport unavailability. For example, when Core sends `Transport Config Update` frame (see below section) with an empty IP address value, it means the TCP transport becomes unavailable. Proxy should not retry connection after receiving such frame. When Core sends `Transport Config Update` frame with a valid IP address (which indicates that TCP transport becomes available), Proxy should start trying Secondary Transport connection.
+Also, Proxy should retry setting up Secondary Transport on a regular interval, unless Core notifies Proxy of transport unavailability. For example, when Core sends `Transport Event Update` frame (see below section) with an empty IP address value, it means the TCP transport becomes unavailable. Proxy should not retry connection after receiving such frame. When Core sends `Transport Event Update` frame with a valid IP address (which indicates that TCP transport becomes available), Proxy should start trying Secondary Transport connection.
 
 When Primary Transport becomes unavailable, Core and Proxy should stop Secondary Transport.
 
 ### Notification of the information required to set up TCP transport
 
-To set up a TCP transport, Proxy needs to know the IP address and TCP port number on which Core is listening. A new Control Frame is proposed to convey the information. It is called `Transport Config Update` frame and is sent by Core to Proxy on Primary Transport. It should not be sent prior to Version Negotiation.
+To set up a TCP transport, Proxy needs to know the IP address and TCP port number on which Core is listening. A new Control Frame is proposed to convey the information. It is called `Transport Event Update` frame and is sent by Core to Proxy on Primary Transport. It should not be sent prior to Version Negotiation.
 
 The reason that we do not include the information in Start Service ACK frame is that Wi-Fi feature may not be available at the time of Version Negotiation. For example, consider a case where a head unit can turn off its Wi-Fi feature through user's operation. The user can turn on Wi-Fi after an SDL app is connected to Core, i.e. after the app exchanges Start Service and Start Service ACK frames.
 
@@ -83,7 +83,7 @@ Since we are adding a new Control Frame, the Protocol Version should be bumped, 
 
 **New Proxy connecting to old version of Core:** SDL Core that does not support multiple-transports feature does not include additional parameters in Start Service ACK frame. When Proxy detects that the parameters are missing, it should disable multiple-transport feature (i.e. don't start Secondary Transport and run all services on Primary Transport.)
 
-**Old version of Proxy connecting to new Core:** Proxy that does not support multiple-transports feature uses Protocol version 5.0.0 or earlier. When SDL Core detects that the version is not 5.1.0 or higher, it should not include the additional parameters in Start Service ACK frame. It should also suppress sending `Transport Config Update` Control Frame since Proxy doesn't support it.
+**Old version of Proxy connecting to new Core:** Proxy that does not support multiple-transports feature uses Protocol version 5.0.0 or earlier. When SDL Core detects that the version is not 5.1.0 or higher, it should not include the additional parameters in Start Service ACK frame. It should also suppress sending `Transport Event Update` Control Frame since Proxy doesn't support it.
 
 ### Recommentation on Wi-Fi frequency
 
@@ -94,14 +94,14 @@ This proposal was created in mind that a Bluetooth transport is used for Primary
 
 ### Extension of SDL Protocol
 
-New Control Frames `Register Secondary Transport`, `Register Secondary Transport ACK` and `Transport Config Update` are added:
+New Control Frames `Register Secondary Transport`, `Register Secondary Transport ACK` and `Transport Event Update` are added:
 
 Frame Info Value | Name                             | Description
 -----------------|----------------------------------|------------
 0x07             | Register Secondary Transport     | This frame is sent from Proxy to Core to notify that Secondary Transport has been established.<br>This frame should be only sent on Secondary Transport.
 0x08             | Register Secondary Transport ACK | This frame is sent from Core to Proxy to notify that Core has recognized Secondary Transport for the app.<br>This frame should be sent only on Secondary Transport. Proxy is allowed to send any frames on Secondary Transport only after receiving this frame.
 0x09             | Register Secondary Transport NAK | This frame is sent from Core to Proxy to notify that Core could not recognize Secondary Transport for the app.<br>This frame should be sent only on Secondary Transport.
-0xFD             | Transport Config Update          | This frame is sent from Core to Proxy to indicate that configuration(s) of transport(s) is/are updated.<br>This frame should not be sent prior to Version Negotiation.
+0xFD             | Transport Event Update           | This frame is sent from Core to Proxy to indicate that status or configuration of transport(s) is/are updated.<br>This frame should not be sent prior to Version Negotiation.
 
 The header field of `Register Secondary Transport` frame is shown below. The frame has no parameter.
 
@@ -127,20 +127,20 @@ Tag Name | Type   | Description
 ---------|--------|------------
 reason   | string | (Optional) Specify a string describing the reason of failure
 
-The header field of `Transport Config Update` frame is shown below.
+The header field of `Transport Event Update` frame is shown below.
 
-Version                                                  | E  | Frame Type | Service Type | Frame Info                  | Session Id                               | Data Size       | Message ID
----------------------------------------------------------|----|------------|--------------|-----------------------------|------------------------------------------|-----------------|-----------
-Max major version<br>supported by module and application | no | Control    | Control      | Transport Config<br> Update | Assigned session on<br>Primary Transport | Size of payload | variable
+Version                                                  | E  | Frame Type | Service Type | Frame Info                 | Session Id                               | Data Size       | Message ID
+---------------------------------------------------------|----|------------|--------------|----------------------------|------------------------------------------|-----------------|-----------
+Max major version<br>supported by module and application | no | Control    | Control      | Transport Event<br> Update | Assigned session on<br>Primary Transport | Size of payload | variable
 
-`Transport Config Update` frame includes following parameter:
+`Transport Event Update` frame includes following parameter:
 
 Tag Name     | Type   | Description
 -------------|--------|------------
 tcpIpAddress | string | (Optional) Specify a string representation of IP address that SDL Core is listening on.<br>It can be IPv4 address (example: "192.168.1.1") or IPv6 address (example: "fd12:3456:789a::1").<br>An empty string indicates that the TCP transport becomes unavailable.
 tcpPort      | int32  | (Optional) Specify the TCP Port number that SDL Core is listening on. This value should be same as `TCPAdapterPort` in smartDeviceLink.ini file.
 
-Here is an example of a parameter included in Transport Config Update frame:
+Here is an example of a parameter included in Transport Event Update frame:
 
 ```json
 {
@@ -184,7 +184,7 @@ This indicates:
 - that Core supports multiple-transports feature and allows Wi-Fi (TCP) transport to be used as a Secondary Transport, and
 - that Core allows video and audio services to run on Secondary Transport but does NOT allow to run them on Primary Transport.
 
-Note: Start Service, Start Service ACK, Start Service NAK, End Service, End Service ACK, and End Service NAK are sent on both Primary and Secondary Transports. Register Secondary Transport, Register Secondary Transport ACK and Register Secondary Transport NAK are sent only on Secondary Transport. Other Control Frames are always transferred on Primary Transport. (Currently, only `Transport Config Update` frame is applied.)
+Note: Start Service, Start Service ACK, Start Service NAK, End Service, End Service ACK, and End Service NAK are sent on both Primary and Secondary Transports. Register Secondary Transport, Register Secondary Transport ACK and Register Secondary Transport NAK are sent only on Secondary Transport. Other Control Frames are always transferred on Primary Transport. (Currently, only `Transport Event Update` frame is applied.)
 
 
 ### Extension of iOS Proxy
@@ -193,7 +193,7 @@ iOS Proxy implementation should include:
 - logic to set up and tear down Secondary Transport,
 - logic to start and stop services based on the params provided by Core,
 - support to use two instances of transports, and logic to choose appropriate one when sending frames,
-- support new Control Frame `Transport Config Update` to retrieve IP address and TCP port number,
+- support new Control Frame `Transport Event Update` to retrieve IP address and TCP port number,
 - logic to stop and start services when Secondary Transport with higher priority becomes available or unavailable (in low priority), and
 - logic to stop TCP transport when the app goes to background, and restart it when it comes back to foreground.
 
@@ -206,7 +206,7 @@ Android Proxy implementation should include:
 - logic to set up and tear down Secondary Transport,
 - logic to start and stop services based on the params provided by Core,
 - support to use two instances of transports, and logic to choose appropriate one when sending frames,
-- support new Control Frame `Transport Config Update` to retrieve IP address and TCP port number, and
+- support new Control Frame `Transport Event Update` to retrieve IP address and TCP port number, and
 - logic to stop and start services when Secondary Transport with higher priority becomes available or unavailable (in low priority)
 
 Public API of `SdlProxyALM` is unchanged. App developers choose one of the constructors in `SdlProxyALM` to start Proxy as they do today. Secondary Transport will be automatically enabled and used inside Proxy.
@@ -225,8 +225,8 @@ Core uses the value of Session ID included in `Register Secondary Transport` fra
 Implementation is updated so that SDL Core will not manage Session IDs per transport, but it will assign different Session ID to each app.
 * Including additional parameters in Start Service ACK frame
 Core should include `secondaryTransports`, `audioServiceTransports` and `videoServiceTransports` parameters in Start Service ACK frame. The value of `secondaryTransports` is acquired from smartDeviceLink.ini file. The value of `audioServiceTransports` and `videoServiceTransports` are calculated based on input from smartDeviceLink.ini file and transport type of Primary Transport.
-* Sending out `Transport Config Update` Control Frame<br>
-When the state of a network interface changes, Core should send out `Transport Config Update` frame to Proxy. `TcpClientListener` and related classes are likely to be updated to support this feature.
+* Sending out `Transport Event Update` Control Frame<br>
+When the state of a network interface changes, Core should send out `Transport Event Update` frame to Proxy. `TcpClientListener` and related classes are likely to be updated to support this feature.
 * Notifying HMI of Secondary Transport being added or removed<br>
 Application Manager should be updated to trigger sending `BasicCommunication.UpdateAppList` request when Secondary Transport of an app is added or removed.
 * Making the feature configurable through smartDeviceLink.ini file<br>
