@@ -83,6 +83,10 @@ Since we are adding a new Control Frame, the Protocol Version should be bumped, 
 
 **Old version of Proxy connecting to new Core:** Proxy that does not support multiple-transports feature uses Protocol version 5.0.0 or earlier. When SDL Core detects that the version is not 5.1.0 or higher, it should not include the additional parameters in Start Service ACK frame. It should also suppress sending `Transport Config Update` Control Frame since Proxy doesn't support it.
 
+### Recommentation on Wi-Fi frequency
+
+This proposal was created in mind that a Bluetooth transport is used for Primary Transport and a Wi-Fi transport is used for Secondary Transport. Communication over Bluetooth and Wi-Fi can happen at the same time. If Wi-Fi is running in 2.4GHz band, this feature may introduce wireless interference between Bluetooth and Wi-Fi, and communication may become unstable. Therefore, an OEM that wishes to use this multiple-transports feature is recommended to run Wi-Fi in 5GHz band.
+
 
 ## Detailed design
 
@@ -250,7 +254,6 @@ HMI should be notified that an app is connected over multiple transports. Add an
 Note: these behaviors are already seen on current SDL Core when an app on a phone is connected through a transport and another app on the same phone is connected through a different transport.
 - Transferring a service between Primary and Secondary Transports may not be smooth as it involves terminating the service on a transport then restarting it on another transport.
 - When SDL Core supports multiple-transports feature, Proxy will always open Secondary Transport even if no service will run on it.
-- This proposal enables communication over Bluetooth and Wi-Fi transports at the same time. It may introduce wireless interference when Wi-Fi is running in 2.4GHz band. Note that the degree of interference depends on hardware, so we cannot tell if it is a significant issue.
 - Because of the updated specification of Session ID, maximum number of SDL apps that can connect to Core will be limited to 255.
 - Core may not return a Start Service NAK frame when a malformed Proxy sends a Start Service frame on a transport with Session ID != 0.
 - Protocol version is bumped.
