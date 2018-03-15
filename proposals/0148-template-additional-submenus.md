@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0148](0148-template-additional-submenus.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC / HMI]
 
 ## Introduction
