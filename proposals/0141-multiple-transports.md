@@ -98,7 +98,13 @@ Frame Info Value | Name                    | Description
 -----------------|-------------------------|------------
 0xFD             | Transport Config Update | This frame is sent from Core to Proxy to indicate that configuration(s) of transport(s) is/are updated.<br>This frame should not be sent prior to Version Negotiation.
 
-The new frame includes following parameter:
+The header field of `Transport Config Update` frame is shown below.
+
+Version                                                  | E  | Frame Type | Service Type | Frame Info                  | Session Id                               | Data Size       | Message ID
+---------------------------------------------------------|----|------------|--------------|-----------------------------|------------------------------------------|-----------------|-----------
+Max major version<br>supported by module and application | no | Control    | Control      | Transport Config<br> Update | Assigned session on<br>Primary Transport | Size of payload | variable
+
+`Transport Config Update` frame includes following parameter:
 
 Tag Name     | Type   | Description
 -------------|--------|------------
