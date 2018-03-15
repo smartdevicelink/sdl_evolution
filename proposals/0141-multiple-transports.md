@@ -57,13 +57,13 @@ The reason that we use a Control Frame rather than RPC Notification is simply be
 
 ### Services that are allowed on each transport
 
-During Version Negotiation, Core sends a matrix through Start Service ACK frame describing which service is allowed to run on which transports (Primary, Secondary or both). Proxy honors this information and starts services only on an allowed transport. The matrix can be configured through smartDeviceLink.ini file. Since RPC and Hybrid services always run on Primary Transport, only Video and Audio services are configurable.
+During Version Negotiation, Core includes parameters called `audioServiceTransports` and `videoServiceTransports` through Start Service ACK frame describing which service is allowed to run on which transports (Primary, Secondary or both). Proxy honors this information and starts services only on an allowed transport. These parameters can be configured through smartDeviceLink.ini file. Since RPC and Hybrid services always run on Primary Transport, only Video and Audio services are configurable.
 
-Our primary use-case is to run Video and Audio services on Wi-Fi and USB transports, but not on Bluetooth transport which has low bandwidth. A matrix can be set up to support this scenario:
+Our primary use-case is to run Video and Audio services on Wi-Fi and USB transports, but not on Bluetooth transport which has low bandwidth. We can configure the parameters to support this scenario:
 - When Proxy is connected using Bluetooth as Primary Transport, it initiates Video and Audio services only after TCP connection is added as Secondary Transport. If Secondary Transport is disconnected, Proxy stops these services. It will start Video and Audio services again once Secondary Transport is reconnected.
 - When Proxy is connected using USB as Primary Transport, it initiates Video and Audio services on Primary Transport.
 
-The transport types included in the matrix are listed in preferred order, for example, Secondary > Primary. In case the priority of Secondary Transport is higher than that of Primary Transport, Proxy will stop and restart services when Secondary Transport is added or removed. For example, when Video service is running on Bluetooth Primary Transport then Wi-Fi transport is added as Secondary Transport, Proxy stops the service and starts another Video service on Wi-Fi transport. When Wi-Fi transport is then disconnected, Proxy stops the service and starts another Video service on Bluetooth Transport. Please note that since we do not have such use-case right now, implementation of this feature will be in low priority.
+The transports included in the parameters are listed in preferred order, for example, Secondary > Primary. In case the priority of Secondary Transport is higher than that of Primary Transport, Proxy will stop and restart services when Secondary Transport is added or removed. For example, when Video service is running on Bluetooth Primary Transport then Wi-Fi transport is added as Secondary Transport, Proxy stops the service and starts another Video service on Wi-Fi transport. When Wi-Fi transport is then disconnected, Proxy stops the service and starts another Video service on Bluetooth Transport. Please note that since we do not have such use-case right now, implementation of this feature will be in low priority.
 
 ### How Core determines that a single app initiates multiple transports
 
@@ -118,10 +118,11 @@ The definition of Start Service frame is updated to allow including a non-zero v
 
 Start Service ACK frame of RPC service includes following parameters:
 
-Tag Name           | Type             | Description
--------------------|------------------|------------
-secondaryTransport | string           | (Optional) Transport type which Core allows to use for Secondary Transport. Refer to Table 1 for possible values.<br>This parameter is included in the Start Service frame for Version Negotiation. It should not be included in the Start Service frame on Secondary Transport.<br>If Core does not allow setting up the Secondary Transport, it can omit this parameter.
-servicesMap        | document         | (Optional) A map indicating which service is allowed on which transport(s).<br>The keys of this map are string representations of service number in hex, i.e. "0x00" through "0xFF". The values are arrays of int32, whose possible values are either 1 (meaning "Primary Transport") or 2 (meaning "Secondary Transport"). The transports are listed in preferred order. Proxy must not start the service on a transport that is not listed in the values.<br>Values for "0x00" (Control Service), "0x07" (Remote Procedure Call Service) and "0x0F" (Hybrid Service) will be ignored by Proxy since they are set up on specific transports.<br>This parameter should not be included in the Start Service frame on Secondary Transport.
+Tag Name               | Type             | Description
+-----------------------|------------------|------------
+secondaryTransports    | array of strings | (Optional) Transport types which Core allows to use for Secondary Transport. Refer to Table 1 for possible values.<br>Right now Proxy implementation will not support utilizing more than one transports for Secondary Transport, so this array should contain at most one element.<br>This parameter is included in the Start Service frame for Version Negotiation. It should not be included in the Start Service frame on Secondary Transport.<br>If Core does not allow setting up the Secondary Transport, it can make the array empty, or completely omit this parameter.
+audioServiceTransports | array of int32   | (Optional) List of transports that are allowed to carry audio service. The value of int32 can be either 1 (meaning "Primary Transport") or 2 (meaning "Secondary Transport"), and the transports are listed in preferred order.  Proxy must not start the service on a transport that is not listed in the array.<br>This parameter should not be included in the Start Service frame on Secondary Transport.
+videoServiceTransports | array of int32   | (Optional) List of transports that are allowed to carry video service. The value of int32 can be either 1 (meaning "Primary Transport") or 2 (meaning "Secondary Transport"), and the transports are listed in preferred order.  Proxy must not start the service on a transport that is not listed in the array.<br>This parameter should not be included in the Start Service frame on Secondary Transport.
 
 **Table 1: list of transport type strings**
 
@@ -141,11 +142,9 @@ Here is an example of parameters in Start Service ACK frame:
 
 ```json
 {
-  "secondaryTransport": "TCP_WIFI",
-  "servicesMap": {
-    "0x0A": [2],
-    "0x0B": [2]
-  }
+  "secondaryTransports": ["TCP_WIFI"],
+  "audioServiceTransports": [2],
+  "videoServiceTransports": [2]
 }
 ```
 This indicates:
@@ -159,7 +158,7 @@ Note: Start Service, Start Service ACK, Start Service NAK, End Service, End Serv
 
 iOS Proxy implementation should include:
 - logic to set up and tear down Secondary Transport,
-- logic to start and stop services based on the matrix provided by Core,
+- logic to start and stop services based on the params provided by Core,
 - support to use two instances of transports, and logic to choose appropriate one when sending frames,
 - support new Control Frame `Transport Config Update` to retrieve IP address and TCP port number,
 - logic to stop and start services when Secondary Transport with higher priority becomes available or unavailable (in low priority), and
@@ -172,7 +171,7 @@ Public API of `SDLManager` is unchanged. The multiple-transports feature will be
 
 Android Proxy implementation should include:
 - logic to set up and tear down Secondary Transport,
-- logic to start and stop services based on the matrix provided by Core,
+- logic to start and stop services based on the params provided by Core,
 - support to use two instances of transports, and logic to choose appropriate one when sending frames,
 - support new Control Frame `Transport Config Update` to retrieve IP address and TCP port number, and
 - logic to stop and start services when Secondary Transport with higher priority becomes available or unavailable (in low priority)
@@ -192,7 +191,7 @@ Core uses the value of Session ID included in Start Service frame to find out wh
 * Updating the logic to assign Session IDs<br>
 Implementation is updated so that SDL Core will not manage Session IDs per transport, but it will assign different Session ID to each app.
 * Including additional parameters in Start Service ACK frame
-Core should include `secondaryTransport` and `servicesMap` parameters in Start Service ACK frame. The value of `secondaryTransport` is acquired from smartDeviceLink.ini file. The value of `servicesMap` is calculated based on input from smartDeviceLink.ini file and transport type of Primary Transport.
+Core should include `secondaryTransports`, `audioServiceTransports` and `videoServiceTransports` parameters in Start Service ACK frame. The value of `secondaryTransports` is acquired from smartDeviceLink.ini file. The value of `audioServiceTransports` and `videoServiceTransports` are calculated based on input from smartDeviceLink.ini file and transport type of Primary Transport.
 * Sending out `Transport Config Update` Control Frame<br>
 When the state of a network interface changes, Core should send out `Transport Config Update` frame to Proxy. `TcpClientListener` and related classes are likely to be updated to support this feature.
 * Notifying HMI of Secondary Transport being added or removed<br>
