@@ -43,7 +43,9 @@ When starting a service over Secondary Transport, Proxy simply runs the sequence
 
 ### Transport disconnection
 
-When Secondary Transport becomes unavailable, Core and Proxy should abort any services that are running on Secondary Transport. Also, if possible Proxy should retry setting up Secondary Transport on a regular interval.
+When Secondary Transport becomes unavailable, Core and Proxy should abort any services that are running on Secondary Transport.
+
+Also, Proxy should retry setting up Secondary Transport on a regular interval, unless Core notifies Proxy of transport unavailability. For example, when Core sends `Transport Config Update` frame (see below section) with an empty IP address value, it means the TCP transport becomes unavailable. Proxy should not retry connection after receiving such frame. When Core sends `Transport Config Update` frame with a valid IP address (which indicates that TCP transport becomes available), Proxy should start trying Secondary Transport connection.
 
 When Primary Transport becomes unavailable, Core and Proxy should stop Secondary Transport.
 
