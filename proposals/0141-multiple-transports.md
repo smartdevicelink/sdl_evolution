@@ -100,18 +100,17 @@ Frame Info Value | Name                    | Description
 
 The new frame includes following parameter:
 
-Tag Name           | Type     | Description
--------------------|----------|------------
-tcpTransportConfig | document | (Optional) Specify information necessary to set up TCP transport. The document may include following optional key-value pairs:<br><br>"ipAddress": value is a string representation of IP address that SDL Core is listening on. It can be IPv4 address (example: "192.168.1.1") or IPv6 address (example: "fd12:3456:789a::1").<br>"tcpPort": value is a 32-bit integer representing the TCP port number that SDL Core is listening on. This value should be same as `TCPAdapterPort` in smartDeviceLink.ini file. Example: 12345<br><br>If "ipAddress" is not included, or it is empty, then it indicates that the TCP transport becomes unavailable.
+Tag Name     | Type   | Description
+-------------|--------|------------
+tcpIpAddress | string | (Optional) Specify a string representation of IP address that SDL Core is listening on.<br>It can be IPv4 address (example: "192.168.1.1") or IPv6 address (example: "fd12:3456:789a::1").<br>An empty string indicates that the TCP transport becomes unavailable.
+tcpPort      | int32  | (Optional) Specify the TCP Port number that SDL Core is listening on. This value should be same as `TCPAdapterPort` in smartDeviceLink.ini file.
 
 Here is an example of a parameter included in Transport Config Update frame:
 
 ```json
 {
-  "tcpTransportConfig": {
-    "ipAddress": "192.168.1.1",
-    "tcpPort": 12345
-  }
+  "tcpIpAddress": "192.168.1.1",
+  "tcpPort": 12345
 }
 ```
 
