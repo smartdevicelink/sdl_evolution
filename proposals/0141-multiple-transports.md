@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0141](0141-multiple-transports.md)
 * Author: [Sho Amano](https://github.com/shoamano83), [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC / Protocol]
 
 ## Introduction
