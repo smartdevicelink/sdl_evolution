@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0146](0146-updating-mobile-version-dependencies.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer), [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Meta]
 
 ## Introduction
