@@ -15,18 +15,17 @@ We've updated the base iOS platform dependency version in the past and it was ag
 
 ## Proposed solution
 
-The proposed solution is the following set of guidelines:
+The proposed solution is the following guideline:
 
-1. If a platform dependency update would cover 97% of users, that update should occur.
-2. If a platform dependency update would cover 90% of users, a proposal may be entered with reasons for the update and the proposal considered. If a proposed version would not cover 90% of users, no proposal may be entered.
+* If a platform dependency update would cover 90% of users, a proposal may be entered with reasons for the update and the proposal considered. If a proposed version would not cover 90% of users, no proposal may be entered.
 
 The [Android platform versions website](https://developer.android.com/about/dashboards/index.html) and [iOS platform versions website](https://developer.apple.com/support/app-store/) are to be used for making these determinations.
 
 ### Android
-So, for example, (1) means that the Android libraries should support v4.2.x+ (97.6% usage) and not support previous versions. If a proposal is entered and accepted, (2) means that v4.4 (94.3% usage) is the highest version permitted to be the base Android platform version.
+So, for example, if a proposal is entered and accepted, this guideline means that v4.4 (94.3% usage) is the highest version permitted to be the base Android platform version.
 
 ### iOS
-There is not enough information to consider (1) for the iOS platform, as everything beyond the previous version is considered "other". (2) means that iOS 10 is the highest version permitted to be the base iOS platform version (iOS 10 has greater than 93% usage).
+This guideline means that iOS 10 is the highest version permitted to be the base iOS platform version (iOS 10 has greater than 93% usage).
 
 ## Potential downsides
 
