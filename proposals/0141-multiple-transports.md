@@ -37,7 +37,7 @@ The available transport type for Secondary Transport can be configured through s
 
 Note that some transports require additional information for configuration (for example, TCP transport requires IP address and TCP port number of Core). In such case, Proxy waits until the necessary information becomes available then initiates Secondary Transport.
 
-After Secondary Transport is established, Proxy sends a control frame called `Register Secondary Transport`. This frame is for Core to recognize that Proxy initiates Secondary Transport, because Core cannot know which transport belongs to which app(s) at transport layer's level. The `Register Secondary Transport` frame includes Session ID which has been provided by Start Service ACK frame on Primary Transport. (Please refer to the section "How Core determines that a single app initiates multiple transports".) Core receives `Register Secondary Transport` frame on Secondary Transport, remembers which Proxy uses which transports, then replies with `Register Secondary Transport ACK` frame.
+After Secondary Transport is established, Proxy sends a control frame called `Register Secondary Transport`. This frame is required for Core to recognize that Proxy initiates Secondary Transport, because Core cannot know which transport belongs to which app(s) at transport layer's level. The `Register Secondary Transport` frame includes Session ID which has been provided by Start Service ACK frame on Primary Transport. (Please refer to the section "How Core determines that a single app initiates multiple transports".) Core receives `Register Secondary Transport` frame on Secondary Transport, remembers which Proxy uses which transports, then replies with `Register Secondary Transport ACK` frame.
 
 When starting a service over Secondary Transport, Proxy simply runs the sequence of Start Service and Start Service ACK frames. The Start Service frame includes Session ID which has been provided by Start Service ACK frame on Primary Transport.
 
@@ -73,7 +73,7 @@ One of the issues arising from multiple-transports feature is that SDL Core need
 
 Currently Session ID is managed per transport, so it is possible that two apps receive same Session ID if they are connected through different transports. This behavior will be updated so that Core will assign different Session IDs to each app (i.e. Core will make sure to assign different Session IDs in each Version Negotiation procedure).
 
-When Proxy sends a Start Service frame on Secondary Transport, it always includes the Session ID provided by Start Service ACK frame on Primary Transport. This means that Start Service frame will include a non-zero value for Session ID on Secondary Transport. Core uses the Session ID value to recognize which transports are used by a single Proxy. Core's implementation will be updated to accept Start Service frame with a known Session ID even if the frame is received through Secondary Transport.
+When Proxy sends a `Register Secondary Transport` or Start Service frame on Secondary Transport, it always includes the Session ID provided by Start Service ACK frame on Primary Transport. This means that Start Service frame will include a non-zero value for Session ID on Secondary Transport. Core uses the Session ID value to recognize which transports are used by a single Proxy. Core's implementation will be updated to accept Start Service frame with a known Session ID even if the frame is received through Secondary Transport.
 
 The downside of this proposal is that maximum number of SDL apps that can connect to Core will be limited to 255.
 
@@ -85,7 +85,7 @@ Since we are adding a new Control Frame, the Protocol Version should be bumped, 
 
 **Old version of Proxy connecting to new Core:** Proxy that does not support multiple-transports feature uses Protocol version 5.0.0 or earlier. When SDL Core detects that the version is not 5.1.0 or higher, it should not include the additional parameters in Start Service ACK frame. It should also suppress sending `Transport Event Update` Control Frame since Proxy doesn't support it.
 
-### Recommentation on Wi-Fi frequency
+### Recommendation on Wi-Fi frequency
 
 This proposal was created in mind that a Bluetooth transport is used for Primary Transport and a Wi-Fi transport is used for Secondary Transport. Communication over Bluetooth and Wi-Fi can happen at the same time. If Wi-Fi is running in 2.4GHz band, this feature may introduce wireless interference between Bluetooth and Wi-Fi, and communication may become unstable. Therefore, an OEM that wishes to use this multiple-transports feature is recommended to run Wi-Fi in 5GHz band.
 
@@ -94,7 +94,7 @@ This proposal was created in mind that a Bluetooth transport is used for Primary
 
 ### Extension of SDL Protocol
 
-New Control Frames `Register Secondary Transport`, `Register Secondary Transport ACK` and `Transport Event Update` are added:
+New Control Frames `Register Secondary Transport`, `Register Secondary Transport ACK`, `Register Secondary Transport NAK` and `Transport Event Update` are added:
 
 Frame Info Value | Name                             | Description
 -----------------|----------------------------------|------------
@@ -107,19 +107,19 @@ The header field of `Register Secondary Transport` frame is shown below. The fra
 
 Version                                                  | E  | Frame Type | Service Type | Frame Info                      | Session Id                               | Data Size | Message ID
 ---------------------------------------------------------|----|------------|--------------|---------------------------------|------------------------------------------|-----------|-----------
-Max major version<br>supported by module and application | no | Control    | Control      | Register Secondary<br>Transport | Assigned session on<br>Primary Transport | 0         | 1
+Max major version<br>supported by module and application | no | Control    | Control      | Register Secondary<br>Transport | Session Id assigned on<br>Primary Transport | 0         | 1
 
 The header field of `Register Secondary Transport ACK` frame is shown below. The frame has no parameter.
 
 Version                                                  | E  | Frame Type | Service Type | Frame Info                          | Session Id                               | Data Size | Message ID
 ---------------------------------------------------------|----|------------|--------------|-------------------------------------|------------------------------------------|-----------|-----------
-Max major version<br>supported by module and application | no | Control    | Control      | Register Secondary<br>Transport ACK | Assigned session on<br>Primary Transport | 0         | 2
+Max major version<br>supported by module and application | no | Control    | Control      | Register Secondary<br>Transport ACK | Session Id assigned on<br>Primary Transport | 0         | 2
 
 The header field of `Register Secondary Transport NAK` frame is shown below.
 
 Version                                                  | E  | Frame Type | Service Type | Frame Info                          | Session Id                               | Data Size       | Message ID
 ---------------------------------------------------------|----|------------|--------------|-------------------------------------|------------------------------------------|-----------------|-----------
-Max major version<br>supported by module and application | no | Control    | Control      | Register Secondary<br>Transport ACK | Assigned session on<br>Primary Transport | Size of payload | 2
+Max major version<br>supported by module and application | no | Control    | Control      | Register Secondary<br>Transport NAK | Session Id assigned on<br>Primary Transport | Size of payload | 2
 
 `Register Secondary Transport NAK` frame includes following parameter:
 
@@ -131,9 +131,9 @@ The header field of `Transport Event Update` frame is shown below.
 
 Version                                                  | E  | Frame Type | Service Type | Frame Info                 | Session Id                               | Data Size       | Message ID
 ---------------------------------------------------------|----|------------|--------------|----------------------------|------------------------------------------|-----------------|-----------
-Max major version<br>supported by module and application | no | Control    | Control      | Transport Event<br> Update | Assigned session on<br>Primary Transport | Size of payload | variable
+Max major version<br>supported by module and application | no | Control    | Control      | Transport Event<br> Update | Session Id assigned on<br>Primary Transport | Size of payload | variable
 
-`Transport Event Update` frame includes following parameter:
+`Transport Event Update` frame includes following parameters:
 
 Tag Name     | Type   | Description
 -------------|--------|------------
@@ -215,7 +215,7 @@ Public API of `SdlProxyALM` is unchanged. App developers choose one of the const
 ### Extension of Core
 
 * Detecting connection of Secondary Transport<br>
-When Core receives a `Register Secondary Transport` frame with non-zero Session ID, and the ID is not known on that connection, then Core recognizes that Proxy initiates Secondary Transport. The implementation of `ConnectionHandlerImpl` and `Connection` classes will be updated. `ConnectionHandlerImpl` class will also notify `ApplicationManagerImpl` class of the event.<br>
+When Core receives a `Register Secondary Transport` frame with non-zero Session ID, and the ID is not known on that connection, then Core recognizes that Proxy initiates Secondary Transport. The implementation of `ProtocolHandlerImpl`, `ConnectionHandlerImpl` and `Connection` classes will be updated. `ConnectionHandlerImpl` class will also notify `ApplicationManagerImpl` class of the event.<br>
 `Application` and `ApplicationImpl` classes are updated to keep `DeviceHandle` for Secondary Transport.
 * Handling messages from Secondary Transport as if they were received through Primary Transport<br>
 To minimize impacts on existing implementation, Core should treat incoming messages received through Secondary Transport as if they came from Primary Transport.<br>
@@ -223,7 +223,7 @@ An idea is to overwrite `connection_key` value of the messages. The value is inc
 Core uses the value of Session ID included in `Register Secondary Transport` frame to find out which services are initiated by a single app.
 * Updating the logic to assign Session IDs<br>
 Implementation is updated so that SDL Core will not manage Session IDs per transport, but it will assign different Session ID to each app.
-* Including additional parameters in Start Service ACK frame
+* Including additional parameters in Start Service ACK frame<br>
 Core should include `secondaryTransports`, `audioServiceTransports` and `videoServiceTransports` parameters in Start Service ACK frame. The value of `secondaryTransports` is acquired from smartDeviceLink.ini file. The value of `audioServiceTransports` and `videoServiceTransports` are calculated based on input from smartDeviceLink.ini file and transport type of Primary Transport.
 * Sending out `Transport Event Update` Control Frame<br>
 When the state of a network interface changes, Core should send out `Transport Event Update` frame to Proxy. `TcpClientListener` and related classes are likely to be updated to support this feature.
