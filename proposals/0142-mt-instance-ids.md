@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0142](0142-mt-instance-ids.md)
 * Author: [Sho Amano](https://github.com/shoamano83), [Robin Kurian](https://github.com/robinmk)
-* Status: **Returned for Revisions**
+* Status: **Withdrawn**
 * Impacted Platforms: [Core / iOS / Android / Protocol / BSON library]
 
 ## Introduction
