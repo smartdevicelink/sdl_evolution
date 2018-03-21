@@ -1,8 +1,8 @@
 # Enhancing onHMIStatus with a New Parameter for Video Streaming State
 
-* Proposal: [SDL-NNNN](nnnn-video-streaming-state.md)
+* Proposal: [SDL-0150](0150-video-streaming-state.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
