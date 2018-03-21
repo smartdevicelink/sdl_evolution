@@ -72,11 +72,37 @@ The text color should be calculated using an algorithm based on the background c
 
 While the OEM may use these colors to appear the best within their UI, there are a few requirements and a few strong recommendations for placement of the colors to allow for consistency across platforms and to give app developers a good base they can consider when selecting their colors.
 
-#### OEM Requirements
+### Examples
+
+Using the Generic HMI, this scheme works out like the following:
+
+#### Pandora
+##### Day
+![generic-colorized-pandora-day](../assets/proposals/0147-template-color-scheme/pandora-day.png)
+
+Primary: #356efc – Secondary & Background: #ffffff
+
+##### Night
+![generic-colorized-pandora-day](../assets/proposals/0147-template-color-scheme/pandora-night.png)
+
+Primary: #356efc – Secondary & Background: #151841
+
+#### AccuWeather
+##### Day
+![generic-colorized-accuweather-day](../assets/proposals/0147-template-color-scheme/accuweather-day.png)
+
+#### iHeart Radio
+##### Day
+![generic-colorized-iHeart-day](../assets/proposals/0147-template-color-scheme/iHeart-day.png)
+
+##### Night
+![generic-colorized-iHeart-night](../assets/proposals/0147-template-color-scheme/iHeart-night.png)
+
+### OEM Requirements
 1. If the OEM uses only one color, they must use the `primaryColor`.
 2. If the OEM uses the `secondaryColor`, they must also use the `primaryColor`.
 
-#### OEM Recommendations
+### OEM Recommendations
 1. The `backgroundColor` should change the background color of the layout.
 2. The `primaryColor` should change the `mediaClockTimer` bar and the highlight color of soft buttons.
 3. The `secondaryColor` should change the background color of buttons, such as soft buttons.
