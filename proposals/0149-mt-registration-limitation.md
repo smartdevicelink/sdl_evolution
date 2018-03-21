@@ -1,8 +1,8 @@
 # Add capability to disable resumption based on app type and transport type
 
-* Proposal: [SDL-nnnn](nnnn-mt-registration-limitation.md)
+* Proposal: [SDL-0149](0149-mt-registration-limitation.md)
 * Author: [Sho Amano](https://github.com/shoamano83), [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
