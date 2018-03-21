@@ -80,6 +80,8 @@ While the OEM may use these colors to appear the best within their UI, there are
 1. The `backgroundColor` should change the background color of the layout.
 2. The `primaryColor` should change the `mediaClockTimer` bar and the highlight color of soft buttons.
 3. The `secondaryColor` should change the background color of buttons, such as soft buttons.
+4. If the OEM supports both day and night schemes, and a developer provides only one scheme, they should use the developer's scheme for the one they provided, and their default scheme for the other.
+5. If the OEM supports only day or night scheme (e.g. light / dark, respectively), then the OEM should only use the corresponding scheme, if the developer provides it. e.g. If the OEM only supports a dark scheme on their head unit, the OEM should only use the night scheme, when available.
 
 #### App Requirements
 1. An app's `primaryColor` must be their primary brand color. Other colors they choose should be based on that color being the primary color.
