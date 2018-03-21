@@ -35,7 +35,7 @@ The proposed solution is to add a few new structs:
             <description>The primary "accent" color</description>
         </param>
         <param name="secondaryColor" type="RGBColor" mandatory="false">
-            <description>The primary "accent" color</description>
+            <description>The secondary "accent" color</description>
         </param>
         <param name="backgroundColor" type="RGBColor" mandatory="false">
             <description>The color of the background</description>
