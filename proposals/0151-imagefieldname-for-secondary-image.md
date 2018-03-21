@@ -1,8 +1,8 @@
 # ImageFieldName for SecondaryImage
 
-* Proposal: [SDL-NNNN](NNNN-imagefieldname-for-secondary-image.md)
+* Proposal: [SDL-0151](0151-imagefieldname-for-secondary-image.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
