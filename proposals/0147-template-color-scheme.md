@@ -92,7 +92,7 @@ This **must** be implemented consistently across platforms. If it is not, then a
 
 The app may provide a color scheme that no text color will work well for. App certification may be necessary for this case. I would recommend we follow the [W3C accessibility guidelines](https://www.w3.org/TR/WCAG20/), with an [example algorithm](https://stackoverflow.com/a/3943023/1221798).
 
-Allowing developers to change the current template's color at runtime could result in driver distraction issues if done often.
+Allowing developers to change the current template's color at runtime could result in a "painting" effect which is less than ideal.
 
 ## Impact on existing code
 
