@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0147](0147-template-color-scheme.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [RPC, Android, iOS, Core]
 
 ## Introduction
