@@ -104,7 +104,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0092" status="implemented" primary-platform="core" sdl-version="4.5" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
 <proposal id="0093" status="implemented" primary-platform="android" sdl-version="4.4" name="Haptic Projection" filename="0093-haptic-projection.md"/>
 <proposal id="0094" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
-<proposal id="0095" status="active" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
+<proposal id="0095" status="returned" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
 <proposal id="0096" status="accepted" primary-platform="core" sdl-version="x.x" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
 <proposal id="0097" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
 <proposal id="0098" status="accepted" primary-platform="mobile" sdl-version="x.x" name="SDL Localization" filename="0098-localization.md"/>
@@ -157,10 +157,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0144" status="accepted" primary-platform="core" sdl-version="x.x" name="Allow clients to specify legacy nicknames" filename="0144-app-nicknames.md"/>
 <proposal id="0145" status="accepted" primary-platform="core" sdl-version="x.x" name="Driver Distraction Notification Upon Registration" filename="0145-distraction-notification-after-registration.md"/>
 <proposal id="0146" status="accepted" primary-platform="meta" sdl-version="x.x" name="Updating Mobile Version Dependencies" filename="0146-updating-mobile-version-dependencies.md"/>
-<proposal id="0147" status="active" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Color Scheme" filename="0147-template-color-scheme.md"/>
+<proposal id="0147" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Color Scheme" filename="0147-template-color-scheme.md"/>
 <proposal id="0148" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Additional SubMenus" filename="0148-template-additional-submenus.md"/>
-
-
+<proposal id="0149" status="active" primary-platform="core" sdl-version="x.x" name="Add capability to disable resumption based on app type and transport type" filename="0149-mt-registration-limitation.md"/>
+<proposal id="0150" status="active" primary-platform="rpc" sdl-version="x.x" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
+<proposal id="0151" status="active" primary-platform="rpc" sdl-version="x.x" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
 
 	
 <!--
