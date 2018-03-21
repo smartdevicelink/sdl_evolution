@@ -91,6 +91,11 @@ Primary: #356efc – Secondary & Background: #151841
 ##### Day
 ![generic-colorized-accuweather-day](../assets/proposals/0147-template-color-scheme/accuweather-day.png)
 
+##### Night
+![generic-colorized-accuweather-night](../assets/proposals/0147-template-color-scheme/accuweather-night.png)
+
+Primary: #ed5628 – Secondary: #3b4147 – Background: #131b24
+
 #### iHeart Radio
 ##### Day
 ![generic-colorized-iHeart-day](../assets/proposals/0147-template-color-scheme/iHeart-day.png)
