@@ -1,8 +1,8 @@
 # Template Improvements: Additional Sub-Menus
 
-* Proposal: [SDL-NNNN](nnnn-template-additional-submenus.md)
+* Proposal: [SDL-0148](0148-template-additional-submenus.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC / HMI]
 
 ## Introduction
@@ -15,7 +15,7 @@ Currently, SDL is by far the most restrictive among its competitors for drilling
 
 ### AddSubMenu
 
-This change is the ability to send an addSubMenu command with a parent id.
+This change is paired with the ability to send an addSubMenu command with a parent ID.
 
 ```xml
 <function name="AddSubMenu" functionID="AddSubMenuID" messagetype="request">
