@@ -1,4 +1,4 @@
-# Template Improvements: Additional Sub-Menus
+# Template Improvements: Additional SubMenus
 
 * Proposal: [SDL-0148](0148-template-additional-submenus.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
