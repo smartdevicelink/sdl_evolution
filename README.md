@@ -154,13 +154,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Core: 4.5.0
-**Expected Release Date**: March 29, 2018
-
-**Contents**: This release will include stabilization fixes and the Connectivity via iAP-BT and Transport Switch feature described [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0053-Connectivity-via-iAP-BT-and-Transport-Switch.md).  Contents of this release can be tracked on the [Core 4.5.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/9).
-
----
-
 #### Android SDK: 4.5.0
 **Expected Release Date**: March 29, 2018
 
@@ -168,14 +161,19 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
+#### Core: 4.5.0
+**Expected Release Date**: April 5, 2018
+
+**Contents**: This release will include stabilization fixes and the Connectivity via iAP-BT and Transport Switch feature described [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0053-Connectivity-via-iAP-BT-and-Transport-Switch.md).  Contents of this release can be tracked on the [Core 4.5.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/9).
+
+---
+
 #### Manticore: 1.2.0
-**Expected Release Date**: March 29, 2018
+**Expected Release Date**: May 3, 2018
 
 **Contents**: Include enhancements and update to the latest version of Core.
 
 ---
-
-
 
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
