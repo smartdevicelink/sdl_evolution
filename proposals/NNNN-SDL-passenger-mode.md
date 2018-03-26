@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Allow a passenger to dismiss the lockscreen to improve usability of applications.
+Allow a passenger to dismiss the lockscreen to improve usability of applications. This re-visited proposal now includes a way for individual OEMs to control this mode via policy updates.
 
 ## Motivation
 
