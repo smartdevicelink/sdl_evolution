@@ -36,6 +36,8 @@ As before, if the app does not stop video service after receiving `onHMIStatus` 
 
 The transition of videoStreamingState is independent of the transition of hmiLevel. However, the transition of hmiLevel depends on both audioStreamingState and videoStreamingState. SDL Core shall move a media/project/navigation app which is not `AUDIBLE` and not `STREAMABLE` to `BACKGROUND` HMI level. There are at most two media/project/navigation apps which can be placed in HMI level `LIMITED`. In `LIMITED` level, an app can be either `AUDIBLE` or `STREAMABLE` or both.
 
+Application may not have any other HMI types to support video/audio streaming, PROJECTION hmi type means that it is audible and streamable application.
+
 #### Mobile API
 ```xml
 <function name="OnHMIStatus" functionID="OnHMIStatusID" messagetype="notification">
