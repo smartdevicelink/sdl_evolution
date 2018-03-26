@@ -13,7 +13,7 @@ This proposal adds a new parameter `videoStreamingState` to `onHMIStatus` notifi
 
 Currently, without Projection apps, a mobile navigation app can start video streaming in HMI level `FULL` and can continue streaming while in HMI level `LIMITED` in order to have a good user experience. The app must stop video streaming after receiving `onHMIStatus` with HMI level `NONE` or `BACKGROUND`. If the app does not stop streaming after certain amount of time, SDL Core will send a `StopService` Control Frame to the app in protocol layer. Therefore, the HMI level implies when a navigation app shall stop video streaming or not. There is no dedicated RPC message or parameter from SDL Core to mobile app to say ‘stop video streaming’ in application layer. 
 
-With the new projection apps coming, HMI level itself is not enough to tell when a navigation app or a projection app shall stop video streaming. For example, a driver launches a navigation app first, launches a non-media projection app next. The driver shall still be able to hear turn-by-turn instructions. The navigation app is in HMI level `LIMITED` with `audioStreamingState`=`AUDIBLE`. Because the projection app is streaming, the navigation app shall stop video streaming while it is still in `LIMITED`. (Compare to the case that the driver launches a navigation app and a media app in sequence. The navigation app is in HMI level `LIMITED` with `audioStreamingState`=` ATTENUATED`. It continues streaming video.)
+With the new projection apps coming, HMI level itself is not enough to tell when a navigation app or a projection app shall stop video streaming. For example, a driver launches a navigation app first, launches a non-media projection app next. The driver shall still be able to hear turn-by-turn instructions. The navigation app is in HMI level `LIMITED` with `audioStreamingState`=`AUDIBLE`. Because the projection app is streaming, the navigation app shall stop video streaming while it is still in `LIMITED`. (Compare to the case that the driver launches a navigation app and a media app in sequence. The navigation app is in HMI level `LIMITED` with `audioStreamingState`=`ATTENUATED`. It continues streaming video.)
 
 ## Proposed solution
 
@@ -35,6 +35,8 @@ As before, if the app does not stop video service after receiving `onHMIStatus` 
 
 
 The transition of videoStreamingState is independent of the transition of hmiLevel. However, the transition of hmiLevel depends on both audioStreamingState and videoStreamingState. SDL Core shall move a media/project/navigation app which is not `AUDIBLE` and not `STREAMABLE` to `BACKGROUND` HMI level. There are at most two media/project/navigation apps which can be placed in HMI level `LIMITED`. In `LIMITED` level, an app can be either `AUDIBLE` or `STREAMABLE` or both.
+
+Application may not have any other HMI types to support video/audio streaming, PROJECTION hmi type means that it is audible and streamable application.
 
 #### Mobile API
 ```xml
