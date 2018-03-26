@@ -17,7 +17,7 @@ Currently, SDL is by far the most restrictive among its competitors for drilling
 
 ### HMI Driver Distraction
 
-The proposed solution is a new set of restrictions that can be set by the OEM. This new set of restrictions should be the number of command items that are permissible in a list when the driver is distracted, and the second is the number of levels of submenus permitted when the driver is distracted. The default for scrolling items when distracted should default to 10, and number of levels of submenus will default to 3. This should be supported via the HMI, however, the author was unable to find a notification from Core to HMI of driver distraction. This would need to be provided, but then the HMI could handle hiding and showing list length and depth from there.
+The proposed solution is a new set of restrictions that can be set by the OEM. This new set of restrictions should be the number of command items that are permissible in a list when the driver is distracted, and the second is the number of levels of submenus permitted when the driver is distracted. The number of scrolling items when distracted should default to 10, and number of levels of submenus will default to 3. This should be supported via the HMI, however, the author was unable to find a notification from Core to HMI of driver distraction. This would need to be provided, but then the HMI could handle hiding and showing list length and depth from there.
 
 ### SystemCapability
 
