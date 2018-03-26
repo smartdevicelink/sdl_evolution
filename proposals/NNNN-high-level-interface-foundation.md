@@ -1,0 +1,51 @@
+# High level interface: Foundation
+
+* Proposal: [SDL-NNNN](NNNN-high-level-interface-foundation.md)
+* Author: [Kujtim Shala](https://github.com/kshala-ford)
+* Status: **Awaiting review**
+* Impacted Platforms: [ iOS / Android ]
+
+## Introduction
+
+This proposal is about setting up a foundation to provide a high level developer interface to the Android and iOS libraries. It proposes a solution to mimic the UI framework of the native OS SDKs. It contains an overview and basic design but won't go much into details of a specific section. Subsequent proposal will be created in the near future in order to provide detailed designs whenever necessary.
+
+As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
+
+## Motivation
+
+In order to work with SDL app developers need to learn a new API which mostly doesn't adopt familiar patterns. Including but not limited to 
+- read best practices and implement proxy lifecycle (Android above all)
+- the use of RPCs and handle notifications, requests and responses
+- manually manage concurrent and sequential operations (e.g. image upload)
+
+The time for an app developer to learn SDL (non-productive time) is high and not accepted by some developers. The SDL iOS library already improves the current situation by abstracting painful implementations. However the management layer is still unfamiliar and causes a high learning curve.
+
+## Proposed solution
+
+This proposal is about adding a new abstraction layer which utilizes the management layer and provides a high level interface familiar to the UIKit famework in iOS and Activity package in Android.
+
+|----------------------|
+| High level interface |
+| ---------------------|
+| Management layer     |
+|----------------------|
+| Proxy layer          |
+|----------------------|
+| Protocol layer       |
+|----------------------|
+| Transport layer      |
+|----------------------|
+
+
+
+## Potential downsides
+
+Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
+
+## Impact on existing code
+
+Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
+
+## Alternatives considered
+
+Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
