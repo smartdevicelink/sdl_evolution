@@ -117,9 +117,9 @@ Max major version<br>supported by module and application | no | Control    | Con
 
 The header field of `Register Secondary Transport NAK` frame is shown below.
 
-Version                                                  | E  | Frame Type | Service Type | Frame Info                          | Session Id                               | Data Size       | Message ID
----------------------------------------------------------|----|------------|--------------|-------------------------------------|------------------------------------------|-----------------|-----------
-Max major version<br>supported by module and application | no | Control    | Control      | Register Secondary<br>Transport NAK | Session Id assigned on<br>Primary Transport | Size of payload | 2
+Version                                                                           | E  | Frame Type | Service Type | Frame Info                          | Session Id                               | Data Size       | Message ID
+----------------------------------------------------------------------------------|----|------------|--------------|-------------------------------------|------------------------------------------|-----------------|-----------
+Max major version<br>supported by module and application if<br>known, otherwise 5 | no | Control    | Control      | Register Secondary<br>Transport NAK | Session Id assigned on<br>Primary Transport | Size of payload | 2
 
 `Register Secondary Transport NAK` frame includes following parameter:
 
@@ -258,6 +258,15 @@ SecondaryTransportForWiFi =
 ; Video service
 0x0B = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
 ```
+```ini
+[TransportManager]
+  :
+(snip)
+  :
+; Name of the network interface that Core will listen on for incoming TCP connection, e.g. eth0.
+; If the name is omitted, Core will listen on all network interfaces by binding to INADDR_ANY.
+TCPAdapterNetworkInterface =
+```
 
 
 ### Modification of HMI\_API.xml
@@ -299,7 +308,6 @@ Note: these behaviors are already seen on current SDL Core when an app on a phon
 ## Out of scope of this proposal
 
 - The authors have a use-case to prevent a video-streaming app from automatically launching on HMI if it is not connected with a high-bandwidth transport (i.e. Wi-Fi or USB). To realize this use-case, the resumption logic in SDL Core has to be modified. This feature will be addressed in another proposal [SDL-nnnn: Add capability to disable or reject an app based on app type, transport type and OS type][reg_limitation].
-- In some cases, SDL Core should not accept TCP connections on all network interfaces. For example, a head unit is equipped with a Wi-Fi network device and a communication module for cellular network, in which case the system will have two network interfaces. An OEM may want to accept SDL connection only through Wi-Fi's network interface and not through Internet connection. If we need to support such scenario, another proposal should be entered.
 
 
 ## Alternatives considered
