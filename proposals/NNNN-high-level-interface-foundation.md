@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is about setting up a foundation to provide a high level developer interface to the Android and iOS libraries. It proposes a solution to mimic the UI framework of the native OS SDKs. It contains an overview and basic design but won't go much into details of a specific section. Subsequent proposal will be created in the near future in order to provide detailed designs whenever necessary.
+This proposal is about setting up a foundation to provide a high level developer interface to the iOS library. A separate proposal will address the high level Android interface. It proposes a solution to mimic the UI framework of the native OS SDKs. It contains an overview and basic design but won't go much into details of a specific section. Subsequent proposal will be created in the near future in order to provide detailed designs whenever necessary.
 
 As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
 
@@ -36,7 +36,7 @@ The high level interface sits on top of the management layer. It should provide 
 - SDL ViewController (iOS) or Activity (Android) to allow architecture SDL use cases beyond todays possibilities (incl. UI stack)
 - SDL View with subclasses to simplify the HMI screen manipulation throughout the UI stack
 
-### iOS: Application lifecycle
+### Application lifecycle
 ---
 
 This subsection is not complete but provides an descriptive overview to avoid confusion. If agreed by the steering committee the details of the application lifecycle will be proposed separately.
@@ -111,7 +111,7 @@ The purpose of the protocol is to improve the learning curve of possible HMI lev
 | BACKGROUND    | FULL          | `appDidBecomeActive:`                                                 | Background app was selected by the user                               |
 | LIMITED       | FULL          | `appDidBecomeActive:`                                                 | Active media app was selected by the user                             |
 
-### iOS: View Controller lifecycle
+### View Controller lifecycle
 ---
 
 Based on the MVC pattern used by UIKit the high level interface should introduce the SDL view controller in order to manage and control views. App developers need to subclass the base view controller class and implement the use cases. As view controllers are stackable the app developer can separate and structure the SDL related code.
@@ -169,6 +169,8 @@ The base class provides empty overridable methods in order to load a view or bei
 
 @property (nonatomic) SDLView *view;
 
+@property (nonatomic, copy) NSString *layout; // SetDisplayLayout
+
 - (void)loadView;
 - (void)viewDidLoad;
 
@@ -186,7 +188,7 @@ The base class provides empty overridable methods in order to load a view or bei
 
 ### SDLViewControllerManager
 
-View controllers should be stackable. Similar to [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) an SDL view controller manager should be used by the SDL application class. Different to `UINavigationController` there should not be an `SDLNavigationController`. First of all the navigation controller provides UI elements (no Navigation buttons or Toolbar) which cannot be adoped to SDL. Second to avoid confusion the code responsible for the stack should not be called navigation. (See alternative for `SDLStackViewController` and `SDLApplication.rootViewController`).
+View controllers should be stackable. Similar to [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) an SDL view controller manager should be used by the SDL application class. Different to `UINavigationController` there should not be an `SDLNavigationController`. First of all the navigation controller provides UI elements (no Navigation buttons or Toolbar) which cannot be adoped to SDL. Second to avoid confusion the code responsible for the stack should not be called navigation. (An alternative for `SDLNavigationController` or `SDLStackViewController` can be added if requested).
 
 The view controller manager provides methods to access view controllers and manipulate the view controller stack.
 
@@ -277,7 +279,7 @@ Similar to `Alert` this view controller takes care about the RPC `ScrollableMess
 
 #### SDLSliderController
 
-This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider). For consitency it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `numTicks` to be between 2 and 26. With the high level abstraction the modal controller can manage much more value ranges than 1-26. Examples are negative or more values which are mapped internally to the available range. Future versions of the mobile API could increase the range which would be managed by the modal controller.
+This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider). For consitency it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `numTicks` to be between 2 and 26. With the high level abstraction the modal controller can manage much more value ranges than 1-26. Examples are ranges with negative (or more values than available) which are mapped (and scaled) internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
 
 ```objc
 @interface SDLSliderController : SDLModalViewController
@@ -289,13 +291,123 @@ This controller matches very closely to the view [`UISlider`](https://developer.
 @property (nonatomic) NSInteger minimumValue;
 @property (nonatomic) NSInteger maximumValue;
 
-// maps to .position
+// maps to `Slider.position`
 @property (nonatomic) NSInteger value;
 
 @end
 ```
 
 #### SDLInteractionController
+
+Together with the `SDLChoiceSetManager` the interaction controller will take care about most of the painful work to deal with choice sets and interactions.
+
+In order to support the app developer a class called `SDLChoiceSet` is used which comes with a choice set manager. The choice set management will be proposed separately as it should be contained in the management layer.
+
+- If `.manualInteraction` is set the controller performs with interaction mode MANUAL_ONLY.
+- If `.voiceInteraction` is set the controller  performs with interaction mode VOICE_ONLY.
+- If both parameters are seth the controller perform with interaciton mode BOTH.
+- Initial prompt is optional and used in any interaction mode
+
+```objc
+@interface SDLInteractionController : SDLModalController
+
+@property (nonatomic, copy) SDLChoiceSet *choiceSet;
+@property (nonatomic, copy) NSArray<SDLTTSChunk *> *initialPrompt;
+
+@property (nonatomic, copy) SDLManualInteraction *manualInteraction;
+@property (nonatomic, copy) SDLVoiceInteraction *voiceInteraction;
+
+@end
+
+@interface SDLManualInteraction
+
+@property (nonatomic) SDLLayoutMode *layout;
+
+@property (nonatomic, copy) SDLKeyboardProperties *keyboardProperties;
+
+@end
+
+@interface SDLVoiceInteraction
+
+@property (nonatomic, copy) NSArray<SDLTTSChunk *> *helpPrompt;
+@property (nonatomic, copy) NSArray<SDLTTSChunk *> *timeoutPrompt;
+
+@property (nonatomic, copy) NSArray<SDLVrHelpItem *> *helpItems;
+
+@end
+```
+
+### Views
+
+The high level interface introduces three different kind of views: text view, image view and button view. Each view element added to a view controller will be responsible for a parameter of the `Show` RPC.
+
+#### SDLView
+
+```objc
+@interface SDLView
+
+@property (nonatomic) NSArray<SDLView *> *subviews;
+
+@end
+```
+
+#### SDLTextView
+
+The text view is a view which takes care about any kind of text field modifyable by the `Show` RPC. Main fields are dynamically added (first item used for `mainField1`, second for `mainField2`).
+
+```objc
+
+@interface SDLTextView : SDLView
+
+@property (nonatomic) SDLTextAlignment textAlignment;
+
+@property (nonatomic) NSArray<SDLTextField *> *mainFields;
+
+@property (nonatomic) NSString *statusBar;
+
+@property (nonatomic) NSString *mediaTrack;
+
+@property 
+
+@end
+
+@interface SDLTextField
+
+@property (nonatomic, copy) NSString *text;
+@property (nonatomic, copy) NSArray<SDLMetadataType> *metadataTypes;
+
+@end
+```
+
+#### SDLImageView
+
+The image view will be used for the primary and secondary graphic in the order added to the view controller's view. The view provided will be automatically scaled depending on the display layout.
+
+```objc
+@interface SDLImageView : SDLView
+
+@properties (nonatomic) SDLArtwork *image;
+
+@end
+```
+
+#### SDLButtonView
+
+Every button view added to the view controller's view will be used for the soft button array in the `Show` RPC. If desired the app developer can manage the soft buttotn views in a dedicated subview of type `SDLView`.
+
+```objc
+@interface SDLButtonView
+
+@property SDLSoftButtonType type;
+@property NSString *text;
+@property SDLArtwork *image;
+@property (setter=setHighlighted) BOOL isHighlighted;
+@property SDLSystemAction systemAction; 
+
+@property BLOCK buttonAction;
+
+@end
+```
 
 ## Potential downsides
 
