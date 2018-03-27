@@ -1,9 +1,9 @@
-# Feature name
+# Mobile Menu Manager
 
 * Proposal: [SDL-NNNN](NNNN-nnnn-mobile-menu-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Web / RPC / Protocol]
+* Impacted Platforms: [iOS / Android]
 
 ## Introduction
 
