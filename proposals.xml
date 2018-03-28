@@ -159,9 +159,14 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0146" status="accepted" primary-platform="meta" sdl-version="x.x" name="Updating Mobile Version Dependencies" filename="0146-updating-mobile-version-dependencies.md"/>
 <proposal id="0147" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Color Scheme" filename="0147-template-color-scheme.md"/>
 <proposal id="0148" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Additional SubMenus" filename="0148-template-additional-submenus.md"/>
-<proposal id="0149" status="active" primary-platform="core" sdl-version="x.x" name="Add capability to disable resumption based on app type and transport type" filename="0149-mt-registration-limitation.md"/>
-<proposal id="0150" status="active" primary-platform="rpc" sdl-version="x.x" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
-<proposal id="0151" status="active" primary-platform="rpc" sdl-version="x.x" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
+<proposal id="0149" status="returned" primary-platform="core" sdl-version="x.x" name="Add capability to disable resumption based on app type and transport type" filename="0149-mt-registration-limitation.md"/>
+<proposal id="0150" status="returned" primary-platform="rpc" sdl-version="x.x" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
+<proposal id="0151" status="accepted" primary-platform="rpc" sdl-version="x.x" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
+<proposal id="0152" status="active" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
+<proposal id="0153" status="active" primary-platform="rpc" sdl-version="x.x" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
+<proposal id="0154" status="active" primary-platform="core" sdl-version="x.x" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
+<proposal id="0155" status="active" primary-platform="mobile" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
+	
 
 	
 <!--
