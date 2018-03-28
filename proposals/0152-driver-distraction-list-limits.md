@@ -1,8 +1,8 @@
 # Driver Distraction Improvements: Command List Limitations
 
-* Proposal: [SDL-NNNN](nnnn-template-additional-submenus.md)
+* Proposal: [SDL-0152](0152-driver-distraction-list-limits.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC / HMI]
 
 ## Introduction
