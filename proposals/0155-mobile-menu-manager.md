@@ -1,8 +1,8 @@
 # Mobile Menu Manager
 
-* Proposal: [SDL-NNNN](NNNN-nnnn-mobile-menu-manager.md)
+* Proposal: [SDL-0155](0155-mobile-menu-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android]
 
 ## Introduction
