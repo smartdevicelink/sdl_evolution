@@ -1,8 +1,8 @@
 # Add SDL Core Daemon script
 
-* Proposal: [SDL-NNNN](NNNN-add-sdl-core-daemon-script.md)
+* Proposal: [SDL-0154](0154-add-sdl-core-daemon-script.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
