@@ -1,13 +1,13 @@
 # SDL Passenger Mode
 
-* Proposal: [SDL-NNNN](NNNN-mobile-api-versioning-revision.md)
+* Proposal: [SDL-0119](NNNN-mobile-api-versioning-revision.md)
 * Author: [Brett McIsaac](https://github.com/brettywhite)
 * Status: **Awaiting Review**
 * Impacted Platforms: iOS, Android, Core, RPC
 
 ## Introduction
 
-Allow a passenger to dismiss the lockscreen to improve usability of applications. This re-visited proposal now includes a way for individual OEMs to control this mode via policy updates.
+Allow a passenger to dismiss the lock screen to improve usability of applications. This re-visited proposal now includes a way for individual OEMs to control this mode via policy updates.
 
 ## Motivation
 
@@ -25,7 +25,7 @@ Modify the `OnDriverDistraction` notification:
   <!-- newly added parameter -->
   <param name="lockScreenDismissalEnabled" type="Boolean" mandatory="true">
     <description>
-      If enabled, the lockscreen will be able to be dismissed while connected to SDL, allowing users 
+      If enabled, the lock screen will be able to be dismissed while connected to SDL, allowing users 
       the ability to interact with the app. Dismissals should include a warning to the user and ensure 
       that they are not the driver.
     </description>
@@ -44,7 +44,7 @@ In addition to modifying the notification, the proposed solution is to have a bu
 
 > "I am not driving"
 
-This will disable the lockscreen, and for the remainder of that app's session, allow the app to discard distracted driver `DD_On` or `DD_Off` notifications from Core. This will allow access to the application's UI while allowing the features of SDL to be used in the vehicle.
+This will disable the lock screen, and for the remainder of that app's session, allow the app to discard distracted driver `DD_On` or `DD_Off` notifications from Core. This will allow access to the application's UI while allowing the features of SDL to be used in the vehicle.
 
 ## Potential downsides
 
