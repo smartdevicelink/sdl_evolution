@@ -106,7 +106,7 @@ The screen manager additions allow the developer to present a "dynamic" choice s
 
 ### Caching Dynamic Choice Sets
 
-When dynamic choice sets are uploaded, one choice set will be created per choice. These will be left on the head unit unless the developer return YES in the `shouldDeleteChoiceSet:` method. If the developer returns YES, then all of the choices and artworks (unless persistant) will be deleted once the selection is made and complete. If the developer returns NO (or doesn't implement the delegate method), then the choices and artworks will remain. If the developer attempts another dynamic choice set containing an `SDLChoiceObject` with the same exact parameters, the choice will be reused. If the same artwork is used (but not the same text), the image on the head unit will be reused.
+When dynamic choice sets are uploaded, one choice set will be created per choice. These will be left on the head unit unless the developer returns YES in the `shouldDeleteChoiceSet:` method. If the developer returns YES, then all of the choices and artworks (unless persistant) will be deleted once the selection is made and complete. If the developer returns NO (or doesn't implement the delegate method), then the choices and artworks will remain. If the developer attempts another dynamic choice set containing an `SDLChoiceObject` with the same exact parameters, the choice will be reused. If the same artwork is used (but not the same text), the image on the head unit will be reused.
 
 ### Automatic IDs
 
