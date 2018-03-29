@@ -49,16 +49,16 @@ We assume that media projection applications stream audio data via either Blueto
 | 2.1 | none | app2 uses audio | NAVIGATION | false | app2 is the audio source | NA | AUDIBLE |
 | 2.2 | none | app2 uses audio | any | true | app2 is the audio source | NA | AUDIBLE |
 | 3 | app1 (any) | app2 does not use audio | any | false | app1 is the audio source | No Change | NOT_AUDIBLE |
-| 4.1 | app1 (NAVIGATION) | app2 uses audio | NAVIGATION | false | app2 is the audio source | NOT_AUDIBLE | AUDIBLE |
-| 4.2 | app1 (NAVIGATION) | app2 uses audio | others | true | app1 and app2 are the audio sources | AUDIBLE | AUDIBLE / ATTENTUATED or NOT_AUDIBLE * |
-| 4.3 | app1 (Non-NAVIGATION) | app2 uses audio | NAVIGATION | false | app1 and app2 are the audio sources | AUDIBLE / ATTENTUATED or NOT_AUDIBLE * | AUDIBLE |
-| 4.4 | app1 (Non-NAVIGATION) | app2 uses audio | others | true | app2 is the audio source | NOT_AUDIBLE | AUDIBLE |
+| 4.1 | app1 (NAVIGATION or COMMUNICATION) | app2 uses audio | same as app1 | false | app2 is the audio source | NOT_AUDIBLE | AUDIBLE |
+| 4.2 | app1 (NAVIGATION or COMMUNICATION) | app2 uses audio | others | true | app1 and app2 are the audio sources | AUDIBLE | AUDIBLE / ATTENTUATED or NOT_AUDIBLE * |
+| 4.3 | app1 (Non-NAVIGATION, NON-COMMUNICATION) | app2 uses audio | NAVIGATION or COMMUNICATION | false | app1 and app2 are the audio sources | AUDIBLE / ATTENTUATED or NOT_AUDIBLE * | AUDIBLE |
+| 4.4 | app1 (Non-NAVIGATION, NON-COMMUNICATION) | app2 uses audio | others | true | app2 is the audio source | NOT_AUDIBLE | AUDIBLE |
 | 5.1 | app1 (any) | PHONE_CALL / EMERGENCY_EVENT / AUDIO_SOURCE / EMBEDDED_NAVI | NA | NA | app1 is not the audio source, system set the audio source | NOT_AUDIBLE | NA |
 | 5.2 | app1 (any) | TTS Start | NA | NA | depending on mixing audio support, app1 can be audio source | NOT_AUDIBLE / ATTENUATED | NA |
 | 5.3 | app1 (any) | CarPlay/Android Auto is the active screen (DEACTIVATE_HMI) | NA | NA | no SDL app is the video source | NOT_AUDIBLE | NA |
 
 
- *In the case of co-existence of NAVIGATION app and media app, when a nav-app does not start audio steaming service, media app is AUDIBLE; When the nav-app starts audio streaming service, media app is either `ATTENUATED` if the system supports mixing or `NOT_AUDIBLE` if the system support does not support mixing.
+ *In the case of co-existence of a NAVIGATION app and a MEDIA or COMMUNICATION app, when the NAVIGATION app does not start audio steaming service, the MEDIA/COMMUNICATION app is AUDIBLE; When the NAVIGATION app starts audio streaming service, the MEDIA/COMMUNICATION app is either `ATTENUATED` if the system supports mixing or `NOT_AUDIBLE` if the system does not support mixing.
 
 The transition of videoStreamingState is independent of the transition of hmiLevel. However, the transition of hmiLevel depends on both audioStreamingState and videoStreamingState. SDL Core shall move a media/project/navigation app which is `NOT_AUDIBLE` and `NOT_STREAMABLE` to `BACKGROUND` HMI level. There are at most two media/project/navigation apps which can be placed in HMI level `LIMITED`. In `LIMITED` level, an app can be either `AUDIBLE` or `STREAMABLE` or both.
 
