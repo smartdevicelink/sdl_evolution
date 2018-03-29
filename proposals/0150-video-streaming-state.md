@@ -93,38 +93,9 @@ The transition of videoStreamingState and audioStreamingState is independent of 
 ```
 
 #### HMI API
-This proposal also adds two new enum values `PROJECTION` and `NAVIGATION` to data type `EventTypes`.
-HMI shall send an `OnEventChanged` notification with `EventTypes`=`PROJECTION`/`NAVIGATION` to SDL Core when HMI brings a projection/navigation app to foreground (`isActive`=`true`) or HMI switches from the foreground projection/navigation app (`isActive`=`false`) respectively.
 
+We don't need to add enum values `PROJECTION` and/or `NAVIGATION` to data type `EventTypes` for the `OnEventChanged` notification, because HMI shall send `OnAppActivated` and `OnAppDeactivated` event to SDL. SDL knows whether a NAVIGATION/PROJECTION app is shown in HMI since it knows the appHMIType of the target application.
 
-```xml
-<enum name="EventTypes">
-  <description>Reflects the current active event</description>
-  <element name="AUDIO_SOURCE">
-    <description>Navigated to audio(radio, etc)</description>
-  </element>
-  <element name="EMBEDDED_NAVI">
-    <description>Navigated to navigation screen</description>
-  </element>
-  <element name="PHONE_CALL">
-    <description>Phone call is active</description>
-  </element>
-  <element name="EMERGENCY_EVENT">
-    <description>Active emergency event, active parking event</description>
-  </element>
-  <element name="DEACTIVATE_HMI">
-    <description> GAL/DIO is active </description>
-  </element>
-  
-  <!-- new additions-->
-  <element name="PROJECTION">
-    <description>Projection app is shown in HMI</description>
-  </element>
-  <element name="NAVIGATION">
-    <description>Navigation app is shown in HMI</description>
-  </element>
-</enum>
-```
 
 #### Compatibility
 - New apps on old HUs: Old HUs do not support new projection type app. Since old HUs do not send the new videoStreamingState parameter, on mobile proxy, we can give default value as *streamable* to  the parameter and make sure app does not do streaming in `BACKGROUND` or `NONE`  to make new navigation apps work with old HUs.
