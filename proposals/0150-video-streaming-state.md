@@ -60,7 +60,7 @@ We assume that media projection applications stream audio data via either Blueto
 
  *In the case of co-existence of a NAVIGATION app and a MEDIA or COMMUNICATION app, when the NAVIGATION app does not start audio steaming service, the MEDIA/COMMUNICATION app is AUDIBLE; When the NAVIGATION app starts audio streaming service, the MEDIA/COMMUNICATION app is either `ATTENUATED` if the system supports mixing or `NOT_AUDIBLE` if the system does not support mixing.
 
-The transition of videoStreamingState is independent of the transition of hmiLevel. However, the transition of hmiLevel depends on both audioStreamingState and videoStreamingState. SDL Core shall move a media/project/navigation app which is `NOT_AUDIBLE` and `NOT_STREAMABLE` to `BACKGROUND` HMI level. There are at most two media/project/navigation apps which can be placed in HMI level `LIMITED`. In `LIMITED` level, an app can be either `AUDIBLE` or `STREAMABLE` or both.
+The transition of videoStreamingState and audioStreamingState is independent of the transition of hmiLevel. However, the transition of hmiLevel depends on both audioStreamingState and videoStreamingState. SDL Core shall move a `LIMITED` level media/projection/navigation app which is `NOT_AUDIBLE` and `NOT_STREAMABLE` to `BACKGROUND` HMI level. There are at most two media/projection/navigation apps which can be placed in HMI level `LIMITED`. In `LIMITED` level, an app can be either `AUDIBLE` (including `ATTENTUATED`) or `STREAMABLE` or both.
 
 #### Mobile API
 ```xml
