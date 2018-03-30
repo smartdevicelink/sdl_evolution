@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This document proposes to add an advanced feature to disable resumption feature based on AppHMIType and transport type. This is related to proposal [SDL-0141: Supporting simultaneous multiple transports][multiple_transports].
+This document proposes to add an advanced feature to disable or limit resumption feature based on AppHMIType and transport type. This is related to proposal [SDL-0141: Supporting simultaneous multiple transports][multiple_transports].
 
 
 ## Motivation
@@ -18,12 +18,14 @@ In such cases, it is possible that the mobile projection app will connect throug
 
 This document proposes to disable resumption feature in such case, so that HMI will not show the app until Secondary Transport is connected (and video streaming is eventually started.) HMI will stay on another screen, for example app selection list. Also, HMI may implement an error message stating that Wi-Fi or USB transport is required for a mobile projection app to work.
 
+In addition, this document also proposes to add another configuration to resume video streaming and media apps to particular HMI level while the high-bandwidth transport isn't available. This will be useful for OEMs who want to let a navigation app running in LIMITED level before Wi-Fi transport is established, while avoiding an empty screen being shown on HMI.
+
 Note: the author thinks the resumption procedure has two stages. The first stage is that Core restores an app's HMILevel to non-NONE after the app is registered. The second stage is that Core restores the app's data based on stored information and Hash ID sent by the app. We discuss the first stage in this document. The term "disable resumption" means that Core doesn't restore an app's HMILevel after registration.
 
 
 ## Proposed solution
 
-The proposed solution is to make the resumption feature configurable based on app's AppHMIType and transport type. The use-case in mind is to keep HMILevel of navigation and mobile projection apps to NONE until they are also connected through a high-bandwidth transport. The solution can be also used to specify AppHMIType that are allowed to receive non-NONE HMILevel after registration. For example, we can specify that only `MEDIA` apps receive non-NONE level.
+The proposed solution is to make the resumption feature configurable based on app's AppHMIType and transport type. The use-case in mind is to keep HMILevel of navigation and mobile projection apps to non-FULL (for example, LIMITED or NONE) until they are also connected through a high-bandwidth transport. The solution can be also used to specify AppHMIType that are allowed to receive non-NONE HMILevel after registration. For example, we can specify that only `MEDIA` apps receive non-NONE level.
 
 The solution can be configured through smartDeviceLink.ini so that each OEM can customize the behavior.
 
@@ -41,15 +43,20 @@ smartDeviceLink.ini includes following new sections. (Note: the default values a
 ; Transport or Secondary Transport) to trigger resumption. If the app is not connected with any of
 ; the transports listed, its HMIlevel will be kept in NONE and the state stays in NOT_AUDIBLE.
 ; In case an app has multiple AppHMIType, requirements of all of the AppHMITypes are applied.
+;
 ; Possible AppHMITypes: DEFAULT, COMMUNICATION, MEDIA, MESSAGING, NAVIGATION, INFORMATION, SOCIAL,
 ;                       BACKGROUND_PROCESS, TESTING, SYSTEM, PROJECTION, REMOTE_CONTROL, NONE
 ; Possible transport types: TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB,
 ;                           AOA_USB, IAP_BLUETOOTH, SPP_BLUETOOTH
 ;
 ; The default behavior is to always enable resumption. If an AppHMIType is not listed in this
-: section, resumption is enabled for an app with the AppHMIType.
+; section, resumption is enabled for an app with the AppHMIType.
 ; On the other hand, if you want to disable resumption and always keep an app in NONE and
 ; NOT_AUDIBLE state after registration, specify an empty value for the AppHMIType.
+;
+; NAVIGATION apps, PROJECTION apps and apps that declare themselves as media apps have a special
+; exception. When these apps do not have any of the transports listed here, they will be still
+; resumed into particular HMIlevel defined in LowBandwidthTransportResumptionLevel section.
 
 ; DEFAULT =
 ; COMMUNICATION =
@@ -65,9 +72,21 @@ PROJECTION = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_
 ; REMOTE_CONTROL =
 ; "NONE" applies to apps that don't specify any AppHMIType
 ; NONE =
+
+[LowBandwidthTransportResumptionLevel]
+; The HMI Level that an app will resume to if no high bandwidth connection is active.
+; High bandwidth connections for each app type are defined under "TransportRequiredForResumption"
+; section.
+; Possible values: NONE, BACKGROUND, LIMITED and FULL
+; this is for NAVIGATION apps
+NavigationLowBandwidthResumptionLevel = LIMITED
+; this is for PROJECTION apps
+ProjectionLowBandwidthResumptionLevel = NONE
+; this is for apps who declare themselves as media apps. (Don't be confused with AppHMIType=MEDIA.)
+MediaLowBandwidthResumptionLevel = FULL
 ```
 
-The example shown in the smartDeviceLink.ini above indicates that `NAVIGATION` and `PROJECTION` apps require either Wi-Fi or USB transports to enable resumption. Which means, when they are connected only with Bluetooth transport, their HMILevels are kept in NONE and they are put in NOT\_AUDIBLE state. Other AppHMITypes do not have restriction, so resumption will always be enabled for them.
+In the example shown above, the first section indicates that `NAVIGATION` and `PROJECTION` apps require either Wi-Fi or USB transports to fully enable resumption (i.e. resuming into FULL level). If the apps are connected only with Bluetooth transport, then the behavior is defined in the next section. Other AppHMITypes do not have restriction, so resumption will always be enabled for them.
 
 Resumption for an app with an AppHMIType should always be enabled if the AppHMIType is not listed in the section of the smartDeviceLink.ini file. This is to keep compatibility with existing file.
 
@@ -85,9 +104,12 @@ AOA\_USB               | Android Open Accessory
 TCP\_WIFI              | TCP connection over Wi-Fi
 
 
+The second section is for `NAVIGATION`, `PROJECTION` and media apps. If none of the transports specified in `TransportRequiredForResumption` section are available, then the apps will resume into the HMI level specified in this section. In the example above, `NAVIGATION` apps will resume into LIMITED level when neither Wi-Fi nor USB transport is available. `PROJECTION` apps will be put in NONE level and in NOT\_AUDIBLE state. Media apps will resume into FULL level, which means resumption is fully enabled. If an app has multiple types then it will receive the highest level of all types. For example, if an app has `NAVIGATION` type and also declares itself as a media app, and when a high-bandwidth transport isn't available, then it will receive FULL level (highest among LIMITED and FULL) in the example configuration shown above.
+
+
 Core is updated to include following implementations:
-- `ApplicationManagerImpl` class includes additional logic to disable resumption based on the configuration and app's transport when processing RegisterAppInterface request.
-- `ApplicationManagerImpl` class detects a connection of Secondary Transport through `OnServiceStartedCallback` callback (please refer to the proposal [SDL-0141][multiple_transports]) and triggers a resumption procedure if the condition is met.
+- `ApplicationManagerImpl` class includes additional logic to disable or limit resumption based on the configuration and app's transport when processing RegisterAppInterface request.
+- `ApplicationManagerImpl` class detects a connection of Secondary Transport through `OnSecondaryTransportStartedCallback` callback (please refer to the proposal [SDL-0141][multiple_transports]) and triggers a resumption procedure if the condition is met.
 - `Profile` class is updated to read and parse the new configuration sections
 
 
