@@ -44,8 +44,8 @@ smartDeviceLink.ini includes following new sections. (Note: the default values a
 ; the transports listed, its HMIlevel will be kept in NONE and the state stays in NOT_AUDIBLE.
 ; In case an app has multiple AppHMIType, requirements of all of the AppHMITypes are applied.
 ;
-; Possible AppHMITypes: DEFAULT, COMMUNICATION, MEDIA, MESSAGING, NAVIGATION, INFORMATION, SOCIAL,
-;                       BACKGROUND_PROCESS, TESTING, SYSTEM, PROJECTION, REMOTE_CONTROL, NONE
+; Possible AppHMITypes: Default, Communication, Media, Messaging, Navigation, Information, Social,
+;                       BackgroundProcess, Testing, System, Projection, RemoteControl, EmptyApp
 ; Possible transport types: TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB,
 ;                           AOA_USB, IAP_BLUETOOTH, SPP_BLUETOOTH
 ;
@@ -58,20 +58,20 @@ smartDeviceLink.ini includes following new sections. (Note: the default values a
 ; exception. When these apps do not have any of the transports listed here, they will be still
 ; resumed into particular HMIlevel defined in LowBandwidthTransportResumptionLevel section.
 
-; DEFAULT =
-; COMMUNICATION =
-; MEDIA =
-; MESSAGING =
-NAVIGATION = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
-; INFORMATION =
-; SOCIAL =
-; BACKGROUND_PROCESS =
-; TESTING =
-; SYSTEM =
-PROJECTION = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
-; REMOTE_CONTROL =
-; "NONE" applies to apps that don't specify any AppHMIType
-; NONE =
+; DefaultTransportRequiredForResumption =
+; CommunicationTransportRequiredForResumption =
+; MediaTransportRequiredForResumption =
+; MessagingTransportRequiredForResumption =
+NavigationTransportRequiredForResumption = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
+; InformationTransportRequiredForResumption =
+; SocialTransportRequiredForResumption =
+; BackgroundProcessTransportRequiredForResumption =
+; TestingTransportRequiredForResumption =
+; SystemTransportRequiredForResumption =
+ProjectionTransportRequiredForResumption = TCP_WIFI, IAP_CARPLAY, IAP_USB_HOST_MODE, IAP_USB_DEVICE_MODE, IAP_USB, AOA_USB
+; RemoteControlTransportRequiredForResumption =
+; "EmptyAppTransportRequiredForResumption" applies to apps that don't specify any AppHMIType
+; EmptyAppTransportRequiredForResumption =
 
 [LowBandwidthTransportResumptionLevel]
 ; The HMI Level that an app will resume to if no high bandwidth connection is active.
