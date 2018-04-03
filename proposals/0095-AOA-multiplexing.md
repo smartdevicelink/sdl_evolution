@@ -139,7 +139,11 @@ public class SdlRouterService extends Service {
 ```
 
 ### The app that has actual UsbAccessory's permission sends ParcelFileDescriptor to active SdlRouterService
-The following sequence diagram shows the solution for possible permanent RouterService issue. 
+We discussed about a potential issue where multiple SDL applications have the same accessory_filter settings.
+
+When a user plugs in their device to an AOA connection, they are prompted with selection dialog. The dialog contains all apps that support the currently connected accessory. In this dialog there is also an option to always open a specific app for that accessory. There will be an issue if the user picks an app to always receive the AOA intent and it propagates the router service. This will force all multiplexed connections to go through that apps router service regardless if there is a newer router service present. If by chance that is not a trusted router service, no other apps will ever connect until the user clears the flag.
+
+The following sequence diagram shows the solution for the issue above.
 We can keep current active RouterService running and transfer ParcelFileDescriptor to the active RouterService. 
 
 ![sequence dialog for possible permanent routerservice issue](../assets/proposals/0095-AOA-multiplexing/0095-aoa-possible-permanent-routerservice-solution.png)
