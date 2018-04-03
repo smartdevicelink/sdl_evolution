@@ -24,8 +24,10 @@ Currently, SDL app chooses the transport (either Bluetooth multiplexing, legacy 
 - MultiplexTrannsportConfig is extended to be aware of TransportType. A new TransportType "MULTIPLEX_AOA" is supported in addition to "MULTIPLEX".
 - SDL application specifies TransportType when configuring MultiplexTransportConfig.
 - SdlRouterService internally holds separate Handlers according to the TransportType, and returns the right Handler when binding to the service, so that IPC channel is isolated per TransportType.
-- SdlRouterService recognizes the expected TransportType when registering the app to router. SdlRouterService internally recognizes the expected TransportType per appId.
-- SdlRouterService uses (newly added) BluetoothTransportWriter or AoaTransportWriter depending on TransportType
+- SdlRouterService recognizes the expected TransportType when registering the app to router. SdlRouterService internally recognizes the expected TransportType per session.
+- Currently RegisteredApp uses the same TransportType for all sessions, but this will be extended by upcoming simultaneous multiple transports support. RegisteredApp will be extended to support multiple transports per session.
+- SdlRouterService uses either MultiplexBluetoothTransport or (newly added) MultiplexAoaTransport depending on TransportType.
+- In order to share the UsbAccessory with multiple applications, the app that actually has the USB accessory's permission will send ParcelFileDescriptor to the active router service. If no active router is running, the local app launches router service for AOA transport.
 - The affected component is Android proxy only. No change is required for SDL Core.
  
 The affected classes in Android Proxy are shown below:
@@ -110,7 +112,8 @@ Extends SdlRouterService so that internal class (RegisteredApp) is aware of Tran
 		 */
 		public RegisteredApp(String appId, Messenger messenger, TransportType theType){
 		    ...
-			transportType = theType;
+			transportTypes = new HashMap<>();
+			transportTypes.put(0L, theType);
 		}
 	}
 	
@@ -124,52 +127,24 @@ Extends SdlRouterService so that internal class (RegisteredApp) is aware of Tran
 	}
 ```
 
-### SdlRouterService uses (newly added) ITransportWriter to write into actual transport
-Introduces BluetoothTransportWriter and AoaTransportWriter class that utilize actual transports to send data to SDL Core:
-```java
-public interface ITransportWriter {
-	boolean writeBytesToTransport(Bundle bundle);
-	boolean manuallyWriteBytes(byte[] bytes, int offset, int count);
-}
-
-// BluetoothTransportWriter internally utilizes MultiplexBluetoothTransport
-public class BluetoothTransportWriter implements ITransportWriter {
-    private MultiplexBluetoothTransport mSerialService = null;
-    ...
-    public boolean writeBytesToTransport(Bundle bundle){
-        ...
-    }
-    
-    public boolean manuallyWriteBytes(byte[] bytes, int offset, int count){
-        ...
-    }
-}
-
-// AoaTransportWriter internally utilizes (new) MultiplexAOATransport
-public class AoaTransportWriter implements ITransportWriter {
-    private MultiplexAOATransport mSerialService = null;
-
-    public boolean writeBytesToTransport(Bundle bundle){
-        ...
-    }
-    
-    public boolean manuallyWriteBytes(byte[] bytes, int offset, int count){
-        ...
-    }
-}
-```
-
-SdlRouterService selects either BluetoothTransportWriter or AoaTransportWriter according to the TransportType of the RegisteredApp instance:
+### SdlRouterService uses either MultiplexBluetoothTransport or MultiplexAoaTransport depending on the TransportType
 ```java
 public class SdlRouterService extends Service {
     ...
-    // TransportWriters -- for now BT and USB.
-	private BluetoothTransportWriter bluetoothTransportWriter;
-	private AoaTransportWriter aoaTransportWriter;
+    // underlying transport dependning on the TranportType.
+	private MultiplexBluetoothTransport bluetoothTransport;
+	private MultiplexAoaTransport aoaTransport;
     ...
-    // utilizes the TransportWriter in accordance with the TransportType for each registered app.
 }
 ```
+
+### The app that has actual UsbAccessory's permission sends ParcelFileDescriptor to active SdlRouterService
+The following sequence diagram shows the solution for possible permanent RouterService issue. 
+We can keep current active RouterService running and transfer ParcelFileDescriptor to the active RouterService. 
+
+![sequence dialog for possible permanent routerservice issue](../assets/proposals/0095-AOA-multiplexing/0095-aoa-possible-permanent-routerservice-solution.png)
+
+**Fig. 2: Sequence diagram for possible permanent RouterService solution**
 
 ## Potential downsides
 
