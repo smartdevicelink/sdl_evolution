@@ -18,7 +18,7 @@ In such cases, it is possible that the mobile projection app will connect throug
 
 This document proposes to disable resumption feature in such case, so that HMI will not show the app until Secondary Transport is connected (and video streaming is eventually started.) HMI will stay on another screen, for example app selection list. Also, HMI may implement an error message stating that Wi-Fi or USB transport is required for a mobile projection app to work.
 
-In addition, this document also proposes to add another configuration to resume video streaming and media apps to particular HMI level while the high-bandwidth transport isn't available. This will be useful for OEMs who want to let a navigation app running in LIMITED level before Wi-Fi transport is established, while avoiding an empty screen being shown on HMI.
+In addition, this document also proposes to add another configuration to resume video streaming and media apps to a particular HMI level when the high-bandwidth transport isn't available. This will be useful for OEMs who want to let a navigation app run in LIMITED HMILevel before a Wi-Fi transport is established, while avoiding an empty screen being shown on HMI.
 
 Note: the author thinks the resumption procedure has two stages. The first stage is that Core restores an app's HMILevel to non-NONE after the app is registered. The second stage is that Core restores the app's data based on stored information and Hash ID sent by the app. We discuss the first stage in this document. The term "disable resumption" means that Core doesn't restore an app's HMILevel after registration.
 
