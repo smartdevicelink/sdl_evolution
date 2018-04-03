@@ -317,6 +317,8 @@ In order to support the app developer a class called `SDLChoiceSet` is used whic
 @property (nonatomic, copy) SDLManualInteraction *manualInteraction;
 @property (nonatomic, copy) SDLVoiceInteraction *voiceInteraction;
 
+@property (nonatomic, copy) void (^choiceSelectedBlock)(SDLChoice *choice, SDLTriggerSource triggerSource);
+
 @end
 
 @interface SDLManualInteraction
@@ -324,6 +326,8 @@ In order to support the app developer a class called `SDLChoiceSet` is used whic
 @property (nonatomic) SDLLayoutMode *layout;
 
 @property (nonatomic, copy) SDLKeyboardProperties *keyboardProperties;
+
+@property (nonatomic, copy) void(^keyboardInputBlock)(SDLOnKeyboardInput *keyboardInput);
 
 @end
 
@@ -356,16 +360,15 @@ The high level interface introduces three different kind of views: text view, im
 The text view is a view which takes care about any kind of text field modifyable by the `Show` RPC. Main fields are dynamically added (first item used for `mainField1`, second for `mainField2`).
 
 ```objc
-
 @interface SDLTextView : SDLView
 
-@property (nonatomic) SDLTextAlignment textAlignment;
+@property (nonatomic, nullable, copy) SDLTextAlignment textAlignment;
 
-@property (nonatomic) NSArray<SDLTextField *> *mainFields;
+@property (nonatomic, nullable, copy) NSArray<SDLTextField *> *mainFields;
 
-@property (nonatomic) NSString *statusBar;
+@property (nonatomic, nullable, copy) NSString *statusBar;
 
-@property (nonatomic) NSString *mediaTrack;
+@property (nonatomic, nullable, copy) NSString *mediaTrack;
 
 @property 
 
@@ -373,15 +376,15 @@ The text view is a view which takes care about any kind of text field modifyable
 
 @interface SDLTextField
 
-@property (nonatomic, copy) NSString *text;
-@property (nonatomic, copy) NSArray<SDLMetadataType> *metadataTypes;
+@property (nonatomic, nullable, copy) NSString *text;
+@property (nonatomic, nullable, copy) NSArray<SDLMetadataType> *metadataTypes;
 
 @end
 ```
 
 #### SDLImageView
 
-The image view will be used for the primary and secondary graphic in the order added to the view controller's view. The view provided will be automatically scaled depending on the display layout.
+The image view will be used for the primary and secondary graphic in the order added to the view controller's view. The image provided will be automatically scaled depending on the display layout.
 
 ```objc
 @interface SDLImageView : SDLView
@@ -393,18 +396,12 @@ The image view will be used for the primary and secondary graphic in the order a
 
 #### SDLButtonView
 
-Every button view added to the view controller's view will be used for the soft button array in the `Show` RPC. If desired the app developer can manage the soft buttotn views in a dedicated subview of type `SDLView`.
+Every button view added to the view controller's view will be used for the soft button array in the `Show` RPC. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`.
 
 ```objc
 @interface SDLButtonView
 
-@property SDLSoftButtonType type;
-@property NSString *text;
-@property SDLArtwork *image;
-@property (setter=setHighlighted) BOOL isHighlighted;
-@property SDLSystemAction systemAction; 
-
-@property BLOCK buttonAction;
+@property (nonatomic, nullable, strong) SDLSoftButtonWrapper *button;
 
 @end
 ```
