@@ -9,11 +9,9 @@
 
 This proposal is about setting up a foundation to provide a high level developer interface to the iOS library. A separate proposal will address the high level Android interface. It proposes a solution to mimic the UI framework of the native OS SDKs. It contains an overview and basic design but won't go much into details of a specific section. Subsequent proposal will be created in the near future in order to provide detailed designs whenever necessary.
 
-As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
-
 ## Motivation
 
-In order to work with SDL app developers need to learn a new API which mostly doesn't adopt familiar patterns. Including but not limited to 
+In order to work with SDL, app developers need to learn a new API which mostly doesn't adopt familiar patterns. Including but not limited to 
 - read best practices and implement proxy lifecycle (Android above all)
 - the use of RPCs and handle notifications, requests and responses
 - manually manage concurrent and sequential operations (e.g. image upload)
@@ -33,13 +31,13 @@ This proposal is about adding a new abstraction layer which utilizes the managem
 
 The high level interface sits on top of the management layer. It should provide classes like 
 - SDL Application to abstract SDL-centric application lifecycle including HMI status, capabilities, language etc. 
-- SDL ViewController (iOS) or Activity (Android) to allow architecture SDL use cases beyond todays possibilities (incl. UI stack)
+- SDL ViewController (iOS) or Activity (Android) to allow architecture SDL use cases beyond today's possibilities (incl. UI stack)
 - SDL View with subclasses to simplify the HMI screen manipulation throughout the UI stack
 
 ### Application lifecycle
 ---
 
-This subsection is not complete but provides an descriptive overview to avoid confusion. If agreed by the steering committee the details of the application lifecycle will be proposed separately.
+This subsection is not complete but provides a descriptive overview to avoid confusion. If agreed by the steering committee the details of the application lifecycle will be proposed separately.
 
 #### SDLApplication (mimic UIApplication)
 
@@ -138,7 +136,7 @@ After calling `loadView` the view controller is notified that the view did load.
 
 Whenever a view controller's view should become visible on the head unit the view controller will be notified that the view will appear. Reasons to appear on the head unit are:
 1. The app launched and became (in)active (entered HMI_LIMITED or HMI_FULL). The root view controller will appear.
-2. The app has pushed a second view controller to the stack. The second view controller's view will appear after the first view controller's view will disapper.
+2. The app has pushed a second view controller to the stack. The second view controller's view will appear after the first view controller's view will disappear.
 3. The top view controller was removed from the stack. The underlying view controller's view will appear after the top view controller's view will disappear.
 
 The app developer can override this method in order to manipulate view elements before they are presented on the head unit.
@@ -160,7 +158,7 @@ This method is called after `viewWillDisappear`.
 
 ### SDLViewController
 
-The base class provides empty overridable methods in order to load a view or being notified when a view did load or if will/did appear/disappear. 
+The base class provides empty overridable methods in order to load a view or to be notified when a view did load or if it will/did appear/disappear.
 
 ```objc
 @interface SDLViewController
@@ -188,7 +186,7 @@ The base class provides empty overridable methods in order to load a view or bei
 
 ### SDLViewControllerManager
 
-View controllers should be stackable. Similar to [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) an SDL view controller manager should be used by the SDL application class. Different to `UINavigationController` there should not be an `SDLNavigationController`. First of all the navigation controller provides UI elements (no Navigation buttons or Toolbar) which cannot be adoped to SDL. Second to avoid confusion the code responsible for the stack should not be called navigation. (An alternative for `SDLNavigationController` or `SDLStackViewController` can be added if requested).
+View controllers should be stackable. Similar to [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) an SDL view controller manager should be used by the SDL application class. Different to `UINavigationController` there should not be an `SDLNavigationController`. First of all the navigation controller provides UI elements (no Navigation buttons or Toolbar) which cannot be adopted to SDL. Second to avoid confusion the code responsible for the stack should not be called navigation. (An alternative for `SDLNavigationController` or `SDLStackViewController` can be added if requested).
 
 The view controller manager provides methods to access view controllers and manipulate the view controller stack.
 
@@ -267,7 +265,7 @@ The audio input controller is used to abstract the RPC `PerformAudioPassThru`, `
 
 #### SDLScrollableMessageController
 
-Similar to `Alert` this view controller takes care about the RPC `ScrollableMessage`.
+Similar to `Alert` this view controller takes care of the RPC `ScrollableMessage`.
 
 ```objc
 @interface SDLScrollableMessageController : SDLModalViewController
@@ -279,7 +277,7 @@ Similar to `Alert` this view controller takes care about the RPC `ScrollableMess
 
 #### SDLSliderController
 
-This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider). For consitency it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `numTicks` to be between 2 and 26. With the high level abstraction the modal controller can manage much more value ranges than 1-26. Examples are ranges with negative (or more values than available) which are mapped (and scaled) internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
+This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider). For consistency it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `numTicks` to be between 2 and 26. With the high level abstraction the modal controller can manage much more value ranges than 1-26. Examples are ranges with negative (or more values than available) which are mapped (and scaled) internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
 
 ```objc
 @interface SDLSliderController : SDLModalViewController
@@ -299,13 +297,13 @@ This controller matches very closely to the view [`UISlider`](https://developer.
 
 #### SDLInteractionController
 
-Together with the `SDLChoiceSetManager` the interaction controller will take care about most of the painful work to deal with choice sets and interactions.
+Together with the `SDLChoiceSetManager` the interaction controller will take care of most of the painful work to deal with choice sets and interactions.
 
 In order to support the app developer a class called `SDLChoiceSet` is used which comes with a choice set manager. The choice set management will be proposed separately as it should be contained in the management layer.
 
 - If `.manualInteraction` is set the controller performs with interaction mode MANUAL_ONLY.
 - If `.voiceInteraction` is set the controller  performs with interaction mode VOICE_ONLY.
-- If both parameters are seth the controller perform with interaciton mode BOTH.
+- If both parameters are set the controller performs with interaction mode BOTH.
 - Initial prompt is optional and used in any interaction mode
 
 ```objc
@@ -357,7 +355,7 @@ The high level interface introduces three different kind of views: text view, im
 
 #### SDLTextView
 
-The text view is a view which takes care about any kind of text field modifyable by the `Show` RPC. Main fields are dynamically added (first item used for `mainField1`, second for `mainField2`).
+The text view is a view which takes care of any kind of text field modifyable by the `Show` RPC. Main fields are dynamically added (first item used for `mainField1`, second for `mainField2`).
 
 ```objc
 @interface SDLTextView : SDLView
@@ -408,7 +406,7 @@ Every button view added to the view controller's view will be used for the soft 
 
 ## Potential downsides
 
-The initial workload in order to implement this high level interface is expected to be quite high. Once implemented it is expected that developers will be able to implement SDL into their apps in less time as they would need today. At the end the maintenance of the high level interface may be lower compared to the counterproposal for different reasons.
+The initial workload in order to implement this high level interface is expected to be quite high. Once implemented it is expected that developers will be able to implement SDL into their apps in less time than they would need today. At the end the maintenance of the high level interface may be lower compared to the counterproposal for different reasons.
 
 This proposal mimics the native UI API. Compared to the counterproposal this proposal is not that close to the native UI kit experience. On the other side some SDL specific APIs can be easily abstracted and integrated into the rest of the high level interface.
 
@@ -418,4 +416,5 @@ This proposal will add a total new high level interface layer abstracting many p
 
 ## Alternatives considered
 
-There are no other alternatives considered.
+As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
+
