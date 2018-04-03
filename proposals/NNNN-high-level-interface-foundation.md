@@ -399,7 +399,7 @@ The image view will be used for the primary and secondary graphic in the order a
 Every button view added to the view controller's view will be used for the soft button array in the `Show` RPC. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`.
 
 ```objc
-@interface SDLButtonView
+@interface SDLButtonView : SDLView
 
 @property (nonatomic, nullable, strong) SDLSoftButtonWrapper *button;
 
