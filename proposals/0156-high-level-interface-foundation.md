@@ -85,7 +85,7 @@ The purpose of the protocol is to improve the learning curve of possible HMI lev
 
 *Transition flow*
 
-![application-lifecycle](../assets/proposals/NNNN-high-level-interface-foundation/application-lifecycle.png)
+![application-lifecycle](../assets/proposals/0156-high-level-interface-foundation/application-lifecycle.png)
 
 *Transition table*
 
@@ -116,9 +116,9 @@ Based on the MVC pattern used by UIKit the high level interface should introduce
 
 A view controller can exist in a set of states. Below flow shows the possible transitions between loading view, view to appear or to disappear.
 
-![view-controller-lifecycle](../assets/proposals/NNNN-high-level-interface-foundation/view-controller-lifecycle.png)
+![view-controller-lifecycle](../assets/proposals/0156-high-level-interface-foundation/view-controller-lifecycle.png)
 
-![view-controller-overview](../assets/proposals/NNNN-high-level-interface-foundation/view-controller-overview.png)
+![view-controller-overview](../assets/proposals/0156-high-level-interface-foundation/view-controller-overview.png)
 
 #### `Init`
 
