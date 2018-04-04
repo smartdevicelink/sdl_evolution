@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0154](0154-add-sdl-core-daemon-script.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
