@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0150](0150-video-streaming-state.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
