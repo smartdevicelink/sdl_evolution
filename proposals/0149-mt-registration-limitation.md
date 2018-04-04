@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0149](0149-mt-registration-limitation.md)
 * Author: [Sho Amano](https://github.com/shoamano83), [Robin Kurian](https://github.com/robinmk)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
