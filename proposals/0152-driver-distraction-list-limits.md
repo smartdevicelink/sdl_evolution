@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0152](0152-driver-distraction-list-limits.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC / HMI]
 
 ## Introduction
