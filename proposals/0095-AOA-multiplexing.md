@@ -101,7 +101,8 @@ and extends TransportBroker to specify (newly added) action (== BIND_REQUEST_TYP
 ```
 
 ### SdlRouterService recognizes expected TransportType
-Extends SdlRouterService so that internal class (RegisteredApp) is aware of TransportType:
+Extends SdlRouterService so that internal class (RegisteredApp) is aware of TransportType.
+Because of upcoming support of simultaneous multiple transports, RegisteredApp supports TransportType per session:
 ```java
 	class RegisteredApp {
 		/**
@@ -113,7 +114,7 @@ Extends SdlRouterService so that internal class (RegisteredApp) is aware of Tran
 		public RegisteredApp(String appId, Messenger messenger, TransportType theType){
 		    ...
 			transportTypes = new HashMap<>();
-			transportTypes.put(0L, theType);
+			transportTypes.put(0L, theType); // default session maps to the given (primary) TransportType
 		}
 	}
 	
@@ -143,8 +144,9 @@ We discussed about a potential issue where multiple SDL applications have the sa
 
 When a user plugs in their device to an AOA connection, they are prompted with selection dialog. The dialog contains all apps that support the currently connected accessory. In this dialog there is also an option to always open a specific app for that accessory. There will be an issue if the user picks an app to always receive the AOA intent and it propagates the router service. This will force all multiplexed connections to go through that apps router service regardless if there is a newer router service present. If by chance that is not a trusted router service, no other apps will ever connect until the user clears the flag.
 
-The following sequence diagram shows the solution for the issue above.
-We can keep current active RouterService running and transfer ParcelFileDescriptor to the active RouterService. 
+The underlying issue is that SdlRouterService needs to support both Bluetooth Transoport and AOA Transport, but the permission of AOA Transport can varied on user's choice, and hence can be different app from RouterService for Bluetooth.
+To solve the issue, we take the approach where sending the USB device's descriptor (ParcelFileDescriptor) from user granted app to active router service.
+The following sequence diagram shows how it works:
 
 ![sequence dialog for possible permanent routerservice issue](../assets/proposals/0095-AOA-multiplexing/0095-aoa-possible-permanent-routerservice-solution.png)
 
