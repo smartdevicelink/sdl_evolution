@@ -1,8 +1,8 @@
 # High level interface: Foundation
 
-* Proposal: [SDL-NNNN](NNNN-high-level-interface-foundation.md)
+* Proposal: [SDL-0156](0156-high-level-interface-foundation.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction
