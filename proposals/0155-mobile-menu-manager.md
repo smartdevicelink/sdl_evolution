@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0155](0155-mobile-menu-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS / Android]
 
 ## Introduction
