@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0153](0153-support-short-long-appid.md)
 * Author: [Kevin Burdette](https://github.com/khburdette), [Markos Rapitis](https://github.com/mrapitis)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [ Core / iOS / Android / Web / RPC ]
 
 ## Introduction
