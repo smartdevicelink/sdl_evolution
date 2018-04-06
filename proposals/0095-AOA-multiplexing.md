@@ -142,9 +142,9 @@ public class SdlRouterService extends Service {
 ### The app that has actual UsbAccessory's permission sends ParcelFileDescriptor to active SdlRouterService
 We discussed about a potential issue where multiple SDL applications have the same accessory_filter settings.
 
-When a user plugs in their device to an AOA connection, they are prompted with selection dialog. The dialog contains all apps that support the currently connected accessory. In this dialog there is also an option to always open a specific app for that accessory. There will be an issue if the user picks an app to always receive the AOA intent and it propagates the router service. This will force all multiplexed connections to go through that apps router service regardless if there is a newer router service present. If by chance that is not a trusted router service, no other apps will ever connect until the user clears the flag.
+When a user plugs in their device to an AOA connection, they are prompted with selection dialog. The dialog contains all apps that support the currently connected accessory. In this dialog there is also an option to always open a specific app for that accessory. We basically assumed the app that receives AOA intent gets the accessory permission, and then the app works as the router for AOA transport. if the user picks an app to always receive the AOA intent and it propagates the router service, all multiplexed connections will go through that apps router service regardless if there is a newer router service present. If by chance that is not a trusted router service, no other apps will ever connect until the user clears the flag.
 
-The underlying issue is that SdlRouterService needs to support both Bluetooth Transoport and AOA Transport, but the permission of AOA Transport can varied on user's choice, and hence can be different app from RouterService for Bluetooth.
+The underlying issue is that the app user chooses to give the accessory permission is not necessarily the trusted router service.
 To solve the issue, we take the approach where sending the USB device's descriptor (ParcelFileDescriptor) from user granted app to active router service.
 The following sequence diagram shows how it works:
 
