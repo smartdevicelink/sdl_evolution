@@ -132,7 +132,7 @@ Because of upcoming support of simultaneous multiple transports, RegisteredApp s
 ```java
 public class SdlRouterService extends Service {
     ...
-    // underlying transport dependning on the TranportType.
+    // underlying transport depending on the TranportType.
 	private MultiplexBluetoothTransport bluetoothTransport;
 	private MultiplexAoaTransport aoaTransport;
     ...
