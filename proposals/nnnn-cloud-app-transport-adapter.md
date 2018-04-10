@@ -1,7 +1,7 @@
 # Cloud App Transport Adapter
 
 * Proposal: [SDL-NNNN](NNNN-cloud-app-transport-adapter.md)
-* Author: [Jack Byrne](https://github.com/smartdevicelink)
+* Author: [Jack Byrne](https://github.com/JackLivio)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core]
 
@@ -18,7 +18,7 @@ The implementation of a SDL web app javascript library used to create SDL connec
 - SDL web apps would still use the SDL RPC Service / protocol
 - SDL web apps would integrate a proxy library that supports all Mobile API RPCs (implemented in Javascript)
 - SDL web apps live in the "cloud", not in the car or phone
-- Using a web app on the head unit would not require mobile a mobile device, but does require head unit to have an active data connection
+- Using a web app on the head unit would not require a mobile device, but would require the head unit to have an active data connection
 - SDL Core initiates the connection to cloud application using endpoints supplied by policy table updates (OEMs control trusted app connections)
 
 Implementing this feature means that the user would not be required to connect their personal device in order to use SDL connected applications. Also, offering a new way to build and connect SDL apps might attract new developers.
@@ -42,7 +42,7 @@ Visit www.appwebsite.com/activate
 
 This method of authentication uses a similar flow for activating streaming services (ie Roku/Apple TV -> Netflix)
 
-![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_high_level.png "Logo Title Text 1")
+![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_high_level.png "High Level")
 
 ### Obtaining Web App IP Address and Port
 Maintaining a list of urls for each web app will be similar to how policies for SDL applications are currently managed. There will need to be two new fields introduced in the app_policies section of the policy table. 
@@ -85,17 +85,15 @@ Endpoints can be added, removed, or updated via policy table updates. This means
 
 - Ignition On: Core will read from the policy table for known connection endpoints. This information will be forwarded to the transport adapter level for client websocket connections to be opened.
 
-![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_ign_on.png "Logo Title Text 1")
+![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_ign_on.png "Ign On")
 
-- Policy Table Update: After receiving a policy table updated and endpoint data has been updated, Core will open new connections for newly added endpoints and close connections for endpoints that have been "revoked"
+- Policy Table Update: After receiving a policy table update and new endpoint data has been received, Core will open connections for newly added endpoints and close connections for endpoints that have been "revoked"
 
-Add use case for if app changes.
-
-![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_ptu.png "Logo Title Text 1")
+![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_ptu.png "Policy Table Update")
 
 - User Refreshes Connections: This case would be useful if a cloud app is unregistered due to a connection error. Depending on the build of the transport adapter, this trigger could be activated periodically or manually from user input.
 
-![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_user_refresh.png "Logo Title Text 1")
+![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_user_refresh.png "User Refresh")
 
 ## Potential downsides
 
@@ -174,7 +172,7 @@ This feature should be supported by both regular and external policy build confi
 
 ### SDL Server
 
-SDL Server must create an interface for managing additional policy data. Interface should allow for adding, updating, and revoking endpoint urls and SSL certificates. This work should be minimal since its only two extra parameters.
+SDL Server must create an interface for managing additional policy data. Interface should allow for adding, updating, and revoking endpoint urls and SSL certificates. This work should be minimal since it's only two extra parameters.
 
 ## Alternatives considered
 
@@ -183,11 +181,10 @@ Since there are many aspects to this proposal, I have considered a few alternati
 ### Using Tokens to authenticate
 
 1. Core gets web app endpoints and associated tokens from policy server after a policy table update. 
-2. Core opens a websocket connection for each webapp endpoint located in the policy table. 
+2. Core opens a websocket connection for each web app endpoint located in the policy table. 
 3. Core sends the VIN and token to the application and waits for the application to respond with data.
 4. The web application server sends a request to the policy server to identify the incoming connection via the received VIN and token. 
-5. If the policy server responds matches that the VIN and token are valid it responds with success to the web app server. 
-6. The web app server starts an RPC service with Core.
+5. If the policy server verifies that the VIN and token pair is valid, the web app will send a start service request to Core.
 
 ```JSON
         "app_policies": {
@@ -222,11 +219,11 @@ Using a token to authenticate means that no RPC service would be opened with unk
 
 ### Using the Mobile Device to Connect
 
-If future vehicles will not have dedicated LTE connections, then the mobile device could be used as the proxy for connecting web apps to core. The phone would connect to core using traditional SDL transports, and then also maintain a socket connection with the cloud application. Any data sent from Core/Cloud App would be passed through the phone. 
+If future vehicles will not have dedicated LTE connections, then the mobile device could be used as the proxy for connecting web apps to Core. The phone would connect to Core using traditional SDL transports, and then also maintain a socket connection with the cloud application. Any data sent from Core/Cloud App would be passed through the phone. 
 
 ### Separating Policies and Cloud App Endpoints
 
-A seperate server could be developed to maintain cloud app endpoints if we believe that this type of logic and data is outside of the scope of policies.
+A separate server could be developed to maintain cloud app endpoints if we believe that this type of logic and data is outside of the scope of policies.
 
 ### Alternative to using the VIN
 
