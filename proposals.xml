@@ -104,7 +104,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0092" status="implemented" primary-platform="core" sdl-version="4.5" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
 <proposal id="0093" status="implemented" primary-platform="android" sdl-version="4.4" name="Haptic Projection" filename="0093-haptic-projection.md"/>
 <proposal id="0094" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
-<proposal id="0095" status="returned" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
+<proposal id="0095" status="active" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
 <proposal id="0096" status="accepted" primary-platform="core" sdl-version="x.x" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
 <proposal id="0097" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
 <proposal id="0098" status="accepted" primary-platform="mobile" sdl-version="x.x" name="SDL Localization" filename="0098-localization.md"/>
@@ -129,7 +129,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0116" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Open Menu RPC" filename="0116-open-menu.md"/>	
 <proposal id="0117" status="accepted" primary-platform="core" sdl-version="x.x" name="Configurable time before shutdown" filename="0117-configurable-time-before-shutdown.md"/>	
 <proposal id="0118" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
-<proposal id="0119" status="active" primary-platform="rpc" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
+<proposal id="0119" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
 <proposal id="0120" status="accepted" primary-platform="rpc" sdl-version="x.x" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
 <proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
 <proposal id="0122" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
@@ -159,8 +159,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0146" status="accepted" primary-platform="meta" sdl-version="x.x" name="Updating Mobile Version Dependencies" filename="0146-updating-mobile-version-dependencies.md"/>
 <proposal id="0147" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Color Scheme" filename="0147-template-color-scheme.md"/>
 <proposal id="0148" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Additional SubMenus" filename="0148-template-additional-submenus.md"/>
-<proposal id="0149" status="active" primary-platform="core" sdl-version="x.x" name="Add capability to disable resumption based on app type and transport type" filename="0149-mt-registration-limitation.md"/>
-<proposal id="0150" status="active" primary-platform="rpc" sdl-version="x.x" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
+<proposal id="0149" status="accepted" primary-platform="core" sdl-version="x.x" name="Add capability to disable resumption based on app type and transport type" filename="0149-mt-registration-limitation.md"/>
+<proposal id="0150" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
 <proposal id="0151" status="accepted" primary-platform="rpc" sdl-version="x.x" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
 <proposal id="0152" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
 <proposal id="0153" status="returned" primary-platform="rpc" sdl-version="x.x" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
@@ -168,6 +168,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0155" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0156" status="active" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
 <proposal id="0157" status="active" primary-platform="mobile" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
+<proposal id="0158" status="active" primary-platform="core" sdl-version="x.x" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
 	
 
 	
