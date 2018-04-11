@@ -28,9 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoiceCell
 
-@property (copy, nonatomic, readonly) NSString *title;
-@property (copy, nonatomic, readonly, nullable) NSString *text;
-@property (copy, nonatomic, readonly, nullable) NSString *subText;
+@property (copy, nonatomic, readonly) NSString *text;
+@property (copy, nonatomic, readonly, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readonly, nullable) NSString *tertiaryText;
 @property (copy, nonatomic, readonly) NSArray<NSString *> *voiceCommands;
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *artwork;
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryArtwork;
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChoiceSetObject
 @property (copy, nonatomic, readonly) NSString *title;
 @property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *voicePrompt;
-@property (copy, nonatomic, readonly) SDLInteractionLayout layout;
+@property (copy, nonatomic, readonly) SDLLayoutMode layout;
 @property (assign, nonatomic, readonly) TimeInterval timeout;
 @property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *timeoutVoicePrompt;
 @property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *helpVoicePrompt;
@@ -74,12 +74,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoice *)choice withSource:(SDLTriggerSource)source;
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveError:(NSError *)error;
 
-// This is a less common use case, but if the app is using a choice set with search, this is where the text from the search can be retrieved
-- (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveText:(NSString *)text fromSource:(SDLTriggerSource)source;
-
 @optional
+// This is a less common use case, but if the app is using a choice set with search, this is where the text from the search can be retrieved
+- (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveText:(NSString *)text;
 // If not implemented, defaults to NO
-- (BOOL)shouldDeleteChoiceSet;
+- (NSArray<SDLChoiceCell *> *)shouldDeleteChoiceCells:(NSArray<SDLChoiceCell *> *)presentedCells;
 
 @end
 
@@ -94,10 +93,14 @@ The screen manager additions allow the developer to present a "dynamic" choice s
 @interface SDLScreenManager
 
 ...
+@property (copy, nonatomic, readonly) NSDictionary<NSUUID *, SDLChoiceSetObject *> *preloadedChoiceSets;
 
-- (void)presentDynamicChoiceSet:(SDLChoiceSetObject *)set mode:(SDLInteractionMode)mode;
-- (NSUInteger)uploadStaticChoiceSet:(SDLChoiceSetObject *)set;
-- (void)presentStaticChoiceSetWithId:(NSUInteger)id mode:(SDLInteractionMode)mode;
+// This will delete a "static" preloaded choice set and all of its cells, to delete "dynamic" choice cells, currently they must be presented and deleted via the delegate method `- (NSArray<SDLChoiceCell *> *)shouldDeleteChoiceCells:(NSArray<SDLChoiceCell *> *)presentedCells;`
+- (BOOL)deletePreloadedChoiceSet:(NSUUID *)preloadedChoiceSetId;
+
+- (void)presentChoiceSet:(SDLChoiceSetObject *)set mode:(SDLInteractionMode)mode;
+- (NSUUID *)preloadChoiceSet:(SDLChoiceSetObject *)set;
+- (void)presentPreloadedChoiceSet:(NSUUID)preloadedChoiceSetId mode:(SDLInteractionMode)mode;
 
 ...
 
