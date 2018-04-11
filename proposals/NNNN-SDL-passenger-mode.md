@@ -23,7 +23,7 @@ Modify the `OnDriverDistraction` notification:
 <function name="OnDriverDistraction" messagetype="notification">
 
   <!-- newly added parameter -->
-  <param name="lockScreenDismissalEnabled" type="Boolean" mandatory="true">
+  <param name="lockScreenDismissalEnabled" type="Boolean" mandatory="false">
     <description>
       If enabled, the lock screen will be able to be dismissed while connected to SDL, allowing users 
       the ability to interact with the app. Dismissals should include a warning to the user and ensure 
@@ -40,11 +40,9 @@ In addition to modifying the notification as shown above, there needs to be an a
 
 ### Part 2 - Proxy
 
-In addition to modifying the notification, the proposed solution is to have a button in the default lock screen that certifies that the user *is not driving*. This will be shown if `lockScreenDismissalEnabled` is set to `true`, and hidden if set to `false`.
+In addition to modifying the notification, the proposed solution is to be able to dismiss the lockscreen with a swipe up motion, similar to Android Auto.
 
-> "I am not driving"
-
-This will disable the lock screen, and for the remainder of that app's session, allow the app to discard distracted driver `DD_On` or `DD_Off` notifications from Core. This will allow access to the application's UI while allowing the features of SDL to be used in the vehicle.
+This will disable the lock screen until another notification is received to present the lock screen again. This will allow access to the application's UI while allowing the features of SDL to be used in the vehicle.
 
 ## Potential downsides
 
