@@ -1,8 +1,8 @@
 # Cloud App Transport Adapter
 
-* Proposal: [SDL-NNNN](NNNN-cloud-app-transport-adapter.md)
+* Proposal: [SDL-0158](0158-cloud-app-transport-adapter.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
