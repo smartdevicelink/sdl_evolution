@@ -28,6 +28,7 @@ Developers have access to a set of static on-board icons on SDL Core, however th
     ```
 
 2. Add a convenience initializer to the `SDLImage` class that takes the new enum. 
+
     ```objc
     [SDLImage initWithStaticIconName:(SDLStaticIconName)]
     ```
