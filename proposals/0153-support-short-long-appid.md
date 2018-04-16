@@ -23,7 +23,7 @@ Add a new variable to RegisterAppInterface request:
 | ---------- | ---------- |:-----------: |:-----------:|
 |`fullAppID`|String|True|ID used to validate app with policy table entries|
 
-When an app registers with [smartdevicelink.com](https://www.smartdevicelink.com), it is assigned an "appID" and a "fullAppID". The "fullAppID" will be the full UUID appID SHAID is currently generating. The "appID" string will be the first 10 non "-" characters of the full "fullAppID".
+When an app registers with [smartdevicelink.com](https://www.smartdevicelink.com), it is assigned an "appID" and a "fullAppID". The "fullAppID" will be the full UUID appID SHAID is currently generating. The "appID" string will be the first 10 non "-" characters of the full "fullAppID".  
 
 For example, SHAID currently generates: 123e4567-e89b-12d3-a456-426655440000
 * appID: 123e4567e8
@@ -37,9 +37,13 @@ If only the (short) appID is present in the RegisterAppInterface RPC request (le
 
 If both the (short) appID and the (long) fullAppID are in the RegisterAppInterface RPC request (updated apps), sdl core shall ignore the (short) appID and use the (long) fullAppID as the internal policy app id. i.e. use fullAppID as the policy_app_id and use it to construct the icon path.
 
+For ease of use, the mobile libraries will be updated to automatically create the (short) appID based on the first 10 non "-" characters of the "fullAppID" -- this will ensure apps continue to be backwards compatible with existing OEM implementations (without requiring extra work from mobile app developer standpoints). 
+
 ## Potential downsides
 
-The short app id UUID could have an issue with app id uniqueness as it only contains the first ten characters of the UUID. The full UUID format is required to make the app's ID truly unique. This will only impact legacy head unit's that are using appID parameter instead of fullAppID.
+The short app id UUID could have an issue with app id uniqueness as it only contains the first ten characters of the UUID. The full UUID format is required to make the app's ID truly unique. This will only impact legacy head unit's that are using appID parameter instead of fullAppID.  
+
+Upon further investigation of the UUID generator algorithm, we have found each section of the UUID to be random based on a simple UUID generator algorithm.  In our tests of 10,000 generated UUID's no duplicates where found when simply comparing the first 10 non "-" characters making the risk of a duplicate short appID based on this value very low.
 
 ## Impact on existing code
 
@@ -47,4 +51,4 @@ This will require an additional parameter in the RegisterAppInterface request RP
 
 ## Alternatives considered
 
-Options that would guarantee the uniqueness of the app id field while staying consistent with the full app id UUID.
+Options that would guarantee the uniqueness of the app id field while staying consistent with the full app id UUID.  
