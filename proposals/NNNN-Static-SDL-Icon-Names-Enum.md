@@ -40,7 +40,7 @@ A manufacturer might choose to support a subset of the 100+ static icons. If a s
 
 ## Impact on existing code
 
-The `SDLImage` class will get a new convenience initializer. 
+This is a minor version change. A new public enum, `SDLStaticIconName`,  will be available, and the `SDLImage` class will get a new convenience initializer. 
 
 ## Alternatives considered
 
