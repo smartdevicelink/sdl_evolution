@@ -1,9 +1,9 @@
 # Remove SmartDeviceLink Cordova plugin
 
-* Proposal: [SDL-nnnn](nnnn-android_remove_sdl_cordova_android)
+* Proposal: [SDL-nnnn](nnnn-remove-sdl-cordova.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
 * Status: **awaiting review**
-* Impacted Platforms: [Android]
+* Impacted Platforms: [iOS / Android]
 
 ## Introduction
 
@@ -22,12 +22,12 @@ The [SmartDeviceLink Cordova plugin](https://github.com/smartdevicelink/sdl_cord
 
 ## Potential downsides
 
-Some mobile developers may be still using the SmartDeviceLink Cordova plugin to develop SDL apps. Those developers will have to start using SDL Android to develop SDL enabled apps. However, because Corodva is not very used currently, this is not going to have a big impact.
+Some mobile developers may be still using the SmartDeviceLink Cordova plugin to develop SDL apps. Those developers will have to start using SDL iOS and SDL Android to develop SDL enabled apps. However, because Corodva is not very used currently, this is not going to have a big impact.
 
 
 ## Impact on existing code
 
-The proposal suggests that we remove the [SmartDeviceLink Cordova plugin](https://github.com/smartdevicelink/sdl_cordova_android) which will affect any developer who is still using the plugin. Sdl Android should be used by the developers for creating native Android SDL apps. 
+The proposal suggests that we remove the [SmartDeviceLink Cordova plugin](https://github.com/smartdevicelink/sdl_cordova_android) which will affect any developer who is still using the plugin. SDL iOS and SDL Android should be used by developers for creating SDL apps. 
 
 ## Alternatives considered
 
