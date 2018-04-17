@@ -12,14 +12,14 @@ This proposal adds a new parameter `hdRadioEnable` to `RadioControlData` data st
 
 ## Motivation
 
-SDL remote control shall allow the mobile application to turn on the HD radio if the tuner supports but not turns on HD radio.
+SDL remote control shall allow the mobile application to turn on/off the HD radio if the tuner supports it.
 Some HD radio receivers support up to 7 multicast channels on a given station. The available number depends on how many multicast channels a radio broadcaster wants to broadcast.
 
 
 ## Proposed solution
 
-We propose to add a new parameter `hdRadioEnable` to `RadioControlData` to allow an application query or control the HD radio state.
-We add a new parameter `siriusxmRadioAvailable` to `RadioControlCapabilities` to allow an application know whether the HU supports sirius XM Radio.
+We propose to add a new parameter `hdRadioEnable` to `RadioControlData` to allow an application to query or control the HD radio state.
+We add a new parameter `siriusxmRadioAvailable` to `RadioControlCapabilities` to allow an application to know whether the HU supports sirius XM Radio.
 We also change the maximum number of HD radio sub-channels from 3 to 7.
 
 #### Mobile API
