@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-Static-SDL-Icon-Names-Enum.md)
 * Author: [Nicole Yarroch](https://github.com/NicoleYarroch)
 * Status: **Awaiting review**
-* Impacted Platforms: iOS
+* Impacted Platforms: iOS, Android
 
 ## Introduction
 
@@ -15,6 +15,7 @@ This proposal is to create a strongly typed enum for static SDL icon names. This
 Developers have access to a set of static on-board icons on SDL Core, however the developer must know the exact name of the icon in order to use it in a RPC. In addition, the static icons are obscurely named with hexadecimal values, which makes it hard to figure out which icon is currently being used. 
 
 ## Proposed solution
+
 1. Create a new enum called `SDLStaticIconName`. The hexidecimal name for the static icon will be the string constant. 
 
     ```objc
@@ -34,10 +35,13 @@ Developers have access to a set of static on-board icons on SDL Core, however th
     ```
 
 ## Potential downsides
+
 A manufacturer might choose to support a subset of the 100+ static icons. If a static icon is not supported, an empty icon will be used in its stead. Developers will still need to send a RPC using the static icon and then check the response from SDL Core to see if the static icon is actually available.
 
 ## Impact on existing code
+
 The `SDLImage` class will get a new convenience initializer. 
 
 ## Alternatives considered
+
 None.
