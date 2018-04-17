@@ -36,7 +36,7 @@ Developers have access to a set of static on-board icons on SDL Core, however th
 
 ## Potential downsides
 
-A manufacturer might choose to support a subset of the 100+ static icons. If a static icon is not supported, an empty icon will be used in its stead. Developers will still need to send a RPC using the static icon and then check the response from SDL Core to see if the static icon is actually available.
+A manufacturer might choose to support a subset of the 100+ static icons. If a static icon is not supported, an empty icon will be used used in its place. Developers will still need to send a RPC using the static icon and then check the response from SDL Core to see if the static icon is actually available.
 
 ## Impact on existing code
 
