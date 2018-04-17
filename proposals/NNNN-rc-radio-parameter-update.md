@@ -103,7 +103,7 @@ None
 
 ## Impacts on existing code
 
-- RPC need updated with new parameters and the range of two old parameters.
+- New parameters and the range of two old parameters need to be updated within the RPC.
 - SDL core and mobile proxy lib need updates to support this new parameter.
 
 
