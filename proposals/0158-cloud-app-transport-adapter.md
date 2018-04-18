@@ -42,7 +42,7 @@ Visit www.appwebsite.com/activate
 
 This method of authentication uses a similar flow for activating streaming services (ie Roku/Apple TV -> Netflix)
 
-![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_high_level.png "High Level")
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/web_app_high_level.png "High Level")
 
 ### Obtaining Web App IP Address and Port
 Maintaining a list of urls for each web app will be similar to how policies for SDL applications are currently managed. There will need to be two new fields introduced in the app_policies section of the policy table. 
@@ -85,15 +85,15 @@ Endpoints can be added, removed, or updated via policy table updates. This means
 
 - Ignition On: Core will read from the policy table for known connection endpoints. This information will be forwarded to the transport adapter level for client websocket connections to be opened.
 
-![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_ign_on.png "Ign On")
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/web_app_ign_on.png "Ign On")
 
 - Policy Table Update: After receiving a policy table update and new endpoint data has been received, Core will open connections for newly added endpoints and close connections for endpoints that have been "revoked"
 
-![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_ptu.png "Policy Table Update")
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/web_app_ptu.png "Policy Table Update")
 
 - User Refreshes Connections: This case would be useful if a cloud app is unregistered due to a connection error. Depending on the build of the transport adapter, this trigger could be activated periodically or manually from user input.
 
-![alt text](../assets/proposals/nnnn-cloud-app-transport-adapter/web_app_user_refresh.png "User Refresh")
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/web_app_user_refresh.png "User Refresh")
 
 ## Potential downsides
 
