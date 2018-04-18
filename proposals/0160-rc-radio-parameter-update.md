@@ -1,8 +1,8 @@
 # Remote Control Radio Parameter Update
 
-* Proposal: [SDL-NNNN](NNNN-rc-radio-parameter-update.md)
+* Proposal: [SDL-0160](0160-rc-radio-parameter-update.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
