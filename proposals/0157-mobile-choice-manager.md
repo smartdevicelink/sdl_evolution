@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-NNNN](nnnn-mobile-choice-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [iOS / Android]
 
 ## Introduction
