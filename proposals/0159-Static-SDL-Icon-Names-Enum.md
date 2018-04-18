@@ -1,8 +1,8 @@
 # Static SDL Icon Names Enum
 
-* Proposal: [SDL-NNNN](NNNN-Static-SDL-Icon-Names-Enum.md)
+* Proposal: [SDL-0159](0159-Static-SDL-Icon-Names-Enum.mdd)
 * Author: [Nicole Yarroch](https://github.com/NicoleYarroch)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS, Android
 
 ## Introduction
