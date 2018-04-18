@@ -44,9 +44,26 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
+```objc
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLChoiceCellGroup
+
+@property (copy, nonatomic, readonly) NSString *name;
+
+// Unlike "dynamically" uploading, this can be greater than 100 items, **but** all items must be used as a group and can never be mixed and matched.
+@property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *choices;
+
+- (instancetype)initWithName:(NSString *)name choices:(NSArray<SDLChoiceCell *> *)choices;
+
+@end
+
+NS_ASSUME_NONNULL_END
+```
+
 ### Choice Set
 
-A `SDLChoiceSet` is a blending of the `CreateInteractionChoiceSet` and `PerformInteractionChoiceSet` RPCs. The developer only has to create this single layout for each choice interaction set, and the manager will handle uploading the artworks, choices, etc. properly.
+A choice set is "presented" using the ScreenManager.
 
 ```objc
 typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
@@ -69,6 +86,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic, readonly) id<SDLChoiceSetDelegate> delegate;
 @property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *choices;
+
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choiceGroupName:(NSString *)groupName;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choiceGroupName:(NSString *)groupName;
 
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeout:(NSTimeInterval)timeout choices:(NSArray<SDLChoiceCell *> *)choices;
@@ -134,7 +154,7 @@ The screen manager additions allow the developer to present a "dynamic" choice s
 
 ...
 
-// Return an error with userinfo [key: SDLChoiceCell, value: NSError]
+// Return an error with userinfo [key: SDLChoiceCell, value: NSError] if choices failed to upload
 typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
 // The default keyboard configuration, this can be additionally customized per 
@@ -143,7 +163,9 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 // Key: cell.text, Value: cell
 @property (copy, nonatomic, readonly) NSDictionary<NSString *, SDLChoiceCell *> *preloadedChoices;
 
-- (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(SDLPreloadChoiceCompletionHandler)handler;
+// This can only take up to 100 items, if more are passed the completion handler will be called with an error
+- (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler;
+- (void)preloadChoiceGroup:(SDLChoiceGroup *)group withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler;
 - (void)deleteChoices:(NSArray<NSString *> *)preloadedChoiceKeys;
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
@@ -166,7 +188,7 @@ Choice & Choice Set IDs will be intelligently assigned and reused automatically.
 
 ## Potential downsides
 
-This proposal takes care of the dynamic choice set and keyboard use cases, but does not allow for displaying a choice set with greater than 100 items, or of creating a static list of items that can be referenced as a group.
+The author cannot think of any downsides. This use-case has been streamlined and simplified significantly, but the interface is still relatively complex, and the implementation will necessarily be so as well.
 
 ## Impact on existing code
 
