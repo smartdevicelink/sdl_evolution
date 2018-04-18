@@ -25,7 +25,7 @@ When creating an SDL Keyboard we should give two text arguments: initialText and
 
 Possible usage should be like:
 
-``objc
+```objc
 - (instancetype)initWithInitialChunks:(nullable NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText hintText:(NSString *)hintText
 ```
 
