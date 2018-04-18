@@ -1,6 +1,6 @@
 # Mobile Choice Set Manager
 
-* Proposal: [SDL-NNNN](nnnn-mobile-choice-manager.md)
+* Proposal: [SDL-0157](0157-mobile-choice-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Returned for Revisions**
 * Impacted Platforms: [iOS / Android]
