@@ -1,8 +1,8 @@
 # Mobile Choice Set Manager
 
-* Proposal: [SDL-0157](0157-mobile-choice-manager.md)
+* Proposal: [SDL-NNNN](nnnn-mobile-choice-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Awaiting review**
 * Impacted Platforms: [iOS / Android]
 
 ## Introduction
@@ -31,9 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSString *text;
 @property (copy, nonatomic, readonly, nullable) NSString *secondaryText;
 @property (copy, nonatomic, readonly, nullable) NSString *tertiaryText;
-@property (copy, nonatomic, readonly) NSArray<NSString *> *voiceCommands;
+@property (copy, nonatomic, readonly, nullable) NSArray<NSString *> *voiceCommands;
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *artwork;
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryArtwork;
+
+- (instancetype)initWithText:(NSString *)text;
+- (instancetype)initWithText:(NSString *)text artwork:(nullable SDLArtwork *)artwork voiceCommands:(nullable NSArray<NSString *> *)voiceCommands;
+- (instancetype)initWithText:(NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText voiceCommands:(nullable NSArray<NSString *> *)voiceCommands artwork:(nullable SDLArtwork *)artwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork;
 
 @end
 
@@ -42,21 +46,36 @@ NS_ASSUME_NONNULL_END
 
 ### Choice Set
 
-A `SDLChoiceSetObject` is a blending of the `CreateInteractionChoiceSet` and `PerformInteractionChoiceSet` RPCs. The developer only has to create this single layout for each choice interaction set, and the manager will handle uploading the artworks, choices, etc. properly.
+A `SDLChoiceSet` is a blending of the `CreateInteractionChoiceSet` and `PerformInteractionChoiceSet` RPCs. The developer only has to create this single layout for each choice interaction set, and the manager will handle uploading the artworks, choices, etc. properly.
+
+```objc
+typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
+    SDLChoiceSetLayoutList,
+    SDLChoiceSetLayoutTiles,
+};
+```
 
 ```objc
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLChoiceSetObject
+@interface SDLChoiceSet
+
 @property (copy, nonatomic, readonly) NSString *title;
-@property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *voicePrompt;
-@property (copy, nonatomic, readonly) SDLLayoutMode layout;
-@property (assign, nonatomic, readonly) TimeInterval timeout;
-@property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *timeoutVoicePrompt;
-@property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *helpVoicePrompt;
+@property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *initialPrompt;
+@property (copy, nonatomic, readonly) SDLChoiceSetLayout layout;
+@property (assign, nonatomic, readonly) NSTimeInterval timeout;
+@property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *timeoutPrompt;
+@property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *helpPrompt;
 
 @property (weak, nonatomic, readonly) id<SDLChoiceSetDelegate> delegate;
-@property (copy, nonatomic, readonly) NSArray<SDLChoiceObject *> *choices;
+@property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *choices;
+
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeout:(NSTimeInterval)timeout choices:(NSArray<SDLChoiceCell *> *)choices;
+
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
+
 @end
 
 NS_ASSUME_NONNULL_BEGIN
@@ -75,10 +94,31 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveError:(NSError *)error;
 
 @optional
-// This is a less common use case, but if the app is using a choice set with search, this is where the text from the search can be retrieved
-- (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveText:(NSString *)text;
-// If not implemented, defaults to NO
+// If not implemented, defaults to none
 - (NSArray<SDLChoiceCell *> *)shouldDeleteChoiceCells:(NSArray<SDLChoiceCell *> *)presentedCells;
+
+@end
+
+NS_ASSUME_NONNULL_END
+```
+
+```objc
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol SDLKeyboardDelegate<NSObject>
+
+// This will be sent upon ENTRY_SUBMITTED or ENTRY_VOICE
+- (void)userDidSubmitInput:(NSString *)inputText withSource:(SDLTriggerSource *)source;
+
+// This will be sent if the keyboard event ENTRY_CANCELLED or ENTRY_ABORTED is sent
+- (void)userDidCancelInputWithReason:(SDLKeyboardEvent)event;
+
+@optional
+// If any different keyboard properties than exist on the ScreenManager.keyboardConfiguration, then this can be implemented and customized. A SetGlobalProperties will be sent just before the PresentInteraction and the other properties restored after it completes.
+- (SDLKeyboardProperties *)customKeyboardConfiguration;
+
+// This will be sent upon KEYPRESS to update KeyboardProperties.autoCompleteText
+- (NSString *)updateAutocompleteWithInput:(NSString *)currentInputText;
 
 @end
 
@@ -93,14 +133,23 @@ The screen manager additions allow the developer to present a "dynamic" choice s
 @interface SDLScreenManager
 
 ...
-@property (copy, nonatomic, readonly) NSDictionary<NSUUID *, SDLChoiceSetObject *> *preloadedChoiceSets;
 
-// This will delete a "static" preloaded choice set and all of its cells, to delete "dynamic" choice cells, currently they must be presented and deleted via the delegate method `- (NSArray<SDLChoiceCell *> *)shouldDeleteChoiceCells:(NSArray<SDLChoiceCell *> *)presentedCells;`
-- (BOOL)deletePreloadedChoiceSet:(NSUUID *)preloadedChoiceSetId;
+// Return an error with userinfo [key: SDLChoiceCell, value: NSError]
+typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
+// The default keyboard configuration, this can be additionally customized per 
+@property (strong, nonatomic) SDLKeyboardProperties *keyboardConfiguration;
+
+// Key: cell.text, Value: cell
+@property (copy, nonatomic, readonly) NSDictionary<NSString *, SDLChoiceCell *> *preloadedChoices;
+
+- (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(SDLPreloadChoiceCompletionHandler)handler;
+- (void)deleteChoices:(NSArray<NSString *> *)preloadedChoiceKeys;
+
+- (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
 - (void)presentChoiceSet:(SDLChoiceSetObject *)set mode:(SDLInteractionMode)mode;
-- (NSUUID *)preloadChoiceSet:(SDLChoiceSetObject *)set;
-- (void)presentPreloadedChoiceSet:(NSUUID)preloadedChoiceSetId mode:(SDLInteractionMode)mode;
+
+- (void)presentKeyboardWithDelegate:(id<SDLKeyboardDelegate>)delegate;
 
 ...
 
@@ -109,7 +158,7 @@ The screen manager additions allow the developer to present a "dynamic" choice s
 
 ### Caching Dynamic Choice Sets
 
-When dynamic choice sets are uploaded, one choice set will be created per choice. These will be left on the head unit unless the developer returns YES in the `shouldDeleteChoiceSet:` method. If the developer returns YES, then all of the choices and artworks (unless persistant) will be deleted once the selection is made and complete. If the developer returns NO (or doesn't implement the delegate method), then the choices and artworks will remain. If the developer attempts another dynamic choice set containing an `SDLChoiceObject` with the same exact parameters, the choice will be reused. If the same artwork is used (but not the same text), the image on the head unit will be reused.
+When dynamic choice sets are uploaded, one choice set will be created per choice. These will be left on the head unit unless the developer return YES in the `shouldDeleteChoiceSet:` method. If the developer returns YES, then all of the choices and artworks (unless persistant) will be deleted once the selection is made and complete. If the developer returns NO (or doesn't implement the delegate method), then the choices and artworks will remain. If the developer attempts another dynamic choice set containing an `SDLChoiceObject` with the same exact parameters, the choice will be reused. If the same artwork is used (but not the same text), the image on the head unit will be reused.
 
 ### Automatic IDs
 
@@ -117,9 +166,7 @@ Choice & Choice Set IDs will be intelligently assigned and reused automatically.
 
 ## Potential downsides
 
-The main potential downside is that this is not the UI Manager. It does not automatically set the correct mode based on whether the user selects via voice or physical press (which the UI manager may be able to do). It should, however, make creating choice sets much easier without needing to track IDs, with `Choice` caching in dynamic sets, and a generally friendlier API. It is also not entirely dissimilar from the `UITableView(Cell)` API.
-
-This API also does not consider the Keyboard use-case. Creating and using a keyboard seems shoehorned into the ChoiceSet API by the author. Therefore, a separate manager / high-level API should be created specifically for the keyboard use-case. Additionally, the keyboard cannot be used by non-`NAVIGATION` developers and therefore has a much smaller audience.
+This proposal takes care of the dynamic choice set and keyboard use cases, but does not allow for displaying a choice set with greater than 100 items, or of creating a static list of items that can be referenced as a group.
 
 ## Impact on existing code
 
