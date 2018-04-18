@@ -1,7 +1,7 @@
-# Allow clients to specify legacy nicknames
+# Arguments initialText and hintText for SDL Keyboard
 
 * Proposal: [SDL-NNNN](NNNN-initial-and-hint-text-for-keyboard.md)
-* Author: [Timon Kanters](https://github.com/mforys) (TomTom)
+* Author: [MarekForys](https://github.com/mforys) (TomTom)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core, Android, iOS]
 
@@ -10,7 +10,7 @@
 
 SDl Keyboard may be started with argument initialText, but it's displayed in iOS version as blue hint/description in the input field of SDL Keyboard. In the case of Android this initial text is never displayed.
 
-There should be a possibility of using initial and hint text as well.
+There should be a possibility of using initial and hint/description text as well.
 All available documentation is here: [SDLPerformInteraction](https://smartdevicelink.com/en/docs/iOS/master/Classes/SDLPerformInteraction/).
 
 
