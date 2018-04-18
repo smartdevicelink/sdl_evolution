@@ -25,8 +25,8 @@ When creating an SDL Keyboard we should give two text arguments: initialText and
 
 So the perfect description of these arguments should be like that:
 
-*initialText - text which is prefilled to input text field of Keyboard
-*hintText - text which is a hint or description of the content which should be entered to input text field
+* initialText - text which is prefilled to input text field of Keyboard
+* hintText - text which is a hint or description of the content which should be entered to input text field
 
 Possible usage should be like:
 
