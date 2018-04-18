@@ -1,8 +1,8 @@
 # Remove SmartDeviceLink Cordova plugin
 
-* Proposal: [SDL-nnnn](nnnn-remove-sdl-cordova.md)
+* Proposal: [SDL-0161](0161-remove-sdl-cordova.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android]
 
 ## Introduction
