@@ -16,12 +16,17 @@ All available documentation is here: [SDLPerformInteraction](https://smartdevice
 
 ## Motivation
 
-Sometimes user wants to continue to input a text which partially is already filled in device's input text field, then after connecting to SDL the text field is totally empty.
+Sometimes user wants to continue to input a text which partially is already filled in device's input text field, then after connecting to SDL the text field is totally empty. Another scenario is when some text is filled into SDl keyboard then we press Enter and we launch Keyboard again. Input text field is blank and previously entered text is gone.
 
 
 ## Proposed solution
 
 When creating an SDL Keyboard we should give two text arguments: initialText and hintText. Argument hintText should just replace current initialText. Flow for initialText must be developed in all submodules from the scratch.
+
+So the perfect description of these arguments should be like that:
+
+*initialText - text which is prefilled to input text field of Keyboard
+*hintText - text which is a hint or description of the content which should be entered to input text field
 
 Possible usage should be like:
 
