@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_END
 ```objc
 NS_ASSUME_NONNULL_BEGIN
 
+// The SDLChoiceCellGroup is used for creating a "static" choice set with cells uploaded and presented as a group, as opposed to a choice set which uses individual cells preloaded as an array. Those are uploaded and can be presented "dynamically," that is, mixed and matched.
 @interface SDLChoiceCellGroup
 
 @property (copy, nonatomic, readonly) NSString *name;
@@ -77,6 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoiceSet
 
+typedef NSString SDLChoiceCellPrimaryText;
+
 @property (copy, nonatomic, readonly) NSString *title;
 @property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *initialPrompt;
 @property (copy, nonatomic, readonly) SDLChoiceSetLayout layout;
@@ -85,16 +88,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *helpPrompt;
 
 @property (weak, nonatomic, readonly) id<SDLChoiceSetDelegate> delegate;
-@property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *choices;
+@property (copy, nonatomic, readonly) NSArray<SDLChoiceCellPrimaryText *> *choices;
 
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choiceGroupName:(NSString *)groupName;
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choiceGroupName:(NSString *)groupName;
 
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeout:(NSTimeInterval)timeout choices:(NSArray<SDLChoiceCell *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choices:(NSArray<SDLChoiceCellPrimaryText *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeout:(NSTimeInterval)timeout choices:(SDLChoiceCellPrimaryText *)choices;
 
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCellPrimaryText *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCellPrimaryText *> *)choices;
 
 @end
 
@@ -110,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLChoiceSetDelegate<NSObject>
 
-- (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoice *)choice withSource:(SDLTriggerSource)source;
+- (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoiceCell *)choice withSource:(SDLTriggerSource)source;
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveError:(NSError *)error;
 
 @optional
@@ -161,12 +164,12 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 @property (strong, nonatomic) SDLKeyboardProperties *keyboardConfiguration;
 
 // Key: cell.text, Value: cell
-@property (copy, nonatomic, readonly) NSDictionary<NSString *, SDLChoiceCell *> *preloadedChoices;
+@property (copy, nonatomic, readonly) NSDictionary<SDLChoiceCellPrimaryText *, SDLChoiceCell *> *preloadedChoices;
 
 // This can only take up to 100 items, if more are passed the completion handler will be called with an error
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler;
 - (void)preloadChoiceGroup:(SDLChoiceGroup *)group withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler;
-- (void)deleteChoices:(NSArray<NSString *> *)preloadedChoiceKeys;
+- (void)deleteChoices:(NSArray<SDLChoiceCellPrimaryText *> *)preloadedChoiceKeys;
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
 - (void)presentChoiceSet:(SDLChoiceSetObject *)set mode:(SDLInteractionMode)mode;
