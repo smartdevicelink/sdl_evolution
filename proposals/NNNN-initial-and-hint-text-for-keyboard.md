@@ -46,4 +46,6 @@ All apps which use already initialText argument will be fixed, unless initialTex
 
 ## Alternatives considered
 
-None.
+The easier option is just usage a current parameter initialText and use it as a text which should be prefilled into Text Field of the Keyboard.
+Although it seems the interesting feature of a hint/descriptive welcome text (dark blue), which is already implemented can be lost then.
+So it's better to use both arguments.
