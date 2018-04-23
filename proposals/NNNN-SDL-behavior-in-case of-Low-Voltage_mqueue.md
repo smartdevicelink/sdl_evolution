@@ -40,6 +40,21 @@ SDL resumes its regular work after receiving a "WAKE_UP" message:
 
 To implement changes in SDL regarding LOW_VOLTAGE event it is proposed to add a message queue channel of communication between HMI and SDL.
 
+Mqueue name can be specified in smartdevicelink.ini file:
+```
+[MAIN] 
+; Message queue name used by SDL for handling LOW VOLTAGE functionality
+SDLMessageQueueName = /SDLMQ
+By default it mqueue name for handling LOW VOLTAGE functionality is: /SDLMQ
+```
+Message queue signals value:  
+
+|Signal name|Value|
+|:---|:---| 
+|LOW_VOLTAGE|String|
+|WAKE_UP|String|
+|IGNITION_OFF|String|
+
 ## Potential downsides  
 
 Major requirements for OEM manufactures (additional channel of communication is needed) 
