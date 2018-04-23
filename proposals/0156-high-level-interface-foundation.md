@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0156](0156-high-level-interface-foundation.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Deferred**
+* Status: **Awaiting review**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction
