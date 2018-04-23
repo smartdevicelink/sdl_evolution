@@ -80,7 +80,7 @@ The `endpoint` field includes the URL/IP and port that the SDL cloud app can be 
 
 The `certificate` field is used for secured RPC service connections which equates to opening a secured websocket connection. 
 
-The `enabled` field is by default set to false so the cloud app does not show on the HMI. If the user enables an app via the app store flow highlighted in the section above, then then `enabled` will be set to true in the head units local policy table. When set to true, this cloud app will be included in the HMI RPC "UpdateAppList".
+The `enabled` field is by default set to false so the cloud app does not show on the HMI. If the user enables an app via the app store flow highlighted in the section above, then `enabled` will be set to true in the head units local policy table. When set to true, this cloud app will be included in the HMI RPC "UpdateAppList".
 
 The `token` field is also obtained via the app store selection and authorization flow discussed above. This token is used to authenticate the head units websocket connection to the cloud app server. This field will most likely not be included in the sdl server PTU response. This field should be populated through the SetCloudAppProperties RPC
 
@@ -179,7 +179,7 @@ App Activation: User selects the cloud app from the app list on the HMI and the 
 
 ![alt text](../assets/proposals/0158-cloud-app-transport-adapter/cloud_app_activation.png "App Activation")
 
-The behaviour of displaying a cloud app before registration is to prevent unnecessary websocket connections when an app is not in use. Also if an application is put into hmi status NONE, then the websocket connection will be closed until the user activates the application again.
+The behavior of displaying a cloud app before registration is to prevent unnecessary websocket connections when an app is not in use. Also if an application is put into hmi status NONE, then the websocket connection will be closed until the user activates the application again.
 
 ### Hashed VIN
 
