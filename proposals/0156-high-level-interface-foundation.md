@@ -7,7 +7,9 @@
 
 ## Introduction
 
-This proposal is about setting up a foundation to provide a high level developer interface to the iOS library. A separate proposal will address the high level Android interface. It proposes a solution to mimic the UI framework of the native OS SDKs. It contains an overview and basic design but won't go much into details of a specific section. Subsequent proposal will be created in the near future in order to provide detailed designs whenever necessary.
+This proposal is about setting up a foundation to provide a high level developer interface to the iOS library. 
+The foundation will be about the application lifecycle which is necessary for view controller lifecycle and management.
+It's the first proposal from a set of proposals each addressing a specific section of the high level interface.
 
 ## Motivation
 
@@ -16,11 +18,12 @@ In order to work with SDL, app developers need to learn a new API which mostly d
 - the use of RPCs and handle notifications, requests and responses
 - manually manage concurrent and sequential operations (e.g. image upload)
 
-The time for an app developer to learn SDL (non-productive time) is high and not accepted by some developers. The SDL iOS library already improves the current situation by abstracting painful implementations. However the management layer is still unfamiliar and causes a high learning curve.
+The time for an app developer to learn SDL (non-productive time) is high and not accepted by some developers. 
+The SDL iOS library already improves the current situation by abstracting painful implementations. However the management layer is still unfamiliar and causes a high learning curve.
 
 ## Proposed solution
 
-This proposal is about adding a new abstraction layer which utilizes the management layer and provides a high level interface familiar to the UIKit famework in iOS and Activity package in Android.
+This proposal is about adding a new abstraction layer which utilizes the management layer and provides a high level interface familiar to the UIKit framework in iOS and Activity package in Android.
 
 | High level interface |
 |----------------------|
@@ -34,32 +37,96 @@ The high level interface sits on top of the management layer. It should provide 
 - SDL ViewController (iOS) or Activity (Android) to allow architecture SDL use cases beyond today's possibilities (incl. UI stack)
 - SDL View with subclasses to simplify the HMI screen manipulation throughout the UI stack
 
-### Application lifecycle
----
+This proposal is about the application lifecycle only. It may mention views and view controllers which are covered by other proposals. The application lifecycle is about providing an easy, convenient way to setup the SDL application using the concept of UIKit. The idea is to reduce the learning curve and provide a (mostly) familiar API to the developer.
 
-This subsection is not complete but provides a descriptive overview to avoid confusion. If agreed by the steering committee the details of the application lifecycle will be proposed separately.
+The application lifecycle will contain the following items:
+- `SDLApplication` which will be the central class coordinating the SDL application running on the SDL enabled system.
+- `SDLApplicationState` provides well known app states covering the complexity and pain with HMI level transitions.
+- `SDLApplicationDelegate` will be used by the app to receive delegate calls very similar to UIKit.
+- `SDLApplicationMain()` as *the* entry point for developers to setup the SDL application
 
-#### SDLApplication (mimic UIApplication)
+### SDLApplication (mimic UIApplication)
 
 The application lifecycle `SDLApplication` should utilize the lifecycle manager and provide 
 - a state machine abstracting transitions of the HMI level, audio streaming state etc.
 - properties to access (appliation related) capabilities (from `RegisterAppInterfaceResponse` or `GetSystemCapabilities`)
-- refer to an SDL view controller manager which will be used to stack view controllers starting with the root view controller. 
+- refer to an SDL view controller manager which will be used to manage view controller instances starting with the root view controller. 
 
-#### SDLAppState (mimic UIApplicationState)
-
-Inspired by [`UIApplicationState`](https://developer.apple.com/documentation/uikit/uiapplicationstate) an SDL application can behave very similar to a native iOS app
+The application should bypass the manager's sub-managers. The only exception should be the SDLPermissionManager as it is very focused on RPC permissions. 
+Instead high level features should monitor the required RPCs internally and provide named properties and notifications 
+similar to [`CLLocationManager.authorizationStatus`](https://developer.apple.com/documentation/corelocation/cllocationmanager/1423523-authorizationstatus?language=objc) 
+and [`locationManager:didChangeAuthorizationStatus:`](https://developer.apple.com/documentation/corelocation/cllocationmanagerdelegate/1423701-locationmanager?language=objc)
+in order to monitor permissions. For violations the high level features should provide errors using something like
+[`locationManager:didFailWithError:`](https://developer.apple.com/documentation/corelocation/cllocationmanagerdelegate/1423786-locationmanager?language=objc)
+and an SDL version of [`kCLErrorDenied`](https://developer.apple.com/documentation/corelocation/clerror/kclerrordenied?language=objc).
 
 ```objc
-typedef SDLEnum SDLAppState SDL_SWIFT_ENUM;
-extern SDLAppState const SDLAppStateActive; // Equivalent to HMI_FULL
-extern SDLAppState const SDLAppStateInactive; // Equivalent to HMI_LIMITED
-extern SDLAppState const SDLAppStateBackground; // Equivalent to HMI_BACKGROUND
-extern SDLAppState const SDLAppStateNotRunning; // Equivalent to HMI_NONE
-extern SDLAppState const SDLAppStateDisconnected; // Equivalent to not connected/registered
+/**
+ * The central class coordinating the SDL application running on the SDL enabled system
+ * By default every application contains a single instance of SDLApplication. 
+ */
+@interface SDLApplication
+
+/** Returns the singleton app instance. */
+@property (strong, nonatomic, class, readonly) SDLApplication *sharedApplication;
+
+/** The delegate of the SDL application. */
+@property (weak, nonatomic) id<SDLApplicationDelegate> delegate;
+
+/** The current state of the application. */
+@property (assign, nonatomic, readonly) SDLApplicationState applicationState;
+
+/** Describes whether or not streaming audio of the media application is currently audible through the system. */
+@property (assign, nonatomic, readonly) SDLAudioStreamingState audibleState;
+
+/** Indicates whether or not a user-initiated interaction is in progress, and if so, in what mode (i.e. MENU or VR). */
+@property (assign, nonatomic, readonly) SDLSystemContext systemContext;
+
+/** The configuration the SDL application. (bypass to manager) */
+@property (copy, nonatomic, readonly) SDLConfiguration *configuration;
+
+/** The capabilities of the SDL enabled system. (bypass to manager) */
+@property (strong, nonatomic, readonly) SDLSystemCapabilityManager *systemCapabilities;
+
+/** The file manager to be used by the running app. (bypass to manager) */
+@property (strong, nonatomic, readonly) SDLFileManager *fileManager;
+
+/** The streaming media manager to be used for starting video sessions. (bypass to manager) */
+@property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
+
+/** The root/manager of the application's view controllers. */
+@property (nonatomic, strong, readonly) SDLViewControllerManager *viewControllerManager;
+
+@end
 ```
 
-#### SDLAppDelegate (mimic UIApplicationDelegate)
+A private extension will be used in order to create objects out of `SDLApplication`. This extension should be located in a separate private header file but should be implemented in the application's .m file. This would hide the technical possibility for creating multiple `SDLApplication` objects. The function `SDLApplicationMain()` should use the initializer and set the shared application instance. For those who master SDL and need to have multiple objects can reuse the extension and create new objects manually. 
+
+```objc
+@interface SDLApplication()
+
+/** Returns the singleton app instance. */
+@property (strong, nonatomic, class, readwrite) SDLApplication *sharedApplication;
+
+- (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(id<SDLApplicationDelegate>)delegate;
+
+@end
+```
+
+### SDLApplicationState (mimic UIApplicationState)
+
+Inspired by [`UIApplicationState`](https://developer.apple.com/documentation/uikit/uiapplicationstate) an SDL application can behave very similar to a native iOS app. The current state is stored as a property in the application object. Transitions between the states are covered by the application delegate.
+
+```objc
+typedef SDLEnum SDLApplicationState SDL_SWIFT_ENUM;
+extern SDLApplicationState const SDLApplicationStateActive;       // Equivalent to HMI_FULL
+extern SDLApplicationState const SDLApplicationStateLimited;      // Equivalent to HMI_LIMITED (Inactive state)
+extern SDLApplicationState const SDLApplicationStateBackground;   // Equivalent to HMI_BACKGROUND
+extern SDLApplicationState const SDLApplicationStateNotRunning;   // Equivalent to HMI_NONE
+extern SDLApplicationState const SDLApplicationStateDisconnected; // Equivalent to not connected/registered
+```
+
+### SDLApplicationDelegate (mimic UIApplicationDelegate)
 
 This protocol corresponds to [UIApplicationDelegate](https://developer.apple.com/documentation/uikit/uiapplicationdelegate) and provides method called on certain commonly used transitions. All of the transitions would also be notified through the notification center.
 
@@ -68,19 +135,51 @@ The purpose of the protocol is to improve the learning curve of possible HMI lev
 *AppDelegate protocol*
 
 ```objc
-@protocol SDLAppDelegate
+@protocol SDLApplicationDelegate
+
+- (void)applicationDidFinishLaunching:(SDLApplication *)application;
+
 @optional
-- (void)appDidConnect:(SDLApplication *)app;
-- (void)appDidDisconnect:(SDLApplication *)app;
+- (void)applicationDidConnect:(SDLApplication *)application;
+- (void)applicationDidDisconnect:(SDLApplication *)application;
 
-- (void)appDidFinishLaunch:(SDLApplication *)app;
-- (void)appDidClose:(SDLApplication *)app;
+- (void)applicationDidBecomeActive:(SDLApplication *)application;
+- (void)applicationDidBecomeLimited:(SDLApplication *)application;
+- (void)applicationDidEnterBackground:(SDLApplication *)application;
+- (void)applicationDidClose:(SDLApplication *)application;
 
-- (void)appDidBecomeInactive:(SDLApplication *)app;
-- (void)appDidBecomeActive:(SDLApplication *)app
+- (void)application:(SDLApplication *)application didEnterAudibleState:(SDLAudioStreamingState)audibleState fromState:(SDLAudioStreamingState)oldState;
+- (void)application:(SDLApplication *)application didEnterSystemContext:(SDLSystemContext)systemContext fromContext:(SDLSystemContext)oldContext;
 
-- (void)appDidEnterBackground:(SDLApplication *)app;
+- (SDLLifecycleConfigurationUpdate *)application:(SDLApplication *)application shouldUpdateLifecycleConfigurationToLanguage:(SDLLanguage)language;
+
 @end
+```
+
+Equivalent notification names should also be provided. The notifications will use `NSNotification` with one of the below names. `.object` will be set to the SDLApplication object. For audible state and system context there will be extra keys to access the additional parameter values.
+
+```objc
+const NSNotificationName SDLApplicationDidFinishLaunching;
+
+const NSNotificationName SDLApplicationDidConnect;
+
+const NSNotificationName SDLApplicationDidDisconnect;
+
+const NSNotificationName SDLApplicationDidBecomeActive;
+
+const NSNotificationName SDLApplicationDidBecomeLimited;
+
+const NSNotificationName SDLApplicationDidEnterBackground;
+
+const NSNotificationName SDLApplicationDidClose;
+
+const NSNotificationName SDLApplicationDidEnterAudibleState;
+typedef NSString *SDLApplicationAudibleStateKey;
+typedef NSString *SDLApplicationOldAudibleStateKey;
+
+const NSNotificationName SDLApplicationDidEnterSystemContext;
+typedef NSString *SDLApplicationSystemContextKey;
+typedef NSString *SDLApplicationOldSystemContextKey;
 ```
 
 *Transition flow*
@@ -91,7 +190,7 @@ The purpose of the protocol is to improve the learning curve of possible HMI lev
 
 | From          | To            | Delegate call(s)                                                      | Case/Example                                                          |
 |---------------|---------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
-| Any level     | Not connected | `appDidDisconnect:`                                                   | Phone's disconnected                                                  |
+| Any level     | Not connected | `appDidDisconnect:`                                                   | Phone's disconnected. No `appDidClose:` (exclusive to connected apps) |
 | Not connected | NONE          | `appDidConnect:`                                                      | App just registered                                                   |
 | BACKGROUND    | NONE          | `appDidClose:`                                                        | Background app was closed                                             |
 | LIMITED       | NONE          | `appDidClose:`                                                        | Active media app was closed by the user while HMI is e.g. in Nav      |
@@ -99,310 +198,44 @@ The purpose of the protocol is to improve the learning curve of possible HMI lev
 | Not connected | BACKGROUND    | `appDidConnect:`<br>`appDidFinishLaunch:`<br>`appDidEnterBackground:` | App with background service just registered                           |
 | NONE          | BACKGROUND    | `appDidFinishLaunch:`<br>`appDidEnterBackground:`                     | App just got permission to serve in background                        |
 | LIMITED       | BACKGROUND    | `appDidEnterBackground:`                                              | Active media app was closed as the user selected another media app    |
-| FULL          | BACKGROUND    | `appDidBecomeInactive:`<br>`appDidEnterBackground:`                   | Non-media app is backgrounded as the user moved to e.g. media         |
-| Not connected | LIMITED       | `appDidConnect:`<br>`appDidFinishLaunch:`<br>`appDidBecomeInactive:`  | Media app resumed after ignition cycle while HMI is e.g. in Nav       |
-| NONE          | LIMITED       | `appDidFinishLaunch:`<br>`appDidBecomeInactive:`                      | ?                                                                     |
-| BACKGROUND    | LIMITED       | `appDidBecomeInactive:`                                               | ?                                                                     |
-| FULL          | LIMITED       | `appDidBecomeInactive:`                                               | Media app was background as the user moved to e.g. Nav                | 
+| FULL          | BACKGROUND    | `appDidEnterBackground:`                                              | Non-media app is backgrounded as the user moved to e.g. media         |
+| Not connected | LIMITED       | `appDidConnect:`<br>`appDidFinishLaunch:`<br>`appDidBecomeLimited:`   | Media app resumed after ignition cycle while HMI is e.g. in Nav       |
+| NONE          | LIMITED       | `appDidFinishLaunch:`<br>`appDidBecomeLimited:`                       | Media app to be started by the system but not brought to foreground   |
+| BACKGROUND    | LIMITED       | `appDidBecomeLimited:`                                                | Media app to be started by the system but not brought to foreground   |
+| FULL          | LIMITED       | `appDidBecomeLimited:`                                                | Media app was background as the user moved to e.g. Nav                | 
 | Not connected | FULL          | `appDidConnect:`<br>`appDidFinishLaunch:`<br>`appDidBecomeActive:`    | Media app resumed after ignition cycle and became visible on HMI      |
 | NONE          | FULL          | `appDidFinishLaunch:`<br>`appDidBecomeActive:`                        | App was selected by the user (or system)                              |
 | BACKGROUND    | FULL          | `appDidBecomeActive:`                                                 | Background app was selected by the user                               |
 | LIMITED       | FULL          | `appDidBecomeActive:`                                                 | Active media app was selected by the user                             |
 
-### View Controller lifecycle
----
+### SDLApplicationMain
 
-Based on the MVC pattern used by UIKit the high level interface should introduce the SDL view controller in order to manage and control views. App developers need to subclass the base view controller class and implement the use cases. As view controllers are stackable the app developer can separate and structure the SDL related code.
-
-A view controller can exist in a set of states. Below flow shows the possible transitions between loading view, view to appear or to disappear.
-
-![view-controller-lifecycle](../assets/proposals/0156-high-level-interface-foundation/view-controller-lifecycle.png)
-
-![view-controller-overview](../assets/proposals/0156-high-level-interface-foundation/view-controller-overview.png)
-
-#### `Init`
-
-View controllers are instantiated when they are pushed to the view controller manager. In the case of the root view controller it would be instantiated once a connection is established to the head unit (app is registered). In this state there is no view loaded. The app developer should not load data or perform other memory/time intense code at this time.
-
-#### `loadView`
-
-In case the view controller appears on the screen but does not have a loaded view the method `loadView` is called which should be overriden by the app developer in the subclass.
-
-#### `viewDidLoad`
-
-After calling `loadView` the view controller is notified that the view did load. The app developer can override this method in order to load data sources and apply assets to the view.
-
-#### `viewWillAppear`
-
-Whenever a view controller's view should become visible on the head unit the view controller will be notified that the view will appear. Reasons to appear on the head unit are:
-1. The app launched and became (in)active (entered HMI_LIMITED or HMI_FULL). The root view controller will appear.
-2. The app has pushed a second view controller to the stack. The second view controller's view will appear after the first view controller's view will disappear.
-3. The top view controller was removed from the stack. The underlying view controller's view will appear after the top view controller's view will disappear.
-
-The app developer can override this method in order to manipulate view elements before they are presented on the head unit.
-
-#### `viewDidAppear`
-
-This method is called after `viewWillAppear` and after the view related RPCs (`Show`, `SetDisplayLayout` etc.) are all performed.
-
-#### `viewWillDisappear`
-
-Whenever a view is/will not be visible on the head unit anymore the view controller will be notified by `viewWillDisappear`. Reasons for that are:
-1. The app entered HMI_NONE or HMI_BACKGROUND. In this case the view already disappeared. Still in order to follow the flow this method should be called.
-2. The app has pushed a second view controller to the stack. The first view controller's view will disappear before the second view controller's view will appear.
-3. The top view controller was removed from the stack. The top view controller's view will disappear before the underlying view controller's view will appear.
-
-#### `viewDidDisappear`
-
-This method is called after `viewWillDisappear`. 
-
-### SDLViewController
-
-The base class provides empty overridable methods in order to load a view or to be notified when a view did load or if it will/did appear/disappear.
+Similar to [`UIApplicationMain()`](https://developer.apple.com/documentation/uikit/1622933-uiapplicationmain?language=objc) the function `SDLApplicationMain()` should become **the** entry point for SDL apps. The app developer should call the function in an early phase of the app's launching procedure (e.g. in `UIApplicationDelegate.application:didFinishLaunchingWithOptions:`). It creates the shared application object as well as the object of the class implementing the application delegate and makes the SDL application ready using the app configuration and the named root view controller.
 
 ```objc
-@interface SDLViewController
-
-@property (nonatomic, readonly) BOOL isViewLoaded;
-
-@property (nonatomic) SDLView *view;
-
-@property (nonatomic, copy) NSString *layout; // SetDisplayLayout
-
-- (void)loadView;
-- (void)viewDidLoad;
-
-- (void)viewWillAppear;
-- (void)viewDidAppear;
-
-- (void)viewWillDisappear;
-- (void)viewDidDisappear;
-
-- (void)showViewController:(SDLViewController *)viewController;
-- (void)presentModalViewController:(SDLModalViewController *)modalViewController completion:(void (^)(void))completion; //completion type TBD
-
-@end
+// assume all nullable
+extern void SDLApplicationMain(NSString *applicationClassName, NSString *delegateClassName, NSString *rootClassName, SDLConfiguration *configuration);
 ```
 
-### SDLViewControllerManager
+As a start to demonstrate the ease of SDL the function should be able to build the application as HelloSDL by calling `SDLApplicationMain(nil, nil, nil, nil)`. The transport layer should be iAP so it's expected that `ExternalAccessory.framework` linked and the protocol strings are added. The idea of helloSDL in the framework is to provide a very quick start into SDL. It could be added to the iOS documentation as a checkpoint to get an SDL app running.
 
-View controllers should be stackable. Similar to [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) an SDL view controller manager should be used by the SDL application class. Different to `UINavigationController` there should not be an `SDLNavigationController`. First of all the navigation controller provides UI elements (no Navigation buttons or Toolbar) which cannot be adopted to SDL. Second to avoid confusion the code responsible for the stack should not be called navigation. (An alternative for `SDLNavigationController` or `SDLStackViewController` can be added if requested).
+*Note: There are more variants/alternatives for `SDLApplicationMain()` in the sub-section below.*
 
-The view controller manager provides methods to access view controllers and manipulate the view controller stack.
+#### applicationClassName
 
-```objc
-@interface SDLViewControllerManager
+By default `SDLApplicationMain()` creates the shared application object of `SDLApplication`. The app developer can also provide a named subclass of `SDLApplication` if this is preferred. Most apps don't need this but it would follow `UIApplicationMain()` and allows custom events or access areas beyond the public API. Another example would be to make the subclass implement the delegate.
 
-@property (nonatomic, copy) NSArray<SDLViewController *> *viewControllers;
+#### delegateClassName
 
-@property (nonatomic) SDLViewController *rootViewController;
-@property (nonatomic) SDLViewController *topViewController;
-@property (nonatomic) SDLModalViewController *presentedModalViewController;
+The name of the class that implemented the SDL application delegate protocol. If the application subclass implements the delegate this parameter should match `applicationClassName`. Set nil if no delegate is needed or notifications from `NSNotificationCenter` are preferred.
 
-- (void)pushViewController:(SDLViewController *)viewController;
-- (void)popViewController;
+#### rootClassName
 
-- (void)presentModalViewController:(SDLModalViewController *)modalViewController completion:(void (^)(void))completion; //completion type TBD
+A named subclass of `SDLViewController` to be used as the root view controller for the application. An object of it will be created as soon as the application is launched. Set to `"SDLViewController"` or nil to let the application create a default view controller.
 
-@end
-```
+#### configuration
 
-### Modal view controllers
-
-Modal view controllers are responsible for overlay related RPCs such as `Alert`, `ScrollableMessage`, `PerformAudioPassThru`, `Slider` or `PerformInteraction`. Implementing overlays as modal view controllers would follow the modal-mode presentation of view controllers such as [`UIAlertController`](https://developer.apple.com/documentation/uikit/uialertcontroller).
-
-Apps can use subclasses of the modal view controller within a regular view controller by calling `presentModalViewController:completion:`.
-
-#### SDLModalViewController
-
-This class would be used as the base class for any overlay related RPC. As it inherits `SDLViewController` it is possible to manipulate the head unit during a modal presentation.
-
-```objc
-@interface SDLModalViewController : SDLViewController
-
-@property (nonatomic, assign) NSTimeInterval duration; // used throughout all subclasses
-@property (nonatomic, copy) NSString *message; // used throughout all subclasses
-
-@end
-```
-
-#### SDLAlertController
-
-The alert controller is used to abstract the RPC `Alert`.
-
-```objc
-@interface SDLAlertController : SDLModalViewController
-
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *initialPrompt;
-@property (nonatomic, copy) NSArray<SDLSoftButton *> *buttons;
-
-@property (nonatomic) BOOL shouldPlayTone;
-@property (nonatomic) BOOL progressIndicator;
-
-
-@end
-``` 
-
-#### SDLAudioInputController
-
-The audio input controller is used to abstract the RPC `PerformAudioPassThru`, `OnAudioPassThru` and `EndAudioPassThru`. The app developer should be able to provide a block which is called for audio data. Furthermore a method called `dismiss` should help to end the audio pass thru.
-
-```objc
-@interface SDLAudioInputController : SDLModalViewController
-
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *initialPrompt;
-@property (nonatomic, copy) SDLSamplingRate samplingRate;
-@property (nonatomic, copy) SDLBitsPerSample bitsPerSample;
-@property (nonatomic, copy) SDLAudioType audioType;
-@property (nonatomic) BOOL muteMediaSource;
-
-@property (nonatomic) SDLOnAudioDataBlock onAudioDataBlock;
-
-- (void)dismiss; // sends an EndAudioPassThru in order to stop audio input
-
-@end
-```
-
-#### SDLScrollableMessageController
-
-Similar to `Alert` this view controller takes care of the RPC `ScrollableMessage`.
-
-```objc
-@interface SDLScrollableMessageController : SDLModalViewController
-
-@property (nonatomic, copy) NSArray<SDLSoftButton *> *buttons;
-
-@end
-```
-
-#### SDLSliderController
-
-This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider). For consistency it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `numTicks` to be between 2 and 26. With the high level abstraction the modal controller can manage much more value ranges than 1-26. Examples are ranges with negative (or more values than available) which are mapped (and scaled) internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
-
-```objc
-@interface SDLSliderController : SDLModalViewController
-
-@property (nonatomic, copy) NSString *title; // mapped with Slider.sliderHeader
-@property (nonatomic, copy) NSArray<NSString *> *valueLables; // overrides control of SDLModalViewController.message 
-
-// minimumValue and maximumValue map to .numTicks
-@property (nonatomic) NSInteger minimumValue;
-@property (nonatomic) NSInteger maximumValue;
-
-// maps to `Slider.position`
-@property (nonatomic) NSInteger value;
-
-@end
-```
-
-#### SDLInteractionController
-
-Together with the `SDLChoiceSetManager` the interaction controller will take care of most of the painful work to deal with choice sets and interactions.
-
-In order to support the app developer a class called `SDLChoiceSet` is used which comes with a choice set manager. The choice set management will be proposed separately as it should be contained in the management layer.
-
-- If `.manualInteraction` is set the controller performs with interaction mode MANUAL_ONLY.
-- If `.voiceInteraction` is set the controller  performs with interaction mode VOICE_ONLY.
-- If both parameters are set the controller performs with interaction mode BOTH.
-- Initial prompt is optional and used in any interaction mode
-
-```objc
-@interface SDLInteractionController : SDLModalController
-
-@property (nonatomic, copy) SDLChoiceSet *choiceSet;
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *initialPrompt;
-
-@property (nonatomic, copy) SDLManualInteraction *manualInteraction;
-@property (nonatomic, copy) SDLVoiceInteraction *voiceInteraction;
-
-@property (nonatomic, copy) void (^choiceSelectedBlock)(SDLChoice *choice, SDLTriggerSource triggerSource);
-
-@end
-
-@interface SDLManualInteraction
-
-@property (nonatomic) SDLLayoutMode *layout;
-
-@property (nonatomic, copy) SDLKeyboardProperties *keyboardProperties;
-
-@property (nonatomic, copy) void(^keyboardInputBlock)(SDLOnKeyboardInput *keyboardInput);
-
-@end
-
-@interface SDLVoiceInteraction
-
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *helpPrompt;
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *timeoutPrompt;
-
-@property (nonatomic, copy) NSArray<SDLVrHelpItem *> *helpItems;
-
-@end
-```
-
-### Views
-
-The high level interface introduces three different kind of views: text view, image view and button view. Each view element added to a view controller will be responsible for a parameter of the `Show` RPC.
-
-#### SDLView
-
-```objc
-@interface SDLView
-
-@property (nonatomic) NSArray<SDLView *> *subviews;
-
-@end
-```
-
-#### SDLTextView
-
-The text view is a view which takes care of any kind of text field modifyable by the `Show` RPC. Main fields are dynamically added (first item used for `mainField1`, second for `mainField2`).
-
-```objc
-@interface SDLTextView : SDLView
-
-@property (nonatomic, nullable, copy) SDLTextAlignment textAlignment;
-
-@property (nonatomic, nullable, copy) NSArray<SDLTextField *> *mainFields;
-
-@property (nonatomic, nullable, copy) NSString *statusBar;
-
-@property (nonatomic, nullable, copy) NSString *mediaTrack;
-
-@property 
-
-@end
-
-@interface SDLTextField
-
-@property (nonatomic, nullable, copy) NSString *text;
-@property (nonatomic, nullable, copy) NSArray<SDLMetadataType> *metadataTypes;
-
-@end
-```
-
-#### SDLImageView
-
-The image view will be used for the primary and secondary graphic in the order added to the view controller's view. The image provided will be automatically scaled depending on the display layout.
-
-```objc
-@interface SDLImageView : SDLView
-
-@properties (nonatomic) SDLArtwork *image;
-
-@end
-```
-
-#### SDLButtonView
-
-Every button view added to the view controller's view will be used for the soft button array in the `Show` RPC. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`.
-
-```objc
-@interface SDLButtonView : SDLView
-
-@property (nonatomic, nullable, strong) SDLSoftButtonWrapper *button;
-
-@end
-```
+An object of `SDLConfiguration` used for the underlying SDL manager and sub-managers. If set to nil a deafult configuration for "Hello SDL" will be used.
 
 ## Potential downsides
 
@@ -418,3 +251,34 @@ This proposal will add a total new high level interface layer abstracting many p
 
 As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
 
+### Alternatives to `SDLApplicationMain`
+
+The proposed solution of `SDLApplicationMain()` follows very much the concept of `UIApplicationMain()` which is quite old and not intuitive or robust with all the class names as strings. Therefore any feedback from other SDLC members is highly appreciated. Here are some alternatives already considered:
+
+#### No SDLApplication subclass
+
+This is the least difference to the proposed solution. The first parameter to allow SDLApplication subclasses would not appear as it would probably not be used for 99.9% of the apps. The result would be:
+
+```objc
+extern void SDLApplicationMain(NSString *delegateClassName, NSString *rootClassName, SDLConfiguration *configuration);
+```
+
+#### Use delegate object 
+
+It's expected that the delegate is quite important for the app but it's not necessarily needed to let the function create the object. A potential limitation is that the class implementing the delegate must not exist before calling this function and it must specify `-init;` as the designated initializer. The alternative would be:
+
+```objc
+// assume all nullable
+extern void SDLApplicationMain(id<SDLApplicationDelegate> delegate, NSString *rootClassName, SDLConfiguration *configuration);
+```
+
+#### Subclass SDLConfiguration
+
+The last alternative for the main function would be to accept only one parameter for an object of `SDLApplicationConfiguration`
+
+```objc
+// assume all nullable
+extern void SDLApplicationMain(SDLApplicationConfiguration *configuration);
+```
+
+The class would be a subclass of `SDLConfiguration` but adds more properties for the delegate and the root view controller.	
