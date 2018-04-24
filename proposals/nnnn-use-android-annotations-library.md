@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Java annotations allow developers to provide hints to the compiler and code inspection tools. This ensures that code issues do not propagate which enhances the overall quality of the code. 
+This proposal is to include the annotations dependency and start using it in the SDL Android library. Java annotations allow developers to provide hints to the compiler and code inspection tools. This ensures that code issues do not propagate which enhances the overall quality of the code. 
 
 ## Motivation
 
