@@ -245,7 +245,7 @@ This proposal mimics the native UI API. Compared to the counterproposal this pro
 
 ## Impact on existing code
 
-This proposal will add a total new high level interface layer abstracting many parts of SDL. Existing code should not be affected in a short term but it would make parts of the code obsolete therefore to be deprecated and made private.
+This proposal will add a totally new high level interface layer abstracting many parts of SDL. Existing code should not be affected in a short term but it would make parts of the code obsolete therefore to be deprecated and made private.
 
 ## Alternatives considered
 
