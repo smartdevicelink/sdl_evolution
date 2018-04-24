@@ -82,7 +82,7 @@ and an SDL version of [`kCLErrorDenied`](https://developer.apple.com/documentati
 /** Indicates whether or not a user-initiated interaction is in progress, and if so, in what mode (i.e. MENU or VR). */
 @property (assign, nonatomic, readonly) SDLSystemContext systemContext;
 
-/** The configuration the SDL application. (bypass to manager) */
+/** The SDL application configuration. (bypass to manager) */
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
 
 /** The capabilities of the SDL enabled system. (bypass to manager) */
@@ -100,7 +100,7 @@ and an SDL version of [`kCLErrorDenied`](https://developer.apple.com/documentati
 @end
 ```
 
-A private extension will be used in order to create objects out of `SDLApplication`. This extension should be located in a separate private header file but should be implemented in the application's .m file. This would hide the technical possibility for creating multiple `SDLApplication` objects. The function `SDLApplicationMain()` should use the initializer and set the shared application instance. For those who master SDL and need to have multiple objects can reuse the extension and create new objects manually. 
+A private extension will be used in order to create objects out of `SDLApplication`. This extension should be located in a separate private header file but should be implemented in the application's .m file. This would hide the technical possibility for creating multiple `SDLApplication` objects. The function `SDLApplicationMain()` should use the initializer and set the shared application instance. Those who master SDL and need to have multiple SDL applications can reuse the extension and create new objects manually. 
 
 ```objc
 @interface SDLApplication()
@@ -221,19 +221,19 @@ As a start to demonstrate the ease of SDL the function should be able to build t
 
 *Note: There are more variants/alternatives for `SDLApplicationMain()` in the sub-section below.*
 
-#### applicationClassName
+#### `applicationClassName`
 
 By default `SDLApplicationMain()` creates the shared application object of `SDLApplication`. The app developer can also provide a named subclass of `SDLApplication` if this is preferred. Most apps don't need this but it would follow `UIApplicationMain()` and allows custom events or access areas beyond the public API. Another example would be to make the subclass implement the delegate.
 
-#### delegateClassName
+#### `delegateClassName`
 
 The name of the class that implemented the SDL application delegate protocol. If the application subclass implements the delegate this parameter should match `applicationClassName`. Set nil if no delegate is needed or notifications from `NSNotificationCenter` are preferred.
 
-#### rootClassName
+#### `rootClassName`
 
 A named subclass of `SDLViewController` to be used as the root view controller for the application. An object of it will be created as soon as the application is launched. Set to `"SDLViewController"` or nil to let the application create a default view controller.
 
-#### configuration
+#### `configuration`
 
 An object of `SDLConfiguration` used for the underlying SDL manager and sub-managers. If set to nil a deafult configuration for "Hello SDL" will be used.
 
