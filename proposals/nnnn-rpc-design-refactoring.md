@@ -114,10 +114,32 @@ RPCService responsibilities:
 
 ### Provide plugin arhitecture for easy adding additional functionality and RPC groups   
 
+Create **PluginManager** class that will be responcible for seraching and loaging rpc plugins.
+All commands logic should be stored in rpc plugins. 
 
+Each RPC plugin should implement folowing interfaces:
+ - Command Interface :
+ - CommandFactory Interface : 
+
+#### Plugins responcibilities:
+ - Provide list of supported commands
+ - Create commans from smart object
+ - Contain command logic
+
+SDL will provide to *Plugin* interfaces of all services on application manager layer:
+ - RPCService
+ - PolicyHander
+ - StateController
+ - ApplicationManager
+ - RequestController
+ - ResumeController
+ - etc ...
+
+RPC Handler will use PluginManager to get plugins that is able to process required RPC. 
+RPC Handler will use Command Factory from plugin to create Command for futher procesing.
 
 ## Potential downsides
-
+Major required change of application manager layeer design public
 ## Impact on existing code
 
 ## Alternatives considered
