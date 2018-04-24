@@ -78,8 +78,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoiceSet
 
-typedef NSString SDLChoiceCellPrimaryText;
-
 @property (copy, nonatomic, readonly) NSString *title;
 @property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *initialPrompt;
 @property (copy, nonatomic, readonly) SDLChoiceSetLayout layout;
@@ -88,16 +86,16 @@ typedef NSString SDLChoiceCellPrimaryText;
 @property (copy, nonatomic, readonly, nullable) NSArray<SDLTTSChunk *> *helpPrompt;
 
 @property (weak, nonatomic, readonly) id<SDLChoiceSetDelegate> delegate;
-@property (copy, nonatomic, readonly) NSArray<SDLChoiceCellPrimaryText *> *choices;
+@property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *choices;
 
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choiceGroupName:(NSString *)groupName;
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choiceGroupName:(NSString *)groupName;
 
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choices:(NSArray<SDLChoiceCellPrimaryText *> *)choices;
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeout:(NSTimeInterval)timeout choices:(SDLChoiceCellPrimaryText *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeout:(NSTimeInterval)timeout choices:(NSArray<SDLChoiceCell *> *)choices;
 
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCellPrimaryText *> *)choices;
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCellPrimaryText *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
 
 @end
 
@@ -137,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)userDidCancelInputWithReason:(SDLKeyboardEvent)event;
 
 @optional
-// If any different keyboard properties than exist on the ScreenManager.keyboardConfiguration, then this can be implemented and customized. A SetGlobalProperties will be sent just before the PresentInteraction and the other properties restored after it completes.
+// If keyboard properties different than ScreenManager.keyboardConfiguration are desired, this can be implemented and customized. A SetGlobalProperties will be sent just before the PresentInteraction and the other properties restored after it completes.
 - (SDLKeyboardProperties *)customKeyboardConfiguration;
 
 // This will be sent upon KEYPRESS to update KeyboardProperties.autoCompleteText
@@ -163,16 +161,16 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 // The default keyboard configuration, this can be additionally customized per 
 @property (strong, nonatomic) SDLKeyboardProperties *keyboardConfiguration;
 
-// Key: cell.text, Value: cell
-@property (copy, nonatomic, readonly) NSDictionary<SDLChoiceCellPrimaryText *, SDLChoiceCell *> *preloadedChoices;
+// Cells will be hashed by their text, image names, and VR command text
+@property (copy, nonatomic, readonly) NSSet<SDLChoiceCell *> *preloadedChoices;
 
 // This can only take up to 100 items, if more are passed the completion handler will be called with an error
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler;
 - (void)preloadChoiceGroup:(SDLChoiceGroup *)group withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler;
-- (void)deleteChoices:(NSArray<SDLChoiceCellPrimaryText *> *)preloadedChoiceKeys;
+- (void)deleteChoices:(NSArray<SDLChoiceCell *> *)preloadedChoiceKeys;
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
-- (void)presentChoiceSet:(SDLChoiceSetObject *)set mode:(SDLInteractionMode)mode;
+- (void)presentChoiceSet:(SDLChoiceSet *)set mode:(SDLInteractionMode)mode;
 
 - (void)presentKeyboardWithDelegate:(id<SDLKeyboardDelegate>)delegate;
 
@@ -183,7 +181,7 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
 ### Caching Dynamic Choice Sets
 
-When dynamic choice sets are uploaded, one choice set will be created per choice. These will be left on the head unit unless the developer return YES in the `shouldDeleteChoiceSet:` method. If the developer returns YES, then all of the choices and artworks (unless persistant) will be deleted once the selection is made and complete. If the developer returns NO (or doesn't implement the delegate method), then the choices and artworks will remain. If the developer attempts another dynamic choice set containing an `SDLChoiceObject` with the same exact parameters, the choice will be reused. If the same artwork is used (but not the same text), the image on the head unit will be reused.
+When dynamic choice sets are uploaded, one choice set will be created per choice. These will be left on the head unit unless the developer returns YES in the `shouldDeleteChoiceCells:` method after presentation, or if `deleteChoices` is called with the key. If the developer returns YES to `shouldDeleteChoiceCells:`, then all of the choices and artworks (unless persistant) will be deleted once the selection is made and complete. If the developer returns NO (or doesn't implement the delegate method), then the choices and artworks will remain. If the developer attempts another dynamic choice set containing an `SDLChoiceSet` with the same primary text (the key), the choice will be reused. If the same artwork is used (but not the same text), the image on the head unit will be reused.
 
 ### Automatic IDs
 
@@ -199,4 +197,4 @@ This should be a minor version change to the mobile libraries only.
 
 ## Alternatives considered
 
-No alternatives were considered by the author.
+1. Instead of hashing the Cell and storing it in an `NSSet`, we could require the developer to place a unique "name" string on the Cell. This would allow storing it in an `NSDictionary` and easier lookup / deletion for the developer. However, this is deemed to be an unnecessary step and hashing to be adequate. It also has some advantages, such as automatically preventing the developer from creating and uploading multiple of the same Cell.
