@@ -11,9 +11,13 @@ The light status signal in the vehicle can provide more values than just ON / OF
 
 ## Motivation
 
-The light status signal in the vehicle can provide more values than just ON / OFF for certain lights. 
-Some vehicles can provide the status of more lights than currently defined light names.
-Previously, we assume a RC application can always control the ON/OFF status of a light if the light name is listed in the `supportedLights`, which is in the `LightControlCapabilities`. However, a vehicle may not allow an application to control certain lights but provides the status of such lights. That means the status of those lights is read-only. The vehicle shall allow the application to know this fact via the capabilities.
+During the development of RC feature light module, we find there are several cases not covered by the previous RC proposals.
+
+- The light status signal in the vehicle can provide more values than currently defined ON / OFF value for certain lights. 
+
+- Some vehicles can provide the status of lights which are not defined in the light names.
+
+- We assumed a RC application can always control the ON/OFF status of a light if the light name is listed in the `supportedLights`, which is in the `LightControlCapabilities`. However, a vehicle may not allow an application to control certain lights but may provide the status of such lights. That means the status of those lights is read-only. The vehicle shall allow the application to know this fact via the capabilities.
 
 ## Proposed solution
 This proposal adds three new read-only values (`UNKNOWN`, `RAMP_UP `, `RAMP_DOWN`) to the `LightStatus` enumeration and a few more values to the `LightName` enumeration such that an application can get the status of additional lights. 
