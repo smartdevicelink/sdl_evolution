@@ -23,7 +23,7 @@ This proposal suggests including the Android Support Annotations library as a de
 
 ## Potential downsides
 
-This proposal will add one more dependency to the the SDL Android library. However, because the dependency is a library created by Google, it is unlikely to have support removed in the near future, and the author believes the benefit outweighs that risk.
+This proposal will add one more dependency to the SDL Android library. However, because the dependency is a library created by Google, it is unlikely to have support removed in the near future, and the author believes the benefit outweighs that risk.
 
 ## Impact on existing code
 Changes to SDL Android:
