@@ -51,7 +51,7 @@ By default mqueue name for handling LOW VOLTAGE functionality is: /SDLMQ
 
 Message queue signals value:  
 
-|Signal name|Value|
+|Signal name|Type|
 |:---|:---| 
 |LOW_VOLTAGE|String|
 |WAKE_UP|String|
