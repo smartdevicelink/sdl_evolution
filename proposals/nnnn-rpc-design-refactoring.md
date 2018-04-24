@@ -54,18 +54,70 @@ So if some vendor will need to implement could of new RPC's it would be enough t
 
 ## Proposed solution
 
-Describe your solution to the problem. Provide examples and describe how they work. Show how your solution is better than current workarounds: is it cleaner, safer, or more efficient? Use subsections if necessary.
+### Use dependency injection for commands 
 
-Describe the design of the solution in detail. Use subsections to describe various details. If it involves new protocol changes or RPC changes, show the full XML of all changes and how they changed. Show documentation comments detailing what it does. Show how it might be implemented on the Mobile Library and Core. The detail in this section should be sufficient for someone who is *not* one of the authors to be able to reasonably implement the feature and future [smartdevicelink.com](https://www.smartdevicelink.com) guides.
+Commands should accept as list of services that they reuire. And Mobile factory should be responcible for providing this list of dependencies.  
+
+#### Old Approach 
+```cpp
+
+SomeCommand::SomeCommand(app_mngr);
+
+void SomeCommand::Run() {
+  application_manager->protocol_handler().do_staff();
+  application_manager->state_controller().do_staff();
+  application_manager->PolicyHandler().do_staff();
+  application_manager->resume_controller().do_staff();
+  
+}
+```
+
+#### New Approach 
+```cpp
+
+SomeCommand::SomeCommand(protocol_handler, state_controller, policy_handler, resume_controller);
+
+void SomeCommand::Run() {
+  protocol_handler_.do_staff();
+  state_controller_.do_staff();
+  protocol_handler_.do_staff();
+  protocol_handler_.do_staff();
+}
+```
+It will simplify code and provide poccibility to add new component to certain commands without affecting other commands.
+And factory will create command with all required parameters, so existing code will not be complicated.
+For RC component contains class ResourceAllocationManager. And not RC commands should not have access to this class, so it should be passsed only to RC commands. 
+
+### Reduce responcibility of ApplicationManager class 
+
+Logic of handling and seding RPC's should be extracted from ApplicationManager to separate components `RPCHandler`, `RPCService`.
+
+### RPCHandler
+RPCHandler class should implement interfaces ```HMIMessageObserver```, ```ProtocolObserver``` handle incomming RPC's from HMI or mobile 
+and process it. 
+
+RPCHandler responcibilities:
+ - Handle HMI/Mobile RPC's in message loop
+ - Class checking policies on each RPC
+ - Creating command from message with CommandFactories
+ - Send command for execution to RequestController
+ 
+ ### RPCService
+
+RPCService should provide interface of sending messages to Mobile/HMI. 
+RPCService should be passed to commands for Sending RPC's using dependency injection approach.
+
+RPCService responsibilities:
+ - SendMessage to HMI/Mobile
+ - Call checking policies if message is allowed to send
+ - Provide Requst Controller information of any inciming request shuld be terminated.  
+
+### Provide plugin arhitecture for easy adding additional functionality and RPC groups   
+
+
 
 ## Potential downsides
 
-Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
-
 ## Impact on existing code
 
-Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
-
 ## Alternatives considered
-
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
