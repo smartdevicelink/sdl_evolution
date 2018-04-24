@@ -15,7 +15,7 @@ Android has a support annotation library that can be used by developers to detec
 
 ## Proposed solution
 
-This proposal suggests including the Android Support Annotations library as a dependency and using its annotations to improve the code quality in sdl_android.
+This proposal suggests including the Android Support Annotations library as a dependency and using its annotations to improve the code quality in the SDL Android library.
 [Android Developer website](https://developer.android.com/studio/write/annotations.html) lists some of the annotations that can be used in Android. The following annotations, for example, can be very useful to use in the SDL Android library:
 
 * Nullness annotations `@Nullable` and `@Nonnull` are very efficient in preventing null pointer exceptions from happening. When they are used properly, code inspection tools in Android Studio will show a warning when there is a potential null pointer exception. The nullness annotations can be used as shown in this [example](https://developer.android.com/studio/write/annotations.html#adding-nullness).
@@ -23,7 +23,7 @@ This proposal suggests including the Android Support Annotations library as a de
 
 ## Potential downsides
 
-None.
+This proposal will add one more dependency to the the SDL Android library. However, because the dependency is a library created by Google, it is unlikely to have support removed in the near future, and the author believes the benefit outweighs that risk.
 
 ## Impact on existing code
 Changes to SDL Android:
