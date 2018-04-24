@@ -45,8 +45,10 @@ Mqueue name can be specified in smartdevicelink.ini file:
 [MAIN] 
 ; Message queue name used by SDL for handling LOW VOLTAGE functionality
 SDLMessageQueueName = /SDLMQ
-By default it mqueue name for handling LOW VOLTAGE functionality is: /SDLMQ
-```
+
+```  
+By default mqueue name for handling LOW VOLTAGE functionality is: /SDLMQ
+
 Message queue signals value:  
 
 |Signal name|Value|
