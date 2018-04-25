@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0157](0157-mobile-choice-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android]
 
 ## Introduction
