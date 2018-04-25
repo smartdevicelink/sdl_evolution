@@ -72,7 +72,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0061" status="returned" primary-platform="core" sdl-version="x.x" name="Locale support" filename="0061-locale-support.md"/>
 <proposal id="0062" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template images" filename="0062-template-images.md"/>
 <proposal id="0063" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Display name parameter" filename="0063-display-name-parameter.md"/>
-<proposal id="0064" status="active" primary-platform="rpc" sdl-version="x.x" name="Choice-VR optional" filename="0064-choice-vr-optional.md"/>
+<proposal id="0064" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Choice-VR optional" filename="0064-choice-vr-optional.md"/>
 <proposal id="0065" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SDL Remote Control" filename="0065-remote-control.md"/>
 <proposal id="0066" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Steering wheel location" filename="0066-steering-wheel-location.md"/>
 <proposal id="0067" status="implemented" primary-platform="ios" sdl-version="4.6" name="Optimize Connection Wait Range" filename="0067-optimize-connection-wait-range.md"/>
@@ -163,16 +163,20 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0150" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
 <proposal id="0151" status="accepted" primary-platform="rpc" sdl-version="x.x" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
 <proposal id="0152" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
-<proposal id="0153" status="active" primary-platform="rpc" sdl-version="x.x" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
+<proposal id="0153" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
 <proposal id="0154" status="accepted" primary-platform="core" sdl-version="x.x" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
 <proposal id="0155" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0156" status="deferred" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
-<proposal id="0157" status="returned" primary-platform="mobile" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
+<proposal id="0157" status="active" primary-platform="mobile" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
 <proposal id="0158" status="returned" primary-platform="core" sdl-version="x.x" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
-<proposal id="0159" status="active" primary-platform="mobile" sdl-version="x.x" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
-<proposal id="0160" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control Radio Parameter Update" filename="0160-rc-radio-parameter-update.md"/>
-<proposal id="0161" status="active" primary-platform="mobile" sdl-version="x.x" name="Remove SmartDeviceLink Cordova plugin" filename="0161-remove-sdl-cordova.md"/>
-	
+<proposal id="0159" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
+<proposal id="0160" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control Radio Parameter Update" filename="0160-rc-radio-parameter-update.md"/>
+<proposal id="0161" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Remove SmartDeviceLink Cordova plugin" filename="0161-remove-sdl-cordova.md"/>
+<proposal id="0162" status="active" primary-platform="protocol" sdl-version="x.x" name="Define Handling of Duplicate Correlation IDs" filename="0162-define-handling-of-duplicate-correlation-ids.md"/>
+<proposal id="0163" status="active" primary-platform="rpc" sdl-version="x.x" name="Make spaceAvailable field non-mandatory" filename="0163-make-spaceavailable-field-non-mandatory.md"/>
+<proposal id="0164" status="active" primary-platform="core" sdl-version="x.x" name="Modernize Ubuntu Support" filename="0164-modernize-ubuntu-support.md"/>
+<proposal id="0165" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control – Lights – More Names and Status Values" filename="0165-rc-lights-more-names-and-status-values.md"/>
+
 	
 <!--
 Recognized values for a proposal's status:
