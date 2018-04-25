@@ -140,6 +140,8 @@ RPC Handler will use Command Factory from plugin to create Command for further p
 
 ![New design approach](new_design)
 
+![SDL Workflow][sdl-workflow]
+
 ## Potential downsides
 Major required change of application manager layer design public
 ## Impact on existing code
