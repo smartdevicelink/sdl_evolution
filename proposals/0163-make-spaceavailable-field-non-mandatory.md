@@ -1,8 +1,8 @@
 # Make spaceAvailable field non-mandatory
 
-* Proposal: [SDL-NNNN](NNNN-make-spaceavailable-field-non-mandatory.md)
+* Proposal: [SDL-0163](0163-make-spaceavailable-field-non-mandatory.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [RPC]
 
 ## Introduction
