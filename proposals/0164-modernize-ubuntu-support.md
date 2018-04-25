@@ -1,8 +1,8 @@
 # Modernize Ubuntu Support
 
-* Proposal: [SDL-NNNN](NNNN-modernize-ubuntu-support.md)
+* Proposal: [SDL-0164](0164-modernize-ubuntu-support.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
