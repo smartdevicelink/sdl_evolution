@@ -7,47 +7,44 @@
 
 ## Introduction
 
-This proposal will detail a possible solution for allowing  SDL-enabled cloud applications to be used in a vehicle. This proposal will cover the process of obtaining web application server endpoints, opening connections between Core and a cloud based app server, and how a web application can authenticate connected head units. 
+This proposal will detail a possible solution for allowing  SDL-enabled cloud applications to be used in a vehicle. This proposal will cover the process of obtaining cloud application server endpoints, enabling which cloud apps should appear in the HMI app list, opening connections between Core and a cloud based app server, and how a cloud application can authenticate connected head units. 
 
-The implementation of a SDL web app javascript library used to create SDL connected web applications will be covered by another proposal. 
+The implementation of a SDL cloud app javascript library used to create SDL connected cloud applications will be covered by another proposal. 
 
 
 ## Motivation
 
-### Background on SDL-enabled Web Applications:
-- SDL web apps would still use the SDL RPC Service / protocol
-- SDL web apps would integrate a proxy library that supports all Mobile API RPCs (implemented in Javascript)
-- SDL web apps live in the "cloud", not in the car or phone
-- Using a web app on the head unit would not require a mobile device, but would require the head unit to have an active data connection
+### Background on SDL-enabled cloud applications:
+- SDL cloud apps would still use the SDL RPC Service / protocol
+- SDL cloud apps would integrate a proxy library that supports all Mobile API RPCs (implemented in Javascript)
+- SDL cloud apps live in the "cloud", not in the car or phone
+- Using a cloud app on the head unit would not require a mobile device, but would require the head unit to have an active data connection
 - SDL Core initiates the connection to cloud application using endpoints supplied by policy table updates (OEMs control trusted app connections)
-
-Implementing this feature means that the user would not be required to connect their personal device in order to use SDL connected applications. Also, offering a new way to build and connect SDL apps might attract new developers.
+- User can select which cloud apps to display through an OEM App Store
 
 ## Proposed solution
 
 ### High level overview of connection process and authentication
 
-1. Core performs a policy table update to retrieve web application server endpoints. (Optional)
-2. Core opens a websocket connection for each web app endpoint located in the policy table. 
-3. The web app starts an RPC service and registers an app on the head unit
-4. The user puts the app in full and the web app must perform a getVehicleData request for the VIN. 
-5. If the web app recognizes the VIN it continues with its normal app behavior.
-6. If the web app does not recognize the VIN, the web app must send a show with the following message:
-```
-Activate Your Device
-Code: 12345
-Visit www.appwebsite.com/activate
-```
-7. The user must go to the applications website and register their connection before the web app can be used.
+1. User opens OEM App store containing the list of possible cloud applications. (Using mobile sdl app or embedded sdl app)
+2. User chooses to enable a cloud application from the list
+3. If the cloud application requires user authentication, the user will enter login information or complete OAuth Device Flow
+4. Auth information is sent in a post request from OEM app store to cloud app server with hashed VIN
+5. Cloud app verifies login credentials and stores hashed VIN for future use. 
+6. Cloud app responds to OEM app store with a secret token that will be used to authenticate SDL Core's future websocket connection
+7. User connects phone to headunit, OEM app registers and sends updated list of enabled cloud apps and corresponding secret tokens.
+8. Core stores secret tokens in the policy table and updates the `enabled` field of the cloud apps listed in the policy table.
+9. Core sends update app list to HMI to display cloud apps' availability
+10. User activates cloud app, Core gets WS endpoint from policy table and opens WS connection passing the secret token supplied by oem app and the hashed VIN
+11. Cloud app verifies the hashed VIN  and secret token are valid and accepts the connection
 
-This method of authentication uses a similar flow for activating streaming services (ie Roku/Apple TV -> Netflix)
 
-![alt text](../assets/proposals/0158-cloud-app-transport-adapter/web_app_high_level.png "High Level")
+### Obtaining Cloud App IP Address and Port
+Maintaining a list of urls for each cloud app will be similar to how policies for SDL applications are currently managed. When a policy table update is required, the sdl server will send an updated PT with a list of cloud apps and their websocket endpoints.
 
-### Obtaining Web App IP Address and Port
-Maintaining a list of urls for each web app will be similar to how policies for SDL applications are currently managed. There will need to be two new fields introduced in the app_policies section of the policy table. 
+There will need to be three new fields introduced in the app_policies section of the policy table. 
 
-This is what the app_policies section of a policy table that includes a web app endpoint might look like: 
+This is what the app_policies section of a policy table that includes a cloud app endpoint might look like: 
 
 ```JSON
         "app_policies": {
@@ -71,35 +68,133 @@ This is what the app_policies section of a policy table that includes a web app 
                 "priority": "NONE",
                 "default_hmi": "NONE",
                 "groups": ["Base-4"],
-+                "endpoint": "https://10.0.0.1:8080",
-+                "certificate" : "-----BEGIN CERTIFICATE-----\n" ...
++               "endpoint": "https://fakesdlwebsocketurl.com:8080",
++               "certificate" : "-----BEGIN CERTIFICATE-----\n" ...,
++               "enabled" : false,
++               "authToken" : "ABCD12345"
             }
         }
 ```
 
-The endpoint field includes the URL/IP and port that the SDL web app can be connected to. The certificate field is used for secured RPC service connections which equates to opening a secured websocket connection. The TLS "certificate" field could be optional to allow for unsecured RPC service connections.
+The `endpoint` field includes the URL/IP and port that the SDL cloud app can be connected to. 
 
-Endpoints can be added, removed, or updated via policy table updates. This means OEMs will be in control of the web apps that their head units attempt to connect to. 
+The `certificate` field is used for secured RPC service connections which equates to opening a secured websocket connection. 
 
-#### Transport Adapter Connection Flows
+The `enabled` field is by default set to false so the cloud app does not show on the HMI. If the user enables an app via the app store flow highlighted in the section above, then `enabled` will be set to true in the head units local policy table. When set to true, this cloud app will be included in the HMI RPC "UpdateAppList".
 
-- Ignition On: Core will read from the policy table for known connection endpoints. This information will be forwarded to the transport adapter level for client websocket connections to be opened.
+The `token` field is also obtained via the app store selection and authorization flow discussed above. This token is used to authenticate the head units websocket connection to the cloud app server. This field will most likely not be included in the sdl server PTU response. This field should be populated through the SetCloudAppProperties RPC
 
-![alt text](../assets/proposals/0158-cloud-app-transport-adapter/web_app_ign_on.png "Ign On")
+Endpoints can be added, removed, or updated via policy table updates. This means OEMs will be in control of the cloud apps that their head units attempt to connect to.
 
-- Policy Table Update: After receiving a policy table update and new endpoint data has been received, Core will open connections for newly added endpoints and close connections for endpoints that have been "revoked"
+### Enabling Cloud Apps to Appear on SDL App List
 
-![alt text](../assets/proposals/0158-cloud-app-transport-adapter/web_app_ptu.png "Policy Table Update")
+Mobile API Changes
 
-- User Refreshes Connections: This case would be useful if a cloud app is unregistered due to a connection error. Depending on the build of the transport adapter, this trigger could be activated periodically or manually from user input.
+Add new RPC "SetCloudAppProperties". This RPC can be used by an OEM "App Store" in order to enable/disable a cloud app from appearing on the SDL HMI. This RPC will also deliver neccesary authentication information if the app requires it. 
+```
+    <function name="SetCloudAppProperties" functionID="SetCloudAppPropertiesID" messagetype="request">
+        <description>
+            RPC used to enable/disable a cloud application and set authentication data
+        </description> 
+        <param name="appName" type="String" maxlength="100" mandatory="true"></param>
+        <param name="appID" type="String" maxlength="100" mandatory="true"></param>
+        <param name="enabled" type="Boolean" mandatory="false">
+            <description>If true, cloud app will be included in HMI RPC UpdateAppList</description>
+        </param>
+        <param name="cloudAppAuthToken" type="String" maxlength="100" mandatory="false">
+            <description>Used to authenticate websocket connection on app activation</description>
+        </param>
+    </function>
 
-![alt text](../assets/proposals/0158-cloud-app-transport-adapter/web_app_user_refresh.png "User Refresh")
+    <function name="SetCloudAppProperties" functionID="RegisterAppInterfaceID" messagetype="response">
+        <description>The response to registerAppInterface</description>
+        <param name="success" type="Boolean" platform="documentation" mandatory="true">
+            <description> true if successful; false, if failed </description>
+        </param>
+        <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+            <description>See Result</description>
+            <element name="SUCCESS"/>
+            <element name="INVALID_DATA"/>
+            <element name="OUT_OF_MEMORY"/>
+            <element name="TOO_MANY_PENDING_REQUESTS"/>
+            <element name="GENERIC_ERROR"/>
+            <element name="DUPLICATE_NAME"/>
+            <element name="TOO_MANY_APPLICATIONS"/>
+            <element name="APPLICATION_REGISTERED_ALREADY"/>
+            <element name="UNSUPPORTED_VERSION"/>
+            <element name="WRONG_LANGUAGE"/>
+            <element name="DISALLOWED"/>
+            <element name="WARNINGS"/>
+            <element name="RESUME_FAILED"/>
+        </param>
+    </function>
+```
+HMI API Changes
+
+Update to UpdateAppList description
+```
+<function name="UpdateAppList" messagetype="request">
+      <description>Issued by SDL to notify HMI about new applications registered or enabled cloud apps.</description>
+      ...
+</function>
+```
+Update HMIApplication Struct 
+```
+<struct name="HMIApplication">
+    ....
+    <param name="isCloudApplication" type="Boolean" mandatory="false"></param>
+    <param name="cloudConnectionStatus" type="CloudConnectionStatus" mandatory="false"></param>
+</struct>
+```
+
+A new enum CloudConnectionStatus will be used to allow the HMI to notify the user about the status of a cloud app connection.
+```
+<enum name="CloudConnectionStatus">
+    <element name="NOT_CONNECTED" value="0"/><description>No active websocket session or ongoing connection attempts</description>
+    <element name="CONNECTED" value="1"/><description>Websocket is active</description>
+    <element name="RETRY" value="2"/><description>Websocket connection failed and retry attempts are ongoing</description>
+</enum>
+```
+### Retry Sequence
+
+The config file smartDeviceLink.ini should be updated to include two fields that relate to connection retry attempts for cloud connections
+
+```
+[Cloud App Connections]
+; Value in milliseconds for time between retry attempts on a failed websocket connection
+CloudAppRetryTimeout = 1000 
+; MaxNn number of retry attempts for a cloud websocket connection
+CloudAppMaxRetryAttempts = 5
+```
+
+While Core is attempting to retry opening the websocket connections, Core will send the HMI an UpdateAppList RPC with the HMIApplication CloudConnectionStatus enum of "CONNECTING". The HMI may choose how it wants to display to the user that connection attempts to the cloud app are ongoing.
+
+If the CloudAppMaxRetryAttempts value is reached, Core will stop attempting to open the websocket connection and send an UpdateAppList RPC with the HMIApplication CloudConnectionStatus enum of "NOT_CONNECTED". Future connection attempts can be initiated by the user if they activate the app again.
+
+If the websocket connection attempt is successful, Core will send the CloudConnectionStatus enum "CONNECTED" via UpdateAppList.
+
+#### Transport Adapter Connection Flow
+
+App Activation: User selects the cloud app from the app list on the HMI and the websocket connection to the cloud server is opened and auth information is sent.
+
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/cloud_app_activation.png "App Activation")
+
+The behavior of displaying a cloud app before registration is to prevent unnecessary websocket connections when an app is not in use. Also if an application is put into hmi status NONE, then the websocket connection will be closed until the user activates the application again.
+
+### Hashed VIN
+
+Since Core itself does not store the VIN, the hashed VIN must be supplied by the HMI. The path to where this value can be found on disk should be set in the smartDeviceLink.ini config file.
+```
+[Cloud App Connections]
+...
+;File path that contains the Hashed VIN to be used in cloud app authentication
+HashedVINPath=cloud_id.data
+```
+How this value is set is meant to be open ended as each OEM might have a different preference on how to set a unique value for headunits that attempt cloud app connections. 
 
 ## Potential downsides
 
-The suggested authentication method does enforce that app developers will properly handle authentication. Also this method would require extra integration steps on the app developers side. 
-
-It might be easy to fake the VIN and impersonate another user. A different form of identification could be used if this is a major concern. 
+Requires OEM to develop an App store via a mobile SDL app or an embedded SDL app. 
 
 OEM must maintain extra set of policy related data (Endpoints and certificates). If an endpoint becomes outdated, head units will try to connect to an unknown endpoint. 
 
@@ -164,8 +259,11 @@ policy_table_interface_ext.xml
         <param name="watchdog_timer_ms" type="Integer" minvalue="1"
             maxvalue="65225" mandatory="false"/>
         <param name="cloud_app_endpoint", type="String", minlength="0" maxlength="255", mandatory="false">
-        <param name="certificate" type="String" minlength="0" maxlength="255"
+        <param name="certificate" type="String" minlength="0" maxlength="65535"
             mandatory="false" />
+        <param name="enabled" type="Boolean" mandatory="false" />
+        <param name="authToken" type="String" minlength="0" maxlength="65535"
+            mandatory="false"/>
     </struct>
 ```
 This feature should be supported by both regular and external policy build configurations.
@@ -178,63 +276,20 @@ SDL Server must create an interface for managing additional policy data. Interfa
 
 Since there are many aspects to this proposal, I have considered a few alternatives.
 
-### Using Tokens to authenticate
+### Using Tokens Supplied by Policy Server to Authenticate
 
-1. Core gets web app endpoints and associated tokens from policy server after a policy table update. 
-2. Core opens a websocket connection for each web app endpoint located in the policy table. 
+1. Core gets cloud app endpoints and associated tokens from policy server after a policy table update. 
+2. Core opens a websocket connection for each cloud app endpoint located in the policy table. 
 3. Core sends the VIN and token to the application and waits for the application to respond with data.
-4. The web application server sends a request to the policy server to identify the incoming connection via the received VIN and token. 
-5. If the policy server verifies that the VIN and token pair is valid, the web app will send a start service request to Core.
+4. The cloud application server sends a request to the policy server to identify the incoming connection via the received VIN and token. 
+5. If the policy server verifies that the VIN and token pair is valid, the cloud app will send a start service request to Core.
 
-```JSON
-        "app_policies": {
-            "default": {
-                "keep_context": false,
-                "steal_focus": false,
-                "priority": "NONE",
-                "default_hmi": "NONE",
-                "groups": ["Base-4"]
-            },
-            "IOSApp12345": {
-                "keep_context": true,
-                "steal_focus": true,
-                "priority": "NONE",
-                "default_hmi": "NONE",
-                "groups": ["Base-4", "Location-1", "Emergency-1"]
-            },
-            "WebAppID12345" : {
-                "keep_context": true,
-                "steal_focus": true,
-                "priority": "NONE",
-                "default_hmi": "NONE",
-                "groups": ["Base-4"],
-+                "endpoint": "https://10.0.0.1:8080",
-+                "certificate" : "-----BEGIN CERTIFICATE-----\n" ...,
-+                "token": "1234"               
-            }
-        }
-```
-
-Using a token to authenticate means that no RPC service would be opened with unknown users.
+This method would remove the need for requiring the OEM App Store mobile application to connect to SDL Core.
 
 ### Using the Mobile Device to Connect
 
-If future vehicles will not have dedicated LTE connections, then the mobile device could be used as the proxy for connecting web apps to Core. The phone would connect to Core using traditional SDL transports, and then also maintain a socket connection with the cloud application. Any data sent from Core/Cloud App would be passed through the phone. 
+If future vehicles will not have dedicated LTE connections, then the mobile device could be used as the proxy for connecting cloud apps to Core. The phone would connect to Core using traditional SDL transports, and then also maintain a socket connection with the cloud application. Any data sent from Core/Cloud App would be passed through the phone. 
 
 ### Separating Policies and Cloud App Endpoints
 
 A separate server could be developed to maintain cloud app endpoints if we believe that this type of logic and data is outside of the scope of policies.
-
-### Alternative to using the VIN
-
-If we decide that the VIN should be protected and not used to authenticate users, we could create a hash of the VIN and salt the hash with the system time as a string.
-
-For Example
-Vin: 3C6UD5CL2CG214164
-System Time: Fri Mar  9 15:55:09 EST 2018
-System Time as YYYYMMDDHHMMSS: 20180309155555
- 
-String to hash (Time + VIN): 201803091555553C6UD5CL2CG214164
-Sha1 Hash: 05ee749233263a138d4d2ddb4495508866c3f981
-
-Before opening the connection with the cloud app, Core will write the hash to disk to use for all future connections with that endpoint.
