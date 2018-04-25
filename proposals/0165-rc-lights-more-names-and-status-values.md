@@ -1,8 +1,8 @@
 # Remote Control – Lights – More Names and Status Values
 
-* Proposal: [SDL-NNNN](NNNN-rc-lights-more-names-and-status-values.md)
+* Proposal: [SDL-0165](0165-rc-lights-more-names-and-status-values.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
