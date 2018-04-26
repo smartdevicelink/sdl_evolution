@@ -98,7 +98,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0087" status="implemented" primary-platform="ios" sdl-version="5.2" name="Sequentially Send Multiple RPCs" filename="0087-send-multiple-rpcs.md"/>
 <proposal id="0087" status="implemented" primary-platform="android" sdl-version="4.5" name="Sequentially Send Multiple RPCs" filename="0087-send-multiple-rpcs.md"/>
 <proposal id="0088" status="implemented" primary-platform="ios" sdl-version="6.0" name="iOS System Capability Manager" filename="0088-ios-system-capability-manager.md"/>
-<proposal id="0089" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Mobile API versioning" filename="0089-mobile-api-versioning.md"/>
+<proposal id="0089" status="implemented" primary-platform="rpc" sdl-version="4.6" name="Mobile API versioning" filename="0089-mobile-api-versioning.md"/>
 <proposal id="0090" status="implemented" primary-platform="ios" sdl-version="5.0" name="SDLHapticHitTester Protocol" filename="0090-SDLHapticHitTesterProtocol.md"/>
 <proposal id="0091" status="rejected" primary-platform="ios" sdl-version="x.x" name="SDLCarWindow Video Projection Developer Interface" filename="0091-SDLScreen-SDLWindow-Projection.md"/>
 <proposal id="0092" status="implemented" primary-platform="core" sdl-version="4.5" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
