@@ -23,7 +23,7 @@ Since SDL operations are to be halted including receiving and processing of norm
 In case SDL receives "LOW_VOLTAGE" message via message queue, SDL must stop any read/write activities until SDL receives a "WAKE_UP" message via the message queue.  
 
 During LOW_VOLTAGE state the following behavior is proposed:
-* SDL drops off all the requests from mobile applications withough providing any kind of response
+* SDL ignores all the requests from mobile applications without providing any kind of response
 * SDL ignores all responses and messages from HMI except messages for "WAKE_UP" or "IGNITION_OFF"
 * SDL stops audio/video streaming services
 * All transports are unavailable for SDL
