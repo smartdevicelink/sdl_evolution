@@ -9,13 +9,13 @@
 
 ## Introduction
 
-SmartDeviceLink has always been limited to a 1 - 1 relationship between module and smartphone apps. However, to create truly compelling experiences this should be expanded. This proposal will aim to introduce a paradigm that allows apps to advertise a "service" they offer that the module and and other apps can leverage. This allows users to augment their vehicle's IVI system with off-board solutions. This proposal also details how SDL apps can communicate with each other through the module. 
+SmartDeviceLink has always been limited to a 1 - 1 relationship between module and smartphone apps. However, to create truly compelling experiences this should be expanded. This proposal will aim to introduce a paradigm that allows apps to advertise a "service" they offer that the module and other apps can leverage. This allows users to augment their vehicle's IVI system with off-board solutions. This proposal also details how SDL apps can communicate with each other through the module. 
 
 This proposal is extremely lengthy as it is a big feature. The recommended review process would be to review the high level process first (publish, subscribe, etc). Then following the agreement on how services work in general, moving to review each service type for its exhaustiveness of functionality per that specific service.
 
 ## Motivation
 
-SDL is becoming a much more integrated solution with an expanding ecosystem. While the initial problem SDL set out to solved has been accomplished, we're looking for new ways to make the ecosystem even more compelling and to create an immersive user experience. One of the biggest steps we can take forward is creating a way for apps to offer augmented services to not only the onboard embedded system, but to other SDL connected apps. 
+SDL is becoming a much more integrated solution with an expanding ecosystem. While the initial problem SDL set out to solve has been accomplished, we're looking for new ways to make the ecosystem even more compelling and to create an immersive user experience. One of the biggest steps we can take forward is creating a way for apps to offer augmented services to not only the onboard embedded system, but to other SDL connected apps. 
 
 
 ## Proposed solution
@@ -24,7 +24,7 @@ After apps are registered on the module, they will have the opportunity to publi
 
 Once other apps either use the `getSystemCapability` functionality or they are notified of an app service being offered they can they start to request data. This is done through new RPCs that will get the current data provided by the service and allow the service consumer to subscribe to future updates from the app service provider.
 
-Services will be expected to handle a subset of RPCs according to their service type for basic interaction. For example, Media services will be expected to handle `ButtonPress` RPCs and Navigation services should handle things like `SendLocaiton`. Each service will define what RPCs it agrees to handle in the `AppServiceManifest` they provide along with the specific manifest param that is defined by their service type.
+Services will be expected to handle a subset of RPCs according to their service type for basic interaction. For example, Media services will be expected to handle `ButtonPress` RPCs and Navigation services should handle things like `SendLocation`. Each service will define what RPCs it agrees to handle in the `AppServiceManifest` they provide along with the specific manifest param that is defined by their service type.
 
 Along with this basic, standardized set of control requests from app service consumers, we will implement a way for services to expose their native URI scheme for more in-depth actions. These will be exposed with a URI prefix and array of possible URI scheme parameters. SDL makes no guarantees that these actions will be executed as the app service consumer intends, it is therefore the responsibility of the app service provider to ensure standardized URI schemes and intuitive parameters. 
 
@@ -100,7 +100,7 @@ A media service is defined as a service that is currently the audio source for t
 
 
 #### Weather
-A weather service is defined as a service that is can provide weather data. 
+A weather service is defined as a service that can provide weather data. 
 
 ```xml
 
@@ -158,7 +158,7 @@ A navigation service is defined as a service that is currently listed as the nav
 
 
 #### Voice Assistant
-A voice assistant service is defined as a service that is currently acting as the voice assistant provider. This provider needs to be flushed out with a lot of extra details as it's functionality is far reaching.
+A voice assistant service is defined as a service that is currently acting as the voice assistant provider. This provider needs to be flushed out with a lot of extra details as its functionality is far reaching.
 
 ```xml
 
@@ -206,7 +206,7 @@ A voice assistant service is defined as a service that is currently acting as th
 	
 	<function name="UpdateVRSynonyms" functionID="UpdateVRSynonymsID" messagetype="response">
 		<param name="success" type="Boolean" platform="documentation" mandatory="true">
-			<description> true if successful; false, if failed </description>
+			<description> true, if successful; false if failed </description>
 		</param>
        
 		<param name="resultCode" type="Result" platform="documentation" mandatory="true">
@@ -241,7 +241,7 @@ This section will cover how some of the important flows will take place.
 
 #### App Service Provider
 
-First we can start with an App publishing their service and that information propagating to other apps.
+First we can start with an app publishing their service and that information propagating to other apps.
 
 ![Packet Structure](../assets/proposals/NNNN-app-services/provider.png "App Service Provider")
 
@@ -305,7 +305,7 @@ The next action the App Service has to take is publishing their service. This is
 	<description>Response to the request to register a service offered by this app on the module</description>
 
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
-		<description> true if successful; false, if failed </description>
+		<description> true, if successful; false if failed </description>
 	</param>
        
 	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
@@ -345,7 +345,7 @@ Once the service is published to the module, the module will be responsible for 
 
 If for any reason the module determines that an app service provider is no longer to be published and is to be removed it will notify the app service provider through an `OnAppServiceRecordUpdated` with the `servicePublished` boolean set to false. It will be the responsibility of the app service provider to then tear down their service resources on the mobile device side. 
 
-If the service wishes to reregister it can follow the normal flow and pending the `updateResult` param in the notification.
+If the service wishes to reregister it can follow the normal flow, pending the `updateResult` param in the notification.
 
 
 #### App Service Consumer
@@ -357,7 +357,7 @@ This section will cover how another app can consume the newly published app serv
 
 ##### Get service capabilities
 
-If the app wants to use services published on the device first it must ensure the feature is supported. This requires a modification to the System Capability functionality.
+If the app wants to use services published on the device, it must first ensure the feature is supported. This requires a modification to the System Capability functionality.
 
 ###### New SystemCapabilityType
 
@@ -385,9 +385,9 @@ If the app wants to use services published on the device first it must ensure th
 ```
 ##### Get service data
 
-The service consumer app can then decide which services it wants to get more info from and even subscribe for future updates from the service.
+The app service consumer can then decide which services it wants to get more info from and even subscribe to for future updates from the service.
 
-When requesting the data from the app service the developer can expect the data to be in the form of an `AppServiceData `object. This struct will hold all the data related to the specific app service's current state. The serviceType param will indicate which param of the service datas are included.
+When requesting the data from the app service the developer can expect the data to be in the form of an `AppServiceData` object. This struct will hold all the data related to the specific app service's current state. The serviceType param will indicate which param of the service datas are included.
 
 ###### AppServiceData
 ```xml
@@ -412,7 +412,7 @@ Now that we know what to expect in terms of the actual data, the next piece will
 
 ```xml
 <function name="GetAppServiceData" functionID="GetAppServiceDataID" messagetype="request">
-	<description> This request asks the module for current data related to the specific service. It also includes an option to subscribe for future updates</description>
+	<description> This request asks the module for current data related to the specific service. It also includes an option to subscribe to that service for future updates</description>
 	
 	<param name="serviceType" type="AppServiceType" mandatory="true"/>
 	
@@ -478,7 +478,7 @@ When an app service consumer receives an `AppServiceData` object that contains f
 	<description> This response includes the data that is requested from the specific service</description>
 	
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
-		<description> true if successful; false, if failed </description>
+		<description> true, if successful; false, if failed </description>
 	</param>
        
 	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
@@ -509,7 +509,18 @@ When an app service consumer receives an `AppServiceData` object that contains f
 
 #### App Service Actions - `PerformAppServiceInteraction`
 
-Talk about how this works here.
+App service providers will likely have different actions exposed to the module and app service consumers. It will be difficult to standardize these actions by RPC versions and can easily become stale. Therefore, we introduce a best-effort attempt to take actions on a service. 
+
+The `PerformAppServiceInteraction` request be sent to the service that has the matching `appServiceId`. the `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. 
+
+An app service consumer can also request for this service to become the active service of its respective type. If the app service consumer currently has an HMI state of HMI_FULL this request can be performed without user interaction. If the app is currently not in that state, the HMI should present the user with a choice to allow this app service provider to become the active service of its specified type. If the app service provider is not allowed to become active, the request will not be sent to it and an unsuccessful response will be sent to the requester. 
+
+SDL should make no guarantees that:
+
+1. App service providers offer URI actions
+2. App service providers will correctly respond to the requests
+3. The requested app service provider will become the active service of that type
+4. The `serviceUri` will be correctly formatted from the app service consumer
 
 ```xml
 <function name="PerformAppServiceInteraction" functionID="PerformAppServiceInteractionID" messagetype="request">
@@ -524,7 +535,7 @@ Talk about how this works here.
 <function name="PerformAppServiceInteraction" functionID="PerformAppServiceInteractionID" messagetype="response">
 
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
-		<description> true if successful; false, if failed </description>
+		<description> true, if successful; false if failed </description>
 	</param>
        
 	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
@@ -552,13 +563,13 @@ Core will have to manage which services are currently published and which of tho
 
 ##### Activating Service Providers
 
-Enabling services will be a major UX concern for Core and HMI portions. There should exists a set of guidelines to ensure the consumer will understand whats happening and how to change service providers.
+Enabling services will be a major UX concern for Core and HMI portions. A set of guidelines should exist to ensure the consumer will understand whats happening and how to change service providers.
 
 1. App service providers may become "Activated" if they are the only service to register. 
 2. If multiple app service providers of the same type register and the user has not previously selected an app service provider of that type, the first service to register will be activated by default.
 3. When an app service provider is changed to be the "Activated" service of that type, the user should be notified.
 4. The user should have the ability to select default service types through the IVI system based on records of app services that have connected. All selection screens must adhere to driver distraction guidelines per the region in which it is used.
-5. If an app service provider has been selected as default but does register, rule 2 will then be the fallback.
+5. If an app service provider has been selected as default but does not register, rule 2 will then be the fallback.
 6. If an app service consumer wishes to activate a different app service provider than the currently selected app service provider, the HMI must present the user with a notification/choice to allow the new app service provider over the previously selected one.
 
 
@@ -579,7 +590,7 @@ The RPC response timeout should have its threshold increased when forwarding a p
 
 ###### Unknown RPC Params
 
-Core will need to parse and store received params even if they are not listed in that version of Core's supported RPC spec. This will allow the services to be updated and function on any Core that supports the base feature. That will keep the service feature fresh and useful on older units. Essentially Core should be able to store the params received into a key/value  map and form the base RPC structs and request/responses using all entries in that map.
+Core will need to parse and store received params even if they are not listed in that version of Core's supported RPC spec. This will allow the services to be updated and function on any Core that supports the base feature. That will keep the service feature fresh and useful on older units. Essentially Core should be able to store the params received into a key/value map and form the base RPC structs and request/responses using all entries in that map.
 
 
 ##### Policy Table
@@ -589,7 +600,7 @@ The IVI system can enable/disable app service providers from offering their serv
 
 ## Potential downsides
 
-- The size of this is change is very large, and will have a wide spread effect on different aspects of all the code. This will be a complex change that will require a lot of testing.
+- The size of this change is very large, and will have a widespread effect on different aspects of all the code. This will be a complex change that will require a lot of testing.
 - RemoteControl functionality already has a subset of this feature included in the Radio module. This will cause some clashing between the two paradigms.
 
 
@@ -599,7 +610,7 @@ Each affected platform will need to have RPCs added. Some platforms might need a
 
 ### Core
 
-Core will have the biggest changes necessary. A new AppServiceManager will need to be created to manage all the published services and all the clients subscribed. The entire features should be designed to take advantage of the plug-in architecture that is used by the Remote Control feature. Core changes might require a separate proposal to ensure the architecture lines up with the SDLC's expectations. 
+Core will have the biggest changes necessary. A new AppServiceManager will need to be created to manage all the published services and all the clients subscribed. The entire feature should be designed to take advantage of the plug-in architecture that is used by the Remote Control feature. Core changes might require a separate proposal to ensure the architecture lines up with the SDLC's expectations. 
 
 ### Mobile Libraries
 
@@ -615,14 +626,14 @@ New functional groups should be created based on [this section](#policy-table).
 ## Alternatives considered
 
 - Instead of strict struct definitions, we could create very loosely defined key value pair maps. The keys would be obtained from the metadataTags enum.
-- Instead of a string to designate an image file to retrieve for service data, actually attaching the raw bytes in a param. 
+- Instead of a string of a name to designate an image file that should be retrieved from the service data, actually attach the raw bytes in a parameter. 
 - Voice Assistant services could simply get `AddCommands` sent to them, and a new notification for `OnCommand` could be sent. This might get difficult as the app service provider would receive such RPC requests from multiple different apps. The RPC itself could be reused with a new ID being issued in the `AddCommand`. The Core module would then be responsible for the translations.
-- Separate spec specifically for services. There seems to be near enough complexity to warrant a separate spec that contains all the service related RPCs. This spec would be versioned separately from the Mobile API RPC spec. 
+- Separate spec specifically for services. There seems to be nearly enough complexity to warrant a separate spec that contains all the service related RPCs. This spec would be versioned separately from the Mobile API RPC spec. 
 - In addition to previous bullet, it almost seems as if the service RPCs could be sent over a new AppService channel separate from the RPC and bulk channels.
-- For Icon/images, the raw data could simply be sent in the Service Data packets. This would eliminate the `GetFile` RPC and possibly a lot of extra logic in Core. However, this would introduce new challenges to Core/HMI if those systems also "subscribed" to these services. They would have to know how to handle the raw data, or have their messages customized. It will also get complicated when dealing with services like Weather. For each day forecast there is likely an icon to be used so the attaching all the image data to the bulk data is not really an option.
-- Instead of exposing a URI prefix and URI schemes to app service consumers, it is possible to send all commands (`AddCommand`, `InteractionChoicesSets`, etc) to the app consumers and reuse the same functionality that is exposed to the module. The issue, however, is that this would be an extreme burden on the traffic of the protocol.
+- For icon/images, the raw data could simply be sent in the Service Data packets. This would eliminate the `GetFile` RPC and possibly a lot of extra logic in Core. However, this would introduce new challenges to Core/HMI if those systems also "subscribed" to these services. They would have to know how to handle the raw data, or have their messages customized. It will also get complicated when dealing with services like Weather. For each day forecast there is likely an icon to be used so the attaching all the image data to the bulk data is not really an option.
+- Instead of exposing a URI prefix and URI schemes to app service consumers, it is possible to send all commands (`AddCommand`, `InteractionChoiceSets`, etc) to the app consumers and reuse the same functionality that is exposed to the module. The issue, however, is that this would be an extreme burden on the traffic of the protocol.
 - Potential other cases to cover:
-     - App Service Provider requests to change it's declared manifest through new request/response pair. `OnAppServiceRecordUpdate` would be sent to all consumers after change was accepted. 
+     - App Service Provider requests to change its declared manifest through new request/response pair. `OnAppServiceRecordUpdate` would be sent to all consumers after change was accepted. 
      - Certain providers could be responsible for sending specific RPC notifications (eg Nav - OnWayPoints changed)
      - Update app service consumers when a new service has been activated over a different app service provider
      - Add an additional RPC to be more specific about notifying an App Service Provider they were removed.
