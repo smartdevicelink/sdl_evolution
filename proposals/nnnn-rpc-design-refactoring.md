@@ -46,7 +46,7 @@ Currently application manager class has too many responsibilities:
  
 #### Provide plugin architecture for easy adding additional functionality and RPC groups   
 
-SDL RPC's can be splitted to some groups or RPC's related so certain functionality (for example RC or video streaming).  
+SDL RPC's can be splitted to some groups or RPC's related to certain functionality (for example RC or video streaming).  
 Usually these RPC's work with some functionality that is not required for other RPC's, so should not be exposed. 
 
 Adding new RPC or group of RPC's is now very complicated process, but it is also not very obvious. 
