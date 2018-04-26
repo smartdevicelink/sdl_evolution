@@ -16,9 +16,13 @@ Rework design of application manager layer to:
 
 SDL core project is actively implements new features and new functionality. 
 To keep project on track and reduce rick of regression during implementation
-some refactoring of application manager layer should be done. 
+refactoring of application manager layer should be done.
+Now extending SDL functionality may require code duplication. 
+Now RC module actually duplicates logic of application_manager layer, there are separate request controller, separate mechanism to call  polcies checks, and RPC's processing. So any common logic that should be implemented i application_manager layer should be duplicated in request controller, it prevents to bugs, and requires more time for implementation. 
 
-### Reduce coupling between components and use dependency injection practice
+Next stepst will provide ability to keep RC enough encapsulated, vut do not duplicate SDL code :
+
+#### Reduce coupling between components and use dependency injection practice
 
 Now Application manager is service locator and need to passed in each component
 even if component does not need application manager, but need some other classes that owned by application manager.
@@ -26,7 +30,7 @@ During construction components should explicitly receive all dependencies.
 It will prevent unwanted access and improve encapsulation. 
 
 
-### Reduce responsibility of ApplicationManager class 
+#### Reduce responsibility of ApplicationManager class 
 Not application manager class have to many responsibilities:
  - Service location
  - Mobile/HMI RPC processing 
@@ -39,7 +43,7 @@ Not application manager class have to many responsibilities:
  know anything related to other application manager responsibility. 
  Also extracting RPC processing to separate module will reduce regression risk of changing any functionality that now in ApplicationManager.
  
-### Provide plugin architecture for easy adding additional functionality and RPC groups   
+#### Provide plugin architecture for easy adding additional functionality and RPC groups   
 
 SDL RPC's can be splitted to some groups of RPC's related so certain functionality (for example RC or video streaming).
 Usually this RPC's works with some scope functionality that not required for other RPC's so should not be exposed. 
