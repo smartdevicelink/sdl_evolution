@@ -511,7 +511,7 @@ When an app service consumer receives an `AppServiceData` object that contains f
 
 App service providers will likely have different actions exposed to the module and app service consumers. It will be difficult to standardize these actions by RPC versions and can easily become stale. Therefore, we introduce a best-effort attempt to take actions on a service. 
 
-The `PerformAppServiceInteraction` request be sent to the service that has the matching `appServiceId`. the `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. 
+The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. the `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. 
 
 An app service consumer can also request for this service to become the active service of its respective type. If the app service consumer currently has an HMI state of HMI_FULL this request can be performed without user interaction. If the app is currently not in that state, the HMI should present the user with a choice to allow this app service provider to become the active service of its specified type. If the app service provider is not allowed to become active, the request will not be sent to it and an unsuccessful response will be sent to the requester. 
 
@@ -563,7 +563,7 @@ Core will have to manage which services are currently published and which of tho
 
 ##### Activating Service Providers
 
-Enabling services will be a major UX concern for Core and HMI portions. A set of guidelines should exist to ensure the consumer will understand whats happening and how to change service providers.
+Enabling services will be a major UX concern for Core and HMI portions. A set of guidelines should exist to ensure the consumer will understand what's happening and how to change service providers.
 
 1. App service providers may become "Activated" if they are the only service to register. 
 2. If multiple app service providers of the same type register and the user has not previously selected an app service provider of that type, the first service to register will be activated by default.
