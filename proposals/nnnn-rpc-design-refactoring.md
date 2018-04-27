@@ -64,10 +64,10 @@ Commands should be accepted as a list of services that they require. The mobile 
 SomeCommand::SomeCommand(app_mngr);
 
 void SomeCommand::Run() {
-  application_manager->protocol_handler().do_staff();
-  application_manager->state_controller().do_staff();
-  application_manager->PolicyHandler().do_staff();
-  application_manager->resume_controller().do_staff();
+  application_manager->protocol_handler().do_stuff();
+  application_manager->state_controller().do_stuff();
+  application_manager->PolicyHandler().do_stuff();
+  application_manager->resume_controller().do_stuff();
   
 }
 ```
@@ -78,10 +78,10 @@ void SomeCommand::Run() {
 SomeCommand::SomeCommand(protocol_handler, state_controller, policy_handler, resume_controller);
 
 void SomeCommand::Run() {
-  protocol_handler_.do_staff();
-  state_controller_.do_staff();
-  protocol_handler_.do_staff();
-  protocol_handler_.do_staff();
+  protocol_handler_.do_stuff();
+  state_controller_.do_stuff();
+  protocol_handler_.do_stuff();
+  protocol_handler_.do_stuff();
 }
 ```
 This will simplify code and provide the possibility to add a new component to certain commands without affecting other commands.
