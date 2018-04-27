@@ -19,6 +19,7 @@ To keep the project maintainable, on track and to reduce risks of regression dur
 refactoring of application manager layer is necessary.  
 Currently, extending SDL functionality may require code duplication. 
 The current RC module duplicates logic of the application_manager layer -- there is separate request controller, separate mechanism to call policy checks, and RPC's processing. Currently any common logic that is implemented in the application_manager layer needs to be duplicated in request controller -- this results in bugs and redundant code; it also requires more time for implementation.
+Refactoring is required in order to ensure the sustainability of the project -- refactoring the existing RC RPC's with a new proposed model is immediately necessary.
 
 The following proposed solution will provide for better management and extensibility of SDL core and RC components, without duplicating SDL core code:
 
