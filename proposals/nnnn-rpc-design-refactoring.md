@@ -49,7 +49,7 @@ These RPC's may work with functionality that is not required by other RPC's, so 
 Adding new RPC or groups of RPC's is currently a very complicated and unclear process.
 
 The best solution is to adopt a plugin approach of adding new RPC's to SDL core.
-This will allow OEM's to implement code for new RPC's with ease by implement certain interfaces and provide them to SDL as shared library.
+This will allow OEM's to implement code for new RPC's with ease by implementing certain interfaces and providing them to SDL as shared library.
 
 
 ## Detailed design
