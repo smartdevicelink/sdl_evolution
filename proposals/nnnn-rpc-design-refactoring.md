@@ -15,7 +15,7 @@ This proposal is to rework the design of the SDL core application manager layer 
 ## Motivation
 
 The SDL core project is actively implementing new features and new functionality.  
-To keep the project on track and to reduce risks of regression during implementation
+To keep the project maintainable, on track and to reduce risks of regression during implementation
 refactoring of application manager layer is necessary.  
 Currently, extending SDL functionality may require code duplication. 
 
