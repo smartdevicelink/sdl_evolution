@@ -7,61 +7,57 @@
 
 ## Introduction
 
-This proposal is to rework design of application manager layer in order to:
+This proposal is to rework the design of the SDL core application manager layer in order to:
  - Reduce coupling between components
- - Reduce responsibility of ApplicationManager class
+ - Reduce responsibility of the ApplicationManager class
  - Provide plugin architecture for easy adding additional functionality and RPC groups   
 
 ## Motivation
 
-SDL core project is actively implementing new features and new functionality.  
-To keep project on track and to reduce risks of regression during implementation
-refactoring of application manager layer should be done.  
+The SDL core project is actively implementing new features and new functionality.  
+To keep the project on track and to reduce risks of regression during implementation
+refactoring of application manager layer is necessary.  
 
 Currently, extending SDL functionality may require code duplication. 
-RC module, in fact, duplicates logic of application_manager layer, there is separate request controller, separate mechanism to call  polcies checks, and RPC's processing. So any common logic that should be implemented in application_manager layer should be duplicated in request controller, it results in bugs, and requires more time for implementation. 
+The current RC module duplicates logic of the application_manager layer -- there is separate request controller, separate mechanism to call policy checks, and RPC's processing. Currently any common logic that is implemented in the application_manager layer needs to be duplicated in request controller -- this results in bugs and redundant code; it also requires more time for implementation.
 
-The following steps will provide ability to keep RC enough encapsulated, without duplicating SDL code :
+The following proposed solution will provide for better management and extensibility of SDL core RC components, without duplicating SDL core code:
 
 ## Proposed solution
-#### Reduce coupling between components and use dependency injection practice
+#### Reduce coupling between components and use a dependency injection practice
 
-Now Application manager is a service locator and should to be passed to each component
-even if component does not need application manager, but need some other classes that owned by application manager.
-During construction components should explicitly receive all dependencies. 
-It will prevent from unwanted access and improve encapsulation. 
+During component construction all dependencies should be explicitly received.
+This practice will improve encapsulation for the project and make code much more maintainable going forward.
 
 
-#### Reduce responsibility of ApplicationManager class 
-Currently application manager class has too many responsibilities:
+#### Reduce responsibility of the ApplicationManager class 
+Currently the application manager class has too many responsibilities:
  - Service location
  - Mobile/HMI RPC processing 
  - Mobile/HMI RPC sending 
  - Registration and managing mobile applications
  - Handle different states of SDL (low voltage/ video streaming / audio_path_throw ...) 
  
- The purpose of this refactoring is to extract handling/sending RPC's to separate module.  
- Many SDL commands require application manager only for sending RPC's and do not need to know anything related to other application manager responsibility. 
- Also, extracting RPC processing to separate module will reduce regression risk of changing any functionality that now in ApplicationManager.
+The purpose of this refactoring is to extract handling & sending RPC's to a separate module.
+ For example, many SDL commands require the application manager only for sending RPC's; these commands do not need to know information related to other application manager responsibilities.
+ Also, extracting RPC processing to separate modules will reduce regression risks related to changing functionalities in the ApplicationManager.
  
-#### Provide plugin architecture for easy adding additional functionality and RPC groups   
+#### Provide plugin architecture for adding additional functionality and RPC groups easily.
 
-SDL RPC's can be splitted to some groups or RPC's related to certain functionality (for example RC or video streaming).  
-Usually these RPC's work with some functionality that is not required for other RPC's, so should not be exposed. 
+SDL RPC's can be split into groups of RPC's related to certain functionality (for example RC or video streaming).  
+These RPC's may work with functionality that is not required by other RPC's, so exposure should be limited to the RPC's group.
 
-Adding new RPC or group of RPC's is now very complicated process, but it is also not very obvious. 
-If OEM vendors need to introduce in their custom SDL forks new functionality, they need to change SDL code, 
-add new classes and modify existing factories. 
+Adding new RPC or groups of RPC's is currently a very complicated and unclear process.
 
-The best solution would be plugin approach of adding new RPC's.
-So if some vendors need to implement code of new RPC's it would be enough to implement certain interfaces and provide them to SDL as shared library.
+The best solution is to adopt a plugin approach of adding new RPC's to SDL core.
+This will allow OEM's to implement code for new RPC's with ease by implement certain interfaces and provide them to SDL as shared library.
 
 
 ## Detailed design
 
 ### Use dependency injection for commands 
 
-Commands should be accepted as list of services that they require. And Mobile factory should be responsible for providing this list of dependencies.  
+Commands should be accepted as a list of services that they require. The mobile factory should be responsible for providing this list of dependencies.  
 
 #### Current Approach 
 ```cpp
@@ -89,8 +85,8 @@ void SomeCommand::Run() {
   protocol_handler_.do_staff();
 }
 ```
-This will simplify code and provide possibility to add a new component to certain commands without affecting other commands.
-And factory will create command with all required parameters, so existing code will not be complicated.  
+This will simplify code and provide the possibility to add a new component to certain commands without affecting other commands.
+The factory will create the command with all required parameters, so existing code will not be complicated.
 RC component contains class ResourceAllocationManager. And non-RC commands should have no access to this class, so it should be passed only to RC commands. 
 
 ### Reduce responsibility of ApplicationManager class 
@@ -148,6 +144,6 @@ RPC Handler will use Command Factory from plugin to create Command for further p
 ## Potential downsides
 This change requires major changes of application manager layer. 
 ## Impact on existing code
-
+This proposals requires a major version change for SDL core.
 ## Alternatives considered
-The only alternatives is to following existing approach, duplicating logic of application_manager layer. 
+The only alternatives is to following existing approach, duplicating the logic of application_manager layer -- this approach is becoming unsustainable and should be avoided.
