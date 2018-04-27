@@ -206,7 +206,7 @@ A voice assistant service is defined as a service that is currently acting as th
 	
 	<function name="UpdateVRSynonyms" functionID="UpdateVRSynonymsID" messagetype="response">
 		<param name="success" type="Boolean" platform="documentation" mandatory="true">
-			<description> true, if successful; false if failed </description>
+			<description> true, if successful; false, if failed </description>
 		</param>
        
 		<param name="resultCode" type="Result" platform="documentation" mandatory="true">
@@ -305,7 +305,7 @@ The next action the App Service has to take is publishing their service. This is
 	<description>Response to the request to register a service offered by this app on the module</description>
 
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
-		<description> true, if successful; false if failed </description>
+		<description> true, if successful; false, if failed </description>
 	</param>
        
 	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
@@ -535,7 +535,7 @@ SDL should make no guarantees that:
 <function name="PerformAppServiceInteraction" functionID="PerformAppServiceInteractionID" messagetype="response">
 
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
-		<description> true, if successful; false if failed </description>
+		<description> true, if successful; false, if failed </description>
 	</param>
        
 	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
