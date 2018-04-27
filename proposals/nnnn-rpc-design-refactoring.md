@@ -10,13 +10,14 @@
 This proposal is to rework the design of the SDL core application manager layer in order to:
  - Reduce coupling between components
  - Reduce responsibility of the ApplicationManager class
- - Provide plugin architecture for easy adding additional functionality and RPC groups   
+ - Provide a plugin architecture for adding additional functionality and RPC groups easily.
 
 ## Motivation
 
 The SDL core project is actively implementing new features and new functionality.  
 To keep the project on track and to reduce risks of regression during implementation
 refactoring of application manager layer is necessary.  
+Currently, extending SDL functionality may require code duplication. 
 
 Currently, extending SDL functionality may require code duplication. 
 The current RC module duplicates logic of the application_manager layer -- there is separate request controller, separate mechanism to call policy checks, and RPC's processing. Currently any common logic that is implemented in the application_manager layer needs to be duplicated in request controller -- this results in bugs and redundant code; it also requires more time for implementation.
