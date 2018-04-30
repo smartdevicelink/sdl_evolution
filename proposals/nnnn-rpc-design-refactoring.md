@@ -146,4 +146,4 @@ This change requires major changes of application manager layer.
 ## Impact on existing code
 This proposal requires a major version change for SDL core.
 ## Alternatives considered
-The only alternative is to following existing approach, duplicating the logic of application_manager layer -- this alternative is becoming unsustainable and should be avoided.
+The only alternative is to following existing approach, duplicating the logic of application_manager layer -- this approach  is becoming unsustainable and should be avoided.
