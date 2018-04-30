@@ -47,10 +47,10 @@ The purpose of this refactoring is to extract handling & sending RPC's to a sepa
 SDL RPC's can be split into groups of RPC's related to certain functionality (for example RC or video streaming).  
 These RPC's may work with functionality that is not required by other RPC's, so exposure should be limited to the RPC's group.
 
-Adding new RPC or groups of RPC's is currently a very complicated and unclear process.
+Adding a new RPC or groups of RPC's is currently a very complicated and unclear process.
 
 The best solution is to adopt a plugin approach of adding new RPC's to SDL core.
-This will allow OEM's to implement code for new RPC's with ease by implementing certain interfaces and providing them to SDL as shared library.
+This will allow OEM's to implement code for new RPC's with ease by implementing certain interfaces and providing them to SDL as a shared library.
 
 
 ## Detailed design
@@ -111,9 +111,9 @@ RPCService should be passed to commands for Sending RPC's using dependency injec
 RPCService responsibilities:
  - SendMessage to HMI/Mobile
  - Call checking policies if message is allowed to send
- - Provide Request Controller information of any incoming request should be terminated.  
+ - Provide Request Controller information of any incoming request that should be terminated.  
 
-### Provide plugin architecture for easy adding extra functionality and RPC groups   
+### Provide plugin architecture for easily adding extra functionality and RPC groups   
 
 Create **PluginManager** class that will be responsible for searching and loading rpc plugins.
 All commands logic should be stored in rpc plugins. 
@@ -136,7 +136,7 @@ SDL will provide to *Plugin* interfaces of all services on application manager l
  - ResumeController
  - etc ...
 
-RPC Handler will use PluginManager to get plugins that is able to process required RPC. 
+RPC Handler will use PluginManager to get plugins that are able to process required RPC. 
 RPC Handler will use Command Factory from plugin to create Command for further processing.
 
 ![New design approach](../assets/proposals/nnnn-rpc-design-refactoring/new_design.png)
@@ -144,6 +144,6 @@ RPC Handler will use Command Factory from plugin to create Command for further p
 ## Potential downsides
 This change requires major changes of application manager layer. 
 ## Impact on existing code
-This proposals requires a major version change for SDL core.
+This proposal requires a major version change for SDL core.
 ## Alternatives considered
-The only alternatives is to following existing approach, duplicating the logic of application_manager layer -- this approach is becoming unsustainable and should be avoided.
+The only alternatives is to following existing approach, duplicating the logic of application_manager layer -- this alternative is becoming unsustainable and should be avoided.
