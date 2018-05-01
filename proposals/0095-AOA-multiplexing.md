@@ -25,11 +25,10 @@ Currently, SDL app chooses the transport (either Bluetooth multiplexing, legacy 
 
  To do that, the basic idea is:
 - MultiplexTransportConfig is extended to have "highBandwidthRequired" flag.
-- To recognize AOA multiplexing transport for the secondary transport, SdlRouterService internally manages if the underlying MultiplexTransport is either Bluetooth or AOA.
-- The underlying type of MultiplexTransport is used only for internal purpose. It won't be recognized by SDL apps directly.
 - When MultiplexTransport is instantiated by secondary connection, MultiplexTransport instantiates TransportBroker with newly added flag (multiplexForSecondary), and different action is specified when binding to SdlRouterService.
 - SdlRouterService is extended and internally holds both MultiplexBluetoothTransport and MultiplexAoaTransport.
 - When SdlRouterService is bound for secondary connection, SdlRouterService will map the session (connection) to MultiplexAoaTransport.
+- The underlying type of MultiplexTransport is used only for internal purpose. It won't be recognized by SDL apps.
 - Unlike TCP transport, protocol listener's onEnableSecondaryTransport event won't be used for AOA multiplexing. Android Proxy manages physical USB connection directly, and managing the availability of AOA transport.
 - SdlRouterService internally manages transport per connection. SdlRouterService reads from/writes to the right transport depending on Message/SdlPacket.
 - When user disconnected USB cable, SdlRouterService handles the disconnection of underlying MultiplexAoaTransport, and TransportBroker for secondary transport will be unbound. SDL application should be responsible for how to handle this case.
