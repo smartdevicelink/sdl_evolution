@@ -165,7 +165,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0152" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
 <proposal id="0153" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
 <proposal id="0154" status="accepted" primary-platform="core" sdl-version="x.x" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
-<proposal id="0155" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
+<proposal id="0155" status="implemented" primary-platform="ios" sdl-version="6.0" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
+<proposal id="0155" status="accepted" primary-platform="android" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0156" status="deferred" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
 <proposal id="0157" status="active" primary-platform="mobile" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
 <proposal id="0158" status="active" primary-platform="core" sdl-version="x.x" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
