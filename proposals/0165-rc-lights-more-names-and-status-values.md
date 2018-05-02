@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0165](0165-rc-lights-more-names-and-status-values.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
