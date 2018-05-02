@@ -1,8 +1,8 @@
 # RPC design refactoring
 
-* Proposal: [SDL-NNNN](nnnn-rpc-design-refactoring.md)
+* Proposal: [SDL-0168](0168-rpc-design-refactoring.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
