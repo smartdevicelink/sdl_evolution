@@ -1,8 +1,8 @@
 # App Services
 
-* Proposal: [SDL-NNNN](nnnn-app-services.md)
+* Proposal: [SDL-0167](0167-app-services.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android / Core]
 
 
