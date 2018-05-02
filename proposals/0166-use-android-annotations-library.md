@@ -1,8 +1,8 @@
 # Use Android Annotations Library
 
-* Proposal: [SDL-NNNN](nnnn-use-android-annotations-library.md)
+* Proposal: [SDL-0166](0166-use-android-annotations-library.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
