@@ -139,7 +139,7 @@ SDL will provide to *Plugin* interfaces of all services on application manager l
 RPC Handler will use PluginManager to get plugins that are able to process required RPC. 
 RPC Handler will use Command Factory from plugin to create Command for further processing.
 
-![New design approach](../assets/proposals/nnnn-rpc-design-refactoring/new_design.png)
+![New design approach](../assets/proposals/0168-rpc-design-refactoring/new_design.png)
 
 ## Potential downsides
 This change requires major changes of application manager layer. 

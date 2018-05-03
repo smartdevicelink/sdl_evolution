@@ -243,7 +243,7 @@ This section will cover how some of the important flows will take place.
 
 First we can start with an app publishing their service and that information propagating to other apps.
 
-![Packet Structure](../assets/proposals/NNNN-app-services/provider.png "App Service Provider")
+![Packet Structure](../assets/proposals/0167-app-services/provider.png "App Service Provider")
 
 ##### Defining the service - `AppServiceManifest`
 When an app wishes to publish a service to the system it must first define what type of service it is and create a `AppServiceManifest` object that will be passed to the module.
@@ -352,7 +352,7 @@ If the service wishes to reregister it can follow the normal flow, pending the `
 
 This section will cover how another app can consume the newly published app service.
 
-![App Service Consumer](../assets/proposals/NNNN-app-services/consumer.png "App Service Consumer")
+![App Service Consumer](../assets/proposals/0167-app-services/consumer.png "App Service Consumer")
 
 
 ##### Get service capabilities
@@ -447,7 +447,7 @@ If the app service consumer subscribed to updates from the app service provider 
 
 One of the aspects to publishing services will be to include data beyond simple text strings. For our observed use cases this will likely be simple icons/small images, for example, app icons, weather icons, or album art.  This will require the app service provider to push the files to the module. This is done through the normal PutFile means.
 
-![App Service Media](../assets/proposals/NNNN-app-services/file_transfer.png "App Service Media")
+![App Service Media](../assets/proposals/0167-app-services/file_transfer.png "App Service Media")
 
 
 When an app service consumer receives an `AppServiceData` object that contains file names of the media that the app service provider intends to share they will need to send a `GetFile` request. The structure of the `GetFile` request/response pair is very similar to that of the `PutFile` pair.
