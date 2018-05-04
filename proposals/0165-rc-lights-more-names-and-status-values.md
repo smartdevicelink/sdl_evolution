@@ -34,7 +34,7 @@ Note that the application shall not use the newly added read-only status values 
     ......
 +   <element name="REAR_CARGO_LIGHTS" value="512">
 +     <description>
-+       Cargo lamps eluminate the cargo area.
++       Cargo lamps illuminate the cargo area.
 +     </description>
 +   </element>
 +   <element name="REAR_TRUCK_BED_LIGHTS" value="513">
@@ -68,6 +68,9 @@ Note that the application shall not use the newly added read-only status values 
 +     </description>
 +   </element>
     ......  
++   <element name="EXTERIOR_ALL_LIGHTS" value="905">
++     <description> Include all exterior lights around the vehicle. </description>
++   </element> 
   </enum>
   
   <enum name="LightStatus">
