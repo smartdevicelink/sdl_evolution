@@ -1,6 +1,6 @@
 # SDL behavior in case of LOW_VOLTAGE event
 
-* Proposal: [NNNN-SDL-behavior-in-case-of-Low-Voltage.md](NNNN-filename.md)
+* Proposal: [SDL-NNNN](NNNN-sdl-behavior-in-case-of-Low-Voltage_mqueue.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / Web / RPC]
@@ -43,11 +43,11 @@ To implement changes in SDL regarding LOW_VOLTAGE event it is proposed to add a 
 Mqueue name can be specified in smartdevicelink.ini file:
 ```
 [MAIN] 
-; Message queue name used by SDL for handling LOW VOLTAGE functionality
+; Message queue name used by SDL for handling LOW_VOLTAGE functionality
 SDLMessageQueueName = /SDLMQ
 
 ```  
-By default mqueue name for handling LOW VOLTAGE functionality is: /SDLMQ
+By default mqueue name for handling LOW_VOLTAGE functionality is: /SDLMQ
 
 Message queue signals value:  
 
@@ -59,7 +59,7 @@ Message queue signals value:
 
 ## Potential downsides  
 
-Major requirements for OEM manufactures (additional channel of communication is needed) 
+Major requirements for OEM manufacturers (additional channel of communication is needed) 
 
 ## Alternatives considered  
 
