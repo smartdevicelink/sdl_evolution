@@ -25,7 +25,7 @@ Currently, SDL app chooses the transport (either Bluetooth multiplexing, legacy 
 
  To do that, the basic idea is:
 - MultiplexTransportConfig is extended to have "highBandwidthRequired" flag, which should be turned on for audio/video apps.
-- If SDL Core supports secondary transport, proxy will be notified with onEnableSecondaryTransport.
+- If SDL Core supports secondary transport, proxy will be notified with onEnableSecondaryTransport. If the secondary transport is AOA_USB, the proxy takes it as AOA multiplexing.
 - If AOA_USB is the expected secondary transport, SdlProxy puts off starting audio/video session until AOA transport becomes available.
 - Make sure the AOA multiplexing can be used with older SDLCore, which does not support simultaneous multiple transports. When running with older SDLCore and the app specified "highBandwidthRequired" flag, MultiplexTransport will use AOA transport for all service types. This means the app cannot be registered until AOA transport is available.
 - AOA multiplexing will be solely handled by SdlProxy. From SDLCore's perspective, AOA multiplexing will be handled as AOA_USB transport type, and existing AOA transport adapter works on SDLCore.
@@ -83,6 +83,7 @@ private void handleControlFrame(SdlPacket packet) {
 ```
 
 ### When onEnableSecondaryTransport gets called, we read AOA_USB as AOA multiplexing.
+This proposal assumes the app should use AOA multiplexing rather than legacy AOA for all cases. Legacy AOA exclusively accesses the USB accessory and disallows other apps to use AOA transport, so AOA multiplexing should be better.
 ```java
 public void onEnableSecondaryTransport(byte sessionID, ArrayList<String> secondaryTransport,
 	        ArrayList<Integer> audio, ArrayList<Integer> video, TransportType transportType) {
