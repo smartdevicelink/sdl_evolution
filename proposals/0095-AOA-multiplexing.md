@@ -32,7 +32,7 @@ Currently, SDL app chooses the transport (either Bluetooth multiplexing, legacy 
  
 The sequence diagram running on secondary transport are shown below:
 
-![Sequence diagram running on secondary transport](../assets/proposals/0095-multiplex_for_multiple_transports.png)
+![Sequence diagram running on secondary transport](../assets/proposals/0095-AOA-multiplexing/0095-multiplex_for_multiple_transports.png)
 
 **Fig. 1: sequence diagram for AOA multiplexing running on secondary transport**
 
