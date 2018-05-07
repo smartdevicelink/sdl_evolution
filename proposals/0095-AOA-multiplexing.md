@@ -24,23 +24,24 @@ Currently, SDL app chooses the transport (either Bluetooth multiplexing, legacy 
  This proposal extends it to use MultiplexTransport as the secondary transport.
 
  To do that, the basic idea is:
-- MultiplexTransportConfig is extended to have "highBandwidthRequired" flag.
-- When MultiplexTransport is instantiated by secondary connection, MultiplexTransport instantiates TransportBroker with newly added flag (multiplexForSecondary), and different action is specified when binding to SdlRouterService.
-- SdlRouterService is extended and internally holds both MultiplexBluetoothTransport and MultiplexAoaTransport.
-- When SdlRouterService is bound for secondary connection, SdlRouterService will map the session (connection) to MultiplexAoaTransport.
-- The underlying type of MultiplexTransport is used only for internal purpose. It won't be recognized by SDL apps.
-- Unlike TCP transport, protocol listener's onEnableSecondaryTransport event won't be used for AOA multiplexing. Android Proxy manages physical USB connection directly, and managing the availability of AOA transport.
-- SdlRouterService internally manages transport per connection. SdlRouterService reads from/writes to the right transport depending on Message/SdlPacket.
-- When user disconnected USB cable, SdlRouterService handles the disconnection of underlying MultiplexAoaTransport, and TransportBroker for secondary transport will be unbound. SDL application should be responsible for how to handle this case.
-- From SDLCore's perspective, the AOA multiplexing is handled as USB_AOA transport type. SDLCore must allow USB_AOA transport to be used for secondary transport.　
-- On the Android device, in order to share the UsbAccessory with multiple applications, the app that actually has the USB accessory's permission will send ParcelFileDescriptor to the active router service. If no active router is running, the local app launches router service for AOA transport.
+- MultiplexTransportConfig is extended to have "highBandwidthRequired" flag, which should be turned on for audio/video apps.
+- If SDL Core supports secondary transport, proxy will be notified with onEnableSecondaryTransport.
+- If AOA_USB is the expected secondary transport, SdlProxy puts off starting audio/video session until AOA transport becomes available.
 - Make sure the AOA multiplexing can be used with older SDLCore, which does not support simultaneous multiple transports. When running with older SDLCore and the app specified "highBandwidthRequired" flag, MultiplexTransport will use AOA transport for all service types. This means the app cannot be registered until AOA transport is available.
+- AOA multiplexing will be solely handled by SdlProxy. From SDLCore's perspective, AOA multiplexing will be handled as AOA_USB transport type, and existing AOA transport adapter works on SDLCore.
  
+The sequence diagram running on secondary transport are shown below:
+
+![Sequence diagram running on secondary transport](../assets/proposals/0095-multiplex_for_multiple_transports.png)
+
+**Fig. 1: sequence diagram for AOA multiplexing running on secondary transport**
+
+
 The affected classes in Android Proxy are shown below:
 
 ![Class diagram of Android Proxy](../assets/proposals/0095-AOA-multiplexing/0095-aoa-multiplexing-class-diagram.png)
 
-**Fig. 1: affected classes in Android Proxy**
+**Fig. 2: affected classes in Android Proxy**
 
 
 ## Detailed design
@@ -71,34 +72,27 @@ Call MultiplexTransportConfig.setHighbandwithRequired(true) if the app uses VIDE
                     transport);
 ```
 
-### MultiplexTransport and TransportBroker have multiplexForSecondary flag, which is internal use only
-If TransportBroker has multiplexForSecondary flag specified, it specifies different action when binding to SdlRouterService. This is used internally, and SDL apps do not have to pay attention to this flag.
+### When handing StartSessionACK control frame, checks to see if secondary transport is supported.
+The case where secondary transport is NOT supported will be mentioned later in this proposal.
 ```java
-public class MultiplexTransport extends SdlTransport{
-    public MultiplexTransport(MultiplexTransportConfig transportConfig, final ITransportListener transportListener, boolean multiplexForSecondary){
-        ...
+private void handleControlFrame(SdlPacket packet) {
+    if (frameInfo == FrameDataControlFrameType.StartSessionACK.getValue()) {
+        // checks to see if protocolVersion supports secondary transport
     }
 }
+```
 
-public class TransportBroker {
-    public TransportBroker(Context context, String appId, ComponentName service, boolean multiplexForSecondary){
-        ...
-    }
-    ...
-    private boolean sendBindingIntent(){
-        ...
-        if (multiplexForSecondary) {
-            bindingIntent.setAction(TransportConstants.BIND_REQUEST_TYPE_AOA_CLIENT); 
-        } else {
-            bindingIntent.setAction(TransportConstants.BIND_REQUEST_TYPE_CLIENT); 
-        }
-    }
-}
+### When onEnableSecondaryTransport gets called, we read AOA_USB as AOA multiplexing.
+```java
+public void onEnableSecondaryTransport(byte sessionID, ArrayList<String> secondaryTransport,
+	        ArrayList<Integer> audio, ArrayList<Integer> video, TransportType transportType) {
+                // check to see if secondaryTransport contains "AOA_USB", and then handle it as AOA multiplexing
+	        }
 
 ```
 
-
 ### SdlRouterService uses either MultiplexBluetoothTransport or MultiplexAoaTransport depending on binding action
+MultiplexAoaTransport encapsulates the actual read/write operation of AOA transport.
 ```java
 public class SdlRouterService extends Service {
     ...
@@ -109,28 +103,13 @@ public class SdlRouterService extends Service {
 }
 ```
 
-### AOA multiplexing won't use onEnableSecondaryTransport event
-Unlike TCP Transport, AOA multiplexing won't use onEnableSecondaryTransportEvent (which is sent by SDLCore); instead, SdlRouterService internally manages physical connection of AOA transport.
-This makes sense, because SdlProxy manages the permission of UsbAccessory, and SDLCore cannot recognize the USB connection until user explicitly grants the access permission of UsbAccessory.
+### The app that has actual UsbAccessory's permission sends ParcelFileDescriptor to active SdlRouterService
+When a user plugs in their device to an AOA connection, they are prompted with selection dialog. The dialog contains all apps that support the currently connected accessory. In this dialog there is also an option to always open a specific app for that accessory. We basically assumed the app that receives AOA intent gets the accessory permission, and then the app works as the router for AOA transport. if the user picks an app to always receive the AOA intent and it propagates the router service, all multiplexed connections will go through that apps router service regardless if there is a newer router service present. If by chance that is not a trusted router service, no other apps will ever connect until the user clears the flag.
+
+To solve the issue, we take the approach where sending the USB device's descriptor (ParcelFileDescriptor) from user granted app to active router service. The sequence diagram in Fig.1 shows how it works.
 
 ### SdlRouterService manages the disconnection of AOA transport
 When AOA transport has been disconnected, every RegisteredApp will be notified by Messege, and then TransportBroker of secondary transport will be unbound. SDL application should be responsible for how to handle this case.
-
-### AOA multiplexing will be handled by SdlProxy, and has no impact on SDLCore
-AOA multiplexing will be solely handled by SdlProxy. From SDLCore's perspective, AOA multiplexing will be handled as USB_AOA transport type, and existing AOA transport adapter works on SDLCore.
-
-### The app that has actual UsbAccessory's permission sends ParcelFileDescriptor to active SdlRouterService
-We discussed about a potential issue where multiple SDL applications have the same accessory_filter settings.
-
-When a user plugs in their device to an AOA connection, they are prompted with selection dialog. The dialog contains all apps that support the currently connected accessory. In this dialog there is also an option to always open a specific app for that accessory. We basically assumed the app that receives AOA intent gets the accessory permission, and then the app works as the router for AOA transport. if the user picks an app to always receive the AOA intent and it propagates the router service, all multiplexed connections will go through that apps router service regardless if there is a newer router service present. If by chance that is not a trusted router service, no other apps will ever connect until the user clears the flag.
-
-The underlying issue is that the app user chooses to give the accessory permission is not necessarily the trusted router service.
-To solve the issue, we take the approach where sending the USB device's descriptor (ParcelFileDescriptor) from user granted app to active router service.
-The following sequence diagram shows how it works:
-
-![sequence dialog for possible permanent routerservice issue](../assets/proposals/0095-AOA-multiplexing/0095-aoa-possible-permanent-routerservice-solution.png)
-
-**Fig. 2: Sequence diagram for possible permanent RouterService solution**
 
 ### AOA multiplexing should work with older SDLCore that has no support of simultaneous multiple transports
 If "highBandwidthRequired" SDL app runs with older SDLCore that has no support of simultaneous multiple transports, the app should have single SdlConnection for all service type, and its transport would be AOA multiplexing.
