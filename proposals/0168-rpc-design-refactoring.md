@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0168](0168-rpc-design-refactoring.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
