@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0166](0166-use-android-annotations-library.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Android]
 
 ## Introduction
