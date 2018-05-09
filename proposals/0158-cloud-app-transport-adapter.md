@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0158](0158-cloud-app-transport-adapter.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
