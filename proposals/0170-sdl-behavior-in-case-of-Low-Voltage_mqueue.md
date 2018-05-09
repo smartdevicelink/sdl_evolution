@@ -1,8 +1,8 @@
 # SDL behavior in case of LOW_VOLTAGE event
 
-* Proposal: [SDL-NNNN](NNNN-sdl-behavior-in-case-of-Low-Voltage_mqueue.md)
+* Proposal: [SDL-0170](0170-sdl-behavior-in-case-of-Low-Voltage_mqueue.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / Web / RPC]
 
 ## Introduction
