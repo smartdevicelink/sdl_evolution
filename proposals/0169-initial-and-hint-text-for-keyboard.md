@@ -1,8 +1,8 @@
 # Arguments initialText and hintText for SDL Keyboard
 
-* Proposal: [SDL-NNNN](NNNN-initial-and-hint-text-for-keyboard.md)
+* Proposal: [SDL-0168](0169-initial-and-hint-text-for-keyboard.md)
 * Author: [MarekForys](https://github.com/mforys) (TomTom)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core, Android, iOS]
 
 
