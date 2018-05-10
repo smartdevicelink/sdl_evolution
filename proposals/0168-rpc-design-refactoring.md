@@ -141,6 +141,45 @@ RPC Handler will use Command Factory from plugin to create Command for further p
 
 ![New design approach](../assets/proposals/0168-rpc-design-refactoring/new_design.png)
 
+#### Implementation of plugins:
+
+Within refactoring **Remote Control** and **Vehicle Data** functionality will be extracted to separate plugins.
+
+##### Remote Control plugin:
+
+Remote Control plugin implements following Remote Control related RPC's:
+ - GetInterioVehicleData mobile request/response
+ - RC.GetInterioVehicleData HMI request/response
+ - SetInterioVehicleData mobile request/response
+ - RC.SetInterioVehicleData HMI request/response
+ - OnInterioVehicleData mobile notification
+ - RC.OnInterioVehicleData HMI notification
+ - SubscribeButton mobile request/response
+ - Buttons.SubscribeButton hmi request/response
+ - OnButtonPress mobile notification
+ - Buttons.OnButtonPress hmi notification
+
+ Inside plugin also should implemented :
+  - `ResourceAllocationManager` : component that is responsible for acquiring module resources.
+  - `RCAppExtension` : extension of Application Class that implements subscriptions storing
+  - `RCCommandFactory` : Command factory that is able to create all RC related commands.
+   
+##### Vehicle Info plugin:
+
+Vehicle Info plugin implements following Vehicle Info related RPC's:
+  - GetVehicleData mobile request/response
+  - VehicleInfo.GetVehicleData HMI request/response
+  - SubscribeVehicleData mobile request/response
+  - VehicleInfo.SubscribeVehicleData HMI request/response
+  - UnsubscribeVehicleData mobile request/response
+  - VehicleInfo.UnsubscribeVehicleData HMI request/response
+  - OnVehicleData mobile notification
+  - VehicleInfo.OnVehicleData HMI notification
+
+ Inside plugin also should implemented :
+  - `VehicleInfoAppExtension` : extension of Application Class that implements subscriptions storing
+  - `VehicleInfoCommandFactory` : Command factory that is able to create all Vehicle Info related RPC's.
+   
 ## Potential downsides
 This change requires major changes of application manager layer. 
 ## Impact on existing code
