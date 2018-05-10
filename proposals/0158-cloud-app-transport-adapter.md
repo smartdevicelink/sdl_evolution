@@ -9,14 +9,11 @@
 
 This proposal will detail a possible solution for allowing  SDL-enabled cloud applications to be used in a vehicle. This proposal will cover the process of obtaining cloud application server endpoints, enabling which cloud apps should appear in the HMI app list, opening connections between Core and a cloud based app server, and how a cloud application can authenticate connected head units. 
 
-The implementation of a SDL cloud app javascript library used to create SDL connected cloud applications will be covered by another proposal. 
-
-
 ## Motivation
 
 ### Background on SDL-enabled cloud applications:
 - SDL cloud apps would still use the SDL RPC Service / protocol
-- SDL cloud apps would integrate a proxy library that supports all Mobile API RPCs (implemented in Javascript)
+- SDL cloud apps would integrate a proxy library that supports all Mobile API RPCs
 - SDL cloud apps live in the "cloud", not in the car or phone
 - Using a cloud app on the head unit would not require a mobile device, but would require the head unit to have an active data connection
 - SDL Core initiates the connection to cloud application using endpoints supplied by policy table updates (OEMs control trusted app connections)
@@ -29,14 +26,16 @@ The implementation of a SDL cloud app javascript library used to create SDL conn
 1. User opens OEM App store containing the list of possible cloud applications. (Using mobile sdl app or embedded sdl app)
 2. User chooses to enable a cloud application from the list
 3. If the cloud application requires user authentication, the user will enter login information or complete OAuth Device Flow
-4. Auth information is sent in a post request from OEM app store to cloud app server with hashed VIN
-5. Cloud app verifies login credentials and stores hashed VIN for future use. 
+4. Auth information is sent in a post request from OEM app store to cloud app server with the cloudAppVehicleID (Optional)
+5. Cloud app verifies login credentials and stores the cloudAppVehicleID for future use (Optional) 
 6. Cloud app responds to OEM app store with a secret token that will be used to authenticate SDL Core's future websocket connection
 7. User connects phone to headunit, OEM app registers and sends updated list of enabled cloud apps and corresponding secret tokens.
 8. Core stores secret tokens in the policy table and updates the `enabled` field of the cloud apps listed in the policy table.
 9. Core sends update app list to HMI to display cloud apps' availability
 10. User activates cloud app, Core gets WS endpoint from policy table and opens WS connection passing the secret token supplied by oem app and the hashed VIN
 11. Cloud app verifies the hashed VIN  and secret token are valid and accepts the connection
+
+Note: This is one posisble implementation of enabling and authenticating cloud apps using an OEM cloud app store. Please refer to other example use cases.
 
 
 ### Obtaining Cloud App IP Address and Port
@@ -71,20 +70,25 @@ This is what the app_policies section of a policy table that includes a cloud ap
 +               "endpoint": "https://fakesdlwebsocketurl.com:8080",
 +               "certificate" : "-----BEGIN CERTIFICATE-----\n" ...,
 +               "enabled" : false,
-+               "authToken" : "ABCD12345"
++               "auth_token" : "ABCD12345",
++               "cloud_transport_type: "WSS",
++               "hybrid_app_preference": "MOBILE"
             }
         }
 ```
 
-The `endpoint` field includes the URL/IP and port that the SDL cloud app can be connected to. 
+The `endpoint` field includes the URL/IP and port that the SDL cloud app can be connected to. Endpoints can be added, removed, or updated via policy table updates. This means OEMs will be in control of the cloud apps that their head units attempt to connect to.
 
 The `certificate` field is used for secured RPC service connections which equates to opening a secured websocket connection. 
 
 The `enabled` field is by default set to false so the cloud app does not show on the HMI. If the user enables an app via the app store flow highlighted in the section above, then `enabled` will be set to true in the head units local policy table. When set to true, this cloud app will be included in the HMI RPC "UpdateAppList".
 
-The `token` field is also obtained via the app store selection and authorization flow discussed above. This token is used to authenticate the head units websocket connection to the cloud app server. This field will most likely not be included in the sdl server PTU response. This field should be populated through the SetCloudAppProperties RPC
+The `auth_token` field is also obtained via the app store selection and authorization flow discussed above. This token is used to authenticate the head units websocket connection to the cloud app server. This field can be populated by a SetCloudAppProperties request or through a policy table update response.
 
-Endpoints can be added, removed, or updated via policy table updates. This means OEMs will be in control of the cloud apps that their head units attempt to connect to.
+The `cloud_transport_type` field is used to specify the type of connection core will use to connect to that cloud app server. This proposal only specifies the use of secured websockets so this field is for future proofing other types of connections.
+
+The `hybrid_app_preference` field is used to sepcify the user preference for a cloud app that is also available on the users phone. For example when the prefernece is set to `MOBILE` and the user connects a mobile app while using the same cloud app, the cloud app will unregister and the mobile versions will be the only app to be displayed on the app list. Possible fields are `MOBILE`, `CLOUD`, `BOTH`.
+
 
 ### Enabling Cloud Apps to Appear on SDL App List
 
@@ -92,6 +96,13 @@ Mobile API Changes
 
 Add new RPC "SetCloudAppProperties". This RPC can be used by an OEM "App Store" in order to enable/disable a cloud app from appearing on the SDL HMI. This RPC will also deliver neccesary authentication information if the app requires it. 
 ```
+    <enum name="HybridAppPreference">
+        <description>Enumeration for the user's preference of which app type to use when both are available</description>
+        <element name="MOBILE" />
+        <element name="CLOUD" />
+        <element name="BOTH">
+    </enum>
+
     <function name="SetCloudAppProperties" functionID="SetCloudAppPropertiesID" messagetype="request">
         <description>
             RPC used to enable/disable a cloud application and set authentication data
@@ -103,6 +114,12 @@ Add new RPC "SetCloudAppProperties". This RPC can be used by an OEM "App Store" 
         </param>
         <param name="cloudAppAuthToken" type="String" maxlength="100" mandatory="false">
             <description>Used to authenticate websocket connection on app activation</description>
+        </param>
+        <param name="cloudTransportType" type="String" maxlength="100" mandatory="false">
+            <description>Specifies the connection type Core should use</description>
+        </param>
+        <param name="hybridAppPreference" type="HybridAppPrefernce" maxlength="100" mandatory="false">
+            <description>Specifies the user preference to use the cloud app version or mobile app version when both are available</description>
         </param>
     </function>
 
@@ -181,24 +198,134 @@ App Activation: User selects the cloud app from the app list on the HMI and the 
 
 The behavior of displaying a cloud app before registration is to prevent unnecessary websocket connections when an app is not in use. Also if an application is put into hmi status NONE, then the websocket connection will be closed until the user activates the application again.
 
-### Hashed VIN
+### CloudAppVehicleID
 
-Since Core itself does not store the VIN, the hashed VIN must be supplied by the HMI. The path to where this value can be found on disk should be set in the smartDeviceLink.ini config file.
+The CloudAppVehicleID is an optional parameter used by cloud apps or the policy server to identify a head unit. This value could be used by a cloud app to identify an incoming connection from core. This value could also be used by an enhanced policy server to index cloud app configurations for a specific head unit. (Please see example use cases).
+
+The CloudAppVehicleID is stored by the HMI and is sent to Core through a get vehicle data request. CloudAppVehicleID should be added as a new vehicle data parameter.
+
+The content of CloudAppVehicleID is up to the OEM's implementation. Possible values could be the VIN or a hashed VIN. Also OEM's may choose to reset this value on a master reset of the head unit in case the vehicle changes owners. 
+
+Mobile API changes
+
 ```
-[Cloud App Connections]
-...
-;File path that contains the Hashed VIN to be used in cloud app authentication
-HashedVINPath=cloud_id.data
+<enum name="VehicleDataType">
+            :
+    <element name="VEHICLEDATA_CLOUDAPPVEHICLEID" />
+</enum>
+
+<function name="SubscribeVehicleData" functionID="SubscribeVehicleDataID" messagetype="request">
+            :
+    <param name="cloudAppVehicleID" type="Boolean" mandatory="false"></param>
+</function>
+<function name="SubscribeVehicleData" functionID="SubscribeVehicleDataID" messagetype="response">
+            :
+    <param name="cloudAppVehicleID" type="VehicleDataResult" mandatory="false"></param>
+</function>
+
+<function name="UnsubscribeVehicleData" functionID="UnsubscribeVehicleDataID" messagetype="request">
+            :
+    <param name="cloudAppVehicleID" type="Boolean" mandatory="false"></param>
+</function>
+<function name="UnsubscribeVehicleData" functionID="UnsubscribeVehicleDataID" messagetype="response">
+            :
+    <param name="cloudAppVehicleID" type="VehicleDataResult" mandatory="false"></param>
+</function>
+
+<function name="GetVehicleData" functionID="GetVehicleDataID" messagetype="request">
+            :
+    <param name="cloudAppVehicleID" type="Boolean" mandatory="false"></param>
+</function>
+<function name="GetVehicleData" functionID="GetVehicleDataID" messagetype="response">
+            :
+    <param name="cloudAppVehicleID" type="String" mandatory="false"></param>
+</function>
+
+<function name="OnVehicleData" functionID="OnVehicleDataID" messagetype="notification">
+            :
+    <param name="cloudAppVehicleID" type="String" mandatory="false"></param>
+</function>
 ```
-How this value is set is meant to be open ended as each OEM might have a different preference on how to set a unique value for headunits that attempt cloud app connections. 
+
+HMI API changes
+
+```
+<enum name="VehicleDataType">
+            :
+    <element name="VEHICLEDATA_CLOUDAPPVEHICLEID" />
+</enum>
+
+<function name="SubscribeVehicleData" functionID="SubscribeVehicleDataID" messagetype="request">
+            :
+    <param name="cloudAppVehicleID" type="Boolean" mandatory="false"></param>
+</function>
+<function name="SubscribeVehicleData" functionID="SubscribeVehicleDataID" messagetype="response">
+            :
+    <param name="cloudAppVehicleID" type="Common.VehicleDataResult" mandatory="false"></param>
+</function>
+
+<function name="UnsubscribeVehicleData" functionID="UnsubscribeVehicleDataID" messagetype="request">
+            :
+    <param name="cloudAppVehicleID" type="Boolean" mandatory="false"></param>
+</function>
+<function name="UnsubscribeVehicleData" functionID="UnsubscribeVehicleDataID" messagetype="response">
+            :
+    <param name="cloudAppVehicleID" type="Common.VehicleDataResult" mandatory="false"></param>
+</function>
+
+<function name="GetVehicleData" functionID="GetVehicleDataID" messagetype="request">
+            :
+    <param name="cloudAppVehicleID" type="Boolean" mandatory="false"></param>
+</function>
+<function name="GetVehicleData" functionID="GetVehicleDataID" messagetype="response">
+            :
+    <param name="cloudAppVehicleID" type="String" mandatory="false"></param>
+</function>
+
+<function name="OnVehicleData" functionID="OnVehicleDataID" messagetype="notification">
+            :
+    <param name="cloudAppVehicleID" type="String" mandatory="false"></param>
+</function>
+```
+## Example Use Cases
+
+The purpose of these example use cases is to show how leveraging the existing policy table update mechanism and the new proposed SetCloudAppProperties RPC can create the possibility of having many different types of OEM Cloud App Store implementations.
+
+### Example Use Case 1
+
+This diagram describes the flow in which the user could enable the cloud apps they want to use in their vehicle by using an OEM Companion App.
+
+Note: CloudAppAuthToken and CloudAppVehicleId are optional.
+
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/example_use_case_1.png "Example Use Case 1")
+
+### Example Use Case 2
+
+This diagram shows how an enhanced policy server could be used to deliver enabled cloud app information to SDL Core by using the policy table update mechanism. This flow does not require the user to connect their mobile device to the head unit, therefore the OEM app store does not have to be implemented on a mobile companion app. The OEM app store could be implemented on a website instead.
+
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/example_use_case_2.png "Example Use Case 2")
+
+### Example Use Case 3
+
+This diagram shows how the OEM App Store could be implemented as a cloud app itself. Under the current proposal, the OEM could configure the preloaded policy table to contain the OEM app store server endpoint and have it be "enabled" by default. This way the OEM App store as a cloud app would appear on the HMI by default. The user could navigate this app store on the HMI to enable and authenticate other available cloud apps.
+
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/example_use_case_3.png "Example Use Case 3")
+
+### Example Use Case 4
+
+This diagram shows how authentication for a specific cloud app can be contained within the cloud app itself. Login information is passed to the cloud app via a perform interaction.
+
+This diagram assumes that the cloud app has previously been enabled through some other OEM App Store SetCloudAppProperties mechanism.
+
+![alt text](../assets/proposals/0158-cloud-app-transport-adapter/example_use_case_4.png "Example Use Case 4")
 
 ## Potential downsides
 
-Requires OEM to develop an App store via a mobile SDL app or an embedded SDL app. 
+Requires OEM to develop an App store that allows the user to enable and configure cloud apps. 
 
 OEM must maintain extra set of policy related data (Endpoints and certificates). If an endpoint becomes outdated, head units will try to connect to an unknown endpoint. 
 
-Adding a new Javascript proxy library means another major repository must be developed and maintained. This effort requires new feature development, issue tracking/bug fixes, creating documentation.
+Adding a new "cloud proxy" library means another major repository must be developed and maintained. This effort requires new feature development, issue tracking/bug fixes, creating documentation.
 
 ## Impact on existing code
 
@@ -210,7 +337,7 @@ A new enum must be added to DeviceType to differentiate cloud app connections fr
 
 ```c++
 enum DeviceType {
-  CLOUD,
++ WEBSOCKET,
   AOA,
   PASA_AOA,
   BLUETOOTH,
@@ -241,7 +368,11 @@ struct PolicyBase : CompositeType {
   Boolean keep_context;
   Boolean steal_focus;
   Optional<String<0, 255> > cloud_app_endpoint;
-  Optional<String<0, 65535> > ssl_certificate;
+  Optional<String<0, 65535> > certificate;
+  Optional Boolean enabled;
+  Optional<String<0, 255> > cloud_transport_type;
+  Optional Enum<HybridAppPreference> hybrid_app_preference;
+
 ```
 
 policy_table_interface_ext.xml
@@ -262,8 +393,11 @@ policy_table_interface_ext.xml
         <param name="certificate" type="String" minlength="0" maxlength="65535"
             mandatory="false" />
         <param name="enabled" type="Boolean" mandatory="false" />
-        <param name="authToken" type="String" minlength="0" maxlength="65535"
+        <param name="auth_token" type="String" minlength="0" maxlength="65535"
             mandatory="false"/>
+        <param name="cloud_transport_type" type="String" minlength="0" maxlength="255"
+            mandatory="false"/>
+        <param name="hybrid_app_prefernce" type="HybridAppPreference" mandatory="false"/>
     </struct>
 ```
 This feature should be supported by both regular and external policy build configurations.
