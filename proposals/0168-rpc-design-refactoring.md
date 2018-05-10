@@ -167,6 +167,7 @@ Remote Control plugin implements following Remote Control related RPC's:
 ##### Vehicle Info plugin:
 
 Vehicle Info plugin implements following Vehicle Info related RPC's:
+  - VehicleInfo.IsReady hmi notification
   - GetVehicleData mobile request/response
   - VehicleInfo.GetVehicleData HMI request/response
   - SubscribeVehicleData mobile request/response
@@ -175,6 +176,12 @@ Vehicle Info plugin implements following Vehicle Info related RPC's:
   - VehicleInfo.UnsubscribeVehicleData HMI request/response
   - OnVehicleData mobile notification
   - VehicleInfo.OnVehicleData HMI notification
+  - ReadDID mobile request/response
+  - VehicleInfo.ReadDID HMI request/response
+  - GetDTCs mobile request/response
+  - VehicleInfo.GetDTCs HMI request/response
+  - DiagnosticMessage mobile request/response
+  - VehicleInfo.DiagnosticMessage HMI request/response
 
  Inside plugin also should implemented :
   - `VehicleInfoAppExtension` : extension of Application Class that implements subscriptions storing
