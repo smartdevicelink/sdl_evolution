@@ -15,7 +15,7 @@ This proposal aims to add AOA multiplexing capability to SdlRouterService.
 Currently SdlRouterService works for MultiplexTransport, which supports Bluetooth transport as the underlying transport. This proposal extends SdlRouterService to support both Bluetooth and AOA (Android Open Accessory) transports, so that multiple SDL applications can share the AOA transport without having to worry about USB connection.
 AOA protocol basically allows only a single application to access the USB accessory -- if multiple applications are designed to use the same accessory, the Android system asks which application should use the accessory and shows a permission dialog. This proposal allows multiple SDL applications to share the USB accessory.
 In addition, this proposal addresses extension of SdlRouterService to support simultaneous multiple transports, and AOA multiplexing will work as a part of simultaneous multiple transports. This proposal mainly assumes the scenario where utilizing Bluetooth multiplexing transport for RPC service, and utilizing AOA multiplexing transport for audio/video services.
-As you see the ![0141-multiple-transports proposal](0141-multiple-transports.md), the secondary transport will be specified by SDLCore, however.
+As you see in the ![0141-multiple-transports proposal](0141-multiple-transports.md), the secondary transport will be specified by SDLCore, however.
  
 ## Proposed solution
 
@@ -30,7 +30,7 @@ Currently, SDL app chooses the transport (either Bluetooth multiplexing, legacy 
 - Make sure the AOA multiplexing can be used with older SDLCore, which does not support simultaneous multiple transports. When running with older SDLCore and the app specified "highBandwidthRequired" flag, MultiplexTransport will use AOA transport for all service types. This means the app cannot be registered until AOA transport is available.
 - AOA multiplexing will be solely handled by Android Proxy. From SDLCore's perspective, AOA multiplexing will be handled as AOA_USB transport type, and the existing AOA transport adapter on SDLCore should work for AOA multipelxing.
  
-The sequence diagram running on secondary transport are shown below:
+The sequence diagram running on secondary transport is shown below:
 
 ![Sequence diagram running on secondary transport](../assets/proposals/0095-AOA-multiplexing/0095-multiplex_for_multiple_transports.png)
 
@@ -72,7 +72,7 @@ Call MultiplexTransportConfig.setHighbandwithRequired(true) if the app uses VIDE
                     transport);
 ```
 
-### When handing StartSessionACK control frame, checks to see if secondary transport is supported.
+### When handling StartSessionACK control frame, checks to see if secondary transport is supported.
 The case where secondary transport is NOT supported will be mentioned later in this proposal.
 ```java
 private void handleControlFrame(SdlPacket packet) {
@@ -116,7 +116,7 @@ public class SdlRouterService extends Service {
 
 ### The app that has actual UsbAccessory's permission sends ParcelFileDescriptor to active SdlRouterService
 When a user plugs in their device to an AOA connection, they are prompted with selection dialog. The dialog contains all apps that support the currently connected accessory. In this dialog there is also an option to always open a specific app for that accessory.
-We basically assume the app that receives AOA intent gets the accessory permission, and then the app works as the router for AOA transport. if the user picks an app to always receive the AOA intent and it propagates the router service, all multiplexed connections will go through that apps router service regardless if there is a newer router service present. If by chance that is not a trusted router service, no other apps will ever connect until the user clears the flag.
+We basically assume the app that receives AOA intent gets the accessory permission, and then the app works as the router for AOA transport. if the user picks an app to always receive the AOA intent and it propagates the router service, all multiplexed connections will go through that app's router service regardless of if there is a newer router service present. If by chance that is not a trusted router service, no other apps will ever connect until the user clears the flag.
 
 To solve the issue, we take the approach where sending the USB device's descriptor (ParcelFileDescriptor) from user granted app to active router service. The sequence diagram in **Fig. 1: sequence diagram for AOA multiplexing running on secondary transport** shows how it works.
 
@@ -154,7 +154,7 @@ In particular, the following cases need to be confirmed:
 
 This feature also increases the IPC transaction between TransportBroker and SdlRouterService. While Android system has Binder Transaction Limit, which is explained at [TransactionTooLargeException Android document](https://developer.android.com/reference/android/os/TransactionTooLargeException.html), we won’t run into TransactionTooLargeException cases in real scenario based on our test, unless underlying transport has a fatal error. The fatal error case would be, for example, the case where we cannot write Bluetooth socket and/or USB's ParcelFileDescriptor for some reason. Those fatal error cases can be discussed outside of this proposal.
 
-Also note that this proposal assumes MultiplexBluetoothTransport is available prior to MultiplexAoaTransport becomes available. Otherwise we cannot check if the SDL Core supports simultaneous multiple transports. What if the head unit is configured without Bluetooth? What if user did not setup Bluetooth pairing beforehand? Such case may need to be discussed, but for now it is out of scope in this proposal.
+Also note that this proposal assumes MultiplexBluetoothTransport is available prior to when MultiplexAoaTransport becomes available. Otherwise we cannot check if the SDL Core supports simultaneous multiple transports. What if the head unit is configured without Bluetooth? What if user did not setup Bluetooth pairing beforehand? Such case may need to be discussed, but for now it is out of scope in this proposal.
 
 ## Impact on existing code
 
