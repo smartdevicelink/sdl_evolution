@@ -32,14 +32,14 @@ This proposal will detail a possible solution for allowing  SDL-enabled cloud ap
 7. User connects phone to headunit, OEM app registers and sends updated list of enabled cloud apps and corresponding secret tokens.
 8. Core stores secret tokens in the policy table and updates the `enabled` field of the cloud apps listed in the policy table.
 9. Core sends update app list to HMI to display cloud apps' availability
-10. User activates cloud app, Core gets WS endpoint from policy table and opens WS connection passing the secret token supplied by oem app and the hashed VIN
-11. Cloud app verifies the hashed VIN  and secret token are valid and accepts the connection
+10. User activates the cloud app, Core gets the websocket (WS) endpoint from policy table and opens a websocket connection passing the secret token supplied by the OEM app and the cloudAppVehicleID
+11. Cloud app verifies the cloudAppVehicleID and secret token are valid and accepts the connection
 
-Note: This is one posisble implementation of enabling and authenticating cloud apps using an OEM cloud app store. Please refer to other example use cases.
+Note: This is one possible implementation of enabling and authenticating cloud apps using an OEM cloud app store. Please refer to other example use cases.
 
 
 ### Obtaining Cloud App IP Address and Port
-Maintaining a list of urls for each cloud app will be similar to how policies for SDL applications are currently managed. When a policy table update is required, the sdl server will send an updated PT with a list of cloud apps and their websocket endpoints.
+Maintaining a list of urls for each cloud app will be similar to how policies for SDL applications are currently managed. When a policy table update is required, the sdl server will send an updated policy table with a list of cloud apps and their websocket endpoints.
 
 There will need to be three new fields introduced in the app_policies section of the policy table. 
 
@@ -81,13 +81,13 @@ The `endpoint` field includes the URL/IP and port that the SDL cloud app can be 
 
 The `certificate` field is used for secured RPC service connections which equates to opening a secured websocket connection. 
 
-The `enabled` field is by default set to false so the cloud app does not show on the HMI. If the user enables an app via the app store flow highlighted in the section above, then `enabled` will be set to true in the head units local policy table. When set to true, this cloud app will be included in the HMI RPC "UpdateAppList".
+The `enabled` field is by default set to false so the cloud app does not show on the HMI. If the user enables an app via the app store flow highlighted in the section above, then `enabled` will be set to true in the head unit's local policy table. When set to true, this cloud app will be included in the HMI RPC "UpdateAppList".
 
-The `auth_token` field is also obtained via the app store selection and authorization flow discussed above. This token is used to authenticate the head units websocket connection to the cloud app server. This field can be populated by a SetCloudAppProperties request or through a policy table update response.
+The `auth_token` field is also obtained via the app store selection and authorization flow discussed above. This token is used to authenticate the head unit's websocket connection to the cloud app server. This field can be populated by a SetCloudAppProperties request or through a policy table update response.
 
 The `cloud_transport_type` field is used to specify the type of connection core will use to connect to that cloud app server. This proposal only specifies the use of secured websockets so this field is for future proofing other types of connections.
 
-The `hybrid_app_preference` field is used to sepcify the user preference for a cloud app that is also available on the users phone. For example when the prefernece is set to `MOBILE` and the user connects a mobile app while using the same cloud app, the cloud app will unregister and the mobile versions will be the only app to be displayed on the app list. Possible fields are `MOBILE`, `CLOUD`, `BOTH`.
+The `hybrid_app_preference` field is used to specify the user's preference for using a cloud app that is also available on the user's phone. For example when the preference is set to `MOBILE` and the user connects a mobile app while using the same cloud app, the cloud app will unregister and the mobile version will be the only app to be displayed on the app list. Possible fields are `MOBILE`, `CLOUD`, `BOTH`.
 
 
 ### Enabling Cloud Apps to Appear on SDL App List
@@ -118,7 +118,7 @@ Add new RPC "SetCloudAppProperties". This RPC can be used by an OEM "App Store" 
         <param name="cloudTransportType" type="String" maxlength="100" mandatory="false">
             <description>Specifies the connection type Core should use</description>
         </param>
-        <param name="hybridAppPreference" type="HybridAppPrefernce" maxlength="100" mandatory="false">
+        <param name="hybridAppPreference" type="HybridAppPreference" maxlength="100" mandatory="false">
             <description>Specifies the user preference to use the cloud app version or mobile app version when both are available</description>
         </param>
     </function>
@@ -126,7 +126,7 @@ Add new RPC "SetCloudAppProperties". This RPC can be used by an OEM "App Store" 
     <function name="SetCloudAppProperties" functionID="RegisterAppInterfaceID" messagetype="response">
         <description>The response to registerAppInterface</description>
         <param name="success" type="Boolean" platform="documentation" mandatory="true">
-            <description> true if successful; false, if failed </description>
+            <description> true if successful; false if failed </description>
         </param>
         <param name="resultCode" type="Result" platform="documentation" mandatory="true">
             <description>See Result</description>
@@ -397,7 +397,7 @@ policy_table_interface_ext.xml
             mandatory="false"/>
         <param name="cloud_transport_type" type="String" minlength="0" maxlength="255"
             mandatory="false"/>
-        <param name="hybrid_app_prefernce" type="HybridAppPreference" mandatory="false"/>
+        <param name="hybrid_app_preference" type="HybridAppPreference" mandatory="false"/>
     </struct>
 ```
 This feature should be supported by both regular and external policy build configurations.
