@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0160](0160-rc-radio-parameter-update.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
