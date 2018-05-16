@@ -104,7 +104,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0092" status="implemented" primary-platform="core" sdl-version="4.5" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
 <proposal id="0093" status="implemented" primary-platform="android" sdl-version="4.4" name="Haptic Projection" filename="0093-haptic-projection.md"/>
 <proposal id="0094" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
-<proposal id="0095" status="returned" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
+<proposal id="0095" status="active" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
 <proposal id="0096" status="implemented" primary-platform="core" sdl-version="5.0" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
 <proposal id="0097" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
 <proposal id="0098" status="accepted" primary-platform="mobile" sdl-version="x.x" name="SDL Localization" filename="0098-localization.md"/>
@@ -167,9 +167,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0154" status="accepted" primary-platform="core" sdl-version="x.x" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
 <proposal id="0155" status="implemented" primary-platform="ios" sdl-version="6.0" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0155" status="accepted" primary-platform="android" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
-<proposal id="0156" status="deferred" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
-<proposal id="0157" status="active" primary-platform="mobile" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
-<proposal id="0158" status="returned" primary-platform="core" sdl-version="x.x" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
+<proposal id="0156" status="active" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
+<proposal id="0157" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
+<proposal id="0158" status="active" primary-platform="core" sdl-version="x.x" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
 <proposal id="0159" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
 <proposal id="0160" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control Radio Parameter Update" filename="0160-rc-radio-parameter-update.md"/>
 <proposal id="0161" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Remove SmartDeviceLink Cordova plugin" filename="0161-remove-sdl-cordova.md"/>
