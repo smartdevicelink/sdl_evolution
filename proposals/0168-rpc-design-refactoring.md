@@ -148,12 +148,12 @@ Within refactoring **Remote Control** and **Vehicle Data** functionality will be
 ##### Remote Control plugin:
 
 Remote Control plugin implements following Remote Control related RPC's:
- - GetInterioVehicleData mobile request/response
- - RC.GetInterioVehicleData HMI request/response
- - SetInterioVehicleData mobile request/response
- - RC.SetInterioVehicleData HMI request/response
- - OnInterioVehicleData mobile notification
- - RC.OnInterioVehicleData HMI notification
+ - GetInteriorVehicleData mobile request/response
+ - RC.GetInteriorVehicleData HMI request/response
+ - SetInteriorVehicleData mobile request/response
+ - RC.SetInteriorVehicleData HMI request/response
+ - OnInteriorVehicleData mobile notification
+ - RC.OnInteriorVehicleData HMI notification
  - SubscribeButton mobile request/response
  - Buttons.SubscribeButton hmi request/response
  - OnButtonPress mobile notification
@@ -161,7 +161,7 @@ Remote Control plugin implements following Remote Control related RPC's:
 
  Inside plugin also should implemented :
   - `ResourceAllocationManager` : component that is responsible for acquiring module resources.
-  - `RCAppExtension` : extension of Application Class that implements subscriptions storing
+  - `RCAppExtension` : extension of Application Class that implements storing of subscriptions. 
   - `RCCommandFactory` : Command factory that is able to create all RC related commands.
    
 ##### Vehicle Info plugin:
@@ -184,7 +184,7 @@ Vehicle Info plugin implements following Vehicle Info related RPC's:
   - VehicleInfo.DiagnosticMessage HMI request/response
 
  Inside plugin also should implemented :
-  - `VehicleInfoAppExtension` : extension of Application Class that implements subscriptions storing
+  - `VehicleInfoAppExtension` : extension of Application Class that implements storing of subscriptions. 
   - `VehicleInfoCommandFactory` : Command factory that is able to create all Vehicle Info related RPC's.
    
 ## Potential downsides
