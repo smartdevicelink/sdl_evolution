@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0064](0064-choice-vr-optional.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Returned for Revisions**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
@@ -17,11 +17,17 @@ Creating choice sets takes a lot of time to be computed on the head unit which m
 
 This proposal is to make the parameter `vrCommands` optional. This would allow apps to avoid unnecessary vr commands if they want to perform an interaction in manual mode. On the other hand it saves a lot of time of grammar computing on the head unit side.
 
+The change should be made in the next major release (SDL 5.0).
+
 ### HMI & Mobile API
 
 ```xml
-<struct name="Choice">
-    <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" mandatory="false" />
+<struct name="Choice" since="1.0">
+    <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" mandatory="false" since="5.0">
+      <history>
+        <param name="vrCommands" type="String" minsize="1" maxsize="100" maxlength="99" array="true" mandatory="true" until="4.5"/>
+      </history>
+    </param>
 </struct>
 ```
 

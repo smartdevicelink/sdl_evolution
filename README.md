@@ -119,20 +119,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Core: 4.4.0
-**Release Date**: October 30, 2017
-
-**Contents**: Core stabilization fixes and introduction of new features included in the [Core 4.4.0 Release Notes](https://github.com/smartdevicelink/sdl_core/releases/tag/4.4.0).
-
----
-
-#### Android SDK: 4.4.0
-**Release Date**: October 30, 2017
-
-**Contents**: This release focuses on better continuous integration strategy, better video streaming APIs and various evolution items, described in detail in the [Android 4.4.0 Release Notes](https://github.com/smartdevicelink/sdl_android/releases/tag/4.4.0).
-
----
-
 #### Manticore: 1.1.0
 **Release Date**: November 8, 2017
 
@@ -140,42 +126,54 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### iOS SDK: 5.1.0
-**Release Date**: January 16, 2018
-
-**Contents**: This release will focus on improving video and audio streaming.  Contents of this release can be tracked on the [iOS 5.1.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/6).
-
----
-
 #### iOS SDK: 5.2.0
-**Expected Release Date**: March 29, 2018
+**Release Date**: March 27, 2018
 
-**Contents**: This release will focus on bug fixes and making integration easier for application developers. Contents of this release can be tracked on the [iOS 5.2.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/7).
-
----
-
-#### Core: 4.5.0
-**Expected Release Date**: March 29, 2018
-
-**Contents**: This release will include stabilization fixes and the Connectivity via iAP-BT and Transport Switch feature described [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0053-Connectivity-via-iAP-BT-and-Transport-Switch.md).  Contents of this release can be tracked on the [Core 4.5.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/9).
+**Contents**: This release focuses on bug fixes and making integration easier for application developers. It also adds a new `SDLScreenManager` which enables easier use of (so far) text, graphics, and soft buttons.  Contents of this release are described in detail in the [iOS 5.2.0 Release Notes](https://github.com/smartdevicelink/sdl_ios/releases/tag/5.2.0).
 
 ---
 
 #### Android SDK: 4.5.0
-**Expected Release Date**: March 29, 2018
+**Release Date**: March 29, 2018
 
-**Contents**: This release will focus on bug fixes and making integration easier for application developers.  Contents of this release can be tracked on the [Android 4.5.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/5).
+**Contents**: This release focuses on bug fixes and making integration easier for application developers.  It also targets version 26 to make use of new Android Oreo features.  Contents of this release are described in detail in the [Android 4.5.0 Release Notes](https://github.com/smartdevicelink/sdl_android/releases/tag/4.5.0).
+
+---
+
+#### Core: 4.5.0
+**Release Date**: April 5, 2018
+
+**Contents**: This release includes stabilization fixes and the Connectivity via iAP-BT and Transport Switch feature described [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0053-Connectivity-via-iAP-BT-and-Transport-Switch.md).  Contents of this release are described in detail in the [Core 4.5.0 Release Notes](https://github.com/smartdevicelink/sdl_core/releases/tag/4.5.0).
 
 ---
 
 #### Manticore: 1.2.0
-**Expected Release Date**: March 29, 2018
+**Expected Release Date**: May 3, 2018
 
 **Contents**: Include enhancements and update to the latest version of Core.
 
 ---
 
+#### Android SDK: 4.6.0
+**Expected Release Date**: June 29, 2018
 
+**Contents**: This release will focus on bug fixes and making integration easier for application developers.  Contents of this release can be tracked on the [Android 4.6.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/6).
+
+---
+
+#### iOS SDK: 6.0.0
+**Expected Release Date**: June 29, 2018
+
+**Contents**: This major release will include additional Screen Manager components, and also hide Transport, Protocol and Proxy layers by making them private.  Contents of this release can be tracked on the [iOS 6.0.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/8).
+
+---
+
+#### Core: 4.6.0
+**Expected Release Date**: September 28, 2018
+
+**Contents**: The details of this release are currently being finalized, and this document will be updated once the details have been confirmed.  Contents of this release will be tracked on the [Core 4.6.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/10).
+
+---
 
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"

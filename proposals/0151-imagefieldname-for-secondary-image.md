@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0151](0151-imagefieldname-for-secondary-image.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction

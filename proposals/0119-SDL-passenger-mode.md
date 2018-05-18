@@ -2,36 +2,54 @@
 
 * Proposal: [SDL-0119](0119-SDL-passenger-mode.md)
 * Author: [Brett McIsaac](https://github.com/brettywhite)
-* Status: **Withdrawn**
-* Impacted Platforms: iOS, Android
+* Status: **Accepted with Revisions**
+* Impacted Platforms: iOS, Android, Core, RPC
 
 ## Introduction
 
-Allow a passenger to dismiss the lockscreen to improve usability of applications.
+Allow a passenger to dismiss the lock screen to improve usability of applications. This re-visited proposal now includes a way for individual OEMs to control this mode via policy updates.
 
 ## Motivation
 
-Having used SDL extensively, passengers of SDL enabled vehicles may find it frustrating to be locked out of in-app UI while the vehicle is in motion. SDL, for safety purposes, uses a boolean based on the vehicle's speed to enable or disable the lock screen. While this logic is good when there is only the driver in the vehicle, it is prohibitive when others are in the vehicle, forcing users to abandon their use of SDL in favor of Carplay, Android Auto, or Bluetooth. Other platforms currently allow this, with Carplay's lock screen being dismissible and Apple's *I'm not driving* action sheet being added in iOS 11.
+Having used SDL extensively, passengers of SDL enabled vehicles may find it frustrating to be locked out of in-app UI while the vehicle is in motion. SDL, for safety purposes, uses a boolean based on the vehicle's speed to enable or disable the lock screen. While this logic is good when there is only the driver in the vehicle, it is prohibitive when others are in the vehicle, forcing users to abandon their use of SDL in favor of Carplay, Android Auto, or Bluetooth. Other platforms currently allow this, with Carplay's lock screen being dismissible and Apple's *I'm not driving* action sheet being added in iOS 11. More recently, Android Auto has made dismissing their lock screen even easier and more prominent.
 
 Additionally, this functionality would benefit app developers, allowing access to their UI by a passenger of a vehicle while maintaining the lock screen for the driver. 
 
 ## Proposed solution
 
-The proposed solution is to have a button in the default lock screen that certifies that the user *is not driving*.
+Modify the `OnDriverDistraction` notification:
 
-> "I am not driving"
+```xml
+<function name="OnDriverDistraction" messagetype="notification">
 
-This will disable the lockscreen, and for the remainder of that app's session, allow the app to discard distracted driver `DD_On` or `DD_Off` notifications from Core. This will allow access to the application's UI while allowing the features of SDL to be used in the vehicle.
+  <!-- newly added parameter -->
+  <param name="lockScreenDismissalEnabled" type="Boolean" mandatory="false">
+    <description>
+      If enabled, the lock screen will be able to be dismissed while connected to SDL, allowing users 
+      the ability to interact with the app. Dismissals should include a warning to the user and ensure 
+      that they are not the driver.
+    </description>
+  </param>
+
+</function>
+```
+
+### Part 1 - Core
+
+In addition to modifying the notification as shown above, there needs to be an addition to the policy table that feeds into that notification. This way, the OEM can update the ability to allow / disallow this with an update to their policy table. 
+
+### Part 2 - Proxy
+
+In addition to modifying the notification, the proposed solution is to have a swipe up gesture to dismiss the lock screen, similar to Android Auto. This will be allowed if `lockScreenDismissalEnabled` is set to `true`, and hidden if set to `false`. If a subsequent notification is received, the lockscreen will re-appear.
 
 ## Potential downsides
 
-Driver distraction is an issue, and there is always the ability for the driver to certify that *they aren't driving*. However, with this certification by the driver, they are pushing the liability onto themselves, similar to them using a phone while in the car regardless of the software that the head unit is running. There are slightly more complicated ways of ensuring this, that I will go over in Alternatives. 
+Driver distraction is an issue, and there is always the ability for the driver to certify that *they aren't driving*. However, with this certification by the driver, they are pushing the liability onto themselves, similar to them using a phone while in the car regardless of the software that the head unit is running. The OEM also has the ability to not allow this or change it based on policies allowing flexibility in countries where laws may be different.
 
 ## Impact on existing code
 
-This should be a minor version change, it would be adding additional parameters to existing APIs.
+This should be a minor version change.
 
 ## Alternatives considered
 
-1. If the certification button is not enough, we can allow apps the specific ability to `getBeltStatus()` without needing special permission. As this is currently part of the `GetVehicleDataResponse`, thought would be needed to ensure all apps have access to this information. From there, if there is indeed a passenger or other riders, the passenger button would appear on the lockscreen and allow access to the app while the vehicle is in motion. While this is more complicated, it futher ensures that the driver cannot override the system as easily. 
-
+The alternative to using the policy table would be to set the true or false in the ini, however this would be less flexible in pushing updates in the future should the OEM change their mind and / or a law forces them to change. 
