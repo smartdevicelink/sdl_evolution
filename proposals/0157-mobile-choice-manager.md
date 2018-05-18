@@ -44,24 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-```objc
-NS_ASSUME_NONNULL_BEGIN
-
-// The SDLChoiceCellGroup is used for creating a "static" choice set with cells uploaded and presented as a group, as opposed to a choice set which uses individual cells preloaded as an array. Those are uploaded and can be presented "dynamically," that is, mixed and matched.
-@interface SDLChoiceCellGroup
-
-@property (copy, nonatomic, readonly) NSString *name;
-
-// Unlike "dynamically" uploading, this can be greater than 100 items, **but** all items must be used as a group and can never be mixed and matched.
-@property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *choices;
-
-- (instancetype)initWithName:(NSString *)name choices:(NSArray<SDLChoiceCell *> *)choices;
-
-@end
-
-NS_ASSUME_NONNULL_END
-```
-
 ### Choice Set
 
 A choice set is "presented" using the ScreenManager.
@@ -88,10 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic, readonly) id<SDLChoiceSetDelegate> delegate;
 @property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *choices;
 
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choiceGroupName:(NSString *)groupName;
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choiceGroupName:(NSString *)groupName;
-
-- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choices:(NSArray<SDLChoiceCellPrimaryText *> *)choices;
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeout:(NSTimeInterval)timeout choices:(NSArray<SDLChoiceCell *> *)choices;
 
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt choices:(NSArray<SDLChoiceCell *> *)choices;
@@ -114,10 +93,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoiceCell *)choice withSource:(SDLTriggerSource)source;
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveError:(NSError *)error;
 
-@optional
-// If not implemented, defaults to none
-- (NSArray<SDLChoiceCell *> *)shouldDeleteChoiceCells:(NSArray<SDLChoiceCell *> *)presentedCells;
-
 @end
 
 NS_ASSUME_NONNULL_END
@@ -129,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SDLKeyboardDelegate<NSObject>
 
 // This will be sent upon ENTRY_SUBMITTED or ENTRY_VOICE
-- (void)userDidSubmitInput:(NSString *)inputText withSource:(SDLTriggerSource *)source;
+- (void)userDidSubmitInput:(NSString *)inputText withEvent:(SDLKeyboardEvent *)source;
 
 // This will be sent if the keyboard event ENTRY_CANCELLED or ENTRY_ABORTED is sent
 - (void)userDidCancelInputWithReason:(SDLKeyboardEvent)event;
@@ -139,7 +114,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLKeyboardProperties *)customKeyboardConfiguration;
 
 // This will be sent upon KEYPRESS to update KeyboardProperties.autoCompleteText
-- (NSString *)updateAutocompleteWithInput:(NSString *)currentInputText;
+- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(void (^nonnull)(NSString *updatedAutocompleteText))completionHandler;
+
+// This will be sent upon KEYPRESS to update KeyboardProperties.limitedCharacterSet
+-(void)updateCharacterSetWithInput:(NSString *)currentInputText completionHandler:(void (^nonnull)(NSArray<NSString *> *updatedCharacterSet))completionHandler;
+
+// This will be sent for any event that occurs with the event and the current input text
+- (void)keyboardDidSendEvent:(nonnull SDLKeyboardEvent)event text:(nullable NSString *)currentInputText;
 
 @end
 
@@ -166,13 +147,12 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
 // This can only take up to 100 items, if more are passed the completion handler will be called with an error
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler;
-- (void)preloadChoiceGroup:(SDLChoiceGroup *)group withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler;
 - (void)deleteChoices:(NSArray<SDLChoiceCell *> *)preloadedChoiceKeys;
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
 - (void)presentChoiceSet:(SDLChoiceSet *)set mode:(SDLInteractionMode)mode;
 
-- (void)presentKeyboardWithDelegate:(id<SDLKeyboardDelegate>)delegate;
+- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
 
 ...
 
@@ -181,15 +161,19 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
 ### Caching Dynamic Choice Sets
 
-When dynamic choice sets are uploaded, one choice set will be created per choice. These will be left on the head unit unless the developer returns YES in the `shouldDeleteChoiceCells:` method after presentation, or if `deleteChoices` is called with the key. If the developer returns YES to `shouldDeleteChoiceCells:`, then all of the choices and artworks (unless persistant) will be deleted once the selection is made and complete. If the developer returns NO (or doesn't implement the delegate method), then the choices and artworks will remain. If the developer attempts another dynamic choice set containing an `SDLChoiceSet` with the same primary text (the key), the choice will be reused. If the same artwork is used (but not the same text), the image on the head unit will be reused.
+When dynamic choice sets are uploaded, one choice set will be created per choice. These will be left on the head unit until the developer calls `deleteChoices:`. If the developer calls that method, all of the choices and artworks (unless persistant) will be deleted. If the developer attempts another dynamic choice set containing an `SDLChoiceSet` with the same hashed information, the choice will be reused. If the same artwork is used (but not the same text), the image on the head unit will be reused.
 
 ### Automatic IDs
 
 Choice & Choice Set IDs will be intelligently assigned and reused automatically.
 
+### Optional Choice VRs
+
+Some head units break from the RPC spec and allow Choice voice recognition phrases to be optional, and in the future they should be optional for everyone. To assist with this, the choice set manager, upon first HMI FULL, will send a placeholder `ChoiceCell` without any VR attached. If the head unit accepts this cell, future choices without VR will be allowed to pass without VR. This cell will then be used for keyboard presentations, which require a choice. If the head unit rejects this cell, a new cell with a VR attached will be sent to be used for keyboard presentations, and future choices without VR will be given a placeholder VR matching their place in the presented list.
+
 ## Potential downsides
 
-The author cannot think of any downsides. This use-case has been streamlined and simplified significantly, but the interface is still relatively complex, and the implementation will necessarily be so as well.
+This use-case has been streamlined and simplified significantly, but the interface is still relatively complex, and the implementation will necessarily be so as well. There will be fewer options available to developers with the removal of the ability to have "static" choice sets, and there will be additional data sent over the wire to have dynamic choice sets.
 
 ## Impact on existing code
 
