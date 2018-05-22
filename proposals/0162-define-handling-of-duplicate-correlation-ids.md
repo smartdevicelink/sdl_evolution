@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0162](0162-define-handling-of-duplicate-correlation-ids.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / Protocol]
 
 ## Introduction

@@ -25,13 +25,16 @@ The proposed mechanism is detailed below:
 	1. construct the `vrHelp` parameter using the data from the list SDL Core internally created.
   	2. construct the `helpPrompt` parameter using the data from the list SDL Core internally created.
   	3. then send these parameters to the HMI via the `SetGlobalProperties` RPC.
-5. If after SDL Core sends the `SetGlobalProperties` RPC, applications sends further AddCommand/DeleteCommand requests then SDL Core shall send `SetGlobalProperties` with the updated parameters.(The full list of parameters needs to be sent and not just the recently added one).
+5. If the timer times out and mobile application does not send SetGlobalProperties and AddCommand requests SDL shall:
+	1. construct the vrHelp parameter using default data from .ini file, e.g. "Unfortunately application has no available commands".
+  	2. construct the helpPrompt parameter using the default data from .ini file, e.g. "Please speak one of the following commands".
+  	3. then send these parameters to the HMI via the `SetGlobalProperties` RPC.
+6. If after SDL Core sends the `SetGlobalProperties` RPC, the application sends further AddCommand/DeleteCommand requests then SDL Core shall send `SetGlobalProperties` with the updated parameters.(The full list of parameters needs to be sent and not just the recently added one).
 The limitation for processing AddCommand and providing updated values of "vrHelp" and "helpPrompt" to HMI until the mobile application sends SetGlobalProperties request is 30.
 Update values of "vrHelp" and "helpPrompt" via TTS UI.SetGlobalProperties to HMI only by receiving AddCommand with CommandType = Command. AddCommand requests related to choice set must not trigger the update of "vrHelp" and "helpPrompt" values.
-6. If at any point in time, the applications sends `SetGlobalProperties` RPC with the `vrHelp` **and** `helpPrompt` parameters, then SDL Core shall continue with the existing behavior of forwarding such requests to HMI and SDL Core shall delete its internal list and stop sending `SetGlobalProperties` RPC to HMI after each AddCommand/DeleteCommand requests received from mobile.
-
-7. If at any point in time, the applications sends `SetGlobalProperties` RPC with **either** of `vrHelp` **or** `helpPrompt` parameters, then SDL Core shall continue with the existing behavior of forwarding such requests to HMI and SDL Core shall not delete its internal list and shall continue to update the parameter which was not provided by the application.
-8. The same process shall be followed during application resumption as well.
+7. If at any point in time, the application sends `SetGlobalProperties` RPC with the `vrHelp` **and** `helpPrompt` parameters, then SDL Core shall continue with the existing behavior of forwarding such requests to HMI and SDL Core shall delete its internal list and stop sending `SetGlobalProperties` RPC to HMI after each AddCommmand/DeleteCommand request received from mobile.
+8. If at any point in time, the application sends `SetGlobalProperties` RPC with **either** of `vrHelp` **or** `helpPrompt` parameters, then SDL Core shall continue with the existing behavior of forwarding such requests to HMI and SDL Core shall not delete its internal list and shall continue to update the parameter which was not provided by the application.
+9. The same process shall be followed during application resumption as well.
 
 Note:
 10 second timer:

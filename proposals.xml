@@ -104,8 +104,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0092" status="implemented" primary-platform="core" sdl-version="4.5" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
 <proposal id="0093" status="implemented" primary-platform="android" sdl-version="4.4" name="Haptic Projection" filename="0093-haptic-projection.md"/>
 <proposal id="0094" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
-<proposal id="0095" status="returned" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
-<proposal id="0096" status="accepted" primary-platform="core" sdl-version="x.x" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
+<proposal id="0095" status="active" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
+<proposal id="0096" status="implemented" primary-platform="core" sdl-version="5.0" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
 <proposal id="0097" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
 <proposal id="0098" status="accepted" primary-platform="mobile" sdl-version="x.x" name="SDL Localization" filename="0098-localization.md"/>
 <proposal id="0099" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New remote control modules (LIGHT, AUDIO, HMI_SETTINGS) and parameters (SIS Data)" filename="0099-new-remote-control-modules-and-parameters.md"/>
@@ -165,17 +165,23 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0152" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
 <proposal id="0153" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
 <proposal id="0154" status="accepted" primary-platform="core" sdl-version="x.x" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
-<proposal id="0155" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
-<proposal id="0156" status="deferred" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
-<proposal id="0157" status="active" primary-platform="mobile" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
+<proposal id="0155" status="implemented" primary-platform="ios" sdl-version="6.0" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
+<proposal id="0155" status="accepted" primary-platform="android" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
+<proposal id="0156" status="active" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
+<proposal id="0157" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
 <proposal id="0158" status="active" primary-platform="core" sdl-version="x.x" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
 <proposal id="0159" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
 <proposal id="0160" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control Radio Parameter Update" filename="0160-rc-radio-parameter-update.md"/>
 <proposal id="0161" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Remove SmartDeviceLink Cordova plugin" filename="0161-remove-sdl-cordova.md"/>
-<proposal id="0162" status="active" primary-platform="protocol" sdl-version="x.x" name="Define Handling of Duplicate Correlation IDs" filename="0162-define-handling-of-duplicate-correlation-ids.md"/>
-<proposal id="0163" status="active" primary-platform="rpc" sdl-version="x.x" name="Make spaceAvailable field non-mandatory" filename="0163-make-spaceavailable-field-non-mandatory.md"/>
-<proposal id="0164" status="active" primary-platform="core" sdl-version="x.x" name="Modernize Ubuntu Support" filename="0164-modernize-ubuntu-support.md"/>
-<proposal id="0165" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control – Lights – More Names and Status Values" filename="0165-rc-lights-more-names-and-status-values.md"/>
+<proposal id="0162" status="accepted" primary-platform="protocol" sdl-version="x.x" name="Define Handling of Duplicate Correlation IDs" filename="0162-define-handling-of-duplicate-correlation-ids.md"/>
+<proposal id="0163" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Make spaceAvailable field non-mandatory" filename="0163-make-spaceavailable-field-non-mandatory.md"/>
+<proposal id="0164" status="implemented" primary-platform="core" sdl-version="5.0" name="Modernize Ubuntu Support" filename="0164-modernize-ubuntu-support.md"/>
+<proposal id="0165" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control – Lights – More Names and Status Values" filename="0165-rc-lights-more-names-and-status-values.md"/>
+<proposal id="0166" status="accepted" primary-platform="android" sdl-version="x.x" name="Use Android Annotations Library" filename="0166-use-android-annotations-library.md"/>
+<proposal id="0167" status="active" primary-platform="core" sdl-version="x.x" name="App Services" filename="0167-app-services.md"/>
+<proposal id="0168" status="accepted" primary-platform="core" sdl-version="x.x" name="RPC design refactoring" filename="0168-rpc-design-refactoring.md"/>
+<proposal id="0169" status="active" primary-platform="core" sdl-version="x.x" name="Arguments initialText and hintText for SDL Keyboard" filename="0169-initial-and-hint-text-for-keyboard.md"/>
+<proposal id="0170" status="active" primary-platform="rpc" sdl-version="x.x" name="SDL behavior in case of LOW_VOLTAGE event" filename="0170-sdl-behavior-in-case-of-Low-Voltage_mqueue.md"/>
 
 	
 <!--

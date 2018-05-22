@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0164](0164-modernize-ubuntu-support.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction

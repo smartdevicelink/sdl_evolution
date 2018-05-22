@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0163](0163-make-spaceavailable-field-non-mandatory.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [RPC]
 
 ## Introduction
