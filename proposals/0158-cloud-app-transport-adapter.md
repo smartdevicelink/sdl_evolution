@@ -184,7 +184,7 @@ CloudAppRetryTimeout = 1000
 CloudAppMaxRetryAttempts = 5
 ```
 
-While Core is attempting to retry opening the websocket connections, Core will send the HMI an UpdateAppList RPC with the HMIApplication CloudConnectionStatus enum of "CONNECTING". The HMI may choose how it wants to display to the user that connection attempts to the cloud app are ongoing.
+While Core is attempting to retry opening the websocket connections, Core will send the HMI an UpdateAppList RPC with the HMIApplication CloudConnectionStatus enum of "RETRY". The HMI may choose how it wants to display to the user that connection attempts to the cloud app are ongoing.
 
 If the CloudAppMaxRetryAttempts value is reached, Core will stop attempting to open the websocket connection and send an UpdateAppList RPC with the HMIApplication CloudConnectionStatus enum of "NOT_CONNECTED". Future connection attempts can be initiated by the user if they activate the app again.
 
