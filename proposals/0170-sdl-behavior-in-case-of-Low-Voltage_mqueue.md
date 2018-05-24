@@ -19,7 +19,7 @@ When battery voltage hits below the predefined threshold set by the system (e.g.
 
 ## Proposed solution
 
-Since SDL operations are to be halted including receiving and processing of normal RPC messages from HMI, it is proposed to setup a separate communication medium such as a message queue between HMI and SDL to exchange shutdown and wakeup signals.
+Since SDL operations are to be halted including receiving and processing of normal RPC messages from HMI, it is proposed to setup a separate communication medium such as a message queue between HMI and SDL to exchange shutdown and wake-up signals.
 In case SDL receives a "LOW_VOLTAGE" message via message queue, SDL must stop any read/write activities until SDL receives a "WAKE_UP" message via the message queue.  
 
 During LOW_VOLTAGE state the following behavior is proposed:
@@ -38,30 +38,28 @@ SDL resumes its regular work after receiving a "WAKE_UP" message:
 
 ## Details of implementation  
 
-To implement changes in SDL regarding LOW_VOLTAGE event it is proposed to add a message queue channel of communication between HMI and SDL.
+To implement changes in SDL regarding LOW_VOLTAGE event it is proposed to use UNIX signals for communication between HU system and SDL.
+Unix signals provide ability to use signals from SIGRTMIN to SIGRTMAX for custom needs. SDL may use this range for handling
+ `LOW_VOLTAGE`, `WAKE_UP`, `IGNITION_OFF` notifications. 
 
-Mqueue name can be specified in smartdevicelink.ini file:
+In ini file may be defined offset for from SIGRTMIN from this notifications : 
 ```
 [MAIN] 
-; Message queue name used by SDL for handling LOW_VOLTAGE functionality
-SDLMessageQueueName = /SDLMQ
+LowVoltageSignal = 1 ; Offset for from SIGRTMIN
+WakeUpSignal = 2 ; Offset for from SIGRTMIN
+IgnitionOffSignal = 2 ; Offset for from SIGRTMIN
+```
 
-```  
-By default mqueue name for handling LOW_VOLTAGE functionality is: /SDLMQ
-
-Message queue signals value:  
-
-|Signal name|Value(string)|
-|:---|:---| 
-|LOW_VOLTAGE|"LOW_VOLTAGE"|
-|WAKE_UP|"WAKE_UP"|
-|IGNITION_OFF|"IGNITION_OFF"|
+OEM manufacturer may redefine this signals or expand it for custom needs.
 
 ## Potential downsides  
 
-Major requirements for OEM manufacturers (additional channel of communication is needed) 
+No ability to get response from SDL using this communication type.
 
 ## Alternatives considered  
 
-Using existing Web Socket transport, adding new RPCs in HMI_API to implement new logic for triggering "frozen" mode.
+ - Using existing Web Socket transport, adding new RPC's in HMI_API to implement new logic for triggering "frozen" mode, but in this case SDL should not freeze listening and processing messaged from HMI, that cause high power usage.
+ - Using additional lightweight transport (mqueue) for sending `LOW_VOLTAGE`, `WAKE_UP`, `IGNITION_OFF` notifications, but it significantly increase complexity of porting SDL on custom OEM platforms and adds additional requirement for OEM manufacturer.
+ - Using SIGSTOP/SIGCONT standard UNIX signals for `LOW_VOLTAGE`, `WAKE_UP` notifications, but there is no way to Send IGNITION notification after SIGSTOP. 
+
 
