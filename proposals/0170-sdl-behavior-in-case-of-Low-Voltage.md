@@ -1,6 +1,6 @@
 # SDL behavior in case of LOW_VOLTAGE event
 
-* Proposal: [SDL-0170](0170-sdl-behavior-in-case-of-Low-Voltage_mqueue.md)
+* Proposal: [SDL-0170](0170-sdl-behavior-in-case-of-Low-Voltage.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / Web / RPC]
@@ -19,19 +19,19 @@ When battery voltage hits below the predefined threshold set by the system (e.g.
 
 ## Proposed solution
 
-Since SDL operations are to be halted including receiving and processing of normal RPC messages from HMI, it is proposed to setup a separate communication medium such as a message queue between HMI and SDL to exchange shutdown and wake-up signals.
-In case SDL receives a "LOW_VOLTAGE" message via message queue, SDL must stop any read/write activities until SDL receives a "WAKE_UP" message via the message queue.  
+Since SDL operations are to be halted including receiving and processing of normal RPC messages from HMI, it is proposed to use system signals to exchange shutdown and wake-up signals between HMI and SDL Core. 
+In case SDL receives a "LOW_VOLTAGE" signal, SDL must stop any read/write activities until SDL receives a "WAKE_UP" signal.  
 
 During LOW_VOLTAGE state the following behavior is proposed:
 * SDL ignores all the requests from mobile applications without providing any kind of response
-* SDL ignores all responses and messages from HMI except messages for "WAKE_UP" or "IGNITION_OFF"
+* SDL ignores all responses and messages from HMI except signals for "WAKE_UP" or "IGNITION_OFF"
 * SDL stops audio/video streaming services
 * All transports are unavailable for SDL
-* SDL persists resumption related data stored before receiving a "LOW_VOLTAGE" message
+* SDL persists resumption related data stored before receiving a "LOW_VOLTAGE" signal
 * SDL and the PoliciesManager must persist 'consumer data' (resumption-related + local PT) periodically and independently of the external events
 
-SDL resumes its regular work after receiving a "WAKE_UP" message:
-* After receiving a "WAKE_UP" message, all applications will be unregistered and the device disconnected
+SDL resumes its regular work after receiving a "WAKE_UP" signal:
+* After receiving a "WAKE_UP" signal, all applications will be unregistered and the device disconnected
 * If "LOW_VOLTAGE" was received at the moment of writing to policies database, SDL and Policies Manager must keep policies database correct and working. After "WAKE_UP" policy database reflects the last known correct state.
 * SDL must be able to start up correctly in the next ignition cycle after it was powered off in low voltage state  
 
