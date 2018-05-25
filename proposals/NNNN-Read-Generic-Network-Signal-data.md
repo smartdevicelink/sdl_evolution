@@ -150,7 +150,7 @@ Head unit, would in turn GET/SUBCRIBE/UNSUBSCRIBE the vehicle data from underlyi
 
 In case of successful subscription, mobile app will receive periodic updates for requested vehicle data through OnGenericNetworkData notification.
 * Response will contain an array of network data. Network data element in the array will contain "id" (which mobile app had set while requesting for data) and value of the vehicle data.
-* Mobile app will be responsible for decoding the String value of vehicle data in to usable form by applying conversions as defined by OEM proprietary spec sheet for corresponding vehicle data.
+* Mobile app will be responsible for decoding the String value of vehicle data into a usable form by applying conversions as defined by OEM proprietary spec sheet for corresponding vehicle data.
 * Response will also contain an optional “info” field. This field contains additional human readable information regarding the request/response
 
 ```
@@ -286,7 +286,7 @@ SDL needs to track requests by NetworkDataIdentifier per app and work through th
 </struct>
 ```
 
-The reason we did not choose this approach is that this will need changes to "exiting behavior" of GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData. E.g.:
+The reason we did not choose this approach is that this will need changes to the "exiting behavior" of GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData. E.g.:
 * Need to change the behavior to NOT send Ignore response when multiple Subscribe requests are sent for param “networkDataRequest”
 * All existing params are of type Boolean, this new param will need to be structure.
 * Addition of new response structure “networkData”
