@@ -11,8 +11,8 @@ To enable OEM proprietary mobile apps to read raw CAN/Network data by specifying
 
 ## Motivation
 
-* Vehicles are getting more capable now than ever with advanced sensors and connectivity options. This generates tremendous amount of usable data for mobile apps in connectivity and mobility solutions domain. In order to keep up with varying demand and changing trends, SDL needs to be able to upscale   with access to new vehicle data parameters without having to wait for lengthy software build cycle for head units.
-* Right now, we have finite set of vehicle data params, even though the underlying implementation at head unit side can potentially provide more than currently defined in API. With this new implementation, we can tap in to that potential and can get access to more vehicle data elements, as it would be possible to read all the available vehicle data.
+* Vehicles are getting more capable now than ever with advanced sensors and connectivity options. This generates tremendous amount of usable data for mobile apps in connectivity and mobility solutions domain. In order to keep up with varying demand and changing trends, SDL needs to be able to upscale with access to new vehicle data parameters without having to wait for a lengthy software build cycle for head units.
+* Right now, we have a finite set of vehicle data params, even though the underlying implementation at head unit side can potentially provide more than currently defined in API. With this new implementation, we can tap in to that potential and can get access to more vehicle data elements, as it would be possible to read all the available vehicle data.
 
 ## Proposed solution
 
@@ -24,7 +24,7 @@ Solution is to provide a Generic RPC, which can GET/SUBSCRIBE/UNSUBSCRIBE to any
 * Mobile App can pick from three modes:
   * GET		: Used for one time request to read current state/value of vehicle data
   * SUBSCRIBE	: Used to receive updates to vehicle data for the period of subscription
-  * UNSUBSCRIBE: Used to stop the updated to vehicle data which was subscribed earlier
+  * UNSUBSCRIBE: Used to stop the updates to vehicle data which was subscribed earlier
 
 **Request XML:**
 ```
@@ -82,7 +82,7 @@ Head unit, would in turn GET/SUBCRIBE/UNSUBSCRIBE the vehicle data from underlyi
   * SUBSCRIBE	: Result code in this mode represents if Subscribe operation is successful or not
   * UNSUBSCRIBE: Result code in this mode represents if Unsubscribe operation is successful or not
 * Response will contain an array of network data. Network data element in the array will contain "id" (which mobile app had set while requesting for data) and value of the vehicle data.
-* Mobile app will be responsible for decoding the String value of vehicle data in to usable form by applying conversions as defined by OEM proprietary spec sheet for corresponding vehicle data.
+* Mobile app will be responsible for decoding the String value of requested data into a usable form by applying conversions as defined by OEM proprietary spec sheet for corresponding vehicle data.
 * Response will also contain an optional “info” field. This field contains additional human readable information regarding the request/response
 
 **Response XML:**
@@ -286,7 +286,7 @@ SDL needs to track requests by NetworkDataIdentifier per app and work through th
 </struct>
 ```
 
-The reason we did not choose this approach is that this will need changing to exiting behavior of GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData. E.g.:
+The reason we did not choose this approach is that this will need changes to "exiting behavior" of GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData. E.g.:
 * Need to change the behavior to NOT send Ignore response when multiple Subscribe requests are sent for param “networkDataRequest”
 * All existing params are of type Boolean, this new param will need to be structure.
 * Addition of new response structure “networkData”
