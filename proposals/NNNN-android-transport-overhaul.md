@@ -47,11 +47,17 @@ The `WiProProtocol` instance needs to be moved away from the transport layer. It
 
 This will be the new bridge between the transports and the `SdlSession`. All the data gathered and delivered to the library will be passed to the `SdlSession`. This way, the `SdlSession` can decide where packets should go in logical blocks instead of the transport layer.
 
-### All Transports to Router Service
+#### All Transports to Router Service
 
 The next piece required for this refactor will be to move all the transport connections into the `SdlRouterService`. This is a logical step for AOA as discussed earlier. At that point 2 out of 3 transports would be already located in the router service. This means transport switching and the ability to use primary and secondary transports will already need to exist in the router service. Therefore, we should remove redundant logic and reduce the scope of transport classes outside of the router service. The only way this can be accomplished is by also moving the TCP transport.
 
+#### ForceOnConnect Removal
 
+The `ForceOnConnect` extra will no longer be used so the logic for it can be removed. This piece of integration has always been extra clutter and very error prone. It's removal from necessity will make the library more stable.
+
+#### AOA Multiplexing
+
+A new USB transport discussed later, will be implemented into the `SdlRouterService`. This will allow all apps to connect through the USB transport when it is available. 
 
 
 ### Simultaneous Transport Modifications 
