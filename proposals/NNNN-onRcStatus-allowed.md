@@ -47,7 +47,7 @@ None
 
 ## Impact on existing code
 
-- Mobile RPC need updated with a new parameter.
+- Mobile RPC needs to be updated with a new parameter.
 - SDL core and mobile proxy lib need updates to support this new parameter.
 
 ## Alternatives considered
