@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is for synching up the Android SDL library with the iOS library in terms of developer facing APIs. It accomplishes this by introducing a high level developer interface for the Android library through managers. It handles many complex aspects of SDL development, including managing files and setting information on the screen. It also creates a system in which other managers can be easily added in the future to handle tasks. Many aspects of this system are mirrored from the iOS manager system and are designed to be as close as possible to that API while maintaining common Java and Android paradigms. 
+This proposal is for syncing up the Android SDL library with the iOS library in terms of developer facing APIs. It accomplishes this by introducing a high level developer interface for the Android library through managers. It handles many complex aspects of SDL development, including managing files and setting information on the screen. It also creates a system in which other managers can be easily added in the future to handle tasks. Many aspects of this system are mirrored from the iOS manager system and are designed to be as close as possible to that API while maintaining common Java and Android paradigms. 
 
 ## Motivation
 
