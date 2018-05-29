@@ -286,7 +286,7 @@ SDL needs to track requests by NetworkDataIdentifier per app and work through th
 </struct>
 ```
 
-The reason we did not choose this approach is that this will need changes to the "exiting behavior" of GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData. E.g.:
+The reason we did not choose this approach is that this will need changes to the existing behavior of GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData. E.g.:
 * Need to change the behavior to NOT send Ignore response when multiple Subscribe requests are sent for param “networkDataRequest”
 * All existing params are of type Boolean, this new param will need to be structure.
 * Addition of new response structure “networkData”
