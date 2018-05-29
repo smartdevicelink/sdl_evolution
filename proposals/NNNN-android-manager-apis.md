@@ -1,7 +1,7 @@
 # Android Manager APIs
 
 * Proposal: [SDL-NNNN](NNNN-android-manager-apis.md)
-* Author: [Bretty White](https://github.com/brettywhite), [Bilal Alsharifi](https://github.com/bilal-alsharifi), [Joey Grover](https://github.com/joeygrover)
+* Author: [Brett McIsaac](https://github.com/brettywhite), [Bilal Alsharifi](https://github.com/bilal-alsharifi), [Joey Grover](https://github.com/joeygrover)
 * Status: **Awaiting Review**
 * Impacted Platforms: Android
 
@@ -18,7 +18,7 @@ In order to work with SDL, app developers are required to learn a new API that i
    - Manually handling the majority of RPC notifications, requests and responses
    - Manually managing concurrent and sequential operations (e.g. image upload before on screen show)
 
-The learning curve for an app developer to understand SDL for Android is high and the knowledge is specific to the platform. Development time becomes increased by the necessary boiler plate logic needed to perform common actions. This also introduces a higher probability of error prone code. This proposal aims to fix that by handling much of the complex logic through managers which.
+The learning curve for an app developer to understand SDL for Android is high and the knowledge is specific to the platform. Development time becomes increased by the necessary boiler plate logic needed to perform common actions. This also introduces a higher probability of error prone code. This proposal aims to fix that by handling much of the complex logic through managers which exposes simpler, easier to understand APIs.
 
 ## Proposed Solution
 
@@ -36,7 +36,7 @@ The new manager system is managed by a class called `SdlManager`. The `SdlManage
 
 ##### SdlManager
 
-The SDL manager will be the main, developer-facing class that will be instantiated to handle lifecycles, submanagers, and any low level API needs. It contains a builder, an ISdl instantiation, and the proxy bridge interface. All submanagers will be created upon instantiation of this manager and their lifecycle controlled by it. 
+The SDL manager will be the main, developer facing class that will be instantiated to handle lifecycles, submanagers, and any low level API needs. It contains a builder, an ISdl instantiation, and the proxy bridge interface. All submanagers will be created upon instantiation of this manager and their lifecycle controlled by it. 
 
 ```java
 public class SdlManager implements ProxyBridge.LifecycleListener {
@@ -115,7 +115,7 @@ This is an abstract class that contains common lifecycle elements and methods be
 ```java
 public abstract class BaseSubManager {
 
-	// allows better handling of sub managers by maintaining their states
+	// allows better handling of submanagers by maintaining their states
 	public enum ManagerState {
 		SETTING_UP,
 		READY,
@@ -151,7 +151,7 @@ public abstract class BaseSubManager {
 
 #### LockScreenManager (and default lock screen)
 
-The lockscreen manager maintains the base logic as the previous lockscreen manager, but also adds in key functionality that was missing previously. New items include a default lockscreen (layout and activity) and the ability to customize that default lockscreen layout. Apps are also able to pass in custom layouts or disable it completely and roll their own.
+The lockscreen manager maintains the same base logic as the previous lockscreen manager, but also adds in key functionality that was missing previously. New items include a default lockscreen (layout and activity) and the ability to customize that default lockscreen layout. Apps are also able to pass in custom layouts or disable it completely and roll their own.
 
 ```java
 public class LockscreenManager extends BaseSubManager {
@@ -196,7 +196,7 @@ The lockscreen manager will instantiate and manage the lockscreen activity and s
 
 #### ScreenManager
 
-This manager closely follows to the previously accepted and implemented iOS manager proposal for [Show Manager](https://github.com/smartdevicelink/sdl_evolution/pull/268), also known as the Screen Manager. It gives the developer the ability to easily manage the items on the screen without having to worry about things such as the special ordering of RPCs needed and reduces a large amount of boiler plate logic.
+This manager closely follows the previously accepted and implemented iOS manager proposal for [Show Manager](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0134-ios-show-manager.md), also known as the Screen Manager. It gives the developer the ability to easily manage the items on the screen without having to worry about things such as the special ordering of RPCs needed and reduces a large amount of boiler plate logic.
 
 ###### Previous Developer Flow
 
@@ -204,12 +204,12 @@ This manager closely follows to the previously accepted and implemented iOS mana
 2. Wait for `ListFiles` response.
 3. If image file is not on module, send `PutFile` of image. 
 4. Wait for `PutFile` response.
-5. Build `Show` with all fields including image parameter
-6. Send `Show` RPC
+5. Build `Show` with all fields including image parameter.
+6. Send `Show` RPC.
 
 ###### New ScreenManager Flow
 
-1. Set field in `ScreenManager`
+1. Set field in `ScreenManager`.
 
 ```java
 public class ScreenManager extends BaseSubManager {
@@ -344,7 +344,7 @@ class SoftButtonState {
 
 ##### TextAndGraphicManager
 
-This submanager is based off and mimics the previously [accepted proposal and implementation for iOS](https://github.com/smartdevicelink/sdl_ios/blob/master/SmartDeviceLink/SDLTextAndGraphicManager.m). This is very similar to the soft button manager as it is a submanager of the screen manager that intends to be non-developer facing. Its purpose is to handle the logic of setting text and artworks. The text setting is dynamic, just as it is in iOS. The complexity of this seemingly simple problem does warrant a specific manager to help scope the code and responsibilities. The merits for this decision were also laid out in the aforementioned proposal and its review. 
+This submanager is based off and mimics the previously [accepted proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0134-ios-show-manager.md) and [implementation ](https://github.com/smartdevicelink/sdl_ios/blob/master/SmartDeviceLink/SDLTextAndGraphicManager.m) for iOS. This is very similar to the soft button manager as it is a submanager of the screen manager that intends to be non-developer facing. Its purpose is to handle the logic of setting text and artworks. The text setting is dynamic, just as it is in iOS. The complexity of this seemingly simple problem does warrant a specific manager to help scope the code and responsibilities. The merits for this decision were also laid out in the aforementioned proposal and its review. 
 
 ```java
 public class TextAndGraphicManager extends BaseSubManager {
@@ -364,7 +364,7 @@ public class TextAndGraphicManager extends BaseSubManager {
 
 #### AudioStreamManager
 
-The `AudioStreamManager` [proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0113-audiostreammanager.md) was already accepted but is included in this proposal as reference to the larger effort towards the high-level manager APIs. Currently the manager handles only basic operations, but in time it might be feasible to perform transcoding of audio formats similar to the iOS implementation, but due to the lack of native APIs this is not included. 
+The `AudioStreamManager` [proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0113-audiostreammanager.md) was already accepted but is included in this proposal as reference to the larger effort towards the high level manager APIs. Currently the manager handles only basic operations, but in time it might be feasible to perform transcoding of audio formats similar to the iOS implementation, but due to the lack of native APIs this is not included. 
 
 ```java
 public class AudioStreamManager extends BaseSubManager implements ISdlServiceListener{
@@ -444,7 +444,7 @@ public class VideoStreamingManager extends BaseSubManager implements ISdlService
 
 #### FileManager
 
-The `FileManager` handles one of the most error prone SDL tasks, managing files uploads, status, and deletion. It is based on a few previously accepted and implemented proposal for the iOS library. This manager will contain a list of remote files that are retrieved on startup, and contains functions for the creating and deleting of files and artwork. It will also make use of our new `CompletionListener` for many of its functions.
+The `FileManager` handles one of the most error prone SDL tasks, managing files uploads, status, and deletion. It is based on a few previously accepted and [implemented proposals](https://github.com/smartdevicelink/sdl_ios/blob/master/SmartDeviceLink/SDLFileManager.m) for the iOS library. This manager will contain a list of remote files that are retrieved on startup, and contains functions for the creating and deleting of files and artwork. It will also make use of our new `CompletionListener` for many of its functions.
 
 ```java
 public class FileManager extends BaseSubManager {
@@ -476,7 +476,7 @@ public class FileManager extends BaseSubManager {
 
 #### PermissionManager
 
-The `PermissionManager` allows the developer to easily query whether an individual permission is allowed or not. It also allows a listener to be added for a list of permissions so that if they are changed, the developer would then be notified. This manager closely mimics that of its iOS counterpart. 
+The `PermissionManager` allows the developer to easily query whether an individual permission is allowed or not. It also allows a listener to be added for a list of permissions so that if they are changed, the developer would then be notified. This manager closely mimics that of its [iOS counterpart](https://github.com/smartdevicelink/sdl_ios/blob/master/SmartDeviceLink/SDLPermissionManager.m). 
 
 ```java
  public class PermissionManager extends BaseSubManager{
@@ -495,7 +495,7 @@ The `PermissionManager` allows the developer to easily query whether an individu
     @IntDef({PERMISSION_GROUP_TYPE_ALL_ALLOWED, PERMISSION_GROUP_TYPE_ANY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface PermissionGroupType {}
-    public static final int PERMISSION_GROUP_TYPE_ALL_ALLOWED = 0;  // Be notified when all of the permission in the group are allowed, or, when they all stop being allowed in some sense, that is, when they were all allowed, and now they are not.
+    public static final int PERMISSION_GROUP_TYPE_ALL_ALLOWED = 0;  // Be notified when all of the permissions in the group are allowed, or, when they all stop being allowed in some sense, that is, when they were all allowed, and now they are not.
     public static final int PERMISSION_GROUP_TYPE_ANY = 1;          // Be notified when any change in availability occurs among the group
 
 
@@ -577,7 +577,7 @@ class PermissionFilter {
 
 #### SDLProxyBridge
 
-The SDLProxyBridge has been implemented to allow the library to bridge from old API's to new. The `SdlManager` will hold an instantiate of this class that is passed to its proxy object. Using the `SdlProxyBase` as our main interface into the old APIs with this bridge the manager API change can be added with only a minor version change. Proxy bridge allows the managers to listen for specific RPCs without having to individually implement `IProxyListenerBase` themselves and having to override all of the response methods like what is currently required.
+The SDLProxyBridge has been implemented to allow the library to bridge from old APIs to new. The `SdlManager` will hold an instantiate of this class that is passed to its proxy object. Using the `SdlProxyBase` as our main interface into the old APIs with this bridge, the manager API change can be added with only a minor version change. Proxy bridge allows the managers to listen for specific RPCs without having to individually implement `IProxyListenerBase` themselves and having to override all of the response methods like what is currently required.
 
 ```java
 public class ProxyBridge implements IProxyListenerBase{
@@ -641,7 +641,7 @@ public SdlFile{
 
 #### CompletionListener
 
-A simple listener with a single method, `onComplete(boolean success)` will be added. It's purpose is simply understand when an asynchronous call int he library was completed, and if it was completed successfully or not. 
+A simple listener with a single method, `onComplete(boolean success)` will be added. Its purpose is simply understand when an asynchronous call in the library was completed, and if it was completed successfully or not. 
 
 ```java 
 public interface CompletionListener {
@@ -655,11 +655,11 @@ public interface CompletionListener {
 
 ### Future Manager Alignment
 
-Future managers, like the recently approved [Menu Manager](https://github.com/smartdevicelink/sdl_evolution/pull/440), and [Choice Set Manager](https://github.com/smartdevicelink/sdl_evolution/pull/453) will now be able to be easily added with this system in place. This means we should no longer experience a large divergence between the iOS and Android library in terms of developer facing APIs.
+Future managers, like the recently approved [Menu Manager](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0155-mobile-menu-manager.md), and [Choice Set Manager](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0157-mobile-choice-manager.md) will now be able to be easily added with this system in place. This means we should no longer experience a large divergence between the iOS and Android library in terms of developer facing APIs.
 
 ### Deprecation and Future Implications
 
-The main goal of this proposal is to create the new developer facing API that is easier to use and understand that the previous version. Once that is established, it will be possible to systematically deprecate and remove or make private old public APIs. Some of the initial classes to be deprecated are listed below.
+The main goal of this proposal is to create the new developer facing API that is easier to use and understand than the previous version. Once that is established, it will be possible to systematically deprecate and remove or make private old public APIs. Some of the initial classes to be deprecated are listed below.
 
 ##### Classes that will be deprecated
 
@@ -670,7 +670,7 @@ The main goal of this proposal is to create the new developer facing API that is
 
 ##### Proxy Replacement
 
-The hopes is that after the manager API is in place, old proxy classes deprecated, a new, simpler, private version of the proxy can be created. This proposal does not intend to flush out those details, but the idea is mentioned here to understand the goal of introducing this large change.
+The hopes is that after the manager API is in place and old proxy classes are deprecated, a new, simpler, private version of the proxy can be created. This proposal does not intend to flesh out those details, but the idea is mentioned here to understand the goal of introducing this large change.
 
 ## Potential Downsides
 
