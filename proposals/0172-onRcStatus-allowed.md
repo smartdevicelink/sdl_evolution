@@ -1,8 +1,8 @@
 # Remote Control - Update OnRCStatus with a new allowed parameter
 
-* Proposal: [SDL-NNNN]( NNNN-onRcStatus-allowed.md)
+* Proposal: [SDL-0172](0172-onRcStatus-allowed.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
