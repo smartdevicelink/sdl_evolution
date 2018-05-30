@@ -1,8 +1,8 @@
 # Read Generic Network Signal data
 
-* Proposal: [SDL-NNNN](NNNN-Read-Generic-Network-Signal-data.md)
+* Proposal: [SDL-0173](0173-Read-Generic-Network-Signal-data.md)
 * Author: [Ankur Tiwari](https://github.com/ATIWARI9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
