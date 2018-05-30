@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0170](0170-sdl-behavior-in-case-of-Low-Voltage_mqueue.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / Web / RPC]
 
 ## Introduction
