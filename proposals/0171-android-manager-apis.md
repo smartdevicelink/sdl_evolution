@@ -1,6 +1,6 @@
 # Android Manager APIs
 
-* Proposal: [SDL-NNNN](NNNN-android-manager-apis.md)
+* Proposal: [SDL-0171](0171-android-manager-apis.md)
 * Author: [Brett McIsaac](https://github.com/brettywhite), [Bilal Alsharifi](https://github.com/bilal-alsharifi), [Joey Grover](https://github.com/joeygrover)
 * Status: **Awaiting Review**
 * Impacted Platforms: Android
