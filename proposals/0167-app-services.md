@@ -599,7 +599,9 @@ Once a service has become the active service provider, the intersection of RPCs 
 
 ###### RPC Response Timeout
 
-The RPC response timeout should have its threshold increased when forwarding a packet to be handled by an app service provider. While processing the initial RPC request, once Core recognizes that the packet is to be forwarded the timeout for the specific request should be increased. 
+The RPC response timeout should have its threshold increased when forwarding a packet to be handled by an app service provider. While processing the initial RPC request, once Core recognizes that the packet is to be forwarded the timeout for the specific request should be increased. The amount of increase should be configurable for each Core implementation through the smartdevicelink.ini file.
+
+If an app service provider does not respond in time and the timeout threshold has been crossed, Core will send the response to the app that sent the request with result code `TIMED_OUT`. If an app service provider responds after the timeout has passed, the response will be dropped.
 
 
 ###### Unknown RPC Params
