@@ -266,7 +266,7 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 
 				
 		<param name="uriPrefix" type="String" mandatory="false"/>
-		<param name="uriActions" type="String" array="true" mandatory="false">
+		<param name="uriActions" type="JSONObject" mandatory="false">
 		
 		<param name="serviceActive" type="Boolean" mandatory="false"/>
 		
@@ -331,12 +331,24 @@ Once the service is published to the module, the module will be responsible for 
 
 
 ```xml
+<enum name="ServiceUpdateReason">
+	 <element name = "PUBLISHED"/>
+	 <element name = "REMOVED"/>
+	 <element name = "ACTIVATED"/>
+	 <element name = "DEACTIVATED"/>
+	 <element name = "MANIFEST_UPDATE"/>
+</enum>
+
+<struct name="AppServiceRecord">
+	<param name="serviceManifest" type="AppServiceManifest" mandatory="true"/>
+	<param name="servicePublished" type="Boolean" mandatory="true"/>
+	<param name="serviceActive" type="Boolean" mandatory="true"/>
+</struct>
+
 <function name="OnAppServiceRecordUpdated" functionID="OnAppServiceRecordUpdatedID" messagetype="notification">
 	<description> This notification includes the data that is updated from the specific service</description>
-	
-	<param name="servicePublished" type="Boolean" mandatory="true"/>
-	<param name="serviceManifest" type="AppServiceManifest" mandatory="true"/>
-	<param name="updateResult" type="Result" mandatory="false"/>
+	<param name="appServiceRecord" type="AppServiceRecord" mandatory="true"/>
+	<param name="updateReason" type="ServiceUpdateReason" mandatory="true"/>
 </function>
 
 ```
@@ -379,7 +391,7 @@ If the app wants to use services published on the device, it must first ensure t
     
 <struct name="AppServicesCapabilities">
 	<param name="supported" type="Boolean" mandatory="true"/>
-   	<param name="appServices" type="AppServiceManifest" array="true" mandatory="false"/>
+   	<param name="appServices" type="AppServiceRecord" array="true" mandatory="false"/>
 </struct>
 
 ```
@@ -511,13 +523,13 @@ When an app service consumer receives an `AppServiceData` object that contains f
 
 App service providers will likely have different actions exposed to the module and app service consumers. It will be difficult to standardize these actions by RPC versions and can easily become stale. Therefore, we introduce a best-effort attempt to take actions on a service. 
 
-The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. the `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. 
+The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. SDL takes no steps to validate an app service provider's action sheet JSON object. In the future, plug in libraries could be added to handle these sheets on a provider by provider bases. 
 
 An app service consumer can also request for this service to become the active service of its respective type. If the app service consumer currently has an HMI state of HMI_FULL this request can be performed without user interaction. If the app is currently not in that state, the HMI should present the user with a choice to allow this app service provider to become the active service of its specified type. If the app service provider is not allowed to become active, the request will not be sent to it and an unsuccessful response will be sent to the requester. 
 
 SDL should make no guarantees that:
 
-1. App service providers offer URI actions
+1. App service providers offer URI prefix and actions sheet
 2. App service providers will correctly respond to the requests
 3. The requested app service provider will become the active service of that type
 4. The `serviceUri` will be correctly formatted from the app service consumer
@@ -582,6 +594,8 @@ Core should be setup in a way that it can handle new services as we create them.
 
 Once a service has become the active service provider, the intersection of RPCs the app service provider supports and the expected supported RPCs based on service type should be sent to the app service provider for processing.
 
+
+![RPC Passthrough](../assets/proposals/0167-app-services/rpc_passthrough.png "RPC Passthrough Example")
 
 ###### RPC Response Timeout
 
