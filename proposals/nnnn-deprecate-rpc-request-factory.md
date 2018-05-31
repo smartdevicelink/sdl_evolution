@@ -24,7 +24,7 @@ Because this is a major change, developers who are currently using the public me
 
 ## Impact on existing code
 
-This will be a major change. The `RPCRequestFactory` will be deprecated to let developers know that its public methods may not be available in future releases. Developers will eventually have to start using the RPC constructors directly instead.
+This will be a major change. The `RPCRequestFactory` will be flagged as deprecated in the next minor release to let developers know that its public methods may not be available in future releases. Developers will then have to use RPC constructors directly after the next major release.
 
 ## Alternatives considered
 
