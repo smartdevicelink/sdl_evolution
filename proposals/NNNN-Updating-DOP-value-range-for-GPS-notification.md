@@ -71,7 +71,7 @@ And to make the hdop, pdop, vdop fields non mandatory for both HMI and Mobile AP
     <param name="actual" type="Boolean" mandatory="false">
     	<description>
     		True, if actual.
-    		False, if infered.
+    		False, if inferred.
     	</description>
     </param>
     <param name="satellites" type="Integer" minvalue="0" maxvalue="31" mandatory="false">
@@ -120,7 +120,7 @@ None
 
 ## Alternatives considered
 
-* Instead of increasing the maxvalue range, the maxvalue can be removed all together
+* Instead of increasing the maxvalue range, the maxvalue can be removed altogether
   *	Not sure if SDL/Proxy would need this value set.
 * To NOT send DOP values from Sensor when Dead Reckoning is being used
   * Data is directly sourced from sensor, so there is no business logic applied to it beforehand.
