@@ -122,6 +122,6 @@ None
 
 * Instead of increasing the maxvalue range, the maxvalue can be removed all together
   *	Not sure if SDL/Proxy would need this value set.
-* To NOT send DOP values from Sensor when DeadReckoning is being used
+* To NOT send DOP values from Sensor when Dead Reckoning is being used
   * Data is directly sourced from sensor, so there is no business logic applied to it beforehand.
   
