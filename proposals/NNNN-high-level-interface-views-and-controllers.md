@@ -30,8 +30,6 @@ A view controller can exist in a set of states. Below flow shows the possible tr
 
 ![view-controller-lifecycle](../assets/proposals/NNNN-high-level-interface-views-and-controllers/view-controller-lifecycle.png)
 
-![view-controller-overview](../assets/proposals/NNNN-high-level-interface-views-and-controllers/view-controller-overview.png)
-
 #### `Init`
 
 View controllers are instantiated when they are pushed to the view controller manager (see subsection *ViewControllerManager* below). For the root view controller it would be instantiated once a connection is established to the head unit (app is registered). In this state there is no view loaded. The app developer should not load data or perform other memory/time intense code at this time.
@@ -57,7 +55,7 @@ The app developer can override this method in order to manipulate view elements 
 
 #### `viewDidAppear`
 
-This method is called after `viewWillAppear` and after the view related RPCs (`Show`, `SetDisplayLayout` etc.) are all performed.
+This method is called after `viewWillAppear`.
 
 #### `viewWillDisappear`
 
@@ -72,7 +70,7 @@ This method is called after `viewWillDisappear`.
 
 ### SDLViewController
 
-The base class provides empty overridable methods in order to load a view or to be notified when a view did load or if it will/did appear/disappear.
+The view controller class is called `SDLViewController`. It implements the view controller and provides the necessary classes for the lifecycle. It's expected that the app developers creates subclasses of this base class.
 
 ```objc
 @interface SDLViewController
@@ -81,9 +79,9 @@ The base class provides empty overridable methods in order to load a view or to 
 
 @property (nonatomic) SDLView *view;
 
-@property (nonatomic, copy) SDLDefaultDisplayLayouts layout; // app developer can pick one default layout
+@property (nonatomic, copy) SDLPredefinedLayout layout;
 
-@property (nonatomic, copy) NSString *customLayout; // in case the head unit supports additional layouts 
+@property (nonatomic, copy) NSString *customLayout;
 
 - (void)loadView;
 - (void)viewDidLoad;
@@ -99,16 +97,39 @@ The base class provides empty overridable methods in order to load a view or to 
 @end
 ```
 
+#### `isViewLoaded`
+
+This property will simply return `YES` if the view controller's view is loaded.
+
+#### `view`
+
+The view controller's view. Can be set by the app developer. By default it is set to a plain view by the default implementation of `loadView`.
+
+#### `layout`
+
+The display layout that should be used while the view controller is presented. It can be set to one of the predefined layouts.
+
+#### `customLayout`
+
+In order to support non-predefined layouts (OEM or custom layouts) the app developer can set the name of the custom template.
+
+#### `showViewController`
+
+Similar to [`UIViewController.showViewController:sender:`](`https://developer.apple.com/documentation/uikit/uiviewcontroller/1621377-showviewcontroller?changes=_2&language=objc`) This method should allow app developer to present another view controller in the primary context. The method is a shortcut to the shared application and the view controller manager. Depending on the manager's mode the method either replaces the current presented view controller or pushes it to the view controller stack (see `SDLModalViewController`).
+
 ### SDLViewControllerManager
 
 A manager for view controllers should be added and used by the `SDLApplication`. The manager should be able to support two different modes: `basic` and `stack`.
 
-The basic mode should simply replace the root view controllers with the view controller the app want's to show next. This will cause the previous view controller to be deallocated to free up memory.
-
-The stack mode should behave similar to [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) providing code to push and pop view controllers within a stack whereby the top view controller is visible on the screen.
-
 ```objc
+typedef NS_ENUM(NSInteger, SDLViewControllerManagerMode) {
+	SDLViewControllerManagerModeBasic,
+	SDLViewControllerManagerModeStack,
+};
+
 @interface SDLViewControllerManager
+
+@property (nonatomic, assign) SDLViewControllerManagerMode mode;
 
 @property (nonatomic, copy) NSArray<SDLViewController *> *viewControllers;
 
@@ -120,6 +141,12 @@ The stack mode should behave similar to [`UINavigationController`](https://devel
 
 @end
 ```
+
+The basic mode should maintain a single view controller instance. If the app developer requests to show a new view controller the manager should drop the old view controller and keep the new one. Technically the `viewControllers` array will always contain a single instance. If this mode is set the shortcut method `SDLViewController.showViewController` will replace the array of the property with the new view controller.
+
+The stack mode should behave similar to [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) providing code to push and pop view controllers within a stack whereby the top view controller is visible on the screen.
+
+The `viewControllers` array should keep all view controller instances pushed to the stack. `rootViewController` points to the first item of this array. `topViewController` to the last item. The method `pushViewController:` can be used by the app developer to push and present a new view controller. As an alternative the method `SDLViewController.showViewController` will use `pushViewController` if the mode `stack` is set.
 
 ### Modal view controllers
 
