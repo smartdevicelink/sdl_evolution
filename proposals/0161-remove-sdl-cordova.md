@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0161](0161-remove-sdl-cordova.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS / Android]
 
 ## Introduction

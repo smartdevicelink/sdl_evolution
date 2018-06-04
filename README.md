@@ -119,13 +119,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Manticore: 1.1.0
-**Release Date**: November 8, 2017
-
-**Contents**: Include enhancements and update to the latest version of Core and the Generic HMI.
-
----
-
 #### iOS SDK: 5.2.0
 **Release Date**: March 27, 2018
 
@@ -147,8 +140,8 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Manticore: 1.2.0
-**Expected Release Date**: May 3, 2018
+#### Manticore: 1.3.0
+**Release Date**: May 1, 2018
 
 **Contents**: Include enhancements and update to the latest version of Core.
 
@@ -168,10 +161,17 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Core: 4.6.0
+#### Core: 5.0.0
 **Expected Release Date**: September 28, 2018
 
-**Contents**: The details of this release are currently being finalized, and this document will be updated once the details have been confirmed.  Contents of this release will be tracked on the [Core 4.6.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/10).
+**Contents**: Contents of this release can be tracked on the [Core 5.0.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/10).
+
+---
+
+#### Manticore: 1.4.0
+**Expected Release Date**: October 26, 2018
+
+**Contents**: Include enhancements and update to the latest version of Core.
 
 ---
 

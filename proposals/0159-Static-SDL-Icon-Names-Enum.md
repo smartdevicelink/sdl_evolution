@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0159](0159-Static-SDL-Icon-Names-Enum.mdd)
 * Author: [Nicole Yarroch](https://github.com/NicoleYarroch)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS, Android
 
 ## Introduction
