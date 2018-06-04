@@ -148,141 +148,9 @@ The stack mode should behave similar to [`UINavigationController`](https://devel
 
 The `viewControllers` array should keep all view controller instances pushed to the stack. `rootViewController` points to the first item of this array. `topViewController` to the last item. The method `pushViewController:` can be used by the app developer to push and present a new view controller. As an alternative the method `SDLViewController.showViewController` will use `pushViewController` if the mode `stack` is set.
 
-### Modal view controllers
-
-Modal view controllers are responsible for overlay related RPCs such as `Alert`, `ScrollableMessage`, `PerformAudioPassThru`, `Slider` or `PerformInteraction`. Implementing overlays as modal view controllers would follow the modal-mode presentation of view controllers such as [`UIAlertController`](https://developer.apple.com/documentation/uikit/uialertcontroller).
-
-Apps can use subclasses of the modal view controller within a regular view controller by calling `presentModalViewController:completion:`.
-
-#### SDLModalViewController
-
-This class would be used as the base class for any overlay related RPC. As it inherits `SDLViewController` it is possible to manipulate the head unit during a modal presentation.
-
-```objc
-@interface SDLModalViewController : SDLViewController
-
-@property (nonatomic, assign) NSTimeInterval duration; // used throughout all subclasses
-@property (nonatomic, copy) NSString *message; // used throughout all subclasses
-
-@end
-```
-
-#### SDLAlertController
-
-The alert controller is used to abstract the RPC `Alert`.
-
-```objc
-@interface SDLAlertController : SDLModalViewController
-
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *initialPrompt;
-@property (nonatomic, copy) NSArray<SDLSoftButton *> *buttons;
-
-@property (nonatomic) BOOL shouldPlayTone;
-@property (nonatomic) BOOL progressIndicator;
-
-
-@end
-``` 
-
-#### SDLAudioInputController
-
-The audio input controller is used to abstract the RPC `PerformAudioPassThru`, `OnAudioPassThru` and `EndAudioPassThru`. The app developer should be able to provide a block which is called for audio data. Furthermore a method called `dismiss` should help to end the audio pass thru.
-
-```objc
-@interface SDLAudioInputController : SDLModalViewController
-
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *initialPrompt;
-@property (nonatomic, copy) SDLSamplingRate samplingRate;
-@property (nonatomic, copy) SDLBitsPerSample bitsPerSample;
-@property (nonatomic, copy) SDLAudioType audioType;
-@property (nonatomic) BOOL muteMediaSource;
-
-@property (nonatomic) SDLOnAudioDataBlock onAudioDataBlock;
-
-- (void)dismiss; // sends an EndAudioPassThru in order to stop audio input
-
-@end
-```
-
-#### SDLScrollableMessageController
-
-Similar to `Alert` this view controller takes care of the RPC `ScrollableMessage`.
-
-```objc
-@interface SDLScrollableMessageController : SDLModalViewController
-
-@property (nonatomic, copy) NSArray<SDLSoftButton *> *buttons;
-
-@end
-```
-
-#### SDLSliderController
-
-This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider). For consistency it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `numTicks` to be between 2 and 26. With the high level abstraction the modal controller can manage much more value ranges than 1-26. Examples are ranges with negative (or more values than available) which are mapped (and scaled) internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
-
-```objc
-@interface SDLSliderController : SDLModalViewController
-
-@property (nonatomic, copy) NSString *title; // mapped with Slider.sliderHeader
-@property (nonatomic, copy) NSArray<NSString *> *valueLables; // overrides control of SDLModalViewController.message 
-
-// minimumValue and maximumValue map to .numTicks
-@property (nonatomic) NSInteger minimumValue;
-@property (nonatomic) NSInteger maximumValue;
-
-// maps to `Slider.position`
-@property (nonatomic) NSInteger value;
-
-@end
-```
-
-#### SDLInteractionController
-
-Together with the `SDLChoiceSetManager` the interaction controller will take care of most of the painful work to deal with choice sets and interactions.
-
-In order to support the app developer a class called `SDLChoiceSet` is used which comes with a choice set manager. The choice set management will be proposed separately as it should be contained in the management layer.
-
-- If `.manualInteraction` is set the controller performs with interaction mode MANUAL_ONLY.
-- If `.voiceInteraction` is set the controller  performs with interaction mode VOICE_ONLY.
-- If both parameters are set the controller performs with interaction mode BOTH.
-- Initial prompt is optional and used in any interaction mode
-
-```objc
-@interface SDLInteractionController : SDLModalController
-
-@property (nonatomic, copy) SDLChoiceSet *choiceSet;
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *initialPrompt;
-
-@property (nonatomic, copy) SDLManualInteraction *manualInteraction;
-@property (nonatomic, copy) SDLVoiceInteraction *voiceInteraction;
-
-@property (nonatomic, copy) void (^choiceSelectedBlock)(SDLChoice *choice, SDLTriggerSource triggerSource);
-
-@end
-
-@interface SDLManualInteraction
-
-@property (nonatomic) SDLLayoutMode *layout;
-
-@property (nonatomic, copy) SDLKeyboardProperties *keyboardProperties;
-
-@property (nonatomic, copy) void(^keyboardInputBlock)(SDLOnKeyboardInput *keyboardInput);
-
-@end
-
-@interface SDLVoiceInteraction
-
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *helpPrompt;
-@property (nonatomic, copy) NSArray<SDLTTSChunk *> *timeoutPrompt;
-
-@property (nonatomic, copy) NSArray<SDLVrHelpItem *> *helpItems;
-
-@end
-```
-
 ### Views
 
-The high level interface introduces three different kind of views: text view, image view and button view. Each view element added to a view controller will be responsible for a parameter of the `Show` RPC.
+The high level interface introduces three different kind of views: text view, image view and button view. The views of the currently presented view controller will be used to send `Show` RPCs. Future proposals will add more views to abstract more RPCs.
 
 #### SDLView
 
@@ -315,7 +183,7 @@ The text view is a view which takes care of any kind of text field modifyable by
 
 @interface SDLTextField
 
-@property (nonatomic, nullable, copy) NSString *text;
+@property (nonatomic, nonnull, copy) NSString *text;
 @property (nonatomic, nullable, copy) NSArray<SDLMetadataType> *metadataTypes;
 
 @end
@@ -323,7 +191,7 @@ The text view is a view which takes care of any kind of text field modifyable by
 
 #### SDLImageView
 
-The image view will be used for the primary and secondary graphic in the order added to the view controller's view. The image provided will be automatically scaled depending on the display layout.
+The image view will be used for the primary and secondary graphic in the order added to the view controller's view. The image provided will be automatically scaled depending on the current display layout.
 
 ```objc
 @interface SDLImageView : SDLView
