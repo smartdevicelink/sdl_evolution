@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is based on #448 adding views and view controllers to the high level interface. It proposes a solution to mimic the UI framework of the native OS SDKs.
+This proposal is based on [SDL 0156 High level interface: Foundation](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0156-high-level-interface-foundation.md) adding views and view controllers to the high level interface. It proposes a solution to mimic the UI framework of the native OS SDKs.
 
 ## Motivation
 
@@ -20,7 +20,7 @@ The time for an app developer to learn SDL (non-productive time) is high and not
 
 ## Proposed solution
 
-This proposal is about adding views and view controllers to the SDL library which should be used by the `SDLApplication` (see #448). With view controllers app developers can separate and structure the SDL related code.
+This proposal is about adding views and view controllers to the SDL library which should be used by the `SDLApplication` (see [SDL 0156](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0156-high-level-interface-foundation.md)). With view controllers app developers can separate and structure the SDL related code.
 
 ### View Controller lifecycle
 
@@ -70,7 +70,7 @@ This method is called after `viewWillDisappear`.
 
 ### SDLViewController
 
-The view controller class is called `SDLViewController`. It implements the view controller and provides the necessary classes for the lifecycle. It's expected that the app developers creates subclasses of this base class.
+The view controller class is called `SDLViewController`. It implements the view controller and provides the necessary classes for the lifecycle. It's expected that the app developer creates subclasses of this base class.
 
 ```objc
 @interface SDLViewController
@@ -115,7 +115,7 @@ In order to support non-predefined layouts (OEM or custom layouts) the app devel
 
 #### `showViewController`
 
-Similar to [`UIViewController.showViewController:sender:`](`https://developer.apple.com/documentation/uikit/uiviewcontroller/1621377-showviewcontroller?changes=_2&language=objc`) This method should allow app developer to present another view controller in the primary context. The method is a shortcut to the shared application and the view controller manager. Depending on the manager's mode the method either replaces the current presented view controller or pushes it to the view controller stack (see `SDLModalViewController`).
+Similar to [`UIViewController.showViewController:sender:`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621377-showviewcontroller?changes=_2&language=objc) This method should allow app developer to present another view controller in the primary context. The method is a shortcut to the shared application and the view controller manager. Depending on the manager's mode the method either replaces the current presented view controller or pushes it to the view controller stack (see `SDLModalViewController`).
 
 ### SDLViewControllerManager
 
@@ -164,7 +164,7 @@ The high level interface introduces three different kind of views: text view, im
 
 #### SDLTextView
 
-The text view is a view which takes care of any kind of text field modifyable by the `Show` RPC. Main fields are dynamically added (first item used for `mainField1`, second for `mainField2`).
+The text view is a view which takes care of any kind of text field modifiable by the `Show` RPC. Main fields are dynamically added (first item used for `mainField1`, second for `mainField2`).
 
 ```objc
 @interface SDLTextView : SDLView
