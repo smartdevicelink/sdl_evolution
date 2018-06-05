@@ -20,11 +20,11 @@ The time for an app developer to learn SDL (non-productive time) is high and not
 
 ## Proposed solution
 
-This proposal is about adding views and view controllers to the SDL library which should be used by the `SDLApplication` (see #448).
+This proposal is about adding views and view controllers to the SDL library which should be used by the `SDLApplication` (see #448). With view controllers app developers can separate and structure the SDL related code.
 
 ### View Controller lifecycle
 
-Based on the MVC pattern used by UIKit the high level interface should introduce the SDL view controller in order to manage and control views. App developers need to subclass the base view controller class and implement the use cases. As view controllers are stackable the app developer can separate and structure the SDL related code.
+Based on the MVC pattern used by UIKit the high level interface should introduce the SDL view controller in order to manage and control views. App developers need to subclass the base view controller class and implement the use cases.
 
 A view controller can exist in a set of states. Below flow shows the possible transitions between loading view, view to appear or to disappear.
 
@@ -36,7 +36,7 @@ View controllers are instantiated when they are pushed to the view controller ma
 
 #### `loadView`
 
-In case the view controller appears on the screen but does not have a loaded view the method `loadView` is called. By default `SDLViewController` implements the method placing a plain view to the view controller's view. The app developer can override the method in order to do custom actions right before the view is created. The default implementation should be finde for most partners.
+In case the view controller appears on the screen but does not have a loaded view the method `loadView` is called. By default `SDLViewController` implements the method placing a plain view to the view controller's view property. The app developer can override the method in order to do custom actions right before the view is created. The default implementation should be fine for most partners.
 
 This method is following [`UIViewController.loadView`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621454-loadview?language=objc)
 
@@ -150,7 +150,7 @@ The `viewControllers` array should keep all view controller instances pushed to 
 
 ### Views
 
-The high level interface introduces three different kind of views: text view, image view and button view. The views of the currently presented view controller will be used to send `Show` RPCs. Future proposals will add more views to abstract more RPCs.
+The high level interface introduces three different kind of views: text view, image view and button view. The views of the currently presented view controller will be responsible to manage the screen. Future proposals will add more views to abstract more RPCs.
 
 #### SDLView
 
@@ -203,7 +203,7 @@ The image view will be used for the primary and secondary graphic in the order a
 
 #### SDLButtonView
 
-Every button view added to the view controller's view will be used for the soft button array in the `Show` RPC. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`.
+Every button view added to the view controller's view will be used for the button managers `softButtons` array. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`.
 
 ```objc
 @interface SDLButtonView : SDLView
