@@ -50,13 +50,19 @@ public class SdlManager implements ProxyBridge.LifecycleListener {
 
         public Builder setAppName(final String appName){}
 
-        public Builder setIsMediaApp(final Boolean isMediaApp){}
+        public Builder setShortAppName(final String shortAppName) {}
 
-        public Builder setLanguage(final Language hmiLanguage){}
+        public Builder setLanguage(final Language language){}
+
+        public Builder setHMILanguage(final Language hmiLanguage) {}
 
         public Builder setLockScreenConfig (final LockScreenConfig lockScreenConfig){}
 
         public Builder setHMITypes(final Vector<AppHMIType> hmiTypes){}
+
+        public Builder setVrSynonyms(final Vector<String> vrSynonyms) {}
+
+        public Builder setTtsName(final Vector<TTSChunk> ttsChunks) {}
 
         /**
          * This Object type may change with the transport refactor
@@ -288,31 +294,31 @@ public class ScreenManager extends BaseSubManager {
 This is a non-developer facing submanager of the screen manager. It maintains the softbuttons for the current template including their states and images needed.
 
 ```java
-public class SoftButtonManager extends BaseSubManager {
+class SoftButtonManager extends BaseSubManager {
 
     protected boolean batchUpdates;
 
     // Constructors
 
-    public SoftButtonManager(ISdl internalInterface, FileManager fileManager) {}
+    SoftButtonManager(ISdl internalInterface, FileManager fileManager) {}
 
     // Update Methods
 
-    public void update() {}
+    void update(CompletionListener listener) {}
 
     // Setters / Getters
 
-    public void setSoftButtonObjects(ArrayList<SoftButtonObject> softButtonObjects){}
+    void setSoftButtonObjects(ArrayList<SoftButtonObject> softButtonObjects){}
 
-    public ArrayList<SoftButtonObject> getSoftButtonObjects() {}
+    ArrayList<SoftButtonObject> getSoftButtonObjects() {}
     
-    public void setHmiLevel(HMILevel level){}
+    void setHmiLevel(HMILevel level){}
 
-    public HMILevel getHmiLevel() {}
+    HMILevel getHmiLevel() {}
 
-    public void setCurrentMainField1(String mainField1){}
+    void setCurrentMainField1(String mainField1){}
 
-    public String getCurrentMainField1(){}
+    String getCurrentMainField1(){}
 }
 ```
 
@@ -347,17 +353,17 @@ class SoftButtonState {
 This submanager is based off and mimics the previously [accepted proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0134-ios-show-manager.md) and [implementation ](https://github.com/smartdevicelink/sdl_ios/blob/master/SmartDeviceLink/SDLTextAndGraphicManager.m) for iOS. This is very similar to the soft button manager as it is a submanager of the screen manager that intends to be non-developer facing. Its purpose is to handle the logic of setting text and artworks. The text setting is dynamic, just as it is in iOS. The complexity of this seemingly simple problem does warrant a specific manager to help scope the code and responsibilities. The merits for this decision were also laid out in the aforementioned proposal and its review. 
 
 ```java
-public class TextAndGraphicManager extends BaseSubManager {
+class TextAndGraphicManager extends BaseSubManager {
 
     private MetadataTags textField1Type, textField2Type, textField3Type, textField4Type;
 
     //Constructors
 
-    public TextAndGraphicManager(ISdl internalInterface, FileManager fileManager) {}
+    TextAndGraphicManager(ISdl internalInterface, FileManager fileManager) {}
 
     // Upload / Send
 
-    public void update() {}
+    void update() {}
 
 }
 ```
