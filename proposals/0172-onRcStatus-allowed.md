@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0172](0172-onRcStatus-allowed.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
