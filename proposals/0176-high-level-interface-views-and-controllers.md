@@ -1,8 +1,8 @@
 # High level interface: Views and Controllers
 
-* Proposal: [SDL-NNNN](NNNN-high-level-interface-views-and-controllers.md)
+* Proposal: [SDL-0176](0176-high-level-interface-views-and-controllers.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction
