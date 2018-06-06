@@ -182,9 +182,13 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0168" status="accepted" primary-platform="core" sdl-version="x.x" name="RPC design refactoring" filename="0168-rpc-design-refactoring.md"/>
 <proposal id="0169" status="returned" primary-platform="core" sdl-version="x.x" name="Arguments initialText and hintText for SDL Keyboard" filename="0169-initial-and-hint-text-for-keyboard.md"/>
 <proposal id="0170" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL behavior in case of LOW_VOLTAGE event" filename="0170-sdl-behavior-in-case-of-Low-Voltage.md"/>
-<proposal id="0171" status="active" primary-platform="android" sdl-version="x.x" name="Android Manager APIs" filename="0171-android-manager-apis.md"/>
-<proposal id="0172" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Update OnRCStatus with a new allowed parameter" filename="0172-onRcStatus-allowed.md"/>
+<proposal id="0171" status="accepted" primary-platform="android" sdl-version="x.x" name="Android Manager APIs" filename="0171-android-manager-apis.md"/>
+<proposal id="0172" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Update OnRCStatus with a new allowed parameter" filename="0172-onRcStatus-allowed.md"/>
 <proposal id="0173" status="active" primary-platform="rpc" sdl-version="x.x" name="Read Generic Network Signal data" filename="0173-Read-Generic-Network-Signal-data.md"/>
+<proposal id="0174" status="active" primary-platform="android" sdl-version="x.x" name="Deprecate RPCRequestFactory" filename="0174-deprecate-rpc-request-factory.md"/>
+<proposal id="0175" status="active" primary-platform="rpc" sdl-version="x.x" name="Updating DOP value range for GPS notification" filename="0175-Updating-DOP-value-range-for-GPS-notification.md"/>
+<proposal id="0176" status="active" primary-platform="iOS" sdl-version="x.x" name="High level interface: Views and Controllers" filename="0176-high-level-interface-views-and-controllers.md"/>
+
 	
 <!--
 Recognized values for a proposal's status:
