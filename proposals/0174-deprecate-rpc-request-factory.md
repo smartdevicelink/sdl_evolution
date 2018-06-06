@@ -1,8 +1,8 @@
 # Deprecate RPCRequestFactory
 
-* Proposal: [SDL-NNNN](nnnn-deprecate-rpc-request-factory)
+* Proposal: [SDL-0174](0174-deprecate-rpc-request-factory.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Android]
 
 ## Introduction
