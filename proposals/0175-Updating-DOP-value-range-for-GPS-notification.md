@@ -1,8 +1,8 @@
 # Updating DOP value range for GPS notification
 
-* Proposal: [SDL-NNNN](NNNN-Updating-DOP-value-range-for-GPS-notification.md)
+* Proposal: [SDL-0175](0175-Updating-DOP-value-range-for-GPS-notification.md)
 * Author: [Ankur Tiwari](https://github.com/ATIWARI9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
