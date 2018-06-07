@@ -46,6 +46,7 @@ Spec for RPC messages sent between mobile devices and hardware modules.
 - Core
 - iOS
 - Android
+- HMI (in most cases)
 
 ---
 
@@ -165,6 +166,20 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Expected Release Date**: September 28, 2018
 
 **Contents**: Contents of this release can be tracked on the [Core 5.0.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/10).
+
+---
+
+#### SDL Protocol: 5.1.0
+**Expected Release Date**: September 28, 2018
+
+**Contents**: Contents of this release can be tracked on the [Protocol Spec 5.1.0 Project Page](https://github.com/smartdevicelink/protocol_spec/projects/2).
+
+---
+
+#### SDL RPC Spec: 4.6.0
+**Release Date**: September 28, 2018
+
+**Contents**: Contents of this release can be tracked on the [RPC Spec 4.6.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/2).
 
 ---
 
