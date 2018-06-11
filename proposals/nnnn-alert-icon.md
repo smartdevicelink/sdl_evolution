@@ -11,7 +11,7 @@ This proposal is about adding the RPC `alert` to include an icon.
 
 ## Motivation
 
-Currently the RPC `alert` can add alertText, ttsChunks, progressIndicator and softButtons, but can not add icon for this fearture. Icon can help user clearly notice alert informtion, such as an alert informaiton from HeadUnit or from a connected mobile navigation app, alert type is a traffic sign or a vehicle health. 
+Currently the RPC `alert` can add alertText, ttsChunks, progressIndicator and softButtons, but cannot add icon for this feature. Icon can help user clearly notice alert information, such as alert information from head unit or from a connected mobile navigation app, alert type is a traffic sign or a vehicle health.
 
 ## Proposed solution
 
@@ -48,15 +48,15 @@ The proposed solution is to add a parameter `alertIcon` to `alert`.
    :
    <param name="alertIcon" type="Image" mandatory="false" >
      <description>
-       Image struct determing whether static or dynamic icon.
-       If ommitted on supported displays, no (or the default if applicable) icon should be displayed.
+       Image struct determining whether static or dynamic icon.
+       If omitted on supported displays, no (or the default if applicable) icon should be displayed.
      </description>
   </param>
 </function>
 ```
 
 ### SDL Android
-The Android library would need to add `setAlertIcon()` and `getAlertIcon()` methond in `Alert.java`
+The Android library would need to add `setAlertIcon()` and `getAlertIcon()` method in `Alert.java`
 ```java
 public class Alert extends RPCRequest {
   public static final String KEY_PLAY_TONE = "playTone";
@@ -68,7 +68,7 @@ public class Alert extends RPCRequest {
 
   /**
    * <p>Sets the Image
-   * If provided, defines the image to be be shown along with an alert</p>
+   * If provided, defines the image to be shown along with an alert</p>
    * @param alertIcon
    *            <p>an Image obj representing the Image obj shown along with an
    *            alert</p>
@@ -92,7 +92,7 @@ public class Alert extends RPCRequest {
 ```
 
 ### SDL iOS
-The iOS library would need to extern an new `SDLNameAlertIcon`, add new property `alertIcon`, and create corresponding `setAlertIcon` and `getAlertIcon` functions in `SDLAlert.m`
+The iOS library would need a new constant `SDLNameAlertIcon`, add new property `alertIcon`, and create corresponding `setAlertIcon` and `getAlertIcon` functions in `SDLAlert.m`
 
 **SDLNames.h**
 ```objectivec
@@ -136,7 +136,7 @@ SDLImageFieldName const SDLImageFieldNameAlertIcon = @"alertIcon"
 
 ## Potential downsides
 
-The proposed change is backward compatible and will not cause a breaking change.
+The proposed change is backward compatible and will not cause a breaking change. However the API of `Alert` are inconsistent.
 
 ## Impact on existing code
 
@@ -144,4 +144,4 @@ The impact on existing code is very small. Existing apps are not affected as thi
 
 ## Alternatives considered
 
-Optionally, we can use `graphic`, `appIcon`, `cmdIcon` and `menuIcon` to cover some alert usage scneries instead of adding a new `alerIcon`, but that may confuse developers by which icon should be used. And it can not support customised alert, such as vehicle health alert, traffic sign alert and etc.
+Optionally, we can use `graphic`, `appIcon`, `cmdIcon` and `menuIcon` to cover some alert usage scenarios instead of adding a new `alerIcon`, but that may confuse developers by which icon should be used. And it cannot support customized alerts, such as vehicle health alert, traffic sign alert and etc.
