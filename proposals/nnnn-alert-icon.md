@@ -136,7 +136,7 @@ SDLImageFieldName const SDLImageFieldNameAlertIcon = @"alertIcon"
 
 ## Potential downsides
 
-The proposed change is backward compatible and will not cause a breaking change. However the API of `Alert` are inconsistent.
+The proposed change is backward compatible and will not cause a breaking change. However the API of `Alert` is inconsistent.
 
 ## Impact on existing code
 
@@ -144,4 +144,4 @@ The impact on existing code is very small. Existing apps are not affected as thi
 
 ## Alternatives considered
 
-Optionally, we can use `graphic`, `appIcon`, `cmdIcon` and `menuIcon` to cover some alert usage scenarios instead of adding a new `alerIcon`, but that may confuse developers by which icon should be used. And it cannot support customized alerts, such as vehicle health alert, traffic sign alert and etc.
+Optionally, we can use `graphic`, `appIcon`, `cmdIcon` and `menuIcon` to cover some alert usage scenarios instead of adding a new `alertIcon`, but that may confuse developers by which icon should be used. And it cannot support customized alerts, such as vehicle health alert, traffic sign alert and etc.
