@@ -50,21 +50,21 @@ And to make the hdop, pdop, vdop fields non mandatory for both HMI and Mobile AP
     <param name="pdop" type="Float" minvalue="0" mandatory="false" since="X.Y">
     	<description>PDOP.  If undefined or unavailable, then value shall be set to 0.</description>
 	<history>
-    		<param name="pdop" type="Float" minvalue="0" maxvalue="65535" defvalue="0" mandatory="false" until="X.Y">
+    		<param name="pdop" type="Float" minvalue="0" maxvalue="10" defvalue="0" mandatory="true" until="X.Y">
     		</param>
 	</history>
     </param>
     <param name="hdop" type="Float" minvalue="0" mandatory="false" since="X.Y">
     	<description>HDOP.  If value is unknown, value shall be set to 0.</description>
 	<history>
-    		<param name="hdop" type="Float" minvalue="0" maxvalue="65535" defvalue="0" mandatory="false" until="X.Y">
+    		<param name="hdop" type="Float" minvalue="0" maxvalue="10" defvalue="0" mandatory="true" until="X.Y">
     		</param>
 	</history>
     </param>
     <param name="vdop" type="Float" minvalue="0" mandatory="false" since="X.Y">
     	<description>VDOP.  If value is unknown, value shall be set to 0.</description>
 	<history>
-    		<param name="vdop" type="Float" minvalue="0" maxvalue="65535" defvalue="0" mandatory="false" until="X.Y">
+    		<param name="vdop" type="Float" minvalue="0" maxvalue="10" defvalue="0" mandatory="true" until="X.Y">
     		</param>
 	</history>
     </param>
@@ -111,7 +111,7 @@ And to make the hdop, pdop, vdop fields non mandatory for both HMI and Mobile AP
 
 ## Potential downsides
 
-None
+* The changes will require a major version change
 
 ## Impact on existing code
 
