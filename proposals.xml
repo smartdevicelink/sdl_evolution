@@ -185,9 +185,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0171" status="accepted" primary-platform="android" sdl-version="x.x" name="Android Manager APIs" filename="0171-android-manager-apis.md"/>
 <proposal id="0172" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Update OnRCStatus with a new allowed parameter" filename="0172-onRcStatus-allowed.md"/>
 <proposal id="0173" status="active" primary-platform="rpc" sdl-version="x.x" name="Read Generic Network Signal data" filename="0173-Read-Generic-Network-Signal-data.md"/>
-<proposal id="0174" status="active" primary-platform="android" sdl-version="x.x" name="Deprecate RPCRequestFactory" filename="0174-deprecate-rpc-request-factory.md"/>
-<proposal id="0175" status="active" primary-platform="rpc" sdl-version="x.x" name="Updating DOP value range for GPS notification" filename="0175-Updating-DOP-value-range-for-GPS-notification.md"/>
-<proposal id="0176" status="active" primary-platform="ios" sdl-version="x.x" name="High level interface: Views and Controllers" filename="0176-high-level-interface-views-and-controllers.md"/>
+<proposal id="0174" status="accepted" primary-platform="android" sdl-version="x.x" name="Deprecate RPCRequestFactory" filename="0174-deprecate-rpc-request-factory.md"/>
+<proposal id="0175" status="returned" primary-platform="rpc" sdl-version="x.x" name="Updating DOP value range for GPS notification" filename="0175-Updating-DOP-value-range-for-GPS-notification.md"/>
+<proposal id="0176" status="returned" primary-platform="ios" sdl-version="x.x" name="High level interface: Views and Controllers" filename="0176-high-level-interface-views-and-controllers.md"/>
+<proposal id="0177" status="active" primary-platform="rpc" sdl-version="x.x" name="Alert Icon" filename="0177-alert-icon.md"/>
 
 	
 <!--
