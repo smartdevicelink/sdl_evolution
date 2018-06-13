@@ -1,8 +1,8 @@
 # Alert icon
 
-* Proposal: [SDL-NNNN](NNNN-alert-icon.md)
+* Proposal: [SDL-0177](0177-alert-icon.md)
 * Author: [BrandonHe](https://github.com/brandonhe)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
