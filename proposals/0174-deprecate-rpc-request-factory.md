@@ -20,11 +20,11 @@ The `RPCRequestFactory` will be deprecated and the factory methods will be repla
 
 ## Potential downsides
 
-Because this is a major change, developers who are currently using the public methods in `RPCRequestFactory` class will have to modify their code and use the RPC constructors to create RPC instances.
+Developers who are currently using the public methods in `RPCRequestFactory` class will have to modify their code and start using the RPC constructors to create RPC instances.
 
 ## Impact on existing code
 
-This will be a major change. The `RPCRequestFactory` will be flagged as deprecated in the next minor release to let developers know that its public methods may not be available in future releases. Developers will then have to use RPC constructors directly after the next major release.
+This will be a minor change. The `RPCRequestFactory` will be flagged as deprecated in the next minor release to let developers know that its public methods may not be available in future releases. Developers will then have to use RPC constructors directly after the next major release.
 
 ## Alternatives considered
 
