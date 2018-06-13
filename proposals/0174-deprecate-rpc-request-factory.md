@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0174](0174-deprecate-rpc-request-factory.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Android]
 
 ## Introduction
