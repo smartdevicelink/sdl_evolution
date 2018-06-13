@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0175](0175-Updating-DOP-value-range-for-GPS-notification.md)
 * Author: [Ankur Tiwari](https://github.com/ATIWARI9)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
