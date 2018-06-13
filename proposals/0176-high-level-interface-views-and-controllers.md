@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0176](0176-high-level-interface-views-and-controllers.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction
