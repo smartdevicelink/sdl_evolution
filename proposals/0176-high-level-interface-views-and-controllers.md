@@ -148,7 +148,7 @@ A manager for view controllers should be added and used by the `SDLApplication`.
 @property (nonatomic) SDLViewController *rootViewController;
 @property (nonatomic) SDLViewController *topViewController;
 
-// sets and presents the root view controller satrting a new stack
+// sets and presents the root view controller starting a new stack
 - (void)setRootViewController:(SDLViewController *)rootViewController;
 
 // Pushes a new view controller to the stack and presents it
@@ -192,7 +192,7 @@ Removes all view controllers from the stack except the root view controller.
 
 #### `popToViewController`
 
-If the specified view controllers exists in the stack the manager removes all view controllers from the stack which are on top of the specified view controller.
+If the specified view controller exists in the stack the manager removes all view controllers from the stack which are on top of the specified view controller.
 
 ### Views
 
