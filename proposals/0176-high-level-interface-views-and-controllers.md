@@ -70,19 +70,11 @@ This method is called after `viewWillDisappear`.
 
 ### SDLViewController
 
-The view controller class is called `SDLViewController`. It implements the view controller and provides the necessary classes for the lifecycle. It's expected that the app developer creates subclasses of this base class.
+The view controller class is called `SDLViewController`. It's expected that the app developer creates subclasses of this base class. The methods for the lifecycle are realized using a protocol with optional methods. This way app developer can implement the methods in their subclasses without the need of calling super. `SDLViewController` implements the delegate but not the methods except `loadView`. The color scheme can be explicitly set presenting a view controller. When pushing another view controller to the stack it'll inherit the color scheme if not explicitly set.
 
 ```objc
-@interface SDLViewController
-
-@property (nonatomic, readonly) BOOL isViewLoaded;
-
-@property (nonatomic) SDLView *view;
-
-@property (nonatomic, copy) SDLPredefinedLayout layout;
-
-@property (nonatomic, copy) NSString *customLayout;
-
+@protocol SDLViewControllerDelegate
+@optional
 - (void)loadView;
 - (void)viewDidLoad;
 
@@ -91,8 +83,24 @@ The view controller class is called `SDLViewController`. It implements the view 
 
 - (void)viewWillDisappear;
 - (void)viewDidDisappear;
+@end
 
-- (void)showViewController:(SDLViewController *)viewController;
+@interface SDLViewController<SDLViewControllerDelegate>
+
+@property (nonatomic, readonly) BOOL isViewLoaded;
+
+@property (nonatomic) SDLView *view;
+
+@property (nonatomic, copy, null_resettable) SDLPredefinedLayout layout; // resets to DEFAULT if set to nil
+
+@property (nonatomic, copy, nullable) NSString *customLayout;
+
+@property (nonatomic, copy, nullable) SDLTemplateColorScheme *colorScheme;
+@property (nonatomic, copy, nullable) SDLTemplateColorScheme *nightColorScheme; 
+
+// if the view controller is contained in a view controller manager's stack this property 
+// can be used as a convenient shortcut
+@property (nonatomic, weak, nullable, readonly) SDLViewControllerManager *manager;
 
 @end
 ```
@@ -113,40 +121,78 @@ The display layout that should be used while the view controller is presented. I
 
 In order to support non-predefined layouts (OEM or custom layouts) the app developer can set the name of the custom template.
 
-#### `showViewController`
+#### `manager`
 
-Similar to [`UIViewController.showViewController:sender:`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621377-showviewcontroller?changes=_2&language=objc) This method should allow app developer to present another view controller in the primary context. The method is a shortcut to the shared application and the view controller manager. Depending on the manager's mode the method either replaces the current presented view controller or pushes it to the view controller stack (see `SDLModalViewController`).
+A weak reference to the view controller manager object managing the current view controller. It's a convenient property for easy access to present antoher view controller.
 
 ### SDLViewControllerManager
 
-A manager for view controllers should be added and used by the `SDLApplication`. The manager should be able to support two different modes: `basic` and `stack`.
+A manager for view controllers should be added and used by the `SDLApplication`. The manager should provide APIs to create and manipulate a stack for view controllers presenting the most top view controller. Similar to the view controller delegate the manager should allow the app to set a delegate to receive view controller lifecycle notifications. 
 
 ```objc
-typedef NS_ENUM(NSInteger, SDLViewControllerManagerMode) {
-	SDLViewControllerManagerModeBasic,
-	SDLViewControllerManagerModeStack,
-};
+@protocol SDLViewControllerManagerDelegate
+@optional
+- (void)viewControllerDidLoadView:(SDLViewController *)viewController;
+- (void)viewControllerWillAppear:(SDLViewController *)viewController;
+- (void)viewControllerDidAppear:(SDLViewController *)viewController;
+- (void)viewControllerWillDisappear:(SDLViewController *)viewController;
+- (void)viewControllerDidDisappear:(SDLViewController *)viewController;
+@end
 
 @interface SDLViewControllerManager
 
-@property (nonatomic, assign) SDLViewControllerManagerMode mode;
+@property (nonatomic, nullable, weak) id<SDLViewControllerManagerDelegate> delegate;
 
 @property (nonatomic, copy) NSArray<SDLViewController *> *viewControllers;
 
 @property (nonatomic) SDLViewController *rootViewController;
 @property (nonatomic) SDLViewController *topViewController;
 
+// sets and presents the root view controller satrting a new stack
+- (void)setRootViewController:(SDLViewController *)rootViewController;
+
+// Pushes a new view controller to the stack and presents it
 - (void)pushViewController:(SDLViewController *)viewController;
+
+// pops the top view controller from the stack and presents to underlying view controller
 - (void)popViewController;
+
+// pops all view controllers from the stack and presents the root view controller
+- (void)popToRootViewController;
+
+// pops all view controllers on top of the specified view controller and presents it
+- (void)popToViewController:(SDLViewController *)viewController;
 
 @end
 ```
 
-The basic mode should maintain a single view controller instance. If the app developer requests to show a new view controller the manager should drop the old view controller and keep the new one. Technically the `viewControllers` array will always contain a single instance. If this mode is set the shortcut method `SDLViewController.showViewController` will replace the array of the property with the new view controller.
+#### `viewControllers`
 
-The stack mode should behave similar to [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) providing code to push and pop view controllers within a stack whereby the top view controller is visible on the screen.
+This array is used as a stack for view controllers pushed by the app developer. It can be accessed and replaced by the app developer at any time.
 
-The `viewControllers` array should keep all view controller instances pushed to the stack. `rootViewController` points to the first item of this array. `topViewController` to the last item. The method `pushViewController:` can be used by the app developer to push and present a new view controller. As an alternative the method `SDLViewController.showViewController` will use `pushViewController` if the mode `stack` is set.
+#### `topViewController`
+
+The top view controller is the most top from the stack presented on the head unit. This property is pointing to the last view controller of the stack.
+
+#### `rootViewController` and `setRootViewController`
+
+The very first view controller of the stack is returned by `rootViewController`. Settings a new root view controller will clear the stack and set a new root.
+
+#### `pushViewController`
+
+Pushes the specified view controller to the stack and the manager starts presenting it.
+
+#### `popViewController`
+
+Removes the top view controller from the stack and the manager starts presenting the new top view controller.
+
+#### `popToRootViewController`
+
+Removes all view controllers from the stack except the root view controller.
+
+#### `popToViewController`
+
+If the specified view controllers exists in the stack the manager removes all view controllers from the stack which are on top of the specified view controller.
 
 ### Views
 
@@ -171,7 +217,7 @@ The text view is a view which takes care of any kind of text field modifiable by
 
 @property (nonatomic, nullable, copy) SDLTextAlignment textAlignment;
 
-@property (nonatomic, nullable, copy) NSArray<SDLTextField *> *mainFields;
+@property (nonatomic, nullable, copy) NSArray<SDLTextField *> *textFields;
 
 @property (nonatomic, nullable, copy) NSString *statusBar;
 
@@ -203,12 +249,23 @@ The image view will be used for the primary and secondary graphic in the order a
 
 #### SDLButtonView
 
-Every button view added to the view controller's view will be used for the button managers `softButtons` array. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`.
+Every button view added to the view controller's view will be used for the button managers `softButtons` array. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`. This view will maintain a private reference to an `SDLSoftButtonObject` object wrapping and bypassing all the initializers, properties and methods. Below is a preview of the `SDLButtonView` class for illustration. The implementation will incude *all* the methods etc.
 
 ```objc
 @interface SDLButtonView : SDLView
 
-@property (nonatomic, nullable, strong) SDLSoftButtonWrapper *button;
+@property (copy, nonatomic, readonly) NSString *name;
+
+@property (strong, nonatomic, readonly) NSArray<SDLSoftButtonState *> *states;
+
+@property (copy, nonatomic, readonly) SDLSoftButtonState *currentState;
+
+@property (strong, nonatomic, readonly) SDLSoftButton *currentStateSoftButton;
+
+@property (strong, nonatomic, readonly) SDLRPCButtonNotificationHandler eventHandler;
+
+- (instancetype)initWithName:(NSString *)name states:(NSArray...
+...
 
 @end
 ```
