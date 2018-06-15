@@ -112,8 +112,8 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Policy Server v2.0</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='policy'][@sdl-version='2.0']"/>
+          <xsl:with-param name="title">Implemented for SDL Policy Server v2.4</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='policy'][@sdl-version='2.4']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">

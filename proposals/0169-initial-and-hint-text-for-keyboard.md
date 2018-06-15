@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0169](0169-initial-and-hint-text-for-keyboard.md)
 * Author: [MarekForys](https://github.com/mforys) (TomTom)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core, Android, iOS]
 
 
