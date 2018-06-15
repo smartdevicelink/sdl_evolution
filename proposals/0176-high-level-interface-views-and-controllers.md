@@ -70,7 +70,7 @@ This method is called after `viewWillDisappear`.
 
 ### SDLViewController
 
-The view controller class is called `SDLViewController`. It's expected that the app developer creates subclasses of this base class. The methods for the lifecycle are realized using a protocol with optional methods. This way app developer can implement the methods in their subclasses without the need of calling super. `SDLViewController` implements the delegate but not the methods except `loadView`. The color scheme can be explicitly set presenting a view controller. When pushing another view controller to the stack it'll inherit the color scheme if not explicitly set.
+The view controller class is called `SDLViewController`. It's expected that the app developer creates subclasses of this base class. The methods for the lifecycle are realized using a protocol with optional methods. This way the app developer can implement the methods in their subclasses without the need of calling super. `SDLViewController` implements the delegate but not the methods except `loadView`. The color scheme can be explicitly set presenting a view controller. When pushing another view controller to the stack it'll inherit the color scheme if not explicitly set.
 
 ```objc
 @protocol SDLViewControllerDelegate
@@ -123,7 +123,7 @@ In order to support non-predefined layouts (OEM or custom layouts) the app devel
 
 #### `manager`
 
-A weak reference to the view controller manager object managing the current view controller. It's a convenient property for easy access to present antoher view controller.
+A weak reference to the view controller manager object managing the current view controller. It's a convenient property for easy access to present another view controller.
 
 ### SDLViewControllerManager
 
@@ -176,7 +176,7 @@ The top view controller is the most top from the stack presented on the head uni
 
 #### `rootViewController` and `setRootViewController`
 
-The very first view controller of the stack is returned by `rootViewController`. Settings a new root view controller will clear the stack and set a new root.
+The very first view controller of the stack is returned by `rootViewController`. Settings a new root view controller will clear the stack and setting a new root.
 
 #### `pushViewController`
 
@@ -249,7 +249,7 @@ The image view will be used for the primary and secondary graphic in the order a
 
 #### SDLButtonView
 
-Every button view added to the view controller's view will be used for the button managers `softButtons` array. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`. This view will maintain a private reference to an `SDLSoftButtonObject` object wrapping and bypassing all the initializers, properties and methods. Below is a preview of the `SDLButtonView` class for illustration. The implementation will incude *all* the methods etc.
+Every button view added to the view controller's view will be used for the button managers `softButtons` array. If desired the app developer can manage the soft button views in a dedicated subview of type `SDLView`. This view will maintain a private reference to an `SDLSoftButtonObject` object wrapping and bypassing all the initializers, properties and methods. Below is a preview of the `SDLButtonView` class for illustration. The implementation will include *all* the methods etc.
 
 ```objc
 @interface SDLButtonView : SDLView
