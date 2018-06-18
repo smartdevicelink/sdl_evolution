@@ -52,7 +52,7 @@ SDL maintains a cache of module data only when there is at least one application
 - SDL removes the cache for the module when SDL receives a successful GetInteriorVehicleData response with `isSubscribed=false`. 
 	
 
-SDL only forwards a GetInteriorVehicleData request to HMI if there is no cached data available for the requested module or it needs to unsubscribe to the module from HMI. Otherwise, SDL responds to the resquest with the cached data and there is no need to forward it and wait for a response from HMI.
+SDL only forwards a GetInteriorVehicleData request to HMI if there is no cached data available for the requested module or it needs to unsubscribe to the module from HMI. Otherwise, SDL responds to the request with the cached data and there is no need to forward it and wait for a response from HMI.
 
 In addition, when there is no cache available and before SDL forwards a GetInteriorVehicleData request to HMI, SDL shall apply a rate limitation scheme similar to that of the GetVehicleData request. SDL allows `x` number of GetVehicleData requests per second. The number `x` is 5 and it can be configured in smartDeviceLink.ini file. Similarly, SDL allows `y` number of GetInteriorVehicleData requests to forward to HMI. The number `y` shall be configurable in ini file. Since there are multiple moduleTypes defined for RC, ideally SDL shall apply rate limitation per moduleType. To simplify the implementation it can be regardless of moduleType. However, in this case, `y` shall be much greater than `x`.
 
