@@ -38,6 +38,8 @@ Services will be defined to a few high level categories so that we can support t
 
 ##### AppServiceType enum
 
+_Same for both MOBILE\_API and HMI\_API._
+
 ```xml
 <enum name="AppServiceType">
 	 <element name = "MEDIA"/>
@@ -253,7 +255,6 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 ```xml
 	<struct name="AppServiceManifest">
 		<param name="serviceName" type="String" mandatory="false"/>
-		<param name="serviceId" type="String" mandatory="true"/>
 		<param name="serviceType" type="AppServiceType" mandatory="true">
 			<description>The type of service that is to be offered by this app</description>
 		</param>
@@ -304,6 +305,10 @@ The next action the App Service has to take is publishing their service. This is
 <function name="PublishAppService" functionID="PublishAppServiceID" messagetype="response">
 	<description>Response to the request to register a service offered by this app on the module</description>
 
+	<param name="appServiceRecord" type="AppServiceRecord" mandatory="false">
+		<description> If the request was successful, this object will be the current status of the service record for the published service. This will include the Core supplied service ID.</description>
+	</param>
+
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
 		<description> true, if successful; false, if failed </description>
 	</param>
@@ -311,6 +316,8 @@ The next action the App Service has to take is publishing their service. This is
 	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
 		<description>See Result</description>
 		<element name="SUCCESS"/>
+		<element name="REJECTED"/>
+		<element name="DISSALOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -325,31 +332,37 @@ The next action the App Service has to take is publishing their service. This is
 
 ```
 
-##### Notifying potential consumers - `OnAppServiceRecordUpdated`
+##### Notifying potential consumers
 
-Once the service is published to the module, the module will be responsible for ensuring that other connected apps are notified that a new service has registered. This is done through the `OnAppServicePublished` notification. This contains the same manifest that was provided by the original app service provider. 
+Once the service is published to the module, the module will be responsible for ensuring that other connected apps are notified that a new service has registered. App service consumers are only notified when they have subscribed to updates via the `GetSystemCapability` subscription model [discussed later](#getsystemcapability-subscription). These updates will contain the same manifest that was provided by the original app service provider and update reason. 
 
+_Same for both MOBILE\_API and HMI\_API._
 
 ```xml
 <enum name="ServiceUpdateReason">
-	 <element name = "PUBLISHED"/>
-	 <element name = "REMOVED"/>
-	 <element name = "ACTIVATED"/>
-	 <element name = "DEACTIVATED"/>
-	 <element name = "MANIFEST_UPDATE"/>
+	 <element name = "PUBLISHED">
+	 	<description> The service has just been published with the module and once activated to the primary service of its type, it will be ready for possible consumption.</description>
+	 </element>
+	 <element name = "REMOVED">
+	 	<description> The service has just been unpublished with the module and is no longer accessible</description>
+	 </element>
+	 <element name = "ACTIVATED">
+	 	<description> The service is activated as the primary service of this type. All request dealing with this service type will be handled by this service.</description>
+	 </element>
+	 <element name = "DEACTIVATED">
+	 	<description> The service has been deactivated as the primary service of its type</description>
+	 </element>
+	 <element name = "MANIFEST_UPDATE">
+	 	<description> The service has updated it's manifest. This could imply updated capabilities</description>
+	 </element>
 </enum>
 
 <struct name="AppServiceRecord">
+	<param name="serviceId" type="String" mandatory="true"/>
 	<param name="serviceManifest" type="AppServiceManifest" mandatory="true"/>
 	<param name="servicePublished" type="Boolean" mandatory="true"/>
 	<param name="serviceActive" type="Boolean" mandatory="true"/>
 </struct>
-
-<function name="OnAppServiceRecordUpdated" functionID="OnAppServiceRecordUpdatedID" messagetype="notification">
-	<description> This notification includes the data that is updated from the specific service</description>
-	<param name="appServiceRecord" type="AppServiceRecord" mandatory="true"/>
-	<param name="updateReason" type="ServiceUpdateReason" mandatory="true"/>
-</function>
 
 ```
 
@@ -362,7 +375,7 @@ If the service wishes to reregister it can follow the normal flow, pending the `
 
 #### App Service Consumer
 
-This section will cover how another app can consume the newly published app service.
+This section will cover how another app can consume the newly published app service. An app service consumer is a module that intends to consume data provided by an app service. The IVI system itself can be considered an app service consumer as one of the greatest advantages of this proposal is to augment IVI systems with additional services that it might not be built with or become obsolete.
 
 ![App Service Consumer](../assets/proposals/0167-app-services/consumer.png "App Service Consumer")
 
@@ -370,6 +383,31 @@ This section will cover how another app can consume the newly published app serv
 ##### Get service capabilities
 
 If the app wants to use services published on the device, it must first ensure the feature is supported. This requires a modification to the System Capability functionality.
+
+###### GetSystemCapability Subscription
+
+The ability to subscribe to potential system capabilities as they are likely to update has become a necessary feature. This will include a new non mandatory parameter to `GetSystemCapabilities`, new notification `OnSystemCapbilityUpdated`, and the ability for Core to allow subscriptions and their removal.
+
+Note: There should be a separate proposal to update the existing `SystemCapability` structs. 
+
+```
+<function name="GetSystemCapability" functionID="GetSystemCapabilityID" messagetype="request">
+    <description>Request for expanded information about a supported system/HMI capability</description>
+    <param name="systemCapabilityType" type="SystemCapabilityType" mandatory="true">
+        <description>The type of system capability to get more information on</description>
+    </param>
+    <param name="subscribe" type="Boolean" mandatory="false">
+        <description>Flag to subscribe to updates of the supplied service capability type. If true, the requester will be subscribed. If false, the requester will not be subscribed and be removed as a subscriber if it was previously subscribed.</description>
+    </param>
+</function>
+
+<function name="OnSystemCapabilityUpdated>
+	<description> A notification to inform the connected device that a specific system capability has changed.</description>
+	<param name="systemCapability type="SystemCapability" mandatory="true">
+	<description> The system capability that has been updated</description>
+	</param>
+</function>
+```
 
 ###### New SystemCapabilityType
 
@@ -383,16 +421,31 @@ If the app wants to use services published on the device, it must first ensure t
 ###### Added Capability for App Services
 
 ```xml
-   
 <struct name="SystemCapability">
 	...
 	<param name="appServicesCapabilities" type="AppServicesCapabilities" mandatory="false"/>
 </struct>
     
 <struct name="AppServicesCapabilities">
-	<param name="supported" type="Boolean" mandatory="true"/>
-   	<param name="appServices" type="AppServiceRecord" array="true" mandatory="false"/>
+	<param name="servicesSupported" type="AppServiceType" array="true" mandatory="true">
+	    <description> An array of supported app service types</description>
+	</param>	
+   	<param name="appServices" type="AppServiceCapability" array="true" mandatory="false">
+   	    <description> An array of currently available services. If this is an update to the capability the affected services will include an update reason in that item</description>
+   	</param>
+
+
 </struct>
+
+<struct name="AppServiceCapability">
+   	<param name="updateReason" type="ServiceUpdateReason" mandatory="false">
+   	    <description>Only included in OnSystemCapbilityUpdated. Update reason for this service record.</description>
+   	</param>
+   	<param name="appServiceUpdated" type="AppServiceRecord" mandatory="true">
+   	    <description>Service record for a specific app service provider</description>
+   	</param>
+</struct>
+
 
 ```
 ##### Get service data
@@ -442,7 +495,7 @@ Now that we know what to expect in terms of the actual data, the next piece will
 
 ##### Subscribed services
 
-If the app service consumer subscribed to updates from the app service provider they will recieve those updates through an `OnAppServiceData ` notification. This notification will simply contain an `AppServiceData` struct with the updated data.
+If the app service consumer subscribed to updates from the app service provider they will receive those updates through an `OnAppServiceData ` notification. This notification will simply contain an `AppServiceData` struct with the updated data.
 
 ###### OnAppServiceData
 
@@ -529,17 +582,23 @@ An app service consumer can also request for this service to become the active s
 
 SDL should make no guarantees that:
 
-1. App service providers offer URI prefix and actions sheet
+1. App service providers offer URI prefix and URI Schema
 2. App service providers will correctly respond to the requests
 3. The requested app service provider will become the active service of that type
-4. The `serviceUri` will be correctly formatted from the app service consumer
+4. The `serviceUri` will be a correctly formatted URI from the app service consumer
+
 
 ```xml
 <function name="PerformAppServiceInteraction" functionID="PerformAppServiceInteractionID" messagetype="request">
 
 	<param name="serviceUri" type="String"  mandatory="true"/>
-	<param name="appServiceId" type="String" mandatory="false"/>
-	<param name="requestServiceActive" type="Boolean" mandatory="false"/>
+	<param name="appServiceId" type="String" mandatory="true"/>
+	<param name="originApp" type="String" mandatory="true">
+		<description> This string is the appID of the app requesting the app service provider take the specific action.</description>
+	</param>
+	<param name="requestServiceActive" type="Boolean" mandatory="false">
+		<description> This flag signals the requesting consumer would like this service to become the active primary service of the destination's type.</description>
+	</param>
 
 		
 </function>
@@ -548,22 +607,19 @@ SDL should make no guarantees that:
 
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
 		<description> true, if successful; false, if failed </description>
-	</param>
+	</param>       
        
 	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
-		<description>See Result</description>
-		<element name="SUCCESS"/>
-		<element name="INVALID_DATA"/>
-		<element name="OUT_OF_MEMORY"/>
-		<element name="TOO_MANY_PENDING_REQUESTS"/>
-		<element name="APPLICATION_NOT_REGISTERED"/>
-		<element name="GENERIC_ERROR"/>
+		<description>See Result. All results will be available for this response.</description>
 	</param>
 	
 	<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
 		<description>Provides additional human readable info regarding the result.</description>
 	</param>
 
+	<param name="serviceSpecificResult" type="String"  mandatory="false" p>
+		<description>The service can provide specific result strings to the consumer through this param. These results should be described in the URI schema set in the Service Manifest</description>
+	</param>
 	
 </function>
 ```
@@ -572,18 +628,90 @@ SDL should make no guarantees that:
 
 Core will have to manage which services are currently published and which of those are considered active. If a user wishes to select an app service over an onboard service there should be an easy way to perform this action on the IVI system.
 
+##### Core Configurations
+
+App services will need some sort of configurations base don IVI systems. The `smartdevicelink.ini` file can contain these options.
+
+
+```
+[AppServices]
+; The id to pass to app service publishers when sending a PerformAppServiceInteraction request
+CoresOriginId = "sdl_core"
+
+; Services that exist on the module. Values are of AppServiceType in RPC Spec. These services will be used as default and app services will only become primary service publisher with direct user interaction. These services will also be a fallback if no app service publisher is registered with the system of that type.
+EmbeddedServices = MEDIA, WEATHER, NAVIGATION, VOICE_ASSISTANT, COMMUNICATION_VOIP, MESSAGING, TTS
+
+ 
+; Additional time added to RPC timeout when passing through to App service
+RpcPassThroughTimeout = 10000
+
+```
+
+##### Embedded Services vs App Services
+
+Embedded systems are likely to have their own implementations of the services being offered by app service publishers. These services should be the default service of that type on first boot until a new service of that type is activated. Once a service publisher is activated it should become the default service provider of that type unless the user decides to clear saved defaults through the HMI (OEM implementations may vary). These services should be listed in the smartdevicelink.ini file as discussed [here](#core-configurations).
 
 ##### Activating Service Providers
 
 Enabling services will be a major UX concern for Core and HMI portions. A set of guidelines should exist to ensure the consumer will understand what's happening and how to change service providers.
 
-1. App service providers may become "Activated" if they are the only service to register. 
-2. If multiple app service providers of the same type register and the user has not previously selected an app service provider of that type, the first service to register will be activated by default.
+1. App service providers may become "Activated" if they are the only service to register and no embedded service exists for that service type. 
+2. If multiple app service providers of the same type register and the user has not previously selected an app service provider of that type, the first service to register will be activated by default if no embedded service exists for that service type.
 3. When an app service provider is changed to be the "Activated" service of that type, the user should be notified.
 4. The user should have the ability to select default service types through the IVI system based on records of app services that have connected. All selection screens must adhere to driver distraction guidelines per the region in which it is used.
 5. If an app service provider has been selected as default but does not register, rule 2 will then be the fallback.
 6. If an app service consumer wishes to activate a different app service provider than the currently selected app service provider, the HMI must present the user with a notification/choice to allow the new app service provider over the previously selected one.
 
+###### Activating an App Service Provider
+The HMI will be responsible for the actual selection and activation of app services. This proposal does not intend to include requirements for how an HMI should display, allow user selection, etc of this feature but rather, includes the necessary enabling logic to support most implementations. The HMI can get 
+
+####### HMI_API
+
+```xml
+<function name="GetAppServiceRecords" messagetype="request">
+  <param name="serviceTypes" type="Common.ServiceType" mandatory="false">
+    <description>If included, only service records of supplied type will be returned in response. If not included, all service records for all types will be returned.</description>
+  </param>
+</function>
+
+<function name="GetAppServiceRecords" messagetype="response">
+  <param name="serviceRecords" type="Common.AppServiceRecord" array="true"mandatory="false">
+    <description>All app service records of requested type.</description>
+  </param>
+</function>
+
+
+<function name="AppServiceActivation" messagetype="request">
+  <param name="serviceId" type="String" mandatory="true" >
+    <description>The ID of the service that should have an activation event take place on</description>
+  </param>
+  <param name="serviceType" type="Common.ServiceType" mandatory="true">
+    <description>The service type the service should have the activation event occur on</description>
+  </param>
+  <param name="activate" type="Boolean" mandatory="true">
+    <description>True if the service is to be activated. False if the app is to be deactivated</description>
+  </param>
+    <param name="setAsDefault" type="Boolean" mandatory="false" defvalue="false">
+    <description>True if the service is to be the default service of this type. False if the app is not to be the default</description>
+  </param>
+</function>
+
+<function name="AppServiceActivation" messagetype="response">
+  <param name="serviceId" type="String" mandatory="true" >
+    <description>The ID of the service that was requested to have an activation event take place</description>
+  </param>
+  <param name="serviceType" type="Common.ServiceType" mandatory="true">
+    <description>The service type the service that was requested to have an activation event take place</description>
+  </param>
+  <param name="activate" type="Boolean" mandatory="true">
+    <description>True if the service was activated. False if the app was deactivated or unable to be activated</description>
+  </param>
+    <param name="setAsDefault" type="Boolean" mandatory="false" defvalue="False">
+    <description>True if the service was set to the default service of this type. False if the app was not to be the default</description>
+  </param> 
+</function>
+
+```
 
 ##### Adaptation to new services
 
@@ -632,6 +760,9 @@ Core will have the biggest changes necessary. A new AppServiceManager will need 
 
 The mobile libraries will need a nice, developer friendly manager to handle publishing their service. These managers will need to have their own proposal as this one simply is proposing to create the functionality between the systems.
 
+#### Handling Requests
+While it has never been stated that the mobile proxies can only handle responses and notifications, it must be made clear at this point that they are to be able to handle requests. 
+
 ### Policy Server
 
 New functional groups should be created based on [this section](#policy-table).
@@ -653,4 +784,13 @@ New functional groups should be created based on [this section](#policy-table).
      - Certain providers could be responsible for sending specific RPC notifications (eg Nav - OnWayPoints changed)
      - Update app service consumers when a new service has been activated over a different app service provider
      - Add an additional RPC to be more specific about notifying an App Service Provider they were removed.
+- Instead of introducing a subscribe model to system capabilities, simply adding a notification to be sent when service records changed:
 
+
+```xml
+<function name="OnAppServiceRecordUpdated" functionID="OnAppServiceRecordUpdatedID" messagetype="notification">
+	<description> This notification includes the data that is updated from the specific service</description>
+	<param name="appServiceRecord" type="AppServiceRecord" mandatory="true"/>
+	<param name="updateReason" type="ServiceUpdateReason" mandatory="true"/>
+</function> 
+```
