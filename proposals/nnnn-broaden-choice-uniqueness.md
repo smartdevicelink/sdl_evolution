@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal broadens choice and sub-menu uniqueness to allow `PerformInteraction` and sub-menu `AddCommand`s to be unique. 
+This proposal broadens choice and sub-menu uniqueness to allow `PerformInteraction` and sub-menu `AddCommand` primary text to be identical. 
 
 ## Motivation
 
