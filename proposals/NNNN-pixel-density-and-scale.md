@@ -78,7 +78,7 @@ Change the VideoStreamingCapability struct in both API's to include the addition
  <description>PPI is the diagonal resolution in pixels divided by the diagonal screen size in inches.</description>
 </param>
 <param name="scale" type="Float" mandatory="false">
-  <description>The scaling factor the app should use to </description>
+  <description>The scaling factor the app should use to change the size of the projecting view.</description>
 </param>
 </struct>
 ```
@@ -182,7 +182,7 @@ Alternatively modify `ScreenParams` struct used by `RegisterAppInterfaceResponse
  <description>PPI is the diagonal resolution in pixels divided by the diagonal screen size in inches.</description>
 </param>
 <param name="scale" type="Float" mandatory="false">
-  <description>The scaling factor the app should use to </description>
+  <description>The scaling factor the app should use to change the size of the projecting view.</description>
 </param>
 </struct>
 ```
