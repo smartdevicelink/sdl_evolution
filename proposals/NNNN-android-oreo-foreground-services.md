@@ -23,7 +23,7 @@ This behavior is way better compared to v4.5.0 however the SDL related notificat
 
 ## Proposed solution
 
-The proposed solution is to change the behavior how apps prepare the SDL connection to Bluetooth devices. The idea is to create the SDL proxy only while the app is in foreground on the phone while it never connected to a head unit. It's not allowed to start the router service from the background if it's not known the BT device will connect to it. Once the app has registered to a head unit it's allowed to start the router service in future if that BT device connnects.
+The proposed solution is to change the behavior how apps prepare the SDL connection to Bluetooth devices. The idea is to create the SDL proxy only while the app is in foreground on the phone in case it never connected to a head unit. It's not allowed to start the router service from the background if the connecting BT device is not known that it supports SDL. Once the app has registered to a head unit it's allowed to start the router service in future connections with that BT device.
 
 As a result no SDL code will cause any visible elements on the Android phone until the app established a connection to the vehicle.
 
@@ -38,7 +38,7 @@ The "first time" guide may look like the following list:
 3. Select the Applications Tab on your infotainment system
 4. Start the app "APP_NAME" on your phone
 5. If the app is not already listed press "Find Mobile Applications"
-6. Next time you enter the vehicle can leave your phone in the pocket. The app will recognize the vehicle and automatically connect.
+6. Done. Next time you enter the vehicle can keep your phone in the pocket. The app will appear automatically.
 
 ## Detailed requirements
 
