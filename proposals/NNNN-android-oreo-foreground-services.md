@@ -13,7 +13,7 @@ This proposal addresses an issue with Android Oreo background requirements forci
 
 With Android Oreo Google added [Background Service Limitations](https://developer.android.com/about/versions/oreo/background#services) for services running in the background.  Services are used to maintain SDL proxies as well as the router service providing multiplexing. With [SDL Android v4.5.0](https://github.com/smartdevicelink/sdl_android/releases/tag/4.5.0) a fix was added to make the router service visible using a notification shown in the Android notification center. This notification is visible for 10 to 20 seconds (depending on the number of SDL apps installed on the phone).
 
-![screenshot](../assets/proposals/NNNN/sdl_notification.jpg)
+![screenshot](../assets/proposals/NNNN-android-oero-foreground-services/sdl_notification.jpg)
 
 [SDL Android v4.6.0](https://github.com/smartdevicelink/sdl_android/tree/release/4.6.0_RC) (currently under development) improves the behavior adding flags to known bluetooth devices. This flag will indicate if the app ever connected and registered to the connected Bluetooth device. 
 
