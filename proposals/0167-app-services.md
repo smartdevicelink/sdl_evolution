@@ -215,7 +215,7 @@ A voice assistant service is defined as a service that is currently acting as th
 		<description>See Result</description>
 		<element name="SUCCESS"/>
 		<element name="REJECTED"/>
-		<element name="DISSALOWED"/>
+		<element name="DISALOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -334,7 +334,7 @@ The next action the App Service has to take is publishing their service. This is
 		<description>See Result</description>
 		<element name="SUCCESS"/>
 		<element name="REJECTED"/>
-		<element name="DISSALOWED"/>
+		<element name="DISALOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -364,13 +364,13 @@ _Same for both MOBILE\_API and HMI\_API._
 	 	<description> The service has just been unpublished with the module and is no longer accessible</description>
 	 </element>
 	 <element name = "ACTIVATED">
-	 	<description> The service is activated as the primary service of this type. All request dealing with this service type will be handled by this service.</description>
+	 	<description> The service is activated as the primary service of this type. All requests dealing with this service type will be handled by this service.</description>
 	 </element>
 	 <element name = "DEACTIVATED">
 	 	<description> The service has been deactivated as the primary service of its type</description>
 	 </element>
 	 <element name = "MANIFEST_UPDATE">
-	 	<description> The service has updated it's manifest. This could imply updated capabilities</description>
+	 	<description> The service has updated its manifest. This could imply updated capabilities</description>
 	 </element>
 </enum>
 
@@ -378,7 +378,7 @@ _Same for both MOBILE\_API and HMI\_API._
 	<description> This is the record of an app service publisher that the module has. It should contain the most up to date information including the service's active state</description>
 	
 	<param name="serviceId" type="String" mandatory="true">
-		<description> A unique id tied to this specific service record. The ID is supplied by the module that services publish themselves. </description>
+		<description> A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves. </description>
 	</param>
 	
 	<param name="serviceManifest" type="AppServiceManifest" mandatory="true">
@@ -538,7 +538,7 @@ Now that we know what to expect in terms of the actual data, the next piece will
 		<description>See Result</description>
 		<element name="SUCCESS"/>
 		<element name="REJECTED"/>
-		<element name="DISSALOWED"/>
+		<element name="DISALOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -620,7 +620,7 @@ When an app service consumer receives an `AppServiceData` object that contains f
 		<description>See Result</description>
 		<element name="SUCCESS"/>
 		<element name="REJECTED"/>
-		<element name="DISSALOWED"/>
+		<element name="DISALOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -650,7 +650,7 @@ When an app service consumer receives an `AppServiceData` object that contains f
 
 App service providers will likely have different actions exposed to the module and app service consumers. It will be difficult to standardize these actions by RPC versions and can easily become stale. Therefore, we introduce a best-effort attempt to take actions on a service. 
 
-The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. SDL takes no steps to validate an app service provider's action sheet JSON object. In the future, plug in libraries could be added to handle these sheets on a provider by provider bases. 
+The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. SDL takes no steps to validate an app service provider's action sheet JSON object. In the future, plug in libraries could be added to handle these sheets on a provider by provider basis. 
 
 An app service consumer can also request for this service to become the active service of its respective type. If the app service consumer currently has an HMI state of HMI_FULL this request can be performed without user interaction. If the app is currently not in that state, the HMI should present the user with a choice to allow this app service provider to become the active service of its specified type. If the app service provider is not allowed to become active, the request will not be sent to it and an unsuccessful response will be sent to the requester. 
 
@@ -711,12 +711,12 @@ Core will have to manage which services are currently published and which of tho
 
 ##### Core Configurations
 
-App services will need some sort of configurations base don IVI systems. The `smartdevicelink.ini` file can contain these options.
+App services will need some sort of configurations based on IVI systems. The `smartdevicelink.ini` file can contain these options.
 
 
 ```
 [AppServices]
-; The id to pass to app service publishers when sending a PerformAppServiceInteraction request
+; The ID to pass to app service publishers when sending a PerformAppServiceInteraction request
 CoresOriginId = "sdl_core"
 
 ; Services that exist on the module. Values are of AppServiceType in RPC Spec. These services will be used as default and app services will only become primary service publisher with direct user interaction. These services will also be a fallback if no app service publisher is registered with the system of that type.
@@ -744,7 +744,7 @@ Enabling services will be a major UX concern for Core and HMI portions. A set of
 6. If an app service consumer wishes to activate a different app service provider than the currently selected app service provider, the HMI must present the user with a notification/choice to allow the new app service provider over the previously selected one.
 
 ###### Activating an App Service Provider
-The HMI will be responsible for the actual selection and activation of app services. This proposal does not intend to include requirements for how an HMI should display, allow user selection, etc of this feature but rather, includes the necessary enabling logic to support most implementations. The HMI can get 
+The HMI will be responsible for the actual selection and activation of app services. This proposal does not intend to include requirements for how an HMI should display, allow user selection, etc of this feature but rather, includes the necessary enabling logic to support most implementations. The HMI can get all published apps from the Core module, it can then display them to the user and have them select an app service to activate and/or set as the default service provider of a service type.
 
 ####### HMI_API
 
