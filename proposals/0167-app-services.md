@@ -207,24 +207,27 @@ A voice assistant service is defined as a service that is currently acting as th
 	
 	
 	<function name="UpdateVRSynonyms" functionID="UpdateVRSynonymsID" messagetype="response">
-		<param name="success" type="Boolean" platform="documentation" mandatory="true">
-			<description> true, if successful; false, if failed </description>
-		</param>
+			<param name="success" type="Boolean" platform="documentation" mandatory="true">
+		<description> true, if successful; false, if failed </description>
+	</param>
        
-		<param name="resultCode" type="Result" platform="documentation" mandatory="true">
-			<description>See Result</description>
-			<element name="SUCCESS"/>
-			<element name="INVALID_DATA"/>
-			<element name="OUT_OF_MEMORY"/>
-			<element name="TOO_MANY_PENDING_REQUESTS"/>
-			<element name="APPLICATION_NOT_REGISTERED"/>
-			<element name="GENERIC_ERROR"/>
-		</param>
+	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
+		<description>See Result</description>
+		<element name="SUCCESS"/>
+		<element name="REJECTED"/>
+		<element name="DISSALOWED"/>
+		<element name="INVALID_DATA"/>
+		<element name="OUT_OF_MEMORY"/>
+		<element name="TOO_MANY_PENDING_REQUESTS"/>
+		<element name="APPLICATION_NOT_REGISTERED"/>
+		<element name="GENERIC_ERROR"/>
+	</param>
 	
-		<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-			<description>Provides additional human readable info regarding the result.</description>
-		</param>
-	</function>
+	<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+		<description>Provides additional human readable info regarding the result.</description>
+	</param>
+	
+</function>
 	
 	<function name="OnVRChoiceSelected" functionID="OnVoiceAssistantActivatedID" messagetype="notification">
 			<param name="vrSynonymSelected" type="VRSynonym" mandatory="true"/>
@@ -254,7 +257,12 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 
 ```xml
 	<struct name="AppServiceManifest">
-		<param name="serviceName" type="String" mandatory="false"/>
+		<description> This manfifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it</description>
+		
+		<param name="serviceName" type="String" mandatory="false">
+			<description> Unique name of this service</description>
+		</param>
+		
 		<param name="serviceType" type="AppServiceType" mandatory="true">
 			<description>The type of service that is to be offered by this app</description>
 		</param>
@@ -263,15 +271,22 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 			<description> The file name of the icon to be associated with this service. Most likely the same as the appIcon.</description>
 		</param>
 		
-		<param name="allowAppConsumers" type="Boolean" mandatory="false"/>
+		<param name="allowAppConsumers" type="Boolean" mandatory="false">
+			<description>If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false. </description>
+		</param>
 
 				
-		<param name="uriPrefix" type="String" mandatory="false"/>
-		<param name="uriActions" type="JSONObject" mandatory="false">
+		<param name="uriPrefix" type="String" mandatory="false">
+			<description> The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it.</description>
+		</param>
+		<param name="uriScheme" type="JSONObject" mandatory="false">
+			<description> This is a custom schema for this service. SDL will not do any verification on this param past that it has a correctly formated JSON Object as its base. The uriScheme should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. </description>
+		</param>
 		
-		<param name="serviceActive" type="Boolean" mandatory="false"/>
-		
-		<param name="rpcSpecVersion" type="SyncMsgVersion" mandatory="false"/>
+	
+		<param name="rpcSpecVersion" type="SyncMsgVersion" mandatory="false">
+			<description> This is the max RPC Spec version the app service understands. This is important during the RPC passthrough functionality. If not included, it is assumed the max version of the module is acceptable. </description>
+		</param>
 		<param name="handledRPCs" type="FunctionID" array="true" mandatory="false">
 			<description> This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. </description>
 		</param>
@@ -296,7 +311,9 @@ The next action the App Service has to take is publishing their service. This is
 <function name="PublishAppService" functionID="PublishAppServiceID" messagetype="request">
 	<description>Registers a service offered by this app on the module</description>
 
-	<param name="appServiceManifest" type="AppServiceManifest" mandatory="false"/>
+	<param name="appServiceManifest" type="AppServiceManifest" mandatory="true">
+		<description> The manifest of the service that wishes to be published.</description>
+	</param>
 
 	
 </function>
@@ -358,17 +375,30 @@ _Same for both MOBILE\_API and HMI\_API._
 </enum>
 
 <struct name="AppServiceRecord">
-	<param name="serviceId" type="String" mandatory="true"/>
-	<param name="serviceManifest" type="AppServiceManifest" mandatory="true"/>
-	<param name="servicePublished" type="Boolean" mandatory="true"/>
-	<param name="serviceActive" type="Boolean" mandatory="true"/>
+	<description> This is the record of an app service publisher that the module has. It should contain the most up to date information including the service's active state</description>
+	
+	<param name="serviceId" type="String" mandatory="true">
+		<description> A unique id tied to this specific service record. The ID is supplied by the module that services publish themselves. </description>
+	</param>
+	
+	<param name="serviceManifest" type="AppServiceManifest" mandatory="true">
+		<description> Manifest for the service that this record is for.</description>
+	</param>
+	
+	<param name="servicePublished" type="Boolean" mandatory="true">
+		<description> If true, the service is published and available. If false, the service has likely just been unpublished, and should be considered unavailable.</description>
+	</param>
+	
+	<param name="serviceActive" type="Boolean" mandatory="true">
+		<description> If true, the service is the active primary service of the supplied service type. It will receive all potential RPCs that are passed through to that service type. If false, it is not the primary service of the supplied type. See servicePublished for its availability. </description>
+	</param>
 </struct>
 
 ```
 
 ##### Notifying provider of removal
 
-If for any reason the module determines that an app service provider is no longer to be published and is to be removed it will notify the app service provider through an `OnAppServiceRecordUpdated` with the `servicePublished` boolean set to false. It will be the responsibility of the app service provider to then tear down their service resources on the mobile device side. 
+If for any reason the module determines that an app service provider is no longer to be published and is to be removed it will notify the app service provider through an `OnSystemCapabilityUpdated` with the `servicePublished` boolean set to false. It will be the responsibility of the app service provider to then tear down their service resources on the mobile device side. 
 
 If the service wishes to reregister it can follow the normal flow, pending the `updateResult` param in the notification.
 
@@ -386,16 +416,20 @@ If the app wants to use services published on the device, it must first ensure t
 
 ###### GetSystemCapability Subscription
 
-The ability to subscribe to potential system capabilities as they are likely to update has become a necessary feature. This will include a new non mandatory parameter to `GetSystemCapabilities`, new notification `OnSystemCapbilityUpdated`, and the ability for Core to allow subscriptions and their removal.
+The ability to subscribe to potential system capabilities as they are likely to update has become a necessary feature. This will include a new non mandatory parameter to `GetSystemCapabilities`, new notification `OnSystemCapbilityUpdated`, and the ability for Core to allow subscriptions and their removal. 
 
-Note: There should be a separate proposal to update the existing `SystemCapability` structs. 
+When a service sends a `PublishAppService` request it will automatically be subscribed to the `APP_SERVICES` system capability updates.
+
+_Note: There should be a separate proposal to update the existing `SystemCapability` structs._ 
 
 ```
 <function name="GetSystemCapability" functionID="GetSystemCapabilityID" messagetype="request">
     <description>Request for expanded information about a supported system/HMI capability</description>
+    
     <param name="systemCapabilityType" type="SystemCapabilityType" mandatory="true">
         <description>The type of system capability to get more information on</description>
     </param>
+    
     <param name="subscribe" type="Boolean" mandatory="false">
         <description>Flag to subscribe to updates of the supplied service capability type. If true, the requester will be subscribed. If false, the requester will not be subscribed and be removed as a subscriber if it was previously subscribed.</description>
     </param>
@@ -403,8 +437,9 @@ Note: There should be a separate proposal to update the existing `SystemCapabili
 
 <function name="OnSystemCapabilityUpdated>
 	<description> A notification to inform the connected device that a specific system capability has changed.</description>
+	
 	<param name="systemCapability type="SystemCapability" mandatory="true">
-	<description> The system capability that has been updated</description>
+		<description> The system capability that has been updated</description>
 	</param>
 </function>
 ```
@@ -427,9 +462,12 @@ Note: There should be a separate proposal to update the existing `SystemCapabili
 </struct>
     
 <struct name="AppServicesCapabilities">
+	<description> Capabilities of app services including what service types are supported and the current state of services. </description>
+	
 	<param name="servicesSupported" type="AppServiceType" array="true" mandatory="true">
 	    <description> An array of supported app service types</description>
 	</param>	
+   
    	<param name="appServices" type="AppServiceCapability" array="true" mandatory="false">
    	    <description> An array of currently available services. If this is an update to the capability the affected services will include an update reason in that item</description>
    	</param>
@@ -457,6 +495,8 @@ When requesting the data from the app service the developer can expect the data 
 ###### AppServiceData
 ```xml
 <struct name="AppServiceData">
+	<description> Contains all the current data of the app service. The serviceType will link to which of the service data objects are included in this object. (eg if service type equals MEDIA, the mediaServiceData param should be included.</description>
+	
 	<param name="serviceType" type="AppServiceType" mandatory="true"/>
 	<param name="serviceId" type="String" mandatory="true"/>
 		
@@ -481,12 +521,36 @@ Now that we know what to expect in terms of the actual data, the next piece will
 	
 	<param name="serviceType" type="AppServiceType" mandatory="true"/>
 	
-	<param name="subscribe" type="Boolean" mandatory="false"/>
+	<param name="subscribe" type="Boolean" mandatory="false">
+		<description> If true, the consumer is requesting to subscribe to all future updates from the service publisher. If false, the consumer doesn't wish to subscribe and should be unsubscribed if it was previously subscribed.</description>
+	</param>
 	
 </function>
 
 <function name="GetAppServiceData" functionID="GetAppServiceDataID" messagetype="response">
 	<description> This response includes the data that is requested from the specific service</description>
+
+	<param name="success" type="Boolean" platform="documentation" mandatory="true">
+		<description> true, if successful; false, if failed </description>
+	</param>
+       
+	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
+		<description>See Result</description>
+		<element name="SUCCESS"/>
+		<element name="REJECTED"/>
+		<element name="DISSALOWED"/>
+		<element name="INVALID_DATA"/>
+		<element name="OUT_OF_MEMORY"/>
+		<element name="TOO_MANY_PENDING_REQUESTS"/>
+		<element name="APPLICATION_NOT_REGISTERED"/>
+		<element name="GENERIC_ERROR"/>
+	</param>
+	
+	<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+		<description>Provides additional human readable info regarding the result.</description>
+	</param>
+	
+	<!-- Specific response data -->
 	
 	<param name="serviceData" type="AppServiceData" mandatory="true"/>
 		
@@ -521,8 +585,13 @@ When an app service consumer receives an `AppServiceData` object that contains f
 <function name="GetFile" functionID="GetFileID" messagetype="request">
 	<description> This request is sent to the module to retrieve a file</description>
 
-	<param name="syncFileName" type="String" maxlength="255" mandatory="true"/>
-	<param name="appServiceId" type="String" mandatory="false"/>
+	<param name="fileName" type="String" maxlength="255" mandatory="true">
+		<description> File name that should be retrieved.</description>
+	</param>
+	
+	<param name="appServiceId" type="String" mandatory="false">
+		<description> ID of the service that should have uploaded the requested file.</description>
+	</param>
 
 	<param name="fileType" type="FileType" mandatory="false">
 		<description>Selected file type.</description>
@@ -539,6 +608,7 @@ When an app service consumer receives an `AppServiceData` object that contains f
 		
 </function>
 
+
 <function name="GetFile" functionID="GetFileID" messagetype="response">
 	<description> This response includes the data that is requested from the specific service</description>
 	
@@ -549,6 +619,8 @@ When an app service consumer receives an `AppServiceData` object that contains f
 	<param name="resultCode" type="Result" platform="documentation" mandatory="true">
 		<description>See Result</description>
 		<element name="SUCCESS"/>
+		<element name="REJECTED"/>
+		<element name="DISSALOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -559,6 +631,8 @@ When an app service consumer receives an `AppServiceData` object that contains f
 	<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
 		<description>Provides additional human readable info regarding the result.</description>
 	</param>
+	
+	<!-- Specific response data -->
 	
 	<param name="offset" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="false">
 		<description>Optional offset in bytes for resuming partial data chunks</description>
@@ -591,11 +665,18 @@ SDL should make no guarantees that:
 ```xml
 <function name="PerformAppServiceInteraction" functionID="PerformAppServiceInteractionID" messagetype="request">
 
-	<param name="serviceUri" type="String"  mandatory="true"/>
-	<param name="appServiceId" type="String" mandatory="true"/>
+	<param name="serviceUri" type="String"  mandatory="true">
+		<description>Fully qualified URI based on the URI prefix and URI scheme the app service provided. SDL makes no gurantee that this URI is correct.</description>
+	</param>
+	
+	<param name="appServiceId" type="String" mandatory="true">
+		<description> The service ID that the app consumer wishes to send this URI.</description>
+	</param>
+	
 	<param name="originApp" type="String" mandatory="true">
 		<description> This string is the appID of the app requesting the app service provider take the specific action.</description>
 	</param>
+	
 	<param name="requestServiceActive" type="Boolean" mandatory="false">
 		<description> This flag signals the requesting consumer would like this service to become the active primary service of the destination's type.</description>
 	</param>
