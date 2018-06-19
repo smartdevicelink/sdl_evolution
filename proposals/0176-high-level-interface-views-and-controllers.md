@@ -176,7 +176,7 @@ The top view controller is the most top from the stack presented on the head uni
 
 #### `rootViewController` and `setRootViewController`
 
-The very first view controller of the stack is returned by `rootViewController`. Settings a new root view controller will clear the stack and set a new root.
+The very first view controller of the stack is returned by `rootViewController`. Setting a new root view controller will clear the stack and set a new root.
 
 #### `pushViewController`
 
