@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal addresses an issue with Android Oreo background requirements forcing SDL for Android become potentially intrusive to all users with or without owning an SDL capable vehicle.
+This proposal addresses an issue with Android Oreo background requirements forcing SDL for Android to become potentially intrusive to all users with or without owning an SDL capable vehicle.
 
 ## Motivation
 
@@ -19,17 +19,18 @@ With Android Oreo Google added [Background Service Limitations](https://develope
 
 > The new logic will keep the service in the foreground for 10 seconds if it is a device that has never been seen before or rather the first time the device has connected over bluetooth, if the device does NOT connect, the mac address of the device will be stored with a flag indicating it should be ignored. If it DOES connect over SDL, the notification will then be present for 20 seconds on connection to that device to ensure a connection happens in all scenarios. The router service will still be started for devices that have the flag indicating to ignore those devices, but the service is immediately taken out of the foreground state. This is necessary since in Android O+ services have to be started into the foreground when started by background applications.
 
-This behavior is way better compared to v4.5.0 however the SDL related notification will still be visible to pure non-SDL users. We expect the the risk app partners may weigh benefits integrating SDL and complains from non-SDL users potentially giving bad rates or stop using the app.
+This behavior is way better compared to v4.5.0 however the SDL related notification will still be visible to pure non-SDL users. 
+We believe app partners might weigh the benefits of integrating SDL against complains from non-SDL users potentially giving bad ratings or no longer using the app, which is a risk the SDLC should consider.
 
 ## Proposed solution
 
-The proposed solution is to change the behavior how apps prepare the SDL connection to Bluetooth devices. The idea is to create the SDL proxy only while the app is in foreground on the phone in case it never connected to a head unit. It's not allowed to start the router service from the background if the connecting BT device is not known that it supports SDL. Once the app has registered to a head unit it's allowed to start the router service in future connections with that BT device.
+The proposed solution is to change the behavior of how apps prepare the SDL connection to Bluetooth devices. The idea is to create the SDL proxy only while the app is in foreground on the phone in case it was never connected to a head unit. It's not allowed to start the router service from the background if the connecting BT device is not known that it supports SDL. Once the app has registered to a head unit it's allowed to start the router service in future connections with that BT device.
 
 As a result no SDL code will cause any visible elements on the Android phone until the app established a connection to the vehicle.
 
-The first time use will be different as the phone must be unlocked and the SDL app must be in foreground. Any subsequent BT connnection to that device will make the app start the service from the background using the Android notification. It's expected that the user may accept the existance of this notification.
+The first time use will be different as the phone must be unlocked and the SDL app must be in foreground. Any subsequent BT connnection to that device will make the app start the service from the background using the Android notification. It's expected that the user may accept the existence of this notification.
 
-Once the first time use is done for the first SDL apps it's router service may notify other apps of the acceptance of SDL usage. This avoid to redo the guid for each app but only for the first app installed on the phone. 
+Once the first time use is done for the first SDL app, it's router service may notify other apps of the acceptance of SDL usage. This avoids the need to redo the guide for each app, and instead only for the first app installed on the phone. 
 
 The "first time" guide may look like the following list:
 
@@ -50,13 +51,13 @@ The "first time" guide may look like the following list:
 - The app never established to register to the connected Bluetooth device
 - On the phone there is no router service provided by another app 
 
-#### Requrement
+#### Requirement
 
 The app must not start SDL related services.
 
 #### Comments
 
-This is the case if the app is newly installed or updated with SDL support and no other SDL enabled app is installed or have been able to connect.
+This is the case if the app is newly installed or updated with SDL support and no other SDL enabled app is installed or has been able to connect.
 
 ### 2. Router service with app in foreground for unknown BT devices
 
@@ -112,7 +113,7 @@ This is the end of the "first time" guide storing the information of the user ow
 
 #### Comments
 
-As the app knows that the device supports SDL it can start the router service and keep is active/foregrounded
+As the app knows that the device supports SDL it can start the router service and keep it active/foregrounded
 
 ### 5. App connect to router service when in background
 
@@ -130,11 +131,11 @@ As the app knows that the device supports SDL it can start the router service an
 
 #### Comments
 
-This behavior can exist if another SDL enabled app is in foreground. It does not neceesarily know if the BT device supports SDL.
+This behavior can exist if another SDL enabled app is in foreground. It does not necessarily know if the BT device supports SDL.
 
 ## Potential downsides
 
-The downside is the reduce experience for the first time use as the phone must be unlocked and the app must be started. It's expected that users might do this anyway if the know about the SDL support.
+The downside is the reduced experience for the first time use as the phone must be unlocked and the app must be started. It's expected that users might do this anyway if they know about the SDL support.
 
 ## Impact on existing code
 
