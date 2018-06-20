@@ -28,7 +28,7 @@ Based on the MVC pattern used by UIKit the high level interface should introduce
 
 A view controller can exist in a set of states. Below flow shows the possible transitions between loading view, view to appear or to disappear.
 
-![view-controller-lifecycle](../assets/proposals/NNNN-high-level-interface-views-and-controllers/view-controller-lifecycle.png)
+![view-controller-lifecycle](../assets/proposals/0176-high-level-interface-views-and-controllers/view-controller-lifecycle.png)
 
 #### `Init`
 
