@@ -1,7 +1,8 @@
 # Interior Vehicle Data Subscription Management and Data Caching in SDL
 
-* Proposal: [SDL-NNNN](NNNN-GetInteriorVehicleData.md)
+* Proposal: [SDL-0178](0178-GetInteriorVehicleData.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
+* Status: **In Review**
 * Impacted Platforms: [Core / Web / RPC ]
 
 ## Introduction
