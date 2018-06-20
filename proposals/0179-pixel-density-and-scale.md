@@ -1,8 +1,8 @@
 # Pixel density and Scale
 
-* Proposal: [SDL-NNNN](NNNN-pixel-density-and-scale.md)
+* Proposal: [SDL-0179](0179-pixel-density-and-scale.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando) [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
