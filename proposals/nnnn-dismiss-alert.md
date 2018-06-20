@@ -30,7 +30,7 @@ A new RPC is required to fix this use case. I propose to add an RPC called `Dism
 ## Potential downsides
 
 1. If the developer is not tracking closely the views on-screen, they may not dismiss the view they expected.
-2. If used poorly, the alert could dismiss without the user expecting it to. This should only be used with alerts that don't take user interaction (such as a "waiting for network").
+2. If used poorly, the alert could dismiss without the user expecting it to. This should only be used with alerts that don't take user interaction (such as a "waiting for network" `Alert` using the `progressIndicator` Boolean).
 
 ## Impact on existing code
 
