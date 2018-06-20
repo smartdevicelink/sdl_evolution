@@ -215,7 +215,7 @@ A voice assistant service is defined as a service that is currently acting as th
 		<description>See Result</description>
 		<element name="SUCCESS"/>
 		<element name="REJECTED"/>
-		<element name="DISALOWED"/>
+		<element name="DISALLOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -334,7 +334,7 @@ The next action the App Service has to take is publishing their service. This is
 		<description>See Result</description>
 		<element name="SUCCESS"/>
 		<element name="REJECTED"/>
-		<element name="DISALOWED"/>
+		<element name="DISALLOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -538,7 +538,7 @@ Now that we know what to expect in terms of the actual data, the next piece will
 		<description>See Result</description>
 		<element name="SUCCESS"/>
 		<element name="REJECTED"/>
-		<element name="DISALOWED"/>
+		<element name="DISALLOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
@@ -620,7 +620,7 @@ When an app service consumer receives an `AppServiceData` object that contains f
 		<description>See Result</description>
 		<element name="SUCCESS"/>
 		<element name="REJECTED"/>
-		<element name="DISALOWED"/>
+		<element name="DISALLOWED"/>
 		<element name="INVALID_DATA"/>
 		<element name="OUT_OF_MEMORY"/>
 		<element name="TOO_MANY_PENDING_REQUESTS"/>
