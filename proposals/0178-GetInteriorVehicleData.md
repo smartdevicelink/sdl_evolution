@@ -14,7 +14,7 @@ This proposal is for improving the process of GetInteriorVehicleData RPC in SDL 
 
 The following sequence diagram shows the current behavior of SDL regarding GetInteriorVehicleData.
 
-![../assets/proposals/0178-getInteriorVehicleData/GetInteriorVehicleData_current.png](../assets/proposals/nnnn-getInteriorVehicleData/GetInteriorVehicleData_current.png)
+![../assets/proposals/0178-getInteriorVehicleData/GetInteriorVehicleData_current.png](../assets/proposals/0178-getInteriorVehicleData/GetInteriorVehicleData_current.png)
 
 #### 1. SDL always forwards a valid GetInteriorVehicleData request from any app to HMI regardless of whether the parameter `subscribe` is included or not.
 #### 2. SDL expects HMI to manage each app’s subscription status (per moduleType) and maintains a local status to keep track of each application’s subscription (per moduleType).
@@ -40,7 +40,7 @@ The following sequence diagram shows the current behavior of SDL regarding GetIn
 
 The following sequence diagram shows the proposed behavior of SDL regarding GetInteriorVehicleData. 
 
-![../assets/proposals/0178-getInteriorVehicleData/GetInteriorVehicleData_new_subscribe.png](../assets/proposals/nnnn-getInteriorVehicleData/GetInteriorVehicleData_new_subscribe.png)
+![../assets/proposals/0178-getInteriorVehicleData/GetInteriorVehicleData_new_subscribe.png](../assets/proposals/0178-getInteriorVehicleData/GetInteriorVehicleData_new_subscribe.png)
 
 SDL maintains the module (Type) subscription status as a whole. SDL needs to subscribe to a module if there is at least one app that subscribes to the module. SDL needs to unsubscribe from a module if no apps subscribe to the module. Or equivalently
 - SDL shall only include parameter `subscribe=true` if SDL has not (equivalently there is no app) subscribed to the module data when forwarding GetInteriorVehicleData with `subscribe=true`.
