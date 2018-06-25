@@ -7,7 +7,7 @@
 
 ## Introduction
 
-SDL remote control allows an mobile application to change the current audio source. When an application sets the audio source to `RADIO_TUNER`, the vehicle is supposed to use the last known/used radio band (AM/FM/XM) and frequency/station of the tuner. However, the application has no knowledge of last used radio band before sending such a request. The vehicle may or may not store the last used radio band. Therefore, the result of setting the audio source to `RADIO_TUNER` is unknown to the application. It is better for an application to set the audio source directly to `AM`, `FM` or `XM` (XM is for SiriusXM).
+SDL remote control allows a mobile application to change the current audio source. When an application sets the audio source to `RADIO_TUNER`, the vehicle is supposed to use the last known/used radio band (AM/FM/XM) and frequency/station of the tuner. However, the application has no knowledge of last used radio band before sending such a request. The vehicle may or may not store the last used radio band. Therefore, the result of setting the audio source to `RADIO_TUNER` is unknown to the application. It is better for an application to set the audio source directly to `AM`, `FM` or `XM` (XM is for SiriusXM).
 
 ## Motivation
 To give applications direct control of which radio band or SiriusXM radio they want to set as the audio source, we split `RADIO_TUNER` with detailed options.
@@ -33,10 +33,12 @@ We have the same changes for both the mobile_api and hmi_api.
 +    </element>
 +    <element name="XM">
 +    </element>
++    <element name="DAB">
++    </element>
   </enum>
 ```
 
-Because the parameters (audio source, radio band, and radio frequency) belong to two different remote control moubleTypes, in order to set the audio source to a specific radio station or radio frequency, an mobile application needs to send two `setInteriorVehicleData` requests in sequence. The firsts request sets the audio source to `AM`/`FM`/`XM` with targeted `moduleType=AUDIO`. The second request sets the desired frequency of `AM`/`FM` radio or station number of `XM` radio with targeted `moduleType=RADIO`. This is true regardless of this proposal.
+Because the parameters (audio source, radio band, and radio frequency) belong to two different remote control moubleTypes, in order to set the audio source to a specific radio station or radio frequency, a mobile application needs to send two `setInteriorVehicleData` requests in sequence. The firsts request sets the audio source to `AM`/`FM`/`XM` with targeted `moduleType=AUDIO`. The second request sets the desired frequency of `AM`/`FM` radio or station number of `XM` radio with targeted `moduleType=RADIO`. This is true regardless of this proposal.
 
 
 ## Potential downsides
