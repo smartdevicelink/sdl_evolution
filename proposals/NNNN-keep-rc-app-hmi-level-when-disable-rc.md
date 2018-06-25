@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-keep-rc-app-hmi-level-when-disable-rc.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
 * Status: **Awaiting review**
-* Impacted Platforms: [ Core ]
+* Impacted Platforms: [ Core / Web]
 
 ## Introduction
 
@@ -32,7 +32,7 @@ We propose the changes as in the following tables:
   | Current | Expected HMI change
 -- | -- | --
 1 | HMI shows registered RC apps grey | HMI shows registered RC apps as regular apps (no grey out)
-2 | HMI does not allow activate a RC app when RC disabled | HMI allows activating a RC app. If the user tries to activate an RC app when RC is disabled, HMI shows a pop up “Enable remote control feature for all mobile apps? Please press `Yes` to enable remote control or `No` to cancel. See Settings to disable.” If user presses `Yes`, enable Remote Control. If users presses `No`, do not enable Remote Control. Activate the app regardless of user's input. If the user tries to activate an RC app when RC is enabled, HMI does not show any pop up just as regular apps.
+2 | HMI does not allow activating a RC app when RC disabled | HMI allows activating a RC app. If the user tries to activate an RC app when RC is disabled, HMI shows a pop up “Enable remote control feature for all mobile apps? Please press `Yes` to enable remote control or `No` to cancel. See Settings to disable.” If user presses `Yes`, enable Remote Control. If users presses `No`, do not enable Remote Control. Activate the app regardless of user's input. If the user tries to activate an RC app when RC is enabled, HMI does not show any pop up just as regular apps. If the user tries to activate a non-RC app, HMI does not show any pop up regardless of RC enabled or disabled.
 
 ## Potential downsides
 None
