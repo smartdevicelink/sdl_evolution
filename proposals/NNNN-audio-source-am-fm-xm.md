@@ -38,7 +38,7 @@ We have the same changes for both the mobile_api and hmi_api.
   </enum>
 ```
 
-Because the parameters (audio source, radio band, and radio frequency) belong to two different remote control moubleTypes, in order to set the audio source to a specific radio station or radio frequency, a mobile application needs to send two `setInteriorVehicleData` requests in sequence. The firsts request sets the audio source to `AM`/`FM`/`XM` with targeted `moduleType=AUDIO`. The second request sets the desired frequency of `AM`/`FM` radio or station number of `XM` radio with targeted `moduleType=RADIO`. This is true regardless of this proposal.
+Because the parameters (audio source, radio band, and radio frequency) belong to two different remote control moduleTypes, in order to set the audio source to a specific radio station or radio frequency, a mobile application needs to send two `setInteriorVehicleData` requests in sequence. The firsts request sets the audio source to `AM`/`FM`/`XM` with targeted `moduleType=AUDIO`. The second request sets the desired frequency of `AM`/`FM` radio or station number of `XM` radio with targeted `moduleType=RADIO`. This is true regardless of this proposal.
 
 
 ## Potential downsides
