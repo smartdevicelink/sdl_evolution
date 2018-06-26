@@ -11,7 +11,7 @@ Add automatic hash management to the manager layer of the libraries. Automatical
 
 ## Motivation
 
-With the addition of the manager layer, hashes have become significantly more difficult to use. While hashes can be sent and the data will resume on the system, the manager-layer does not know this and cannot restore the data that is currently in use. This may cause bugs or for data to be resent wholesale that merely needs to be updated.
+With the addition of the manager layer, hashes have become significantly more difficult to use. While hashes can be sent and the data will resume on the system, the manager-layer does not know this and cannot restore the data that is currently in use. This may cause bugs or for data to be resent in its entirety that merely needs to be updated.
 
 ## Proposed solution
 
@@ -53,7 +53,7 @@ Resumed data would **only** fire through this delegate.
 
 ### Android
 
-Android will have to make similar changes and updates to the (yet to come) manager layer. Android has SQLite built in, but will likely store a JSON object into SharedPreferences when the managers disconnect and loaded on connection. A similar delegate-style interface may have to be added to handle restored commands.
+Android will have to make similar changes and updates to the (yet to come) manager layer. Android has SQLite built in, but will likely store a JSON object into SharedPreferences when the managers disconnect and load on connection. A similar delegate-style interface may have to be added to handle restored commands.
 
 ## Potential downsides
 
