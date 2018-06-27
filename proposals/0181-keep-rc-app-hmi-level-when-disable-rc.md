@@ -1,8 +1,8 @@
 # SDL shall not put RC applications to HMI level NONE when user disables RC in HMI
 
-* Proposal: [SDL-NNNN](NNNN-keep-rc-app-hmi-level-when-disable-rc.md)
+* Proposal: [SDL-0181](0181-keep-rc-app-hmi-level-when-disable-rc.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / HMI]
 
 ## Introduction
