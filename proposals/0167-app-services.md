@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0167](0167-app-services.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Deferred**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android / Core]
 
 
