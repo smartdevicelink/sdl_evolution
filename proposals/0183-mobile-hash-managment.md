@@ -1,8 +1,8 @@
 # Automatic Mobile Resumption Hash Management
 
-* Proposal: [SDL-NNNN](NNNN-mobile-hash-management.md)
+* Proposal: [SDL-0183](0183-mobile-hash-managment.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS / Android
 
 ## Introduction
