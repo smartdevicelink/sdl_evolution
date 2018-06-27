@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0179](0179-pixel-density-and-scale.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando) [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
