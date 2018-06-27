@@ -1,8 +1,8 @@
 # Audio Source AM/FM/XM/DAB
 
-* Proposal: [SDL-NNNN](NNNN-audio-source-am-fm-xm.md)
+* Proposal: [SDL-0182](0182-audio-source-am-fm-xm.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android / RPC / Core / HMI ]
 
 ## Introduction
