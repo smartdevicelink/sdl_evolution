@@ -1,8 +1,8 @@
 # Broaden Choice Uniqueness
 
-* Proposal: [SDL-NNNN](NNNN-broaden-choice-uniqueness.md)
+* Proposal: [SDL-0180](0180-broaden-choice-uniqueness.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android]
 
 ## Introduction
