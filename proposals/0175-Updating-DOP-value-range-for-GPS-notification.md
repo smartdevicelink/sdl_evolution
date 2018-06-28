@@ -15,7 +15,7 @@ Current range for vdop/hdop/pdop values is 0-10. GPS sensor can provide DOP valu
 
 ## Proposed solution
 
-To increase the maxvalue for vdop, pdop and hdop parameters to 65535 from 10 in GetVehicleData response and onVehicleData notification. Since DOP cannot reach that high value, this will ensure that gps notifications are NOT filtered out due to DOP.
+To increase the maxvalue for vdop, pdop and hdop parameters to 1000 from 10 in GetVehicleData response and onVehicleData notification. Since DOP cannot reach that high value, this will ensure that gps notifications are NOT filtered out due to DOP.
 And to make the hdop, pdop, vdop fields non mandatory for both HMI and Mobile APIs so that SDL allows the GPS notification without these params as well in case GPS sensor omits these parameters.
 
 **Proposed Mobile API changes:**
@@ -47,21 +47,21 @@ And to make the hdop, pdop, vdop fields non mandatory for both HMI and Mobile AP
     <param name="compassDirection" type="CompassDirection" mandatory="false">
     	<description>See CompassDirection.</description>
     </param>
-    <param name="pdop" type="Float" minvalue="0" mandatory="false" since="X.Y">
+    <param name="pdop" type="Float" minvalue="0" maxvalue="1000" mandatory="false" since="X.Y">
     	<description>PDOP.  If undefined or unavailable, then value shall be set to 0.</description>
 	<history>
     		<param name="pdop" type="Float" minvalue="0" maxvalue="10" defvalue="0" mandatory="true" until="X.Y">
     		</param>
 	</history>
     </param>
-    <param name="hdop" type="Float" minvalue="0" mandatory="false" since="X.Y">
+    <param name="hdop" type="Float" minvalue="0" maxvalue="1000" mandatory="false" since="X.Y">
     	<description>HDOP.  If value is unknown, value shall be set to 0.</description>
 	<history>
     		<param name="hdop" type="Float" minvalue="0" maxvalue="10" defvalue="0" mandatory="true" until="X.Y">
     		</param>
 	</history>
     </param>
-    <param name="vdop" type="Float" minvalue="0" mandatory="false" since="X.Y">
+    <param name="vdop" type="Float" minvalue="0" maxvalue="1000" mandatory="false" since="X.Y">
     	<description>VDOP.  If value is unknown, value shall be set to 0.</description>
 	<history>
     		<param name="vdop" type="Float" minvalue="0" maxvalue="10" defvalue="0" mandatory="true" until="X.Y">
