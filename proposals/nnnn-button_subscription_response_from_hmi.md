@@ -7,19 +7,19 @@
 
 ## Introduction
 Proposed to change `OnButtonSubscription` notification
-to `SubscribeButton` request/resoponse,`UnsubscribeButton` request/response to HMI. 
+to `SubscribeButton` request/response,`UnsubscribeButton` request/response to HMI. 
 
 
 ## Motivation
 
-All SDL subscriptions (vehicleData, InteriorVehicleData) have verry similar scheme of work. 
-SDL send request to HMI and wait for succesful response. 
+All SDL subscriptions (vehicleData, InteriorVehicleData) have very similar scheme of work. 
+SDL send request to HMI and wait for successful response. 
 
-ButtonSubscription is the only one subscription that has dirrefent scheme of work,
-to keep consistency and be able to check HMI errors button subscription should alse be done by request\response scheme. 
+ButtonSubscription is the only one subscription that has different scheme of work,
+to keep consistency and be able to check HMI errors button subscription should else be done by request\response scheme. 
 
 Before sending response to mobile SDL should be sure that HMI proceed this subscription.
-Noitifcaiton has no mechanism to check that subscribtion was proceed successfuly, it shoould be done with request/response.
+Notification has no mechanism to check that subscription was proceed successfully, it should be done with request/response.
 
 
 ## Proposed solution
@@ -105,7 +105,7 @@ According to proposed API HMI does not know anything about applications that sub
 
 When application1 subscribes to new button, SDL should send `SubscribeButton` request to HMI. 
 
-When application2 subscribes to **the same** button, SDL should **not** send anything to HMI, and store subscription internaly.
+When application2 subscribes to **the same** button, SDL should **not** send anything to HMI, and store subscription internally.
 
 When any application subscribes to the **new** button, SDL should send `SubscribeButton` request to HMI. 
 
@@ -113,12 +113,12 @@ When the last application subscribed to certain button unsubscribed SDL should s
 
 When the last application subscribed to certain button unregiteres SDL should send `UnsubscribeButton` request to HMI. 
 
-When HMI send OnButtonPress notification, SDL should initiale sending onButtonPress notification to all subscribed applicaitons.
+When HMI send OnButtonPress notification, SDL should initiale sending onButtonPress notification to all subscribed applications.
 ### Resumption 
 
 During Resumption SDL should restore all button subscriptions for application and send required SubscribeButton requests.
-In case if any existing applicaiton already subscribed to certain button,
-SDL should not send any requests to HMI and store subscription internaly.
+In case if any existing application already subscribed to certain button,
+SDL should not send any requests to HMI and store subscription internally.
 
 ## Potential downsides
 
@@ -129,7 +129,7 @@ No
 Impacts SDL core and HMI. 
 
 ## Alternatives considered
- 1. Keep OnButtonSubscription notification. But in that case SDL has no ability to check if HMI was succsfuly subscrbed to button,
+ 1. Keep OnButtonSubscription notification. But in that case SDL has no ability to check if HMI was successful subscribed to button,
  
- 2. Do not store subscriptions internaly and just transfer mobile subscriptions with app_id to HMI. 
-In that case additional logic of storing subscripptions should be implemented on HMI and it will lead to many redundant subscription and notification requests. 
+ 2. Do not store subscriptions internally and just transfer mobile subscriptions with app_id to HMI. 
+In that case additional logic of storing subscriptions should be implemented on HMI and it will lead to many redundant subscription and notification requests. 
