@@ -1,4 +1,4 @@
-# Feature name 
+# Handle response from HMI during resumption data
 
 * Proposal: [SDL-NNNN](nnn-resumption-data-error-handling.md)
 * Author: [LuxoftAKutsan](https://github.com/LuxoftAKutsan)
