@@ -42,7 +42,7 @@ Restructuring threading can be complex, and as we try to reduce the number of qu
 
 ## Impact on existing code
 
-This will not make any public API changes, however, it restructures the internals enough that, even though this is in some sense maintenence and a bug, it should be addressed with a proposal.
+This will not make any public API changes, however, it restructures the internals enough that, even though this is in some sense maintenance and a bug, it should be addressed with a proposal.
 
 ## Alternatives considered
 
