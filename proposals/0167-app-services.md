@@ -271,7 +271,7 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 			<description> The file name of the icon to be associated with this service. Most likely the same as the appIcon.</description>
 		</param>
 		
-		<param name="allowAppConsumers" type="Boolean" mandatory="false">
+		<param name="allowAppConsumers" type="Boolean" mandatory="false" defValue="false">
 			<description>If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false. </description>
 		</param>
 
@@ -479,7 +479,7 @@ _Note: There should be a separate proposal to update the existing `SystemCapabil
    	<param name="updateReason" type="ServiceUpdateReason" mandatory="false">
    	    <description>Only included in OnSystemCapbilityUpdated. Update reason for this service record.</description>
    	</param>
-   	<param name="appServiceUpdated" type="AppServiceRecord" mandatory="true">
+   	<param name="updatedAppServiceRecord" type="AppServiceRecord" mandatory="true">
    	    <description>Service record for a specific app service provider</description>
    	</param>
 </struct>
@@ -641,7 +641,14 @@ When an app service consumer receives an `AppServiceData` object that contains f
 	<param name="length" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="false">
 		<description>Optional length in bytes for resuming partial data chunks if offset is set to 0, then length is the total length of the file to be downloaded</description>
 	</param>
-
+	
+	<param name="fileType" type="FileType" mandatory="false">
+		<description>File type that is being sent in response.</description>
+	</param>
+	
+	<param name="crc" type="Integer" minvalue="0" maxvalue="4294967295" mandatory="false">
+	    <description> Additional CRC32 checksum to protect data integrity up to 512 Mbits</description>
+	</param>
 	
 </function>
 ```
@@ -721,6 +728,9 @@ CoresOriginId = "sdl_core"
 
 ; Services that exist on the module. Values are of AppServiceType in RPC Spec. These services will be used as default and app services will only become primary service publisher with direct user interaction. These services will also be a fallback if no app service publisher is registered with the system of that type.
 EmbeddedServices = MEDIA, WEATHER, NAVIGATION, VOICE_ASSISTANT, COMMUNICATION_VOIP, MESSAGING, TTS
+
+; App services that are supported by the module. Values are of AppServiceType in RPC Spec. If an app attempts to publish a service of a type that is not listed here it will be rejected.
+SupportedAppServices = MEDIA, WEATHER, NAVIGATION, VOICE_ASSISTANT, COMMUNICATION_VOIP, MESSAGING, TTS
 
  
 ; Additional time added to RPC timeout when passing through to App service
