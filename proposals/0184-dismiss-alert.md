@@ -1,6 +1,6 @@
 # Dismiss Alert RPC
 
-* Proposal: [SDL-01884](0184-dismiss-alert.md)
+* Proposal: [SDL-0184](0184-dismiss-alert.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
