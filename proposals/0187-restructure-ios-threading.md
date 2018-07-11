@@ -1,8 +1,8 @@
 # Restructure iOS Threading and Queueing
 
-* Proposal: [SDL-NNNN](NNNN-restructure-ios-threading.md)
+* Proposal: [SDL-0187](0187-restructure-ios-threading.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
