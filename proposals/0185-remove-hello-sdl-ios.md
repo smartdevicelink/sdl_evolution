@@ -1,8 +1,8 @@
 # Remove Hello SDL iOS Repository
 
-* Proposal: [SDL-NNNN](NNNN-remove-hello-sdl-ios.md)
+* Proposal: [SDL-0185](0185-remove-hello-sdl-ios.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
