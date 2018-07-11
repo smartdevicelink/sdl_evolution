@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0182](0182-audio-source-am-fm-xm.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Android / RPC / Core / HMI ]
 
 ## Introduction
