@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0180](0180-broaden-choice-uniqueness.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android]
 
 ## Introduction
