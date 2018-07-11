@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0181](0181-keep-rc-app-hmi-level-when-disable-rc.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [ Core / HMI]
 
 ## Introduction
