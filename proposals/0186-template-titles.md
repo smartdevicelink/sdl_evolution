@@ -1,8 +1,8 @@
 # Template Titles
 
-* Proposal: [SDL-NNNN](NNNN-template-titles.md)
+* Proposal: [SDL-0186](0186-template-titles.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
