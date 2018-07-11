@@ -11,7 +11,7 @@ SDL remote control allows a mobile application to change the current audio sourc
 
 ## Motivation
 
-This proposal is an update to a proposal that has not been implemented but it slated for the next release of projects. The proposal is number [0099](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0099-new-remote-control-modules-and-parameters.md).
+This proposal is an update to a proposal that has not been implemented but is slated for the next release of projects. The proposal is number [0099](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0099-new-remote-control-modules-and-parameters.md).
 
 To give applications direct control of which radio band or SiriusXM radio they want to set as the audio source, in this update, we split `RADIO_TUNER` with detailed options.
 
