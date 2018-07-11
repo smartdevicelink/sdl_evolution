@@ -10,7 +10,10 @@
 SDL remote control allows a mobile application to change the current audio source. When an application sets the audio source to `RADIO_TUNER`, the vehicle is supposed to use the last known/used radio band (AM/FM/XM) and frequency/station of the tuner. However, the application has no knowledge of last used radio band before sending such a request. The vehicle may or may not store the last used radio band. Therefore, the result of setting the audio source to `RADIO_TUNER` is unknown to the application. It is better for an application to set the audio source directly to `AM`, `FM`, `XM` (`XM` is for Sirius XM) or `DAB` (digital audio broadcasting, including DAB+).
 
 ## Motivation
-To give applications direct control of which radio band or SiriusXM radio they want to set as the audio source, we split `RADIO_TUNER` with detailed options.
+
+This proposal is an update to a proposal that has not been implemented but is slated for the next release of projects. The proposal is number [0099](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0099-new-remote-control-modules-and-parameters.md).
+
+To give applications direct control of which radio band or SiriusXM radio they want to set as the audio source, in this update, we split `RADIO_TUNER` with detailed options.
 
 
 ## Proposed solution
