@@ -119,7 +119,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0107" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - TurnSignal" filename="0107-New-vehicle-data-turnSignal.md"/>
 <proposal id="0108" status="accepted" primary-platform="rpc" sdl-version="x.x" name="AutoCompleteList" filename="0108-AutoCompleteList.md"/>
 <proposal id="0109" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SetAudioStreamingIndicator RPC" filename="0109-set-audio-streaming-indicator.md"/>
-<proposal id="0110" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove QT HMI from SDL Core" filename="0110-remove-qt-hmi-from-sdl-core.md"/>
+<proposal id="0110" status="implemented" primary-platform="core" sdl-version="5.0" name="Remove QT HMI from SDL Core" filename="0110-remove-qt-hmi-from-sdl-core.md"/>
 <proposal id="0111" status="implemented" primary-platform="ios" sdl-version="5.1" name="SDLCarWindow" filename="0111-ios-carwindow.md"/>
 <proposal id="0112" status="implemented" primary-platform="ios" sdl-version="5.1" name="SDL iOS Move RPC Notifications to a Concurrent Background Queue" filename="0112-ios-serial-rpc-notifications.md"/>
 <proposal id="0113" status="accepted" primary-platform="android" sdl-version="x.x" name="SDLAudioStreamManager" filename="0113-audiostreammanager.md"/>
