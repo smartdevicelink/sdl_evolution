@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0183](0183-mobile-hash-managment.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: iOS / Android
 
 ## Introduction
