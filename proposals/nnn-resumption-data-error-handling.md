@@ -7,7 +7,7 @@
 
 ## Introduction
 
-The aim of this feature is to handle HMI error responses while restoring the data during resumption process. Add new result code to mobile PARTIALLY_RESUMED. 
+The aim of this feature is to handle HMI error responses while restoring the data during resumption process.
 
 ## Motivation
 
