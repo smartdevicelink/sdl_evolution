@@ -17,6 +17,10 @@ Currently `PerformInteraction` choices and sub-menu `AddCommand`s must have uniq
 
 The primary text is not used as any sort of a key (the `choiceId` / `cmdId` is), and so this restriction can be removed in Core's code. The choice set managers must then also be updated to work in a backwards compatible manner with the lifting of this restriction.
 
+In the mobile libraries, if it is detected that we are working with an SDL system that does not support duplicate primary text, we should append "(1)", "(2)", etc. after duplicate primary texts.
+
+Because `AddCommand` only supports a primary text and icon, it should be clear in documentation that it is the developer's responsibility to make commands clear to the user and not confusing.
+
 ## Potential downsides
 
 The author could find no downsides. No RPC changes are necessary.
