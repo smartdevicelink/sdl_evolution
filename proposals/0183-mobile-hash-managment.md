@@ -11,13 +11,13 @@ Add automatic hash management to the manager layer of the libraries. Automatical
 
 ## Motivation
 
-With the addition of the manager layer, hashes have become significantly more difficult to use. While hashes can be sent and the data will resumed on the system, the manager-layer does not know this and cannot restore the data that is currently in use. This may cause bugs or for data to be resent in its entirety that merely needs to be reused.
+With the addition of the manager layer, hashes have become significantly more difficult to use. While hashes can be sent and the data will be resumed on the system, the manager-layer does not know this and cannot restore the data that is currently in use. This may cause bugs or for data to be resent in its entirety that merely needs to be reused.
 
 ## Proposed solution
 
 The general proposed solution is to store similar sorts of data that the head unit stores for a hash. When the hash is accepted, data will not be set onto the managers. Instead, the data will be held in a "waiting" state on the new `SDLResumptionManager` manager, though it should be inspectable by the developer. When the developer sets up their menus and soft buttons, if those objects exactly match what has been stored, no RPCs will be sent, but callbacks will be setup for those objects.
 
-A new delegate method will be added to `SDLManagerDelegate` and it's Android equivalent.
+A new delegate method will be added to `SDLManagerDelegate` and its Android equivalent.
 
 ```objc
 - (void)dataDidResumeWithResumptionManager:(SDLResumptionManager *)resumptionManager;
