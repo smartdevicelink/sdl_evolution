@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is to use OnResetTimeout for applicable interfaces so as to update the function and expand it to be used by broader set of RPCs than just in _UI_ and _TTS_ interfaces.
+This proposal is to use OnResetTimeout for applicable interfaces so as to update the function and expand it to be used by a broader set of RPCs than just in _UI_ and _TTS_ interfaces.
 
 ## Motivation
 
@@ -66,7 +66,7 @@ _OnResetTimeout_ function definition would be as follows for the _BasicCommunica
 </function>
 ```
 
-**Note**: Though type needs to be Long for _extensionPeriod_, i have kept it as Integer to maintain consistency in API as no other param uses Long irrespective of _maxvalue_
+**Note**: Though type needs to be Long for _extensionPeriod_, I have kept it as Integer to maintain consistency in API as no other param uses Long irrespective of _maxvalue_
 
 * SDL can uniquely identify the request instance for which OnResetTimeout is being requested by HMI by using the ID between SDL<->HMI (_requestID_) and _methodName_
     * SDL uses unique ID across interfaces and apps, so we do not need appID to uniquely identify the function instance	
