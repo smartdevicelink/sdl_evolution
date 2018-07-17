@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](nnnn-get-interior-data-resumption.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Web]
+* Impacted Platforms: [Core,HMI]
 
 ## Introduction
 
@@ -38,7 +38,7 @@ SDL should behave the same as before disconnect.
 #### Error handling during resumption
 
 If during resumption HMI responds with error to GetInteriorVehicleDataRequest SDL should revert already subscribed data and fail resumption. 
-Reverting subscriptions Reverting subscriptions means internally removing information about this subscription.
+Reverting subscriptions means internally removing information about this subscription.
 In the case that after reverting the subscription, there is no application subscribed to a certain module type, SDL should send `GetInteriorData(IsSubscribe=false)` to HMI and clear cache for this module type.
 Interior vehicle data resumption error handling should follow the same rules as regular vehicle data resumption error handling. 
 
@@ -49,8 +49,8 @@ N/A
 ## Impact on existing code
 
 Impacts resumption component and basic sequences of SDL usage.
-No changes needed in Proxy or HMI.
-Some changes required for WebHMI for testing error response. 
+No changes needed in Proxy.
+Some changes required for sdl_hmi for testing error response. 
 
 ## Alternatives considered
 
