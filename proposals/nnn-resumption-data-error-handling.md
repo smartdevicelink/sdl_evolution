@@ -48,6 +48,10 @@ After reverting persistent data SDL should response `RegisterAppInterfaceRespons
 If multiple applications trying to restore the same subscription SDL should send the only first subscription to HMI. 
 If the first subscription was failed and application received `result_code=RESUME_FAILED` result code, for the second application SDL should also try to restore the subscription.
 
+Folowing picture shows that SDL should make an attempt for subscribing second application even if first app received error for this subscription during resumption:
+
+![Common data subscription error](../assets/proposals/nnnn-resumption-data-error-handling/multiple_app_error_handling_with_common_subscriptions.png "Common data subscription error")
+
 Folowing picture is an example of error handling for subscriptions during parallel resumption of 2 applicaitons: 
 ![Error handling for 2 applicaitons](../assets/proposals/nnnn-resumption-data-error-handling/multiple_app_error_handling.png# "Multiple apps error handling")
 
