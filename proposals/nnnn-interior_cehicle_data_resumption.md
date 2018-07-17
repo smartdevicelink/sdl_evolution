@@ -39,7 +39,8 @@ SDL should behave the same as before disconnect.
 
 If during resumption HMI responds with error to GetInteriorVehicleDataRequest SDL should revert already subscribed data and fail resumption. 
 Reverting subscriptions means internally remove information about this subscription.
-In case if after reverting subscription there would be no application subscribed to certain module type SDL should send  `GetInteriorData(IsSubscribe=false)` to HMI.
+In case if after reverting subscription there would be no application subscribed to certain module type SDL should send  `GetInteriorData(IsSubscribe=false)` to HMI and clear cache for this module type.
+Interior vehicle data resuption error handling should follow the same rules as regular vehicle data resumption error handling. 
 
 ## Potential downsides
 
