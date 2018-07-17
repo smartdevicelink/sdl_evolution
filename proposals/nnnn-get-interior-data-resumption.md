@@ -1,7 +1,7 @@
 # Interior Vehicle Data resumption
 
 * Proposal: [SDL-NNNN](nnnn-get-interior-data-resumption.md)
-* Author: [LuxoftAKutsan](https://github.com/LuxoftAKutsan)
+* Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / Web]
 
@@ -30,7 +30,7 @@ All existing resumption rules should be applied for Interior vehicle data resump
 #### Restoring Interior vehicle data
 
 Restoring interior vehicle data means that SDL should :
- - Send `GetInteriorData(IsSubscribe=true)` to HMI and store received from HMI data in cache.
+ - Send `GetInteriorData(IsSubscribe=true)` to HMI and store data received from HMI in cache.
  - Restore subscription for the app internally (OnInteriorVehicleData notification from HMI should be transmitted to mobile)
 
 SDL should behave the same as before disconnect.
@@ -38,9 +38,9 @@ SDL should behave the same as before disconnect.
 #### Error handling during resumption
 
 If during resumption HMI responds with error to GetInteriorVehicleDataRequest SDL should revert already subscribed data and fail resumption. 
-Reverting subscriptions means internally remove information about this subscription.
-In case if after reverting subscription there would be no application subscribed to certain module type SDL should send  `GetInteriorData(IsSubscribe=false)` to HMI and clear cache for this module type.
-Interior vehicle data resuption error handling should follow the same rules as regular vehicle data resumption error handling. 
+Reverting subscriptions Reverting subscriptions means internally removing information about this subscription.
+In the case that after reverting the subscription, there is no application subscribed to a certain module type, SDL should send `GetInteriorData(IsSubscribe=false)` to HMI and clear cache for this module type.
+Interior vehicle data resumption error handling should follow the same rules as regular vehicle data resumption error handling. 
 
 ## Potential downsides
 
@@ -49,8 +49,10 @@ N/A
 ## Impact on existing code
 
 Impacts resumption component and basic sequences of SDL usage.
+No changes needed in Proxy or HMI.
+Some changes required for WebHMI for testing error response. 
 
 ## Alternatives considered
 
-Do not to resume interior vehicle data. 
+Don't resume interior vehicle data
 
