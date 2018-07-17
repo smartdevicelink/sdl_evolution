@@ -6,14 +6,13 @@
 * Impacted Platforms: [Core]
 
 ## Introduction
-
 The aim of this feature is to handle HMI error responses while restoring the data during resumption process.
 
 ## Motivation
 
-During resumption data some data may not be restored due to HMI error response to add persistent data request.
+During resumption some data may not be restored due to HMI error response to add persistent data request.
 
-SDL should take care about this possible issues and fail resumption of data which might not be restored. 
+SDL should take care about theese possible issues and fail resume data that might not be restored. 
 
 ## Proposed solution
 
@@ -29,10 +28,10 @@ List of persistent data to restore :
  - SubscribeVehicleData
  - SubscribeWayPoints
 
-After success response receiving for all of the persistent data requests to HMI, SDL should send to mobile application `RegisterAppInterfaceResponse(success=true,result_code=SUCCESS)` 
+After successful responses received for all HMI requests, SDL should send successful response to mobile application `RegisterAppInterfaceResponse(success=true,result_code=SUCCESS)` 
 and OnHashChangeNotification.
 
-If HMI responds with any kind of error or does not respond to any requests sent during resumption, SDL should revert already restored data with appropriate RPC's:
+If HMI respond with any kind of error or does not respond to any requests sent during resumption, SDL should revert already restored data with appropriate RPC's:
  - DeleteCommand
  - DeleteSubMenu
  - DeleteInteractionChoiceSet
@@ -40,9 +39,21 @@ If HMI responds with any kind of error or does not respond to any requests sent 
  - UnsubscribeButton
  - UnsubscribeVehicleData
  - UnsubscribeWayPoints
- 
+
+In case if some data like a subscription already used by other applications, it means that subscription is actual and SDL should not send unsubscribe requests to HMI. 
+
+
 After reverting persistent data SDL should response `RegisterAppInterfaceResponse(success=true,result_code=RESUME_FAILED)` to mobile application.
 
+If multiple applications trying to restore the same subscription SDL should send the only first subscription to HMI. 
+If the first subscription was failed and application received `result_code=RESUME_FAILED` result code, for the second application SDL should also try to restore the subscription.
+
+Folowing picture shows that SDL should make an attempt for subscribing second application even if first app received error for this subscription during resumption:
+
+![Common data subscription error](../assets/proposals/nnnn-resumption-data-error-handling/multiple_app_error_handling_with_common_subscriptions.png "Common data subscription error")
+
+Folowing picture is an example of error handling for subscriptions during parallel resumption of 2 applicaitons: 
+![Error handling for 2 applicaitons](../assets/proposals/nnnn-resumption-data-error-handling/multiple_app_error_handling.png# "Multiple apps error handling")
 
 ## Potential downsides
 This approach may slow down app registration, in cases when there is a lot of resumption data. 
