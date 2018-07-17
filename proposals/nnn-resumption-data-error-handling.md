@@ -49,7 +49,7 @@ If multiple applications trying to restore the same subscription SDL should send
 If the first subscription was failed and application received `result_code=RESUME_FAILED` result code, for the second application SDL should also try to restore the subscription.
 
 Folowing picture is an example of error handling for subscriptions during parallel resumption of 2 applicaitons: 
-![Error handling for 2 applicaitons](../assets/proposals/nnnn-/resumption-data-error-handling/multiple_app_error_handling.png "Multiple apps error handling")
+![Error handling for 2 applicaitons](../assets/proposals/nnnn-resumption-data-error-handling/multiple_app_error_handling.png "Multiple apps error handling")
 
 ## Potential downsides
 This approach may slow down app registration, in cases when there is a lot of resumption data. 
