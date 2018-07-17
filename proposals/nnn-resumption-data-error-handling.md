@@ -40,9 +40,14 @@ If HMI responds with any kind of error or does not respond to any requests sent 
  - UnsubscribeButton
  - UnsubscribeVehicleData
  - UnsubscribeWayPoints
- 
+
+In case if some data like a subscriptions as already used by other applications, it means that subscriptions are actual and  SDL should not send unsubscribe requests to HMI. 
+
+
 After reverting persistent data SDL should response `RegisterAppInterfaceResponse(success=true,result_code=RESUME_FAILED)` to mobile application.
 
+I multiple applications trying to restore the same subscription SDL should send the only first subscription to HMI. 
+If the first subscription was failed and application received `result_code=RESUME_FAILED` result code, for the second application SDL should also try to restore the subscription.
 
 ## Potential downsides
 This approach may slow down app registration, in cases when there is a lot of resumption data. 
