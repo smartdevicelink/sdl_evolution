@@ -1,8 +1,8 @@
 # Restructuring OnResetTimeout
 
-* Proposal: [SDL-NNNN](NNNN-Restructuring-OnResetTimeout.md)
+* Proposal: [SDL-0189](0189-Restructuring-OnResetTimeout.md)
 * Author: [Ankur Tiwari](https://github.com/ATIWARI9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
