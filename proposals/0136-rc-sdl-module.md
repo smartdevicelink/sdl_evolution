@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0136](0136-rc-sdl-module.md)
 * Author: [Joey Grover](https://github.com/joeygrover/)
-* Status: **Deferred**
+* Status: **Rejected**
 * Impacted Platforms: [Android, Core, iOS, RPC]
 
 ## Introduction
