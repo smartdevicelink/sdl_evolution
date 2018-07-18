@@ -72,7 +72,7 @@ So this proposal is more about unexpected or incorrect HMI behavior.
 
 #### Create special result code "partial resumption"
 
-Prevent resumption failing in the case when part of the data is rejected by the HMI, then send in the RegisterAppInterfaceResponse information what data were not restored.
+Prevent resumption failing in the case when part of the data is rejected by the HMI, then send in the RegisterAppInterfaceResponse information field what data was not able to be restored.
 
 Options :
  1. Provide information about data that was not restored in info field.
