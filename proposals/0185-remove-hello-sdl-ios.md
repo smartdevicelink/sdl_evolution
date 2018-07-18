@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0185](0185-remove-hello-sdl-ios.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS]
 
 ## Introduction
