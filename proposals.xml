@@ -140,13 +140,13 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0127" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
 <proposal id="0128" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
 <proposal id="0129" status="implemented" primary-platform="ios" sdl-version="5.2" name="Add Additional AppHMIType Array iOS" filename="0129-ios-additional-apptypes.md"/>
-<proposal id="0130" status="deferred" primary-platform="rpc" sdl-version="x.x" name="SendLocation for Mobile Nav" filename="0130-SendLocation-for-Mobile-Nav.md"/>	
+<proposal id="0130" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendLocation for Mobile Nav" filename="0130-SendLocation-for-Mobile-Nav.md"/>	
 <proposal id="0131" status="accepted" primary-platform="core" sdl-version="x.x" name="Test Scripts - Refactoring of Common modules" filename="0131-test-scripts-common-modules-refactoring.md"/>	
 <proposal id="0132" status="accepted" primary-platform="core" sdl-version="x.x" name="Change ATF test reports folder structure" filename="0132-Change_ATF_test_reports_folder_structure.md"/>
-<proposal id="0133" status="deferred" primary-platform="ios" sdl-version="x.x" name="EnhancediOSProxyInterface" filename="0133-EnhancediOSProxyInterface.md"/>
+<proposal id="0133" status="rejected" primary-platform="ios" sdl-version="x.x" name="EnhancediOSProxyInterface" filename="0133-EnhancediOSProxyInterface.md"/>
 <proposal id="0134" status="implemented" primary-platform="ios" sdl-version="5.2" name="Show Manager - iOS" filename="0134-ios-show-manager.md"/>
 <proposal id="0135" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Push To Talk key support" filename="0135-PushToTalk-hardkey-support.md"/>
-<proposal id="0136" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
+<proposal id="0136" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
 <proposal id="0137" status="deferred" primary-platform="rpc" sdl-version="x.x" name="TouchCoord outside video screen range" filename="0137-TouchCoord-outside-video-screen-range.md"/>
 <proposal id="0138" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Make 'audioPassThruCapabilities' of HMI an array" filename="0138-hmi-audiopassthru-capability.md"/>
 <proposal id="0139" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Clarification of audio format details of AudioPassThru" filename="0139-apt-clarification.md"/>
@@ -185,7 +185,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0170" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL behavior in case of LOW_VOLTAGE event" filename="0170-sdl-behavior-in-case-of-Low-Voltage.md"/>
 <proposal id="0171" status="accepted" primary-platform="android" sdl-version="x.x" name="Android Manager APIs" filename="0171-android-manager-apis.md"/>
 <proposal id="0172" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Update OnRCStatus with a new allowed parameter" filename="0172-onRcStatus-allowed.md"/>
-<proposal id="0173" status="active" primary-platform="rpc" sdl-version="x.x" name="Read Generic Network Signal data" filename="0173-Read-Generic-Network-Signal-data.md"/>
+<proposal id="0173" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Read Generic Network Signal data" filename="0173-Read-Generic-Network-Signal-data.md"/>
 <proposal id="0174" status="implemented" primary-platform="android" sdl-version="4.6" name="Deprecate RPCRequestFactory" filename="0174-deprecate-rpc-request-factory.md"/>
 <proposal id="0175" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Updating DOP value range for GPS notification" filename="0175-Updating-DOP-value-range-for-GPS-notification.md"/>
 <proposal id="0176" status="accepted" primary-platform="ios" sdl-version="x.x" name="High level interface: Views and Controllers" filename="0176-high-level-interface-views-and-controllers.md"/>
@@ -195,11 +195,13 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0180" status="accepted" primary-platform="core" sdl-version="x.x" name="Broaden Choice Uniqueness" filename="0180-broaden-choice-uniqueness.md"/>
 <proposal id="0181" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL shall not put RC applications to HMI level NONE when user disables RC in HMI" filename="0181-keep-rc-app-hmi-level-when-disable-rc.md"/>
 <proposal id="0182" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Audio Source AM/FM/XM/DAB" filename="0182-audio-source-am-fm-xm.md"/>
-<proposal id="0183" status="returned" primary-platform="mobile" sdl-version="x.x" name="Automatic Mobile Resumption Hash Management" filename="0183-mobile-hash-managment.md"/>
-<proposal id="0184" status="active" primary-platform="rpc" sdl-version="x.x" name="Dismiss Alert RPC" filename="0184-dismiss-alert.md"/>
-<proposal id="0185" status="active" primary-platform="ios" sdl-version="x.x" name="Remove Hello SDL iOS Repository" filename="0185-remove-hello-sdl-ios.md"/>
-<proposal id="0186" status="active" primary-platform="rpc" sdl-version="x.x" name="Template Titles" filename="0186-template-titles.md"/>
-<proposal id="0187" status="active" primary-platform="ios" sdl-version="x.x" name="Restructure iOS Threading and Queueing" filename="0187-restructure-ios-threading.md"/>
+<proposal id="0183" status="active" primary-platform="mobile" sdl-version="x.x" name="Automatic Mobile Resumption Hash Management" filename="0183-mobile-hash-managment.md"/>
+<proposal id="0184" status="returned" primary-platform="rpc" sdl-version="x.x" name="Dismiss Alert RPC" filename="0184-dismiss-alert.md"/>
+<proposal id="0185" status="accepted" primary-platform="ios" sdl-version="x.x" name="Remove Hello SDL iOS Repository" filename="0185-remove-hello-sdl-ios.md"/>
+<proposal id="0186" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Titles" filename="0186-template-titles.md"/>
+<proposal id="0187" status="accepted" primary-platform="ios" sdl-version="x.x" name="Restructure iOS Threading and Queueing" filename="0187-restructure-ios-threading.md"/>
+<proposal id="0188" status="active" primary-platform="core" sdl-version="x.x" name="Interior Vehicle Data resumption" filename="0188-get-interior-data-resumption.md"/>
+<proposal id="0189" status="active" primary-platform="rpc" sdl-version="x.x" name="Restructuring OnResetTimeout" filename="0189-Restructuring-OnResetTimeout.md"/>
 	
 	
 
