@@ -1,9 +1,9 @@
 # Interior Vehicle Data resumption
 
-* Proposal: [SDL-NNNN](nnnn-get-interior-data-resumption.md)
+* Proposal: [SDL-0188](0188-get-interior-data-resumption.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
-* Impacted Platforms: [Core,HMI]
+* Status: **In Review**
+* Impacted Platforms: [Core, HMI]
 
 ## Introduction
 
