@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0187](0187-restructure-ios-threading.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: iOS
 
 ## Introduction
