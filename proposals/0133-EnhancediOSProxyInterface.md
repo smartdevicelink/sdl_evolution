@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0133](0133-EnhancediOSProxyInterface.md)
 * Author: [Brandon Salahat](https://www.github.com/Toyota-BSalahat)
-* Status: **Deferred**
+* Status: **Rejected**
 * Impacted Platforms: [iOS]
 
 ## Introduction
