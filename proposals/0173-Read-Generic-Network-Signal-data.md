@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0173](0173-Read-Generic-Network-Signal-data.md)
 * Author: [Ankur Tiwari](https://github.com/ATIWARI9)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
