@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0186](0186-template-titles.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
