@@ -43,9 +43,9 @@ If HMI responds with any kind of error or does not respond to any requests sent 
 In the case some data, like a subscription, is already used by other applications, this means that the subscription is actual and SDL should not send unsubscribe requests to HMI. 
 
 
-After reverting persistent data SDL should response `RegisterAppInterfaceResponse(success=true,result_code=RESUME_FAILED)` to mobile application.
+After reverting persistent data SDL should respond `RegisterAppInterfaceResponse(success=true,result_code=RESUME_FAILED)` to mobile application.
 
-If multiple applications trying to restore the same subscription SDL should send the only first subscription to HMI. 
+If multiple applications are trying to restore the same subscription, SDL should send the only first subscription to HMI. 
 If the first subscription was failed and application received `result_code=RESUME_FAILED` result code, for the second application SDL should also try to restore the subscription.
 
 Following picture shows that SDL should make an attempt for subscribing second application even if first app received error for this subscription during resumption:
