@@ -9,7 +9,6 @@
 This proposal is to replace `OnButtonSubscription` notification
 with `SubscribeButton` request/response,`UnsubscribeButton` request/response to HMI. 
 
-
 ## Motivation
 
 All SDL subscriptions (VehicleData, InteriorVehicleData) have very similar flow. 
@@ -21,6 +20,7 @@ To keep consistency and be able to check HMI errors ButtonSubscription should el
 
 Before sending response to mobile application, SDL should be sure that HMI processed this subscription.
 `OnButtonSubscription` notification has no mechanism to check whether the subscription was processed successfully.  
+
 It could be done with new request/response sent to HMI.
 
 
@@ -38,7 +38,9 @@ Add new RPCs to HM_API:
             The application will be notified by the OnButtonEvent and OnButtonPress.
             To unsubscribe the notifications, use unsubscribeButton.
         </description>
-        
+        <param name="appID" type="Integer" mandatory="true">
+           <description>ID of application that requested this RPC.</description>
+        </param>
         <param name="buttonName" type="ButtonName" mandatory="true">
             <description>Name of the button to subscribe.</description>
         </param>
@@ -69,7 +71,9 @@ Add new RPCs to HM_API:
     
     <function name="UnsubscribeButton" messagetype="request">
         <description>Unsubscribes from built-in HMI buttons.</description>
-        
+        <param name="appID" type="Integer" mandatory="true">
+           <description>ID of application that requested this RPC.</description>
+        </param>
         <param name="buttonName" type="ButtonName" mandatory="true">
             <description>Name of the button to unsubscribe.</description>
         </param>
@@ -103,25 +107,23 @@ Add new RPCs to HM_API:
 ### Storing subscriptions
 
 SDL should store the list of applications that are subscribed to a certain button. 
-According to existing API, HMI does not know anything about applications that are subscribed to a button.
 
-When application1 subscribes to a new button, SDL should send `SubscribeButton` request to HMI. 
+When application1 subscribes to a button, SDL should send `SubscribeButton` request to HMI.
 
-When application2 subscribes to **the same** button, SDL should **not** send anything to HMI, and store subscription internally.
+When any application subscribes to a button, SDL should send `SubscribeButton` request to HMI.
 
-When any application subscribes to a **new** button, SDL should send `SubscribeButton` request to HMI. 
+When the application unsubscribed from certain button SDL should send `UnsubscribeButton` request to HMI. 
 
-When the last application subscribed to certain button unsubscribes SDL should send `UnsubscribeButton` request to HMI. 
+When the application unsubscribed from certain button SDL should send `UnsubscribeButton` request to HMI.
 
-When the last application subscribed to certain button unregiteres SDL should send `UnsubscribeButton` request to HMI. 
-
-When HMI send OnButtonPress notification, SDL should initiale sending onButtonPress notification to all subscribed applications.
+In case the ButtonName is CUSTOM_BUTTON or OK, HMI must include appID parameters to OnButtonPress notification sent to SDL. 
+If appID is not sent together with CUSTOM_BUTTON, this notification will be ignored by SDL. 
+If appID is present for OK button -> SDL transfers notification to the named app only if it is in FULL or LIMITED (ignores if app is in NONE or BACKGROUND). 
+If appID is omited for OK button -> SDL transfers notification to app in FULL 
 
 ### Resumption 
 
 During Resumption SDL should restore all button subscriptions for application and send required `SubscribeButton` requests.
-In case any existing application already subscribed to a certain button,
-SDL should not send any requests to HMI and store subscription internally.
 
 ## Potential downsides
 
@@ -133,6 +135,3 @@ Impacts SDL core and HMI.
 
 ## Alternatives considered
  1. Keep `OnButtonSubscription` notification. But in that case SDL has no ability to check if application was successfully subscribed to a button on HMI.
- 
- 2. Do not store subscriptions internally and just transfer mobile subscriptions with app_id to HMI. 
-In that case additional logic of storing subscriptions should be implemented on HMI and it will lead to many redundant subscription and notification requests. 
