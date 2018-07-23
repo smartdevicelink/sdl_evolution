@@ -11,12 +11,12 @@ with `SubscribeButton` request/response,`UnsubscribeButton` request/response to 
 
 ## Motivation
 
-All SDL subscriptions (VehicleData, InteriorVehicleData) have very similar flow. 
+All SDL subscriptions (VehicleData, InteriorVehicleData) have rather similar flow. 
 SDL sends request to HMI and waits for successful response. 
 
 ButtonSubscription is the only one subscription type that has a different flow.  
 
-To keep consistency and be able to check HMI errors ButtonSubscription should else be done by request/response scheme. 
+To keep consistency and be able to check HMI errors ButtonSubscription should be done with request/response scheme. 
 
 Before sending response to mobile application, SDL should be sure that HMI processed this subscription.
 `OnButtonSubscription` notification has no mechanism to check whether the subscription was processed successfully.  
@@ -75,7 +75,7 @@ Add new RPCs to HM_API:
            <description>ID of application that requested this RPC.</description>
         </param>
         <param name="buttonName" type="ButtonName" mandatory="true">
-            <description>Name of the button to unsubscribe.</description>
+           <description>Name of the button to unsubscribe.</description>
         </param>
     </function>
     
@@ -123,7 +123,7 @@ If appID is omited for OK button -> SDL transfers notification to app in FULL
 
 ### Resumption 
 
-During Resumption SDL should restore all button subscriptions for application and send required `SubscribeButton` requests.
+During Resumption SDL should restore all button subscriptions for application and send all required `SubscribeButton` requests to HMI.
 
 ## Potential downsides
 
