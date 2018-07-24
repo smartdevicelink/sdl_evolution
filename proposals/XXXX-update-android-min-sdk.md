@@ -31,4 +31,4 @@ Change the min SDK in the `build.gradle` file.
 
 ## Alternatives considered
 
-Raising the min SDK to a number higher than 8 but less than 19 was considered. However, distribution on those versions are on average less that 1% of the entire Android ecosystem. SDK 19 is generally regarded as a comfortable minimum SDK.
+Raising the min SDK to a number higher than 8 but less than 19 was considered. However, distribution on those versions are on average less than 1% of the entire Android ecosystem. SDK 19 is generally regarded as a comfortable minimum SDK.
