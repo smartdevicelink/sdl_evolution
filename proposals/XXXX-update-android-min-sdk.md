@@ -7,7 +7,7 @@
 
 ## Introduction
 
-With the progression of SDL Android as a library, it has become necessary to update the minimum supported SDK from 8. The proposed updated minimum SDK will be API 19, KitKat. 
+With the progression of SDL Android as a library, it has become necessary to update the minimum supported SDK from 8. The proposed minimum SDK will be API 19, KitKat. 
 
 ## Motivation
 
