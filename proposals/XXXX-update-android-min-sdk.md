@@ -19,8 +19,9 @@ The proposed solution is to raise the minimum SDK from 8 to 16. According to [An
 
 Because this is a major change, it would need to be implemented in SDL Android's 5.0 release.
 
-Why 16 and not something lower? Because this covers almost every Android phone in use today. Minimum version changes are major version changes in semantic versioning, and this will also future-proof our library into SDL Android Version 6, sometime in the distant future.
+The current minimum SDK 8 was released in 2010. SDK 16 was released in 2012. In comparison, the current SDL iOS's minimum deployment target is 8, which was released in 2014. Both SDK 16 and iOS deployment target 8 have similar numbers in terms of devices not supported (<= 0.5%).
 
+Why 16 and not something lower? Because this covers almost every Android phone in use today. Minimum version changes are major version changes in semantic versioning, and this will also future-proof our library into SDL Android Version 6, sometime in the distant future.
 
 ## Potential downsides
 
