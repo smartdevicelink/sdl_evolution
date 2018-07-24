@@ -22,7 +22,7 @@ Because this is a major change, it would need to be implemented in SDL Android's
 
 ## Potential downsides
 
-We potentially leave out 4.1% of Android devices. However, many developers now only write apps with higher minimum SDKs meaning that is a non-issue.
+We potentially leave out 4.1% of Android devices. However, many developers now only write apps with higher minimum SDKs meaning that this is a non-issue.
 
 
 ## Impact on existing code
