@@ -21,7 +21,9 @@ Because this is a major change, it would need to be implemented in SDL Android's
 
 The current minimum SDK 8 was released in 2010. SDK 16 was released in 2012. In comparison, the current SDL iOS's minimum deployment target is 8, which was released in 2014. Both SDK 16 and iOS deployment target 8 have similar numbers in terms of devices not supported (<= 0.5%).
 
-Why 16 and not something lower? Because this covers almost every Android phone in use today. Minimum version changes are major version changes in semantic versioning, and this will also future-proof our library into SDL Android Version 6, sometime in the distant future.
+Having our minimum at 16 will help with managers as well. It will allow a more streamlined audio stremaing manager, for example, by not having to create any *coding tricks* (read: messy code) to make it work with lower unsupported APIs.
+
+A much larger reason, however, is for testing. The library should, as it is being updated, test against all supported SDKs. It is difficult to find phones that go back to SDK 8, adding to testing cost, time and complexity - for very little in return in terms of additional devices being supported.
 
 ## Potential downsides
 
