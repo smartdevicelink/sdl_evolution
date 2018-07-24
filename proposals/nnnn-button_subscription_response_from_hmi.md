@@ -57,11 +57,11 @@ During Resumption SDL should restore all button subscriptions for application an
 
 ## Potential downsides
 
-No
+Removing OnButtonSubscription will require a major version change
 
 ## Impact on existing code
 
 Impacts SDL core and HMI. 
 
 ## Alternatives considered
- 1. Keep `OnButtonSubscription` notification. But in that case SDL has no ability to check if application was successfully subscribed to a button on HMI.
+N/A
