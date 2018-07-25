@@ -78,7 +78,7 @@ The transition of videoStreamingState and audioStreamingState is independent of 
     </param>
     
     <!-- new additions-->
-    <param name="videoStreamingState" type="VideoStreamingState" mandatory="false">
+    <param name="videoStreamingState" type="VideoStreamingState" mandatory="false" defvalue="STREAMABLE">
         <description>See VideoStreamingState. 
         If it is NOT_STREAMABLE, the app must stop streaming video to SDL Core(stop service).
         </description>
