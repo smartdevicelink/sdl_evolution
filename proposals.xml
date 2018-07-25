@@ -203,7 +203,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0188" status="active" primary-platform="core" sdl-version="x.x" name="Interior Vehicle Data resumption" filename="0188-get-interior-data-resumption.md"/>
 <proposal id="0189" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Restructuring OnResetTimeout" filename="0189-Restructuring-OnResetTimeout.md"/>
 <proposal id="0190" status="active" primary-platform="core" sdl-version="x.x" name="Handle response from HMI during resumption data" filename="0190-resumption-data-error-handling.md"/>
-<proposal id="0191" status="active" primary-platform="ios" sdl-version="x.x" name="Retry Failed File Uploads="0191-retry-failed-file-uploads.md"/>
+<proposal id="0191" status="active" primary-platform="ios" sdl-version="x.x" name="Retry Failed File Uploads" filename="0191-retry-failed-file-uploads.md"/>
 	
 	
 
