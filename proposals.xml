@@ -205,7 +205,6 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0190" status="active" primary-platform="core" sdl-version="x.x" name="Handle response from HMI during resumption data" filename="0190-resumption-data-error-handling.md"/>
 <proposal id="0191" status="active" primary-platform="ios" sdl-version="x.x" name="Retry Failed File Uploads" filename="0191-retry-failed-file-uploads.md"/>
 	
-	
 
 	
 <!--
