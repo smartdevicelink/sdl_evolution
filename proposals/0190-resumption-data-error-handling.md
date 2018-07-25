@@ -1,8 +1,8 @@
 # Handle response from HMI during resumption data
 
-* Proposal: [SDL-NNNN](nnnn-resumption-data-error-handling.md)
+* Proposal: [SDL-0190](0190-resumption-data-error-handling.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
