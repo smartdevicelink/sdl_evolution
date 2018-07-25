@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0189](0189-Restructuring-OnResetTimeout.md)
 * Author: [Ankur Tiwari](https://github.com/ATIWARI9)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
