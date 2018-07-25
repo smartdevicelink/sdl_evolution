@@ -27,13 +27,11 @@ A much larger reason, however, is for testing. The library should, as it is bein
 
 ## Potential downsides
 
-We potentially leave out 0.5% of Android devices. However, many developers now only write apps with higher minimum SDKs meaning that this is a non-issue.
-
+We potentially leave out 0.5% of Android devices. However, many developers now only write apps with higher minimum SDKs meaning that this is a non-issue. As stated earlier, it is a major version change and should target SDL Android v5.0. This means there will be a wait before developers can enjoy the newer minimum.
 
 ## Impact on existing code
 
-Change the min SDK in the `build.gradle` file. As stated earlier, it is a major version change and should target SDL Android v5.0.
-
+Change the min SDK in the `build.gradle` file. 
 ## Alternatives considered
 
 Raising the min SDK to a number higher than 8 but less than 16 was considered. However, distribution on those versions are on average less than 0.5% of the entire Android ecosystem.
