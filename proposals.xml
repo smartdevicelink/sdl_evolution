@@ -195,13 +195,15 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0180" status="accepted" primary-platform="core" sdl-version="x.x" name="Broaden Choice Uniqueness" filename="0180-broaden-choice-uniqueness.md"/>
 <proposal id="0181" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL shall not put RC applications to HMI level NONE when user disables RC in HMI" filename="0181-keep-rc-app-hmi-level-when-disable-rc.md"/>
 <proposal id="0182" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Audio Source AM/FM/XM/DAB" filename="0182-audio-source-am-fm-xm.md"/>
-<proposal id="0183" status="active" primary-platform="mobile" sdl-version="x.x" name="Automatic Mobile Resumption Hash Management" filename="0183-mobile-hash-managment.md"/>
+<proposal id="0183" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Automatic Mobile Resumption Hash Management" filename="0183-mobile-hash-managment.md"/>
 <proposal id="0184" status="returned" primary-platform="rpc" sdl-version="x.x" name="Dismiss Alert RPC" filename="0184-dismiss-alert.md"/>
 <proposal id="0185" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Remove Hello SDL iOS Repository" filename="0185-remove-hello-sdl-ios.md"/>
 <proposal id="0186" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Titles" filename="0186-template-titles.md"/>
 <proposal id="0187" status="accepted" primary-platform="ios" sdl-version="x.x" name="Restructure iOS Threading and Queueing" filename="0187-restructure-ios-threading.md"/>
 <proposal id="0188" status="active" primary-platform="core" sdl-version="x.x" name="Interior Vehicle Data resumption" filename="0188-get-interior-data-resumption.md"/>
-<proposal id="0189" status="active" primary-platform="rpc" sdl-version="x.x" name="Restructuring OnResetTimeout" filename="0189-Restructuring-OnResetTimeout.md"/>
+<proposal id="0189" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Restructuring OnResetTimeout" filename="0189-Restructuring-OnResetTimeout.md"/>
+<proposal id="0190" status="active" primary-platform="core" sdl-version="x.x" name="Handle response from HMI during resumption data" filename="0190-resumption-data-error-handling.md"/>
+<proposal id="0191" status="active" primary-platform="ios" sdl-version="x.x" name="Retry Failed File Uploads="0191-retry-failed-file-uploads.md"/>
 	
 	
 
