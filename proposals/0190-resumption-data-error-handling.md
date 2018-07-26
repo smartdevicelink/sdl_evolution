@@ -50,10 +50,10 @@ If the first subscription was failed and application received `result_code=RESUM
 
 Following picture shows that SDL should make an attempt for subscribing second application even if first app received error for this subscription during resumption:
 
-![Common data subscription error](../assets/proposals/nnnn-resumption-data-error-handling/multiple_app_error_handling_with_common_subscriptions.png "Common data subscription error")
+![Common data subscription error](../assets/proposals/0190-resumption-data-error-handling/multiple_app_error_handling_with_common_subscriptions.png "Common data subscription error")
 
 Following picture is an example of error handling for subscriptions during parallel resumption of 2 applications: 
-![Error handling for 2 applications](../assets/proposals/nnnn-resumption-data-error-handling/multiple_app_error_handling.png# "Multiple apps error handling")
+![Error handling for 2 applications](../assets/proposals/0190-resumption-data-error-handling/multiple_app_error_handling.png# "Multiple apps error handling")
 
 ## Potential downsides
 This approach may slow down app registration, in cases when there is a lot of resumption data. 
