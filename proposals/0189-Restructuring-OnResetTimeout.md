@@ -57,7 +57,7 @@ _OnResetTimeout_ function definition would be as follows for the _BasicCommunica
 			Name of the function for which timeout needs to be reset
 		</description>
     </param>
-    <param name="extensionPeriod" type="Integer" minvalue="0" maxvalue="1000000" mandatory="false">
+    <param name="resetPeriod" type="Integer" minvalue="0" maxvalue="1000000" mandatory="false">
 		<description>
 			Timeout period in milliseconds, for the method for which timeout needs to be reset.
 			If omitted, timeout would be reset by defaultTimeout specified in smartDeviceLink.ini
@@ -66,7 +66,9 @@ _OnResetTimeout_ function definition would be as follows for the _BasicCommunica
 </function>
 ```
 
-**Note**: Though type needs to be Long for _extensionPeriod_, I have kept it as Integer to maintain consistency in API as no other param uses Long irrespective of _maxvalue_
+**Note**: Though type needs to be Long for _resetPeriod_, I have kept it as Integer to maintain consistency in API as no other param uses Long irrespective of _maxvalue_
+
+**Note**: HMI Integration Guidelines will need to be updated to reflect that currently there is no version negotiation between HMI and Core, so older HMI implementations will not work with this new version of Core.
 
 * SDL can uniquely identify the request instance for which OnResetTimeout is being requested by HMI by using the ID between SDL<->HMI (_requestID_) and _methodName_
     * SDL uses unique ID across interfaces and apps, so we do not need appID to uniquely identify the function instance	
