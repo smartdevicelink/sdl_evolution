@@ -1,9 +1,9 @@
 # Button Subscription response from HMI
 
 * Proposal: [SDL-NNNN](nnnn-button_subscription_response_from_hmi.md)
-* Author: [LuxoftAKutsan](https://github.com/LuxoftAKutsan)
+* Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core]
+* Impacted Platforms: [Core, HMI]
 
 ## Introduction
 This proposal is to replace `OnButtonSubscription` notification
@@ -23,7 +23,7 @@ The proposed design is similar to how other subscriptions such as VehicleData, I
 
 Remove `<function name="OnButtonSubscription" messagetype="notification">`. 
 
-Add new RPCs to HM_API:
+Add new RPCs to HMI_API:
 ```xml
   <function name="SubscribeButton" messagetype="request">
         <description>
@@ -39,7 +39,7 @@ Add new RPCs to HM_API:
         </param>
 		
 		<param name="subscribe" type="Boolean" mandatory="true">
-			<description>Flag to subscribe/unsubscribe to button presses.If true, the requester will be subscribed. If false, the requester will not be subscribed and be removed as a subscriber if it was previously subscribed.</description>
+			<description>Flag to subscribe/unsubscribe to button presses. If true, the requester will be subscribed. If false, the requester will not be subscribed and be removed as a subscriber if it was previously subscribed.</description>
 		</param>
     </function>
     
@@ -47,9 +47,9 @@ Add new RPCs to HM_API:
     </function>
 ```
 
- - After sending a SubscribeButton request, if the HMI does not respond within DefaultTimeout period, then SDL Core shall provide a response of TIMED_OUT to the requesting application.
- - If after SDL Core send a 'TIMED_OUT' response to the application, HMI sends the response to core notifying that the button has been successfully subscribed, then SDL Core shall send a request to HMI to unsubscribe the button. This is done to ensure the application and HMI are in sync.
- - Similarly, if after SDL Core send a 'TIMED_OUT' response to the application, HMI sends the response to core notifying that the button has been successfully unsubscribed, then SDL Core shall send a request to HMI to subscribe the button.
+ - After sending a SubscribeButton request, if the HMI does not respond within DefaultTimeout period, then SDL Core shall provide a response of `TIMED_OUT` to the requesting application.
+ - If after SDL Core sends a `TIMED_OUT` response to the application, HMI sends the response to Core notifying that the button has been successfully subscribed, then SDL Core shall send a request to HMI to unsubscribe the button. This is done to ensure the application and HMI are in sync.
+ - Similarly, if after SDL Core sends a `TIMED_OUT` response to the application, HMI sends the response to Core notifying that the button has been successfully unsubscribed, then SDL Core shall send a request to HMI to subscribe the button.
 
 ### Resumption 
 
@@ -61,7 +61,7 @@ Removing OnButtonSubscription will require a major version change
 
 ## Impact on existing code
 
-Impacts SDL core and HMI. 
+Impacts SDL Core and HMI. 
 
 ## Alternatives considered
 N/A
