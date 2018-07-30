@@ -368,12 +368,6 @@ New LIGHT data types.
     <element name="ON"/>
     <element name="OFF"/>
   </enum>
-  
-  <struct name="SRGBColor">
-    <param name="red" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
-    <param name="green" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
-    <param name="blue" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
-  </struct>
 
   <struct name="LightCapabilities">
     <param name="name" type="LightName" mandatory="true" />
@@ -383,7 +377,7 @@ New LIGHT data types.
         Indicates if the light's density can be set remotely (similar to a dimmer).
       </description>
     </param>
-    <param name="sRGBColorSpaceAvailable" type="Boolean" mandatory="false">
+    <param name="RGBColorSpaceAvailable" type="Boolean" mandatory="false">
       <description>
         Indicates if the light's color can be set remotely by using the sRGB color space.
       </description>
@@ -408,7 +402,7 @@ New LIGHT data types.
     </param>
     <param name="status" type="LightStatus" mandatory="true"/>
     <param name="density" type="Float" minvalue="0" maxvalue="1" mandatory="false" />
-    <param name="sRGBColor" type="SRGBColor" mandatory="false" />      
+    <param name="color" type="RGBColor" mandatory="false" />      
   </struct>
     
   <struct name="LightControlData">
