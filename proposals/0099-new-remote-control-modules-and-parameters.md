@@ -3,7 +3,7 @@
 * Proposal: [SDL-0099](0099-new-remote-control-modules-and-parameters.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Android / RPC ]
+* Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
 
@@ -201,15 +201,6 @@ Add new a parameter to RADIO.
     </param>
   </struct>
 
-  <struct name="GPSLocation">
-    <param name="longitudeDegrees" type="Float" minvalue="-180" maxvalue="180" mandatory="true">
-    </param>
-    <param name="latitudeDegrees" type="Float" minvalue="-90" maxvalue="90" mandatory="true">
-    </param>
-    <param name="altitudeMeters" type="Float" minvalue="-99999" maxvalue="99999" mandatory="false">
-    </param>
-  </struct>
-
   <struct name="SisData">
     <param name="stationShortName" type="String" minlength="4" maxlength="7"  mandatory="false">
       <description>Identifies the 4-alpha-character station call sign plus an optional (-FM) extension</description>
@@ -220,7 +211,7 @@ Add new a parameter to RADIO.
     <param name="stationLongName" type="String" minlength="0" maxlength="56"  mandatory="false">
       <description>Identifies the station call sign or other identifying information in the long format.</description>
     </param>
-    <param name="stationLocation" type="GPSLocation" mandatory="false">
+    <param name="stationLocation" type="GPSData" mandatory="false">
       <description>Provides the 3-dimensional geographic station location.</description>
     </param>
     <param name="stationMessage" type="String" minlength="0" maxlength="56"  mandatory="false">
