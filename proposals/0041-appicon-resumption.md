@@ -41,24 +41,30 @@ When a mobile app registers on the head unit, SDL Core shall determine if the mo
   * If the app icon has not been successfully resumed, the mobile app needs to follow the existing app icon sequence.
 
 * The existing app icon sequence can always be utilized to change or update an app icon via the mobile app at will.
+
+```xml
+<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response">`   
+  <description>The response to registerAppInterface</description>
+  
+...
+
+ <param name="iconResumed" type="Boolean" mandatory="false">
+    <description>
+    Existence of apps icon at system.    
+    If true, apps icon was resumed at system.     
+    If false, apps icon is not resumed at system
+    </description>
+  </param>
+</function>
+```
+
  
 ## Potential downsides
 
 A potential downside includes the case of first app registration; since the existing app icon sequence is utilized the custom app icon will not be available on an apps very first connection with core and the HMI.
  
 ## Impact on existing code
- 
-`<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response">`   
- `<description>The response to registerAppInterface</description>`   
- ...   
-   
- `<param name="iconResumed" type="Boolean" mandatory="true">`
- 
- `<description>Existence of apps icon at system.    
- If true, apps icon was resumed at system.     
- If false, apps icon is not resumed at system</description>`    
- `</param>    
- </function>`
+This is a minor version change
 
 ## Alternatives considered
  
@@ -67,3 +73,7 @@ Utilize the binary data section of the RegisterAppInterface Request RPC to allow
 
 * Option 2:
 Supplement the proposal above with utilizing the hash id parameter in the RegisterAppInterface Request to allow the mobile app to decide when an app icon is resumed.
+
+
+## Previous Versions
+* A previous version of this proposal indicated the `iconResumed` parameter was mandatory, which was a major version change.
