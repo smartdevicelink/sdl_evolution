@@ -1,8 +1,8 @@
 # Button Subscription response from HMI
 
-* Proposal: [SDL-NNNN](nnnn-button_subscription_response_from_hmi.md)
+* Proposal: [SDL-0192](0192-button_subscription_response_from_hmi.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core, HMI]
 
 ## Introduction
