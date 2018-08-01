@@ -1,8 +1,8 @@
 # Update SDL-Android minimum SDK
 
-* Proposal: [SDL-NNNN](XXXX-update-android-min-sdk.md)
+* Proposal: [SDL-0193](0193-update-android-min-sdk.md)
 * Author: [Brett M.](https://github.com/brettywhite)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: Android
 
 ## Introduction
