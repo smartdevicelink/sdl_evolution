@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0190](0190-resumption-data-error-handling.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
