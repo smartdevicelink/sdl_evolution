@@ -1,7 +1,7 @@
 # Retry Failed File Uploads
 * Proposal: [SDL-0191](0191-retry-failed-file-uploads.md)
 * Author: [Nicole Yarroch](https://github.com/NicoleYarroch)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS]
 
 ## Introduction
