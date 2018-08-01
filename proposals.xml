@@ -200,10 +200,12 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0185" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Remove Hello SDL iOS Repository" filename="0185-remove-hello-sdl-ios.md"/>
 <proposal id="0186" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Titles" filename="0186-template-titles.md"/>
 <proposal id="0187" status="accepted" primary-platform="ios" sdl-version="x.x" name="Restructure iOS Threading and Queueing" filename="0187-restructure-ios-threading.md"/>
-<proposal id="0188" status="active" primary-platform="core" sdl-version="x.x" name="Interior Vehicle Data resumption" filename="0188-get-interior-data-resumption.md"/>
+<proposal id="0188" status="accepted" primary-platform="core" sdl-version="x.x" name="Interior Vehicle Data resumption" filename="0188-get-interior-data-resumption.md"/>
 <proposal id="0189" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Restructuring OnResetTimeout" filename="0189-Restructuring-OnResetTimeout.md"/>
-<proposal id="0190" status="active" primary-platform="core" sdl-version="x.x" name="Handle response from HMI during resumption data" filename="0190-resumption-data-error-handling.md"/>
-<proposal id="0191" status="active" primary-platform="ios" sdl-version="x.x" name="Retry Failed File Uploads" filename="0191-retry-failed-file-uploads.md"/>
+<proposal id="0190" status="accepted" primary-platform="core" sdl-version="x.x" name="Handle response from HMI during resumption data" filename="0190-resumption-data-error-handling.md"/>
+<proposal id="0191" status="accepted" primary-platform="ios" sdl-version="x.x" name="Retry Failed File Uploads" filename="0191-retry-failed-file-uploads.md"/>
+<proposal id="0192" status="active" primary-platform="core" sdl-version="x.x" name="Button Subscription response from HMI" filename="0192-button_subscription_response_from_hmi.md"/>
+<proposal id="0193" status="active" primary-platform="android" sdl-version="x.x" name="Update SDL-Android minimum SDK" filename="0193-update-android-min-sdk.md"/>
 	
 
 	
