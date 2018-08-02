@@ -22,10 +22,14 @@ Interior vehicle data subscriptions should be added to resumption data.
 SDL should update hash of resumption data after application was subscribed or unsubscribed to interior vehicle data and send `OnHashUpdate` notification to mobile application.
 
 In case application was unexpectedly disconnected or SDL was stopped when application was registered,
-SDL should save application subscriptions internally and keep them for 3 (configured by ini file) ignition cycles.
+SDL should save application subscriptions internally and keep them for 3 ignition cycles.
 
 If correct hash was provided by the next application registration, interior vehicle data subscription should be restored.
 All existing resumption rules should be applied for Interior vehicle data resumption.
+
+Documentation has to be added to hashID in registerAppInterface in the RPC spec including the MOBILE_API.xml file in Core.
+Hash ID Resumption information should be added to the Best Practices guide.
+
 
 #### Restoring Interior vehicle data
 
