@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0186](0186-template-titles.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
@@ -16,25 +16,17 @@ Basic templates have nothing to orient the user to where they are in the UI. A t
 ## Proposed solution
 
 ```xml
-<function name="SetDisplayLayout" functionID="SetDisplayLayoutID" messagetype="request">
+<function name="Show" functionID="ShowID" messagetype="request">
     <!-- Existing RPC -->
-    <description>
-        Used to set an alternate display layout.
-        If not sent, default screen for given platform will be shown
-    </description>
+    <description>Updates the persistent display. Supported fields depend on display capabilities</description>
 
-    <param name="displayLayout" type="String" maxlength="500" mandatory="true">
-        <description>
-            Predefined or dynamically created screen layout.
-            Currently only predefined screen layouts are defined.
-        </description>
-    </param>
+    ...
 
     <!-- New Additions -->
-    <param name="title" type="String" maxlength="100" mandatory="false">
+    <param name="templateTitle" type="String" maxlength="100" mandatory="false">
         <description>
             The title of the new template that will be displayed. 
-            How this will be displayed is dependent on the OEM designing the implementation of the template.
+            How this will be displayed is dependent on the OEM design and implementation of the template.
         </description>
     </param>
 </function>
