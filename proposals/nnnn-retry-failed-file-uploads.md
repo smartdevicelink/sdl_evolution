@@ -2,7 +2,7 @@
 * Proposal: [SDL-NNNN](nnnn-retry-failed-file-uploads.md)
 * Author: [NicoleYarroch](https://github.com/NicoleYarroch)
 * Status: **Awaiting review**
-* Impacted Platforms: [iOS]
+* Impacted Platforms: [iOS, Android]
 
 ## Introduction
 This proposal is to implement retry attempts when a file upload fails.
