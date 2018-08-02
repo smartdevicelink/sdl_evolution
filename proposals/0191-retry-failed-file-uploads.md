@@ -2,7 +2,7 @@
 * Proposal: [SDL-0191](0191-retry-failed-file-uploads.md)
 * Author: [Nicole Yarroch](https://github.com/NicoleYarroch)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [iOS]
+* Impacted Platforms: [iOS, Android]
 
 ## Introduction
 This proposal is to implement retry attempts when a file upload fails.
