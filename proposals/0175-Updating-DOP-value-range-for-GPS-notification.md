@@ -18,6 +18,8 @@ Current range for vdop/hdop/pdop values is 0-10. GPS sensor can provide DOP valu
 To increase the maxvalue for vdop, pdop and hdop parameters to 1000 from 10 in GetVehicleData response and onVehicleData notification. Since DOP cannot reach that high value, this will ensure that gps notifications are NOT filtered out due to DOP.
 And to make the hdop, pdop, vdop fields non mandatory for both HMI and Mobile APIs so that SDL allows the GPS notification without these params as well in case GPS sensor omits these parameters.
 
+This proposal also keeps parameter `longitudeDegrees` and `latitudeDegrees` as mandatory but the rest of the parameters in `GPSData` being switched to optional.
+
 **Proposed Mobile and HMI API changes:**
 ```
   <struct name="GPSData">
