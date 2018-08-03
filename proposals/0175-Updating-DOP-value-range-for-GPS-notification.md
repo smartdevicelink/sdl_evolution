@@ -18,14 +18,14 @@ Current range for vdop/hdop/pdop values is 0-10. GPS sensor can provide DOP valu
 To increase the maxvalue for vdop, pdop and hdop parameters to 1000 from 10 in GetVehicleData response and onVehicleData notification. Since DOP cannot reach that high value, this will ensure that gps notifications are NOT filtered out due to DOP.
 And to make the hdop, pdop, vdop fields non mandatory for both HMI and Mobile APIs so that SDL allows the GPS notification without these params as well in case GPS sensor omits these parameters.
 
-**Proposed Mobile API changes:**
+**Proposed Mobile and HMI API changes:**
 ```
   <struct name="GPSData">
     <description>Struct with the GPS data.</description>
-	<param name="longitudeDegrees" type="Float" minvalue="-180" maxvalue="180">
-	</param>
-	<param name="latitudeDegrees" type="Float" minvalue="-90" maxvalue="90">
-	</param>
+    <param name="longitudeDegrees" type="Float" minvalue="-180" maxvalue="180" mandatory="true">
+    </param>
+    <param name="latitudeDegrees" type="Float" minvalue="-90" maxvalue="90" mandatory="true">
+    </param>
     <param name="utcYear" type="Integer" minvalue="2010" maxvalue="2100" mandatory="false">
     	<description>The current UTC year.</description>
     </param>
@@ -88,13 +88,6 @@ And to make the hdop, pdop, vdop fields non mandatory for both HMI and Mobile AP
     </param>
     <param name="speed" type="Float" minvalue="0" maxvalue="500" mandatory="false">
     	<description>The speed in KPH</description>
-    </param>
-    <param name="shifted" type="Boolean" mandatory="false">
-    	<description>
-    		True, if GPS lat/long, time, and altitude have been purposefully shifted (requiring a proprietary algorithm to unshift).
-    		False, if the GPS data is raw and un-shifted.
-    		If not provided, then value is assumed False.
-    	</description>
     </param>
   </struct>
 
