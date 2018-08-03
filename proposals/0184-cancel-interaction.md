@@ -1,6 +1,6 @@
 # Cancel Interaction RPC
 
-* Proposal: [SDL-0184](0184-dismiss-alert.md)
+* Proposal: [SDL-0184](0184-cancel-interaction.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Returned for Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC]
