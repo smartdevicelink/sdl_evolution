@@ -21,7 +21,7 @@ Add a new variable to RegisterAppInterface request:
 
 | Value |  Type | Mandatory | Description | 
 | ---------- | ---------- |:-----------: |:-----------:|
-|`fullAppID`|String|True|ID used to validate app with policy table entries|
+|`fullAppID`|String|False|ID used to validate app with policy table entries|
 
 When an app registers with [smartdevicelink.com](https://www.smartdevicelink.com), it is assigned an "appID" and a "fullAppID". The "fullAppID" will be the full UUID appID SHAID is currently generating. The "appID" string will be the first 10 non "-" characters of the full "fullAppID".  
 
@@ -38,6 +38,8 @@ If only the (short) appID is present in the RegisterAppInterface RPC request (le
 If both the (short) appID and the (long) fullAppID are in the RegisterAppInterface RPC request (updated apps), sdl core shall ignore the (short) appID and use the (long) fullAppID as the internal policy app id. i.e. use fullAppID as the policy_app_id and use it to construct the icon path.
 
 For ease of use, the mobile libraries will be updated to automatically create the (short) appID based on the first 10 non "-" characters of the "fullAppID" -- this will ensure apps continue to be backwards compatible with existing OEM implementations (without requiring extra work from mobile app developer standpoints). 
+
+Note: AppIDs in SDL Core are not case sensitive. Forcing AppIds to lowercase has been a legacy behavior in Core so SHAID must also force AppIds to lowercase. 
 
 ## Potential downsides
 
