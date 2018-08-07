@@ -14,6 +14,9 @@ This proposal includes information gathered from other proposals and they should
 
 Larger code snippets are attached to the [(appendix)](#appendix).
 
+Current code in development can be found at the [Transport Overhaul branch](https://github.com/smartdevicelink/sdl_android/pull/768).
+
+
 ## Motivation
 
 There are two main reasons behind the motivation of this proposal: improper logic location and moving all transports to multiplexing architecture.
@@ -26,7 +29,7 @@ Next, the current transport layer doesn't work well for implementing simultaneou
 
 ### Refactor Transport Layer
 
-The first step will be to refactor how the transport layer works.
+The first step will be to refactor how the transport and protocol layers work.
 
 Currently this is how the transport layer looks. As can be seen the protocol layer is mixed into the transport layer and only receiving messages through multiple listeners. 
 
@@ -34,18 +37,21 @@ Currently this is how the transport layer looks. As can be seen the protocol lay
 
 ![Old Layers](../assets/proposals/NNNN-android-transport-overhaul/TransportOverhaul_old.png "Old transport layers")
 
+The first implementation will look like this for a minor change.
+![Bridge Layers](../assets/proposals/NNNN-android-transport-overhaul/TransportOverhaul_bridge.png "Bridged transport layers")
+
 
 After the refactor the layers will look like this.
 
 ![New Layers](../assets/proposals/NNNN-android-transport-overhaul/TransportOverhaul_new.png "New transport layers")
 
-#### Move WiProProtocol Instance
+#### Move the protocol layer 
 
-The `WiProProtocol` instance needs to be moved away from the transport layer. It will get moved into the `SdlSession` class. All control frame messages and related `SdlPacket` messages will be sent into the `WiProProtocl` instance for handling. 
+The protocol layer needs to be moved away from inside the transport layer. It actually needs to be the exact opposite. The protocol layer should sit ontop of the transport layer. A new protocol layer will be created, `SdlProtocol` that will be instantiated into the `SdlSession` class. All control frame messages and related `SdlPacket` messages will be sent into the `WiProProtocl` instance for handling from the transport layer. The protocol layer will then determine whether or not packets need to move up the stack. 
 
 #### Transport Manager
 
-This will be the new bridge between the transports and the `SdlSession`. All the data gathered and delivered to the library will be passed to the `SdlSession`. This way, the `SdlSession` can decide where packets should go in logical blocks instead of the transport layer.
+This will be the new bridge between the transports and the `SdlRouterService`. All the data gathered and delivered to the library will be passed to the `SdlProtocol`. This way, the `SdlProtocol` can decide where packets should go in logical blocks instead of the transport layer.
 
 #### All Transports to Router Service
 
@@ -53,11 +59,16 @@ The next piece required for this refactor will be to move all the transport conn
 
 #### ForceOnConnect Removal
 
-The `ForceOnConnect` extra will no longer be used so the logic for it can be removed. This piece of integration has always been extra clutter and very error prone. It's removal from necessity will make the library more stable.
+The `ForceOnConnect` extra will no longer be used so the logic for it can be removed. This piece of integration has always been extra clutter and very error prone. It's removal from necessity will make the library more stable and less developer error prone.
 
-#### AOA Multiplexing
+#### AOA and TCP Multiplexing
 
-A new USB transport discussed later, will be implemented into the `SdlRouterService`. This will allow all apps to connect through the USB transport when it is available. 
+A new USB and TCP transport discussed later, will be implemented into the `SdlRouterService`. This will allow all apps to connect through the USB and TCP transports when it is available. 
+
+###### TCP Single SDL Port Assumption
+A current assumption about the TCP transport is that the SDL core module will only expose a single port for all apps to connect through for a secondary transport. 
+
+The ability will be added to modify this in the future so that the router service can hold multiple transports of the same type, but for unless it is required the feature can be implemented at a latter time. 
 
 
 ### Simultaneous Transport Modifications 
@@ -73,7 +84,6 @@ The config will be updated to hold a few extra settings
 3. High bandwidth required flag - flag for those apps that will require at least one available transport that can support the high bandwidth needs. Default will be false.
 
 In practice, developers will only need to set the high bandwidth required flag. However, the setting of primary and secondary transports allows developers to test against certain transports as well as ensures complete control of how they intend for their app to work.
-
 
 
 #### Transport Switching
@@ -198,10 +208,21 @@ public boolean handleIncommingClientMessage(final Bundle receivedBundle){
 
 #### SdlPacket Update
 
-The `SdlPacket` class will now include a `TransportType` for the local library. This lets the router service know which transport to send a packet. Also, when the router service receives a packet from the core module and relays it to the bound client app, the client knows where the packet came from.
+The `SdlPacket` class will now include a `TransportRecord` for the local library. This lets the router service know which transport to send a packet. Also, when the router service receives a packet from the core module and relays it to the bound client app, the client knows where the packet came from.
 
 ```java
-TransportType transportType;
+public class TransportRecord implements Parcelable{
+
+    TransportType type;
+    String address;
+
+    public TransportRecord(TransportType transportType, String address){
+        this.type = transportType;
+        this.address = address;
+    }
+
+    ....    
+}
 ```
 
 
@@ -211,12 +232,10 @@ If the router service notices a Register Transport control frame ACK is received
 
 ### Breaking change phase
 
-#### Rename WiProProtocol
-This name is an artifact of previous contractors working on the project. The class we actually used should be named `SdlProtocol`. During the next breaking change release, the class should be renamed and the `AbstractProtocol` class removed.
 
-#### Remove SdlConnection and Listener
+#### Remove WiProProtocol, SdlConnection, and Listener
 
-Both of these will no longer be necessary and should be removed.
+All of these will no longer be necessary and should be removed.
 
 #### Move SdlSession Class
 
@@ -242,6 +261,7 @@ It will be required to remove all deprecated methods previously by this proposal
 
 ## Appendix
 
+**NOTE: Some code snippets might change during implementation and might have already changed, however, the changes should be relatively small.**
 
 #### MultiplexBaseTransport Code
 
