@@ -417,7 +417,7 @@ public class MultiplexUsbTransport extends MultiplexBaseTransport{
                             }
                             //We put a trace statement in the message read so we can avoid all the extra bytes
                             psm.reset();
-                            buffer = new byte[READ_BUFFER_SIZE]; //FIXME just do an array copy and send off
+                            buffer = new byte[READ_BUFFER_SIZE]; 
                         }
                     }
                 } catch (IOException e) {
@@ -758,7 +758,6 @@ public class MultiplexTcpTransport extends MultiplexBaseTransport {
 							//We put a trace statement in the message read so we can avoid all the extra bytes
 							psm.reset();
 						}
-						//FIXME logInfo(String.format("TCPTransport.run: Received %d bytes", bytesRead));
 					}
 				}
 			}
