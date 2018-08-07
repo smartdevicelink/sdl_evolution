@@ -21,7 +21,7 @@ Current code in development can be found at the [Transport Overhaul branch](http
 
 There are two main reasons behind the motivation of this proposal: improper logic location and moving all transports to multiplexing architecture.
 
-The current transport layer is overly complex, unnecessarily abstracted, and difficult to maintain. Attempting to follow where a packet is read in to where it is handled is almost impossible due to abstract classes, subclasses, etc. There is also an incorrect logic location fro the protocol layer. Currently the protocol layer sits directly with the transport layer. This is outside the `SdlSession` that should be housing it's own protocol layer and not mixing it in with the transport. While it might have made sense for this logical binding at the start, the protocol layer now has a lot more integration and information for subsequent layers and services (RPC, video, etc).
+The current transport layer is overly complex, unnecessarily abstracted, and difficult to maintain. Attempting to follow where a packet is read in to where it is handled is almost impossible due to abstract classes, subclasses, etc. There is also an incorrect logic location from the protocol layer. Currently the protocol layer sits directly with the transport layer. This is outside the `SdlSession` that should be housing it's own protocol layer and not mixing it in with the transport. While it might have made sense for this logical binding at the start, the protocol layer now has a lot more integration and information for subsequent layers and services (RPC, video, etc).
 
 Next, the current transport layer doesn't work well for implementing simultaneous transports and the ability to connect multiple devices over a single transport. The router service is already in place for the bluetooth transport, and needs to be extended to the AOA transport due to a limitation by the Android OS. 
 
@@ -33,7 +33,6 @@ The first step will be to refactor how the transport and protocol layers work.
 
 Currently this is how the transport layer looks. As can be seen the protocol layer is mixed into the transport layer and only receiving messages through multiple listeners. 
 
-<center>**------- Will be updated ------**</center>
 
 ![Old Layers](../assets/proposals/NNNN-android-transport-overhaul/TransportOverhaul_old.png "Old transport layers")
 
@@ -47,7 +46,7 @@ After the refactor the layers will look like this.
 
 #### Move the protocol layer 
 
-The protocol layer needs to be moved away from inside the transport layer. It actually needs to be the exact opposite. The protocol layer should sit ontop of the transport layer. A new protocol layer will be created, `SdlProtocol` that will be instantiated into the `SdlSession` class. All control frame messages and related `SdlPacket` messages will be sent into the `WiProProtocl` instance for handling from the transport layer. The protocol layer will then determine whether or not packets need to move up the stack. 
+The protocol layer needs to be moved away from inside the transport layer. It actually needs to be the exact opposite. The protocol layer should sit on top of the transport layer. A new protocol layer will be created, `SdlProtocol` that will be instantiated into the `SdlSession` class. All control frame messages and related `SdlPacket` messages will be sent into the `SdlProtocol` instance for handling from the transport layer. The protocol layer will then determine whether or not packets need to move up the stack. 
 
 #### Transport Manager
 
