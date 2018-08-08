@@ -58,9 +58,9 @@ Add new RPCs to HMI_API:
 <function name="UnsubscribeButton" messagetype="response"></function>
 ```
 
- - After sending a SubscribeButton request, if the HMI does not respond within DefaultTimeout period, then SDL Core shall provide a response of `TIMED_OUT` to the requesting application.
- - If after SDL Core sends a `TIMED_OUT` response to the application, HMI sends the response to Core notifying that the button has been successfully subscribed, then SDL Core shall send a request to HMI to unsubscribe the button. This is done to ensure the application and HMI are in sync.
- - Similarly, if after SDL Core sends a `TIMED_OUT` response to the application, HMI sends the response to Core notifying that the button has been successfully unsubscribed, then SDL Core shall send a request to HMI to subscribe the button.
+ - After sending a SubscribeButton request, if the HMI does not respond within DefaultTimeout period, then SDL Core shall provide a response of `GENERIC_ERROR` to the requesting application.
+ - If after SDL Core sends a `GENERIC_ERROR` response to the application, HMI sends the response to Core notifying that the button has been successfully subscribed, then SDL Core shall send a request to HMI to unsubscribe the button. This is done to ensure the application and HMI are in sync.
+ - Similarly, if after SDL Core sends a `GENERIC_ERROR` response to the application, HMI sends the response to Core notifying that the button has been successfully unsubscribed, then SDL Core shall send a request to HMI to subscribe the button.
 
 ### Resumption 
 
