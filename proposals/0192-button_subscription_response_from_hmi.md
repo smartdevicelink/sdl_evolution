@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0192](0192-button_subscription_response_from_hmi.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core, HMI]
 
 ## Introduction
