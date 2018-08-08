@@ -1,5 +1,5 @@
 # Minimum Main and Secondary Font Size
-* Proposal: [SDL-0195](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0195-minimum-main-and-secondary-font-size.md)
+* Proposal: [SDL-NNNN](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/NNNN-minimum-main-and-secondary-font-size.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando), [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
