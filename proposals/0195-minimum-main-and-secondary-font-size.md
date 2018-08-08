@@ -7,7 +7,7 @@
 ## Introduction
 
 This proposal is about adding parameters to `VideoStreamingCapabilities` for minimum main and secondary font size 
-for the purpose of ensuring a sufficient and readible font size while projecting.
+for the purpose of ensuring a sufficient and readable font size while projecting.
 
 ## Motivation
 
