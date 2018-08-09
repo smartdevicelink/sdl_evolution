@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is based on [SDL 0156 High level interface: Foundation](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0156-high-level-interface-foundation.md) and [SDL 0176 High level interface: Views and Controllers](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0176-high-level-interface-views-and-controllers.md)) adding modal view controllers to the high level interface. It proposes a solution to mimic the UI framework of the native OS SDKs.
+This proposal is based on [SDL 0156 High level interface: Foundation](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0156-high-level-interface-foundation.md) and [SDL 0176 High level interface: Views and Controllers](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0176-high-level-interface-views-and-controllers.md)) adding modal view controllers to the high level interface. These modal view controllers will make the use of RPcs such as `Alert`, `ScrollableMessage` etc. easier and more intuitive to iOS app developers.
 
 ## Motivation
 
@@ -28,7 +28,7 @@ This proposal does not contain a modal representation of interacting choice sets
 
 Modal view controllers are responsible for overlay related RPCs such as `Alert`, `ScrollableMessage`, `PerformAudioPassThru`, `Slider` or `PerformInteraction` (proposed separately). Implementing overlays as modal view controllers would follow the modal-mode presentation of view controllers such as [`UIAlertController`](https://developer.apple.com/documentation/uikit/uialertcontroller).
 
-Apps can instanciate modal view controller classes and present them using the view controller manager.
+Apps can instanciate modal view controller classes and present them using the view controller manager (VC manager).
 
 #### SDLViewControllerManager (additions)
 
@@ -49,13 +49,22 @@ Apps can instanciate modal view controller classes and present them using the vi
  * Presents a modal view controller on the screen.
  * Calls the completion handler if the modal view controller disappears from the screen or if an error occurred.
  */
-- (void)presentModalViewController:(SDLModalViewController *)modalViewController completion:(void (^)(NSError *error))completion; //completion type TBD
+- (void)presentModalViewController:(SDLModalViewController *)modalViewController completion:(void (^)(SDLResult result, NSError *error))completion;
 
 @end
+```
+
+When a view controller (presenting VC) want's to present a modal view controller (presented VC) it must call the `presentModalViewController:completion:` method of the view controller manager. The presenting VC must be listed in the view controller stack but does not need to be the top view controller. The presenting VC, presented VC and the completion handler are managed in a VC pair.
+
+The VC manager should initiate the presentation (send the RPC request) and store the VC pair in a private list. It should be possible to associate RPC responses to the VC pair in the list. If a response is received and can be associated to a VC pair then the VC pair should be removed from the list and the completion handler should be called.
+
+The oldest VC pair of this list should be the currently presenting and presented VC. The currently presenting VC will be accessible through the `.presentingModalViewController` property and the presented VC through the `.presentedModalViewController`. If the private list is empty the two properties should return nil.
+
+By the nature of the HMI overlays can be aborted by another overlay or get rejected because of a currently presented overlay (or something of a higher priority e.g. VR session). The private list offers flexibility in case the app calls the method multiple times and can deal with rejected overlays that were never visible and aborted overlays if another one is requested.
 
 #### SDLModalViewController
 
-This class would be used as the base class for any overlay related RPC. As it inherits `SDLViewController` it is possible to manipulate the head unit during a modal presentation.
+This class should be used as the base class for any kind of overlay. As it inherits `SDLViewController` it is possible to manipulate the head unit during a modal presentation.
 
 ```objc
 @interface SDLModalViewController : SDLViewController
@@ -63,12 +72,14 @@ This class would be used as the base class for any overlay related RPC. As it in
 @property (nonatomic, assign) NSTimeInterval duration; // used throughout all subclasses
 @property (nonatomic, copy) NSString *message; // used throughout all subclasses
 
+- (void)present:(SDLApplication *)application; // private method called by the VC manager
+
 @end
 ```
 
 #### SDLAlertController
 
-The alert controller is used to abstract the RPC `Alert`.
+The alert controller is used to abstract the RPC `Alert`. The properties match the parameters of the RPC.
 
 ```objc
 @interface SDLAlertController : SDLModalViewController
@@ -78,7 +89,6 @@ The alert controller is used to abstract the RPC `Alert`.
 
 @property (nonatomic) BOOL shouldPlayTone;
 @property (nonatomic) BOOL progressIndicator;
-
 
 @end
 ``` 
@@ -96,9 +106,9 @@ The audio input controller is used to abstract the RPC `PerformAudioPassThru`, `
 @property (nonatomic, copy) SDLAudioType audioType;
 @property (nonatomic) BOOL muteMediaSource;
 
-@property (nonatomic) SDLOnAudioDataBlock onAudioDataBlock;
+@property (nonatomic) (^onAudioData)(NSData *audioData);
 
-- (void)dismiss; // sends an EndAudioPassThru in order to stop audio input
+- (void)finish; // sends an EndAudioPassThru in order to stop audio input
 
 @end
 ```
@@ -117,7 +127,7 @@ Similar to `Alert` this view controller takes care of the RPC `ScrollableMessage
 
 #### SDLSliderController
 
-This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider). For consistency it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `numTicks` to be between 2 and 26. With the high level abstraction the modal controller can manage much more value ranges than 1-26. Examples are ranges with negative (or more values than available) which are mapped (and scaled) internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
+This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider) but for consistency to SDL it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `.numTicks` to be between 2 and 26. The value range for the parameter `.position` can between 1 and 26 which means the range of values is not more than 26. With the high level abstraction the modal controller can manage the specified range allowing different min and max values. Examples are ranges with negative which are mapped internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
 
 ```objc
 @interface SDLSliderController : SDLModalViewController
@@ -125,7 +135,7 @@ This controller matches very closely to the view [`UISlider`](https://developer.
 @property (nonatomic, copy) NSString *title; // mapped with Slider.sliderHeader
 @property (nonatomic, copy) NSArray<NSString *> *valueLables; // overrides control of SDLModalViewController.message 
 
-// minimumValue and maximumValue map to .numTicks
+// minimumValue and maximumValue map to `Slider.numTicks`
 @property (nonatomic) NSInteger minimumValue;
 @property (nonatomic) NSInteger maximumValue;
 
@@ -135,12 +145,6 @@ This controller matches very closely to the view [`UISlider`](https://developer.
 @end
 ```
 
-
-
-
-
-
-
 ## Potential downsides
 
 The initial workload in order to implement this high level interface is expected to be quite high. Once implemented it is expected that developers will be able to implement SDL into their apps in less time than they would need today. At the end the maintenance of the high level interface may be lower compared to the counterproposal for different reasons.
@@ -149,9 +153,8 @@ This proposal mimics the native UI API. Compared to the counterproposal this pro
 
 ## Impact on existing code
 
-This proposal will add a total new high level interface layer abstracting many parts of SDL. Existing code should not be affected in a short term but it would make parts of the code obsolete therefore to be deprecated and made private.
+This proposal will add a total new high level interface layer abstracting many parts of SDL. Existing code should not be affected in a short term but it would make parts of the code obsolete therefore to be deprecated and/or made private.
 
 ## Alternatives considered
 
-As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
-
+No other alternative is considered.
