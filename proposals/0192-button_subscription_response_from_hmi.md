@@ -25,31 +25,42 @@ Remove `<function name="OnButtonSubscription" messagetype="notification">`.
 
 Add new RPCs to HMI_API:
 ```xml
-  <function name="SubscribeButton" messagetype="request">
+<function name="SubscribeButton" messagetype="request">
         <description>
-            Subscribes/Unsubscribes to/from buttons.            
+            Subscribes to buttons.            
         </description>
 		
 	    <param name="appID" type="Integer" mandatory="true">
-			<description>The ID of the application requesting this button-subscription status change.</description>
+			<description>The ID of the application requesting this button usubscription. </description>
         </param>
 		
         <param name="buttonName" type="ButtonName" mandatory="true">
-            <description>Name of the button to subscribe/unsubscribe.</description>
+            <description>Name of the button to subscribe.</description>
         </param>
-		
-		<param name="subscribe" type="Boolean" mandatory="true">
-			<description>Flag to subscribe/unsubscribe to button presses. If true, the requester will be subscribed. If false, the requester will not be subscribed and be removed as a subscriber if it was previously subscribed.</description>
-		</param>
+</function>
+
+<function name="SubscribeButton" messagetype="response"> </function>
+
+<function name="UnsubscribeButton" messagetype="request">
+        <description>
+            Unsubscribes from buttons.            
+        </description>
+        
+        <param name="appID" type="Integer" mandatory="true">
+            <description>The ID of the application requesting this button unsubscription. </description>
+        </param>
+        
+        <param name="buttonName" type="ButtonName" mandatory="true">
+            <description>Name of the button to unsubscribe.</description>
+        </param>
     </function>
-    
-    <function name="SubscribeButton" messagetype="response">
-    </function>
+
+<function name="UnsubscribeButton" messagetype="response"></function>
 ```
 
- - After sending a SubscribeButton request, if the HMI does not respond within DefaultTimeout period, then SDL Core shall provide a response of `TIMED_OUT` to the requesting application.
- - If after SDL Core sends a `TIMED_OUT` response to the application, HMI sends the response to Core notifying that the button has been successfully subscribed, then SDL Core shall send a request to HMI to unsubscribe the button. This is done to ensure the application and HMI are in sync.
- - Similarly, if after SDL Core sends a `TIMED_OUT` response to the application, HMI sends the response to Core notifying that the button has been successfully unsubscribed, then SDL Core shall send a request to HMI to subscribe the button.
+ - After sending a SubscribeButton request, if the HMI does not respond within DefaultTimeout period, then SDL Core shall provide a response of `GENERIC_ERROR` to the requesting application.
+ - If after SDL Core sends a `GENERIC_ERROR` response to the application, HMI sends the response to Core notifying that the button has been successfully subscribed, then SDL Core shall send a request to HMI to unsubscribe the button. This is done to ensure the application and HMI are in sync.
+ - Similarly, if after SDL Core sends a `GENERIC_ERROR` response to the application, HMI sends the response to Core notifying that the button has been successfully unsubscribed, then SDL Core shall send a request to HMI to subscribe the button.
 
 ### Resumption 
 
