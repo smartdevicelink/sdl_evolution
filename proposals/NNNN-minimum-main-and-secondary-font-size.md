@@ -1,5 +1,5 @@
 # Minimum Main and Secondary Font Size
-* Proposal: [SDL-NNNN](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/NNNN-minimum-main-and-secondary-font-size.md)
+* Proposal: [SDL-NNNN](NNNN-filename.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando), [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
@@ -14,7 +14,7 @@ for the purpose of ensuring a sufficient and readable font size while projecting
 Today navigation app developers create a video stream using the screen resolution in pixel without knowing the screen size/pixel density. 
 This can result into differnt font sizes on screens with the same size but different resolutions.
 This can be an issue following NHTSA driver distraction guidelines.
-OEMs may also have font size requirements to ensure that text displayed on the screen is readible.
+OEMs may also have font size requirements to ensure that text displayed on the screen is readable.
 
 ## Proposed solution
 
