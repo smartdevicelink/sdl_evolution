@@ -1,5 +1,5 @@
 # Minimum Main and Secondary Font Size
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-NNNN](NNNN-NNNN-minimum-main-and-secondary-font-size.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando), [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
