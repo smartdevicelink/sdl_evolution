@@ -1,4 +1,4 @@
-# Feature name
+# Add Support for Static Icons to SDLArtwork
 
 * Proposal: [SDL-NNNN](NNNN-sdlartwork-static-icons.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
