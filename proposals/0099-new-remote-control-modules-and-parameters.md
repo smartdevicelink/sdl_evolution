@@ -306,8 +306,8 @@ New LIGHT data types.
     <element name="REAR_RIGHT_FOG_LIGHT" value="13"/>
     <element name="REAR_LEFT_TAIL_LIGHT" value="14"/>
     <element name="REAR_RIGHT_TAIL_LIGHT" value="15"/>
-    <element name="REAR_LEFT_BREAK_LIGHT" value="16"/>
-    <element name="REAR_RIGHT_BREAK_LIGHT" value="17"/>
+    <element name="REAR_LEFT_BRAKE_LIGHT" value="16"/>
+    <element name="REAR_RIGHT_BRAKE_LIGHT" value="17"/>
     <element name="REAR_LEFT_TURN_LIGHT" value="18"/>
     <element name="REAR_RIGHT_TURN_LIGHT" value="19"/>
     <element name="REAR_REGISTRATION_PLATE_LIGHT" value="20"/>
