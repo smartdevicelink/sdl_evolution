@@ -171,7 +171,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0157" status="implemented" primary-platform="ios" sdl-version="6.1" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
 <proposal id="0157" status="accepted" primary-platform="android" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
 <proposal id="0158" status="accepted" primary-platform="core" sdl-version="x.x" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
-<proposal id="0159" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
+<proposal id="0159" status="implemented" primary-platform="android" sdl-version="4.7" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
+<proposal id="0159" status="implemented" primary-platform="ios" sdl-version="6.1" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
 <proposal id="0160" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control Radio Parameter Update" filename="0160-rc-radio-parameter-update.md"/>
 <proposal id="0161" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Remove SmartDeviceLink Cordova plugin" filename="0161-remove-sdl-cordova.md"/>
 <proposal id="0162" status="accepted" primary-platform="protocol" sdl-version="x.x" name="Define Handling of Duplicate Correlation IDs" filename="0162-define-handling-of-duplicate-correlation-ids.md"/>
