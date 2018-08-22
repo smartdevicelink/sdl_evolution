@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0118](0118-video-background-string.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: iOS, Android
 
 ## Introduction
