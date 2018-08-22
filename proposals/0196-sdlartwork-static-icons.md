@@ -1,8 +1,8 @@
 # Add Support for Static Icons to SDLArtwork
 
-* Proposal: [SDL-NNNN](NNNN-sdlartwork-static-icons.md)
+* Proposal: [SDL-0196](0196-sdlartwork-static-icons.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android]
 
 ## Introduction
