@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0184](0184-cancel-interaction.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Returned for Revisions**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
