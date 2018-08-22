@@ -178,14 +178,14 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 ---
 
 #### Core: 5.0.0
-**Expected Release Date**: October 5, 2018
+**Expected Release Date**: October 19, 2018
 
 **Contents**: Contents of this release can be tracked on the [Core 5.0.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/10).
 
 ---
 
 #### Manticore: 1.4.0
-**Expected Release Date**: November 2, 2018
+**Expected Release Date**: November 16, 2018
 
 **Contents**: Include enhancements and update to the latest version of Core.
 
