@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0188](0188-get-interior-data-resumption.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Accepted**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core, HMI]
 
 ## Introduction
