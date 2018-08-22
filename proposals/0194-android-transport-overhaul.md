@@ -1,7 +1,7 @@
 # Android Transport Layer Overhaul
 * Proposal: [SDL-0194](0194-android-transport-overhaul.md)
 * Author: [Joey Grover](https://github.com/joeygrover), [Austin Kirk](https://github.com/askirk)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Android
 
 ## Introduction
