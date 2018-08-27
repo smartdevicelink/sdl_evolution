@@ -17,9 +17,11 @@ This was originally discussed in [SDL-0033](https://github.com/smartdevicelink/s
 
 The proposed solution is to display a black screen with white text saying:
 
-> "Open \(appname) on the iPhone to continue"
+> "`<appname>` must be open on the phone in order to work. When it is safe to do so, open `<appname>` on phone."
 
-> "Open \(appname) on the Android to continue"
+An alternate text is available if the above is too lengthy to fit on the screen:
+
+> "When it is safe to do so, open `<appname>` on phone"
 
 ## Potential downsides
 
