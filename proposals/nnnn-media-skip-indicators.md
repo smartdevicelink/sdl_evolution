@@ -42,7 +42,7 @@ the `SetMediaClockTimer` RPC to alter these buttons on the UI, assuming the deve
 By default the seek indicators should be `TRACK` when:
 
 * the media app is newly registered on the head unit (after `RegisterAppInterface` and the button subscription)
-* the media app was closed by the user (App enteres `HMI_NONE`)
+* the media app was closed by the user (App enters `HMI_NONE`)
 * the app sends `SetMediaClockTimer` with `forwardSeekIndicator` and / or `backSeekIndicator` not set to any value.
 
 Additional changes to the HMI spec will be required to indicate that the HMI should alter the seek indicators.
