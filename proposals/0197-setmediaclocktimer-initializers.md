@@ -1,8 +1,8 @@
 # Update SetMediaClockTimer Initializers
 
-* Proposal: [SDL-NNNN](NNNN-setmediaclocktimer-initializers.md)
+* Proposal: [SDL-0197](0197-setmediaclocktimer-initializers.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS, Android]
 
 ## Introduction
