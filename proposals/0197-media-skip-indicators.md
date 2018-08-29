@@ -1,8 +1,8 @@
 # Media Skip Indicators
 
-* Proposal: [SDL-NNNN](NNNN-media-skip-indicators.md)
+* Proposal: [SDL-0197](0197-media-skip-indicators.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / HMI / iOS / Android / RPC]
 
 ## Introduction
