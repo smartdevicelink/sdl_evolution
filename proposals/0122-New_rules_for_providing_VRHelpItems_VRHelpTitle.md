@@ -17,7 +17,7 @@ The `vrHelp` parameter of the `SetGlobalProperties` RPC is used by the system to
 
 The proposed mechanism is detailed below:
 1. If the application sends any `AddCommand` with the `vrCommands` parameter then SDL Core shall maintain a list of the added `vrCommands`.
-__For each `AddCommand`, only the first item in the `vrCommands` array shall be added to the list.__
+For each `AddCommand`, only the first item in the `vrCommands` array shall be added to the list.
 2. If the application sends any `DeleteCommand` requests then SDL Core shall remove the added `vrCommands` from its list.
 3. Whenever this internal list of added `vrCommands` is updated, SDL Core shall:
 	1. construct the `vrHelp` parameter using the data from the list SDL Core internally created.
