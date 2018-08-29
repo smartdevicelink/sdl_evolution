@@ -132,7 +132,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0119" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
 <proposal id="0120" status="accepted" primary-platform="rpc" sdl-version="x.x" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
 <proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
-<proposal id="0122" status="accepted with Revisions" primary-platform="rpc" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
+<proposal id="0122" status="accepted" primary-platform="core" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
 <proposal id="0123" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
 <proposal id="0124" status="implemented" primary-platform="ios" sdl-version="5.2" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
 <proposal id="0125" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
@@ -209,8 +209,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0192" status="accepted" primary-platform="core" sdl-version="x.x" name="Button Subscription response from HMI" filename="0192-button_subscription_response_from_hmi.md"/>
 <proposal id="0193" status="accepted" primary-platform="android" sdl-version="x.x" name="Update SDL-Android minimum SDK" filename="0193-update-android-min-sdk.md"/>
 <proposal id="0194" status="accepted" primary-platform="android" sdl-version="x.x" name="Android Transport Layer Overhaul" filename="0194-android-transport-overhaul.md"/>
-<proposal id="0195" status="returned for revisions" primary-platform="rpc" sdl-version="x.x" name="Minimum Main and Secondary Font Size" filename="0195-minimum-main-and-secondary-font-size.md"/>
-<proposal id="0196" status="active" primary-platform="mobile" sdl-version="x.x" name="Add Support for Static Icons to SDLArtwork" filename="0196-sdlartwork-static-icons.md"/>
+<proposal id="0195" status="returned" primary-platform="rpc" sdl-version="x.x" name="Minimum Main and Secondary Font Size" filename="0195-minimum-main-and-secondary-font-size.md"/>
+<proposal id="0196" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add Support for Static Icons to SDLArtwork" filename="0196-sdlartwork-static-icons.md"/>
 	
 
 	
