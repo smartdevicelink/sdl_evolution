@@ -209,7 +209,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0192" status="accepted" primary-platform="core" sdl-version="x.x" name="Button Subscription response from HMI" filename="0192-button_subscription_response_from_hmi.md"/>
 <proposal id="0193" status="accepted" primary-platform="android" sdl-version="x.x" name="Update SDL-Android minimum SDK" filename="0193-update-android-min-sdk.md"/>
 <proposal id="0194" status="accepted" primary-platform="android" sdl-version="x.x" name="Android Transport Layer Overhaul" filename="0194-android-transport-overhaul.md"/>
-<proposal id="0195" status="active" primary-platform="rpc" sdl-version="x.x" name="Minimum Main and Secondary Font Size" filename="0195-minimum-main-and-secondary-font-size.md"/>
+<proposal id="0195" status="returned for revisions" primary-platform="rpc" sdl-version="x.x" name="Minimum Main and Secondary Font Size" filename="0195-minimum-main-and-secondary-font-size.md"/>
 <proposal id="0196" status="active" primary-platform="mobile" sdl-version="x.x" name="Add Support for Static Icons to SDLArtwork" filename="0196-sdlartwork-static-icons.md"/>
 	
 
