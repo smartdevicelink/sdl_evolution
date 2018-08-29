@@ -1,7 +1,7 @@
 # Minimum Main and Secondary Font Size
 * Proposal: [SDL-0195](0195-minimum-main-and-secondary-font-size.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando), [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
