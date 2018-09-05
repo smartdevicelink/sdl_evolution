@@ -150,28 +150,28 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 
 #### Android SDK: 4.7.0
-**Expected Release Date**: September 28, 2018
+**Expected Release Date**: October 12, 2018
 
 **Contents**: Contents of this release can be tracked on the [Android 4.7.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/8).
 
 ---
 
 #### iOS SDK: 6.1.0
-**Expected Release Date**: September 28, 2018
+**Expected Release Date**: October 12, 2018
 
 **Contents**: Contents of this release can be tracked on the [iOS 6.1.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/9).
 
 ---
 
 #### SDL Protocol: 5.1.0
-**Expected Release Date**: September 28, 2018
+**Expected Release Date**: October 12, 2018
 
 **Contents**: Contents of this release can be tracked on the [Protocol Spec 5.1.0 Project Page](https://github.com/smartdevicelink/protocol_spec/projects/2).
 
 ---
 
 #### SDL RPC Spec: 5.0.0
-**Release Date**: September 28, 2018
+**Release Date**: October 12, 2018
 
 **Contents**: Contents of this release can be tracked on the [RPC Spec 5.0.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/2).
 
