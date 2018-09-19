@@ -180,7 +180,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0164" status="implemented" primary-platform="core" sdl-version="5.0" name="Modernize Ubuntu Support" filename="0164-modernize-ubuntu-support.md"/>
 <proposal id="0165" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control – Lights – More Names and Status Values" filename="0165-rc-lights-more-names-and-status-values.md"/>
 <proposal id="0166" status="implemented" primary-platform="android" sdl-version="4.6" name="Use Android Annotations Library" filename="0166-use-android-annotations-library.md"/>
-<proposal id="0167" status="accepted" primary-platform="core" sdl-version="x.x" name="App Services" filename="0167-app-services.md"/>
+<proposal id="0167" status="accepted" primary-platform="rpc" sdl-version="x.x" name="App Services" filename="0167-app-services.md"/>
 <proposal id="0168" status="accepted" primary-platform="core" sdl-version="x.x" name="RPC design refactoring" filename="0168-rpc-design-refactoring.md"/>
 <proposal id="0169" status="returned" primary-platform="core" sdl-version="x.x" name="Arguments initialText and hintText for SDL Keyboard" filename="0169-initial-and-hint-text-for-keyboard.md"/>
 <proposal id="0170" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL behavior in case of LOW_VOLTAGE event" filename="0170-sdl-behavior-in-case-of-Low-Voltage.md"/>
@@ -213,7 +213,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0196" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add Support for Static Icons to SDLArtwork" filename="0196-sdlartwork-static-icons.md"/>
 <proposal id="0197" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Update SetMediaClockTimer Initializers" filename="0197-setmediaclocktimer-initializers.md"/>
 <proposal id="0198" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Skip Indicators" filename="0198-media-skip-indicators.md"/>
-	
+<proposal id="0199" status="active" primary-platform="rpc" sdl-version="x.x" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
 	
 
 	
