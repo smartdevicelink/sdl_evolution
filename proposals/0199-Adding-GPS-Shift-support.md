@@ -1,8 +1,8 @@
 # Adding GPS Shift support
 
-* Proposal: [SDL-NNNN](NNNN-Adding-GPS-Shift-support.md)
+* Proposal: [SDL-0199](0199-Adding-GPS-Shift-support.md)
 * Author: [Ankur Tiwari](https://github.com/ATIWARI9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
