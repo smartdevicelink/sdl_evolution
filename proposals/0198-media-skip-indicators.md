@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0198](0198-media-skip-indicators.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / HMI / iOS / Android / RPC]
 
 ## Introduction
