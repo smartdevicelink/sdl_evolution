@@ -27,15 +27,15 @@ the `SetMediaClockTimer` RPC to alter these buttons on the UI, assuming the deve
     </description> 
 
     <param name="type" type="SeekIndicatorType" mandatory="true" />
-    <param name="seekTime" type"Int" minValue="1" maxValue="99" mandatory="false">
+    <param name="seekTime" type="Int" minValue="1" maxValue="99" mandatory="false">
         <description>If the type is TIME, this number of seconds may be present alongside the skip indicator. It will indicate the number of seconds that the currently playing media will skip forward or backward.</description>
     </param>
 </struct>
 
 <function name="SetMediaClockTimer" messagetype="request">
   <!-- Additions -->
-  <param name="forwardSeekIndicator" type="SkipStreamingIndicator" mandatory="false" />
-  <param name="backSeekIndicator" type="SkipStreamingIndicator" mandatory="false" />
+  <param name="forwardSeekIndicator" type="SeekStreamingIndicator" mandatory="false" />
+  <param name="backSeekIndicator" type="SeekStreamingIndicator" mandatory="false" />
 </function>
 ```
 
