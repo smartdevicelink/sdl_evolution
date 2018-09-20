@@ -27,25 +27,27 @@ the `SetMediaClockTimer` RPC to alter these buttons on the UI, assuming the deve
     </description> 
 
     <param name="type" type="SeekIndicatorType" mandatory="true" />
-    <param name="seekTime" type"Int" minValue="1" maxValue="99" mandatory="false">
+    <param name="seekTime" type="Int" minValue="1" maxValue="99" mandatory="false">
         <description>If the type is TIME, this number of seconds may be present alongside the skip indicator. It will indicate the number of seconds that the currently playing media will skip forward or backward.</description>
     </param>
 </struct>
 
 <function name="SetMediaClockTimer" messagetype="request">
   <!-- Additions -->
-  <param name="forwardSeekIndicator" type="SkipStreamingIndicator" mandatory="false" />
-  <param name="backSeekIndicator" type="SkipStreamingIndicator" mandatory="false" />
+  <param name="forwardSeekIndicator" type="SeekStreamingIndicator" mandatory="false" />
+  <param name="backSeekIndicator" type="SeekStreamingIndicator" mandatory="false" />
 </function>
 ```
 
 By default the seek indicators should be `TRACK` when:
 
-* the media app is newly registered on the head unit (after `RegisterAppInterface` and the button subscription)
-* the media app was closed by the user (App enters `HMI_NONE`)
-* the app sends `SetMediaClockTimer` with `forwardSeekIndicator` and / or `backSeekIndicator` not set to any value.
+* The media app is newly registered on the head unit (after `RegisterAppInterface` and the button subscription)
+* The media app was closed by the user (App enters `HMI_NONE`)
+* The app sends `SetMediaClockTimer` with `forwardSeekIndicator` and / or `backSeekIndicator` not set to any value.
 
 Additional changes to the HMI spec will be required to indicate that the HMI should alter the seek indicators.
+
+Documentation will be added about how and when developers should send these indicator values (i.e. on every `SetMediaClockTimer` update).
 
 ## Potential downsides
 This is additional design that HMIs may take into account (it is optional, but very useful for developers). No additional downsides were identified.
