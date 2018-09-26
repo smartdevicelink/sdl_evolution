@@ -213,7 +213,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0196" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add Support for Static Icons to SDLArtwork" filename="0196-sdlartwork-static-icons.md"/>
 <proposal id="0197" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Update SetMediaClockTimer Initializers" filename="0197-setmediaclocktimer-initializers.md"/>
 <proposal id="0198" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Skip Indicators" filename="0198-media-skip-indicators.md"/>
-<proposal id="0199" status="active" primary-platform="rpc" sdl-version="x.x" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
+<proposal id="0199" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
 	
 
 	
