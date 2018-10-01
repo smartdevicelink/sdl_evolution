@@ -241,7 +241,7 @@ New AUDIO data types.
       <description>Availability of the control of audio source. </description>
     </param>
     <param name="keepContextAvailable" type="Boolean" mandatory="false"> 
-      <description>Availability of the keepContext paramter. </description> 
+      <description>Availability of the keepContext parameter. </description> 
     </param>
     <param name="volumeAvailable" type="Boolean" mandatory="false">
       <description>Availability of the control of audio volume.</description>
