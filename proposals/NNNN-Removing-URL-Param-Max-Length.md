@@ -2,7 +2,7 @@
 * Proposal: [SDL-NNNN](NNNN-Removing-URL-Param-Max-Length.md)
 * Author: [Harshavardhan Patankar](https://github.com/hypatankar)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core, HMI, Android, iOS]
+* Impacted Platforms: [Core, HMI, Android, iOS,RPC]
 
 ## Introduction
 
@@ -23,7 +23,7 @@ We should remove the max length attribute of the following URL for OnSystemReque
 ```xml
    <function name="OnSystemRequest" functionID="OnSystemRequestID" messagetype="notification" >
         <description>
-            An asynchronous request from the system for specific data from the device or the cloud or response to a request from the device or cloud
+            An asynchronous request from the system for specific data from the device or the cloud or response to a request from the device        or cloud
             Binary data can be included in hybrid part of message for some requests (such as Authentication request responses)
         </description>
         <param name="requestType" type="RequestType" mandatory="true">
@@ -75,10 +75,14 @@ The URL parameters in StartStream and StartAudioStream in HMI API should also ha
    ...
 ```
 
-# Potential downsides
+## Potential downsides
 
 Increasing the size of the URL may provide a minimal performance impact since the system needs to process a larger string for the URL parameter. The increased string length may also be considered a breaking change.
 
-# Alternatives considered
+## Impact on existing code
+
+There should be a minimal impact on existing code because we are simply removing the max length size limitation from the URL parameter. Generally, when a string is declared in our mobile platforms, in Android and iOS, a size is not set for the string. Impact should be very minimal. 
+
+## Alternatives considered
 
 Many strings in both Mobile API and HMI API have max lengths so removing max lengths for the specified URL strings could be considered breaking trend. A possible alternative is to specify a very high max length for the URL strings discussed in this proposal. The max length for the URL strings could be 64,000 or larger because most upper limits for URLs are larger than 64,000 in length.
