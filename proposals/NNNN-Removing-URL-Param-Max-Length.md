@@ -81,4 +81,4 @@ Increasing the size of the URL may provide a minimal performance impact since th
 
 # Alternatives considered
 
-Many strings in both Mobile API and HMI API have max lengths so removing max lengths for the specified URL strings could be considered breaking trend. A possible alternative is to specify a very high max length for the URL strings discussed in this proposal. The max length for the URL strings could be 64k or larger because most upper limits for URLs are larger than 64k.
+Many strings in both Mobile API and HMI API have max lengths so removing max lengths for the specified URL strings could be considered breaking trend. A possible alternative is to specify a very high max length for the URL strings discussed in this proposal. The max length for the URL strings could be 64,000 or larger because most upper limits for URLs are larger than 64,000 in length.
