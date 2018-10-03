@@ -1,7 +1,7 @@
 # Removing URL Parameter Max Length
-* Proposal: [SDL-NNNN](NNNN-Removing-URL-Param-Max-Length.md)
+* Proposal: [SDL-0200](0200-Removing-URL-Param-Max-Length.md)
 * Author: [Harshavardhan Patankar](https://github.com/hypatankar)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core, HMI, Android, iOS,RPC]
 
 ## Introduction
