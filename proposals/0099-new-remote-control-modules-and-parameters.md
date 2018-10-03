@@ -240,6 +240,9 @@ New AUDIO data types.
     <param name="sourceAvailable" type="Boolean" mandatory="false">
       <description>Availability of the control of audio source. </description>
     </param>
+    <param name="keepContextAvailable" type="Boolean" mandatory="false"> 
+      <description>Availability of the keepContext parameter. </description> 
+    </param>
     <param name="volumeAvailable" type="Boolean" mandatory="false">
       <description>Availability of the control of audio volume.</description>
     </param>
@@ -270,12 +273,13 @@ New AUDIO data types.
       If the value is MOBILE_APP, the system shall switch to the mobile media app that issues the setter RPC.
       </description>
     </param>
-    <param name="keepContext" type="Boolean" mandatory="false">
+    <param name="keepContext" type="Boolean" defvalue="false" mandatory="false">
       <description>
       This parameter shall not be present in any getter responses or notifications.
-      This parameter is optional in a setter request. The default value is false.
-      If it is true, the system not only changes the audio source but also brings the default infotainment system UI associated with the audio source to foreground and set the application to background.
-      If it is false, the system changes the audio source, but keeps the current application's context.
+      This parameter is optional in a setter request. The default value is false if it is not included.
+      If it is false, the system not only changes the audio source but also brings the default application or
+      system UI associated with the audio source to foreground.
+      If it is true, the system only changes the audio source, but keeps the current application in foreground.
       </description>
     </param>
     <param name="volume" type="Integer" mandatory="false" minvalue="0" maxvalue="100">
