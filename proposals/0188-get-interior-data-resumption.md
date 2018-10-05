@@ -48,7 +48,7 @@ Interior vehicle data resumption error handling should follow the same rules as 
 
 ## SetInteriorVehicleData behaviour changes: 
 
-If mobile send `SetInteriorVehicleData (subscribe=true, moduleType=MODULE1)`, but the application is already subscribed on `MODULE1` module type the resultCode should be `WARNING` because of double subscription and info should contain information if an app is already subscribed.
+If mobile application send `SetInteriorVehicleData (subscribe=true, moduleType=MODULE1)`, but the application is already subscribed on `MODULE1` module type the resultCode should be `WARNING` because of double subscription and info should contain information if an app is already subscribed.
 
 ## Potential downsides
 
