@@ -135,10 +135,11 @@ The system shall list all available RC radio buttons and RC climate buttons in t
         In the future, this should be the Identification of a module.
       </description>
     </param>
-    <param name="subscribe" type="Boolean" mandatory="false" defvalue="false">
+    <param name="subscribe" type="Boolean" mandatory="false">
       <description>
         If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
         If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
+        If subscribe is not included, the subscription status of the app for the requested moduelType will remain unchanged.
       </description>
     </param>
   </function>
