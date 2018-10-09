@@ -46,9 +46,9 @@ Reverting subscriptions means internally removing information about this subscri
 In the case that after reverting the subscription, there is no application subscribed to a certain module type, SDL should send `GetInteriorData(IsSubscribe=false)` to HMI and clear cache for this module type.
 Interior vehicle data resumption error handling should follow the same rules as regular vehicle data resumption error handling. 
 
-## SetInteriorVehicleData behaviour changes: 
+## SetInteriorVehicleData behavior changes:
 
-If mobile application send `SetInteriorVehicleData (subscribe=true, moduleType=MODULE1)`, but the application is already subscribed on `MODULE1` module type the resultCode should be `WARNING` because of double subscription and info should contain information if an app is already subscribed.
+If a mobile application sends `SetInteriorVehicleData (subscribe=true, moduleType=MODULE1)`, but the application is already subscribed on `MODULE1` module type the resultCode should be `WARNING` because of double subscription and info should contain information if an app is already subscribed.
 
 ## Potential downsides
 
