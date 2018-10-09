@@ -1195,7 +1195,7 @@ The changes are similar to mobile api changes, they are  listed here.
       <description>
         If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
         If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is not included, the subscription status of the app for the requested moduelType will remain unchanged.
+        If subscribe is not included, the subscription status for the requested moduelType will remain unchanged.
       </description>
     </param>
     <param name="appID" type="Integer" mandatory="true">
