@@ -137,9 +137,9 @@ The system shall list all available RC radio buttons and RC climate buttons in t
     </param>
     <param name="subscribe" type="Boolean" mandatory="false">
       <description>
-        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is not included, the subscription status of the app for the requested moduelType will remain unchanged.
+        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is not included, the subscription status of the app for the requested moduleType will remain unchanged.
       </description>
     </param>
   </function>
@@ -702,9 +702,9 @@ The changes are listed below.
     </param>
     <param name="subscribe" type="Boolean" mandatory="false">
       <description>
-        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is not included, the subscription status of the app for the requested moduelType will remain unchanged.
+        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is not included, the subscription status of the app for the requested moduleType will remain unchanged.
       </description>
     </param>
   </function>
@@ -1194,9 +1194,9 @@ The changes are similar to mobile api changes, they are  listed here.
     </param>
     <param name="subscribe" type="Boolean" mandatory="false">
       <description>
-        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is not included, the subscription status for the requested moduelType will remain unchanged.
+        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is not included, the subscription status for the requested moduleType will remain unchanged.
       </description>
     </param>
     <param name="appID" type="Integer" mandatory="true">
