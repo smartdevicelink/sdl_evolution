@@ -106,7 +106,7 @@ The alert controller is used to abstract the RPC `Alert`. The properties match t
 
 @property (nonatomic, nullable, copy) NSString *message;
 
-@property (nonatomic, nullable, copy) NSArray<SDLTTSChunk *> *initialPrompt;
+@property (nonatomic, nullable, copy) NSArray<SDLTTSChunk *> *prompt;
 @property (nonatomic, nullable, copy) NSArray<SDLButtonView *> *buttons;
 
 @property (nonatomic, assign) BOOL shouldPlayTone;
@@ -114,10 +114,10 @@ The alert controller is used to abstract the RPC `Alert`. The properties match t
 
 - (instancetype)initWithMessage:(nonnull NSString *)message;
 
-- (instancetype)initWithInitialPrompt:(nonnull NSArray<SDLTTSChunk *> *)initialPrompt;
+- (instancetype)initWithPrompt:(nonnull NSArray<SDLTTSChunk *> *)prompt;
 
 - (instancetype)initWithMessage:(nullable NSString *)message
-                  initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt
+                         prompt:(nullable NSArray<SDLTTSChunk *> *)prompt
                         buttons:(nullable NSArray<SDLButtonView *> *)buttons
                  shouldPlayTone:(BOOL)shouldPlayTone
     shouldShowProgressIndicator:(BOOL)shouldShowProgressIndicator
@@ -128,15 +128,23 @@ The alert controller is used to abstract the RPC `Alert`. The properties match t
 
 #### `message`
 
-This string maps to `alertText[123]` and should be multi-line capable. The app developer should be able to set a single string with newline characters (\n). Internally 
+This string maps to `Alert.alertText[123]` and should be multi-line capable. The app developer should be able to set a single string with newline characters (\n). 
 
-#### `initialPrompt`
+#### `prompt`
 
-This property is optional and maps to `Alert.ttsChunks`. The name of this property is chosen to be more aligned with other modal views. Convenient initializers should accept a single string to build the chunks array.
+This property is optional and maps to `Alert.ttsChunks`. The name of this property is chosen to be more aligned with other overlays. Convenient initializers should accept a single string to build the chunks array.
 
 #### `buttons`
 
-This property maps to `Alert.softButtons` and uses the `SDLButtonView` class.
+This property is optional and maps to `Alert.softButtons` and uses the `SDLButtonView` class. The reason to use `SDLButtonView` is to be more aligned to the concept of using soft buttons on SDL views (see `SDLView` in [SDL 0176](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0176-high-level-interface-views-and-controllers.md)) )
+
+#### `shouldPlayTone`
+
+This property is optional and maps to `Alert.playTone`. By default this boolean is false. If this boolean is false when presenting `playTone` will be omitted.
+
+#### `shouldShowProgressIndicator`
+
+This property is optional and maps to `Alert.progressIndicator`. By default this boolean is false. If this boolean is false when presenting `progressIndicator` will be omitted.
 
 ### SDLAudioInputController
 
@@ -146,40 +154,45 @@ The audio input controller is used to abstract the RPC `PerformAudioPassThru`, `
 @interface SDLAudioInputController : SDLOverlayController
 
 @property (nonatomic, nullable, copy) NSString *message;
-@property (nonatomic, nullable, copy) NSArray<SDLTTSChunk *> *initialPrompt;
-@property (nonatomic, nonnull, copy) SDLSamplingRate samplingRate;
-@property (nonatomic, nonnull, copy) SDLBitsPerSample bitsPerSample;
-@property (nonatomic, nonnull, copy) SDLAudioType audioType;
+
+@property (nonatomic, nullable, copy) NSArray<SDLTTSChunk *> *prompt;
+
 @property (nonatomic, assign) BOOL muteMediaSource;
+
+@property (nonatomic, nonnull, copy) SDLAudioPassThruCapabilities *capabilities;
 
 @property (nonatomic, copy) (^onAudioData)(NSData *audioData);
 
 - (void)finish; // sends an EndAudioPassThru in order to stop audio input
 
 - (instancetype)initWithMessage:(nullable NSString *)message
-                  initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt
-                   samplingRate:(nonnull SDLSamplingRate)samplingRate
-                  bitsPerSample:(nonnull SDLBitsPerSample)bitsPerSample
-                      audioType:(nonnull SDLAudioType)audioType
+                         prompt:(nullable NSArray<SDLTTSChunk *> *)prompt
                 muteMediaSource:(BOOL)muteMediaSource
+                   capabilities:(nullable SDLAudioPassThruCapabilities *)capabilities
                        duration:(NSTimeInterval)duration
              onAudioDataHandler:((^)(NSData *audioData))onAudioDataHandler;
 
 - (instancetype)initWithMessage:(nullable NSString *)message
                          speech:(nullable SDLPrerecordedSpeech)speech
                 muteMediaSource:(BOOL)muteMediaSource
+                   capabilities:(nullable SDLAudioPassThruCapabilities *)capabilities
+                       duration:(NSTimeInterval)duration
              onAudioDataHandler:((^)(NSData *audioData))onAudioDataHandler;
              
 @end
 ```
 
-#### `initialPrompt`
+#### `message`
+
+This property is optional and maps to `PerformAudioPassThru.audioPassThruDisplayText[12]` and should be multi-line capable. The app developer should be able to set a single string with newline characters (\n).
+
+#### `prompt`
 
 This property will be handled just like `SDLAlertController` and maps to `PerformAudioPassThru.initialPrompt`. Additional initializers should ask for a simple string or a prerecorded speech (e.g. LISTEN_JINGLE).
 
-#### `samplingRate`, `bitsPerSample`, `audioType`
+#### `capabilities`
 
-It should be possible for the app to specify the audio related parameters though this must be compared with audio pass thru capabilities by the developer. Additional initializers should take care about these settings automatically based on audio pass thru capabilities.
+`PerformAudioPassThru` requires the parameters `samplingRate`, `bitsPerSample` and `audioType` to be set. This is not necessary as the head unit informs the app about the audio setup it's capable of. Therefore the initializers of this overlay controller provide a parameter to set these three parameters based on a capabilities object. The controller will *not* compare this capabilities object with `RegisterAppInterfaceResponse.audioPassThruCapabilities`. The app developer can also ignore this parameter and let the overlay controller decide. The controller will then use the best option from `RegisterAppInterfaceResponse.audioPassThruCapabilities` (16 bit and 16 khz otherwise first item of `.audioPassThruCapabilities` array).
 
 #### onAudioData (handler)
 
@@ -197,18 +210,28 @@ Similar to `Alert` this view controller takes care of the RPC `ScrollableMessage
 @property (nonatomic, nullable, copy) NSArray<SDLButtonView *> *buttons;
 
 - (instancetype)initWithMessage:(nonnull NSString *)message
+                       duration:(NSTimeInterval)duration;
+
+- (instancetype)initWithMessage:(nonnull NSString *)message
                         buttons:(nullable NSArray<SDLButtonView *> *)buttons
                        duration:(NSTimeInterval)duration;
-                        
 
 @end
 ```
 
+#### `message`
+
+This property is optional and maps to `ScrollableMessage.scrollableMessageBody` and should be multi-line capable. The app developer should be able to set a single string with newline characters (\n).
+
+#### `buttons`
+
+This property is optional and maps to `ScrollableMessage.softButtons` and uses the `SDLButtonView` class. The reason to use `SDLButtonView` is to be more aligned to the concept of using soft buttons on SDL views (see `SDLView` in [SDL 0176](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0176-high-level-interface-views-and-controllers.md)) )
+
 ### SDLSliderController
 
-This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider) but for consistency to SDL it makes more sense to treat it as a modal controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the modal view controller. 
+This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider) but for consistency to SDL it makes more sense to treat it as an overlay controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the overlay controller. 
 
-As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer (single item) or a list of names representing slider values (number of items must match `.numTicks`). The mobile API allows `.numTicks` to be between 2 and 26. The value range for the parameter `.position` can be between 1 and 26 which means the range of values is not more than 26. With the high level abstraction the modal controller can manage the specified range allowing different min and max values. Examples are ranges with negative which are mapped internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
+As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer text (single item) or a list of names representing slider values (number of items must match `.numTicks`). This controller is used for the "single item" case. Another controller called `SDLValuePickerController` will be used for picking a named value (see next section). This helps to reduce complexity with properties being ignored (like min/max values).
 
 ```objc
 @interface SDLSliderController : SDLOverlayController
@@ -217,21 +240,72 @@ As per mobile API the property `Slider.sliderFooter` is an array used for two pu
 
 @property (nonatomic, nullable, copy) NSString *message;
 
-@property (nonatomic, nullable, copy) NSArray<NSString *> *valueLabels;
-
 // minimumValue and maximumValue map to "Slider.numTicks"
+// the range of the two values must not exceed "maxvalue" of "Slider.numTicks"
 @property (nonatomic) NSInteger minimumValue;
 @property (nonatomic) NSInteger maximumValue;
 
-// maps to "Slider.position"
+// maps to "Slider.position" *and* "SliderResponse.sliderPosition"
 @property (nonatomic) NSInteger value;
+
+- (instancetype)initWithTitle:(nonnull NSString *)title
+                        value:(NSInteger)value
+                 minimumValue:(NSInteger)minimumValue
+                 maximumValue:(NSInteger)maximumValue;
+                 
+
+- (instancetype)initWithTitle:(nonnull NSString *)title
+                      message:(nonnull NSString *)message
+                        value:(NSInteger)value
+                 minimumValue:(NSInteger)minimumValue
+                 maximumValue:(NSInteger)maximumValue;
 
 @end
 ```
 
-#### Slider header, slider footer and value labels
+#### `title`
 
-The `Slider` request comes with a set of string parameters. `sliderHeader` will be covered by the `message` property of the base class. 
+The `Slider` request comes with a set of string parameters. `sliderHeader` will be covered by the `title` property of the base class.
+
+#### `message`
+
+The `message` property maps to `Slider.sliderFooter` as a singleton array. As per mobile API this will result in a descriptive message explaining the meaning of the slider value.
+
+#### `minimumValue` and `maximumValue` and `value`
+
+The mobile API allows `.numTicks` value between 2 and 26. The value range for the parameter `.position` can be between 1 and 26 which means the range of values is not more than 26. With the high level abstraction slider controller can manage the specified range allowing different min and max values (though range should not exceed 26). This way apps can easily set a range from -10 to +10. This range is mapped internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
+
+The property `value` maps to `Slider.value` *and*  to `SliderResponse.sliderValue`. This means the result of this overlay (Slider response) is stored in the controller object.
+
+### SDLValuePickerController
+
+This controller is used to allow picking a named value. It also uses the RPC `Slider` but with value labels in an array.
+
+```objc
+@interface SDLValuePickerController : SDLOverlayController
+
+@property (nonatomic, nonnull, copy) NSString *title;
+
+@property (nonatomic, nonnull, copy) NSArray<NSString *> *valueLabels;
+
+@property (nonatomic) NSInteger value;
+
+- (instancetype)initWithTitle:(nonnull NSString *)title
+                  valueLabels:(nonnull NSArray<NSString *> *)valueLabels
+                        value:(NSInteger)value;
+
+@end
+```
+
+#### `valueLabels`
+
+This property maps to `Slider.SliderFooter`. It must not be a singleton array.
+
+#### `value`
+
+The property `value` behaves as the index for `valueLabel` The RPC parameter `Slider.numTicks` is set to the number of labels.
+
+The property `value` maps to `Slider.value` *and*  to `SliderResponse.sliderValue`. This means the result of this overlay (Slider response) is stored in the controller object.
 
 ## Potential downsides
 
@@ -246,27 +320,3 @@ This proposal will add a total new high level interface layer abstracting many p
 ## Alternatives considered
 
 As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
-
-### Make overlay controllers read only
-
-
-```objc
-@interface SDLAlertController : SDLOverlayController
-
-@property (nonatomic, readonly, nullable, copy) NSString *message;
-
-@property (nonatomic, readonly, nullable, copy) NSArray<SDLTTSChunk *> *initialPrompt;
-@property (nonatomic, readonly, nullable, copy) NSArray<SDLButtonView *> *buttons;
-
-@property (nonatomic, readonly, assign) BOOL shouldPlayTone;
-@property (nonatomic, readonly, assign) BOOL shouldShowProgressIndicator;
-
-- (instancetype)initWithMessage:(nullable NSString *)message
-                  initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt
-                        buttons:(nullable NSArray<SDLButtonView *> *)buttons
-                 shouldPlayTone:(BOOL)shouldPlayTone
-    shouldShowProgressIndicator:(BOOL)shouldShowProgressIndicator
-                       duration:(NSTimeInterval)duration;
-
-@end
-``` 
