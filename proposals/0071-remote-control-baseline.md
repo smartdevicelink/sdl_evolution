@@ -135,10 +135,11 @@ The system shall list all available RC radio buttons and RC climate buttons in t
         In the future, this should be the Identification of a module.
       </description>
     </param>
-    <param name="subscribe" type="Boolean" mandatory="false" defvalue="false">
+    <param name="subscribe" type="Boolean" mandatory="false">
       <description>
-        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
+        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is not included, the subscription status of the app for the requested moduleType will remain unchanged.
       </description>
     </param>
   </function>
@@ -699,10 +700,11 @@ The changes are listed below.
         In the future, this should be the Identification of a module.
       </description>
     </param>
-    <param name="subscribe" type="Boolean" mandatory="false" defvalue="false">
+    <param name="subscribe" type="Boolean" mandatory="false">
       <description>
-        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
-        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.
+        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is not included, the subscription status of the app for the requested moduleType will remain unchanged.
       </description>
     </param>
   </function>
@@ -1190,8 +1192,12 @@ The changes are similar to mobile api changes, they are  listed here.
     <param name="moduleType" type="Common.ModuleType">
       <description>The module data to retrieve from the vehicle for that type</description>
     </param>
-    <param name="subscribe" type="Boolean" mandatory="false" defvalue="false">
-      <description>If subscribe is true, the head unit will send onInteriorVehicleData notifications for the module type</description>
+    <param name="subscribe" type="Boolean" mandatory="false">
+      <description>
+        If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduleType.
+        If subscribe is not included, the subscription status for the requested moduleType will remain unchanged.
+      </description>
     </param>
     <param name="appID" type="Integer" mandatory="true">
       <description>Internal SDL-assigned ID of the related application</description>
