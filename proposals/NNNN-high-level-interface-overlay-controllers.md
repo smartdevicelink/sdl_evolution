@@ -20,9 +20,9 @@ The time for an app developer to learn SDL (non-productive time) is high and not
 
 ## Proposed solution
 
-This proposal is about adding overlay controllers to the SDL library which extends `SDLViewController` (see [SDL 0176](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0176-high-level-interface-views-and-controllers.md)) used by `SDLApplication` (see [SDL 0156](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0156-high-level-interface-foundation.md)). With overlay controllers app developers can use RPCs such as Alert, ScrollableMessage or Slider and structure the SDL related code.
+This proposal is about adding overlay controllers to the SDL library which extends `SDLViewController` (see [SDL 0176](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0176-high-level-interface-views-and-controllers.md)) used by `SDLApplication` (see [SDL 0156](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0156-high-level-interface-foundation.md)). With overlay controllers app developers can use RPCs such as `Alert`, `ScrollableMessage` or `Slider` and structure SDL related code of the app.
 
-This proposal does not contain a overlay controller for choice sets. This will be proposed separately.
+This proposal does not contain an overlay controller for choice sets. This will be proposed separately.
 
 ### Overlay controllers
 
@@ -62,7 +62,7 @@ Overlay controllers are responsible for overlay related RPCs such as `Alert`, `S
 
 When a view controller wants to present an overlay controller it must call the `presentOverlayController:completion:` method of the VC manager. 
 The presenting VC must be listed in the view controller stack but does not need to be the top view controller. The VC manager should initiate the presentation 
-(call `present` of the overlay controller class) and store the overlay controller and completion handler in an internal list. The overlay controller should be able to listen to responses and notification relevant to the presentation. If the overlay controller has detected the end of the presentation it should notify the VC manager. This can also be done through an encapsulated overlay controller completion handler.
+(call `present` of the overlay controller class) and store the overlay controller and completion handler in an internal list. The overlay controller should be able to listen to responses and notifications relevant to the presentation. If the overlay controller has detected the end of the presentation it should notify the VC manager. This can also be done through an encapsulated overlay controller completion handler.
 
 The internal list of overlay controllers and completion handlers is needed as the app could try to present multiple overlay controllers. In order to control (or recover from) multiple overlay controllers the VC manager needs to store all of them in the internal list and request each overlay controller to get presented. By the nature of the HMI overlays can be aborted by another overlay or get rejected due to currently presented overlay priority. The private list offers flexibility in case the app calls the method multiple times and can deal with rejected overlays that were never visible and aborted overlays if another one is requested. At the end the property `presentedOverlayController` points to the oldest overlay controller of that internal list.
 
