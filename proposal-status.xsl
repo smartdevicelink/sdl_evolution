@@ -107,6 +107,11 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for ATF v5.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='atf'][@sdl-version='5.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
           <xsl:with-param name="title">Deferred for future discussion</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='deferred']"/>
         </xsl:call-template>
@@ -326,6 +331,9 @@ on the gh-pages branch).
       }
         a.number.platform-policy {
         background-color: #394e50; // SDL Dark Grey
+      }
+        a.number.platform-atf {
+        background-color: #7ebc79; // SDL Lime
       }
         a.number.platform-mobile {
         background-color: #6397cd; // SDL Light Blue
