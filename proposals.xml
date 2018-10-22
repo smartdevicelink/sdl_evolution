@@ -21,7 +21,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0011" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Library RPCs conform to NSCopying" filename="0011-ios-library-conform-to-nscopying.md"/>
 <proposal id="0012" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Library Remove Siphon Server" filename="0012-ios-library-remove-siphon.md"/>
 <proposal id="0013" status="implemented" primary-platform="ios" sdl-version="5.0" name="iOS Remove SDLJsonEncoder and Decoder" filename="0013-ios-remove-json-encode-decode-classes.md"/>
-<proposal id="0014" status="accepted" primary-platform="rpc" sdl-version="4.1" name="Adding Audio File Playback to TTSChunk" filename="0014-adding-audio-file-playback-to-ttschunk.md"/>
+<proposal id="0014" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Adding Audio File Playback to TTSChunk" filename="0014-adding-audio-file-playback-to-ttschunk.md"/>
 <proposal id="0015" status="rejected" primary-platform="android" sdl-version="4.1" name="Android Studio IDE SDL Plugins" filename="0015-android-studio-sdl-plugin.md"/>
 <proposal id="0016" status="implemented" primary-platform="ios" sdl-version="6.0" name="iOS Library Make Transport Classes Private and Cleaner" filename="0016-ios-library-transport-private-cleanup.md"/>
 <proposal id="0017" status="implemented" primary-platform="ios" sdl-version="6.0" name="iOS Library Protocol Layer Should Not Be Public" filename="0017-ios-protocol-layer-nonpublic.md"/>
@@ -44,14 +44,14 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0034" status="implemented" primary-platform="ios" sdl-version="4.6" name="Rename Cocoapods Project to SmartDeviceLink" filename="0034-ios-cocoapods-rename.md"/>
 <proposal id="0035" status="implemented" primary-platform="ios" sdl-version="5.0" name="Audio Data Handler for SDLPerformAudioPassThru" filename="0035-audio-pass-thru-handler.md"/>
 <proposal id="0036" status="implemented" primary-platform="android" sdl-version="4.3" name="Up Android Target/Compile Version" filename="0036-android-up_target-version.md"/>
-<proposal id="0037" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Expand Mobile putfile RPC" filename="0037-Expand-Mobile-putfile-RPC.md"/>
+<proposal id="0037" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Expand Mobile putfile RPC" filename="0037-Expand-Mobile-putfile-RPC.md"/>
 <proposal id="0038" status="rejected" primary-platform="core" sdl-version="x.x" name="Communication app activation during active embedded audio source or navigation" filename="0038-Communication-app-activation.md"/>
 <proposal id="0039" status="rejected" primary-platform="core" sdl-version="x.x" name="Retrieving the value of 'menuIcon' and 'menuTitle' parameters from .ini file" filename="0039-'menuIcon'-menuTitle'-params.md"/>
-<proposal id="0040" status="accepted" primary-platform="protocol" sdl-version="x.x" name="DTLS encryption" filename="0040-DTLS-encryption.md"/>
-<proposal id="0041" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Provide AppIcon resumption across app registration requests" filename="0041-appicon-resumption.md"/>
-<proposal id="0042" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL must transfer RPC’s with invalid image reference parameters to the HMI" filename="0042-transfer-invalid-image-rpc.md"/>
-<proposal id="0043" status="accepted" primary-platform="core" sdl-version="x.x" name="Move to the new C++11 standard" filename="0043-upgrade-c++-standard.md"/>
-<proposal id="0044" status="accepted" primary-platform="core" sdl-version="x.x" name="Use Boost library in SDL" filename="0044-use-Boost-library.md"/>
+<proposal id="0040" status="implemented" primary-platform="core" sdl-version="5.0" name="DTLS encryption" filename="0040-DTLS-encryption.md"/>
+<proposal id="0041" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Provide AppIcon resumption across app registration requests" filename="0041-appicon-resumption.md"/>
+<proposal id="0042" status="implemented" primary-platform="core" sdl-version="5.0" name="SDL must transfer RPC’s with invalid image reference parameters to the HMI" filename="0042-transfer-invalid-image-rpc.md"/>
+<proposal id="0043" status="implemented" primary-platform="core" sdl-version="5.0" name="Move to the new C++11 standard" filename="0043-upgrade-c++-standard.md"/>
+<proposal id="0044" status="implemented" primary-platform="core" sdl-version="5.0" name="Use Boost library in SDL" filename="0044-use-Boost-library.md"/>
 <proposal id="0045" status="implemented" primary-platform="core" sdl-version="4.3" name="External Policy Manager" filename="0045-external-policy-manager.md"/>
 <proposal id="0046" status="accepted" primary-platform="core" sdl-version="x.x" name="Implement logger abstraction" filename="0046-implement-logger-abstraction.md"/>
 <proposal id="0047" status="rejected" primary-platform="ios" sdl-version="x.x" name="Manual layout for SDLLockScreenViewController" filename="0047-manual-lockscreen-layout-ios.md"/>
@@ -70,9 +70,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0059" status="implemented" primary-platform="android" sdl-version="4.4" name="Android RPC Refactor" filename="0059-android_rpc_refactor.md"/>
 <proposal id="0060" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Support Indian English and Thai" filename="0060-support-indian-english-thai.md"/>
 <proposal id="0061" status="returned" primary-platform="core" sdl-version="x.x" name="Locale support" filename="0061-locale-support.md"/>
-<proposal id="0062" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template images" filename="0062-template-images.md"/>
-<proposal id="0063" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Display name parameter" filename="0063-display-name-parameter.md"/>
-<proposal id="0064" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Choice-VR optional" filename="0064-choice-vr-optional.md"/>
+<proposal id="0062" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Template images" filename="0062-template-images.md"/>
+<proposal id="0063" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Display name parameter" filename="0063-display-name-parameter.md"/>
+<proposal id="0064" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Choice-VR optional" filename="0064-choice-vr-optional.md"/>
 <proposal id="0065" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SDL Remote Control" filename="0065-remote-control.md"/>
 <proposal id="0066" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Steering wheel location" filename="0066-steering-wheel-location.md"/>
 <proposal id="0067" status="implemented" primary-platform="ios" sdl-version="4.6" name="Optimize Connection Wait Range" filename="0067-optimize-connection-wait-range.md"/>
@@ -80,7 +80,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0069" status="rejected" primary-platform="android" sdl-version="x.x" name="Enhance Video Streaming Performance for Android" filename="0069-enhance-video-streaming-performance-for-android.md"/>
 <proposal id="0070" status="withdrawn" primary-platform="protocol" sdl-version="x.x" name="Notification of iAP transport type" filename="0070-iap-transport-type-notification.md"/>
 <proposal id="0071" status="implemented" primary-platform="rpc" sdl-version="4.5" name="SDL Remote Control Baseline (no zones, no driver/passenger, immediate control)" filename="0071-remote-control-baseline.md"/>
-<proposal id="0072" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - FuelRange" filename="0072-New-vehicle-data-FuelRange.md"/>
+<proposal id="0072" status="implemented" primary-platform="rpc" sdl-version="5.0" name="New vehicle data - FuelRange" filename="0072-New-vehicle-data-FuelRange.md"/>
 <proposal id="0073" status="implemented" primary-platform="rpc" sdl-version="4.5" name="Adding Metadata Types" filename="0073-Adding-Metadata-Types.md"/>
 <proposal id="0074" status="implemented" primary-platform="android" sdl-version="4.4" name="Android O Changes Phase 1" filename="0074-android_o_changes_phase_1.md"/>
 <proposal id="0075" status="implemented" primary-platform="rpc" sdl-version="4.5" name="OEM specific Human Interface Device support as Plug-in architecture in SDL proxy" filename="0075-HID-Support-Plug-in.md"/>
@@ -90,15 +90,15 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0079" status="implemented" primary-platform="android" sdl-version="4.4" name="System Capability Manager" filename="0079-system_capability_manager.md"/>
 <proposal id="0080" status="implemented" primary-platform="ios" sdl-version="4.7" name="Support for MultiSession protocol string" filename="0080-Support-for-MultiSession-protocol-string.md"/>
 <proposal id="0081" status="implemented" primary-platform="ios" sdl-version="5.0" name="SDLInterfaceManager" filename="0081-SDLInterfaceManager.md"/>
-<proposal id="0082" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - EngineOilLife" filename="0082-New-vehicle-data-EngineOilLife.md"/>
-<proposal id="0083" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Expandable Design for Proprietary Data Exchange" filename="0083-Expandable-design-for-proprietary-data-exchange.md"/>
+<proposal id="0082" status="implemented" primary-platform="rpc" sdl-version="5.0" name="New vehicle data - EngineOilLife" filename="0082-New-vehicle-data-EngineOilLife.md"/>
+<proposal id="0083" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Expandable Design for Proprietary Data Exchange" filename="0083-Expandable-design-for-proprietary-data-exchange.md"/>
 <proposal id="0084" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Progress Bar Seek Feature" filename="0084-Progress-Bar-Seek-Feature.md"/>
-<proposal id="0085" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SubMenu icon" filename="0085-submenu-icon.md"/>
+<proposal id="0085" status="implemented" primary-platform="rpc" sdl-version="5.0" name="SubMenu icon" filename="0085-submenu-icon.md"/>
 <proposal id="0086" status="implemented" primary-platform="android" sdl-version="4.4" name="Auto Set Correlation ID" filename="0086-auto_set_correlation_ids_android.md"/>
 <proposal id="0087" status="implemented" primary-platform="ios" sdl-version="5.2" name="Sequentially Send Multiple RPCs" filename="0087-send-multiple-rpcs.md"/>
 <proposal id="0087" status="implemented" primary-platform="android" sdl-version="4.5" name="Sequentially Send Multiple RPCs" filename="0087-send-multiple-rpcs.md"/>
 <proposal id="0088" status="implemented" primary-platform="ios" sdl-version="6.0" name="iOS System Capability Manager" filename="0088-ios-system-capability-manager.md"/>
-<proposal id="0089" status="implemented" primary-platform="rpc" sdl-version="4.6" name="Mobile API versioning" filename="0089-mobile-api-versioning.md"/>
+<proposal id="0089" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Mobile API versioning" filename="0089-mobile-api-versioning.md"/>
 <proposal id="0090" status="implemented" primary-platform="ios" sdl-version="5.0" name="SDLHapticHitTester Protocol" filename="0090-SDLHapticHitTesterProtocol.md"/>
 <proposal id="0091" status="rejected" primary-platform="ios" sdl-version="x.x" name="SDLCarWindow Video Projection Developer Interface" filename="0091-SDLScreen-SDLWindow-Projection.md"/>
 <proposal id="0092" status="implemented" primary-platform="core" sdl-version="4.5" name="Mark public deprecated methods" filename="0092-Deprecated-interfaces-markup.md"/>
@@ -106,19 +106,19 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0094" status="implemented" primary-platform="policy" sdl-version="2.4" name="SDL Policy Server Enhancements - UI Framework" filename="0094-sdl-policy-server-ui.md"/>
 <proposal id="0095" status="rejected" primary-platform="android" sdl-version="x.x" name="AOA multiplexing similar to Android BT/SPP multiplexing" filename="0095-AOA-multiplexing.md"/>
 <proposal id="0096" status="implemented" primary-platform="core" sdl-version="5.0" name="Deliver build configuration" filename="0096-deliver-build-configuration.md"/>
-<proposal id="0097" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
+<proposal id="0097" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Tire pressure additions" filename="0097-tire-pressure-additions.md"/>
 <proposal id="0098" status="accepted" primary-platform="mobile" sdl-version="x.x" name="SDL Localization" filename="0098-localization.md"/>
-<proposal id="0099" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New remote control modules (LIGHT, AUDIO, HMI_SETTINGS) and parameters (SIS Data)" filename="0099-new-remote-control-modules-and-parameters.md"/>
+<proposal id="0099" status="implemented" primary-platform="rpc" sdl-version="5.0" name="New remote control modules (LIGHT, AUDIO, HMI_SETTINGS) and parameters (SIS Data)" filename="0099-new-remote-control-modules-and-parameters.md"/>
 <proposal id="0100" status="implemented" primary-platform="android" sdl-version="4.4" name="New data transfer interface in Android Proxy for streaming" filename="0100-new-data-transfer-interface-for-streaming-android.md"/>
 <proposal id="0101" status="implemented" primary-platform="android" sdl-version="4.4" name="Add Android SDL Internal Interface" filename="0101-android_internal_interface.md"/>
-<proposal id="0102" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - ElectronicParkBrakeStatus" filename="0102-New-vehicle-data-ElectronicParkBrakeStatus.md"/>
+<proposal id="0102" status="implemented" primary-platform="rpc" sdl-version="5.0" name="New vehicle data - ElectronicParkBrakeStatus" filename="0102-New-vehicle-data-ElectronicParkBrakeStatus.md"/>
 <proposal id="0103" status="accepted" primary-platform="meta" sdl-version="x.x" name="HMI Application Custom Sounds Proposal" filename="0103-ApplicationCustomSounds.md"/>
-<proposal id="0104" status="accepted" primary-platform="core" sdl-version="x.x" name="Security ATF feature" filename="0104-atf_security_proposal.md"/>
-<proposal id="0105" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Seat" filename="0105-remote-control-seat.md"/>
-<proposal id="0106" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - OnRCStatus" filename="0106-remote-control-onRcStatus-notification.md"/>
-<proposal id="0107" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data - TurnSignal" filename="0107-New-vehicle-data-turnSignal.md"/>
+<proposal id="0104" status="implemented" primary-platform="atf" sdl-version="5.0" name="Security ATF feature" filename="0104-atf_security_proposal.md"/>
+<proposal id="0105" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Remote Control - Seat" filename="0105-remote-control-seat.md"/>
+<proposal id="0106" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Remote Control - OnRCStatus" filename="0106-remote-control-onRcStatus-notification.md"/>
+<proposal id="0107" status="implemented" primary-platform="rpc" sdl-version="5.0" name="New vehicle data - TurnSignal" filename="0107-New-vehicle-data-turnSignal.md"/>
 <proposal id="0108" status="accepted" primary-platform="rpc" sdl-version="x.x" name="AutoCompleteList" filename="0108-AutoCompleteList.md"/>
-<proposal id="0109" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SetAudioStreamingIndicator RPC" filename="0109-set-audio-streaming-indicator.md"/>
+<proposal id="0109" status="implemented" primary-platform="rpc" sdl-version="5.0" name="SetAudioStreamingIndicator RPC" filename="0109-set-audio-streaming-indicator.md"/>
 <proposal id="0110" status="implemented" primary-platform="core" sdl-version="5.0" name="Remove QT HMI from SDL Core" filename="0110-remove-qt-hmi-from-sdl-core.md"/>
 <proposal id="0111" status="implemented" primary-platform="ios" sdl-version="5.1" name="SDLCarWindow" filename="0111-ios-carwindow.md"/>
 <proposal id="0112" status="implemented" primary-platform="ios" sdl-version="5.1" name="SDL iOS Move RPC Notifications to a Concurrent Background Queue" filename="0112-ios-serial-rpc-notifications.md"/>
@@ -130,9 +130,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0117" status="accepted" primary-platform="core" sdl-version="x.x" name="Configurable time before shutdown" filename="0117-configurable-time-before-shutdown.md"/>	
 <proposal id="0118" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
 <proposal id="0119" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
-<proposal id="0120" status="accepted" primary-platform="rpc" sdl-version="x.x" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
+<proposal id="0120" status="implemented" primary-platform="core" sdl-version="5.0" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
 <proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
-<proposal id="0122" status="accepted" primary-platform="core" sdl-version="x.x" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
+<proposal id="0122" status="implemented" primary-platform="core" sdl-version="5.0" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
 <proposal id="0123" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
 <proposal id="0124" status="implemented" primary-platform="ios" sdl-version="5.2" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
 <proposal id="0125" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
@@ -149,21 +149,21 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0136" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
 <proposal id="0137" status="deferred" primary-platform="rpc" sdl-version="x.x" name="TouchCoord outside video screen range" filename="0137-TouchCoord-outside-video-screen-range.md"/>
 <proposal id="0138" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Make 'audioPassThruCapabilities' of HMI an array" filename="0138-hmi-audiopassthru-capability.md"/>
-<proposal id="0139" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Clarification of audio format details of AudioPassThru" filename="0139-apt-clarification.md"/>
+<proposal id="0139" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Clarification of audio format details of AudioPassThru" filename="0139-apt-clarification.md"/>
 <proposal id="0140" status="implemented" primary-platform="android" sdl-version="4.5" name="Android Manifest Metadata" filename="0140-android_metadata.md"/>
-<proposal id="0141" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Supporting simultaneous multiple transports" filename="0141-multiple-transports.md"/>
+<proposal id="0141" status="implemented" primary-platform="protocol" sdl-version="5.1" name="Supporting simultaneous multiple transports" filename="0141-multiple-transports.md"/>
 <proposal id="0142" status="withdrawn" primary-platform="protocol" sdl-version="x.x" name="Addition of 'App Instance ID' and 'Core Instance ID'" filename="0142-mt-instance-ids.md"/>
 <proposal id="0143" status="rejected" primary-platform="core" sdl-version="x.x" name="Add Service Discovery mechanism for TCP transport" filename="0143-mt-service-discovery.md"/>
 <proposal id="0144" status="accepted" primary-platform="core" sdl-version="x.x" name="Allow clients to specify legacy nicknames" filename="0144-app-nicknames.md"/>
-<proposal id="0145" status="accepted" primary-platform="core" sdl-version="x.x" name="Driver Distraction Notification Upon Registration" filename="0145-distraction-notification-after-registration.md"/>
+<proposal id="0145" status="implemented" primary-platform="core" sdl-version="5.0" name="Driver Distraction Notification Upon Registration" filename="0145-distraction-notification-after-registration.md"/>
 <proposal id="0146" status="accepted" primary-platform="meta" sdl-version="x.x" name="Updating Mobile Version Dependencies" filename="0146-updating-mobile-version-dependencies.md"/>
-<proposal id="0147" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Color Scheme" filename="0147-template-color-scheme.md"/>
+<proposal id="0147" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Template Improvements: Color Scheme" filename="0147-template-color-scheme.md"/>
 <proposal id="0148" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Additional SubMenus" filename="0148-template-additional-submenus.md"/>
-<proposal id="0149" status="accepted" primary-platform="core" sdl-version="x.x" name="Add capability to disable resumption based on app type and transport type" filename="0149-mt-registration-limitation.md"/>
-<proposal id="0150" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
-<proposal id="0151" status="accepted" primary-platform="rpc" sdl-version="x.x" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
+<proposal id="0149" status="implemented" primary-platform="core" sdl-version="5.0" name="Add capability to disable resumption based on app type and transport type" filename="0149-mt-registration-limitation.md"/>
+<proposal id="0150" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
+<proposal id="0151" status="implemented" primary-platform="rpc" sdl-version="5.0" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
 <proposal id="0152" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
-<proposal id="0153" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
+<proposal id="0153" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
 <proposal id="0154" status="accepted" primary-platform="core" sdl-version="x.x" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
 <proposal id="0155" status="implemented" primary-platform="ios" sdl-version="6.0" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0155" status="accepted" primary-platform="android" sdl-version="x.x" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
@@ -173,29 +173,29 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0158" status="accepted" primary-platform="core" sdl-version="x.x" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
 <proposal id="0159" status="implemented" primary-platform="android" sdl-version="4.7" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
 <proposal id="0159" status="implemented" primary-platform="ios" sdl-version="6.1" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
-<proposal id="0160" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control Radio Parameter Update" filename="0160-rc-radio-parameter-update.md"/>
+<proposal id="0160" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Remote Control Radio Parameter Update" filename="0160-rc-radio-parameter-update.md"/>
 <proposal id="0161" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Remove SmartDeviceLink Cordova plugin" filename="0161-remove-sdl-cordova.md"/>
-<proposal id="0162" status="accepted" primary-platform="protocol" sdl-version="x.x" name="Define Handling of Duplicate Correlation IDs" filename="0162-define-handling-of-duplicate-correlation-ids.md"/>
-<proposal id="0163" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Make spaceAvailable field non-mandatory" filename="0163-make-spaceavailable-field-non-mandatory.md"/>
+<proposal id="0162" status="implemented" primary-platform="protocol" sdl-version="5.1" name="Define Handling of Duplicate Correlation IDs" filename="0162-define-handling-of-duplicate-correlation-ids.md"/>
+<proposal id="0163" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Make spaceAvailable field non-mandatory" filename="0163-make-spaceavailable-field-non-mandatory.md"/>
 <proposal id="0164" status="implemented" primary-platform="core" sdl-version="5.0" name="Modernize Ubuntu Support" filename="0164-modernize-ubuntu-support.md"/>
-<proposal id="0165" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control – Lights – More Names and Status Values" filename="0165-rc-lights-more-names-and-status-values.md"/>
+<proposal id="0165" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Remote Control – Lights – More Names and Status Values" filename="0165-rc-lights-more-names-and-status-values.md"/>
 <proposal id="0166" status="implemented" primary-platform="android" sdl-version="4.6" name="Use Android Annotations Library" filename="0166-use-android-annotations-library.md"/>
 <proposal id="0167" status="accepted" primary-platform="rpc" sdl-version="x.x" name="App Services" filename="0167-app-services.md"/>
-<proposal id="0168" status="accepted" primary-platform="core" sdl-version="x.x" name="RPC design refactoring" filename="0168-rpc-design-refactoring.md"/>
+<proposal id="0168" status="implemented" primary-platform="core" sdl-version="5.0" name="RPC design refactoring" filename="0168-rpc-design-refactoring.md"/>
 <proposal id="0169" status="returned" primary-platform="core" sdl-version="x.x" name="Arguments initialText and hintText for SDL Keyboard" filename="0169-initial-and-hint-text-for-keyboard.md"/>
-<proposal id="0170" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL behavior in case of LOW_VOLTAGE event" filename="0170-sdl-behavior-in-case-of-Low-Voltage.md"/>
+<proposal id="0170" status="implemented" primary-platform="core" sdl-version="5.0" name="SDL behavior in case of LOW_VOLTAGE event" filename="0170-sdl-behavior-in-case-of-Low-Voltage.md"/>
 <proposal id="0171" status="implemented" primary-platform="android" sdl-version="4.7" name="Android Manager APIs" filename="0171-android-manager-apis.md"/>
-<proposal id="0172" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Update OnRCStatus with a new allowed parameter" filename="0172-onRcStatus-allowed.md"/>
+<proposal id="0172" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Remote Control - Update OnRCStatus with a new allowed parameter" filename="0172-onRcStatus-allowed.md"/>
 <proposal id="0173" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Read Generic Network Signal data" filename="0173-Read-Generic-Network-Signal-data.md"/>
 <proposal id="0174" status="implemented" primary-platform="android" sdl-version="4.6" name="Deprecate RPCRequestFactory" filename="0174-deprecate-rpc-request-factory.md"/>
-<proposal id="0175" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Updating DOP value range for GPS notification" filename="0175-Updating-DOP-value-range-for-GPS-notification.md"/>
+<proposal id="0175" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Updating DOP value range for GPS notification" filename="0175-Updating-DOP-value-range-for-GPS-notification.md"/>
 <proposal id="0176" status="accepted" primary-platform="ios" sdl-version="x.x" name="High level interface: Views and Controllers" filename="0176-high-level-interface-views-and-controllers.md"/>
 <proposal id="0177" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Alert Icon" filename="0177-alert-icon.md"/>
-<proposal id="0178" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Interior Vehicle Data Subscription Management and Data Caching in SDL" filename="0178-GetInteriorVehicleData.md"/>
+<proposal id="0178" status="implemented" primary-platform="core" sdl-version="5.0" name="Interior Vehicle Data Subscription Management and Data Caching in SDL" filename="0178-GetInteriorVehicleData.md"/>
 <proposal id="0179" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Pixel density and Scale" filename="0179-pixel-density-and-scale.md"/>
 <proposal id="0180" status="accepted" primary-platform="core" sdl-version="x.x" name="Broaden Choice Uniqueness" filename="0180-broaden-choice-uniqueness.md"/>
-<proposal id="0181" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL shall not put RC applications to HMI level NONE when user disables RC in HMI" filename="0181-keep-rc-app-hmi-level-when-disable-rc.md"/>
-<proposal id="0182" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Audio Source AM/FM/XM/DAB" filename="0182-audio-source-am-fm-xm.md"/>
+<proposal id="0181" status="implemented" primary-platform="core" sdl-version="5.0" name="SDL shall not put RC applications to HMI level NONE when user disables RC in HMI" filename="0181-keep-rc-app-hmi-level-when-disable-rc.md"/>
+<proposal id="0182" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Audio Source AM/FM/XM/DAB" filename="0182-audio-source-am-fm-xm.md"/>
 <proposal id="0183" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Automatic Mobile Resumption Hash Management" filename="0183-mobile-hash-managment.md"/>
 <proposal id="0184" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Dismiss Alert RPC" filename="0184-dismiss-alert.md"/>
 <proposal id="0185" status="implemented" primary-platform="ios" sdl-version="6.1" name="Remove Hello SDL iOS Repository" filename="0185-remove-hello-sdl-ios.md"/>
@@ -222,7 +222,7 @@ Recognized values for a proposal's status:
 	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected, withdrawn
 
 Recognized values for primary-platform:
-	protocol, rpc, core, ios, android, policy, mobile (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
+	protocol, rpc, core, atf, ios, android, policy, mobile (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
 
 Note: status="implemented" also requires sdl-version="XX".
 -->
