@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal introduced the ability for mobile apps to know what characters are supported by a head unit.
+This proposal introduces the ability for mobile apps to know what characters are supported by a head unit.
 
 ## Motivation
 
