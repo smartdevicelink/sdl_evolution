@@ -1,8 +1,8 @@
 # Supported Character Sets
 
-* Proposal: [SDL-NNNN](NNNN-character-sets.md)
+* Proposal: [SDL-0202](0202-character-sets.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
