@@ -7,7 +7,7 @@
 
 ## Introduction
 
-With the acceptance of the [Cloud Transport Adapter]() it is necessary to enable cloud and embedded apps to integrate a client side library for SDL. This proposal will best device how to put a library out quickly that is adaptable for both cloud and embedded situations. With that goal in mind, the first phase of cloud/embedded libraries intends to be written in Java. A majority of the code base will be extracted from the SDL Android Library project to start and a common subset of that code will be created to feed into both projects.
+With the acceptance of the [Cloud Transport Adapter](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0158-cloud-app-transport-adapter.md) it is necessary to enable cloud and embedded apps to integrate a client side library for SDL. This proposal will best device how to put a library out quickly that is adaptable for both cloud and embedded situations. With that goal in mind, the first phase of cloud/embedded libraries intends to be written in Java. A majority of the code base will be extracted from the SDL Android Library project to start and a common subset of that code will be created to feed into both projects.
 
 
 ## Motivation
