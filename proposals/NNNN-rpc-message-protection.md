@@ -6,7 +6,7 @@
 * Impacted Platforms: [Core / Android/ iOS / RPC / Policy / SDL server]
 
 ## Introduction
-This proposal proposes a design to protect (enable encryption for) RPC messages transmitted between a mobile application and SDL.
+This proposal proposes a design to protect (enable encryption for) RPC messages transmitted between a mobile application and the SDL.
 
 ## Motivation
 Security is good but it has cost. Each OEM can evaluate the risks and require certain RPC messages must be protected, which means the messages are encrypted and transmitted in a protected SDL service between an authenticated app and a vehicle head unit. How to authenticate a mobile app and how to set up a protected SDL service is out of the scope of this proposal. SDL supports it by integrating a security library in the mobile app. This proposal provides a solution to protect certain SDL RPC messages. It includes which RPCs need protection, when to start a protected SDL RPC service and what SDL shall do with these RPCs with the protected service.
@@ -19,11 +19,11 @@ RPCs that need protection and RPCs that do not need protection share the same RP
 
 SDL can require a service must be protected in the `smartdevicelink.ini` file by a configuration `ForceProtectedService`. It can validate and deny the start service request. But it cannot start a protected service by itself. The application side shall initiate a protected service.
 
-Currently, SDL Android API `SdlProxyBase.startProtectedRPCService` supports start a protected RPC service. SDL can keep the existing un-encrypted service open and running at the same time of starting enable the encrypted service. It does not need to stop the RPC service before `startProtectedRPCService`. SDL Android also supports setting a RPC message as encrypted or unencrypted with API `RPCStruct.setPayloadProtected(Boolean)`. Without any mobile proxy and sdl core change, android mobile apps and SDL can send/receive both encrypted and unencrypted messages (include requests/responses/notifications) in the same protected RPC service.
+Currently, SDL Android API `SdlProxyBase.startProtectedRPCService` supports start a protected RPC service. SDL can keep the existing un-encrypted service open and running at the same time of starting enable the encrypted service. It does not need to stop the RPC service before `startProtectedRPCService`. SDL Android also supports setting a RPC message as encrypted or unencrypted with API `RPCStruct.setPayloadProtected(Boolean)`. Without any mobile proxy and SDL core change, android mobile apps and the SDL can send/receive both encrypted and unencrypted messages (include requests/responses/notifications) in the same protected RPC service.
 
 
 ### Mobile app change
-A mobile application shall start/restart RPC service 7 with encryption enabled (by app itself or by sdl proxy, either at certain stage after app registration or just before sending the first RPC message that need encryption). 
+A mobile application shall start/restart RPC service 7 with encryption enabled (by app itself or by SDL proxy, either at certain stage after app registration or when the app is activated in HMI by the driver or just before sending the first RPC message that needs encryption). 
 
 
 ### Mobile API change
@@ -74,7 +74,11 @@ Here we list existing related RPC and data types for completeness of understandi
 ### Mobile proxy change (Android and iOS)
 SDL proxy shall support sending a PRC with both encrypted and unencrypted format as it currently does if the RPC service has encryption enabled. 
 
-SDL proxy shall restart service 7 with encryption enabled in two situations. 1. Before SDL proxy sends the first RPC message that need encryption. This works like delay loading of a dynamic library. Only when encryption is truly needed, proxy enables encryption for RPC service. 2. After SDL proxy receives an `OnPermissionsChange` notification and there is at least one RPC needs encryption. In this case, proxy enables encryption for any potential usage. Due to the fact that it may take a long time (up to a minute) to get RPC service enabled, and there is no overhead after that, we strongly recommend proxy do it after receiving the `OnPermissionsChange` notification.
+SDL proxy may restart service 7 with encryption enabled in several situations. 
+-	1. Before SDL proxy sends the first RPC message that need encryption. This works like delay loading of a dynamic library. Only when encryption is truly needed, proxy enables encryption for RPC service.  This is the latest time. 
+-	2. After SDL proxy receives an `OnPermissionsChange` notification and there is at least one RPC needs encryption. In this case, proxy enables encryption for any potential usage. This is earliest time that the app/proxy knows it may need encryption. 
+-	3. Sometime in between. For example, when the driver activates the app and HMI brings the app to foreground (SDL proxy receives `OnHMIStatus` notification with `hmiLevel=FULL`). Due to the fact that it may take a long time (up to a minute) to get RPC service enabled, and there is no overhead after that, we strongly recommend proxy enable encryption after the app get activated and there is at least one RPC need protection.
+
 
 SDL proxy shall only send encrypted RPC requests and receive encrypted RPC responses and notifications in an encryption enabled service if the corresponding RPC needs encryption.
 
@@ -91,7 +95,7 @@ After the encryption of RPC service 7 is enabled, SDL rejects any unencrypted RP
 
 
 #### Alternative solution:
-- We require all applications to be authenticated and all RPC messages encrypted (i.e. SDL requires encryption for RPC service 7, app and SDL always sends and receives encrypted RPC messages. This can be done in smartdevicelink.ini file to configure service 7 must be protected.)
+- We require all applications to be authenticated and all RPC messages encrypted (i.e. SDL requires encryption for RPC service 7, apps and SDL always sends and receives encrypted RPC messages. This can be done in smartdevicelink.ini file to configure service 7 must be protected.)
 
 - We create a new protected RPC service 12, which is similar to the existing service 10 and service 11. We require all RPC messages that need protection (include requests, responses and notifications) must be transmitted via this new SDL service.
 
@@ -137,7 +141,7 @@ After the encryption of RPC service 7 is enabled, SDL rejects any unencrypted RP
 
 If `needProtection`=`true` in policy, the corresponding RPC must be sent/received in an encryption enabled SDL service. That means the app has been authenticated via TLS/DTLS handshake and RPC request and response messages are encrypted. If `needProtection`=`false` or `needProtection` does not exist for the RPC(s) in policy, the corresponding RPC messages shall not be encrypted, and can be transmitted in both encryption enabled and disabled SDL services.
 
-If there are two or more instances of the same RPC in the policy for an app, one has `needProtection`=`true` and the others have `needProtection`=`false`, then the RPC shall have `needProtection`=`true`.
+Multiple function groups can include the same RPC, each group has its own flag for the RPC. If there are two or more instances of the same RPC in different groups in the policy for an app, one has `needProtection`=`true` and the others have `needProtection`=`false`, then the RPC shall have `needProtection`=`true` for the app.
 
 ### SDL server updates:
 SDL server need support the new parameter in the policy table.
@@ -207,5 +211,5 @@ In this case, we say a RPC message needs encryption/protection if the RPC has `n
 
 SDL shall translate the parameters from `protected_parameters` in policy into `protected` array in `ParameterPermissions` within `OnPermissionsChange` message.
 
-This allows policy to configure protected parameters and un-protected parameters in the same RPC within a group. This may not be necessary. Similar to the WWW is moving from HTTP to HTTPS, we believe the trend for SDL is to move from un-encrypted messages to encrypted messages if security is a concern. If an app is able to encrypt a message, why it sends un-encrypted messages just for certain parameters.
+This allows policy to configure protected parameters and un-protected parameters in the same RPC within a group. This may not be necessary. Similar to the WWW is moving from HTTP to HTTPS, we believe the trend for the SDL is to move from un-encrypted messages to encrypted messages if security is a concern. If an app is able to encrypt a message, why it sends un-encrypted messages just for certain parameters.
 Because each application will have its own permissions. Application's permissions are an aggregation of all RPCs from the function groups that the app belongs to. OEM can carefully design function groups by putting parameters that need protection and parameters that do not need protection in separate groups, so that "protected_parameters" is not needed. In this way, the existing apps use the old existing function groups with RPCs that do not need protection. The new apps use new function groups with RPC protection needed.
