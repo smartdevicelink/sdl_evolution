@@ -7,7 +7,7 @@
 
 ## Introduction
 
-With the acceptance of the [Cloud Transport Adapter](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0158-cloud-app-transport-adapter.md) it is necessary to enable cloud and embedded apps to integrate a client side library for SDL. This proposal will best device how to put a library out quickly that is adaptable for both cloud and embedded situations. With that goal in mind, the first phase of cloud/embedded libraries intends to be written in Java. A majority of the code base will be extracted from the SDL Android Library project to start and a common subset of that code will be created to feed into both projects.
+With the acceptance of the [Cloud Transport Adapter](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0158-cloud-app-transport-adapter.md) it is necessary to enable cloud and embedded apps to integrate a client side library for SDL. This proposal will best define how to put a library out quickly that is adaptable for both cloud and embedded situations. With that goal in mind, the first phase of cloud/embedded libraries intends to be written in Java. A majority of the code base will be extracted from the SDL Android Library project to start and a common subset of that code will be created to feed into both projects.
 
 
 ## Motivation
@@ -102,7 +102,7 @@ Some of those issues are as follows:
 
 ### Create `sdl_java_common` library 
 
-Once a working a refactored library has been created, a new library will be extracted from that code base to become the `sdl_java_common` library. This would take into account platform specific APIs that can be used and how each of the classes can be extended in a way that works for all. 
+Once a working,  refactored library has been created, a new library will be extracted from that code base to become the `sdl_java_common` library. This would take into account platform specific APIs that can be used and how each of the classes can be extended in a way that works for all. 
 
 The library will at least include the following:
 
@@ -124,8 +124,9 @@ After the creation of the common library, the SDL Android library will then need
 - Not all cloud applications will be written in Java, likely not even the majority.
 - JVM's will have different performance based on their integrations into specific hardware and operating systems
 - Some code in the `sdl_java_common` library will become a bit fragmented to allow for adaptability between platforms
-- If phased two is agreed upon, there would be two ways to implement SDL into the cloud/embedded. This would require maintenance to both. However, this library would need most of its maintenance for the Android library anyways. 
-
+- If phase two is agreed upon, there would be two ways to implement SDL into the cloud/embedded. This would require maintenance to both. However, this library would receive most of its maintenance from work on the SDL Android library. 
+- Some helpful Android specific items will be lost, for example annotations are not available in Java. The library might be able to be distributed with the common java. 
+- The BSON extension used for the Android library currently uses the common code of the C library. It might make more sense to create a pure Java BSON library instead of making JNI bindings for a number of architectures. 
 
 ## Impact on existing code
 
