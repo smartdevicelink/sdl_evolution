@@ -1,8 +1,8 @@
 # Support running the same app from multiple devices at the same time
 
-* Proposal: [SDL-NNNN](NNNN-same-app-from-multiple-devices.md)
+* Proposal: [SDL-0204](0204-same-app-from-multiple-devices.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
