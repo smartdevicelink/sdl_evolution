@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0202](0202-character-sets.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
