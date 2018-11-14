@@ -1,8 +1,8 @@
 # Cloud App Library - Phase 1
 
-* Proposal: [SDL-NNNN](NNNN-cloud_client_library_phase_1.md)
+* Proposal: [SDL-0203](0203-cloud_client_library_phase_1.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: **New: Cloud - Java** 
 
 ## Introduction
