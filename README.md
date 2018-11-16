@@ -125,14 +125,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 **Contents**: This release includes stabilization fixes and the Connectivity via iAP-BT and Transport Switch feature described [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0053-Connectivity-via-iAP-BT-and-Transport-Switch.md).  Contents of this release are described in detail in the [Core 4.5.0 Release Notes](https://github.com/smartdevicelink/sdl_core/releases/tag/4.5.0).
 
----
-
-#### Manticore: 1.3.0
-**Release Date**: May 1, 2018
-
-**Contents**: Include enhancements and update to the latest version of Core.
-
----
 
 #### Android SDK: 4.6.0
 **Release Date**: June 21, 2018
@@ -145,6 +137,14 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Release Date**: June 27, 2018
 
 **Contents**: This major release includes additional Screen Manager components, and also hides Transport, Protocol and Proxy layers by making them private.  Contents of this release are described in detail in the the [iOS 6.0.0 Release Notes](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.0.0).
+
+
+---
+
+#### SHAID: 2.1.0
+**Release Date**: October 19, 2018
+
+**Contents**: New endpoints for managing vendor API keys.
 
 ---
 
@@ -170,6 +170,13 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
+#### Manticore: 2.0.0
+**Release Date**: October 23, 2018
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.0.0).
+
+---
+
 #### SDL RPC Spec: 5.0.0
 **Release Date**: October 19, 2018
 
@@ -184,10 +191,12 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Manticore: 1.4.0
-**Expected Release Date**: November 16, 2018
+#### Manticore: 2.1.0
+**Release Date**: November 16, 2018
 
-**Contents**: Include enhancements and update to the latest version of Core.
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.1.0).
+
+
 
 ---
 
