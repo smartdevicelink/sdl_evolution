@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0203](0203-cloud_client_library_phase_1.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accpeted**
 * Impacted Platforms: **New: Cloud - Java** 
 
 ## Introduction
