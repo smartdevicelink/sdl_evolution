@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0204](0204-same-app-from-multiple-devices.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
