@@ -14,20 +14,20 @@ In case HMI does not support `CUSTOM_BUTTON`, SDL should not try to subscribe ap
 
 Now SDL does not check hmi_capabilities before subscription to `CUSTOM_BUTTON`. So it will try to subscribe each registered application to `CUSTOM_BUTTON` even if it is unsupported by HMI.
 
-SDL should check hmi capabilities and subscribe application to `CUSTOM_BUTTON` if it is **supported by HMI only**.
+SDL should check hmi_capabilities and subscribe application to `CUSTOM_BUTTON` if it is **supported by HMI only**.
 
 ## Proposed solution
 
-On application registration SDL should check hmi capabilities.
+On application registration SDL should check hmi_capabilities.
 
-In case `CUSTOM_BUTTON` is supported by hmi_capabilities :
+In case `CUSTOM_BUTTON` is supported by hmi_capabilities:
 SDL should send `Buttons.SubscribeButtons(CUSTOM_BUTTON)` to HMI and wait for response.
 
 
-In case `CUSTOM_BUTTON` is not supported by hmi_capabilities :
+In case `CUSTOM_BUTTON` is not supported by hmi_capabilities:
 SDL should **not** send `Buttons.SubscribeButtons(CUSTOM_BUTTON)` to HMI.
 
-If HMI supports `CUSTOM_BUTTON` it should be in `Buttons[capabilities]` section of `hmi_capabilities.json` :
+If HMI supports `CUSTOM_BUTTON` it should be in `Buttons[capabilities]` section of `hmi_capabilities.json`:
 
 ```
 "Buttons": {
@@ -44,7 +44,7 @@ If HMI supports `CUSTOM_BUTTON` it should be in `Buttons[capabilities]` section 
 ```
 
 
-If HMI supports `CUSTOM_BUTTON`, response to `Buttons.GetCapabilities` should contain following structure :
+If HMI supports `CUSTOM_BUTTON`, response to `Buttons.GetCapabilities` should contain following structure:
 
 ```
 "capabilities": [
@@ -67,7 +67,7 @@ N/A
 
 ## Impact on existing code
 
-* SDL core needs to be updated
+SDL core needs to be updated.
 
 ## Alternatives considered
 
