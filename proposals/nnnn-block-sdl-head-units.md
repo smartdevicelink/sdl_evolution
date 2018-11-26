@@ -31,7 +31,7 @@ Additions will be made to the `SDLLifecycleConfiguration`:
 @property (assign, nonatomic) NSString minimumRPCVersion;
 ```
 
-Immediately after protocol version negotiation, the `minimumProtocolVersion` will be checked and the app disconnected if it fails. Immediately after registration, the `minimumRPCVersion` will be check and the app unregistered if it fails.
+Immediately after protocol version negotiation, the `minimumProtocolVersion` will be checked and the app will be disconnected if it fails. Immediately after registration, the `minimumRPCVersion` will be checked and the app unregistered if it fails.
 
 ## Potential downsides
 
