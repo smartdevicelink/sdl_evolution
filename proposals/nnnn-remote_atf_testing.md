@@ -11,19 +11,19 @@ This proposal is about modification of Automated Test Framework (ATF) for provid
 
 ## Motivation
 
-Automated testing of SDL on the real OEM hardware would significantly reduce the amount of efforts at integration stage. 
-Also, it can ensure that during integration the business logic SDL will be ported successfully and will not be corrupted. 
+Automated testing of SDL on the real OEM hardware would significantly reduce the amount of efforts during the integration stage. 
+This also can ensure that during the integration stage the business logic SDL will be ported successfully and will not be corrupted. 
 
-On various OEM platforms communication between HMI and SDL is performed through different transport, that may not be retrieved from the target (i.e. mqueue). So for ATF it's not possible to connect to SDL from HMI side and emulate HMI behavior.  
+On various OEM platforms communication between HMI and SDL is performed through different transports, that may not be retrieved from the target (i.e. mqueue). So for ATF it's not possible to connect to SDL from HMI side and emulate HMI behavior.  
 This proposal suggests adding the optional proxy (relay) layer. This layer will connect to SDL, which is located on the OEM's target and expose API to ATF, which is located on other workstation via Transmission Control Protocol (TCP).
 
 ## Proposed solution
 
-Create Remote ATF Adapter as separate application. This application will be executed on the same hardware with SDL and will provide API for communication with SDL and will control SDL life cycle.
+Create Remote ATF Adapter as a separate application. This application will be executed on the same hardware with SDL and will provide API for communication with SDL and will control the SDL life cycle.
 
 ### Remote ATF Adapter
 
-ATF will use Remote ATF Adapter as a relay for sending data to SDL via HMI connection. 
+ATF will use the Remote ATF Adapter as a relay for sending data to SDL via the HMI connection.
 Remote ATF Adapter may utilise any local transport that is used for connection between SDL and HMI on specific OEM hardware, but it will provide TCP for ATF and Open Source ATF will be used. 
 
 ![Remote ATF Adapter](/assets/proposals/nnnn-hmi-relay/ATFRemoteAdapter.png)
@@ -40,8 +40,8 @@ The following RPCs are required:
  - Close Connection(connection) -> status.
 
 ### RPCs for SDL life cycle management:
-Testing of some SDL functionality (i.e. Resumption flow) requires performing of ignition cycles. For SDL ignition cycle means that it will be stopped and started again (with additional notifications before stop). So ATF need to control SDL life cycle. 
-This can be done only with Remote ATF Adapter on remote workstation. 
+Testing of some SDL functionality (i.e. Resumption flow) requires performing of ignition cycles. For the SDL ignition cycle, that means it will be stopped and started again (with additional notifications before stop). So ATF will need to control the SDL life cycle.
+This can only be done with a Remote ATF Adapter on a remote workstation. 
 
 The following RPCs are required: 
  - Start SDL. 
@@ -49,8 +49,8 @@ The following RPCs are required:
  - CheckSDL state.
  
 ### File management:
-Some automated use cases are required special preconditions as modification in smartDeviceLink.ini file, capabilities, preloaded policy table, etc ...  
-Because of this Remote ATF Adapter should provide functionality for file and folder management, such as: 
+Some automated use cases are required as special preconditions for the modifications in smartDeviceLink.ini file, capabilities, preloaded policy table, etc ...  
+Because of this Remote ATF Adapter, it should provide functionality for file and folder management, such as: 
  - Upload file.
  - Download file.
  - Update file.
@@ -63,10 +63,10 @@ Because of this Remote ATF Adapter should provide functionality for file and fol
 # Low level OS management: 
  - Command execute.
  
-For communication with SDL OEM adapter will need to implement this API's.  
+For communication with SDL, the OEM adapter will need to implement this API. 
 In case OEM requires additional functionality, relay server API may be extended.
 
-ATF should use this API for sending/receiving data as a simulation of HMI side.
+ATF should use this API for sending/receiving data as a simulation of the HMI side.
 
 Remote connection as a simulation of Mobile side may be done in scope of the following proposal : [ATF support of additional transports (BT and USB)](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0126-atf-additional-transports.md). Or by using of Wi-Fi (TCP) transport, in this case there is no additional implementation required. 
 
