@@ -9,36 +9,36 @@
 
 ## Introduction
 
-This proposal is about expanding the list of officially supported platforms by SDL with the following the operation systems:
+This proposal is about expanding the list of officially certified platforms by SDL with the following the operation systems:
 
  - QNX 7.0 (x64)
  - Automotive Grade Linux (AGL) Flounder 6.0.2 (x64)
 
 And approach for cross-platform testing automation.
 
-SDL source code should be compilabe for flowing platforms:
+SDL source code should be compilable for the following platforms:
 
  - Ubuntu - 16.04 (x64) default
  - QNX - 7.0 (x64)
  - Automotive Grade Linux - Flounder 6.0.2 (x64)
 
-Platform specific code should be isolated and should not contain any business logic. SDL sources should not contain code code duplication for specific platform. SDL should not contain special pre-compiled binaries for specific platform.
+Platform specific code should be isolated and should not contain any business logic. SDL sources should not contain code duplication for specific platform. SDL should not contain special pre-compiled binaries for specific platform.
 
 ## Motivation
 
 **QNX 6.5** (currently supported by SDL) is already out of date. New version of QNX released is QNX7.0.  
 
-**QNX 7.0** is widely used by OEM manufactures, so SDL should support building and working on QNX7.0. 
+**QNX 7.0** is widely used by OEM manufactures, so SDL should be ready to be certified for working on QNX7.0. 
 
-**Automotive Grade Linux (AGL)** is modern and popular Linux platform for the Automotive industry, and it is already used by many car manufacturers. SDL should also be ported to this platform and tested on it. 
+**Automotive Grade Linux (AGL)** is modern and popular Linux platform for the Automotive industry, and it is already used by many car manufacturers. SDL should also be ready to be certified for using this platform and tested on it. 
 
 ## Proposed solution
 
-Support open source SDL compilation for 3 platforms :
+Provide readiness for open source SDL compilation and certification by SDL Steering Committee for 3 platforms :
 
- - Ubuntu 16.04 x64 (or higher) native 
- - QNX 7.0 x64 (Using SDL on virtual workstation)
- - Automotive Grade Linux x64 (Using SDL on virtual workstation)
+ - Ubuntu 16.04 x64 (or higher) native. 
+ - QNX 7.0 x64 (Using SDL on virtual workstation).
+ - Automotive Grade Linux x64 (Using SDL on virtual workstation).
 
 ### Rework of SDL code 
 
@@ -57,56 +57,56 @@ SDL may use modern cmake approach for targets creation. It will simplify porting
 
 ###### Use CMake name spaces 
 
-Propose to use cmake with namespaces for all SDL components and dependencies. 
+Propose to use cmake with name spaces for all SDL components and dependencies. 
 This best practice of cmake allow:
- - make clear components dependencies
- - avoid dependency gaps (required for multi-threading compilation).
- - Keep components independent
- - Undestand components interface
- - Unificate external dependencies managment 
+ - To make clear components dependencies;
+ - To avoid dependency gaps (required for multi-threading compilation);
+ - To keep components independent;
+ - To understand components interface;
+ - To unify external dependencies management.
  
 Here are the drawbacks of the current structure of cmake usage:
 1. Existing cmake structure does not allow easy and seamless integration to other operating systems.
 2. Existing cmake structure has no unified management system of 3rd party libraries.
 3. With existing cmake structure we have problems with components and libraries dependencies, and the modern approach should resolve it.
-4. This New approach will make cmake files more clear and lightweight.
+4. This new approach will make cmake files more clear and lightweight.
 
 
 ###### target_<link_libraries,include_directiries>
 
-SDL CMake files should avoid using global cmake commands for adding compiler flags, include dirrectories, linkage libraries, etc ...
+SDL CMake files should avoid using global cmake commands for adding compiler flags, include directories, linkage libraries, etc ...
 
-This functions polute the project compilation structure, adds hidden dependencies between components, and make cmake files unclear and confusing.
+This functions pollute the project compilation structure, adds hidden dependencies between components, and make cmake files unclear and confusing.
 
-SDL CMake files should explicitely specify include directiries, link libraries, compiler options for entire target that it compiles.
+SDL CMake files should explicitly specify include directories, link libraries, compiler options for entire target that it compiles.
 
 #### 3rd party libraries for new platforms
 
-File .cmake should be created for each third party library used by SDL. This file will expose the library as cmake_library.
+File .cmake should be created for each 3rd party library used by SDL. This file will expose the library as cmake_library.
 
-All following third party libraries compiled within SDL should be configured for QNX7 and AGL x86 platforms:
-  - boost
-  - libapr
-  - libaprutils
-  - liblog4cxx
-  - bson-clib
-  - json
+The following 3rd party libraries which were compiled within SDL, should be configured for QNX7 and AGL x86 platforms:
+  - boost;
+  - libapr;
+  - libaprutils;
+  - liblog4cxx;
+  - bson-clib;
+  - json.
 
 #### New Cmake approach detailed design 
 
 ##### SDL core repository structure:
 
- - `/CMakeLists.txt` : Contains common build configs for all projects, include directories with some buils utils and helters.
- - `/src/` : Contains all sources of the project
- - `/src/components` : contains sources of components of SmartDeviceLinkCore
- - `/src/3rd_party` : contains sources of 3rd party components
- - `/src/appMain` : contains sources of main executable of SmartDeviceLinkCore and config files for runtime
- - `/src/docs/` : contains doxygen template for SDD generation.
- - `/src/tools/` : contains tools for work with repository, helpers, formatters, git hooks, etc ...
- - `/cmake` : contains addtitional cmake files with common code across components
- - `/cmake/toolchains` : contains compilation toolchains for different platforms
- - `/cmake/helpers` : contains cmake helpers with common code across components
- - `/cmake/dependencies` : contains cmake file for finding certain dependency on the system
+ - `/CMakeLists.txt`: contains common build configs for all projects, include directories with some builds utils and helpers;
+ - `/src/`: contains all sources of the project;
+ - `/src/components`: contains sources of SDL Core components;
+ - `/src/3rd_party`: contains sources of 3rd party components;
+ - `/src/appMain`: contains sources of SDL Core main executable and config files for runtime;
+ - `/src/docs/`: contains doxygen template for Software Detailed Design (SDD) document generation;
+ - `/src/tools/`: contains tools for work with repository, helpers, formatters, git hooks, etc;
+ - `/cmake`: contains additional cmake files with common code across components;
+ - `/cmake/toolchains`: contains compilation toolchains for different platforms;
+ - `/cmake/helpers`: contains cmake helpers with common code across components;
+ - `/cmake/dependencies`: contains cmake file for finding certain dependency on the system.
 
 Each folder should contain a README file with descriptions of contents and examples of usage if applicable.
 
