@@ -11,7 +11,7 @@ Add a capability for app developers to know if static icons are available on a c
 
 ## Motivation
 
-Currently, any app developer building their app with static icons have no way to know if a connected head unit supports those static icons. We should add a capability for the developer to know if static icons exist or not.
+Currently, any app developer building their app with static icons has no way to know if a connected head unit supports those static icons. We should add a capability for the developer to know if static icons exist or not.
 
 ## Proposed solution
 
