@@ -110,7 +110,7 @@ The following 3rd party libraries which were compiled within SDL, should be conf
 
 Each folder should contain a README file with descriptions of contents and examples of usage if applicable.
 
-##### 3rd party libraries managment:
+##### 3rd party libraries management:
 
 By default build system should not install to the system any additional libraries during compilation. 
 
@@ -120,28 +120,28 @@ If required version of certain dependency missed on the system, it build system 
 
 
 **External dependencies** - dependencies that build system should download from official sources during cmake run.
-**3rd_party dependencies** - dependencies that build system should keep as sources in `src/3rd_party` directory.
+**3rd party dependencies** - dependencies that build system should keep as sources in `src/3rd_party` directory.
 
-SDL is responsible for 3rd_party dependencies code and fixes that may also be applied to this code.
+SDL is responsible for 3rd party dependencies in the code and fixes that may also be applied to this code.
 
-List of SDL dependencies : 
-  - boost : **external dependency**, if it was not found on the system, build system should download sources from oficial sources during `cmake` command run and compile within project during `make` command run.
-  - libapr : **3rd_party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
-  - libaprutils : **3rd_party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
-  - liblog4cxx : **3rd_party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
-  - bson-clib : **external dependency**, if it was not found on the system, build system should download sources from oficial sources during `cmake` command run and compile within project during `make` command run.
-  - json : **3rd_party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
+The list of SDL dependencies : 
+  - boost : **external dependency**, if it was not found on the system, build system should download sources from official sources during `cmake` command run and compile within project during `make` command run.
+  - libapr : **3rd party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
+  - libaprutils : **3rd party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
+  - liblog4cxx : **3rd party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
+  - bson-clib : **external dependency**, if it was not found on the system, build system should download sources from official sources during `cmake` command run and compile within project during `make` command run.
+  - json : **3rd party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
 
 
-######  3rd party libraries instalation rules
+######  3rd party libraries installation rules
 
-Compilation of libraries should not trigger their instalation to the system by default.
+Compilation of libraries should not trigger their installation to the system by default.
 
 Propose to use special CMAKE variable if user desires to install 3rd party libraries to the system: `THIRD_PARTY_INSTALL_PREFIX`.
 
 If this variable is empty, SDL should install 3rd party and external dependencies libraries to `{BUILD_DIR}`/compile_dependencies
 
-During `make install` SDL should copy all files required for SDL RUN to `{BUILD_DIR}`/bin, and libraries required for sdl run to `{BUILD_DIR}`/bin/lib.
+During `make install` SDL should copy all files required for SDL RUN to `{BUILD_DIR}`/bin, and libraries required for SDL RUN to `{BUILD_DIR}`/bin/lib.
 
 
 #### SDL runtime dependencies
@@ -167,32 +167,31 @@ $ ldd smartDeviceLink
     librt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x00007fb77bcee000)
     libcrypt.so.1 => /lib/x86_64-linux-gnu/libcrypt.so.1 (0x00007fb77b882000)
 ```
-These libraries should be ported and pre-installed on the distribution of the target platform before running SDL.
+These libraries should be ported and pre-installed on the distributed target platform before running SDL.
 
 #### Modify Utils component
 
-Utils component will be affected with porting SDL to new platforms. 
+Utils component will be affected by modification of SDL Core to providing ability to pass SDLC certification. 
 Utils component provides all SDL layers platform agnostic interface for communication with the operation system:
- - file system operations
- - threads and sync primitives
- - timers
- - logging
- - system resource collecting
- - ... 
+ - file system operations;
+ - threads and sync primitives;
+ - timers;
+ - logging;
+ - system resource collecting.
  
-### Provide Ability for automated testing 
+### Provide ability for automated testing 
 
 Existing automated testing tool [sdl_atf](https://github.com/smartdevicelink/sdl_atf) and 
 [scripts](https://github.com/smartdevicelink/sdl_atf_test_scripts)
-should be used for checking SDL functionality on the new platform.
+should be used for checking SDL functionality on the new platforms.
 
-#### Modification in sdl_atf
+#### Modifications in ATF
 
-sdl_atf tool should be executed on host workstation, but SDL will be executed on remote virtual workstation. 
+sdl_atf tool should be executed on host workstation, but SDL will be ran on remote virtual workstation. 
 
 For support remote automated testing of SDL, the following proposal should be implemented: https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md
 
-#### Modification in test scripts
+#### Modifications in the test scripts
 
 Some scripts should be modified to use SDL on remote workstation.  
 All operations with SDL files ( hmi_capabilities, preloaded_pt, etc ...) should be covered with wrappers that support either local or remote execution. 
@@ -200,49 +199,49 @@ All operations with SDL files ( hmi_capabilities, preloaded_pt, etc ...) should 
 
 ## Testing Approach
 
-The following items should be checked for all these platforms :
+The following items should be checked for all these platforms:
  
- - Compilation
- - Unit tests
- - Automated smoke
- - Existing features automated test cases (in case if feature is applicable on the virtual workstation)  
+ - Compilation;
+ - Unit tests;
+ - Automated smoke;
+ - Existing features automated test cases (in case if feature is applicable on the virtual workstation).  
 
-SDL will be tested on virtual workstation for each supported platform. 
-For communication with mobile will be used **only** TCP transport.
+SDL could be tested on virtual workstation for each mentioned platform. 
+For communication with mobile will be used **only**  Transmission Control Protocol (TCP) transport.
 For communication with HMI will be used TCP/WebSockets transport.
 
-All supported platforms (Ubuntu, AGL, QNX) will share codebase for communication with mobile and HMI.  
+All mentioned platforms (Ubuntu, AGL, QNX) will share codebase for communication with mobile and HMI.  
 
 #### Manual testing
 
 Manual testing will be performed using WebHMI https://github.com/smartdevicelink/sdl_hmi
-No changes in WebHMI are expected, and WebHMI will be executed on a real developer workstation.
+No changes in WebHMI are expected, and WebHMI will be executed on the real developer workstation.
 
-Mobile application may be connected to SDL via TCP.
+Mobile application may be connected to SDL Core via TCP.
 
 ### Automated testing.
 
-With some changes in ATF test framework and existing scripts SDL will be tested automatically on all 3 platforms. 
+With some changes in ATF test framework and existing scripts SDL Core could be tested automatically on all 3 platforms. 
 
-The same test scripts will be executed for : 
- - Ubuntu 
- - AGL
- - QNX
+The same test scripts will be executed for: 
+ - Ubuntu;
+ - AGL;
+ - QNX.
  
 Test coverage will include:
-  - smoke testing of SDL (basic SDL scenarios and 3 policy flows) 
+  - smoke testing of SDL Core (basic SDL scenarios and 3 policy flows (HTTP, PROPRIETARY, EXTERNAL_PROPRIETARY)); 
   - all delivered features that are applicable for cross platform testing.
   
-Each further delivered feature should be tested on all supported platforms.
+Each further delivered feature should be tested on all mentioned platforms.
 
 #### Missed functionality on AGL and QNX
 
-Open source SDL will no implement platform specific functionality on all supported systems.
-It is OEM's responcibility to implement and check platform specific layer of SDL - OEM Adapter. 
+Open source SDL will no implement platform specific functionality on all mentioned systems.
+It is OEM's responsibility to implement and check platform specific layer of SDL - OEM Adapter. 
 
-This layer includes :
- - USB transport
- - Bluetooth transport
+This layer includes:
+ - USB transport;
+ - Bluetooth transport;
  - Multiple transports support.
 
 
@@ -252,8 +251,8 @@ N/A
 
 ## Impact on existing code
 
-SDL core will be modified in platform specific places.
-All components that use **utils** will be affected and need to be retested on target platform.
+SDL core will be modified in the platform specific places.
+All components that use **utils** will be affected and need to be retested on the target platform.
  
 ## Alternatives considered
 
@@ -263,26 +262,26 @@ All components that use **utils** will be affected and need to be retested on ta
 Add USB and Bluetooth transport support for virtualized QNX and AGL platforms.
 These transport adapters will not be used for real OEMs, the only place to use them will be virtual workstations.
 Also communication via this transport adapters actually will be emulated by virtual workstation.
-Supporting of additional transports on virtual workstation is exhausted. There is no valuable reason to keep supporting many transports on multiple platforms except as best practice example for OEM suppliers. 
+Supporting of additional transports on the virtual workstation is exhausted. There is no valuable reason to keep supporting of many transports on multiple platforms. One exception might be applied - as best practice example for OEM suppliers. 
 
-Pros : 
- - Testing may be done via additional transports
+Pros: 
+ - Testing may be done via additional transports.
 
 Cons:
-- Big efforts for automation of transport testing 
-- Big efforts for supporting many transports on multiple platform
-- Transport specific code will not be actual for OEM suppliers
+- Big efforts for automation of transport testing. 
+- Big efforts for supporting many transports on multiple platform.
+- Transport specific code will not be actual for OEM suppliers.
 - Transport testing will be executed through virtualisation layer.
 
 #### Using real hardware with QNX and AGL
 
 SDL may not be tested on virtual workstation, but on real hardware with QNX, Ubuntu and AGL.
 
-Pros : 
+Pros: 
  - Real USB, Bluetooth transports may be used for testing.
 
-Cons :
+Cons:
  - This approach will introduce additional efforts for resolving hardware specific problems. 
  - Each OEM supplier has its own hardware, and hardware specific code will be partially not actual.
  - SDL contributor will need to have real hardware (same as certified by SDL) to test their fixes and implementation.
- - Exhausted automation of transport testing. Automation pipelines should use real hardware that requires additional efforts for tuning.
+ - Exhausted process of automation for transport-specific testing. Automation pipelines should use real hardware that requires additional efforts for tuning.
