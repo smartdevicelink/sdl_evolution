@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Update the naïve menu updating with a new dynamic add / removal system of menu cells.
+Update the naïve menu updating with a new dynamic add / removal system of menu cells to use a more robust method that intelligently adds and removes menu cells, thereby cutting down on the amount of RPCs needed to update an SDL menu.
 
 ## Motivation
 
