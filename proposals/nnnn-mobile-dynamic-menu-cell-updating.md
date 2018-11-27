@@ -21,8 +21,6 @@ The first problem to be solved is to determine equality of cells. We don't curre
 
 The second problem is to determine which adds and removals are necessary to turn the old / current menu array into the new menu array. We also need to consider sub-menus. Additionally complicating this issue is that existing menu cells cannot be moved, they must be removed and re-added, and if they have submenu cells, all those cells need to be removed and re-added as well.
 
-To mitigate these issues
-
 ### Algorithm Steps
 
 1. Mark all cells in the old list as marked for deletion, all cells in the new list as marked for addition.
