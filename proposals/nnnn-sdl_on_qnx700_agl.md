@@ -40,21 +40,20 @@ Provide readiness for open source SDL compilation and certification by SDL Steer
  - QNX 7.0 x64 (Using SDL on virtual workstation).
  - Automotive Grade Linux x64 (Using SDL on virtual workstation).
  
-Within continious integraiton each change (Pull requests to develop) in SDL should be tested(in automated mode) for Ubuntu, QNX, AGL.
-It is the Project mainteiners responcibility to certify solution for all referenced platforms.
+Within continuous integration each change (Pull Request to develop) for SDL Core should be tested (in automated mode) for Ubuntu, QNX, AGL. It is the Project Maintainer responsibility to certify solution for all referenced platforms.
 
-### Vesions of platforms
+### Versions of platforms
 
-This proposal is aboud certifying SDL fol latest releases of Ubuntu, QNX, AGL. 
-Newer releases of referenced platforms will probably require new proposal in case. 
+This proposal is about certifying SDL for the latest releases of Ubuntu, QNX, AGL. 
+Future releases of referenced platforms will require new SDL-evolution proposal.
 
-### SDL compilation process :
+### SDL compilation process:
 
 #### Compilation for QNX 7.0
 
-Compilation for QNX 7.0 required preinstalled QXN7.0 SDP on developers worstation.
+Compilation for QNX 7.0 required pre-installed QXN7.0 SDP on developer workstation.
 
-SDL will contains QNX 7.0 toolchain file that should be used for compilaiton. 
+SDL will contains QNX 7.0 toolchain file that should be used for compilation. 
 Example : 
 
 ```$ cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_QNX700_x86.cmake <sdl_core>```
@@ -64,36 +63,36 @@ Then all binaries and libraries required for running SDL on QNX will be in `<bui
 
 #### Compilation for AGL 
 
-Compilation for AGL required preinstalled AGL SDK in developers platfrom. 
-Compilation for AGL is not cross platform compilaiton, but specific versions of libraries should be guaranteed.
+Compilation for AGL required pre-installed AGL SDK on the developer platform. 
+Compilation for AGL is not cross platform compilation, but specific versions of libraries should be guaranteed.
 
 SDL will contains Docker file with environment ready for compilation for **AGL Flounder 6.0.2**.
-Default command of this docekr file will be `cmake && make install` commands that will compile sdl code.
-Before runing compilation in container developer should specify source directory of sdl code.
+Default command for this Docker file will be `cmake && make install` commands that will compile SDL Core code.
+Before running compilation in container developer should specify source directory of SDL Core code.
 
-So compilation of SDL code for AGL will be done with docker file
+Compilation of SDL code for AGL will be done by using docker file.
 ```
 $ docker build -t agl_compile .
 $ docker run -v <sdl_core>:/home/developer/sdl agl_compile
 ```
-Then all binaries and libraries required for running SDL on AGL will be in `<sdl_core>/build/bin`
+Then all binaries and libraries, which are required for running SDL Core on the AGL platform will be stored in `<sdl_core>/build/bin`
 
 ### SDL runtime dependencies
 
 SDL has the following runtime dependencies:
- - libpthread
- - libdl
- - libcrypto.so
- - libssl.so
- - libcrypt.so
- - libstdc++.so
- - libc.so
- - libgcc_s.so
- - libudev.so
- - libsqlite3.so
- - librt.so
+ - libpthread;
+ - libdl;
+ - libcrypto.so;
+ - libssl.so;
+ - libcrypt.so;
+ - libstdc++.so;
+ - libc.so;
+ - libgcc_s.so;
+ - libudev.so;
+ - libsqlite3.so;
+ - librt.so.
 
-These libraries should be ported and pre-installed on the target platform before running SDL.
+These libraries should be ported and pre-installed on the distributed target platform before running SDL.
 
 #### Modification in Utils component
 
@@ -103,7 +102,7 @@ Utils component provides all SDL layers platform agnostic interface for communic
  - threads and sync primitives;
  - timers;
  - logging;
- - system resource collecting;
+ - system resource collecting.
 
 ### Provide ability for automated testing 
 
