@@ -33,21 +33,31 @@ In the average case scenario, this algorithm would be O(n*log(n)).
 #### Examples
 
 1. Old Menu [A,B,C,D]
+   
    New Menu [A,B,C,D,E]
+   
    E remains marked for addition at position 4.
 
 2. Old Menu [A,B,C,D]
+   
    New Menu [A,B,C]
+   
    D remains marked for deletion.
 
 3. Old Menu [A,B,C]
+   
    New Menu [D,E,F]
+   
    A, B, and C remain marked for deletion
+   
    D, E, and F remain marked for addition at positions 0, 1, and 2 respectively
 
 4. Old Menu [A,B,C,D]
+   
    New Menu [B,A,D,C]
+   
    B is marked for deletion and addition at position 0
+   
    D is marked for deletion and addition at position 2
 
 #### Submenus
@@ -67,4 +77,3 @@ This would not cause any version change for any affected platform.
 ## Alternatives considered
 
 1. Leave it the way it is. The naïve approach is very easy, but requires far too many RPCs to be sent for simple tasks.
-2. Allow sub-cells to remain if the top-level cell is being moved out-of-order. This would require the top-level menu to run in an O(n^2) algorithm to determine if the sub-cells can remain while the top-level cell moves.
