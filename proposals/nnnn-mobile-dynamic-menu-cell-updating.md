@@ -64,7 +64,7 @@ In the average case scenario, this algorithm would be O(n*log(n)).
 
 Submenus work very similarly. Any menu cell which is staying in the menu which contains subcells will have the subcells checked for the same consistency as the top-level menu. Subcells will be marked for addition or deletion in the same way.
 
-If a menu cell is removed, all subcells will be removed by default because of the way that the `DeleteSubMenu` command works. Therefore, any cell that needs to be moved will 
+If a menu cell is removed, all subcells will be removed by default because of the way that the `DeleteSubMenu` command works. Therefore, any cell that needs to be moved will need to have all of its submenus deleted.
 
 ## Potential downsides
 
