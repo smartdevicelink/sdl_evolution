@@ -39,137 +39,63 @@ Provide readiness for open source SDL compilation and certification by SDL Steer
  - Ubuntu 16.04 x64 (or higher) native. 
  - QNX 7.0 x64 (Using SDL on virtual workstation).
  - Automotive Grade Linux x64 (Using SDL on virtual workstation).
-
-### Rework of SDL code 
-
-Cmake toolchain mechanism should be used for changing target platforms.
-
- **Example** :
-  - Compilation for QNX : `cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_QNX700_x86.cmake <sdl_core>` 
-  - Compilation for AGL : `cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_AGL_x86.cmake <sdl_core>` 
-
-#### Refactoring of cmake structure
-
-
-##### CMake modern approach
-
-SDL may use modern cmake approach for targets creation. It will simplify porting SDL to any platform.  
-
-###### Use CMake name spaces 
-
-Propose to use cmake with name spaces for all SDL components and dependencies. 
-This best practice of cmake allow:
- - To make clear components dependencies;
- - To avoid dependency gaps (required for multi-threading compilation);
- - To keep components independent;
- - To understand components interface;
- - To unify external dependencies management.
  
-Here are the drawbacks of the current structure of cmake usage:
-1. Existing cmake structure does not allow easy and seamless integration to other operating systems.
-2. Existing cmake structure has no unified management system of 3rd party libraries.
-3. With existing cmake structure we have problems with components and libraries dependencies, and the modern approach should resolve it.
-4. This new approach will make cmake files more clear and lightweight.
+Within continious integraiton each change (Pull requests to develop) in SDL should be tested(in automated mode) for Ubuntu, QNX, AGL.
+It is the Project mainteiners responcibility to certify solution for all referenced platforms.
 
+### Vesions of platforms
 
-###### target_<link_libraries,include_directiries>
+This proposal is aboud certifying SDL fol latest releases of Ubuntu, QNX, AGL. 
+Newer releases of referenced platforms will probably require new proposal in case. 
 
-SDL CMake files should avoid using global cmake commands for adding compiler flags, include directories, linkage libraries, etc ...
+### SDL compilation process :
 
-This functions pollute the project compilation structure, adds hidden dependencies between components, and make cmake files unclear and confusing.
+#### Compilation for QNX 7.0
 
-SDL CMake files should explicitly specify include directories, link libraries, compiler options for entire target that it compiles.
+Compilation for QNX 7.0 required preinstalled QXN7.0 SDP on developers worstation.
 
-#### 3rd party libraries for new platforms
+SDL will contains QNX 7.0 toolchain file that should be used for compilaiton. 
+Example : 
 
-File .cmake should be created for each 3rd party library used by SDL. This file will expose the library as cmake_library.
+```$ cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_QNX700_x86.cmake <sdl_core>```
+```$ make install```
 
-The following 3rd party libraries which were compiled within SDL, should be configured for QNX7 and AGL x86 platforms:
-  - boost;
-  - libapr;
-  - libaprutils;
-  - liblog4cxx;
-  - bson-clib;
-  - json.
+Then all binaries and libraries required for running SDL on QNX will be in `<build_dir>/bin`
 
-#### New Cmake approach detailed design 
+#### Compilation for AGL 
 
-##### SDL core repository structure:
+Compilation for AGL required preinstalled AGL SDK in developers platfrom. 
+Compilation for AGL is not cross platform compilaiton, but specific versions of libraries should be guaranteed.
 
- - `/CMakeLists.txt`: contains common build configs for all projects, include directories with some builds utils and helpers;
- - `/src/`: contains all sources of the project;
- - `/src/components`: contains sources of SDL Core components;
- - `/src/3rd_party`: contains sources of 3rd party components;
- - `/src/appMain`: contains sources of SDL Core main executable and config files for runtime;
- - `/src/docs/`: contains doxygen template for Software Detailed Design (SDD) document generation;
- - `/src/tools/`: contains tools for work with repository, helpers, formatters, git hooks, etc;
- - `/cmake`: contains additional cmake files with common code across components;
- - `/cmake/toolchains`: contains compilation toolchains for different platforms;
- - `/cmake/helpers`: contains cmake helpers with common code across components;
- - `/cmake/dependencies`: contains cmake file for finding certain dependency on the system.
+SDL will contains Docker file with environment ready for compilation for **AGL Flounder 6.0.2**.
+Default command of this docekr file will be `cmake && make install` commands that will compile sdl code.
+Before runing compilation in container developer should specify source directory of sdl code.
 
-Each folder should contain a README file with descriptions of contents and examples of usage if applicable.
+So compilation of SDL code for AGL will be done with docker file
+```
+$ docker build -t agl_compile .
+$ docker run -v <sdl_core>:/home/developer/sdl agl_compile
+```
+Then all binaries and libraries required for running SDL on AGL will be in `<sdl_core>/build/bin`
 
-##### 3rd party libraries management:
-
-By default build system should not install to the system any additional libraries during compilation. 
-
-If required version of certain dependency is available on the system, build system should use it.
-
-If required version of certain dependency missed on the system, it build system should compile it and keep in `<build>` folder within `make` command.
-
-
-**External dependencies** - dependencies that build system should download from official sources during cmake run.
-**3rd party dependencies** - dependencies that build system should keep as sources in `src/3rd_party` directory.
-
-SDL is responsible for 3rd party dependencies in the code and fixes that may also be applied to this code.
-
-The list of SDL dependencies : 
-  - boost : **external dependency**, if it was not found on the system, build system should download sources from official sources during `cmake` command run and compile within project during `make` command run.
-  - libapr : **3rd party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
-  - libaprutils : **3rd party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
-  - liblog4cxx : **3rd party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
-  - bson-clib : **external dependency**, if it was not found on the system, build system should download sources from official sources during `cmake` command run and compile within project during `make` command run.
-  - json : **3rd party dependency**, if it was not found on the system, build system should take sources from `src/3rd_party/` and compile within project during `make` command run.
-
-
-######  3rd party libraries installation rules
-
-Compilation of libraries should not trigger their installation to the system by default.
-
-Propose to use special CMAKE variable if user desires to install 3rd party libraries to the system: `THIRD_PARTY_INSTALL_PREFIX`.
-
-If this variable is empty, SDL should install 3rd party and external dependencies libraries to `{BUILD_DIR}`/compile_dependencies
-
-During `make install` SDL should copy all files required for SDL RUN to `{BUILD_DIR}`/bin, and libraries required for SDL RUN to `{BUILD_DIR}`/bin/lib.
-
-
-#### SDL runtime dependencies
+### SDL runtime dependencies
 
 SDL has the following runtime dependencies:
-```
-$ ldd smartDeviceLink
-    linux-vdso.so.1 (0x00007ffdbf543000)
-    libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007fb77f45f000)
-    libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fb77f25b000)
-    libbluetooth.so.3 => /usr/lib/x86_64-linux-gnu/libbluetooth.so.3 (0x00007fb77f038000)
-    libusb-1.0.so.0 => /lib/x86_64-linux-gnu/libusb-1.0.so.0 (0x00007fb77ee20000)
-    libPolicy.so (0x00007fb77e062000)
-    libcrypto.so.1.0.0 => /usr/lib/x86_64-linux-gnu/libcrypto.so.1.0.0 (0x00007fb77dc1f000)
-    libssl.so.1.0.0 => /usr/lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fb77d9b7000)
-    libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007fb77d1ed000)
-    libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fb77cfd5000)
-    libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb77cbe4000)
-    /lib64/ld-linux-x86-64.so.2 (0x00007fb78220b000)
-    libudev.so.1 => /lib/x86_64-linux-gnu/libudev.so.1 (0x00007fb77c9c6000)
-    libsqlite3.so.0 => /usr/lib/x86_64-linux-gnu/libsqlite3.so.0 (0x00007fb77c294000)
-    libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fb77bef6000)
-    librt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x00007fb77bcee000)
-    libcrypt.so.1 => /lib/x86_64-linux-gnu/libcrypt.so.1 (0x00007fb77b882000)
-```
-These libraries should be ported and pre-installed on the distributed target platform before running SDL.
+ - libpthread
+ - libdl
+ - libcrypto.so
+ - libssl.so
+ - libcrypt.so
+ - libstdc++.so
+ - libc.so
+ - libgcc_s.so
+ - libudev.so
+ - libsqlite3.so
+ - librt.so
 
-#### Modify Utils component
+These libraries should be ported and pre-installed on the target platform before running SDL.
+
+#### Modification in Utils component
 
 Utils component will be affected by modification of SDL Core to providing ability to pass SDLC certification. 
 Utils component provides all SDL layers platform agnostic interface for communication with the operation system:
@@ -177,8 +103,8 @@ Utils component provides all SDL layers platform agnostic interface for communic
  - threads and sync primitives;
  - timers;
  - logging;
- - system resource collecting.
- 
+ - system resource collecting;
+
 ### Provide ability for automated testing 
 
 Existing automated testing tool [sdl_atf](https://github.com/smartdevicelink/sdl_atf) and 
@@ -195,7 +121,6 @@ For support remote automated testing of SDL, the following proposal should be im
 
 Some scripts should be modified to use SDL on remote workstation.  
 All operations with SDL files ( hmi_capabilities, preloaded_pt, etc ...) should be covered with wrappers that support either local or remote execution. 
-
 
 ## Testing Approach
 
