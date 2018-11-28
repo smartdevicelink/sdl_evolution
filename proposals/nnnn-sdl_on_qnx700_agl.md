@@ -187,7 +187,8 @@ This layer includes:
 
 ## Potential downsides
 
-N/A
+* Compilation for additional platfroms requires tricky changes in configuration and build files.
+* Futher changes of configuration or build files may breake ability to build SDL for QNX or AGL. 
 
 ## Impact on existing code
 
@@ -196,22 +197,14 @@ All components that use **utils** will be affected and need to be retested on th
  
 ## Alternatives considered
 
+#### Refactor cmake structure for easy multiple platforms support 
+Current approach for creating cmake files and mamaging dependencies have folowing problems : 
 
-#### Additional transport support on AGL, QNX virtual workstation
+1. Existing cmake structure does not allow easy and seamless integration to other operating systems.
+2. Existing cmake structure has no unified management system of 3rd party libraries.
+3. With existing cmake structure we have problems with components and libraries dependencies.
 
-Add USB and Bluetooth transport support for virtualized QNX and AGL platforms.
-These transport adapters will not be used for real OEMs, the only place to use them will be virtual workstations.
-Also communication via this transport adapters actually will be emulated by virtual workstation.
-Supporting of additional transports on the virtual workstation is exhausted. There is no valuable reason to keep supporting of many transports on multiple platforms. One exception might be applied - as best practice example for OEM suppliers. 
-
-Pros: 
- - Testing may be done via additional transports.
-
-Cons:
-- Big efforts for automation of transport testing. 
-- Big efforts for supporting many transports on multiple platform.
-- Transport specific code will not be actual for OEM suppliers.
-- Transport testing will be executed through virtualisation layer.
+Unificaiton of 3rd party libraries managment and internal dependencies management would reduce OEM efforts to integrate SDL into the custom OEM environment. 
 
 #### Using real hardware with QNX and AGL
 
