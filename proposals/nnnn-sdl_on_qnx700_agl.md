@@ -9,28 +9,32 @@
 
 ## Introduction
 
-This proposal is about expanding the list of officially certified platforms by SDL with the following the operation systems:
+This proposal is about expanding the list of officially certified platforms by SDL with the following operation systems:
 
  - QNX 7.0 (x64)
  - Automotive Grade Linux (AGL) Flounder 6.0.2 (x64)
 
-And approach for cross-platform testing automation.
+The next part of this proposal is an approach for cross-platform testing automation.
 
-SDL source code should be compilable for the following platforms:
+SDL source code should be compilable on the following platforms:
 
  - Ubuntu - 16.04 (x64) default
  - QNX - 7.0 (x64)
  - Automotive Grade Linux - Flounder 6.0.2 (x64)
 
-Platform specific code should be isolated and should not contain any business logic. SDL sources should not contain code duplication for specific platform. SDL should not contain special pre-compiled binaries for specific platform.
+The following conditions must be matched: 
+- Platform specific code should be isolated and should not contain any business logic. 
+- SDL sources should not contain code duplication for specific platform.
+- SDL should not contain special pre-compiled binaries for specific platform.
 
 ## Motivation
 
 **QNX 6.5** (currently supported by SDL) is already out of date. New version of QNX released is QNX7.0.  
 
-**QNX 7.0** is widely used by OEM manufactures, so SDL should be ready to be certified for working on QNX7.0. 
+**QNX 7.0** is widely used by OEM manufactures, so SDL should be ready to certify QNX7.0 for working on it. 
 
-**Automotive Grade Linux (AGL)** is modern and popular Linux platform for the Automotive industry, and it is already used by many car manufacturers. SDL should also be ready to be certified for using this platform and tested on it. 
+**Automotive Grade Linux (AGL)** is modern and popular Linux platform for the Automotive industry. It is already used by many car manufacturers. 
+  SDL should also be ready to certify using this platform and to be tested on it. 
 
 ## Proposed solution
 
@@ -40,20 +44,27 @@ Provide readiness for open source SDL compilation and certification by SDL Steer
  - QNX 7.0 x64 (Using SDL on virtual workstation).
  - Automotive Grade Linux x64 (Using SDL on virtual workstation).
  
-Within continuous integration each change (Pull Request to develop) for SDL Core should be tested (in automated mode) for Ubuntu, QNX, AGL. It is the Project Maintainer responsibility to certify solution for all referenced platforms.
+Within continuous integration each change (Pull Request to develop) to SDL Core should be tested (in automated mode) for Ubuntu, QNX, AGL. 
+It is the Project Maintainer responsibility to certify solution for all referenced platforms.
 
 ### Versions of platforms
 
-This proposal is about certifying SDL for the latest releases of Ubuntu, QNX, AGL. 
+This proposal is about certifying of the current stable releases of Ubuntu, QNX, AGL for SDL to work on these platforms. 
+
+Current stable releases at the moment of proposal creation are: 
+ - Ubuntu - 16.04 (x64) default
+ - QNX - 7.0 (x64)
+ - Automotive Grade Linux - Flounder 6.0.2 (x64)
+ 
 Future releases of referenced platforms will require new SDL-evolution proposal.
 
 ### SDL compilation process:
 
 #### Compilation for QNX 7.0
 
-Compilation for QNX 7.0 required pre-installed QXN7.0 SDP on developer workstation.
+Compilation for QNX 7.0 requires pre-installed QXN7.0 SDP on developer workstation.
 
-SDL will contains QNX 7.0 toolchain file that should be used for compilation. 
+SDL will contain QNX 7.0 toolchain file that should be used for compilation. 
 Before compilation suggested to setup `THIRD_PARTY_LIBRARY_PATH` variable to avoid instalation of qnx libraries to host system
 
 Example : 
@@ -61,12 +72,12 @@ Example :
 ```$ cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_QNX700_x86.cmake <sdl_core>```
 ```$ make install```
 
-Then all binaries and libraries required for running SDL on QNX will be in `<build_dir>/bin` and <third_party_path>. 
+Then all binaries and libraries required for SDL run on QNX will be created in `<build_dir>/bin` and <third_party_path>. 
 
 ##### Compilation in docker container
 
-SDL will contain Docker file with environment ready for qnx compilaiton. This environment will not contain QNX SDP.
-Before compilation developer should provide path to SDP with cmounted to container directory.
+SDL will contain Docker file with environment ready for qnx compilation. This environment will not contain QNX SDP.
+Before compilation developer should provide path to SDP with directory mounted to container.
 
 Example of compilation with docker : 
 ```
@@ -79,14 +90,13 @@ Then all binaries and libraries, which are required for running SDL Core on the 
 
 #### Compilation for AGL 
 
-Compilation for AGL required pre-installed AGL SDK on the developer platform. 
-Compilation for AGL is not cross platform compilation, but specific versions of libraries should be guaranteed.
+Compilation for AGL requires pre-installed AGL SDK on the developer platform. 
+Compilation for AGL is not cross-platform compilation, but specific versions of libraries should be guaranteed.
 
-SDL will contains Docker file with environment ready for compilation for **AGL Flounder 6.0.2**.
-Default command for this Docker file will be `cmake && make install` commands that will compile SDL Core code.
+SDL will contain Docker file with environment ready for SDL compilation on **AGL Flounder 6.0.2**.
 Before running compilation in container developer should specify source directory of SDL Core code.
 
-Compilation of SDL code for AGL will be done by using docker file.
+Compilation of SDL code for AGL will be done by using docker file(default way)
 ```
 $ docker build -t agl_compile .
 $ docker run -v <sdl_core>:/home/developer/sdl agl_compile
@@ -112,7 +122,7 @@ These libraries should be ported and pre-installed on the distributed target pla
 
 #### Modification in Utils component
 
-Utils component will be affected by modification of SDL Core to providing ability to pass SDLC certification. 
+Utils component will be affected by modification of SDL Core providing ability to pass SDLC certification. 
 Utils component provides all SDL layers platform agnostic interface for communication with the operation system:
  - file system operations;
  - threads and sync primitives;
@@ -128,9 +138,9 @@ should be used for checking SDL functionality on the new platforms.
 
 #### Modifications in ATF
 
-sdl_atf tool should be executed on host workstation, but SDL will be ran on remote virtual workstation. 
+sdl_atf tool should be executed on host workstation, but SDL will be run on remote virtual workstation. 
 
-For support remote automated testing of SDL, the following proposal should be implemented: https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md
+For support of SDL remote automated testing, the following proposal should be implemented: https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md
 
 #### Modifications in the test scripts
 
@@ -143,12 +153,12 @@ The following items should be checked for all these platforms:
  
  - Compilation;
  - Unit tests;
- - Automated smoke;
+ - Automated smoke tests;
  - Existing features automated test cases (in case if feature is applicable on the virtual workstation).  
 
-SDL could be tested on virtual workstation for each mentioned platform. 
-For communication with mobile will be used **only**  Transmission Control Protocol (TCP) transport.
-For communication with HMI will be used TCP/WebSockets transport.
+SDL can be tested on virtual workstation for each mentioned platform. 
+**Only** Transmission Control Protocol (TCP) transport will be used for communication with mobile.
+TCP/WebSockets transport will be used for communication with HMI.
 
 All mentioned platforms (Ubuntu, AGL, QNX) will share codebase for communication with mobile and HMI.  
 
@@ -161,22 +171,22 @@ Mobile application may be connected to SDL Core via TCP.
 
 ### Automated testing.
 
-With some changes in ATF test framework and existing scripts SDL Core could be tested automatically on all 3 platforms. 
+SDL Core can be tested automatically on all 3 platforms with some changes in ATF test framework and existing scripts. 
 
-The same test scripts will be executed for: 
+The same test scripts will be executed for the following platforms: 
  - Ubuntu;
  - AGL;
  - QNX.
  
 Test coverage will include:
   - smoke testing of SDL Core (basic SDL scenarios and 3 policy flows (HTTP, PROPRIETARY, EXTERNAL_PROPRIETARY)); 
-  - all delivered features that are applicable for cross platform testing.
+  - all delivered features which are applicable for cross-platform testing.
   
 Each further delivered feature should be tested on all mentioned platforms.
 
 #### Missed functionality on AGL and QNX
 
-Open source SDL will no implement platform specific functionality on all mentioned systems.
+Open source SDL will not implement platform specific functionality on all mentioned systems.
 It is OEM's responsibility to implement and check platform specific layer of SDL - OEM Adapter. 
 
 This layer includes:
@@ -187,8 +197,8 @@ This layer includes:
 
 ## Potential downsides
 
-* Compilation for additional platfroms requires tricky changes in configuration and build files.
-* Futher changes of configuration or build files may breake ability to build SDL for QNX or AGL. 
+* Compilation for additional platforms requires tricky changes in configuration and build files.
+* Further changes of configuration or build files may breake ability to build SDL for QNX or AGL. 
 
 ## Impact on existing code
 
@@ -197,14 +207,14 @@ All components that use **utils** will be affected and need to be retested on th
  
 ## Alternatives considered
 
-#### Refactor cmake structure for easy multiple platforms support 
-Current approach for creating cmake files and mamaging dependencies have folowing problems : 
+#### Refactor cmake files structure for easy multiple platforms support 
+Current approach for creating cmake files and managing dependencies have the folowing problems : 
 
 1. Existing cmake structure does not allow easy and seamless integration to other operating systems.
 2. Existing cmake structure has no unified management system of 3rd party libraries.
-3. With existing cmake structure we have problems with components and libraries dependencies.
+3. Existing cmake structure does not allow flexible and clear dependencies resolution between components and libraries.
 
-Unificaiton of 3rd party libraries managment and internal dependencies management would reduce OEM efforts to integrate SDL into the custom OEM environment. 
+Unification of 3rd party libraries management and internal dependencies management would reduce OEM efforts to integrate SDL into the custom OEM environment. 
 
 #### Using real hardware with QNX and AGL
 
