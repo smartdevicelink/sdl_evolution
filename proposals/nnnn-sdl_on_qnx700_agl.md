@@ -54,12 +54,28 @@ Future releases of referenced platforms will require new SDL-evolution proposal.
 Compilation for QNX 7.0 required pre-installed QXN7.0 SDP on developer workstation.
 
 SDL will contains QNX 7.0 toolchain file that should be used for compilation. 
-Example : 
+Before compilation suggested to setup `THIRD_PARTY_LIBRARY_PATH` variable to avoid instalation of qnx libraries to host system
 
+Example : 
+```$ export THIRD_PARTY_LIBRARY_PATH=<third_party_path>```
 ```$ cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_QNX700_x86.cmake <sdl_core>```
 ```$ make install```
 
-Then all binaries and libraries required for running SDL on QNX will be in `<build_dir>/bin`
+Then all binaries and libraries required for running SDL on QNX will be in `<build_dir>/bin` and <third_party_path>. 
+
+##### Compilation in docker container
+
+SDL will contain Docker file with environment ready for qnx compilaiton. This environment will not contain QNX SDP.
+Before compilation developer should provide path to SDP with cmounted to container directory.
+
+Example of compilation with docker : 
+```
+$ docker build -t  qnx_sdl_compile .
+$ docker run -v <sdl_core>:/home/developer/sdl \
+             -v <path_to_qnx_sdp>:/opt/qnx700 \
+             qnx_sdl_compile
+```
+Then all binaries and libraries, which are required for running SDL Core on the QNX platform will be stored in `<sdl_core>/build/bin` 
 
 #### Compilation for AGL 
 
