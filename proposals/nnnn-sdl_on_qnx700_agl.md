@@ -38,11 +38,11 @@ The following conditions must be matched:
 
 ## Proposed solution
 
-Provide readiness for open source SDL compilation and certification by SDL Steering Committee for 3 platforms :
+Provide readiness for open source SDL compilation and certification by SDL Steering Committee for 3 platforms:
 
- - Ubuntu 16.04 x64 (or higher) native. 
- - QNX 7.0 x64 (Using SDL on virtual workstation).
- - Automotive Grade Linux x64 (Using SDL on virtual workstation).
+ - Ubuntu 16.04 x64 (or higher) native 
+ - QNX 7.0 x64 (Using SDL on virtual workstation)
+ - Automotive Grade Linux x64 (Using SDL on virtual workstation)
  
 Within continuous integration each change (Pull Request to develop) to SDL Core should be tested (in automated mode) for Ubuntu, QNX, AGL. 
 It is the Project Maintainer responsibility to certify solution for all referenced platforms.
@@ -64,12 +64,12 @@ Future releases of referenced platforms will require new SDL-evolution proposal.
 
 Compilation for QNX 7.0 requires pre-installed QXN7.0 SDP on developer workstation.
 
-SDL will contain QNX 7.0 toolchain file that should be used for compilation. 
+SDL will contain QNX 7.0 toolchain file that should be used for compilation.  
 Before compilation suggested to setup `THIRD_PARTY_LIBRARY_PATH` variable to avoid instalation of qnx libraries to host system
 
-Example : 
-```$ export THIRD_PARTY_LIBRARY_PATH=<third_party_path>```
-```$ cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_QNX700_x86.cmake <sdl_core>```
+Example:  
+```$ export THIRD_PARTY_LIBRARY_PATH=<third_party_path>```  
+```$ cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_QNX700_x86.cmake <sdl_core>```  
 ```$ make install```
 
 Then all binaries and libraries required for SDL run on QNX will be created in `<build_dir>/bin` and <third_party_path>. 
@@ -79,7 +79,7 @@ Then all binaries and libraries required for SDL run on QNX will be created in `
 SDL will contain Docker file with environment ready for qnx compilation. This environment will not contain QNX SDP.
 Before compilation developer should provide path to SDP with directory mounted to container.
 
-Example of compilation with docker : 
+Example of compilation with docker: 
 ```
 $ docker build -t  qnx_sdl_compile .
 $ docker run -v <sdl_core>:/home/developer/sdl \
@@ -156,20 +156,20 @@ The following items should be checked for all these platforms:
  - Automated smoke tests;
  - Existing features automated test cases (in case if feature is applicable on the virtual workstation).  
 
-SDL can be tested on virtual workstation for each mentioned platform. 
-**Only** Transmission Control Protocol (TCP) transport will be used for communication with mobile.
+SDL can be tested on virtual workstation for each mentioned platform.  
+**Only** Transmission Control Protocol (TCP) transport will be used for communication with mobile.  
 TCP/WebSockets transport will be used for communication with HMI.
 
 All mentioned platforms (Ubuntu, AGL, QNX) will share codebase for communication with mobile and HMI.  
 
 #### Manual testing
 
-Manual testing will be performed using WebHMI https://github.com/smartdevicelink/sdl_hmi
+Manual testing will be performed using WebHMI https://github.com/smartdevicelink/sdl_hmi  
 No changes in WebHMI are expected, and WebHMI will be executed on the real developer workstation.
 
 Mobile application may be connected to SDL Core via TCP.
 
-### Automated testing.
+### Automated testing
 
 SDL Core can be tested automatically on all 3 platforms with some changes in ATF test framework and existing scripts. 
 
@@ -198,7 +198,7 @@ This layer includes:
 ## Potential downsides
 
 * Compilation for additional platforms requires tricky changes in configuration and build files.
-* Further changes of configuration or build files may breake ability to build SDL for QNX or AGL. 
+* Further changes of configuration or build files may break the ability to build SDL for QNX or AGL. 
 
 ## Impact on existing code
 
@@ -208,7 +208,7 @@ All components that use **utils** will be affected and need to be retested on th
 ## Alternatives considered
 
 #### Refactor cmake files structure for easy multiple platforms support 
-Current approach for creating cmake files and managing dependencies have the folowing problems : 
+Current approach for creating cmake files and managing dependencies have the following problems : 
 
 1. Existing cmake structure does not allow easy and seamless integration to other operating systems.
 2. Existing cmake structure has no unified management system of 3rd party libraries.
