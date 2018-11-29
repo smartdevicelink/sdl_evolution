@@ -18,7 +18,7 @@ SDL should check hmi_capabilities and subscribe application to `CUSTOM_BUTTON` i
 
 ## Proposed solution
 
-SDL should check hmi_capabilities for `CUSTOM_BUTTON` by the start and save the support state for `CUSTOM_BUTTON` internally.
+SDL should check hmi_capabilities for `CUSTOM_BUTTON` by the start and save support state for `CUSTOM_BUTTON` internally.
 On the app registration, SDL should check the saved support state for `CUSTOM_BUTTON`.
 
 In case `CUSTOM_BUTTON` is supported by hmi_capabilities:
