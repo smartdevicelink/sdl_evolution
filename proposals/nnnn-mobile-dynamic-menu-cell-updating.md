@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-mobile-dynamic-menu-cell-updating.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [iOS / Android / Web]
+* Impacted Platforms: [iOS / Android / Cloud]
 
 ## Introduction
 
