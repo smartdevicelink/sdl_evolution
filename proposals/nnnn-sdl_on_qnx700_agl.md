@@ -14,20 +14,30 @@ This proposal is about expanding the list of officially certified platforms by S
  - QNX 7.0 (x64)
  - Automotive Grade Linux (AGL) Flounder 6.0.2 (x64)
 
-The next part of this proposal is an approach for cross-platform testing automation.
+In order to certify the above platforms for SDL, automation testing need to be created for additional platforms.
 
-SDL source code should be compilable on the following platforms:
+In order to create automation testing for additional platforms we need to make folowing changes :
+
+1. SDL source code should be compilable on the following platforms:
 
  - Ubuntu - 16.04 (x64) default
  - QNX - 7.0 (x64)
  - Automotive Grade Linux - Flounder 6.0.2 (x64)
 
-The following conditions must be matched: 
+2. The following conditions must be matched: 
 - Platform specific code should be isolated and should not contain any business logic. 
 - SDL sources should not contain code duplication for specific platform.
 - SDL should not contain special pre-compiled binaries for specific platform.
 
 ## Motivation
+
+POSIX complience supposed to complience for any POSIX based system. 
+But this is not true. 
+Intergation of SDL to any POSIX based operation system (AGL or QNX) requires significat rework of sdl code.
+
+POSIX complience des not means QNX complience. 
+POSIX complience is not enought for  certificatation leads to bugs when we integrate to production platform and we want to minimize incompatibilities 
+
 
 **QNX 6.5** (currently supported by SDL) is already out of date. New version of QNX released is QNX7.0.  
 
@@ -38,8 +48,7 @@ The following conditions must be matched:
 
 ## Proposed solution
 
-Provide readiness for open source SDL compilation and certification by SDL Steering Committee for 3 platforms:
-
+Without modifications SDL source code should be ready to be compiled for for 3 platforms:
  - Ubuntu 16.04 x64 (or higher) native 
  - QNX 7.0 x64 (Using SDL on virtual workstation)
  - Automotive Grade Linux x64 (Using SDL on virtual workstation)
@@ -49,7 +58,7 @@ It is the Project Maintainer responsibility to certify solution for all referenc
 
 ### Versions of platforms
 
-This proposal is about certifying of the current stable releases of Ubuntu, QNX, AGL for SDL to work on these platforms. 
+This proposal is about certifying of the current long term supported releases of Ubuntu, QNX, AGL for SDL to work on these platforms. 
 
 Current stable releases at the moment of proposal creation are: 
  - Ubuntu - 16.04 (x64) default
@@ -59,6 +68,8 @@ Current stable releases at the moment of proposal creation are:
 Future releases of referenced platforms will require new SDL-evolution proposal.
 
 ### SDL compilation process:
+
+As part of this proposal we are *recomending* the folowing compilation process : 
 
 #### Compilation for QNX 7.0
 
@@ -122,13 +133,17 @@ These libraries should be ported and pre-installed on the distributed target pla
 
 #### Modification in Utils component
 
-Utils component will be affected by modification of SDL Core providing ability to pass SDLC certification. 
+Utils component will be affected by modification of SDL Core providing ability to pass SDLC certification.
+
 Utils component provides all SDL layers platform agnostic interface for communication with the operation system:
  - file system operations;
  - threads and sync primitives;
  - timers;
  - logging;
  - system resource collecting.
+ 
+ Currently Utils component is platform agnostic but it may require some minor modificaiton in scope of copilation for QNX anf AGL.
+ 
 
 ### Provide ability for automated testing 
 
@@ -154,7 +169,7 @@ The following items should be checked for all these platforms:
  - Compilation;
  - Unit tests;
  - Automated smoke tests;
- - Existing features automated test cases (in case if feature is applicable on the virtual workstation).  
+ - Existing features automated test cases (in case if feature is applicable on the [virtual workstation](https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md)). 
 
 SDL can be tested on virtual workstation for each mentioned platform.  
 **Only** Transmission Control Protocol (TCP) transport will be used for communication with mobile.  
@@ -197,8 +212,11 @@ This layer includes:
 
 ## Potential downsides
 
-* Compilation for additional platforms requires tricky changes in configuration and build files.
-* Further changes of configuration or build files may break the ability to build SDL for QNX or AGL. 
+Compilation for additional platforms requires changes in configuration and build files.
+
+Further changes of configuration or build files may break the ability to build SDL for QNX or AGL. 
+
+SDL developer should keep in mind that code and dependencies should be compiled for different platforms during changing configuration build files. 
 
 ## Impact on existing code
 
