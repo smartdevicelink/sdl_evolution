@@ -17,7 +17,7 @@ The code should be improved to allow for updating the menu by dynamically determ
 
 ## Proposed solution
 
-To solve this problem, we need a way to look at the old menu array, the new menu array, and determine adding / removing cells based on the differences.
+To solve this problem, a way will need to be determined to look at the old menu array, the new menu array, and determine which cells need to be added, deleted, or moved based on the differences between the arrays.
 
 The first problem to be solved is how to determine equality of cells. We don't currently do this for `SDLMenuCell`, but we do for `SDLChoiceCell`. The implementation of equality in `SDLMenuCell` will be very close to `SDLChoiceCell`; we will use the properties' values to create a hash and then compare those hashes.
 
