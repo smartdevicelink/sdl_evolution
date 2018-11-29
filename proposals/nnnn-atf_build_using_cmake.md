@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal offers using of CMake build system for compilation ATF project instead of qmake tool. 
+This proposal offers using CMake build system for compilation ATF project instead of qmake tool. 
 
 ## Motivation
 
@@ -37,7 +37,7 @@ N/A
 ## Impact on existing code
 
 The proposal will affect only build system of sdl_atf.  
-Changes may be required in Continious Integration system configuration, scripts that use ATF, and manuals of ATF usage.
+Changes may be required in Continuous Integration system configuration, scripts that use ATF, and manuals of ATF usage.
 
 ## Alternatives considered
 Add extra scripts as workarounds for extending ATF functionality.
