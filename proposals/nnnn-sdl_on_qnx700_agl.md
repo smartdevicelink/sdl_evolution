@@ -31,9 +31,10 @@ In order to create automation testing for additional platforms we need to make f
 
 ## Motivation
 
-POSIX complience supposed to complience for any POSIX based system. 
-But this is not true. 
-Intergation of SDL to any POSIX based operation system (AGL or QNX) requires significat rework of sdl code.
+POSIX (Portable Operating System Interface for Unix) is simply a set of standards that define how to develop programs for UNIX (and its variants). Being POSIX-compliant for an OS means that it supports those standards (e.g., APIs), and thus can either natively run UNIX programs, or at least porting an application from UNIX to the target OS is easy/easier than if it did not support POSIX. 
+
+Integration of SDL to the POSIX-certified (QNX) and mostly POSIX-compliant operation system (AGL) requires significant rework of SDL code.
+This proposal aims to minimize efforts of OEM manufacturers for SDL integration for QNX and AGL.
 
 POSIX complience des not means QNX complience. 
 POSIX complience is not enought for  certificatation leads to bugs when we integrate to production platform and we want to minimize incompatibilities 
