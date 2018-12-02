@@ -108,7 +108,7 @@ Would require a minor version change.
 
 The author could not think of a better alternate solution.
 
-[sunny-day-scenario]:./assets/FN1/sunny-day-scenario.png
+[sunny-day-scenario]:../assets/proposals/NNNN-ServiceStatusUpdateToHMI/sunny-day-scenario.png
 [PTU-Time-Out]: ./assets/FN1/PTU-Time-Out.png
 [Invalid-Cert]: ./assets/FN1/Invalid-Cert.png
 [Invalid-System-Time]: ./assets/FN1/invalid-system-time.png
