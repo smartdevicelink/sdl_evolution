@@ -16,7 +16,7 @@ This proposal is about expanding the list of officially certified platforms by S
 
 In order to certify the above platforms for SDL, automation testing need to be created for additional platforms.
 
-In order to create automation testing for additional platforms we need to make folowing changes :
+In order to create automation testing for additional platforms we need to make following changes :
 
 1. SDL source code should be compilable on the following platforms:
 
@@ -31,9 +31,9 @@ In order to create automation testing for additional platforms we need to make f
 
 ## Motivation
 
-POSIX (Portable Operating System Interface for Unix) is simply a set of standards that define how to develop programs for UNIX (and its variants). Being POSIX-compliant for an OS means that it supports those standards (e.g., APIs), and thus can either natively run UNIX programs, or at least porting an application from UNIX to the target OS is easy/easier than if it did not support POSIX. 
+POSIX (Portable Operating System Interface for Unix) is simply a set of standards that defines how to develop programs for UNIX (and Unix-like variants). Being POSIX-compliant for an operating system (OS) means that it supports those standards (e.g., APIs), and thus can either natively run UNIX programs, or at least port an application from UNIX to the target OS. 
 
-Integration of SDL to the POSIX-certified (QNX) and mostly POSIX-compliant operation system (AGL) requires significant rework of SDL code.
+Integration of SDL to the POSIX-certified (QNX) and mostly POSIX-compliant operating system (AGL) requires significant rework of SDL code.
 This proposal aims to minimize efforts of OEM manufacturers for SDL integration on production QNX and AGL platforms. The efforts minimization will be achieved by minimization platform related SDL core code incompatibilities.
 
 **QNX 7.0** is widely used by OEM manufactures, so SDL should be ready to certify QNX7.0 for working on it. 
@@ -79,7 +79,7 @@ Example:
 ```$ cmake -DCMAKE_TOOLCHAIN_FILE=<sdl_core>/toolchains/Toolchain_QNX700_x86.cmake <sdl_core>```  
 ```$ make install```
 
-Then all binaries and libraries required for SDL run on QNX will be created in `<build_dir>/bin` and <third_party_path>. 
+Then all binaries and libraries required for SDL run on QNX will be created in `<build_dir>/bin` and `<third_party_path>`. 
 
 ##### Compilation in docker container
 
@@ -100,7 +100,7 @@ Then all binaries and libraries, which are required for running SDL Core on the 
 Compilation for AGL requires pre-installed AGL Software Development Kit (SDK) on the developer platform. 
 Compilation for AGL is not cross-platform compilation, but specific versions of libraries should be guaranteed.
 
-SDL will contain a Docker file with environment ready for SDL compilation on **AGL Flounder 6.0.2**.
+SDL will contain a Docker file with environment ready for SDL compilation on **AGL Flounder 6.0.2**.  
 Before running compilation in the container, developer should specify source directory of SDL Core code.
 
 Compilation of SDL Core code for AGL will be done by using docker file (default way):
@@ -131,14 +131,14 @@ These libraries should be ported and pre-installed on the distributed target pla
 
 Utils component will be affected by modification of SDL Core and providing ability to pass SDLC certification.
 
-Utils component provides all SDL layers platform agnostic interface for communication with the operation system:
+Utils component provides all SDL layers platform agnostic interface for communication with the operating system:
  - file system operations;
  - threads and sync primitives;
  - timers;
  - logging;
  - system resource collecting.
  
- Currently Utils component is platform agnostic but it may require some minor modification in scope of compilation for QNX anf AGL.
+ Currently Utils component is platform agnostic but it may require some minor modification in scope of compilation for QNX and AGL.
  
 
 ### Provide ability for automated testing 
@@ -156,7 +156,7 @@ For support of the SDL remote automated testing, the following proposal should b
 #### Modifications in the test scripts
 
 Some scripts should be modified to use SDL on remote workstation.  
-All operations with SDL files ( hmi_capabilities, Preloaded Policy Table, etc ...) should be covered with wrappers that support either local or remote execution. 
+All operations with SDL files (hmi_capabilities, Preloaded Policy Table, etc.) should be covered with wrappers that support either local or remote execution. 
 
 ## Testing Approach
 
@@ -165,7 +165,7 @@ The following items should be checked for all these platforms:
  - Compilation;
  - Unit tests;
  - Automated smoke tests;
- - Automated test cases for validation of the existing features (in case if feature is applicable on the [virtual workstation](https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md)). 
+ - Automated test cases for validation of the existing features (in case the feature is applicable on the [virtual workstation](https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md)). 
 
 SDL can be tested on virtual workstation for each mentioned platform.  
 **Only** Transmission Control Protocol (TCP) transport will be used for communication with mobile.  
@@ -184,7 +184,7 @@ Mobile application may be connected to SDL Core via TCP.
 
 SDL Core can be tested automatically on all 3 platforms with some changes in ATF test framework and existing scripts. 
 
-The same test suite will be executed for the following platforms: 
+The same test suites will be executed for the following platforms: 
  - Ubuntu;
  - AGL;
  - QNX.
@@ -193,7 +193,7 @@ Test coverage will include:
   - smoke testing of SDL Core (basic SDL scenarios and 3 policy flows (HTTP, PROPRIETARY, EXTERNAL_PROPRIETARY)); 
   - all delivered features which are applicable for cross-platform testing.
   
-Each further delivered feature should be tested on all mentioned platforms.
+Each subsequent delivered feature should be tested on all mentioned platforms.
 
 #### Missed functionality on AGL and QNX
 
