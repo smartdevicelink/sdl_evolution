@@ -34,18 +34,13 @@ In order to create automation testing for additional platforms we need to make f
 POSIX (Portable Operating System Interface for Unix) is simply a set of standards that define how to develop programs for UNIX (and its variants). Being POSIX-compliant for an OS means that it supports those standards (e.g., APIs), and thus can either natively run UNIX programs, or at least porting an application from UNIX to the target OS is easy/easier than if it did not support POSIX. 
 
 Integration of SDL to the POSIX-certified (QNX) and mostly POSIX-compliant operation system (AGL) requires significant rework of SDL code.
-This proposal aims to minimize efforts of OEM manufacturers for SDL integration for QNX and AGL.
-
-POSIX complience des not means QNX complience. 
-POSIX complience is not enought for  certificatation leads to bugs when we integrate to production platform and we want to minimize incompatibilities 
-
-
-**QNX 6.5** (currently supported by SDL) is already out of date. New version of QNX released is QNX7.0.  
+This proposal aims to minimize efforts of OEM manufacturers for SDL integration on production QNX and AGL platforms. The efforts minimization will be achieved by minimization platform related SDL core code incompatibilities.
 
 **QNX 7.0** is widely used by OEM manufactures, so SDL should be ready to certify QNX7.0 for working on it. 
 
 **Automotive Grade Linux (AGL)** is modern and popular Linux platform for the Automotive industry. It is already used by many car manufacturers. 
-  SDL should also be ready to certify using this platform and to be tested on it. 
+
+SDL should also be ready to certify using these platforms and to be tested on them. 
 
 ## Proposed solution
 
@@ -59,25 +54,25 @@ It is the Project Maintainer responsibility to certify solution for all referenc
 
 ### Versions of platforms
 
-This proposal is about certifying of the current long term supported releases of Ubuntu, QNX, AGL for SDL to work on these platforms. 
+This proposal is about certifying of the current long term supported releases of Ubuntu, QNX, AGL for SDL Core to work on these platforms. 
 
 Current stable releases at the moment of proposal creation are: 
  - Ubuntu - 16.04 (x64) default
  - QNX - 7.0 (x64)
  - Automotive Grade Linux - Flounder 6.0.2 (x64)
  
-Future releases of referenced platforms will require new SDL-evolution proposal.
+Future releases of referenced platforms will require new SDL-evolution proposals.
 
 ### SDL compilation process:
 
-As part of this proposal we are *recomending* the folowing compilation process : 
+As part of this proposal we are *recommending* the following compilation process:
 
 #### Compilation for QNX 7.0
 
 Compilation for QNX 7.0 requires pre-installed QXN7.0 SDP on developer workstation.
 
 SDL will contain QNX 7.0 toolchain file that should be used for compilation.  
-Before compilation suggested to setup `THIRD_PARTY_LIBRARY_PATH` variable to avoid instalation of qnx libraries to host system
+Before compilation suggested to setup `THIRD_PARTY_LIBRARY_PATH` variable to avoid installation of QNX libraries to the host system.
 
 Example:  
 ```$ export THIRD_PARTY_LIBRARY_PATH=<third_party_path>```  
@@ -88,10 +83,10 @@ Then all binaries and libraries required for SDL run on QNX will be created in `
 
 ##### Compilation in docker container
 
-SDL will contain Docker file with environment ready for qnx compilation. This environment will not contain QNX SDP.
-Before compilation developer should provide path to SDP with directory mounted to container.
+SDL will contain a Docker file with environment ready for QNX compilation. This environment will not contain QNX Software Development Platform (SDP).
+Before compilation developer should provide path to the SDP with directory mounted to the container.
 
-Example of compilation with docker: 
+Example of compilation with a Docker file: 
 ```
 $ docker build -t  qnx_sdl_compile .
 $ docker run -v <sdl_core>:/home/developer/sdl \
@@ -102,13 +97,13 @@ Then all binaries and libraries, which are required for running SDL Core on the 
 
 #### Compilation for AGL 
 
-Compilation for AGL requires pre-installed AGL SDK on the developer platform. 
+Compilation for AGL requires pre-installed AGL Software Development Kit (SDK) on the developer platform. 
 Compilation for AGL is not cross-platform compilation, but specific versions of libraries should be guaranteed.
 
-SDL will contain Docker file with environment ready for SDL compilation on **AGL Flounder 6.0.2**.
-Before running compilation in container developer should specify source directory of SDL Core code.
+SDL will contain a Docker file with environment ready for SDL compilation on **AGL Flounder 6.0.2**.
+Before running compilation in the container, developer should specify source directory of SDL Core code.
 
-Compilation of SDL code for AGL will be done by using docker file(default way)
+Compilation of SDL Core code for AGL will be done by using docker file (default way):
 ```
 $ docker build -t agl_compile .
 $ docker run -v <sdl_core>:/home/developer/sdl agl_compile
