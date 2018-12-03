@@ -12,8 +12,8 @@ This proposal is about adding a new RPC called 'OnServiceUpdate' which will be u
 
 ## Motivation
 
-Today, when a Mobile Navigation application is activated there is a series of steps executed begining with the app sending the StartService request for the Video Service and ending with the module acknowledging this request in a successful scenario. These steps include getting the current system time, performing a policy table update, decrypting certificates and ensuring validity of the certificates. Any of these steps could fail and since there is no mechanism for updating HMI with the status of the service, the HMI has no means of providing accurate feedback to the user on the status of the system or what steps to take in case of an error.
-The motivation behind this proposal is to over come this issue by introducing a new notification between SDL and HMI.
+Today, when a Mobile Navigation application is activated there is a series of steps executed beginning with the app sending the StartService request for the Video Service and ending with the module acknowledging this request in a successful scenario. These steps include getting the current system time, performing a policy table update, decrypting certificates and ensuring validity of the certificates. Any of these steps could fail and since there is no mechanism for updating HMI with the status of the service, the HMI has no means of providing accurate feedback to the user on the status of the system or what steps to take in case of an error.
+The motivation behind this proposal is to overcome this issue by introducing a new notification between SDL and HMI.
 
 
 ## Proposed solution
@@ -37,7 +37,7 @@ The proposed solution is to introduce a new RPC for SDL Core to update HMI with 
   </param>
   <param name="reason" type="Common.ServiceUpdateReason" mandatory="false">
     <description>
-      The reason for a service event. Certain events may not have a reason such as when a service is ACCEPTED (which is the normal expected behavior).
+      The reason for a service event. Certain events may not have a reason, such as when a service is ACCEPTED (which is the normal expected behavior).
     </description>
   </param>
 </function>
@@ -71,7 +71,7 @@ The proposed solution is to introduce a new RPC for SDL Core to update HMI with 
       <description>When a Service is rejected because the security certificate is invalid/expired.</description>
     </element>			
     <element name="INVALID_TIME" >
-      <description>When a Service is rejected because the system was unable to get a valid SystemTime from HMI which is required for certificate authentication.</description>
+      <description>When a Service is rejected because the system was unable to get a valid SystemTime from HMI, which is required for certificate authentication.</description>
     </element>			
   </enum>	
 </interface>
@@ -92,7 +92,7 @@ Use case 3:PTU brings invlid cert/expired cert
 Use case 4: Invalid System Time
 ![Invalid System Time][Invalid-System-Time]
 
-SDLCore should handle case when HMI rejects a GetSystemTime request.
+SDLCore should handle cases when HMI rejects a GetSystemTime request.
 
 ## Potential downsides
 
