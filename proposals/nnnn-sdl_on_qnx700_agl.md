@@ -129,7 +129,7 @@ These libraries should be ported and pre-installed on the distributed target pla
 
 #### Modification in Utils component
 
-Utils component will be affected by modification of SDL Core providing ability to pass SDLC certification.
+Utils component will be affected by modification of SDL Core and providing ability to pass SDLC certification.
 
 Utils component provides all SDL layers platform agnostic interface for communication with the operation system:
  - file system operations;
@@ -138,12 +138,12 @@ Utils component provides all SDL layers platform agnostic interface for communic
  - logging;
  - system resource collecting.
  
- Currently Utils component is platform agnostic but it may require some minor modificaiton in scope of copilation for QNX anf AGL.
+ Currently Utils component is platform agnostic but it may require some minor modification in scope of compilation for QNX anf AGL.
  
 
 ### Provide ability for automated testing 
 
-Existing automated testing tool [sdl_atf](https://github.com/smartdevicelink/sdl_atf) and 
+Existing Automated Test Framework (ATF) - [sdl_atf](https://github.com/smartdevicelink/sdl_atf) and 
 [scripts](https://github.com/smartdevicelink/sdl_atf_test_scripts)
 should be used for checking SDL functionality on the new platforms.
 
@@ -151,12 +151,12 @@ should be used for checking SDL functionality on the new platforms.
 
 sdl_atf tool should be executed on host workstation, but SDL will be run on remote virtual workstation. 
 
-For support of SDL remote automated testing, the following proposal should be implemented: https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md
+For support of the SDL remote automated testing, the following proposal should be implemented: https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md
 
 #### Modifications in the test scripts
 
 Some scripts should be modified to use SDL on remote workstation.  
-All operations with SDL files ( hmi_capabilities, preloaded_pt, etc ...) should be covered with wrappers that support either local or remote execution. 
+All operations with SDL files ( hmi_capabilities, Preloaded Policy Table, etc ...) should be covered with wrappers that support either local or remote execution. 
 
 ## Testing Approach
 
@@ -165,7 +165,7 @@ The following items should be checked for all these platforms:
  - Compilation;
  - Unit tests;
  - Automated smoke tests;
- - Existing features automated test cases (in case if feature is applicable on the [virtual workstation](https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md)). 
+ - Automated test cases for validation of the existing features (in case if feature is applicable on the [virtual workstation](https://github.com/LuxoftAKutsan/sdl_evolution/blob/remote_atf_proxy/proposals/nnnn-remote_atf_testing.md)). 
 
 SDL can be tested on virtual workstation for each mentioned platform.  
 **Only** Transmission Control Protocol (TCP) transport will be used for communication with mobile.  
@@ -175,7 +175,7 @@ All mentioned platforms (Ubuntu, AGL, QNX) will share codebase for communication
 
 #### Manual testing
 
-Manual testing will be performed using WebHMI https://github.com/smartdevicelink/sdl_hmi  
+Manual testing will be performed using [WebHMI](https://github.com/smartdevicelink/sdl_hmi).  
 No changes in WebHMI are expected, and WebHMI will be executed on the real developer workstation.
 
 Mobile application may be connected to SDL Core via TCP.
@@ -184,7 +184,7 @@ Mobile application may be connected to SDL Core via TCP.
 
 SDL Core can be tested automatically on all 3 platforms with some changes in ATF test framework and existing scripts. 
 
-The same test scripts will be executed for the following platforms: 
+The same test suite will be executed for the following platforms: 
  - Ubuntu;
  - AGL;
  - QNX.
@@ -208,27 +208,27 @@ This layer includes:
 
 ## Potential downsides
 
-Compilation for additional platforms requires changes in configuration and build files.
+SDL Core compilation for additional platforms requires changes in configuration and build files.
 
 Further changes of configuration or build files may break the ability to build SDL for QNX or AGL. 
 
-SDL developer should keep in mind that code and dependencies should be compiled for different platforms during changing configuration build files. 
+SDL Core developer should keep in mind that code and dependencies should be compiled for different platforms during changing configuration build files. 
 
 ## Impact on existing code
 
 SDL core will be modified in the platform specific places.
-All components that use **utils** will be affected and need to be retested on the target platform.
+All components that use **Utils** will be affected and need to be retested on the target platforms.
  
 ## Alternatives considered
 
 #### Refactor cmake files structure for easy multiple platforms support 
-Current approach for creating cmake files and managing dependencies have the following problems : 
+Current approach for creating cmake files and managing dependencies have the following problems: 
 
 1. Existing cmake structure does not allow easy and seamless integration to other operating systems.
 2. Existing cmake structure has no unified management system of 3rd party libraries.
 3. Existing cmake structure does not allow flexible and clear dependencies resolution between components and libraries.
 
-Unification of 3rd party libraries management and internal dependencies management would reduce OEM efforts to integrate SDL into the custom OEM environment. 
+Unification of 3rd party libraries management and internal dependencies management would reduce OEM efforts to integrate SDL Core into the custom OEM environment. 
 
 #### Using real hardware with QNX and AGL
 
