@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Currently, when a developer tries to reuse the same `syncFileName` for a `PutFile` with image data the HMI is not updated to show the new image. This is due to Core only sending a notification to the HMI when the `PutFile` is a system file. To remedy this issue, Core needs to send a notification to the HMI when it receives any type of `PutFile`.    
+Currently, when a developer tries to reuse the same `syncFileName` for a `PutFile` with image data, the HMI is not updated to show the new image. This is due to Core only sending a notification to the HMI when the `PutFile` is a system file. To remedy this issue, Core needs to send a notification to the HMI when it receives any type of `PutFile`.    
 
 ## Motivation
 
