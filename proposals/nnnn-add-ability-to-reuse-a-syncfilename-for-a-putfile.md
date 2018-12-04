@@ -1,17 +1,17 @@
-# Add Ability to Reuse a File Name for a PutFile
+# Add Ability to Reuse a SyncFileName for a PutFile
 
-* Proposal: [SDL-NNNN](nnnn-add-ability-to-reuse-a-file-name-for-a-putfile.md)
+* Proposal: [SDL-NNNN](nnnn-add-ability-to-reuse-a-syncfilename-for-a-putfile.md)
 * Author: [Nicole Yarroch](https://github.com/NicoleYarroch)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core]
 
 ## Introduction
 
-Currently, when a developer tries to reuse the same file name for a `PutFile` with image data the HMI is not updated to show the new image. This is due to Core only sending a notification to the HMI when the `PutFile` is a system file. To remedy this issue, Core needs to send a notification to the HMI when it receives any type of `PutFile`.    
+Currently, when a developer tries to reuse the same `syncFileName` for a `PutFile` with image data the HMI is not updated to show the new image. This is due to Core only sending a notification to the HMI when the `PutFile` is a system file. To remedy this issue, Core needs to send a notification to the HMI when it receives any type of `PutFile`.    
 
 ## Motivation
 
-Reusing a file name for a `PutFile` is useful for developers because they do not have to come up with unique names for dynamically updated images, and it saves them the extra step of having to deleting the old data as the new data overwrites the old.
+Reusing a `syncFileName` for a `PutFile` is useful for developers because they do not have to come up with unique names for dynamically updated images, and it saves them the extra step of having to deleting the old data as the new data overwrites the old.
 
 ## Proposed solution
 
