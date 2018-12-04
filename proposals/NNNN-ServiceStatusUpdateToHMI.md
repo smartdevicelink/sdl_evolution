@@ -12,7 +12,7 @@ This proposal is about adding a new RPC called 'OnServiceUpdate' which will be u
 
 ## Motivation
 
-Today, when a Mobile Navigation application is activated there is a series of steps executed beginning with the app sending the StartService request for the Video Service and ending with the module acknowledging this request in a successful scenario. These steps include getting the current system time, performing a policy table update, decrypting certificates and ensuring validity of the certificates. Any of these steps could fail and since there is no mechanism for updating HMI with the status of the service, the HMI has no means of providing accurate feedback to the user on the status of the system or what steps to take in case of an error.
+When a Mobile Navigation application is activated there is a series of steps taken; beginning with the app sending the StartService request for the Video Service and ending with the module acknowledging this request in a successful scenario. These steps include getting the current system time, performing a policy table update, decrypting certificates and ensuring validity of the certificates. Any of these steps could fail and since there is no mechanism for updating HMI with the status of the service, the HMI has no means of providing accurate feedback to the user on the status of the system or what steps to take in case of an error.
 The motivation behind this proposal is to overcome this issue by introducing a new notification between SDL and HMI.
 
 
