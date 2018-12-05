@@ -1,8 +1,8 @@
 # Static Icon Capability
 
-* Proposal: [SDL-NNNN](NNNN-static-icon-capability.md)
+* Proposal: [SDL-0209](0209-static-icon-capability.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [RPC / HMI]
 
 ## Introduction
