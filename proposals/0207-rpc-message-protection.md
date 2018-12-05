@@ -1,8 +1,8 @@
 # RPC message protection
 
-* Proposal: [SDL-NNNN](NNNN-rpc-message-protection.md)
+* Proposal: [SDL-0207](0207-rpc-message-protection.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / Android/ iOS / RPC / SDL Policy server]
 
 ## Introduction
