@@ -1,9 +1,9 @@
 
 # Avoid Custom button subscription in case HMI incompatibility
 
-* Proposal: [SDL-NNNN](NNNN-Avoid_custom_button_subscription_when_HMI_does_not_support.md)
+* Proposal: [SDL-0205](0205-Avoid_custom_button_subscription_when_HMI_does_not_support.md)
 * Author: [Getmanets Irina](https://github.com/GetmanetsIrina)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
