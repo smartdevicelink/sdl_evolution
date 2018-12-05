@@ -1,8 +1,8 @@
 # Remote Automated testing
 
-* Proposal: [SDL-NNNN](NNNN-remote_atf_testing.md)
+* Proposal: [SDL-0206](0206-remote_atf_testing.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ATF]
 
 ## Introduction
