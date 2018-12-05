@@ -1,8 +1,8 @@
 # Block Old SDL Head Units from Mobile
 
-* Proposal: [SDL-NNNN](NNNN-block-old-sdl-protocols.md)
+* Proposal: [SDL-0208](0208-block-old-sdl-protocols.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android / Web]
 
 ## Introduction
