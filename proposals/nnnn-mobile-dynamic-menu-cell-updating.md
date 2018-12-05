@@ -1,8 +1,8 @@
 # Mobile Manager Dynamic Menu Cell Updating
 
-* Proposal: [SDL-NNNN](NNNN-mobile-dynamic-menu-cell-updating.md)
+* Proposal: [SDL-0210](0210-mobile-dynamic-menu-cell-updating.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Android / Cloud]
 
 ## Introduction
