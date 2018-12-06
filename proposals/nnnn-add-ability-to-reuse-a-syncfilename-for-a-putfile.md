@@ -11,7 +11,7 @@ Currently, when a developer tries to reuse the same `syncFileName` for a `PutFil
 
 ## Motivation
 
-Reusing a `syncFileName` for a `PutFile` is useful for developers because they do not have to come up with unique names for dynamically updated images, and it saves them the extra step of having to deleting the old data as the new data overwrites the old.
+Reusing a `syncFileName` for a `PutFile` is useful for developers because they do not have to come up with unique names for dynamically updated images, and it saves them the extra step of having to delete the old data as the new data will overwrite the old.
 
 ## Proposed solution
 
