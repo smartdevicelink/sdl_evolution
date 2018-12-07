@@ -358,11 +358,11 @@ This controller is used to allow picking a named value. It also uses the RPC `Sl
 ```objc
 @interface SDLValuePickerController : SDLOverlayController
 
-@property (nonatomic, nonnull, copy) NSString *title;
+@property (nonatomic, nonnull, copy, readonly) NSString *title;
 
-@property (nonatomic, nonnull, copy) NSArray<NSString *> *valueLabels;
+@property (nonatomic, nonnull, copy, readonly) NSArray<NSString *> *valueLabels;
 
-@property (nonatomic) NSInteger value;
+@property (nonatomic, readonly) NSInteger value;
 
 - (instancetype)initWithTitle:(nonnull NSString *)title
                   valueLabels:(nonnull NSArray<NSString *> *)valueLabels
