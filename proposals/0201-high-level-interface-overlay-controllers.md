@@ -26,26 +26,41 @@ This proposal does not contain an overlay controller for choice sets. This will 
 
 ### Overlay controllers
 
-Overlay controllers are responsible for overlay related RPCs such as `Alert`, `ScrollableMessage`, `PerformAudioPassThru`, `Slider` or `PerformInteraction` (proposed separately). Apps can instantiate overlay controllers and then present them using the view controller manager (VC manager).
+Overlay controllers are responsible for overlay related RPCs such as `Alert`, `ScrollableMessage`, `PerformAudioPassThru`, `Slider` or `PerformInteraction` and `ShowConstantTBT` (proposed separately). Apps can instantiate overlay controllers and present them using the top view controller.
+
+### SDLViewController (additions)
+
+When a view controller wants to present an overlay controller it must call `presentOverlayController:completion:` of itself. 
+The presenting VC must be top VC in the view controller stack. Calling the method will forward the presentation request to the VC manager.
+
+```objc
+@interface SDLViewController
+
+// Presents the overlay controller on the display and calls the completion handler if the overlay controller disappears from the display or if an error occurred.
+- (void)presentOverlayController:(SDLOverlayController *)overlayController completion:(SDLOverlayControllerCompletionHandler)completion;
+
+@end
+```
 
 ### SDLViewControllerManager (additions)
 
-```objc
+The VC manager should initiate the presentation (call `present` of the overlay controller class) and store the overlay controller and completion handler in an internal list independent of the current system context or how many items this list contains. The overlay controller should be able to listen to responses and notifications relevant to the presentation. If the overlay controller has detected the end of the presentation it should call the completion handler provided by the VC manager.
 
+```objc
 @interface SDLViewControllerManager
 
-/**
- * This overlay controller is currently presented on the screen (by the presenting view controller).
- */
+// This overlay controller is currently presented on the display.
 @property (nonatomic, readonly) SDLOverlayController *presentedOverlayController;
 
-/**
- * Presents an overlay controller on the screen.
- * Calls the completion handler if the overlay controller disappears from the screen or if an error occurred.
- */
+@end
+
+// Private sdl_ios interface extending VC manager with overlay related methods and properties
+@interface SDLViewControllerManager ()
+
+// Private method called by the view controller
 - (void)presentOverlayController:(SDLOverlayController *)overlayController completion:(SDLOverlayControllerCompletionHandler)completion;
 
-// private list to store (pending) overlay controllers and completion handlers;
+// Private list to store (pending) overlay controllers and completion handlers;
 @property (nonatomic) NSMutableArray<SDLOverlayControllerStoreItem *> *overlayControllerStore;
 
 @end
@@ -60,11 +75,43 @@ Overlay controllers are responsible for overlay related RPCs such as `Alert`, `S
 @end
 ```
 
-When a view controller wants to present an overlay controller it must call the `presentOverlayController:completion:` method of the VC manager. 
-The presenting VC must be listed in the view controller stack but does not need to be the top view controller. The VC manager should initiate the presentation 
-(call `present` of the overlay controller class) and store the overlay controller and completion handler in an internal list. The overlay controller should be able to listen to responses and notifications relevant to the presentation. If the overlay controller has detected the end of the presentation it should notify the VC manager. This can also be done through an encapsulated overlay controller completion handler.
+### Handling multiple concurrent overlays
 
-The internal list of overlay controllers and completion handlers is needed as the app could try to present multiple overlay controllers. In order to control (or recover from) multiple overlay controllers the VC manager needs to store all of them in the internal list and request each overlay controller to get presented. By the nature of the HMI overlays can be aborted by another overlay or get rejected due to currently presented overlay priority. The private list offers flexibility in case the app calls the method multiple times and can deal with rejected overlays that were never visible and aborted overlays if another one is requested. At the end the property `presentedOverlayController` points to the oldest overlay controller of that internal list.
+The internal list of overlay controllers and completion handlers is needed as the app could try to present multiple overlay controllers at the same time without waiting for an overlay to complete or finish. In order to control (or recover from) multiple overlay controllers the VC manager needs to store all of them in the internal list and request each overlay controller to get presented. By the nature of the HMI overlays can be aborted by another overlay or get rejected due to currently presented overlay priority. The private list offers flexibility in case the app calls the method multiple times and can deal with rejected overlays that were never visible and aborted overlays if another one is requested. At the end the property `presentedOverlayController` points to the oldest overlay controller of that internal list.
+
+#### Example 1: Second overlay aborts first overlay
+
+1. App presents `Alert` (A1) overlay
+2. VC manager starts presenting A1 and stores it in the internal list
+   - Internal list count == 1 [(A1)]
+   - presented overlay controller is (A1)
+3. A1 gets presented on the HMI
+4. App presents another `Alert` (A2) overlay
+5. VC manager starts presenting A2 and stores it in the internal list
+   - Internal list count == 2 [(A1), (A2)]
+   - presented overlay controller is (A1)
+6. HMI aborts A1 and presents A2. HMI sends response for A1 with `ABORTED` resultCode
+7. VC manager is notified with the completion handler of A1 and updates the internal list
+   - internal list count == 1 [(A2)]
+   - presented overlay controller is (A2)
+8. App's completion handler for A1 is called notifying that A1 was aborted
+
+#### Example 1: Second overlay is rejected due to first overlay
+
+1. App presents `Alert` (A1) overlay
+2. VC manager starts presenting A1 and stores it in the internal list
+   - Internal list count == 1 [(A1)]
+   - presented overlay controller is (A1)
+3. A1 gets presented on the HMI
+4. App presents another `Alert` (A2) overlay
+5. VC manager starts presenting A2 and stores it in the internal list
+   - Internal list count == 2 [(A1), (A2)]
+   - presented overlay controller is (A1)
+6. HMI rejects A2 and keeps A1 presented. HMI sends response for A2 with `REJECTED` resultCode
+7. VC manager is notified with the completion handler of A2 and updates the internal list
+   - internal list count == 1 [(A1)]
+   - presented overlay controller is (A1)
+8. App's completion handler for A1 is called notifying that A2 was rejected
 
 ### SDLOverlayController
 
@@ -77,25 +124,30 @@ typedef void (^SDLOverlayControllerCompletionHandler)(SDLResult result, NSError 
 @interface SDLOverlayController : SDLViewController
 
 // The duration the overlay controller should be presented.
-@property (nonatomic, assign) NSTimeInterval duration;
+@property (nonatomic, assign, readonly) NSTimeInterval duration;
 
-// private method called by the VC manager
-- (void)present:(SDLApplication *)application completion:(SDLOverlayControllerCompletionHandler)completion;
+// internal (non-public) method overriden by subclasses and called by the VC manager
+- (void)startPresentationWithApplication:(SDLApplication *)application completion:(SDLOverlayControllerCompletionHandler)completion;
+
+- (instancetype)init;
+- (instancetype)initWithDuration:(NSTimeInterval)duration;
 
 @end
 ```
 
-As it inherits `SDLViewController` it is possible to manipulate the head unit during a presentation. To do that the app developer must create a new view and place it in the `view` property of the overlay controller.
-
 #### `duration`
 
-Every overlay comes with a duration that specifies how long the view should be active on the HMI (visible on the screen). This parameter maps to all the different names used for duration such as `duration` (`Alert`), `timeout` (`Slider`, `PerformInteraction` and `ScrollableMesasge`) and `maxDuration` (`PerformAudioPassThru`). 
+Every overlay comes with a duration that specifies how long the view should be active on the HMI (visible on the screen). This parameter maps to all the different names used for duration such as `duration` (`Alert`), `timeout` (`Slider`, `PerformInteraction` and `ScrollableMesasge`) and `maxDuration` (`PerformAudioPassThru`).
 
 Depending on the subclass (and the min/max values of the parameter) the duration value will be ignored if it exceeds the value range. 
 1. If `duration` value is greater than the max value, the RPC parameter should be set to max value. 
 2. If `duration` value is smaller than the min value, the RPC parameter should be set to min value.
 3. If `duration` value is set to 0 and the RPC parameter is optional, the parameter should be omitted.
 4. If `duration` value is set to 0 and the RPC parameter is required, the parameter should be set to max value (see `PerformAudioPassThru.maxDuration`).
+
+#### Main screen overlay
+
+As it inherits `SDLViewController` it is possible to manipulate the head unit during a presentation. To do that the app developer must create a new view and place it in the `view` property of the overlay controller.
 
 ### SDLAlertController
 
@@ -104,18 +156,24 @@ The alert controller is used to abstract the RPC `Alert`. The properties match t
 ```objc
 @interface SDLAlertController : SDLOverlayController
 
-@property (nonatomic, nullable, copy) NSString *message;
+@property (nonatomic, nullable, copy, readonly) NSString *message;
 
-@property (nonatomic, nullable, copy) NSArray<SDLTTSChunk *> *prompt;
-@property (nonatomic, nullable, copy) NSArray<SDLButtonView *> *buttons;
+@property (nonatomic, nullable, copy, readonly) NSArray<SDLTTSChunk *> *prompt;
+@property (nonatomic, nullable, copy, readonly) NSArray<SDLButtonView *> *buttons;
 
-@property (nonatomic, assign) BOOL shouldPlayTone;
-@property (nonatomic, assign) BOOL shouldShowProgressIndicator;
+@property (nonatomic, assign, readonly) BOOL shouldPlayTone;
+@property (nonatomic, assign, readonly) BOOL shouldShowProgressIndicator;
 
-- (instancetype)initWithMessage:(nonnull NSString *)message;
+- (instancetype)initWithMessage:(nonnull NSString *)message
+                        buttons:(nullable NSArray<SDLButtonView *> *)buttons;
 
-- (instancetype)initWithPrompt:(nonnull NSArray<SDLTTSChunk *> *)prompt;
+- (instancetype)initWithPrompt:(nonnull NSArray<SDLTTSChunk *> *)prompt
+                       buttons:(nullable NSArray<SDLButtonView *> *)buttons;
 
+- (instancetype)initWithMessage:(nullable NSString *)message
+                         prompt:(nullable NSArray<SDLTTSChunk *> *)prompt
+                        buttons:(nullable NSArray<SDLButtonView *> *)buttons;
+                       
 - (instancetype)initWithMessage:(nullable NSString *)message
                          prompt:(nullable NSArray<SDLTTSChunk *> *)prompt
                         buttons:(nullable NSArray<SDLButtonView *> *)buttons
@@ -153,31 +211,39 @@ The audio input controller is used to abstract the RPC `PerformAudioPassThru`, `
 ```objc
 @interface SDLAudioInputController : SDLOverlayController
 
-@property (nonatomic, nullable, copy) NSString *message;
+@property (nonatomic, nullable, copy, readonly) NSString *message;
 
-@property (nonatomic, nullable, copy) NSArray<SDLTTSChunk *> *prompt;
+@property (nonatomic, nullable, copy, readonly) NSArray<SDLTTSChunk *> *prompt;
 
-@property (nonatomic, assign) BOOL muteMediaSource;
+@property (nonatomic, assign, readonly) BOOL muteMediaSource;
 
-@property (nonatomic, nonnull, copy) SDLAudioPassThruCapabilities *capabilities;
+@property (nonatomic, nonnull, copy, readonly) SDLAudioPassThruCapabilities *capabilities;
 
-@property (nonatomic, copy) (^onAudioData)(NSData *audioData);
+@property (nonatomic, nonnull, copy, readonly) (^audioDataHandler)(NSData *audioData);
 
 - (void)finish; // sends an EndAudioPassThru in order to stop audio input
+
+- (instancetype)initWithMessage:(nullable NSString *)message
+                         prompt:(nullable NSArray<SDLTTSChunk *> *)prompt
+               audioDataHandler:(nonnull (^)(NSData *audioData))audioDataHandler;
+
+- (instancetype)initWithMessage:(nullable NSString *)message
+                         speech:(nullable SDLPrerecordedSpeech)speech
+               audioDataHandler:(nonnull (^)(NSData *audioData))audioDataHandler;
 
 - (instancetype)initWithMessage:(nullable NSString *)message
                          prompt:(nullable NSArray<SDLTTSChunk *> *)prompt
                 muteMediaSource:(BOOL)muteMediaSource
                    capabilities:(nullable SDLAudioPassThruCapabilities *)capabilities
                        duration:(NSTimeInterval)duration
-             onAudioDataHandler:((^)(NSData *audioData))onAudioDataHandler;
+               audioDataHandler:(nonnull (^)(NSData *audioData))audioDataHandler;
 
 - (instancetype)initWithMessage:(nullable NSString *)message
                          speech:(nullable SDLPrerecordedSpeech)speech
                 muteMediaSource:(BOOL)muteMediaSource
                    capabilities:(nullable SDLAudioPassThruCapabilities *)capabilities
                        duration:(NSTimeInterval)duration
-             onAudioDataHandler:((^)(NSData *audioData))onAudioDataHandler;
+               audioDataHandler:(nonnull (^)(NSData *audioData))audioDataHandler;
              
 @end
 ```
@@ -196,7 +262,7 @@ This property will be handled just like `SDLAlertController` and maps to `Perfor
 
 #### `muteMediaSource`
 
-This property maps to `PerformAudioPassThru.muteAudio`. If this property is false the parameter `muteAudio` will be omitted.
+This property maps to `PerformAudioPassThru.muteAudio`. Some initializers of this overlay controller won't ask for this flag therefore by default it's set to YES. When starting this overlay controller the RPC request will always include the parameter `muteAudio` due to unspecific defvalue in the mobile API.
 
 #### onAudioData (handler)
 
@@ -209,9 +275,9 @@ Similar to `Alert` this view controller takes care of the RPC `ScrollableMessage
 ```objc
 @interface SDLScrollableMessageController : SDLOverlayController
 
-@property (nonatomic, nonnull, copy) NSString *message;
+@property (nonatomic, nonnull, copy, readonly) NSString *message;
 
-@property (nonatomic, nullable, copy) NSArray<SDLButtonView *> *buttons;
+@property (nonatomic, nullable, copy, readonly) NSArray<SDLButtonView *> *buttons;
 
 - (instancetype)initWithMessage:(nonnull NSString *)message
                        duration:(NSTimeInterval)duration;
@@ -240,17 +306,17 @@ As per mobile API the property `Slider.sliderFooter` is an array used for two pu
 ```objc
 @interface SDLSliderController : SDLOverlayController
 
-@property (nonatomic, nonnull, copy) NSString *title;
+@property (nonatomic, nonnull, copy, readonly) NSString *title;
 
-@property (nonatomic, nullable, copy) NSString *message;
+@property (nonatomic, nullable, copy, readonly) NSString *message;
 
 // minimumValue and maximumValue map to "Slider.numTicks"
 // the range of the two values must not exceed "maxvalue" of "Slider.numTicks"
-@property (nonatomic) NSInteger minimumValue;
-@property (nonatomic) NSInteger maximumValue;
+@property (nonatomic, readonly) NSInteger minimumValue;
+@property (nonatomic, readonly) NSInteger maximumValue;
 
 // maps to "Slider.position" *and* "SliderResponse.sliderPosition"
-@property (nonatomic) NSInteger value;
+@property (nonatomic, readonly) NSInteger value;
 
 - (instancetype)initWithTitle:(nonnull NSString *)title
                         value:(NSInteger)value
@@ -279,7 +345,11 @@ The `message` property maps to `Slider.sliderFooter` as a singleton array. As pe
 
 The mobile API allows `.numTicks` value between 2 and 26. The value range for the parameter `.position` can be between 1 and 26 which means the range of values is not more than 26. With the high level abstraction slider controller can manage the specified range allowing different min and max values (though range should not exceed 26). This way apps can easily set a range from -10 to +10. This range is mapped internally to the available range. Future versions of the mobile API could increase the range which would be managed by the slider controller.
 
+If the app does not provide a message the overlay controller creates localized numbers to translate `position` value to the user facing value using `NSNumberFormatter` and `localizedStringFromNumber:numberStyle:`.
+
 The property `value` maps to `Slider.value` *and*  to `SliderResponse.sliderValue`. This means the result of this overlay (Slider response) is stored in the controller object.
+
+
 
 ### SDLValuePickerController
 
