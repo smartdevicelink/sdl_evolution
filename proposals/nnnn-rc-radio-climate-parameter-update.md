@@ -7,7 +7,9 @@
 
 ## Introduction
 
-Currently, SDL only tells an application the total number of HD channels that are available for a given frequency via parameter `availableHDs` in `RadioControlData`. The application knows the maximum HD channel index is 7. However, it does not know exactly which HD sub-channel index has a valid broadcasting signal. This proposal adds a new read-only parameter `availableHdChannels`, which is a list of HD sub-channel indexes with HD radio broadcasting, to `RadioControlData` data structure. This proposal also adds a new parameter `availableHdChannelsAvailable` to `RadioControlCapabilities` data structure to indicate whether the vehicle supports the new parameter `availableHdChannels`. , This proposal changes the minimum index of HD radio sub-channels from 1 to 0.
+Currently, SDL only tells an application the total number of HD channels that are available for a given frequency via parameter `availableHDs` in `RadioControlData`. The application knows the maximum HD channel index is 7. However, it does not know exactly which HD sub-channel index has a valid broadcasting signal. This proposal adds a new read-only parameter `availableHdChannels`, which is a list of HD sub-channel indexes with HD radio broadcasting, to `RadioControlData` data structure. This proposal also adds a new parameter `availableHdChannelsAvailable` to `RadioControlCapabilities` data structure to indicate whether the vehicle supports the new parameter `availableHdChannels`.
+
+This proposal changes the minimum index of HD radio sub-channels from 1 to 0.
 
 In addition, we propose to add a new parameter `climateEnable` to `ClimateControlData` to allow an application to power on or off climate control.
 
