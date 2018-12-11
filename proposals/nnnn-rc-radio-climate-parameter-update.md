@@ -11,21 +11,23 @@ Currently, SDL only tells an application the total number of HD channels that ar
 
 This proposal changes the minimum index of HD radio sub-channels from 1 to 0.
 
-In addition, we propose to add a new parameter `climateEnable` to `ClimateControlData` to allow an application to power on or off climate control.
+In addition, we propose to add a new parameter `climateEnable` to `ClimateControlData` which will allow an application to power climate control on or off.
 
 ## Motivation
 
-SDL remote control shall allow a mobile application to know which HD sub-channel index has a signal so that the app can tune the HD radio to that sub-channel successfully.
+SDL remote control shall allow a mobile application to know which HD sub-channel index has a signal, so that the app can tune the HD radio to that sub-channel successfully.
 
-SDL remote control shall allow a mobile application to turn on/off the climate control if the vehicle supports it.
+SDL remote control shall allow a mobile application to turn the climate control on or off if the vehicle supports it.
 
 
 
 ## Proposed solution
 
-We propose to add a new parameter `availableHdChannels` to `RadioControlData` to allow an application to know what HD radio channel indexes are available.
-We add a new parameter `climateEnable` to `ClimateControlData` to allow an application to power on or off climate control.
-We also change the minimum index of HD radio sub-channels from 1 to 0.
+Add a new parameter `availableHdChannels` to `RadioControlData` to allow an application to know what HD radio channel indexes are available.
+
+Add a new parameter `climateEnable` to `ClimateControlData` to allow an application to power on or off climate control.
+
+In addition, the minimum index of HD radio sub-channels will need to be changed from 1 to 0.
 
 #### Mobile and HMI API
 
@@ -97,8 +99,8 @@ None
 
 ## Impacts on existing code
 
-- New parameters need to be updated within the RPC.
-- SDL core and mobile proxy lib need updates to support this new parameter.
+- New parameters will need to be updated within the RPC.
+- SDL core and the mobile proxies will need updates to support the new parameters.
 
 
 ## Alternatives considered
