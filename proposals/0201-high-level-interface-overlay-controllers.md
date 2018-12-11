@@ -77,7 +77,7 @@ The VC manager should initiate the presentation (call `present` of the overlay c
 
 ### Handling multiple concurrent overlays
 
-The internal list of overlay controllers and completion handlers is needed as the app could try to present multiple overlay controllers at the same time without waiting for an overlay to complete or finish. In order to control (or recover from) multiple overlay controllers the VC manager needs to store all of them in the internal list and request each overlay controller to get presented. By the nature of the HMI overlays can be aborted by another overlay or get rejected due to currently presented overlay priority. The private list offers flexibility in case the app calls the method multiple times and can deal with rejected overlays that were never visible and aborted overlays if another one is requested. At the end the property `presentedOverlayController` points to the oldest overlay controller of that internal list.
+The internal list of overlay controllers and completion handlers is needed as the app could try to present multiple overlay controllers at the same time without waiting for an overlay to complete or finish. In order to control (or recover from) multiple overlay controllers the VC manager needs to store all of them in the internal list and request each overlay controller to get presented. The nature of the HMI overlays can be aborted by another overlay or get rejected due to the currently presented overlay priority. The private list offers flexibility in case the app calls the method multiple times, it can also deal with rejected overlays that were never visible and aborted overlays if another one is requested. At the end the property `presentedOverlayController` points to the oldest overlay controller of that internal list.
 
 #### Example 1: Second overlay aborts first overlay
 
@@ -262,7 +262,7 @@ This property will be handled just like `SDLAlertController` and maps to `Perfor
 
 #### `muteMediaSource`
 
-This property maps to `PerformAudioPassThru.muteAudio`. Some initializers of this overlay controller won't ask for this flag therefore by default it's set to YES. When starting this overlay controller the RPC request will always include the parameter `muteAudio` due to unspecific defvalue in the mobile API.
+This property maps to `PerformAudioPassThru.muteAudio`. Some initializers of this overlay controller won't ask for this flag, therefore by default its set to YES. When starting this overlay controller the RPC request will always include the parameter `muteAudio` due to unspecific defvalue in the mobile API.
 
 #### onAudioData (handler)
 
