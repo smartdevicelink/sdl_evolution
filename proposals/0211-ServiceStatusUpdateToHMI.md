@@ -1,8 +1,8 @@
 # Service Status Update to HMI
 
-* Proposal: [SDL-NNNN](NNNN-ServiceUpdateToHMI.md)
+* Proposal: [SDL-0211](0211-ServiceUpdateToHMI.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core / RPC]
 
 ## Introduction
