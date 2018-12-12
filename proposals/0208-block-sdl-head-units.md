@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0208](0208-block-old-sdl-protocols.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Android / Web]
 
 ## Introduction
