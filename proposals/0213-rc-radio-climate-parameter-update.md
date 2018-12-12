@@ -1,8 +1,8 @@
 # Remote Control - Radio and Climate Parameter Update
 
-* Proposal: [SDL-NNNN](nnnn-rc-radio-climate-parameter-update.md)
+* Proposal: [SDL-0213](0213-rc-radio-climate-parameter-update.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Awaiting review**
+* Status: **In review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
