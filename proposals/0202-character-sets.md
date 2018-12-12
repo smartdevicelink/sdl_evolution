@@ -49,19 +49,22 @@ The proposed solution is to deprecate existing enum values and to add new enum v
     <element name="UTF_8" since="X.X">
         <description>The UTF-8 character set that uses variable bytes per code point. See https://en.wikipedia.org/wiki/UTF-8 for more details. This is the preferred character set.</description>
     </element>
-    <element name="UTF_16" since="X.X">
-        <descrition>The UTF-16 character set that uses 2 bytes per code point. See https://en.wikipedia.org/wiki/UTF-16 for more details.</description>
-    </element>
-    <element name="UTF_16_LE" since="X.X">
-        <description>The UTF-16 character using little endian code points.</description>
-    </element>
-    <element name="UTF_16_BE" since="X.X">
-        <description>The UTF-16 character using big endian code points.</description>
-    </element>
 </enum>
 ```
 
 These character sets were chosen because they are the most widely supported character sets and are supported on all Android and iOS devices. As noted in the document, UTF-8 is the preferred character set.
+
+Additionally, we will update the description documentation of the `characterSet` in the `TextField` struct as follows.
+
+```xml
+<struct name="TextField" since="1.0">
+    ...
+    <param name="characterSet" type="CharacterSet" mandatory="true">
+        <description>The set of characters that are supported by this text field. All text is sent in UTF-8 format, but not all systems may support all of the characters expressed by UTF-8. All systems will support at least ASCII, but they may support more, either the LATIN-1 character set, or the full UTF-8 character set.</description>
+    </param>
+    ...
+</struct>
+```
 
 ## Potential downsides
 
