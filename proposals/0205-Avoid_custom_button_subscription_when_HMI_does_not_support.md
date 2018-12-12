@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-0205](0205-Avoid_custom_button_subscription_when_HMI_does_not_support.md)
 * Author: [Getmanets Irina](https://github.com/GetmanetsIrina)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
