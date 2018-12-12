@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0209](0209-static-icon-capability.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [RPC / HMI]
 
 ## Introduction
