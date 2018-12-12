@@ -1,8 +1,8 @@
 # Add Ability to Reuse a SyncFileName for a PutFile
 
-* Proposal: [SDL-NNNN](nnnn-add-ability-to-reuse-a-syncfilename-for-a-putfile.md)
+* Proposal: [SDL-0212](0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md)
 * Author: [Nicole Yarroch](https://github.com/NicoleYarroch)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
