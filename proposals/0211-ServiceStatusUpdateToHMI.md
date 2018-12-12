@@ -1,6 +1,6 @@
 # Service Status Update to HMI
 
-* Proposal: [SDL-0211](0211-ServiceUpdateToHMI.md)
+* Proposal: [SDL-0211](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0211-ServiceStatusUpdateToHMI.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
 * Status: **In Review**
 * Impacted Platforms: [Core / RPC]
