@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is about modification of Automated Test Framework (ATF) for providing ability to test SDL on remote workstation usinig automated test scripts.   
+This proposal is about modification of Automated Test Framework (ATF) for providing ability to test SDL on remote workstations using automated test scripts.   
 
 ## Motivation
 
@@ -19,12 +19,12 @@ This proposal suggests adding the optional proxy (relay) layer. This layer will 
 
 ## Proposed solution
 
-It is proposed to create Remote ATF Adapter as a separate application. This application will be executed on the same hardware with SDL and will provide API for communication with SDL and will control the SDL life cycle.
+It is proposed to create Remote ATF Adapter as a separate application. This application will be executed on the same hardware with SDL and will provide an API for communication with SDL and will control the SDL life cycle.
 
 ### Remote ATF Adapter
 
 ATF will use the Remote ATF Adapter as a relay for sending data to SDL via the HMI connection.  
-Remote ATF Adapter may utilise any local transport that is used for connection between SDL and HMI on specific OEM hardware, but it will provide TCP for ATF and Open Source ATF will be used. 
+Remote ATF Adapter may utilize any local transport that is used for connection between SDL and HMI on specific OEM hardware, but it will provide TCP for ATF and Open Source ATF will be used. 
 
 ![Remote ATF Adapter](/assets/proposals/nnnn-hmi-relay/ATFRemoteAdapter.png)
 
@@ -40,7 +40,7 @@ The following RPCs are required:
  - Close Connection(connection) -> status
 
 #### RPCs for SDL life cycle management:
-Testing of some SDL functionality (e.g. Resumption flow) requires performing of ignition cycles. For the SDL new ignition cycle means it will be stopped and started again (with additional notifications before stop). So ATF will need to control the SDL life cycle.
+Testing of some SDL functionality (e.g. Resumption flow) requires performing of ignition cycles. For SDL, the new ignition cycle means it will be stopped and started again (with additional notifications before stopping). So ATF will need to control the SDL life cycle.
 This can only be done with a Remote ATF Adapter on a remote workstation. 
 
 The following RPCs are required: 
@@ -77,15 +77,15 @@ Open source implementation of Remote Adapter Server will support appropriate tra
 - TCP for mobile connections (additional transports for automated testing provided in separate proposal)
 - Web socket for HMI connection. 
 
-Remote Adapter Server is a components with listed transport agnostic interfaces, so  OEM  can implement for another transports. API of Remote Adapter Server can be extended in case if OEM implementation of SDL requires any additional functionality.
+Remote Adapter Server is a component with listed transport agnostic interfaces, so  an OEM can implement for another transport. The API of the Remote Adapter Server can be extended in case the OEM implementation of SDL requires any additional functionality.
 
-Open source implementation of Remote adapter server part of this proposal.
-Remote adapter server should be done using C++ programming language to provide make minimal latency and long list of supported platforms.
-Remote adapter server is running on the target, it communicate with SDL as HMI (using web socket for open source) and as mobile (using TCP for open source).
-Remote adapter server controlled via ATF(from host) via TCP.
+The open source implementation of the Remote adapter server is part of this proposal.
+The Remote adapter server should be done using the C++ programming language to provide minimal latency, and to support a long list of supported platforms.
+The Remote adapter server runs on the target, it communicates with SDL as HMI (using web socket for open source) and as mobile (using TCP for open source).
+The Remote adapter server is controlled via ATF(from host) via TCP.
 
-Remote Client  should be maintained in [sdl_atf](https://github.com/smartdevicelink/sdl_atf)  repository as part of ATF.
-Remote Client should be reimplemened for OEM in case if OEM use another HMI communication transport, or have any additional transports for communication with SDL.
+The Remote Client  should be maintained in [sdl_atf](https://github.com/smartdevicelink/sdl_atf)  repository as part of ATF.
+The Remote Client should be reimplemened for an OEM in case an OEM uses another HMI communication transport, or has any additional transports for communication with SDL.
 
 ## Potential downsides
 
@@ -97,4 +97,4 @@ Impacts only Automated Test Framework code.
 
 ## Alternatives considered
 
-Determine to use TCP and web-sockets for HMI communication by OEM.
+Investigated using TCP and web-sockets for HMI communication by OEM.
