@@ -70,18 +70,22 @@ ATF should use this API for sending/receiving data as a simulation of the HMI si
 
 Remote connection as a simulation of Mobile side may be done in scope of the following proposal: [ATF support of additional transports (BT and USB)](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0126-atf-additional-transports.md). Or by using of Wi-Fi (TCP) transport, in this case additional implementation is not required. 
 
+
 ### Open source implementation of Remote ATF Adapter
 
-Open source implementation of Remote Adapter Server will support appropriate transports to test open source SDL Core:
- - TCP for mobile connections (solution for usage of the additional transports for automated testing is provided in a separate proposal);
- - Web socket for HMI communication 
+Open source implementation of Remote Adapter Server will support appropriate transports to test open source SDL : 
+- TCP for mobile connections (additional transports for automated testing provided in separate proposal)
+- Web socket for HMI connection. 
 
-Remote Adapter Server will be written using C++ language, it should be maintained in [sdl_atf](https://github.com/smartdevicelink/sdl_atf) repository as part of ATF.
+Remote Adapter Server is a components with listed transport agnostic interfaces, so  OEM  can implement for another transports. API of Remote Adapter Server can be extended in case if OEM implementation of SDL requires any additional functionality.
 
-Remote Adapter Server should implement listed transport agnostic interfaces.
-Remote Adapter Server should be reimplemented for OEM in case OEM uses different HMI/mobile communication transport, or has additional transports for communication with SDL.
+Open source implementation of Remote adapter server part of this proposal.
+Remote adapter server should be done using C++ programming language to provide make minimal latency and long list of supported platforms.
+Remote adapter server is running on the target, it communicate with SDL as HMI (using web socket for open source) and as mobile (using TCP for open source).
+Remote adapter server controlled via ATF(from host) via TCP.
 
-Remote Adapter Client will be implemented as lua shared library and will be part of ATF framework.
+Remote Client  should be maintained in [sdl_atf](https://github.com/smartdevicelink/sdl_atf)  repository as part of ATF.
+Remote Client should be reimplemened for OEM in case if OEM use another HMI communication transport, or have any additional transports for communication with SDL.
 
 ## Potential downsides
 
