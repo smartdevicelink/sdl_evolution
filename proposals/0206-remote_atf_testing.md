@@ -84,8 +84,8 @@ The Remote adapter server should be done using the C++ programming language to p
 The Remote adapter server runs on the target, it communicates with SDL as HMI (using web socket for open source) and as mobile (using TCP for open source).
 The Remote adapter server is controlled via ATF(from host) via TCP.
 
-The Remote Client  should be maintained in [sdl_atf](https://github.com/smartdevicelink/sdl_atf)  repository as part of ATF.
-The Remote Client should be reimplemened for an OEM in case an OEM uses another HMI communication transport, or has any additional transports for communication with SDL.
+The Remote Client  should be maintained in [sdl_atf](https://github.com/smartdevicelink/sdl_atf) repository as part of ATF.
+OEM may reimplement the Remote adapter server in case it use another HMI communication transport, or has any additional transports for communication with SDL. 
 
 ## Potential downsides
 
