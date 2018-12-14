@@ -62,7 +62,7 @@ If HMI supports `CUSTOM_BUTTON`, response to `Buttons.GetCapabilities` should co
 
 `Buttons.GetCapabilities` request has higher priority than `hmi_capabilities.json`.
 
-Existing rules for applying HMI capabilities won't be changed. If mobile application sends `SubscribeButton (buttonName = CUSTOM_BUTTON)` and `CUSTOM_BUTTON` is not supported by HMI (absent in the `hmi_capabilities.json`), SDL will respond with `UNSUPPORTED_RESOURCE` result code.
+The existing rules for applying HMI capabilities won't be changed. If a mobile application sends `SubscribeButton (buttonName = CUSTOM_BUTTON)` and `CUSTOM_BUTTON` and they are not supported by HMI (absent in the `hmi_capabilities.json`), then SDL will respond with an `UNSUPPORTED_RESOURCE` result code.
 
 ## Potential downsides
 
