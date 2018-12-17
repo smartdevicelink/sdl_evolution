@@ -38,7 +38,7 @@ Instead of validating vehicle data items against APIs XML, SDL would rely on a d
 * _id_ is required for top level vehicle data items while _dataType_ & _reference_ are required fields for vehicle data and sub-params, _array_ and _mandatory_ can be omitted. If omitted, _array_ defaults to *false* and _mandatory_ defaults to *true*
 
 #### Schema file location and updates
-A base JSON schema file for SDL core and proxy will be kept locally and an additional one in the OEM cloud. OEMs can update the schema file with OEM specific items, which SDL core would be able to download over the cloud along with policy updates; SDL proxy would be able to download via a URL passed to the app from HMI as an _endpoint_ shown below::
+A base JSON schema file for SDL core and proxy will be kept locally and an additional one in the OEM cloud. OEMs can update the schema file with OEM specific items, which SDL core would be able to download over the cloud along with policy updates; SDL proxy would be able to download via a URL passed to the app from HMI as an _endpoint_ shown below:
 ```
 "endpoints": {
     "0x07": {
@@ -160,7 +160,7 @@ Structure in API:
 * Structure defines the data type as Integer and a reference as OEM_REF_RPM
 * OEM_REF_RPM (or a more suitable nomenclature)
   * This acts as a key for OEM side mapping to signal information associated with RPM. 
-  * The mapping table for this reference is purely at OEM side. OEM may choose to implement it at HMI layer, fetch it over the cloud or both.
+  * The mapping table for this reference is purely on the OEM side. OEMs may choose to implement it on the HMI layer, fetch it over the cloud or both.
   * Mapping table defines OEM specific encoding for various identifier attributes, SW versions & configurations as needed, e.g.:
     * OEM_REF_RPM :: hev#veh_actl_spd#veh_status_msg#HS3#500ms
     * OR a JSON sub structure in table. Again, it is up to OEM to decide and implement
@@ -228,7 +228,7 @@ Structure in API:
 
 ```
 
-* As you see, there are 3 sub items, “ambientLightSensorStatus”, “highBeamsOn” and “lowBeamsOn”. Each of these individual data types and references
+* There are 3 sub items, “ambientLightSensorStatus”, “highBeamsOn” and “lowBeamsOn”. Each of these individual data types and references
 * You many notice that “ambientLightSensorStatus” has data type as “AmbientLightStatus”. This enumeration is read from existing Mobile API.
   * This can be extrapolated to all existing data types. For new data types enumerations, we’d still either need to add to Mobile API or create a new structure for vehicle data enumerations.
 
@@ -277,8 +277,8 @@ Sample response from module:
 #### engineState would ideally be an enum if it was a Standardized data type. But since this it OEM example of vehicle data on the fly, we can use String data type.
 
 * _engineState_ would need to be added to both SDL core and proxy schema. Once new schema is downloaded by both core and proxy, an app may request _engineState_ vehicle data item.
-* It just shows the capability to add a new vehicle data item which OEM can utilize to update the file at cloud. SDL can get updates on this file along with PT update and thus would be able to process new vehicle data
-* Again, each sub items have individual data type and references. So as long as OEM updates the reference file, Mobile apps can access the new data.
+* This shows the capability to add a new vehicle data item, which OEMs can utilize to update the file on the cloud. SDL can get updates on this files along with PT updates, thus new vehicle data would be able to be processed.
+* Again, each sub items have individual data types and references. So as long as the OEM updates the reference file, mobile apps can access the new data.
 
 ### Also, this approach can also be used to read entire 8 bytes CAN message itself
 
@@ -298,19 +298,19 @@ Sample response from module:
 	"messageName": "AB 04 D1 9E 84 5C B8 22"
 }
 ```
-* Data type is String so that it can accommodate a byte string for CAN message. OEM_REF_MSG points to a message definition in OEM mapping table.
+* The Data type is the string so that it can accommodate a byte string for CAN message. OEM_REF_MSG points to a message definition in the OEM mapping table.
 ### Integer, Float, String can use the common range values defined in HMI/Mobile API
 ### Access to data items would still be controlled using Policies the same way. OEM would need to add new vehicle data items to policies.
 
 ## Impact on existing code
-* SDL core would need to add support to download and parse the new JSON schema for vehicle data. We can either keep the existing vehicle data items in HMI/Mobile API and only use this approach for new vehicle data items. Or totally replace the way vehicle data items are compiled and validated by SDL. Which is Instead of using the hard coded _xml_ file, valid vehicle data type would be fetched from mapping file over the cloud. (there would be a local copy for intial build). Interface between SDL and HMI need to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference key.
+* SDL core would need to add support to download and parse the new JSON schema for vehicle data. SDL would either keep the existing vehicle data items in HMI/Mobile API and only use this approach for new vehicle data items or totally replace the way vehicle data items are compiled and validated by SDL. Instead of using the hard coded xml file, valid vehicle data type would be fetched from mapping file over the cloud. (there would be a local copy for the initial build). The interface between SDL and HMI needs to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference keys.
 
 * SDL Proxy needs to be able to download the new JSON schema for vehicle data and add a manager to allow requests for new vehicle data items in a systematic way.
 
-* APIs would need a new Request/Response API to act as Generic Request Response for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData_
+* APIs would need a new Request/Response API to act as the Generic Request Response for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData_
 
 ## Alternatives considered
-* Instead of using JSON to define vehicle data items schema, we can use either of following:
+* Instead of using JSON to define vehicle data items schema, SDL can use either of following:
   * XML:
     * This would reuse the XML based design with adding "reference" as another attribute or as a sub-element. Instead of sending a JSON file from cloud to the headunit, SDL would send a XML file that would be like a subset of the mobile API. 
     * But this would need changes on the policy table server side as the policy server is configured to serve JSON as part of policy table update.
