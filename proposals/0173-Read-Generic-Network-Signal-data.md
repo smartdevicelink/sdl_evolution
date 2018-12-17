@@ -229,7 +229,7 @@ Structure in API:
 ```
 
 * There are 3 sub items, “ambientLightSensorStatus”, “highBeamsOn” and “lowBeamsOn”. Each of these individual data types and references
-* You many notice that “ambientLightSensorStatus” has data type as “AmbientLightStatus”. This enumeration is read from existing Mobile API.
+* Note that “ambientLightSensorStatus” has data type as “AmbientLightStatus”. This enumeration is read from the existing Mobile API.
   * This can be extrapolated to all existing data types. For new data types enumerations, we’d still either need to add to Mobile API or create a new structure for vehicle data enumerations.
 
 ### Next example touches on a *new* OEM specific vehicle data item, _engineState_
@@ -276,7 +276,7 @@ Sample response from module:
 ```
 #### engineState would ideally be an enum if it was a Standardized data type. But since this it OEM example of vehicle data on the fly, we can use String data type.
 
-* _engineState_ would need to be added to both SDL core and proxy schema. Once new schema is downloaded by both core and proxy, an app may request _engineState_ vehicle data item.
+* _engineState_ would need to be added to both SDL core and proxy schema. Once the new schema is downloaded by both core and proxy, an app may request _engineState_ vehicle data item.
 * This shows the capability to add a new vehicle data item, which OEMs can utilize to update the file on the cloud. SDL can get updates on this files along with PT updates, thus new vehicle data would be able to be processed.
 * Again, each sub items have individual data types and references. So as long as the OEM updates the reference file, mobile apps can access the new data.
 
