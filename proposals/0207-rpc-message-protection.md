@@ -102,8 +102,6 @@ Mobile proxy shall only send encrypted RPC requests and receive encrypted RPC re
 
 Mobile proxy shall send/receive encrypted RPC requests/responses if the app chooses to `setPayloadProtected(true)` in an encryption enabled service even if the corresponding RPC does not need encryption.
 
-### Sample security library for Android
-Although how to integrating a security library in the mobile apps and how to set up a protected SDL service is out of the scope of this proposal, we will provide a sample android security library to support testing the implementation of the proposal.
 
 ### SDL core change
 
@@ -164,8 +162,7 @@ If `need_protection`=`true` in policy, the corresponding RPC must be sent/receiv
 Multiple function groups can include the same RPC; each group has its own flag for the RPC. If there are two or more instances of the same RPC in different groups in the policy for an app, one has `need_protection`=`true` and the others have `need_protection`=`false`, then the RPC shall have `needProtection`=`true` in the `OnPermissionsChange` for the app.
 
 ### SDL server updates:
-The SDL server needs to support the new parameter in the policy table. However, defining which RPCs require encryption on a per-app basis would create a lot of Policy Server overhead about OEM app administration (UI/UX), database schema/storage, and policy table generation and migration. The SDL Policy Server code base will not be receiving this feature in full. 
-Instead, the SDL Policy Server shall give OEMs the option to select which RPCs they need to be encrypted that will affect **ALL** of their partner apps. An OEM need to make their own changes if they want to support configuration on a per-app basis.
+The SDL server may support the new parameter in the policy table. However, defining which RPCs require encryption on a per-app basis would create a lot of Policy Server overhead about OEM app administration (UI/UX), database schema/storage, and policy table generation and migration. The SDL Policy Server code base will not be receiving this feature in full. Meaning that while SDL core and the policy table structure will allow for different RPCs to require encryption per different app, the policy server would not make these fully available. Instead, the SDL Policy Server shall give OEMs the option to select which RPCs they need to be encrypted that will apply to **ALL** of their partner apps. An OEM need to make their own implementations if they want to support configuration on a per-app basis.
 
 
 ## Potential downsides
@@ -224,5 +221,4 @@ An OEM can choose to require either all RPCs of the app or none RPCs of the app 
 }
 ```
 
-Similar to the WWW is moving from HTTP to HTTPS, we believe the trend for the SDL is to move from un-encrypted messages to all messages encrypted in the future. However, not all existing head unit hardware are capable of encrypting all RPC messages with an acceptable performance. Updating the hardware may take a long time and with a high cost. At the same time, we do have a need to encrypt remote control related RPCs that have a high risk for the new apps on the existing hardware. That is the main reason we prefer the solution of encrypting select RPCs to the solution of encrypting all RPCs.
-
+Similar to the WWW is moving from HTTP to HTTPS, we believe the trend for the SDL is to move from un-encrypted messages to all messages encrypted in the future. However, not all existing head unit hardware are capable of encrypting all RPC messages with an acceptable performance. Updating the hardware may take a long time and with a high cost. At the same time, we do have a need to encrypt remote control related RPCs that have a high risk for the new apps on the existing hardware. The main reason we prefer the solution of encrypting select RPCs to the solution of encrypting all RPCs is we want it to work on the legacy hardwares.
