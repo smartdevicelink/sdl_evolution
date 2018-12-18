@@ -7,11 +7,11 @@
 
 ## Introduction
 
-This proposal aims to optimize how secondary transports are connected and registered. The original proposal [SDL-0141](0141-multiple-transports.md) stated secondary transports should be connected to and registered on immediately when they are available. This proposal is to change that to connect and register on when necessary by the application.
+This proposal aims to optimize how secondary transports are connected and registered. The original proposal [SDL-0141](0141-multiple-transports.md) stated secondary transports should be connected to and registered on immediately when they are available. This proposal is to change that to connect and register only when necessary by the application.
 
 ## Motivation
 
-The initial design had an oversight on transports optimization that would cause unnecessary battery drain and resource usage on the user's device. This is because an app would be required to connect a secondary transport like TCP immediately when the head unit sent a message that it was ready. In practical terms this was right after the app registered and was still in the HMI_NONE state. This meant, the app would create a TCP connection every time the user connected their phone via SDL even without any intention of using the app that connected the extra transport. This becomes increasingly irresponsible of the library when taking the example of a user that gets in and out of the vehicle multiple times over a short time span where each session a new TCP connection is established, maintained, and eventually torn down. The SDL library should not use resources that it doesn't fully intended on using. 
+The initial design had an oversight on transports optimization that would cause unnecessary battery drain and resource usage on the user's device. This is because an app would be required to connect a secondary transport like TCP immediately when the head unit sent a message that it was ready. In practical terms this was right after the app registered and was still in the HMI_NONE state. This meant, the app would create a TCP connection every time the user connected their phone via SDL even without any intention of using the app that connected the extra transport. This becomes increasingly irresponsible of the library during the scenario of a user getting in and out of the vehicle multiple times over a short time span where each session a new TCP connection is established, maintained, and eventually torn down. The SDL library should not use resources that it doesn't fully intended on using. 
 
 ## Proposed solution
 
@@ -41,7 +41,7 @@ The SDL library should only start a connection when the app intends to use it. T
 #### Path B: App does not require the secondary transport or the app is never moved past `HMI_NONE`
 
 1. The app will continue to work in the normal flow
-2. If the app never needs to start a service that requires a secondary transport connection, the app will never request one becomes established.
+2. If the app never needs to start a service that requires a secondary transport connection, the app will never request one to become established.
 
 
 
