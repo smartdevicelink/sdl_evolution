@@ -24,9 +24,12 @@ RPCs that need protection and RPCs that do not need protection share the same RP
 
 SDL can require a service must be protected in the `smartdevicelink.ini` file by a configuration `ForceProtectedService`. It can validate and deny the start service request with encryption bit not set if the service number is listed under `ForceProtectedService`. However, it cannot start a protected service by itself. The application side (the mobile proxy) shall initiate a protected service by sending a `StartService` request with encryption bit set.
 
-Currently, SDL Android API `SdlProxyBase.startProtectedRPCService` supports start a protected RPC service. SDL can keep the existing un-encrypted service open and running at the same time of starting to enable the encrypted service. It does not need to stop the RPC service before `startProtectedRPCService`. SDL Android also supports setting a RPC message as encrypted or unencrypted with API `RPCStruct.setPayloadProtected(Boolean)`. Without any mobile proxy and SDL core change, android mobile apps and the SDL can send/receive both encrypted and unencrypted messages (include requests/responses/notifications) in the same protected RPC service. 
+Currently, SDL Android API `SdlProxyBase.startProtectedRPCService` supports starting a protected RPC service. SDL can keep the existing un-encrypted service open and running at the same time as starting the enable of encrypted service. It does not need to stop the RPC service before `startProtectedRPCService`. 
 
-It is an undocumented implementation that the SDL protocol allows sending a `StartService` control message with encryption bit set or not set on a service that has started already. We propose to update the protocol spec to allow sending a `StartService` for a service that has already been started, but now the encryption bit set should work.
+SDL Android also supports setting an RPC message as encrypted or unencrypted with API `RPCStruct.setPayloadProtected(Boolean)`. Without any mobile proxy and SDL core change, android mobile apps and SDL can send/receive both encrypted and unencrypted messages (include requests/responses/notifications) in the same protected RPC service. 
+
+
+It is an undocumented implementation that the SDL protocol allows sending a `StartService` control message with encryption bit set or not set on a service that has started already. This proposal is to update the protocol spec to allow sending a `StartService` for a service that has already been started, but now the encryption bit set should work.
 
 
 ### Mobile app change
@@ -92,9 +95,9 @@ Here we list existing related RPC and data types for completeness of understandi
 SDL proxy shall support sending a PRC with both encrypted and unencrypted format as it currently does if the RPC service has encryption enabled. 
 
 SDL proxy may start service seven with encryption enabled in several situations. 
-- 1. Before mobile proxy sends the first RPC message that needs encryption. This works similarly to delaying loading of a dynamic library. Mobile proxy enables encryption for the RPC service only when it really needs encryption. This is the latest time. This option may cause a delay. Because the channel is not ready, it must wait the encryption gets enabled in order to send an encrypted message.
+- 1. Before mobile proxy sends the first RPC message that needs encryption. This works similar to delaying the loading of a dynamic library. Mobile proxy enables encryption for the RPC service only when it really needs encryption. This is the latest time. This option may cause a delay. Since the channel is not ready, it must wait until the encryption gets enabled in order to send an encrypted message.
 - 2. After mobile proxy receives an `OnPermissionsChange` notification and there is at least one RPC that needs encryption. In this case, proxy enables encryption for any potential usage. This is the earliest time that the app/proxy knows it may need encryption.
-- 3. Sometime in between. For example, when the driver activates the app and HMI brings the app to foreground. Because it may take sometime to get RPC service encryption enabled for the first time, and there is no overhead after that, we recommend the proxy enable encryption after the app is activated (SDL proxy receives `OnHMIStatus` notification with `hmiLevel=FULL\LIMITED\BACKGROUND`, but not `NONE`) and there is at least one RPC that needs protection.
+- 3. Sometime in between. For example, when the driver activates the app and HMI brings the app to foreground. Because it may take some time to get RPC service encryption enabled for the first time, and there is no overhead after that, we recommend the proxy enable encryption after the app is activated (SDL proxy receives `OnHMIStatus` notification with `hmiLevel=FULL\LIMITED\BACKGROUND`, but not `NONE`) and there is at least one RPC that needs protection.
 
 When the mobile proxy receives `OnPermissionsChange` message, it shall remember the list of RPCs that need encryption for later use.
 
@@ -112,9 +115,9 @@ After the encryption of RPC service 7 is enabled, SDL rejects any unencrypted RP
 
 
 #### Alternative solution:
-- We require all applications to be authenticated and all RPC messages encrypted (i.e. SDL requires encryption for RPC service 7, apps, and SDL always sends and receives encrypted RPC messages. This can be done in smartdevicelink.ini file to configure service 7 to require protection and encryption.)
+- All applications are required to be authenticated and all RPC messages encrypted (i.e. SDL requires encryption for RPC service 7, apps, and SDL always sends and receives encrypted RPC messages. This can be done in smartdevicelink.ini file to configure service 7 to require protection and encryption.)
 
-- We create a new protected RPC service 12, which is similar to the existing service 10 and service 11. We require that all RPC messages that need protection (include requests, responses and notifications) must be transmitted via this new SDL service.
+- A new protected RPC service 12 is created, which is similar to the existing service 10 and service 11. The RPC service 12 would require that all RPC messages that need protection (include requests, responses and notifications) must be transmitted via this new SDL service.
 
 
 ### Policy updates:
@@ -155,14 +158,14 @@ After the encryption of RPC service 7 is enabled, SDL rejects any unencrypted RP
     "need_protection" : true
 }
 ```
-In the alternative solution, even if the flag is defined in the function group level, SDL still needs to translate it to each RPC because there is no concept of `function group` in `OnPermissionsChange` RPC. We lose the flexibility of configuring protection for some RPCs and also having some RPCs that do not need protection in the same function group. Therefore, we choose the proposed solution: 
+In the alternative solution, even if the flag is defined in the function group level, SDL still needs to translate it to each RPC because there is no concept of `function group` in `OnPermissionsChange` RPC. SDL will lose the flexibility of configuring the protection for some RPCs and also having some RPCs that do not need protection in the same function group. Therefore, the proposed solution is as followed:
 
 If `need_protection`=`true` in policy, the corresponding RPC must be sent/received in an encryption enabled SDL service. That means the app has been authenticated via TLS/DTLS handshake and RPC request and response messages are encrypted. If `need_protection`=`false` or `need_protection` does not exist for the RPC(s) in policy, the corresponding RPC messages shall not be encrypted, and can be transmitted in both encryption enabled and disabled SDL services.
 
 Multiple function groups can include the same RPC; each group has its own flag for the RPC. If there are two or more instances of the same RPC in different groups in the policy for an app, one has `need_protection`=`true` and the others have `need_protection`=`false`, then the RPC shall have `needProtection`=`true` in the `OnPermissionsChange` for the app.
 
 ### SDL server updates:
-The SDL server may support the new parameter in the policy table. However, defining which RPCs require encryption on a per-app basis would create a lot of Policy Server overhead in regards to OEM app administration (UI/UX), database schema/storage, and policy table generation and migration. Therefore, the SDL Policy Server code base will not be receiving this feature in full. Meaning that while SDL core and the policy table structure will allow for different RPCs to require encryption per different app, the policy server would not make these fully available. Instead, the SDL Policy Server shall give OEMs the option to select which RPCs they need to be encrypted that will apply to **ALL** of their partner apps. An OEM will need to make their own policy server implementation if they want to support configuration on a per-app basis.
+The SDL server may support the new parameter in the policy table. However, defining which RPCs require encryption on a per-app basis would create a lot of Policy Server overhead in regards to OEM app administration (UI/UX), database schema/storage, and policy table generation and migration. Therefore, the SDL Policy Server code base will not be receiving this feature in full. Meaning that while SDL core and the policy table structure will allow different RPCs to require encryption per different app, the policy server would not make these fully available. Instead, the SDL Policy Server shall give OEMs the option to select which RPCs they need to be encrypted that will apply to **ALL** of their partner apps. An OEM will need to make their own policy server implementation if they want to support configuration on a per-app basis.
 
 
 ## Potential downsides
@@ -173,7 +176,7 @@ The proxy and SDL can send the following RPC messages before the encryption of R
 - `OnSystemRequest`
 - `PutFile`
 
-There are two possible methods to deal with this downside. In the first method, some special logic (exception) is needed. The SDL core and mobile proxy can send and receive the above RPC messages un-encrypted if the encryption of RPC service is not enabled even those RPCs have `need_protection`=`true`. Once the encryption of RPC service is enabled, the SDL core and mobile proxy shall send encrypted messages. In the second method, these RPCs shall not be listed as `need_protection`=`true` in a policy configuration. For the simplicity, we recommend the second method. 
+There are two possible methods to deal with this downside. In the first method, some special logic (exception) is needed. The SDL core and mobile proxy can send and receive the above RPC messages un-encrypted if the encryption of RPC service is not enabled even those RPCs have `need_protection`=`true`. Once the encryption of RPC service is enabled, the SDL core and mobile proxy shall send encrypted messages. In the second method, these RPCs shall not be listed as `need_protection`=`true` in a policy configuration. For the simplicity, the second method is recommended.
 
 ## Impact on existing code
 
@@ -181,7 +184,8 @@ As it is analyzed in the section of `Proposed solution`, the following component
 
 ## Alternatives considered
 
-Instead of adding a new `need_protection` item for each RPC in function groups, we add a parameter `need_protection` to each app in policy configuration, and add a parameter `needProtection` for the whole app in RPC `OnPermissionsChange`. Therefore, instead of a group of RPCs needing encryption, all RPCs of an app need encryption. The workflow is as the following. 
+Instead of adding a new `need_protection` item for each RPC in function groups, SDL adds a parameter `need_protection` to each app in policy configuration, and adds a parameter `needProtection` for the whole app in RPC `OnPermissionsChange`. Therefore, instead of a group of RPCs needing encryption, all RPCs of an app need encryption. The workflow is as follows:
+
 
 An OEM can choose to require either all RPCs of the app or no RPCs of the app to be encryption enabled. This is accomplished by configuring the policy of an application. When the app registers with the SDL for the first time, SDL triggers a policy update. SDL gets the configuration from the updated policy and sends an `OnPermissionsChange` notification with `needProtection=true` to the app. When the mobile proxy within the app receives the message, it sends `StartService` with encryption bit set to trigger the process of enabling encryption of the existing RPC service. Once the process is done and the encryption is enabled, all RPC messages shall be encrypted. The RPC messages sent before the encryption is enabled shall remain un-encrypted. SDL shall reject all un-encrypted messages with result code `ENCRYPTION_NEEDED` if the encryption of RPC service has been enabled. SDL shall reject most un-encrypted messages (except the RPCs that are sent before `OnPermissionsChange`) with result code `ENCRYPTION_NEEDED` if the encryption of RPC service has not been enabled to prevent version rollback attack or downgrade attack. Otherwise, a malicious app may never start enabling the encryption of RPC service.
 
@@ -221,4 +225,5 @@ An OEM can choose to require either all RPCs of the app or no RPCs of the app to
 }
 ```
 
-Similar to the WWW moving from HTTP to HTTPS, we believe the trend for SDL is to move from un-encrypted messages to all messages encrypted in the future. However, not all existing head unit hardware are capable of encrypting all RPC messages with an acceptable performance. Updating the hardware may take a long time and with a high cost and no guarantee of results. At the same time, we do have a need to encrypt remote control related RPCs that have a high risk for the new apps on the existing hardware. The main reason we prefer the solution of encrypting select RPCs to the solution of encrypting all RPCs is we want it to work on the legacy hardwares.
+Similar to the WWW moving from HTTP to HTTPS, the trend for SDL should be to move from un-encrypted messages to all messages encrypted in the future. However, not all existing head unit hardware are capable of encrypting all RPC messages with an acceptable performance. Updating the hardware may take a long time and with a high costs and no guarantee of results. At the same time, there is a need to encrypt remote control related RPCs that have a high risk for the new apps on the existing hardware. In order to allow the solution to work on the legacy hardware, this proposal proposes the solution of encrypting select RPCs rather than encrypting all RPCs.
+
