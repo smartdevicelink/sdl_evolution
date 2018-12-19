@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0212](0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md)
 * Author: [Nicole Yarroch](https://github.com/NicoleYarroch)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
