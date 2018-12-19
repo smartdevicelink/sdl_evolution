@@ -29,7 +29,7 @@ Following sections will describe the idea in more detail.
 
 ### Starting Secondary Transport
 
-Proxy should set up Secondary Transport as soon as it is notified of available transport types for Secondary Transport and information that is necessary to set up the transport becomes available.
+~~Proxy should set up Secondary Transport as soon as it is notified of available transport types for Secondary Transport and information that is necessary to set up the transport becomes available.~~ **See Amendment #1**
 
 During Version Negotiation, Core includes additional information in Start Service ACK frame to notify Proxy of the available transport types for Secondary Transport. At this point, Proxy can initiate setting up Secondary Transport. Because the additional information is conveyed in Start Service ACK, Secondary Transport is always set up after RPC service is started on Primary Transport.
 
@@ -328,3 +328,6 @@ Note: these behaviors are already seen on current SDL Core when an app on a phon
 
 
   [reg_limitation]:     https://github.com/XevoInc/sdl_evolution/blob/4242b3ec23c9102cd595e9c7d37f664e785dfdba/proposals/nnnn-mt-registration-limitation.md  "Add capability to disable or reject an app based on app type, transport type and OS type"
+
+## Amendments
+1. [Secondary Transport Optimization](nnnn-secondary-transport-optimization.md)
