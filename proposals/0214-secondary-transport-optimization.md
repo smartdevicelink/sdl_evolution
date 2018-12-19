@@ -1,8 +1,8 @@
 # Secondary Transport Optimization
 
-* Proposal: [SDL-NNNN](nnnn-secondary-transport-optimization.md)
+* Proposal: [SDL-0214](0214-secondary-transport-optimization.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android]
 
 ## Introduction
