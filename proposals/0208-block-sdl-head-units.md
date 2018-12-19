@@ -25,11 +25,13 @@ Additions will be made to the `SDLLifecycleConfiguration`:
 
 ```objc
 // Defaults to the current protocol version
-@property (assign, nonatomic) UInt8 minimumProtocolVersion;
+@property (assign, nonatomic) SDLVersion minimumProtocolVersion;
 
 // Defaults to the current RPC version
-@property (assign, nonatomic) NSString minimumRPCVersion;
+@property (assign, nonatomic) SDLVersion minimumRPCVersion;
 ```
+
+`SDLVersion` will be based on the equivalent [Android object](https://github.com/smartdevicelink/sdl_android/blob/master/sdl_android/src/main/java/com/smartdevicelink/util/Version.java). The Android library version of this code will utilize that object.
 
 Immediately after protocol version negotiation, the `minimumProtocolVersion` will be checked and the app will be disconnected if it fails. Immediately after registration, the `minimumRPCVersion` will be checked and the app unregistered if it fails.
 
