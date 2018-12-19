@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0210](0210-mobile-dynamic-menu-cell-updating.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Accepted**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Android / Cloud]
 
 ## Introduction
