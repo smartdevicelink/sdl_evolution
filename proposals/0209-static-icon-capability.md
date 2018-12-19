@@ -20,20 +20,8 @@ The proposed solution is to add a new RPC boolean describing whether or not stat
 ### Mobile HMI Changes
 ```xml
 <struct name="DisplayCapabilities" since="1.0">
-    <!--  -->
-    <param name="staticIconsSupported" type="Boolean" mandatory="false" since="X.X">
-        <description>Static icons are supported by the head unit HMI.</description>
-    </param>
-</struct>
-```
-
-### HMI API Changes
-```xml
-<struct name="DisplayCapabilities">
-    <!--  -->
-    <param name="staticIconsSupported" type="Boolean" mandatory="false">
-        <description>Static icons are supported by the head unit HMI.</description>
-    </param>
+    <!-- ... -->
+    <param name="imageCapabilities" type="ImageType" array="true" minsize="0" maxsize="1000" mandatory="false">
 </struct>
 ```
 
