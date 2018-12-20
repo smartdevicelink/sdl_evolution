@@ -7,7 +7,7 @@
 
 ## Introduction
 
-To enable OEM proprietary mobile apps to read raw CAN/Network data by specifying uniquely identifiable network data attributes. This expands the utilization of SDL APIs to read all the network signals available to head unit.
+This proposal is to make vehicle data APIs (GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData) more flexible to allow additional new vehicle data items, while maintaining the security access via policies.
 
 ## Motivation
 
@@ -16,277 +16,306 @@ To enable OEM proprietary mobile apps to read raw CAN/Network data by specifying
 
 ## Proposed solution
 
-Solution is to provide a Generic RPC, which can GET/SUBSCRIBE/UNSUBSCRIBE to any available Vehicle Data. 
-* Mobile app would pass a unique identifier and optionally an array of attributes through this RPC. These attributes are required to identify vehicle data requested by the app.
-* These attributes are proprietary for OEMs, so Mobile app needs to have access to proprietary interface definitions for vehicle data/service layer with which SDL interfaces to access vehicle data.
-* OEM implementation needs to enforce tracking of “unique identifier” to avoid duplicate subscriptions and to optimize subscription requests from multiple apps.
-* Mobile App is responsible to keep track of vehicle data it requests with help of field called "Id".
-* Mobile App can pick from three modes:
-  * GET		: Used for one time request to read current state/value of vehicle data
-  * SUBSCRIBE	: Used to receive updates to vehicle data for the period of subscription
-  * UNSUBSCRIBE: Used to stop the updates to vehicle data which was subscribed earlier
+Solution is to replace the way vehicle data items are validated for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ APIs. 
 
-**Request XML:**
+Instead of validating vehicle data items against APIs XML, SDL would rely on a dedicated vehicle data items schema as below:
 ```
-<function name="GenericNetworkData" functionID="GenericNetworkDataID" messagetype="request">
-    <description>Vehicle network data request</description>
+{
+	"id":"VehicleDataItem",
+	"dataType":"SDLDataType",
+	"reference":"OEMDataRef",
+	"array":true/false,
+	"mandatory":true/false
+}
+```
+* VehicleDataItem - is the vehicle data item in question. e.g. gps, speed etc. SDL would use this as the vehicle data param for requests from the app and to validate policies permissions.
+* SDLDataType - is the return data type of the vehicle data item. It can be a generic SDL data type e.g. integer, string, float, etc. OR an enumeration defined in APIs XML. For the vehicle data item that has sub-params, this would be struct.
+* OEMDataRef - is a reference for the OEM mapping table which defines signal attributes for this vehicle data items. OEMs may use this table to differentiate between various vehicle and SW configurations. SDL will pass along this reference to HMI, and then HMI would be responsible to resolve this reference using the OEM specific mapping table.
 
-    <param name="id" type="String" maxlength="100" mandatory="true">
-		<description>
-			Parameter ID for the requested vehicle data.	
-			Should not be Blank or contain whitespaces.
-			Same ID can be used for GET/SUBSCRIBE/UNSUBSCIRBE requests for same vehicle data.
-			Refer to OEM specific vehicle data identifier list for information on format of identifier and mapping of vehicle data.
-		</description>
-    </param>
+* _array_ : To speciify if the vehicle data item/param response is an array.
+* _mandatory_ : To specify if the vehicle data param is mandatory to be included in response for overall vehicle data item.
 
-	<param name="networkDataRequestMode" type="NetworkDataRequestMode" mandatory="true">
-		<description>
-			Enumeration to control the network data request type.
-			GET
-			SUBSCRIBE
-			UNSUBSCRIBE
-		</description>
-    </param>
-	
-   <param name="networkDataAttribute" type="String" maxlength="500" minsize="1" maxsize="100" array="true" mandatory="false">
-		<description>
-			String Array of additional Network Data Attributes which identify network data as per OEM implementation 			
-		</description>
-    </param>
-	
-</function>
+* _id_ is required for top level vehicle data items while _dataType_ & _reference_ are required fields for vehicle data and sub-params, _array_ and _mandatory_ can be omitted. If omitted, _array_ defaults to *false* and _mandatory_ defaults to *true*
 
-<enum name="NetworkDataRequestMode">
-	<description>Describes how the GenericNetworkData should behave on the platform</description>
-	<element name="GET">
-		<description>Denotes that the request type is single read request for network data</description>
-	</element>
-	<element name="SUBSCRIBE" >
-		<description>Denotes that the request type is to receive network data update with every change
-		Request is ignored if requested network data is already subscribed 		
-		</description>
-	</element>
-	<element name="UNSUBSCRIBE" >
-		<description>Denotes that the request type is to end the previous network data subscription
-		Request is ignored if requested network data is NOT already subscribed
-		</description>
-	</element>
-</enum>
+#### Schema file location and updates
+A base JSON schema file for SDL core and proxy will be kept locally and an additional one in the OEM cloud. OEMs can update the schema file with OEM specific items, which SDL core would be able to download over the cloud along with policy updates; SDL proxy would be able to download via a URL passed to the app from HMI as an _endpoint_ shown below:
+```
+"endpoints": {
+    "0x07": {
+        "default": ["http://x.x.x.x:3000/api/1/policies/proprietary"]
+     },
+     "0x04": {
+         "default": ["http://x.x.x.x:3000/api/1/softwareUpdate"]
+     },
+     "queryAppsUrl": {
+         "default": ["http://sdl.shaid.server"]
+     },
+     "lock_screen_icon_url": {
+         "default": ["http://i.imgur.com/TgkvOIZ.png"]
+     },
+     "extended_vehicle_data_url": {
+         "default": ["http://x.x.x.x:3000/api/1/vehicledata/"]
+     }
+}
+```
+This new design would ensure flexibility to add OEM specific vehicle data items while maintaining access control via policies the same it is done today.
+
+### Example of sample schema addition to policy table for SDL core update:
+```json
+....
+      "BaseBeforeDataConsent"
+        ]
+      }
+    },
+	"VehicleDataItems":
+	[
+		{
+			"id":"rpm",
+			"dataType":"Integer",
+			"reference":"OEM_REF_RPM",
+			"array":false,
+			"mandatory":true
+		},
+		{
+			"id":"headLampStatus",
+			"dataType":"Struct",
+			"reference":"OEM_REF_STRUCT",
+			"ambientLightSensorStatus":{
+				"dataType":"AmbientLightStatus",
+				"reference":"OEM_REF_AMB_LIGHT",
+				"mandatory":false
+			},
+			"highBeamsOn":{
+				"dataType":"Boolean",
+				"reference":"OEM_REF_HIGH_BEAM"
+			},
+			"lowBeamsOn":{
+				"dataType":"Boolean",
+				"reference":"OEM_REF_LOW_BEAM"
+			}
+		},
+		{
+			"id":"engineState",
+			"dataType":"Struct",
+			"reference":"OEM_REF_STRUCT",
+			"engineCoolantTemp" : {
+				"dataType":"Integer",
+				"reference":"OEM_REF_ENG_COOL_TEMP",
+				"array":false,
+				"mandatory":false
+			},
+			"engineO2Sat":{
+				"dataType":"Float",
+				"reference":"OEM_REF_ENG_O2_SAT",				
+				"mandatory":false
+			},
+			"engineState":{
+				"dataType":"String",
+				"reference":"OEM_REF_ENG_STATE"
+			},
+			"engineServiceRequired":{
+				"dataType":"Boolean",
+				"reference":"OEM_REF_ENG_SER_REQ",
+				"array":false,
+				"mandatory":false
+			}
+		},
+		{
+			"id":"messageName",
+			"dataType":"String",
+			"reference":"OEM_REF_MSG",
+			"array":false,
+			"mandatory":true
+		}
+	]
+....
 ```
 
-Head unit, would in turn GET/SUBCRIBE/UNSUBSCRIBE the vehicle data from underlying vehicle service layers. 
-* Mobile app will receive the response with confirmation of successful operation and a result code.
-* Response will contain the mode for the vehicle data response
-  * GET		: Result code in this mode represents if current vehicle data read operation is successful or not
-  * SUBSCRIBE	: Result code in this mode represents if Subscribe operation is successful or not
-  * UNSUBSCRIBE: Result code in this mode represents if Unsubscribe operation is successful or not
-* Response will contain an array of network data. Network data element in the array will contain "id" (which mobile app had set while requesting for data) and value of the vehicle data.
-* Mobile app will be responsible for decoding the String value of requested data into a usable form by applying conversions as defined by OEM proprietary spec sheet for corresponding vehicle data.
-* Response will also contain an optional “info” field. This field contains additional human readable information regarding the request/response
+#### Note: Only 2 levels of nesting allowed for vehicle data items/Sub items. i.e. vehicle data item can have params e.g. "headLampStatus" has "highBeamsOn" as param from above schema. But params can't have sub-params, e.g. "highBeamsOn" can't have any further nesting of params.
 
-**Response XML:**
+### Vehicle data items can be arranged in structures. See below example for existing vehicle data item _rpm_
+
+Sample Value for map:
+```json
+{
+	"id":"rpm",
+	"dataType":"Integer",
+	"reference":"OEM_REF_RPM",
+	"array":false,
+	"mandatory":true
+}
 ```
- <function name="GenericNetworkData" functionID="GenericNetworkDataID" messagetype="response">
+Sample response from module:
+```json
+{
+	"rpm":844
+}
+```
+Structure in API:
+```
+<param name="rpm" type="Integer" minvalue="0" maxvalue="20000" mandatory="false">
+	<description>The number of revolutions per minute of the engine</description>
+</param>
+```
+* Structure defines the data type as Integer and a reference as OEM_REF_RPM
+* OEM_REF_RPM (or a more suitable nomenclature)
+  * This acts as a key for OEM side mapping to signal information associated with RPM. 
+  * The mapping table for this reference is purely on the OEM side. OEMs may choose to implement it on the HMI layer, fetch it over the cloud or both.
+  * Mapping table defines OEM specific encoding for various identifier attributes, SW versions & configurations as needed, e.g.:
+    * OEM_REF_RPM :: hev#veh_actl_spd#veh_status_msg#HS3#500ms
+    * OR a JSON sub structure in table. Again, it is up to OEM to decide and implement
+* HMI sends response as integer for RPM
 
-    <param name="success" type="Boolean" platform="documentation">
-		<description> true, if successful; false, if failed </description>
-	  </param>
+### For complex data items, a substructure is provided as shown in below example for _headLampStatus_:
 
-    <param name="resultCode" type="Result" platform="documentation">
-      <description>See Result</description>
-      <element name="SUCCESS"/>
-	  <element name="IGNORED"/>
-      <element name="INVALID_DATA"/>
-      <element name="OUT_OF_MEMORY"/>
-      <element name="TOO_MANY_PENDING_REQUESTS"/>
-      <element name="APPLICATION_NOT_REGISTERED"/>
-      <element name="GENERIC_ERROR"/>
-	  <element name="TIMED_OUT"/>
-      <element name="REJECTED"/>
-      <element name="DISALLOWED"/>
-      <element name="USER_DISALLOWED"/>
-      <element name="TRUNCATED_DATA"/>
-    </param>
-
-	<param name="networkDataRequestMode" type="NetworkDataRequestMode" mandatory="true">
-      <description>
-      	Enumeration to control the network data request type.
-      	GET
-		SUBSCRIBE
-		UNSUBSCRIBE
-      </description>
-    </param>
-	
-    <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-      <description>Provides additional human readable info regarding the result.</description>
-    </param>
-
-    <param name="networkData" type="NetworkData" mandatory="false" array="false">
-      <description>
-      	Returned Network Data value for a paramId
-      </description>
-    </param>
-
-  </function>
-
-<struct name="NetworkData">
-	 <param name="id" type="String" maxlength="100" mandatory="true">
-		<description>
-			Unique Parameter ID for the request.			
-			Should not be Blank or contain whitespaces.
-			Should not be same as existing active GET/SUBSCRIBE/UNSUBSCIRBE request
-		</description>
-    </param>
-		
-	<param name="value" type="Integer" minvalue="0" maxvalue="255" minsize="1" maxsize="512" array="true" mandatory="true">
-      <description>
-      	Network data byte array for corresponding vehicle data.
-      </description>
-    </param>
-	
+Sample Value for map:
+```json
+{
+	"id":"headLampStatus",
+	"dataType":"Struct",
+	"reference":"OEM_REF_STRUCT",
+	"ambientLightSensorStatus":{
+		"dataType":"AmbientLightStatus",
+		"reference":"OEM_REF_AMB_LIGHT",
+		"mandatory":false
+	},
+	"highBeamsOn":{
+		"dataType":"Boolean",
+		"reference":"OEM_REF_HIGH_BEAM"
+	},
+	"lowBeamsOn":{
+		"dataType":"Boolean",
+		"reference":"OEM_REF_LOW_BEAM"
+	}
+}
+```
+Sample Response from module:
+```json
+{
+	"headLampStatus":{
+		"ambientLightSensorStatus":"NIGHT",
+		"highBeamsOn":false,
+		"lowBeamsOn":true
+   }
+}
+```
+Structure in API:
+```
+<struct name="HeadLampStatus">
+	<param name="lowBeamsOn" type="Boolean" mandatory="true">
+		<description>Status of the low beam lamps.  References signal "HeadLampLoActv_B_Stat".</description>
+	</param>
+	<param name="highBeamsOn" type="Boolean" mandatory="true">
+		<description>Status of the high beam lamps.  References signal "HeadLghtHiOn_B_Stat".</description>
+	</param>
+	<param name="ambientLightSensorStatus" type="AmbientLightStatus" mandatory="false">
+		<description>Status of the ambient light sensor.</description>
+	</param>
 </struct>
-```
 
-In case of successful subscription, mobile app will receive periodic updates for requested vehicle data through OnGenericNetworkData notification.
-* Response will contain an array of network data. Network data element in the array will contain "id" (which mobile app had set while requesting for data) and value of the vehicle data.
-* Mobile app will be responsible for decoding the String value of vehicle data into a usable form by applying conversions as defined by OEM proprietary spec sheet for corresponding vehicle data.
-* Response will also contain an optional “info” field. This field contains additional human readable information regarding the request/response
-
-```
-<function name="OnGenericNetworkData" functionID="OnGenericNetworkDataID" messagetype="notification">
-    <description>Callback for the periodic and non-periodic generic vehicle data read function.</description>
     
-	<param name="networkData" type="NetworkData" mandatory="false" minsize="1" maxsize="500" array="true">
-      <description>
-      	Returned Network Data value
-      </description>
-    </param>  
+<enum name="AmbientLightStatus">
+	<description>Reflects the status of the ambient light sensor.</description>
+	<element name="NIGHT" />
+	<element name="TWILIGHT_1" />
+	<element name="TWILIGHT_2" />
+	<element name="TWILIGHT_3" />
+	<element name="TWILIGHT_4" />
+	<element name="DAY" />
+	<element name="UNKNOWN" internal_name="ALS_UNKNOWN" />
+	<element name="INVALID" />
+</enum> 
 
-	<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-      <description>Provides additional human readable info regarding the notification.</description>
-    </param>	
-	
-</function>
 ```
 
-## Potential downsides
+* There are 3 sub items, “ambientLightSensorStatus”, “highBeamsOn” and “lowBeamsOn”. Each of these individual data types and references
+* Note that “ambientLightSensorStatus” has data type as “AmbientLightStatus”. This enumeration is read from the existing Mobile API.
+  * This can be extrapolated to all existing data types. For new data types enumerations, we’d still either need to add to Mobile API or create a new structure for vehicle data enumerations.
 
-* This approach has underlying assumption that Mobile app would have access to OEM specific proprietary interface details.
-  * This is acceptable since we target only OEM proprietary Mobile apps to utilize this feature. Moreover, benefits of access to more vehicle data params outweigh this limitation.
-* Mobile app is responsible for maintaining the network definitions as well as decoding the raw value received from vehicle.
-  * Alternate way would be to maintain all the network signal definitions at head unit side. Which means it might not be scalable with any changes/additions to network signal definitions with introduction of newer vehicle architectures/features. On the contrary, Mobile app will maintain only the required network signal definitions, which will be significantly smaller than entire suite of network definitions.
+### Next example touches on a *new* OEM specific vehicle data item, _engineState_
+
+Sample value for map:
+```json
+{
+	"id":"engineState",
+	"dataType":"Struct",
+	"reference":"OEM_REF_STRUCT",
+	"engineCoolantTemp" : {
+		"dataType":"Integer",
+		"reference":"OEM_REF_ENG_COOL_TEMP",
+		"array":false,
+		"mandatory":false
+	},
+	"engineO2Sat":{
+		"dataType":"Float",
+		"reference":"OEM_REF_ENG_O2_SAT",				
+		"mandatory":false
+	},
+	"engineState":{
+		"dataType":"String",
+		"reference":"OEM_REF_ENG_STATE"
+	},
+	"engineServiceRequired":{
+		"dataType":"Boolean",
+		"reference":"OEM_REF_ENG_SER_REQ",
+		"array":false,
+		"mandatory":false
+	}
+}
+```
+Sample response from module:
+```json
+{
+	"engineState": {
+		"engineCoolantTemp":140,
+		"engineO2Sat":95.5,
+		"engineState":"NORMAL",
+		"engineServiceRequired":false
+	}
+}
+```
+#### engineState would ideally be an enum if it was a Standardized data type. But since this it OEM example of vehicle data on the fly, we can use String data type.
+
+* _engineState_ would need to be added to both SDL core and proxy schema. Once the new schema is downloaded by both core and proxy, an app may request _engineState_ vehicle data item.
+* This shows the capability to add a new vehicle data item, which OEMs can utilize to update the file on the cloud. SDL can get updates on this files along with PT updates, thus new vehicle data would be able to be processed.
+* Again, each sub items have individual data types and references. So as long as the OEM updates the reference file, mobile apps can access the new data.
+
+### Also, this approach can also be used to read entire 8 bytes CAN message itself
+
+Sample value for map:
+```json
+{
+	"id":"messageName",
+	"dataType":"String",
+	"reference":"OEM_REF_MSG",
+	"array":false,
+	"mandatory":true
+}
+```
+Sample response from module:
+```json
+{
+	"messageName": "AB 04 D1 9E 84 5C B8 22"
+}
+```
+* The Data type is the string so that it can accommodate a byte string for CAN message. OEM_REF_MSG points to a message definition in the OEM mapping table.
+### Integer, Float, String can use the common range values defined in HMI/Mobile API
+### Access to data items would still be controlled using Policies the same way. OEM would need to add new vehicle data items to policies.
 
 ## Impact on existing code
+* SDL core would need to add support to download and parse the new JSON schema for vehicle data. SDL would either keep the existing vehicle data items in HMI/Mobile API and only use this approach for new vehicle data items or totally replace the way vehicle data items are compiled and validated by SDL. Instead of using the hard coded xml file, valid vehicle data type would be fetched from mapping file over the cloud. (there would be a local copy for the initial build). The interface between SDL and HMI needs to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference keys.
 
-SDL needs to track requests by NetworkDataIdentifier per app and work through the business logic of duplicate requests. SDL would also need to distribute the received data to apps which have subscribed. 
+* SDL Proxy needs to be able to download the new JSON schema for vehicle data and add a manager to allow requests for new vehicle data items in a systematic way.
+
+* APIs would need a new Request/Response API to act as the Generic Request Response for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData_
 
 ## Alternatives considered
+* Instead of using JSON to define vehicle data items schema, SDL can use either of following:
+  * XML:
+    * This would reuse the XML based design with adding "reference" as another attribute or as a sub-element. Instead of sending a JSON file from cloud to the headunit, SDL would send a XML file that would be like a subset of the mobile API. 
+    * But this would need changes on the policy table server side as the policy server is configured to serve JSON as part of policy table update.
+  * Precompiled library plug-ins:
+    * Another idea is to automatically generate code and compile this code into a dynamic link library. Instead of sending a JSON or XML file, this library would be transferred to headunit as part of policy update or OTA. Core would load this library and execute this library for vehicle data.
+    * But this might cause overhead to maintain and support dlls for multiple Operating Systems.
+* Check history of this proposal for _GetGenericNetworkData_ submitted originally.
 
-* Add additional parameter in existing GetVehicleData/SunscribeVehicleData/UnsubscribeVehicleData RPCs:
-  * networkDataRequest - which specifies paramId and NetworkDataAttribute String array to identify the network data item
-
-```
-<function name="GetVehicleData" functionID="GetVehicleDataID" messagetype="request">
-    <description>Non periodic vehicle data read request.</description>
-
-    <param name="gps" type="Boolean" mandatory="false">
-      <description>See GPSData</description>
-    </param>
-    
-	<!-- Not showing other params -->
-	
-	<param name="networkDataRequest" type="NetworkDataRequest" mandatory="false">	
-      <description>Request Generic Network data</description>
-    </param>
-</function>
-  
-  
-<struct name="NetworkDataRequest">
-	<param name="paramId" type="Integer" minvalue="1" maxvalue="65535" mandatory="true">
-      <description>Paramter ID for the request.</description>
-    </param>
-	
-	<param name="NetworkDataAttribute" type="String" maxlength="500" minsize="1" maxsize="100" array="true" mandatory="true">
-      <description>Array of Network Data Attributes which uniquely identify network data as per OEM implementation 
-	  Should be uniquely identifiable network data item, else response would be INVALID_DATA
-	  </description>
-    </param>
-</struct>
-```
-
-* For GetVehicleData response/OnVehicleData, add additional response structure:
-  * networkData - It has a paramId and value returned from vehicle. Value returned will be a Hex string.
-  
-```
-<function name="GetVehicleData" functionID="GetVehicleDataID" messagetype="response">
-
-    <param name="success" type="Boolean" platform="documentation">
-		<description> true, if successful; false, if failed </description>
-	</param>
-
-    <param name="resultCode" type="Result" platform="documentation">
-      <description>See Result</description>
-      <element name="SUCCESS"/>
-      <element name="INVALID_DATA"/>
-      <element name="OUT_OF_MEMORY"/>
-      <element name="TOO_MANY_PENDING_REQUESTS"/>
-      <element name="APPLICATION_NOT_REGISTERED"/>
-      <element name="GENERIC_ERROR"/>
-      <element name="REJECTED"/>
-      <element name="VEHICLE_DATA_NOT_AVAILABLE"/>
-      <element name="USER_DISALLOWED"/>
-    </param>
-
-    <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-      <description>Provides additional human readable info regarding the result.</description>
-    </param>
-
-    <param name="gps" type="GPSData" mandatory="false">
-      <description>See GPSData</description>
-    </param>
-        
-	<!-- Not showing other params -->
-	
-	<param name="networkData" type="NetworkData" mandatory="false" minsize="1" maxsize="500" maxLength="200" array="true">
-      <description>
-      	Returned Network Data value for a paramId
-      </description>
-    </param> 
-
-</function>
-
-<function name="OnVehicleData" functionID="OnVehicleDataID" messagetype="notification">
-    <description>Callback for the periodic and non periodic vehicle data read function.</description>
-    <param name="gps" type="GPSData" mandatory="false">
-      <description>See GPSData</description>
-    </param>
-     
-	<!-- Not showing other params -->
-	
-	<param name="networkData" type="NetworkData" mandatory="false" minsize="1" maxsize="500" maxLength="200" array="true">
-      <description>
-      	Returned Network Data value for a paramId
-      </description>
-    </param> 
-	
-  </function>
-  
-  
-<struct name="NetworkData">
-	<param name="paramId" type="Integer" minvalue="1" maxvalue="65535" mandatory="true">
-      <description>Parameter ID for the request.</description>
-    </param>
-	
-	<param name="value" type="String" mandatory="false" maxlength="200" array="false">
-      <description>
-      	Raw Network data HEX string as returned from vehicle.
-      </description>
-    </param>
-</struct>
-```
-
-The reason we did not choose this approach is that this will need changes to the existing behavior of GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData. E.g.:
-* Need to change the behavior to NOT send Ignore response when multiple Subscribe requests are sent for param “networkDataRequest”
-* All existing params are of type Boolean, this new param will need to be structure.
-* Addition of new response structure “networkData”
