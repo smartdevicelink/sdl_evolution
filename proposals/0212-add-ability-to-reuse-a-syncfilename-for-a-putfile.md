@@ -26,6 +26,10 @@ When Core receives a `PutFile` it should send a notification to the HMI that a n
     ...
     
     /* New parameters */
+    <param name="syncFileName" type="String" maxlength="255" mandatory="true">
+        <description>File reference name.</description>
+    </param>
+
     <param name="isSystemFile" type="Boolean" defvalue="false" mandatory="false">
         <description>
         Indicates if the file is meant to be passed thru core to elsewhere on the system. If true the system will pass the data thru as it arrives to a predetermined area outside of core.
