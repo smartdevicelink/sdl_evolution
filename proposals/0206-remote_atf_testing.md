@@ -1,4 +1,4 @@
-# Remote Automated testing
+# Remote Automated Testing
 
 * Proposal: [SDL-0206](0206-remote_atf_testing.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
