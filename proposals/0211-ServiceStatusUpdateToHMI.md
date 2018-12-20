@@ -40,6 +40,9 @@ The proposed solution is to introduce a new RPC for SDL Core to update HMI with 
       The reason for a service event. Certain events may not have a reason, such as when a service is ACCEPTED (which is the normal expected behavior).
     </description>
   </param>
+   <param name="appID" type="Integer" mandatory="false">
+       <description>ID of the application which triggered the update.</description>
+   </param>	
 </function>
 
 <interface name="Common" version="2.0.0" date="2018-09-05">
@@ -49,6 +52,12 @@ The proposed solution is to introduce a new RPC for SDL Core to update HMI with 
     <element name="VIDEO" >
       <description>Refers to the Video service.</description>
     </element>
+    <element name="AUDIO" >
+      <description>Refers to the Audio service.</description>
+    </element>
+    <element name="RPC" >
+      <description>Refers to the RPC service.</description>
+    </element>	  
   </enum>
 
   <enum name="ServiceEvent">
@@ -76,6 +85,7 @@ The proposed solution is to introduce a new RPC for SDL Core to update HMI with 
   </enum>	
 </interface>
 ```
+ Note that the only time when SDL would not be able provide the appID would be during the first StartService request for the RPC service before RAI was sent.  
 	
 The details of the use cases are as follows:
 (Note: Pop-ups on HMI side only serve as example.)
