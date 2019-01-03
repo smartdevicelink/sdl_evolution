@@ -28,9 +28,15 @@ The second problem is to determine which adds and removals are necessary to turn
 1. Mark all cells in the old list as marked for deletion, all cells in the new list as marked for addition.
 2. Loop through both lists and unmark cells that occur in the same order in both lists.
 3. Create `DeleteCommand`s for all cells still marked for deletion; create `AddCommand`s for all cells still marked for addition, inserting them in the correct places using the `position` parameter.
-4. Send the commands and set the new list as the current menu.
+4. Score this run by the additions. A change requiring 4 additions would have a score of 4.
+5. Start a new run by removing the first item from the current menu and running steps 1 to 4 based on this new current menu and the target menu. However, if no items are found in the target list, all remaining runs are cancelled.
+6. Repeat steps 1 to 5 until the current menu has zero items remaining or no items are found in the target list.
+7. Compare the scores of the various runs and use the run that has the lowest score.
+8. Send the commands and set the new list as the current menu.
 
 In the average case scenario, this algorithm would be O(n*log(n)).
+
+All deletions can happen concurrently, but additions must happen sequentially (waiting for a response before the next request is sent) starting from position 0 and moving up.
 
 #### Examples
 
@@ -57,10 +63,42 @@ In the average case scenario, this algorithm would be O(n*log(n)).
 4. Old Menu [A,B,C,D]
    
    New Menu [B,A,D,C]
+
+   A is found in position 1 (0 based)
+   
+   B begins searching in position 2, is not found.
+
+   C begins searching in position 2, is found in position 3.
+
+   We've reached the end of the new menu, additional searching is canceled.
    
    B is marked for deletion and addition at position 0
    
    D is marked for deletion and addition at position 2
+
+   Run 1 score is 2
+
+   Run 2 - B is found in position 0, C in 3, D is not checked - score of 2
+
+   Run 3 - C is found in 3, score of 3
+
+   Run 4 - D is found in 2, score of 3
+
+   Run 1 will be used
+
+5. Old Menu [A,B,C,D]
+
+   New Menu [B,C,D,A]
+
+   Run 1: A is found in position 3 (0 based) - score of 3
+
+   Run 2: B is found in position 0, C is found in position 1, D is found in position 2 - score of 1
+
+   Run 3: Score of 2
+
+   Run 4: Score of 3
+
+   Run 2 will be used.
 
 #### Submenus
 
