@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is related to Android 4.8 specifically updating the `SdlManagerListener` interface to match iOS `SDLManagerDelegate`.
+This proposal is related to Android 4.8 specifically updating the `SdlManagerListener` interface to match iOS `SDLManagerDelegate`. It adds APIs to easily read HMI status parameters but also allow updating the manager configuration.
 
 ## Motivation
 
