@@ -11,7 +11,7 @@ This proposal is related to Android 4.8 specifically updating the `SdlManagerLis
 
 ## Motivation
 
-During development of "SDL Localization" (#295) for Android I found that the proposals "Delegate Support for all onHMIStatus State Changes" (#101) and "Change Registration Manager" (#164) are not targeting Android. 
+During development of "SDL Localization" #295 for Android I found that the proposals "Delegate Support for all onHMIStatus State Changes" #101 and "Change Registration Manager" #164 are not targeting Android. 
 
 ## Proposed solution
 
