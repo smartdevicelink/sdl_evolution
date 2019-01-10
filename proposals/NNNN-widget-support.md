@@ -1,7 +1,7 @@
 # Widget support
 
 * Proposal: [NNNN](NNNN-widget-support.md)
-* Author: [Kujtim Shala](https://github.com/kshala-ford) [Ashwin Karemore](https://github.com/ashwink11)
+* Author: [Ashwin Karemore](https://github.com/ashwink11), [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Review ready**
 * Impacted Platforms: [Core / iOS / Android / Web / RPC ]
 
@@ -11,11 +11,11 @@ This proposal is about widget support for SDL applications on modern infotainmen
 
 ## Motivation
 
-As provided in other app platforms apps widgets are useful to quickly interact with apps and features. With modern infotainment systems and larger displays SDL can offer a small representation of a registered application.
+As provided in other app platforms, app widgets are useful to quickly interact with apps and features. With modern infotainment systems and larger displays, SDL can offer a small representation of a registered application.
 
 ### Overall vision: Multi display support
 
-With providing Widget support we identified this concept can be extended to support multiple displays including cluster, heads up and rear seat entertainment systems. The long-term vision of this proposal is to provide mutli-screen and multi-display support. This means that one app should not only be able to have multiple screens of different types on one display but also address other displays inside the vehicle.
+Providing Widget support has been identified as a concept that can be extended to support multiple displays including clusters, heads up and rear seat entertainment systems. The long-term vision of this proposal is to provide mutli-screen and multi-display support. This means that one app should not only be able to have multiple screens of different types on one display but also address other displays inside the vehicle.
 
 ![Rear Seat Entertainment Systems](../assets/proposals/NNNN-widgets/rse.jpg)
 
@@ -27,30 +27,30 @@ This proposal is focusing on main display widgets only but provides futuristic A
 
 The future proposals will be about:
 
-Redesign display capabilities: Allow apps to request system capabilities regarding displays, screens and seats so that apps know what displays are available, the display type (center stack, cluster, head-up, head-rest etc.), size etc. Also what types of screens the display supports, where the display is located and what seats (and therefore persons) can reach and use the display.
+Redesigning display capabilities: Allow apps to request system capabilities regarding displays, screens and seats so that apps know what displays are available, the display type (center stack, cluster, head-up, head-rest etc.), size etc. Additionally, what types of screens the display supports, where the display is located and what seats (and therefore persons) can reach and use the display.
 
-Analyse RPCs and their relation to displays and screens: Today in the vehicle SDL works as a system with a single main display and a single main app screen. OEMs reuse some assets from the main app screen and present it in other areas in the vehicle. We have to analyse and understand how RPCs are affected by having multiple screens with multiple displays. A future proposal will solve how HMI levels will work on multiple displays and what RPCs are system, display or even screen specific.
+Analyzing RPCs and their relation to displays and screens: Today in the vehicle, SDL works as a system with a single main display and a single main app screen. OEMs reuse some assets from the main app screen and present it in other areas in the vehicle. We have to analyze and understand how RPCs are affected by having multiple screens with multiple displays. A future proposal will solve how HMI levels will work on multiple displays and what RPCs are system, display or even screen specific.
 
 ## Proposed solution
 
 In current SDL implementations the registered application always comes with a single default screen that shows the app content. 
 In a nutshell the solution is to allow multiple screens per app. Each screen can be individually addressed and can be shown on a single display or on multiple displays. For convenience it should be possible to enable content duplication of another screen.
 
-The below image shows SYNC3 with an app screen being part of the display. The SYNC3 display in the center stack is the main display of the SDL system. The highlighted area is the viewport of app screens. Each app has one single main app screen that is presented on the SYNC3 display on user selection. Selecting another app will cause the display to show the screen of the other app. If that screen is visible the app is defined as in HMI level FULL.
+The below image shows SYNC3 with an app screen being part of the display. The SYNC3 display in the center stack is the main display of the SDL system. The highlighted area is the viewport of app screens. Each app has one single main app screen that is presented on the SYNC3 display on user selection. Selecting another app will cause the display to show the screen of the other app. If that screen is visible, the app is defined as in HMI level FULL.
 
 ![App screen and display](../assets/proposals/NNNN-widgets/screen.png)
 
-It should not be part of the proposal to specify where widgets are located. It is the OEMs responsibility and decision how and where widgets are presented (if the OEM chooses to support widgets). They could be listed on the IVI home screen, in the apps domain or next to the main app screen area.
+It should not be part of the proposal to specify where widgets are located. It is the OEMs responsibility and decision on how and where widgets are presented (if the OEM chooses to support widgets). They could be listed on the IVI home screen, in the apps domain or next to the main app screen area.
 
 ![Example SYNC3 Home screen](../assets/proposals/NNNN-widgets/example-home.jpg)
 
 ### Apps, Displays, Screens
 
-Today when we speak of SDL apps once they register they get a default screen allocated on the IVI head unit. Strictly speaking the Show RPC is manipulating the content presented in the single default screen. For media apps some IVI reuse the content on clusters or on IVI overview screens (SYNC3 home screen). Adding the capability for apps to address a specific screen per Show request allows apps to fill app screens individually.
+As of today, once an SDL app registers it gets a default screen allocated on the IVI head unit. Strictly speaking the `Show` RPC is manipulating the content presented in the single default screen. For media apps, some IVI reuse/repeat the content on clusters or on IVI overview screens (e.g. SYNC3 home screen). Adding the capability for apps to address a specific screen per Show request allows apps to fill app screens individually.
 
 ### Screen management
 
-In order to work with multiple screens the app needs to be able to create or delete screens. By adding the RPCs `CreateScreen` and `DeleteScreen` the app will be able to manage the screen on the main display.
+In order to work with multiple screens, the app needs to be able to create or delete screens. By adding the RPCs `CreateScreen` and `DeleteScreen` the app will be able to manage the screen on the main display.
 
 #### Mobile API
 
@@ -67,7 +67,7 @@ In order to work with multiple screens the app needs to be able to create or del
   <param name="type" type="ScreenType" mandatory="true" />
   <param name="duplicateScreenID" type="Integer" mandatory="false">
     <description>
-      Optional parameter. Specify wether the content of an existing screen should be duplicated
+      Optional parameter. Specify whether the content of an existing screen should be duplicated
       to the created screen.
     </description>
   </param>
@@ -132,11 +132,11 @@ After a screen is successfully created the response will contain information and
 
 This proposal contains two types of screens.
 
-The main screen is the full size apps screen on a display. An app can have multiple main screens depending on the displays e.g. main screen on the central console and main screen on rear seat entertainment system. However it should not be allowed to have multiple main screen on a single display. Main screens follow HMI levels and permissions.
+The main screen is the full size apps screen on a display. An app can have multiple main screens depending on the displays e.g. main screen on the central console and main screen on rear seat entertainment system. However, it should not be allowed to have multiple main screen on a single display. Main screens follow HMI levels and permissions.
 
-The widget screen is a small screen type to provide quick information or shortcut softbuttons. Widgets don't follow HMI levels as main screen. Once a widget is created the all RPCs addressed to this widget follow policies based on HMI_LIMITED. This policy rule is due to the nature of widgets as they can be always avaiable to the user or should be ready to use when accessing the widget area (see alternative solution for widgets with HMI levels).
+The widget screen is a small screen type to provide quick information or shortcut softbuttons. Widgets don't follow HMI levels as main screen. Once a widget is created the all RPCs addressed to this widget follow policies based on HMI_LIMITED. This policy rule is due to the nature of widgets as they can be always available to the user or should be ready to use when accessing the widget area (see alternative solution for widgets with HMI levels).
 
-Still widgets have affect to the HMI level of the app's main screen. Depending on the app policies:
+Still widgets have effects to the HMI level of the app's main screen. Depending on the app policies:
 
 1. Apps can create widgets from any HMI level as allowed by policies (e.g. from HMI_NONE or BACKGROUND) and send `Show` or `SetDisplayLayout` to add content (text and soft buttons) to that widget. The RPCs sent to the widget follow policies of HMI_LIMITED
 2. If a user taps on a soft button in the widget and the app main screen is in HMI_NONE the app will automatically transit to HMI_BACKGROUND
@@ -172,7 +172,7 @@ This allows the app to use the full flexibility of the Show RPC in other screens
 
 ### Screen templates
 
-Today SDL comes with a set of templates available the app can choose from. The information what templates are available to the app is provided in 
+Today, SDL comes with a set of predefined templates available. The information for what templates are available for the apps is provided in 
 - `RegisterAppInterfaceResponse.displayCapabilities.templatesAvaiable` and 
 - `SetDisplayLayoutResponse.displayCapabilities.templatesAvailable`.
 
@@ -180,7 +180,7 @@ Details about the currently selected screen template are part of the display cap
 - text fields, the name, width etc.
 - image fields e.g. graphic, or soft button image resolutions
 
-The template design comes from the head unit. However predefined template names are defined in `PredefinedLayout` enum. The head unit should provide template designs for the predefined template names. Still it can also provide additional custom templates with self defined names. 
+The template design comes from the head unit. However predefined template names are defined in `PredefinedLayout` enum. The head unit should provide template designs for the predefined template names. Still, it can also provide additional custom templates with self defined names. 
 
 All this can be reused for widget screens. When creating a new widget screen the available widget templates are provided in `CreateScreenResponse.displayCapabilities.templatesAvailable`.
 
@@ -196,7 +196,7 @@ Examples for widget screens:
 
 ### Screen types supported
 
-In order to inform the app what screen types are supported the struct `DisplayCapabilities` should be extended with a single optional parameter called `screenTypesSupported`.
+In order to inform the app what screen types are supported, the struct `DisplayCapabilities` should be extended with a single optional parameter called `screenTypesSupported`.
 
 ```xml
 <struct name="DisplayCapabilities" since="2.0">
@@ -205,17 +205,17 @@ In order to inform the app what screen types are supported the struct `DisplayCa
 </struct>
 ```
 
-This parameter does not inform the app how many screens of the type are supported but it informs if a display supports widgets or a main app screen. The HMI decides on 
+This parameter does not inform the app how many screens per type are supported but it informs if a display supports widgets or a main app screen. The HMI decides on 
 - how many widgets should be displayed (example: limited to 6 or indefinite using a scrollable area) 
 - and how to order them (alphabetically, chronogically or based on recent app usage).
 
 ## Potential downsides
 
-With current design displays and screens are not clearly separated. Together with multi-display support there will be a proposal to redesign display and screen capabilities. This proposal should still be valid as it focuses on mutli screen only.
+The current design of SDL does not clearly separate displays and screens. Together with multi-display support there will be a proposal to redesign display and screen capabilities. This proposal should still be valid as it focuses on multi screen only.
 
 ## Impact on existing code
 
-On SDL there are additional RPCs to be added. The HMI needs to design templates for widgets. This proposal did not focus on the mobile changes. For mobile libraries it's necessary to add the new RPCs and add support for multiple screen managers. This will also be part of a separate proposal.
+On SDL there are additional RPCs that need to be added. The HMI needs to design templates for widgets. This proposal did not focus on the mobile changes. For mobile libraries it's necessary to add the new RPCs and add support for multiple screen managers. This will also be part of a separate proposal.
 
 ## Alternatives considered
 
