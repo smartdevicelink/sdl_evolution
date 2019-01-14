@@ -64,7 +64,7 @@ Some services will need more structs defined to help standardize the data that i
 
 #### Media
 
-A media service is defined as a service that is currently the audio source for the module. 
+A media service is defined as a service that is currently the audio source for the module. The `MediaServiceData` object is defined in a general way for all types of media (music, podcast, audiobook, other). This allows the struct to be simplified with clear descriptions of what data should be contained in for each key.
 
 
 ###### Struct:
@@ -73,19 +73,93 @@ A media service is defined as a service that is currently the audio source for t
 	<struct name="MediaServiceManifest">
 	
 	</struct>
-
-	<struct name="MediaServiceData">
-		<description> This data is related to what a media service would provide</description>
-		<param name="mediaTitle" type="String" mandatory="false"/>
-		<param name="mediaArtist" type="String" mandatory="false"/>
-		<param name="mediaAlbum" type="String" mandatory="false"/>
-		<param name="mediaYear" type="String" mandatory="false"/>
-		<param name="mediaGenre" type="String" mandatory="false"/>
-		<param name="mediaStation" type="String" mandatory="false"/>
-		<param name="rating" type="int" minvalue ="0" maxvalue="100" mandatory="false"/>
-		<param name="mediaImageName" type="String" mandatory="false">
-
-	</struct>
+	
+	<enum name="MediaType">
+	    <element name="MUSIC">
+	    <element name="PODCAST">
+	    <element name="AUDIOBOOK">
+	    <element name="OTHER">
+	</enum>
+	
+    <struct name="MediaServiceData">
+         <description> This data is related to what a media service should provide</description>
+         <param name="mediaType" type="MediaType" mandatory="false">
+             <description>The type of the currently playing or paused track.</description>
+         </param>
+         <param name="mediaTitle" type="String" mandatory="false">
+             <description>
+             Music: The name of the current track
+             Podcast: The name of the current episode
+             Audiobook: The name of the current chapter
+             </description>
+         </param>
+         <param name="mediaArtist" type="String" mandatory="false">
+             <description>
+             Music: The name of the current album artist
+             Podcast: The provider of the podcast (hosts, network, company)
+             Audiobook: The book author's name
+             </description>
+         </param>
+         <param name="mediaAlbum" type="String" mandatory="false">
+             <description>
+             Music: The name of the current album
+             Podcast: The name of the current podcast show
+             Audiobook: The name of the current book
+             </description>
+         </param>
+         <param name="playlistName" type="String" mandatory="false">
+             <description>
+             Music: The name of the playlist or radio station, if the user is playing from a playlist, otherwise, Null
+             Podcast: The name of the playlist, if the user is playing from a playlist, otherwise, Null
+             Audiobook: Likely not applicable, possibly a collection or "playlist" of books
+             </description>
+         </param>
+         <param name="isExplicit" type="Bool" mandatory="false">
+             <description> Whether or not the content currently playing (e.g. the track, episode, or book) contains explicit content</description>
+         </param>
+         <param name="trackPlaybackProgress" type="Int" mandatory="false">
+             <description>
+             Music: The current progress of the track in seconds
+             Podcast: The current progress of the episode in seconds
+             Audiobook: The current progress of the current segment (e.g. the chapter) in seconds
+             </description>
+         </param>
+         <param name="trackPlaybackDuration" type="Int" mandatory="false">
+             <description>
+             Music: The total duration of the track in seconds
+             Podcast: The total duration of the episode in seconds
+             Audiobook: The total duration of the current segment (e.g. the chapter) in seconds
+             </description>
+         </param>
+         <param name="queuePlaybackProgess" type="Int" mandatory="false">
+             <description>
+             Music: The current progress of the playback queue in seconds
+             Podcast: The current progress of the playback queue in seconds
+             Audiobook: The current progress of the playback queue (e.g. the book) in seconds
+             </description>
+         </param>
+         <param name="queuePlaybackDuration" type="Int" mandatory="false">
+             <description>
+             Music: The total duration of the playback queue in seconds
+             Podcast: The total duration of the playback queue in seconds
+             Audiobook: The total duration of the playback queue (e.g. the book) in seconds
+             </description>
+         </param>
+         <param name="queueCurrentTrackNumber" type="Int" mandatory="false">
+             <description>
+             Music: The current number (1 based) of the track in the playback queue
+             Podcast: The current number (1 based) of the episode in the playback queue
+             Audiobook: The current number (1 based) of the episode in the playback queue (e.g. the chapter number in the book)
+             </description>
+         </param>
+         <param name="queueTotalTrackCount" type="Int" mandatory="false">
+             <description>
+             Music: The total number of tracks in the playback queue
+             Podcast: The total number of episodes in the playback queue
+             Audiobook: The total number of sections in the playback queue (e.g. the number of chapters in the book)
+             </description>
+         </param>
+     </struct>
     
 ```
 
@@ -106,28 +180,89 @@ A weather service is defined as a service that can provide weather data.
 
 ```xml
 
-	<struct name="WeatherServiceManifest">
-		<param name="currentForecastSupported type="Boolean" mandatory="false"/>
-		<param name="maxMultidayForecastAmount" type="Integer" mandatory="false"/>
-		<param name="weatherForLocationSupported" type="Boolean" mandatory="false"/>
-	</struct>
+    <struct name="WeatherServiceManifest">
+        <param name="currentForecastSupported" type="Boolean" mandatory="false"/>
+        <param name="maxMultidayForecastAmount" type="Integer" mandatory="false"/>
+        <param name="maxHourlyForecastAmount" type="Integer" mandatory="false"/>
+        <param name="maxMinutelyForecastAmount" type="Integer" mandatory="false"/>
+        <param name="weatherForLocationSupported" type="Boolean" mandatory="false"/>
+    </struct>
 
-	<struct name="WeatherServiceData">
-		<description> This data is related to what a weather service would provide</description>
-		<param name="currentForecast" type="DailyForecast" mandatory="false"/>
-		<param name="multidayForecast" type="DailyForecast" array="true" minsize="1" mandatory="false">
-			<description> This array should be ordered with the first object being the current day</description>
-		</param>
-	</struct>
-	
-	<struct name="DailyForecast">
-		<param name="currentTemperature" type="Temperature" mandatory="false"/>
-		<param name="maximumTemperature" type="Temperature" mandatory="false"/>
-		<param name="minimumTemperature" type="Temperature" mandatory="false"/>
-		<param name="weatherTerm" type="String" mandatory="false"/>
-		<param name="humidity" type="String" mandatory="false"/>
-		<param name="weatherImageName" type="String" mandatory="false">
-	</struct>
+    <struct name="WeatherServiceData">
+        <description> This data is related to what a weather service would provide</description>
+        <param name="location" type="LocationDetails" mandatory="true"/>
+        <param name="currentForecast" type="WeatherData" mandatory="false"/>
+        <param name="minuteForecast" type="WeatherData" array="true" minSize="15" maxSize="60" mandatory="false" />
+        <param name="hourlyForecast" type="WeatherData" array="true" minsize="1" maxSize="96" mandatory="false" />
+        <param name="multidayForecast" type="WeatherData" array="true" minsize="1" maxSize="30" mandatory="false" />
+        <param name="alerts" type="WeatherAlert" array="true" minsize="1" maxSize="10" mandatory="false" />
+            <description> This array should be ordered with the first object being the current day</description>
+        </param>
+    </struct>
+
+    <struct name="WeatherData">
+        <param name="currentTemperature" type="Temperature" mandatory="false"/>
+        <param name="temperatureHigh" type="Temperature" mandatory="false"/>
+        <param name="temperatureLow" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperature" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperatureHigh" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperatureLow" type="Temperature" mandatory="false"/>
+    
+        <param name="weatherSummary" type="String" mandatory="false"/>
+        <param name="time" type="DateTime" mandatory="false"/>
+        <param name="humidity" type="Float" mandatory="false">
+            <description> 0 to 1, percentage humidity </description>
+        </param>
+        <param name="cloudCover" type="Float" mandatory="false">
+            <description> 0 to 1, percentage cloud cover </description>
+        </param>
+        <param name="moonPhase" type="Float" mandatory="false">
+            <description> 0 to 1, percentage of the moon seen, e.g. 0 = no moon, 0.25 = quarter moon </description>
+        </param>
+
+        <param name="windBearing" type="Integer" mandatory="false">
+            <description> In degrees, true north at 0 degrees </description>
+        </param>
+        <param name="windGust" type="Float" mandatory="false">
+            <description> km/hr </description>
+        </param>
+        <param name="windSpeed" type="Float" mandatory="false">
+            <description> km/hr </description>
+        </param>
+
+        <param name="nearestStormBearing" type="Integer" mandatory="false">
+            <description> In degrees, true north at 0 degrees </description>
+        </param>
+        <param name="nearestStormDistance" type="Integer" mandatory="false">
+            <description> In km </description>
+        </param>
+        <param name="precipAccumulation" type="Float" mandatory="false" >
+            <description> cm </description>
+        </param>
+        <param name="precipIntensity" type="Float" mandatory="false" >
+            <description> cm of water per hour </description>
+        </param>
+        <param name="precipProbability" type="Float" mandatory="false" >
+            <description> 0 to 1, percentage chance </description>
+        </param>
+        <param name="precipType" type="String" mandatory="false" >
+            <description> e.g. "rain", "snow", "sleet", "hail" </description>
+        </param>
+        <param name="visibility" type="Float" mandatory="false" >
+            <description> In km </description>
+        </param>
+
+        <param name="weatherIconImageName" type="String" mandatory="false" />
+    </struct>
+
+    <struct name="WeatherAlert">
+        <param name="title" type="String" mandatory="false" />
+        <param name="summary" type="String" mandatory="false" />
+        <param name="expires" type="DateTime" mandatory="false" />
+        <param name="regions" type="String" array="true" minSize="1" maxSize="99" mandatory="false" />
+        <param name="severity" type="String" mandatory="false" />
+        <param name="timeIssued" type="DateTime" mandatory="false" />
+    </struct>
     
 ```
 
