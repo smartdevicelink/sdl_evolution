@@ -154,8 +154,9 @@ To do that the app developer must create a new view and place it in the `view` p
 @interface SDLView
 
 /**
- * Specifies wether the view is opaque. An opaque view will be presented on the app's screen overriding content from underlying views.
- * If this property is set to NO the view is transparent and the view controller manager will composite content from underlying views.
+ * Specifies wether the view is opaque. An opaque view will be presented on the app's screen
+ * overriding all content from underlying views. If this property is set to NO the view is
+ * transparent and the view controller manager will composite content from underlying views.
  * The default value is YES.
  */
 @property (nonatomic, assign) BOOL opaque;
@@ -163,7 +164,7 @@ To do that the app developer must create a new view and place it in the `view` p
 @end
 ```
 
-This `opaque` flag should allow views from the underlying view controller to stay visible while the overlay controller is presenting. The opaque mode is view type related. With this flag 
+If the `opaque` flag is set to NO the view will be called transparent. It should allow views or view parts from the underlying view controller to stay visible while the overlay controller is presenting. The opaque mode is view type related and allows . With this flag 
 - the app developer has full control to decide on what to show and how to show
 - the complexity is scalable per app developer choice (no overlay view -> no screen changes)
 
