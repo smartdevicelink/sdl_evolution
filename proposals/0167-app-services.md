@@ -729,6 +729,8 @@ Now that we know what to expect in terms of the actual data, the next piece will
 
 ###### GetAppServiceData
 
+The response from a `GetAppServiceData`  should include all service data that is currently available. This is different from the `OnAppServiceData` that will be discussed below. 
+
 ```xml
 <function name="GetAppServiceData" functionID="GetAppServiceDataID" messagetype="request">
 	<description> This request asks the module for current data related to the specific service. It also includes an option to subscribe to that service for future updates</description>
@@ -776,6 +778,8 @@ Now that we know what to expect in terms of the actual data, the next piece will
 If the app service consumer subscribed to updates from the app service provider they will receive those updates through an `OnAppServiceData ` notification. This notification will simply contain an `AppServiceData` struct with the updated data.
 
 ###### OnAppServiceData
+
+Notifications will come through as data changes. Only the data that changed should be expected to be included. This prevents the provider and subscriber traffic from becoming too large. However, it is recommended that these be batched together when possible as to avoid constant traffic.
 
 ```xml
 <function name="OnAppServiceData" functionID="OnAppServiceDataID" messagetype="notification">
