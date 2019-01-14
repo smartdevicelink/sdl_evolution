@@ -36,6 +36,14 @@ When Core receives a `PutFile` it should send a notification to the HMI that a n
         </description>
     </param>
     
+    /* Documentation to be updated */
+    <param name="fileSize" type="Integer" minvalue="0" maxvalue="100000000000" mandatory="false">
+        <description>
+	/* Updated */
+        Full size of the file. This value is sent in the first OnPutFile notification if the file is split into many PutFiles.
+        </description>
+    </param>
+
     /* Existing parameters */
     <param name="offset" type="Integer" minvalue="0" maxvalue="100000000000" mandatory="false">
         <description>
@@ -48,13 +56,7 @@ When Core receives a `PutFile` it should send a notification to the HMI that a n
         Optional length in bytes for resuming partial data chunks
         </description>
     </param>
-    
-    <param name="fileSize" type="Integer" minvalue="0" maxvalue="100000000000" mandatory="false">
-        <description>
-        Full Size of file. sends in first OnPutFile notification if file is splited into many PutFiles
-        </description>
-    </param>
-    
+        
     <param name="FileName" type="String" maxlength="255" mandatory="true">
         <description>
         File reference name
