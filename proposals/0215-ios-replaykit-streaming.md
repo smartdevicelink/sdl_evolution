@@ -11,7 +11,7 @@ This proposal aims to optimize how the car window API captures the screen in the
 
 ## Motivation
 
-This comes in wake of the fact that we there is 30-70% CPU usage on navigation apps which causes the phone to heat up excessively and deplete battery quickly.  Also, Apple has recently annouced the deprecating of OpenGL in favor of its GPU optimized graphics library - Metal.  Metal objects aren't being captured with the current method of screen capturing.
+This comes in wake of the fact that there is 30-70% CPU usage on navigation apps which causes the phone to heat up excessively and deplete battery quickly. Also, Apple has recently announced the deprecating of OpenGL in favor of its GPU optimized graphics library - Metal. Metal objects aren't being captured with the current method of the screen capturing.
 
 ## Proposed solution
 
@@ -78,18 +78,17 @@ SDLCarWindow.m relies heavily on ```[self.rootViewController.view drawViewHierar
 
 ## Potential downsides
 
-- ReplayKit displays an alert asking the user to allow the app to record the screen.  However, after the user taps this once, it will only ask again on a new app launch after a certain time window
-- The app would need to support horizontal orientation otherwise the screen would be captured in portrait
-- Must be on iOS 11 or greater
+* ReplayKit displays an alert asking the user to allow the app to record the screen.  However, after the user taps this once, it will only ask again on a new app launch after a certain time window
+* The app would need to support horizontal orientation otherwise the screen would be captured in portrait
+* Must be on iOS 11 or greater
 
 ## Impact on existing code
 
 * No changes to the Android library
-* The iOS library would need to alter it's code to add a flag to pick between ReplayKit streaming or the current method of streaming (possibly via the ```SDLStreamingMediaConfiguration``` ).  Also it would need to alter SDLCarWindow.m's ```syncFrame``` method that causes the jump in CPU usage (which can be seen via the CPU profiling instrument while running an SDL enabled navigation app by filtering out system methods).  Also the app would need to be forced in horizontal orientation.
+* The iOS library would need to alter it's code to add a flag to pick between ReplayKit streaming or the current method of streaming (possibly via the ```SDLStreamingMediaConfiguration``` ).  Additionally, it would need to alter SDLCarWindow.m's ```syncFrame``` method that causes the jump in CPU usage (which can be seen via the CPU profiling instrument while running an SDL enabled navigation app by filtering out system methods).  The app would need to be forced in a horizontal orientation.
 
 ## Alternatives considered
 
-There are private methods that can capture the screen very efficiently, however, implementing these can get your app removed from the app store or rejected from submission by Apple.
-
+* There are private methods that can capture the screen very efficiently, however, implementing these can get your app removed from the app store or rejected from submission by Apple.
 
 * Nothing beyond keeping the original design.
