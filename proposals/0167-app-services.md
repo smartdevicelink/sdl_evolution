@@ -180,28 +180,89 @@ A weather service is defined as a service that can provide weather data.
 
 ```xml
 
-	<struct name="WeatherServiceManifest">
-		<param name="currentForecastSupported type="Boolean" mandatory="false"/>
-		<param name="maxMultidayForecastAmount" type="Integer" mandatory="false"/>
-		<param name="weatherForLocationSupported" type="Boolean" mandatory="false"/>
-	</struct>
+    <struct name="WeatherServiceManifest">
+        <param name="currentForecastSupported" type="Boolean" mandatory="false"/>
+        <param name="maxMultidayForecastAmount" type="Integer" mandatory="false"/>
+        <param name="maxHourlyForecastAmount" type="Integer" mandatory="false"/>
+        <param name="maxMinutelyForecastAmount" type="Integer" mandatory="false"/>
+        <param name="weatherForLocationSupported" type="Boolean" mandatory="false"/>
+    </struct>
 
-	<struct name="WeatherServiceData">
-		<description> This data is related to what a weather service would provide</description>
-		<param name="currentForecast" type="DailyForecast" mandatory="false"/>
-		<param name="multidayForecast" type="DailyForecast" array="true" minsize="1" mandatory="false">
-			<description> This array should be ordered with the first object being the current day</description>
-		</param>
-	</struct>
-	
-	<struct name="DailyForecast">
-		<param name="currentTemperature" type="Temperature" mandatory="false"/>
-		<param name="maximumTemperature" type="Temperature" mandatory="false"/>
-		<param name="minimumTemperature" type="Temperature" mandatory="false"/>
-		<param name="weatherTerm" type="String" mandatory="false"/>
-		<param name="humidity" type="String" mandatory="false"/>
-		<param name="weatherImageName" type="String" mandatory="false">
-	</struct>
+    <struct name="WeatherServiceData">
+        <description> This data is related to what a weather service would provide</description>
+        <param name="location" type="LocationDetails" mandatory="true"/>
+        <param name="currentForecast" type="WeatherData" mandatory="false"/>
+        <param name="minuteForecast" type="WeatherData" array="true" minSize="15" maxSize="60" mandatory="false" />
+        <param name="hourlyForecast" type="WeatherData" array="true" minsize="1" maxSize="96" mandatory="false" />
+        <param name="multidayForecast" type="WeatherData" array="true" minsize="1" maxSize="30" mandatory="false" />
+        <param name="alerts" type="WeatherAlert" array="true" minsize="1" maxSize="10" mandatory="false" />
+            <description> This array should be ordered with the first object being the current day</description>
+        </param>
+    </struct>
+
+    <struct name="WeatherData">
+        <param name="currentTemperature" type="Temperature" mandatory="false"/>
+        <param name="temperatureHigh" type="Temperature" mandatory="false"/>
+        <param name="temperatureLow" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperature" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperatureHigh" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperatureLow" type="Temperature" mandatory="false"/>
+    
+        <param name="weatherSummary" type="String" mandatory="false"/>
+        <param name="time" type="DateTime" mandatory="false"/>
+        <param name="humidity" type="Float" mandatory="false">
+            <description> 0 to 1, percentage humidity </description>
+        </param>
+        <param name="cloudCover" type="Float" mandatory="false">
+            <description> 0 to 1, percentage cloud cover </description>
+        </param>
+        <param name="moonPhase" type="Float" mandatory="false">
+            <description> 0 to 1, percentage of the moon seen, e.g. 0 = no moon, 0.25 = quarter moon </description>
+        </param>
+
+        <param name="windBearing" type="Integer" mandatory="false">
+            <description> In degrees, true north at 0 degrees </description>
+        </param>
+        <param name="windGust" type="Float" mandatory="false">
+            <description> km/hr </description>
+        </param>
+        <param name="windSpeed" type="Float" mandatory="false">
+            <description> km/hr </description>
+        </param>
+
+        <param name="nearestStormBearing" type="Integer" mandatory="false">
+            <description> In degrees, true north at 0 degrees </description>
+        </param>
+        <param name="nearestStormDistance" type="Integer" mandatory="false">
+            <description> In km </description>
+        </param>
+        <param name="precipAccumulation" type="Float" mandatory="false" >
+            <description> cm </description>
+        </param>
+        <param name="precipIntensity" type="Float" mandatory="false" >
+            <description> cm of water per hour </description>
+        </param>
+        <param name="precipProbability" type="Float" mandatory="false" >
+            <description> 0 to 1, percentage chance </description>
+        </param>
+        <param name="precipType" type="String" mandatory="false" >
+            <description> e.g. "rain", "snow", "sleet", "hail" </description>
+        </param>
+        <param name="visibility" type="Float" mandatory="false" >
+            <description> In km </description>
+        </param>
+
+        <param name="weatherIconImageName" type="String" mandatory="false" />
+    </struct>
+
+    <struct name="WeatherAlert">
+        <param name="title" type="String" mandatory="false" />
+        <param name="summary" type="String" mandatory="false" />
+        <param name="expires" type="DateTime" mandatory="false" />
+        <param name="regions" type="String" array="true" minSize="1" maxSize="99" mandatory="false" />
+        <param name="severity" type="String" mandatory="false" />
+        <param name="timeIssued" type="DateTime" mandatory="false" />
+    </struct>
     
 ```
 
