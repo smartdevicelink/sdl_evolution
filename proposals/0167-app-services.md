@@ -64,7 +64,7 @@ Some services will need more structs defined to help standardize the data that i
 
 #### Media
 
-A media service is defined as a service that is currently the audio source for the module. 
+A media service is defined as a service that is currently the audio source for the module. The `MediaServiceData` object is defined in a general way for all types of media (music, podcast, audiobook, other). This allows the struct to be simplified with clear descriptions of what data should be contained in for each key.
 
 
 ###### Struct:
@@ -73,19 +73,93 @@ A media service is defined as a service that is currently the audio source for t
 	<struct name="MediaServiceManifest">
 	
 	</struct>
-
-	<struct name="MediaServiceData">
-		<description> This data is related to what a media service would provide</description>
-		<param name="mediaTitle" type="String" mandatory="false"/>
-		<param name="mediaArtist" type="String" mandatory="false"/>
-		<param name="mediaAlbum" type="String" mandatory="false"/>
-		<param name="mediaYear" type="String" mandatory="false"/>
-		<param name="mediaGenre" type="String" mandatory="false"/>
-		<param name="mediaStation" type="String" mandatory="false"/>
-		<param name="rating" type="int" minvalue ="0" maxvalue="100" mandatory="false"/>
-		<param name="mediaImageName" type="String" mandatory="false">
-
-	</struct>
+	
+	<enum name="MediaType">
+	    <element name="MUSIC">
+	    <element name="PODCAST">
+	    <element name="AUDIOBOOK">
+	    <element name="OTHER">
+	</enum>
+	
+    <struct name="MediaServiceData">
+         <description> This data is related to what a media service should provide</description>
+         <param name="mediaType" type="MediaType" mandatory="false">
+             <description>The type of the currently playing or paused track.</description>
+         </param>
+         <param name="mediaTitle" type="String" mandatory="false">
+             <description>
+             Music: The name of the current track
+             Podcast: The name of the current episode
+             Audiobook: The name of the current chapter
+             </description>
+         </param>
+         <param name="mediaArtist" type="String" mandatory="false">
+             <description>
+             Music: The name of the current album artist
+             Podcast: The provider of the podcast (hosts, network, company)
+             Audiobook: The book author's name
+             </description>
+         </param>
+         <param name="mediaAlbum" type="String" mandatory="false">
+             <description>
+             Music: The name of the current album
+             Podcast: The name of the current podcast show
+             Audiobook: The name of the current book
+             </description>
+         </param>
+         <param name="playlistName" type="String" mandatory="false">
+             <description>
+             Music: The name of the playlist or radio station, if the user is playing from a playlist, otherwise, Null
+             Podcast: The name of the playlist, if the user is playing from a playlist, otherwise, Null
+             Audiobook: Likely not applicable, possibly a collection or "playlist" of books
+             </description>
+         </param>
+         <param name="isExplicit" type="Bool" mandatory="false">
+             <description> Whether or not the content currently playing (e.g. the track, episode, or book) contains explicit content</description>
+         </param>
+         <param name="trackPlaybackProgress" type="Int" mandatory="false">
+             <description>
+             Music: The current progress of the track in seconds
+             Podcast: The current progress of the episode in seconds
+             Audiobook: The current progress of the current segment (e.g. the chapter) in seconds
+             </description>
+         </param>
+         <param name="trackPlaybackDuration" type="Int" mandatory="false">
+             <description>
+             Music: The total duration of the track in seconds
+             Podcast: The total duration of the episode in seconds
+             Audiobook: The total duration of the current segment (e.g. the chapter) in seconds
+             </description>
+         </param>
+         <param name="queuePlaybackProgess" type="Int" mandatory="false">
+             <description>
+             Music: The current progress of the playback queue in seconds
+             Podcast: The current progress of the playback queue in seconds
+             Audiobook: The current progress of the playback queue (e.g. the book) in seconds
+             </description>
+         </param>
+         <param name="queuePlaybackDuration" type="Int" mandatory="false">
+             <description>
+             Music: The total duration of the playback queue in seconds
+             Podcast: The total duration of the playback queue in seconds
+             Audiobook: The total duration of the playback queue (e.g. the book) in seconds
+             </description>
+         </param>
+         <param name="queueCurrentTrackNumber" type="Int" mandatory="false">
+             <description>
+             Music: The current number (1 based) of the track in the playback queue
+             Podcast: The current number (1 based) of the episode in the playback queue
+             Audiobook: The current number (1 based) of the episode in the playback queue (e.g. the chapter number in the book)
+             </description>
+         </param>
+         <param name="queueTotalTrackCount" type="Int" mandatory="false">
+             <description>
+             Music: The total number of tracks in the playback queue
+             Podcast: The total number of episodes in the playback queue
+             Audiobook: The total number of sections in the playback queue (e.g. the number of chapters in the book)
+             </description>
+         </param>
+     </struct>
     
 ```
 
