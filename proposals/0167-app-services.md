@@ -412,10 +412,10 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 
 				
 		<param name="uriPrefix" type="String" mandatory="false">
-			<description> The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it.</description>
+			<description> The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it. This can also be referred to as the scheme of the URI.</description>
 		</param>
-		<param name="uriScheme" type="JSONObject" mandatory="false">
-			<description> This is a custom schema for this service. SDL will not do any verification on this param past that it has a correctly formated JSON Object as its base. The uriScheme should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. </description>
+		<param name="uriActionSheet" type="ServiceAction" array="true" mandatory="false">
+			<description> This is a custom schema for this service. Each of the actions should be formatted into a ServiceAction object that contains basic information to ensure consumers can read the data. The uriActionSheet should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. If the app intends to expose Quick Action actions, the list should be ordered with the most important at index 0.  </description>
 		</param>
 		
 	
@@ -433,9 +433,50 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 
 	</struct>
 	
+	
+	<struct name="ServiceAction">
+	    <param name="baseUri" type="String" mandatory="true">
+	        <description> Also referred to as the authority and path of the URI. The base URI of this action. If no params are required, this plus the URI prefix can be used as the entire URI. If this param is left as an empty set, params will be assumed to be part of the path of the URI and the fully qualified URI will be constructed accordingly.</description>
+	    </param>
+	    <param name="actionParameters" type="Parameter" array="true" mandatory="false">
+	        <description>An array of parameters for this action. When sent as a fully qualified URI these parameters will be attached in accordance to RFC3986 https://tools.ietf.org/html/rfc3986</description>
+	    </param>
+	    <param name="isQuickAction" type="Boolean" mandatory="false">
+	        <description>If set to true, this implies this action can be acted upon without an additional parameters or actions. Most common use case would be a consumer displaying a soft button to represent this action</description>
+	    </param>
+	    <param name="iconFileName" type="String" mandatory="false">
+	        <description>The file name of an image that can be used in association with this action. Most common use case is this used when the action</description>
+	    </param>
+	
+	</struct>
+	
+	<struct name="Parameter">
+	    <description>Describes a parameter's attributes</description>
+	    <param name="key" type="String" mandatory="false">
+	        <description>The key or name to use to identify this parameter. If not provided it will be assumed that this parameter should be used as part of the path and a ":" delimiter should be attached before the value.</description>
+	    </param>
+	    
+	    <param name="type" type="String" mandatory="true">
+	        <description></description>
+	    </param>
+	    
+	    <param name="isArray" type="boolean" mandatory="false">
+	        <description></description>
+	    </param>
+	    
+	    <param name="isMandatory" type="boolean" mandatory="false">
+	        <description></description>
+	    </param>
+	</struct>
+	
 ```
 
 Based on the specific type of service being offered, an additional manifest struct should be included. These structs are very specific to the service that is being offered. These are defined in the previous section  [Service Types](#service-types).
+
+####### Actions
+Services can expose their API using the `uriActionSheet` param. When defining the specific actions and URI, developers should look to the URI standard in RFC3986 and more specifically section [3. Syntax Components](https://tools.ietf.org/html/rfc3986#section-3)
+
+`uriPrefix` + (`action.baseUri` + `action.parameters[]`) = Fully Qualified URI
 
 
 ##### Publishing the service - `PublishAppService`
@@ -792,7 +833,7 @@ When an app service consumer receives an `AppServiceData` object that contains f
 
 App service providers will likely have different actions exposed to the module and app service consumers. It will be difficult to standardize these actions by RPC versions and can easily become stale. Therefore, we introduce a best-effort attempt to take actions on a service. 
 
-The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. SDL takes no steps to validate an app service provider's action sheet JSON object. In the future, plug in libraries could be added to handle these sheets on a provider by provider basis. 
+The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. SDL will verify the basic structure of the `ServiceAction` contained in the list of actions, however, no SDL provided API will be provided around specific URIs or parameter requirements. In the future, plug in libraries could be added to handle these sheets on a provider by provider basis. 
 
 An app service consumer can also request for this service to become the active service of its respective type. If the app service consumer currently has an HMI state of HMI_FULL this request can be performed without user interaction. If the app is currently not in that state, the HMI should present the user with a choice to allow this app service provider to become the active service of its specified type. If the app service provider is not allowed to become active, the request will not be sent to it and an unsuccessful response will be sent to the requester. 
 
