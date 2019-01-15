@@ -273,12 +273,12 @@ A navigation service is defined as a service that is currently listed as the nav
 ```xml
 	<struct name="NavigationServiceManifest">
 		<param name="acceptsWayPoints" type="Boolean" mandatory="false">
-		<description>  Informs the subscriber if this service can actually accept way points</description>
+		<description>  Informs the subscriber if this service can actually accept way points.</description>
 		</param>
 	</struct>
 
     <struct name="NavigationServiceData">
-	    <description> This data is related to what a navigation service would provide</description>
+	    <description> This data is related to what a navigation service would provide.</description>
 	
 	    <param name="timestamp" type="" mandatory="true">
 	        <description> This is the timestamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary. </description>
@@ -300,7 +300,7 @@ A navigation service is defined as a service that is currently listed as the nav
 	
 	    <param name="nextInstructionETA" type="DateTime" mandatory="false"/>
 	    <param name="nextInstructionDistance" type="Float" mandatory="false">
-	        <description>The distance to this instruction from </description>
+	        <description>The distance to this instruction from current location. This should only be updated ever .1 unit of distance. For more accuracy the consumer can use the GPS location of itself and the next instruction. </description>
 	    </param>
         <param name="nextInstructionDistanceScale" type="Float" mandatory="false">
             <description>Distance till next maneuver (starting from) from previous maneuver.</description>
@@ -325,7 +325,7 @@ A navigation service is defined as a service that is currently listed as the nav
     
     <enum name="NavAction">
         <element name="TURN">
-            <description> Using this action plush a supplied direction can give the type of turn. </description>
+            <description> Using this action plus a supplied direction can give the type of turn. </description>
         </element>
         <element name="EXIT">
         </element>
@@ -345,7 +345,7 @@ A navigation service is defined as a service that is currently listed as the nav
             <description> A junction where the road splits off into two paths; a fork in the road.</description>
         </element>
         <element name="MULTI_CARRIAGEWAY">
-            <description> A junction that has multiple intersections and paths</description>
+            <description> A junction that has multiple intersections and paths.</description>
         </element>              
         <element name="ROUNDABOUT">
             <description>A junction where traffic moves in a single direction around a central, non-traversable point to reach one of the connecting roads.</description>
@@ -354,7 +354,7 @@ A navigation service is defined as a service that is currently listed as the nav
         <description> Similar to a roundabout, however the center of the roundabout is fully traversable. Also known as a mini-roundabout.</description>
         </element>
         <element name="JUGHANDLE">
-        <description>A junction where lefts diverge to the right, then curve to the left, converting a left turn to a crossing maneuver</description>
+        <description>A junction where lefts diverge to the right, then curve to the left, converting a left turn to a crossing maneuver.</description>
         </element>
         <element name="ALL_WAY_YIELD">
             <description> Multiple way intersection that allows traffic to flow based on priority; most commonly right of way and first in, first out.</description>
@@ -779,7 +779,7 @@ If the app service consumer subscribed to updates from the app service provider 
 
 ###### OnAppServiceData
 
-Notifications will come through as data changes. Only the data that changed should be expected to be included. This prevents the provider and subscriber traffic from becoming too large. However, it is recommended that these be batched together when possible as to avoid constant traffic.
+Notifications will come through as data changes. Only the data that changed should be expected to be included. This prevents the provider and subscriber traffic from becoming too large. However, it is recommended that these be batched together when possible to avoid constant traffic.
 
 ```xml
 <function name="OnAppServiceData" functionID="OnAppServiceDataID" messagetype="notification">
