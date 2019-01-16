@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0206](0206-remote_atf_testing.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutsan)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [ATF]
 
 ## Introduction
