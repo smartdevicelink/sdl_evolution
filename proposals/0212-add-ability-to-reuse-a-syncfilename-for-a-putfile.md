@@ -22,7 +22,9 @@ When Core receives a `PutFile` it should send a notification to the HMI that a n
     <description>
     Notification sent to HMI when mobile sends file
     </description>
-    
+
+    ...
+
     /* New parameters */
     <param name="isSystemFile" type="Boolean" defvalue="false" mandatory="false">
         <description>
