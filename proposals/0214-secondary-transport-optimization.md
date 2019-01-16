@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0214](0214-secondary-transport-optimization.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Android]
 
 ## Introduction
