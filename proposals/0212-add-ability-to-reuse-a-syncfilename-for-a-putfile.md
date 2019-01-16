@@ -35,56 +35,6 @@ When Core receives a `PutFile` it should send a notification to the HMI that a n
         Unique (during ignition cycle) id of the application. To be used in all RPCs sent by both HU system and SDL
         </description>
     </param>
-    
-    /* Documentation to be updated */
-    <param name="fileSize" type="Integer" minvalue="0" maxvalue="100000000000" mandatory="false">
-        <description>
-	/* Updated */
-        Full size of the file. This value is sent in the first OnPutFile notification if the file is split into many PutFiles.
-        </description>
-    </param>
-
-    /* Existing parameters */
-    <param name="offset" type="Integer" minvalue="0" maxvalue="100000000000" mandatory="false">
-        <description>
-        Optional offset in bytes for resuming partial data chunks
-        </description>
-    </param>
-    
-    <param name="length" type="Integer" minvalue="0" maxvalue="100000000000" mandatory="false">
-        <description>
-        Optional length in bytes for resuming partial data chunks
-        </description>
-    </param>
-        
-    <param name="FileName" type="String" maxlength="255" mandatory="true">
-        <description>
-        File reference name
-        </description>
-    </param>
-    
-    <param name="syncFileName" type="String" maxlength="255" mandatory="true">
-        <description>
-        File reference name
-        </description>
-    </param>
-    
-    <param name="fileType" type="Common.FileType" mandatory="true">
-        <description>
-        Selected file type
-        </description>
-    </param>
-    
-    <param name="persistentFile" type="Boolean" defvalue="false" mandatory="false">
-        <description>
-        Indicates if the file is meant to persist between sessions / ignition cycles.
-        If set to TRUE, then the system will aim to persist this file through session / cycles.
-        While files with this designation will have priority over others, they are subject to deletion by the system at any time.
-        In the event of automatic deletion by the system, the app will receive a rejection and have to resend the file.
-        If omitted, the value will be set to false.
-        </description>
-    </param>
-
 </function>
 ```
 
