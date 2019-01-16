@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0215](0215-ios-replaykit-streaming.md)
 * Author: [Satbir Tanda](https://github.com/satbirtanda)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
