@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0207](0207-rpc-message-protection.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [Core / Android/ iOS / RPC / SDL Policy server]
 
 ## Introduction
