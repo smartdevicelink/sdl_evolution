@@ -3,7 +3,7 @@
 * Proposal: [SDL-0099](0099-new-remote-control-modules-and-parameters.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Android / RPC ]
+* Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
 
@@ -201,15 +201,6 @@ Add new a parameter to RADIO.
     </param>
   </struct>
 
-  <struct name="GPSLocation">
-    <param name="longitudeDegrees" type="Float" minvalue="-180" maxvalue="180" mandatory="true">
-    </param>
-    <param name="latitudeDegrees" type="Float" minvalue="-90" maxvalue="90" mandatory="true">
-    </param>
-    <param name="altitudeMeters" type="Float" minvalue="-99999" maxvalue="99999" mandatory="false">
-    </param>
-  </struct>
-
   <struct name="SisData">
     <param name="stationShortName" type="String" minlength="4" maxlength="7"  mandatory="false">
       <description>Identifies the 4-alpha-character station call sign plus an optional (-FM) extension</description>
@@ -220,7 +211,7 @@ Add new a parameter to RADIO.
     <param name="stationLongName" type="String" minlength="0" maxlength="56"  mandatory="false">
       <description>Identifies the station call sign or other identifying information in the long format.</description>
     </param>
-    <param name="stationLocation" type="GPSLocation" mandatory="false">
+    <param name="stationLocation" type="GPSData" mandatory="false">
       <description>Provides the 3-dimensional geographic station location.</description>
     </param>
     <param name="stationMessage" type="String" minlength="0" maxlength="56"  mandatory="false">
@@ -248,6 +239,9 @@ New AUDIO data types.
     </param>
     <param name="sourceAvailable" type="Boolean" mandatory="false">
       <description>Availability of the control of audio source. </description>
+    </param>
+    <param name="keepContextAvailable" type="Boolean" mandatory="false"> 
+      <description>Availability of the keepContext parameter. </description> 
     </param>
     <param name="volumeAvailable" type="Boolean" mandatory="false">
       <description>Availability of the control of audio volume.</description>
@@ -282,9 +276,10 @@ New AUDIO data types.
     <param name="keepContext" type="Boolean" mandatory="false">
       <description>
       This parameter shall not be present in any getter responses or notifications.
-      This parameter is optional in a setter request. The default value is false.
-      If it is true, the system not only changes the audio source but also brings the default infotainment system UI associated with the audio source to foreground and set the application to background.
-      If it is false, the system changes the audio source, but keeps the current application's context.
+      This parameter is optional in a setter request. The default value is false if it is not included.
+      If it is false, the system not only changes the audio source but also brings the default application or
+      system UI associated with the audio source to foreground.
+      If it is true, the system only changes the audio source, but keeps the current application in foreground.
       </description>
     </param>
     <param name="volume" type="Integer" mandatory="false" minvalue="0" maxvalue="100">
@@ -315,8 +310,8 @@ New LIGHT data types.
     <element name="REAR_RIGHT_FOG_LIGHT" value="13"/>
     <element name="REAR_LEFT_TAIL_LIGHT" value="14"/>
     <element name="REAR_RIGHT_TAIL_LIGHT" value="15"/>
-    <element name="REAR_LEFT_BREAK_LIGHT" value="16"/>
-    <element name="REAR_RIGHT_BREAK_LIGHT" value="17"/>
+    <element name="REAR_LEFT_BRAKE_LIGHT" value="16"/>
+    <element name="REAR_RIGHT_BRAKE_LIGHT" value="17"/>
     <element name="REAR_LEFT_TURN_LIGHT" value="18"/>
     <element name="REAR_RIGHT_TURN_LIGHT" value="19"/>
     <element name="REAR_REGISTRATION_PLATE_LIGHT" value="20"/>
@@ -377,12 +372,6 @@ New LIGHT data types.
     <element name="ON"/>
     <element name="OFF"/>
   </enum>
-  
-  <struct name="SRGBColor">
-    <param name="red" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
-    <param name="green" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
-    <param name="blue" type="Integer" minvalue="0" maxvalue="255"  mandatory="true"/>
-  </struct>
 
   <struct name="LightCapabilities">
     <param name="name" type="LightName" mandatory="true" />
@@ -392,7 +381,7 @@ New LIGHT data types.
         Indicates if the light's density can be set remotely (similar to a dimmer).
       </description>
     </param>
-    <param name="sRGBColorSpaceAvailable" type="Boolean" mandatory="false">
+    <param name="rgbColorSpaceAvailable" type="Boolean" mandatory="false">
       <description>
         Indicates if the light's color can be set remotely by using the sRGB color space.
       </description>
@@ -417,7 +406,7 @@ New LIGHT data types.
     </param>
     <param name="status" type="LightStatus" mandatory="true"/>
     <param name="density" type="Float" minvalue="0" maxvalue="1" mandatory="false" />
-    <param name="sRGBColor" type="SRGBColor" mandatory="false" />      
+    <param name="color" type="RGBColor" mandatory="false" />      
   </struct>
     
   <struct name="LightControlData">

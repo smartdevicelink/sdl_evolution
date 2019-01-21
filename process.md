@@ -38,7 +38,7 @@ The review process for a particular proposal begins when the SDLC Steering Commi
 
 The SDLC Steering Committee will work with the author to assess when the proposal is ready for review. Reviews usually last a single week, but can run longer for particularly large or complex proposals.
 
-When the scheduled review period arrives, the review manager will post the proposal to the [#sdl_evolution slack channel][sdl_evolution_channel], the [genivi-smartdevicelink mailing list][sdl_mailing_list], and create a Github issue for the actual review, which will additionally be attached to the proposal. They will have the subject "[In Review]" followed by the proposal title. The Review Manager will be responsible for tracking the status of the proposal in the [proposal XML document][sdl_proposals_xml]. All feedback on the proposal should be addressed in the associated Github issue or to the review manager directly via email or Slack. To avoid delays, it is important that the proposal authors be available to answer questions, address feedback, and clarify their intent during the review period.
+When the scheduled review period arrives, the review manager will post the proposal to the [#sdl_evolution slack channel][sdl_evolution_channel] and create a Github issue for the actual review, which will additionally be attached to the proposal. They will have the subject "[In Review]" followed by the proposal title. The Review Manager will be responsible for tracking the status of the proposal in the [proposal XML document][sdl_proposals_xml]. All feedback on the proposal should be addressed in the associated Github issue. To avoid delays, it is important that the proposal authors be available to answer questions, address feedback, and clarify their intent during the review period.
 
 After the review has completed, the SDLC Steering Committee will make a decision on the proposal. The review manager is responsible for determining consensus among the SDLC Steering Committee, then reporting their decision to the proposal authors and SDL users. The review manager will update the proposal's state in the [sdl_evolution repository][sdl_evolution_repo] to reflect that decision, then close and lock the related issue. Possible decisions include: Accepted, Accepted with Revisions, Rejected, Returned for Revisions, Withdrawn, and Deferred.
 
@@ -53,7 +53,7 @@ After the review has completed, the SDLC Steering Committee will make a decision
 Proposals can also remain in review if the SDLC Steering Committee needs more time to review and discuss on the associated review issue.
 
 ## Review announcement
-When a proposal enters review, an email using the following template will be sent to the [#sdl_evolution slack channel][sdl_evolution_channel], the [genivi-smartdevicelink mailing list][sdl_mailing_list], and to a Github issue:
+When a proposal enters review, an email using the following template will be sent to the [#sdl_evolution slack channel][sdl_evolution_channel] and to a Github issue:
 
 ---
 
