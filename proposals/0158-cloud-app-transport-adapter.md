@@ -32,8 +32,8 @@ This proposal will detail a possible solution for allowing  SDL-enabled cloud ap
 7. User connects phone to headunit, OEM app registers and sends updated list of enabled cloud apps and corresponding secret tokens.
 8. Core stores secret tokens in the policy table and updates the `enabled` field of the cloud apps listed in the policy table.
 9. Core sends update app list to HMI to display cloud apps' availability
-10. User activates the cloud app, Core gets the websocket (WS) endpoint from policy table and opens a websocket connection passing the secret token supplied by the OEM app and the cloudAppVehicleID
-11. Cloud app verifies the cloudAppVehicleID and secret token are valid and accepts the connection
+10. User activates the cloud app, Core gets the websocket (WS) endpoint from policy table and opens a websocket connection.
+11. Cloud app sends a start service request, and Core responds with a start service ack with the auth_token in the payload.
 
 Note: This is one possible implementation of enabling and authenticating cloud apps using an OEM cloud app store. Please refer to other example use cases.
 
@@ -71,7 +71,7 @@ This is what the app_policies section of a policy table that includes a cloud ap
 +               "certificate" : "-----BEGIN CERTIFICATE-----\n" ...,
 +               "enabled" : false,
 +               "auth_token" : "ABCD12345",
-+               "cloud_transport_type: "WSS",
++               "cloud_transport_type": "WSS",
 +               "hybrid_app_preference": "MOBILE"
             }
         }
@@ -94,8 +94,18 @@ The `hybrid_app_preference` field is used to specify the user's preference for u
 
 Mobile API Changes
 
-Add new RPC "SetCloudAppProperties". This RPC can be used by an OEM "App Store" in order to enable/disable a cloud app from appearing on the SDL HMI. This RPC will also deliver neccesary authentication information if the app requires it. 
+Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
+
+`SetCloudAppProperties` can be used by an OEM "App Store" in order to enable/disable a cloud app from appearing on the SDL HMI. This RPC will also deliver neccesary authentication information if the app requires it.
+
+`GetCloudAppProperties` can be used by an OEM "App Store" in order to retrieve the current cloud app information upon startup and after these properties are modified by other means (such as a PTU).
+
 ```
+    <enum name="FunctionID" internal_scope="base" since="1.0">
+        ...
+        <element name="SetCloudAppPropertiesID" value="50" hexvalue="32" since="5.x" />
+    <enum>
+    ...
     <enum name="HybridAppPreference">
         <description>Enumeration for the user's preference of which app type to use when both are available</description>
         <element name="MOBILE" />
@@ -103,16 +113,13 @@ Add new RPC "SetCloudAppProperties". This RPC can be used by an OEM "App Store" 
         <element name="BOTH">
     </enum>
 
-    <function name="SetCloudAppProperties" functionID="SetCloudAppPropertiesID" messagetype="request">
-        <description>
-            RPC used to enable/disable a cloud application and set authentication data
-        </description> 
+    <struct name="CloudAppProperties" since="5.x">
         <param name="appName" type="String" maxlength="100" mandatory="true"></param>
         <param name="appID" type="String" maxlength="100" mandatory="true"></param>
         <param name="enabled" type="Boolean" mandatory="false">
             <description>If true, cloud app will be included in HMI RPC UpdateAppList</description>
         </param>
-        <param name="cloudAppAuthToken" type="String" maxlength="100" mandatory="false">
+        <param name="cloudAppAuthToken" type="String" maxlength="65535" mandatory="false">
             <description>Used to authenticate websocket connection on app activation</description>
         </param>
         <param name="cloudTransportType" type="String" maxlength="100" mandatory="false">
@@ -121,10 +128,53 @@ Add new RPC "SetCloudAppProperties". This RPC can be used by an OEM "App Store" 
         <param name="hybridAppPreference" type="HybridAppPreference" maxlength="100" mandatory="false">
             <description>Specifies the user preference to use the cloud app version or mobile app version when both are available</description>
         </param>
+        <param name="endpoint" type="String" maxlength="255" mandatory="false"></param>
+    </struct>
+
+    <function name="SetCloudAppProperties" functionID="SetCloudAppPropertiesID" messagetype="request" since="5.x">
+        <description>
+            RPC used to enable/disable a cloud application and set authentication data
+        </description>
+        <param name="properties" type="CloudAppProperties" mandatory="true">
+            <description> The new cloud application properties </description>
+        </param>
     </function>
 
-    <function name="SetCloudAppProperties" functionID="RegisterAppInterfaceID" messagetype="response">
-        <description>The response to registerAppInterface</description>
+    <function name="SetCloudAppProperties" functionID="RegisterAppInterfaceID" messagetype="response" since="5.x">
+        <description>The response to SetCloudAppProperties</description>
+        <param name="success" type="Boolean" platform="documentation" mandatory="true">
+            <description> true if successful; false if failed </description>
+        </param>
+        <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+            <description>See Result</description>
+            <element name="SUCCESS"/>
+            <element name="INVALID_DATA"/>
+            <element name="OUT_OF_MEMORY"/>
+            <element name="TOO_MANY_PENDING_REQUESTS"/>
+            <element name="GENERIC_ERROR"/>
+            <element name="DUPLICATE_NAME"/>
+            <element name="TOO_MANY_APPLICATIONS"/>
+            <element name="APPLICATION_REGISTERED_ALREADY"/>
+            <element name="UNSUPPORTED_VERSION"/>
+            <element name="WRONG_LANGUAGE"/>
+            <element name="DISALLOWED"/>
+            <element name="WARNINGS"/>
+            <element name="RESUME_FAILED"/>
+        </param>
+    </function>
+
+    <function name="GetCloudAppProperties" functionID="SetCloudAppPropertiesID" messagetype="request" since="5.x">
+        <description>
+            RPC used to get the current properties of a cloud application
+        </description> 
+        <param name="appID" type="String" maxlength="100" mandatory="true"></param>
+    </function>
+
+    <function name="GetCloudAppProperties" functionID="RegisterAppInterfaceID" messagetype="response" since="5.x">
+        <description>The response to GetCloudAppProperties</description>
+        <param name="properties" type="CloudAppProperties" mandatory="false">
+            <description> The requested cloud application properties </description>
+        </param>
         <param name="success" type="Boolean" platform="documentation" mandatory="true">
             <description> true if successful; false if failed </description>
         </param>
@@ -158,7 +208,7 @@ Update to UpdateAppList description
 Update HMIApplication Struct 
 ```
 <struct name="HMIApplication">
-    ....
+    ...
     <param name="isCloudApplication" type="Boolean" mandatory="false"></param>
     <param name="cloudConnectionStatus" type="CloudConnectionStatus" mandatory="false"></param>
 </struct>
@@ -192,11 +242,37 @@ If the websocket connection attempt is successful, Core will send the CloudConne
 
 #### Transport Adapter Connection Flow
 
-App Activation: User selects the cloud app from the app list on the HMI and the websocket connection to the cloud server is opened and auth information is sent.
+App Activation: User selects the cloud app from the app list on the HMI and the websocket connection to the cloud server is opened. After the cloud app sends a start rpc service request, Core will respond with a start service ack with the auth_token included in the payload.
 
 ![alt text](../assets/proposals/0158-cloud-app-transport-adapter/cloud_app_activation.png "App Activation")
 
 The behavior of displaying a cloud app before registration is to prevent unnecessary websocket connections when an app is not in use. Also if an application is put into hmi status NONE, then the websocket connection will be closed until the user activates the application again.
+
+### Disconnecting Websocket Connection
+
+If a cloud app connection is open and the app is put into HMI level `NONE`, the cloud transport adapter should disconnect the websocket connection. The connection will be recreated once the app is activated again. 
+
+Additionaly there should be a new ApplicationExitReason added to the HMI API to allow for the HMI to manage cloud app connections.
+
+```
+<enum name="ApplicationExitReason">
+  <element name="DRIVER_DISTRACTION_VIOLATION" >
+    <description>By getting this value, SDL puts the named app to NONE HMILevel</description>
+  </element>
+  <element name="USER_EXIT" >
+    <description>By getting this value, SDL puts the named app to NONE HMILevel</description>
+  </element>
+  <element name="UNAUTHORIZED_TRANSPORT_REGISTRATION">
+    <description>By getting this value, SDL unregisters the named application</description>
+  </element>
+  <element name="UNSUPPORTED_HMI_RESOURCE">
+    <description>By getting this value, SDL unregisters the named application</description>
+  </element>
++  <element name="CLOSE_CLOUD_CONNECTION">
++    <description>By getting this value, SDL puts the named app to NONE HMILevel. Used by the HMI to close a cloud app connection.</description>
++  </element>
+</enum>
+```
 
 ### CloudAppVehicleID
 
@@ -355,7 +431,7 @@ Core will need a new transport adapter that initiates websocket client connectio
 
 ### Policies
 
-app_policies section of policy table related classes must be expanded to support new optional endpoint and ssl_certificate fields. 
+app_policies section of policy table related classes must be expanded to support new cloud app property related fields. 
 
 types.h
 ```
@@ -367,11 +443,13 @@ struct PolicyBase : CompositeType {
   Enum<HmiLevel> default_hmi;
   Boolean keep_context;
   Boolean steal_focus;
-  Optional<String<0, 255> > cloud_app_endpoint;
+  Optional<String<0, 255> > endpoint;
   Optional<String<0, 65535> > certificate;
-  Optional Boolean enabled;
+  Optional<Boolean> enabled;
+  Optional<String<0, 65535> > auth_token;
   Optional<String<0, 255> > cloud_transport_type;
-  Optional Enum<HybridAppPreference> hybrid_app_preference;
+  Optional<Enum<HybridAppPreference>> hybrid_app_preference;
+  Optional<String<0, 255> > app_icon_url;
 
 ```
 
@@ -389,7 +467,7 @@ policy_table_interface_ext.xml
         <param name="memory_kb" type="Integer" minvalue="1" maxvalue="65225" mandatory="false"/>
         <param name="watchdog_timer_ms" type="Integer" minvalue="1"
             maxvalue="65225" mandatory="false"/>
-        <param name="cloud_app_endpoint", type="String", minlength="0" maxlength="255", mandatory="false">
+        <param name="endpoint", type="String", minlength="0" maxlength="255", mandatory="false">
         <param name="certificate" type="String" minlength="0" maxlength="65535"
             mandatory="false" />
         <param name="enabled" type="Boolean" mandatory="false" />
@@ -398,9 +476,71 @@ policy_table_interface_ext.xml
         <param name="cloud_transport_type" type="String" minlength="0" maxlength="255"
             mandatory="false"/>
         <param name="hybrid_app_preference" type="HybridAppPreference" mandatory="false"/>
+        <param name="app_icon_url" type="String" minlength="0" maxlength="255" mandatory="false"/>
     </struct>
 ```
 This feature should be supported by both regular and external policy build configurations.
+
+#### Policy Table Functional Group Structuring
+
+For security reasons it is recommended that only a trusted OEM companion app or app store is able to send `SetCloudAppProperties` and `GetCloudAppProperties` requests to Core. This policy is to keep other apps from changing or collecting the app property information of other cloud apps registered in the policy table.
+
+Policy Table Entry:
+```
+"functional_groupings": {
+    ...
+    "AppStore" : {
+        "rpcs":{
+            "SetCloudAppProperties":{
+                "hmi_levels":["BACKGROUND",
+                "FULL",
+                "LIMITED"]
+            }, "GetCloudAppProperties":{
+                "hmi_levels":["BACKGROUND",
+                "FULL",
+                "LIMITED"]
+            }
+        }
+    }
+    ...
+}
+```
+
+#### App Icon URL
+
+In order to show an app icon before the first time a cloud app is connected and registered, Core should use the app's "app_icon_url" parameter stored in the policy table with the onSystemRequest and SystemRequest RPCs to get the image data. This process is similar to how the lock screen image is obtained.
+
+A new RequestType should be added to the Mobile and HMI APIs specific to a cloud app's icon.
+
+
+```
+    <enum name="RequestType" since="3.0">
+        <description>Enumeration listing possible asynchronous requests.</description>
+        <element name="HTTP" />
+        <element name="FILE_RESUME" />
+        <element name="AUTH_REQUEST" />
+        <element name="AUTH_CHALLENGE" />
+        <element name="AUTH_ACK" />
+        <element name="PROPRIETARY" />
+        <element name="QUERY_APPS" />
+        <element name="LAUNCH_APP" />
+        <element name="LOCK_SCREEN_ICON_URL" />
+        <element name="TRAFFIC_MESSAGE_CHANNEL" />
+        <element name="DRIVER_PROFILE" />
+        <element name="VOICE_SEARCH" />
+        <element name="NAVIGATION" />
+        <element name="PHONE" />
+        <element name="CLIMATE" />
+        <element name="SETTINGS" />
+        <element name="VEHICLE_DIAGNOSTICS" />
+        <element name="EMERGENCY" />
+        <element name="MEDIA" />
+        <element name="FOTA" />
+        <element name="OEM_SPECIFIC" since="5.0" />v
++        <element name="APP_ICON_URL" since="5.x" />
+    </enum>   
+```
+
 
 ### SDL Server
 
@@ -427,3 +567,4 @@ If future vehicles will not have dedicated LTE connections, then the mobile devi
 ### Separating Policies and Cloud App Endpoints
 
 A separate server could be developed to maintain cloud app endpoints if we believe that this type of logic and data is outside of the scope of policies.
+
