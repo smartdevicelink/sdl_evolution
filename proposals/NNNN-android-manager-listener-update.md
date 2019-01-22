@@ -179,7 +179,7 @@ From a technical point of view there is no downside to the proposed interface me
 
 ## Impact on existing code
 
-The additional methods in the interface have impact to implementations that app developers may find distracting. Besides of that there's no existing code changes.
+The additional methods in the interface have impact to implementations that app developers may find distracting. Besides that there's no existing code changes.
 
 ## Alternatives considered
 
