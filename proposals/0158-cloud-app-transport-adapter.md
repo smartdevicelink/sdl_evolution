@@ -128,7 +128,7 @@ Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
         <param name="hybridAppPreference" type="HybridAppPreference" maxlength="100" mandatory="false">
             <description>Specifies the user preference to use the cloud app version or mobile app version when both are available</description>
         </param>
-        <param name="endpoint" type="String" maxlength="255" mandatory="false"></param>
+        <param name="endpoint" type="String" maxlength="65535" mandatory="false"></param>
     </struct>
 
     <function name="SetCloudAppProperties" functionID="SetCloudAppPropertiesID" messagetype="request" since="5.x">
@@ -443,13 +443,13 @@ struct PolicyBase : CompositeType {
   Enum<HmiLevel> default_hmi;
   Boolean keep_context;
   Boolean steal_focus;
-  Optional<String<0, 255> > endpoint;
+  Optional<String<0, 65535> > endpoint;
   Optional<String<0, 65535> > certificate;
   Optional<Boolean> enabled;
   Optional<String<0, 65535> > auth_token;
   Optional<String<0, 255> > cloud_transport_type;
   Optional<Enum<HybridAppPreference>> hybrid_app_preference;
-  Optional<String<0, 255> > app_icon_url;
+  Optional<String<0, 65535> > app_icon_url;
 
 ```
 
@@ -476,7 +476,7 @@ policy_table_interface_ext.xml
         <param name="cloud_transport_type" type="String" minlength="0" maxlength="255"
             mandatory="false"/>
         <param name="hybrid_app_preference" type="HybridAppPreference" mandatory="false"/>
-        <param name="app_icon_url" type="String" minlength="0" maxlength="255" mandatory="false"/>
+        <param name="app_icon_url" type="String" minlength="0" maxlength="65535" mandatory="false"/>
     </struct>
 ```
 This feature should be supported by both regular and external policy build configurations.
