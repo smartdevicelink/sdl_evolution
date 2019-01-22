@@ -429,6 +429,16 @@ enum DeviceType {
 #### Websocket Client Transport Adapter
 Core will need a new transport adapter that initiates websocket client connections to a remote endpoint. I suggest creating a transport adapter that integrates this library: [Boost Beast](https://github.com/boostorg/beast) for handling the websocket connections.  
 
+### Protocol Changes
+
+#### 3.1.3 Payloads
+
+###### 3.1.3.2.2 Start Service ACK
+| Tag Name| Type | Description |
+|------------|------|-------------|
+|protocolVersion|String|The negotiated version of the protocol. Must be in the format *"Major.Minor.Patch"*. The frame header version should match the major version exactly.|
+|authToken|String|This token is used by a cloud application to authenticate a user account associated with the vehicle.|
+
 ### Policies
 
 app_policies section of policy table related classes must be expanded to support new cloud app property related fields. 
