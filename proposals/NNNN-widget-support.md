@@ -15,13 +15,13 @@ As provided in other app platforms, app widgets are useful to quickly interact w
 
 ### Overall vision: Multi display support
 
-Providing Widget support has been identified as a concept that can be extended to support multiple displays including clusters, heads up and rear seat entertainment systems. The long-term vision of this proposal is to provide mutli-screen and multi-display support. This means that one app should not only be able to have multiple screens of different types on one display but also address other displays inside the vehicle.
+Providing Widget support has been identified as a concept that can be extended to support multiple displays including clusters, heads up and rear seat entertainment systems. The long-term vision of this proposal is to provide mutli-screen and multi-display support. This means that one app should not only be able to have multiple screens of different types on one display, but also address other displays inside the vehicle.
 
 ![Rear Seat Entertainment Systems](../assets/proposals/NNNN-widgets/rse.jpg)
 
 ### First step: Widgets on main display
 
-This proposal is focusing on main display widgets only but provides futuristic APIs to control apps on multiple displays. Future proposals will extend the APIs of this proposal to provide information about available displays, their type and position and of course the display capabilities.
+This proposal is focusing on main display widgets only, but provides futuristic APIs to control apps on multiple displays. Future proposals will extend the APIs of this proposal to provide information about available displays, their type and position and of course the display capabilities.
 
 ### Next steps or Future proposals
 
@@ -29,12 +29,12 @@ The future proposals will be about:
 
 Redesigning display capabilities: Allow apps to request system capabilities regarding displays, screens and seats so that apps know what displays are available, the display type (center stack, cluster, head-up, head-rest etc.), size etc. Additionally, what types of screens the display supports, where the display is located and what seats (and therefore persons) can reach and use the display.
 
-Analyzing RPCs and their relation to displays and screens: Today in the vehicle, SDL works as a system with a single main display and a single main app screen. OEMs reuse some assets from the main app screen and present it in other areas in the vehicle. We have to analyze and understand how RPCs are affected by having multiple screens with multiple displays. A future proposal will solve how HMI levels will work on multiple displays and what RPCs are system, display or even screen specific.
+Analyzing RPCs and their relation to displays and screens: Today in the vehicle, SDL works as a system with a single main display and a single main app screen. OEMs reuse some assets from the main app screen and present it in other areas in the vehicle. Additionally, OEMs have to analyze and understand how RPCs are affected by having multiple screens with multiple displays. A future proposal will solve how HMI levels will work on multiple displays and what RPCs are system, display or even screen specific.
 
 ## Proposed solution
 
 In current SDL implementations the registered application always comes with a single default screen that shows the app content. 
-In a nutshell the solution is to allow multiple screens per app. Each screen can be individually addressed and can be shown on a single display or on multiple displays. For convenience it should be possible to enable content duplication of another screen.
+In a nutshell, the solution is to allow multiple screens per app. Each screen can be individually addressed and can be shown on a single display or on multiple displays. For convenience it should be possible to enable content duplication from another screen.
 
 The below image shows SYNC3 with an app screen being part of the display. The SYNC3 display in the center stack is the main display of the SDL system. The highlighted area is the viewport of app screens. Each app has one single main app screen that is presented on the SYNC3 display on user selection. Selecting another app will cause the display to show the screen of the other app. If that screen is visible, the app is defined as in HMI level FULL.
 
@@ -108,7 +108,7 @@ In order to work with multiple screens, the app needs to be able to create or de
 <enum "PredefinedScreens" since="5.1">
 <element name="DEFAULT_SCREEN" value="0">
   <description>
-    The default screen is a main screen precreated on behalfs of the app.
+    The default screen is a main screen pre-created on behalfs of the app.
   </description>
 </element>
 </enum>
@@ -122,9 +122,9 @@ The HMI API should contain:
 
 #### Create & Delete screen
 
-The RPC `CreateScreen` allows an app to create a new screen on the display. The app needs to specify a screen ID that is used for screen manipulation e.g. with the RPC `Show` and the screen type which can either `MAIN` or `WIDGET` (see sub-section *Screen types*). 
+The RPC `CreateScreen` allows an app to create a new screen on the display. The app needs to specify a screen ID that is used for screen manipulation e.g. with the RPC `Show` and the screen type which can either be `MAIN` or `WIDGET` (see sub-section *Screen types*). 
 
-If desired the apps can duplicate content of an existing screen to the created screen using parameter `duplicateScreenID`. All RPCs sent to the screen with the ID equals `dulicateScreenID` will be duplicated for the creating screen. Bidirectional screen content duplication should not be supported. RPCs sent to the creating screen will not be duplicated to the screen with ID equals `duplicateScreenID`. 
+If desired the apps can duplicate content of an existing screen to the created screen using parameter `duplicateScreenID`. All RPCs sent to the screen with the ID equals `dulicateScreenID` will be duplicated to the created screen. Bidirectional screen content duplication should not be supported. RPCs sent to the creating screen will not be duplicated to the screen with ID matching `duplicateScreenID`. 
 
 After a screen is successfully created the response will contain information and capabilities about the created screen.
 
@@ -136,23 +136,23 @@ The main screen is the full size apps screen on a display. An app can have multi
 
 The widget screen is a small screen type to provide quick information or shortcut softbuttons. Widgets don't follow HMI levels as main screen. Once a widget is created the all RPCs addressed to this widget follow policies based on HMI_LIMITED. This policy rule is due to the nature of widgets as they can be always available to the user or should be ready to use when accessing the widget area (see alternative solution for widgets with HMI levels).
 
-Still widgets have effects to the HMI level of the app's main screen. Depending on the app policies:
+Still, widgets have effects to the HMI level of the app's main screen. Depending on the app policies:
 
-1. Apps can create widgets from any HMI level as allowed by policies (e.g. from HMI_NONE or BACKGROUND) and send `Show` or `SetDisplayLayout` to add content (text and soft buttons) to that widget. The RPCs sent to the widget follow policies of HMI_LIMITED
-2. If a user taps on a soft button in the widget and the app main screen is in HMI_NONE the app will automatically transit to HMI_BACKGROUND
+1. Apps can create widgets from any HMI level as allowed by policies (e.g. from HMI_NONE or BACKGROUND) and send `Show` or `SetDisplayLayout` to add content (text and soft buttons) to that widget. The RPCs sent to the widget follow policies of HMI_LIMITED.
+2. If a user taps on a soft button in the widget and the app main screen is in HMI_NONE the app will automatically transit to HMI_BACKGROUND.
 3. Exception 1: If the app is a navigation or media app the app will transit to HMI_LIMITED instead. Navigation apps will then be ready to start navigation by starting video and audio serivce. This exception will also make media apps audible.
 4. Exception 2: If the app specified the soft button with `STEAL_FOCUS` system action the app will transit to HMI_FULL and the main screen will be shown
-5. If a user taps anywhere in the widget but not on a soft button the app will transit to HMI_FULL and the main screen will be shown
+5. If a user taps anywhere in the widget, but not on a soft button the app will transit to HMI_FULL and the main screen will be shown.
 
 #### PredefinedScreens
 
-The enum `PredefinedScreens` specifies what screens and IDs are predefined and precreated on behalf of the app.
+The enum `PredefinedScreens` specifies what screens and IDs are predefined and pre-created on behalf of the app.
 
-The default screen is always available and represents the app screen on the main display. It's an equivalent to the todays app screen. For backward compatibility this will ensure the app always has at least the default screen on the main display. The app can choose to use this predefined enum element to specifically address app's main screen or to duplicate screen content. It is not possible to duplicate another screen to the default screen.
+The default screen is always available and represents the app screen on the main display. It's an equivalent to the todays app screen. For backward compatibility, this will ensure the app always has at least the default screen on the main display. The app can choose to use this predefined enum element to specifically address app's main screen or to duplicate screen content. It is not possible to duplicate another screen to the default screen.
 
 ### Screen manipulation
 
-Working on this proposal we grouped all RPCs into three categories: system, display or screen related. The RPC `Show` and `SetDisplayLayout` are identified as the only screen related RPCs. In order to allow an app to address a specific screen these two RPCs need to have an option parameter for the screen ID.
+Working on this proposal, all RPCs were grouped into three categories: system, display or screen related. The RPC `Show` and `SetDisplayLayout` are identified as the only screen related RPCs. In order to allow an app to address a specific screen, these two RPCs need to have an option parameter for the screen ID.
 
 ```xml
 <function name="Show" functionID="ShowID" messagetype="request" since="1.0">
@@ -168,7 +168,7 @@ Working on this proposal we grouped all RPCs into three categories: system, disp
 </function>
 ```
 
-This allows the app to use the full flexibility of the Show RPC in other screens.
+This allows the app to use the full flexibility of the `Show` RPC in other screens.
 
 ### Screen templates
 
@@ -205,7 +205,7 @@ In order to inform the app what screen types are supported, the struct `DisplayC
 </struct>
 ```
 
-This parameter does not inform the app how many screens per type are supported but it informs if a display supports widgets or a main app screen. The HMI decides on 
+This parameter does not inform the app how many screens per type are supported, but it informs if a display supports widgets or a main app screen. The HMI decides on 
 - how many widgets should be displayed (example: limited to 6 or indefinite using a scrollable area) 
 - and how to order them (alphabetically, chronogically or based on recent app usage).
 
@@ -234,15 +234,15 @@ In the proposal widget screens should not follow HMI levels. RPCs sent to a widg
 </function>    
 ```
 
-The additional parameter can used by the system to tell the app the HMI level of any screen instance. The parameter should be omitted for the predefined default screen for better backward compatibility. For other screens the screen ID specified by the app should be set in this parameter.
+The additional parameter can be used by the system to tell the app the HMI level of any screen instance. The parameter should be omitted for the predefined default screen for better backward compatibility. For other screens the screen ID specified by the app should be set in this parameter.
 
-By default widgets created are in HMI_BACKGROUND. This allows the app to fill the widget with content after it's created. If they get visible on the display the HMI should notify the app that the widget is now in HMI_FULL. This can be the case if the driver selects the widget area (e.g. the home screen shows app widgets). As widgets are not launchable the should automatically transit to HMI_FULL once they are visible.
+By default, widgets created are in HMI_BACKGROUND. This allows the app to fill the widget with content after it's created. If they get visible on the display, the HMI should notify the app that the widget is now in HMI_FULL. This can be the case if the driver selects the widget area (e.g. the home screen shows app widgets). As widgets are not launchable they should automatically transit to HMI_FULL once they are visible.
 
-To limit the changes in the RPC and support backward compatibility audioStreamingState should be provided to all screens of one app. The HMI and SDL core must make sure to not send different audio states per app.
+To limit the changes in the RPC and support backward compatibility, audioStreamingState should be provided to all screens of one app. The HMI and SDL core must make sure to not send different audio states per app.
 
 System context can be screen related. A widget can be fully visible (system context MAIN) while the app's default screen can present the menu (system context MENU).
 
 #### Screen duplication by SDL libraries
 
-To reduce complexity on the head unit screen duplication can be supported by the SDL libraries. This could allow more flexibility to enable or display duplication for existing screens. However this increases the number of RPCs to be sent by the app and the user might see a delay in screen update (duplication not synchronized).
+To reduce complexity on the head unit, screen duplication can be supported by the SDL libraries. This could allow more flexibility to enable or display duplication for existing screens. However this increases the number of RPCs to be sent by the app and the user might see a delay in screen update (duplication not synchronized).
 
