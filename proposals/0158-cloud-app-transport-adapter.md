@@ -104,6 +104,7 @@ Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
     <enum name="FunctionID" internal_scope="base" since="1.0">
         ...
         <element name="SetCloudAppPropertiesID" value="50" hexvalue="32" since="5.x" />
+        <element name="GetCloudAppPropertiesID" value="51" hexvalue="33" since="5.x" />
     <enum>
     ...
     <enum name="HybridAppPreference">
@@ -440,7 +441,7 @@ Core will need a new transport adapter that initiates websocket client connectio
 
 ### Policies
 
-app_policies section of policy table related classes must be expanded to support new cloud app property related fields. 
+app_policies section of policy table related classes must be expanded to support new cloud app related fields. 
 
 types.h
 ```
