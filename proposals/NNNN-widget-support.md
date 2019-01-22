@@ -173,7 +173,7 @@ This allows the app to use the full flexibility of the Show RPC in other screens
 ### Screen templates
 
 Today, SDL comes with a set of predefined templates available. The information for what templates are available for the apps is provided in 
-- `RegisterAppInterfaceResponse.displayCapabilities.templatesAvaiable` and 
+- `RegisterAppInterfaceResponse.displayCapabilities.templatesAvailable` and 
 - `SetDisplayLayoutResponse.displayCapabilities.templatesAvailable`.
 
 Details about the currently selected screen template are part of the display capabilities struct:
