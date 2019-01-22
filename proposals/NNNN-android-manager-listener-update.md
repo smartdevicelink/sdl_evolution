@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is related to Android 4.8 specifically updating the `SdlManagerListener` interface to match iOS `SDLManagerDelegate`. It adds APIs to easily read HMI status parameters but also allow updating the manager configuration.
+This proposal is related to Android 4.8 specifically updating the `SdlManagerListener` interface to match iOS `SDLManagerDelegate`. It adds APIs to easily read HMI status parameters, but also allows updating the manager configuration.
 
 ## Motivation
 
@@ -53,7 +53,7 @@ All parameters of the `OnHMIStatus` notification are stored in the SdlManager in
 
 ```java
 public class SdlManager {
-  // HMI level, audio streaming state and system context of the last status notification or null if not known/connected
+  // HMI level, audio streaming state and system context of the last status notification or null if not known/connected.
   private @Nullable HMILevel hmiLevel; 
   private @Nullable AudioStreamingState audioStreamingState;
   private @Nullable SystemContext systemContext;
@@ -175,15 +175,15 @@ public class Updater {
 
 ## Potential downsides
 
-From a technical point of view there is no downside to the added features. However as Java interfaces force you to implement every single method which can be distracting. 
+From a technical point of view there is no downside to the proposed interface methods. However, as Java interfaces force you to implement every single method, it can be distracting. 
 
 ## Impact on existing code
 
-The additional methods in the interface have impact to implementations of app developers and may be distracting. Besides of that there's no existing code changed.
+The additional methods in the interface have impact to implementations that app developers may find distracting. Besides of that there's no existing code changes.
 
 ## Alternatives considered
 
-To avoid forcing app developers to implement the methods added to `SdlManagerListener` each method could be added to the SDL manager builder to allow the app developer to choose what methods are interesting to listen.
+To avoid forcing app developers to implement the methods added to `SdlManagerListener` each method could be added to the SDL manager builder with individual listeners to allow the app developer to choose what methods are interesting to listen to.
 
 ```java
 public interface HMILevelListener {
