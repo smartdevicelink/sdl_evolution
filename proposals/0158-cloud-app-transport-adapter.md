@@ -33,7 +33,7 @@ This proposal will detail a possible solution for allowing  SDL-enabled cloud ap
 8. Core stores secret tokens in the policy table and updates the `enabled` field of the cloud apps listed in the policy table.
 9. Core sends update app list to HMI to display cloud apps' availability
 10. User activates the cloud app, Core gets the websocket (WS) endpoint from policy table and opens a websocket connection.
-11. Cloud app sends a start service request, and Core responds with a start service ack with the auth_token in the payload.
+11. Cloud app sends a start service request, and Core responds with a `Start Service ACK` with the auth_token in the payload.
 
 Note: This is one possible implementation of enabling and authenticating cloud apps using an OEM cloud app store. Please refer to other example use cases.
 
@@ -243,7 +243,7 @@ If the websocket connection attempt is successful, Core will send the CloudConne
 
 #### Transport Adapter Connection Flow
 
-App Activation: User selects the cloud app from the app list on the HMI and the websocket connection to the cloud server is opened. After the cloud app sends a start rpc service request, Core will respond with a start service ack with the auth_token included in the payload.
+App Activation: User selects the cloud app from the app list on the HMI and the websocket connection to the cloud server is opened. After the cloud app sends a start rpc service request, Core will respond with a `Start Service ACK` with the auth_token included in the payload.
 
 ![alt text](../assets/proposals/0158-cloud-app-transport-adapter/cloud_app_activation.png "App Activation")
 
