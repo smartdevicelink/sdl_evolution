@@ -436,7 +436,6 @@ Core will need a new transport adapter that initiates websocket client connectio
 ###### 3.1.3.2.2 Start Service ACK
 | Tag Name| Type | Description |
 |------------|------|-------------|
-|protocolVersion|String|The negotiated version of the protocol. Must be in the format *"Major.Minor.Patch"*. The frame header version should match the major version exactly.|
 |authToken|String|This token is used by a cloud application to authenticate a user account associated with the vehicle.|
 
 ### Policies
