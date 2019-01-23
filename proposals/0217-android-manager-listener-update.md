@@ -1,7 +1,7 @@
 # Android ManagerListener update
 
 * Proposal: [SDL-0217](0217-android-manager-listener-update.md)
-* Author: [SDL Developer](https://github.com/kshala-ford)
+* Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **In Review**
 * Impacted Platforms: [ Android ]
 
