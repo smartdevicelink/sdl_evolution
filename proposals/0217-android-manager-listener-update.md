@@ -1,8 +1,8 @@
 # Android ManagerListener update
 
-* Proposal: [SDL-NNNN](NNNN-android-manager-listener-update.md)
+* Proposal: [SDL-0217](0217-android-manager-listener-update.md)
 * Author: [SDL Developer](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Android ]
 
 ## Introduction
