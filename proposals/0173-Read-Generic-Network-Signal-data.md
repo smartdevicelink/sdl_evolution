@@ -25,7 +25,8 @@ Instead of validating vehicle data items against APIs XML, SDL would rely on a d
 	"dataType":"SDLDataType",
 	"reference":"OEMDataRef",
 	"array":true/false,
-	"mandatory":true/false
+	"mandatory":true/false,
+	"params":"StructParams"
 }
 ```
 * VehicleDataItem - is the vehicle data item in question. e.g. gps, speed etc. SDL would use this as the vehicle data param for requests from the app and to validate policies permissions.
@@ -35,7 +36,7 @@ Instead of validating vehicle data items against APIs XML, SDL would rely on a d
 * _array_ : To speciify if the vehicle data item/param response is an array.
 * _mandatory_ : To specify if the vehicle data param is mandatory to be included in response for overall vehicle data item.
 
-* _id_ is required for top level vehicle data items while _dataType_ & _reference_ are required fields for vehicle data and sub-params, _array_ and _mandatory_ can be omitted. If omitted, _array_ defaults to *false* and _mandatory_ defaults to *true*
+* _id_ is required for top level vehicle data items while _dataType_, _reference_ & _mandatory_ are required fields for vehicle data & sub-params. However _array_ and _params_ can be omitted, If omitted, _array_ defaults to *false*.
 
 #### Schema file location and updates
 A base JSON schema file for SDL core and proxy will be kept locally and an additional one in the OEM cloud. OEMs can update the schema file with OEM specific items, which SDL core would be able to download over the cloud along with policy updates; SDL proxy would be able to download via a URL passed to the app from HMI as an _endpoint_ shown below:
@@ -80,44 +81,48 @@ This new design would ensure flexibility to add OEM specific vehicle data items 
 			"id":"headLampStatus",
 			"dataType":"Struct",
 			"reference":"OEM_REF_STRUCT",
-			"ambientLightSensorStatus":{
-				"dataType":"AmbientLightStatus",
-				"reference":"OEM_REF_AMB_LIGHT",
-				"mandatory":false
-			},
-			"highBeamsOn":{
-				"dataType":"Boolean",
-				"reference":"OEM_REF_HIGH_BEAM"
-			},
-			"lowBeamsOn":{
-				"dataType":"Boolean",
-				"reference":"OEM_REF_LOW_BEAM"
+			"params":{
+				"ambientLightSensorStatus":{
+					"dataType":"AmbientLightStatus",
+					"reference":"OEM_REF_AMB_LIGHT",
+					"mandatory":false
+				},
+				"highBeamsOn":{
+					"dataType":"Boolean",
+					"reference":"OEM_REF_HIGH_BEAM"
+				},
+				"lowBeamsOn":{
+					"dataType":"Boolean",
+					"reference":"OEM_REF_LOW_BEAM"
+				}
 			}
 		},
 		{
 			"id":"engineState",
 			"dataType":"Struct",
 			"reference":"OEM_REF_STRUCT",
-			"engineCoolantTemp" : {
-				"dataType":"Integer",
-				"reference":"OEM_REF_ENG_COOL_TEMP",
-				"array":false,
-				"mandatory":false
-			},
-			"engineO2Sat":{
-				"dataType":"Float",
-				"reference":"OEM_REF_ENG_O2_SAT",				
-				"mandatory":false
-			},
-			"engineState":{
-				"dataType":"String",
-				"reference":"OEM_REF_ENG_STATE"
-			},
-			"engineServiceRequired":{
-				"dataType":"Boolean",
-				"reference":"OEM_REF_ENG_SER_REQ",
-				"array":false,
-				"mandatory":false
+			"params":{
+				"engineCoolantTemp" : {
+					"dataType":"Integer",
+					"reference":"OEM_REF_ENG_COOL_TEMP",
+					"array":false,
+					"mandatory":false
+				},
+				"engineO2Sat":{
+					"dataType":"Float",
+					"reference":"OEM_REF_ENG_O2_SAT",				
+					"mandatory":false
+				},
+				"engineState":{
+					"dataType":"String",
+					"reference":"OEM_REF_ENG_STATE"
+				},
+				"engineServiceRequired":{
+					"dataType":"Boolean",
+					"reference":"OEM_REF_ENG_SER_REQ",
+					"array":false,
+					"mandatory":false
+				}
 			}
 		},
 		{
@@ -174,18 +179,20 @@ Sample Value for map:
 	"id":"headLampStatus",
 	"dataType":"Struct",
 	"reference":"OEM_REF_STRUCT",
-	"ambientLightSensorStatus":{
-		"dataType":"AmbientLightStatus",
-		"reference":"OEM_REF_AMB_LIGHT",
-		"mandatory":false
-	},
-	"highBeamsOn":{
-		"dataType":"Boolean",
-		"reference":"OEM_REF_HIGH_BEAM"
-	},
-	"lowBeamsOn":{
-		"dataType":"Boolean",
-		"reference":"OEM_REF_LOW_BEAM"
+	"params":{
+		"ambientLightSensorStatus":{
+			"dataType":"AmbientLightStatus",
+			"reference":"OEM_REF_AMB_LIGHT",
+			"mandatory":false
+		},
+		"highBeamsOn":{
+			"dataType":"Boolean",
+			"reference":"OEM_REF_HIGH_BEAM"
+		},
+		"lowBeamsOn":{
+			"dataType":"Boolean",
+			"reference":"OEM_REF_LOW_BEAM"
+		}
 	}
 }
 ```
@@ -240,26 +247,28 @@ Sample value for map:
 	"id":"engineState",
 	"dataType":"Struct",
 	"reference":"OEM_REF_STRUCT",
-	"engineCoolantTemp" : {
-		"dataType":"Integer",
-		"reference":"OEM_REF_ENG_COOL_TEMP",
-		"array":false,
-		"mandatory":false
-	},
-	"engineO2Sat":{
-		"dataType":"Float",
-		"reference":"OEM_REF_ENG_O2_SAT",				
-		"mandatory":false
-	},
-	"engineState":{
-		"dataType":"String",
-		"reference":"OEM_REF_ENG_STATE"
-	},
-	"engineServiceRequired":{
-		"dataType":"Boolean",
-		"reference":"OEM_REF_ENG_SER_REQ",
-		"array":false,
-		"mandatory":false
+	"params":{
+		"engineCoolantTemp" : {
+			"dataType":"Integer",
+			"reference":"OEM_REF_ENG_COOL_TEMP",
+			"array":false,
+			"mandatory":false
+		},
+		"engineO2Sat":{
+			"dataType":"Float",
+			"reference":"OEM_REF_ENG_O2_SAT",				
+			"mandatory":false
+		},
+		"engineState":{
+			"dataType":"String",
+			"reference":"OEM_REF_ENG_STATE"
+		},
+		"engineServiceRequired":{
+			"dataType":"Boolean",
+			"reference":"OEM_REF_ENG_SER_REQ",
+			"array":false,
+			"mandatory":false
+		}
 	}
 }
 ```
@@ -301,6 +310,45 @@ Sample response from module:
 * The Data type is the string so that it can accommodate a byte string for CAN message. OEM_REF_MSG points to a message definition in the OEM mapping table.
 ### Integer, Float, String can use the common range values defined in HMI/Mobile API
 ### Access to data items would still be controlled using Policies the same way. OEM would need to add new vehicle data items to policies.
+
+## Proxy side changes
+Once core has downloaded and processed the new vehicle data params, it'd send an _onPermissionsChange_ notification to the connected app with new vehicle data params. App developer can relay on this notification to request new vehicle data items using a generic request/response methods in _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ request and response messages.
+
+### Add getter and setter for generic vehicle data in GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData:
+```
+public void setGenericNetworkData(String vehicleDataName, Boolean vehicleDataState){
+	setParameters(vehicleDataName, vehicleDataState);
+}
+
+public Boolean getGenericNetworkData(String vehicleDataName){
+	return getBoolean(vehicleDataName);
+}
+```
+
+### Add getter and setter for generic vehicle data in SubscribeVehicleDataResponse/UnsubscribeVehicleDataResponse:
+```
+public void setGenericNetworkData(String vehicleDataName, VehicleDataResult vehicleDataState){
+	setParameters(vehicleDataName, vehicleDataState);
+}
+
+public VehicleDataResult getGenericNetworkData(String vehicleDataName){
+	return (VehicleDataResult) getObject(VehicleDataResult.class, vehicleDataName);
+}
+```
+
+
+### Add getter and setter for generic vehicle data in GetVehicleDataResponse/OnVehicleData:
+```
+public void setGenericNetworkData(String vehicleDataName, Object vehicleDataState){
+	setParameters(vehicleDataName, vehicleDataState);
+}
+
+public Object getGenericNetworkData(String vehicleDataName){
+	return getParameters(vehicleDataName);
+}
+```
+
+It'd be app's responsibility to map vehicle data object to corresponding vehicle data struct. Struct definition would be provided by OEM to the OEM app. This solution is acceptable only for OEM apps since the intent is provide quick access to OEM specific vehicle data to **OEM ONLY** apps. This approach discourages OEM to use it for other vehicle data items which other app partners would want to utlize as well. In order to provide getter/setter specific to new vehicle data item, it'd still need to be added to SDL core and proxy as a static data entry, which in turn would be beneficial for the project's evolution.
 
 ## Impact on existing code
 * SDL core would need to add support to download and parse the new JSON schema for vehicle data. SDL would either keep the existing vehicle data items in HMI/Mobile API and only use this approach for new vehicle data items or totally replace the way vehicle data items are compiled and validated by SDL. Instead of using the hard coded xml file, valid vehicle data type would be fetched from mapping file over the cloud. (there would be a local copy for the initial build). The interface between SDL and HMI needs to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference keys.
