@@ -109,9 +109,9 @@ Mobile proxy shall send/receive encrypted RPC requests/responses if the app choo
 ### SDL core change
 
 #### Proposed solution
-Before the encryption of RPC service 7 is enabled, SDL rejects any RPC request with result code `ENCRYPTION_NEEDED` if the RPC needs protection. (Please see policy updates for which RPC needs protection.) SDL continues processing a RPC request if the RPC does not need protection. SDL sends a notification only if the notification RPC does not need protection.
+Before the encryption of RPC service 7 is enabled (encryption is not available), SDL rejects any RPC request with result code `ENCRYPTION_NEEDED` if the RPC needs protection. (Please see policy updates for which RPC needs protection.) SDL continues processing a RPC request if the RPC does not need protection. SDL sends a notification only if the notification RPC does not need protection.
 
-After the encryption of RPC service 7 is enabled, SDL rejects any unencrypted RPC request with result code `ENCRYPTION_NEEDED` with unencrypted response if the RPC needs protection. SDL continues processing an unencrypted RPC request if the RPC does not need protection and responds with unencrypted response. SDL continues processing an encrypted RPC request if the RPC needs protection and responds with encrypted response. SDL sends an unencrypted notification if the RPC does not need protection. SDL sends an encrypted notification if the RPC needs protection. In addition, SDL shall continue processing an encrypted RPC request if the RPC does not need protection and responds with encrypted response.
+After the encryption of RPC service 7 is enabled (encryption is available), SDL rejects any unencrypted RPC request with result code `ENCRYPTION_NEEDED` with unencrypted response if the RPC needs protection. SDL continues processing an unencrypted RPC request if the RPC does not need protection and responds with unencrypted response. SDL continues processing an encrypted RPC request if the RPC needs protection and responds with encrypted response. SDL sends an unencrypted notification if the RPC does not need protection. SDL sends an encrypted notification if the RPC needs protection. In addition, SDL shall continue processing an encrypted RPC request if the RPC does not need protection and responds with encrypted response.
 
 
 #### Alternative solution:
@@ -123,7 +123,7 @@ After the encryption of RPC service 7 is enabled, SDL rejects any unencrypted RP
 ### Policy updates:
 
 #### Proposed solution
-Add a optional Boolean flag `need_protection` to a function group to indicate whether all the RPCs within this function group need protection not. For example, 
+Add an optional Boolean flag `need_protection` to a function group to indicate whether all the RPCs within this function group need protection not. For example, 
 
 ```json
 "RemoteControl": {
@@ -140,10 +140,10 @@ Add a optional Boolean flag `need_protection` to a function group to indicate wh
 }
 ```
 
-Note that even the flag is defined in the function group level in policy, SDL core still needs to cascade this flag from function group level to each RPC because there is no concept of `function group` in `OnPermissionsChange` notification.
+Note that even the flag is defined in the function group level in the Policy Table, SDL core still needs to cascade this flag from the function group level to each RPC because there is no concept of `function group` in `OnPermissionsChange` notification.
 
 
-If `need_protection`=`true` for a function group in policy, all the RPCs within that function group must be sent/received in an encryption enabled SDL service. That means the app has been authenticated via TLS handshake and RPC request and response messages are encrypted. If `need_protection`=`false` or `need_protection` does not exist for a function group in policy, the RPC messages of that function group shall not be encrypted, and can be transmitted in both encryption enabled and disabled SDL services.
+If `need_protection`=`true` for a function group in the Policy Table, all the RPCs within that function group must be sent/received in an encryption enabled SDL service. This means the app has been authenticated via TLS handshake and RPC request and response messages are encrypted. If `need_protection`=`false` or `need_protection` does not exist for a function group in the Policy Table, the RPC messages of that function group shall not be encrypted and can be transmitted in both encryption enabled and disabled SDL services.
 
 Multiple function groups can include the same RPC; each group has its own flag for the protection. If an app has access to multiple functional groups containing the same RPC and at least one of the groups requires encryption, then the RPC shall require encryption. Which means that SDL shall send an `OnPermissionsChange` to the app with `needProtection`=`true` for the RPC.
 
@@ -171,7 +171,7 @@ Multiple function groups can include the same RPC; each group has its own flag f
 In this alternative solution,  SDL has the flexibility of configuring the protection for some RPCs and also having some RPCs that do not need protection in the same function group. However, it will make policy table more complex and the payload size of policy table update larger.
 
 
--  Alternative solution 2 : add a Boolean flag `need_protection` to each app in policy configuration, and adds a parameter `needProtection` for the whole app in RPC `OnPermissionsChange`. Therefore, instead of a group of RPCs needing encryption, all RPCs of an app need encryption. The workflow is as follows:
+-  Alternative solution 2 : add a Boolean flag `need_protection` to each app in the Policy Table configuration and add a parameter `needProtection` for the whole app in the RPC `OnPermissionsChange`. Therefore, instead of a group of RPCs needing encryption, all the RPCs of an app need encryption. The workflow is as follows:
 
 
 An OEM can choose to require either all RPCs of the app or no RPCs of the app to be encryption enabled. This is accomplished by configuring the policy of an application. When the app registers with the SDL for the first time, SDL triggers a policy update. SDL gets the configuration from the updated policy and sends an `OnPermissionsChange` notification with `needProtection=true` to the app. When the mobile proxy within the app receives the message, it sends `StartService` with encryption bit set to trigger the process of enabling encryption of the existing RPC service. Once the process is done and the encryption is enabled, all RPC messages shall be encrypted. The RPC messages sent before the encryption is enabled shall remain un-encrypted. SDL shall reject all un-encrypted messages with result code `ENCRYPTION_NEEDED` if the encryption of RPC service has been enabled. SDL shall reject most un-encrypted messages (except the RPCs that are sent before `OnPermissionsChange`) with result code `ENCRYPTION_NEEDED` if the encryption of RPC service has not been enabled to prevent version rollback attack or downgrade attack. Otherwise, a malicious app may never start enabling the encryption of RPC service.
@@ -219,17 +219,21 @@ The SDL server may support the new parameter in the policy table.
 
 
 ## Potential downsides
-The proxy and SDL can send the following RPC messages before the encryption of RPC service 7 is enabled. 
+Mobile Proxy and SDL Core can send the following RPC messages before the encryption of RPC service 7 is enabled. 
 - `RegisterAppInterface`
 - `SystemRequest`
 - `OnPermissionsChange` 
 - `OnSystemRequest`
 - `PutFile`
 
-There are two possible methods to deal with this downside. In the first method, some special logic (exception) is needed. The SDL core and mobile proxy can send and receive the above RPC messages un-encrypted if the encryption of RPC service is not enabled even those RPCs have `need_protection`=`true`. Once the encryption of RPC service is enabled, the SDL core and mobile proxy shall send encrypted messages if those RPCs have `need_protection`=`true`. In the second method, these RPCs shall not be listed in a function group with `need_protection`=`true` in a policy configuration. This proposal recommends the first method (exeption list method).
+There are two possible methods to deal with this downside:
+
+In the first method, some special logic (exception) is needed. SDL core and mobile proxy can send and receive the above RPC messages un-encrypted if the encryption of the RPC service is not enabled regardless those RPCs have `need_protection`=`true` or not. Once the encryption of RPC service is enabled, SDL core and mobile proxy shall send encrypted messages if those RPCs have `need_protection`=`true`. 
+
+In the second method, these RPCs shall not be listed in a function group with `need_protection`=`true` in a Policy Table configuration. This proposal recommends the first method (exception list method).
 
 
-Similar to the WWW moving from HTTP to HTTPS, the trend for SDL should be to move from un-encrypted messages to all messages encrypted in the future. A long term solution which encryts all messages including RegisterAppInterface, SystemRequest, OnSystemRequest and OnPermissionsChange will be developped in a seperate proposal.
+Similar to the WWW moving from HTTP to HTTPS, the trend for SDL should be to move from un-encrypted messages to all messages encrypted in the future. A long term solution which encrypts all messages including RegisterAppInterface, SystemRequest, OnSystemRequest and OnPermissionsChange will be developed in a separate proposal.
 
 
 ## Impact on existing code
