@@ -39,27 +39,7 @@ Instead of validating vehicle data items against APIs XML, SDL would rely on a d
 * _id_ is required for top level vehicle data items while _dataType_, _reference_ & _mandatory_ are required fields for vehicle data & sub-params. However _array_ and _params_ can be omitted, If omitted, _array_ defaults to *false*.
 
 #### Schema file location and updates
-A base JSON schema file for SDL core and proxy will be kept locally and an additional one in the OEM cloud. OEMs can update the schema file with OEM specific items, which SDL core would be able to download over the cloud along with policy updates; SDL proxy would be able to download via a URL passed to the app from HMI as an _endpoint_ shown below:
-```
-"endpoints": {
-    "0x07": {
-        "default": ["http://x.x.x.x:3000/api/1/policies/proprietary"]
-     },
-     "0x04": {
-         "default": ["http://x.x.x.x:3000/api/1/softwareUpdate"]
-     },
-     "queryAppsUrl": {
-         "default": ["http://sdl.shaid.server"]
-     },
-     "lock_screen_icon_url": {
-         "default": ["http://i.imgur.com/TgkvOIZ.png"]
-     },
-     "extended_vehicle_data_url": {
-         "default": ["http://x.x.x.x:3000/api/1/vehicledata/"]
-     }
-}
-```
-This new design would ensure flexibility to add OEM specific vehicle data items while maintaining access control via policies the same it is done today.
+A base JSON schema file for SDL core and proxy will be kept locally and an additional one in the OEM cloud. OEMs can update the schema file with OEM specific items, which SDL core would be able to download over the cloud along with policy updates; SDL proxy would still process the local(static) copy of schema for existing data items. For OEM specific additional items, OEM app would process a generic _Object_ to retrieve vehicle data item response _struct_. This new design would ensure flexibility to add OEM specific vehicle data items while maintaining access control via policies the same it is done today.
 
 ### Example of sample schema addition to policy table for SDL core update:
 ```json
@@ -312,7 +292,7 @@ Sample response from module:
 ### Access to data items would still be controlled using Policies the same way. OEM would need to add new vehicle data items to policies.
 
 ## Proxy side changes
-Once core has downloaded and processed the new vehicle data params, it'd send an _onPermissionsChange_ notification to the connected app with new vehicle data params. App developer can relay on this notification to request new vehicle data items using a generic request/response methods in _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ request and response messages.
+Once core has downloaded and processed the new vehicle data params, it'd send an _onPermissionsChange_ notification to the connected app with new vehicle data params. App developer would rely on this notification to request new vehicle data items using a generic request/response methods in _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ request and response messages.
 
 ### Add getter and setter for generic vehicle data in GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData:
 ```
@@ -348,12 +328,10 @@ public Object getGenericNetworkData(String vehicleDataName){
 }
 ```
 
-It'd be app's responsibility to map vehicle data object to corresponding vehicle data struct. Struct definition would be provided by OEM to the OEM app. This solution is acceptable only for OEM apps since the intent is provide quick access to OEM specific vehicle data to **OEM ONLY** apps. This approach discourages OEM to use it for other vehicle data items which other app partners would want to utlize as well. In order to provide getter/setter specific to new vehicle data item, it'd still need to be added to SDL core and proxy as a static data entry, which in turn would be beneficial for the project's evolution.
+It'd be app's responsibility to map vehicle data object to corresponding vehicle data struct. Struct definition would be provided by OEM to the OEM app. This solution is acceptable only for OEM apps since the intent is provide quick access to OEM specific vehicle data to **OEM ONLY** apps. This approach discourages OEM to use it for other vehicle data items which other app partners would want to utilize as well. In order to provide getter/setter specific to new vehicle data item, it'd still need to be added to SDL core and proxy as a static data entry, which in turn would be beneficial for the project's evolution.
 
 ## Impact on existing code
 * SDL core would need to add support to download and parse the new JSON schema for vehicle data. SDL would either keep the existing vehicle data items in HMI/Mobile API and only use this approach for new vehicle data items or totally replace the way vehicle data items are compiled and validated by SDL. Instead of using the hard coded xml file, valid vehicle data type would be fetched from mapping file over the cloud. (there would be a local copy for the initial build). The interface between SDL and HMI needs to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference keys.
-
-* SDL Proxy needs to be able to download the new JSON schema for vehicle data and add a manager to allow requests for new vehicle data items in a systematic way.
 
 * APIs would need a new Request/Response API to act as the Generic Request Response for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData_
 
