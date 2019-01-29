@@ -238,7 +238,7 @@ Similar to the WWW moving from HTTP to HTTPS, the trend for SDL should be to mov
 
 ## Impact on existing code
 
-As it is analyzed in the section of `Proposed solution`, the following components need update: Core, Mobile_API.xml, Android and iOS proxy, Policy server.
+As it is analyzed in the section of `Proposed solution`, the following components need to be updated: Core, Mobile_API.xml, Android and iOS proxy, Policy server.
 
 ## Alternatives considered
 The alternatives have been discussed in the above sections.
