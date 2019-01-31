@@ -57,17 +57,22 @@ The data for these new features would be stored in new relational tables in the 
 * `application_issue_message`: stores an auto-generated ID, which issue ID the message is targeted to, who the message is from (OEM or app developer vendor ID), the message type ('DISCUSSION', 'RESOLVED', 'UNRESOLVED', 'CLOSED', 'OPENED'), the name of the individual who authored the message, the message contents, creation time, deletion time
 
 ### User Interface
-App developers and granted OEMs to be able to partake in general discussion with each other about an app through "Chat".
+
+#### General App Chat
 ![app-chat][app-chat]
+> App developers and granted OEMs to be able to partake in general discussion with each other about an app through "Chat".
 
-App developers and granted OEMs will be able to see a list of issues for an app. OEMs will see issues that were self-authored or shared by another OEM. App developers will see all issues for their app authored by any granted OEM.
+#### App Issue List
 ![issue-list][issue-list]
+> App developers and granted OEMs will be able to see a list of issues for an app. OEMs will see issues that were self-authored or shared by another OEM. App developers will see all issues for their app authored by any granted OEM.
 
-App developers and granted OEMs will be able to view the details of the issue and participate in an issue-specific discussion. The authoring OEM is able to discuss, close, re-open, resolve, and un-resolve the issue. Other OEMs may only participate in the discussion. The app developer may participate in the discussion and mark the issue as resolved or un-resolved.
+#### Viewing an App Issue
 ![issue-view][issue-view]
+> App developers and granted OEMs will be able to view the details of the issue and participate in an issue-specific discussion. The authoring OEM is able to discuss, close, re-open, resolve, and un-resolve the issue. Other OEMs may only participate in the discussion. The app developer may participate in the discussion and mark the issue as resolved or un-resolved.
 
-Granted OEMs may open new issues against an app and select whether or not they would like the issue to be shared with other authorized OEMs.
+#### Create an App Issue
 ![issue-create][issue-create]
+> Granted OEMs may open new issues against an app and select whether or not they would like the issue to be shared with other authorized OEMs.
 
 ## Impact on Existing Code
 This is a new addition to the SHAID database and APIs, so it would have no direct impact on existing SHAID tables and APIs. However, the features outlined in this proposal - regardless of the implementation method chosen - would require several modifications and additions to the Developer Portal user interface, as well as nominal back-end changes to the Developer Portal to call the appropriate SHAID APIs. This includes removing the legacy app developer contact email form which exists today and creating new pages and navigation elements to support the new enhanced functionality. Please see the `User Interface` section above for visual design previews of the proposed solution.
