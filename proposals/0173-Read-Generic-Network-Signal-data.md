@@ -116,7 +116,6 @@ A base JSON schema file for SDL core and proxy will be kept locally and an addit
 ....
 ```
 
-#### Note: Only 2 levels of nesting allowed for vehicle data items/Sub items. i.e. vehicle data item can have params e.g. "headLampStatus" has "highBeamsOn" as param from above schema. But params can't have sub-params, e.g. "highBeamsOn" can't have any further nesting of params.
 
 ### Vehicle data items can be arranged in structures. See below example for existing vehicle data item _rpm_
 
@@ -328,7 +327,7 @@ public Object getGenericNetworkData(String vehicleDataName){
 }
 ```
 
-It'd be app's responsibility to map vehicle data object to corresponding vehicle data struct. Struct definition would be provided by OEM to the OEM app. This solution is acceptable only for OEM apps since the intent is provide quick access to OEM specific vehicle data to **OEM ONLY** apps. This approach discourages OEM to use it for other vehicle data items which other app partners would want to utilize as well. In order to provide getter/setter specific to new vehicle data item, it'd still need to be added to SDL core and proxy as a static data entry, which in turn would be beneficial for the project's evolution.
+It'd be app's responsibility to map vehicle data object to corresponding vehicle data struct. Struct definition would be provided by OEM to the OEM app. This solution is acceptable only for OEM apps since the intent is provide quick access to OEM specific vehicle data to **OEM ONLY** apps. Due to need of additional processing at OEM app side, this approach discourages OEM to use it for other vehicle data items which other app partners would want to utilize as well. In order to provide getter/setter specific to new vehicle data item, it'd still need to be added to SDL core and proxy as a static data entry, which in turn would be beneficial for the project's evolution.
 
 ## Impact on existing code
 * SDL core would need to add support to download and parse the new JSON schema for vehicle data. SDL would either keep the existing vehicle data items in HMI/Mobile API and only use this approach for new vehicle data items or totally replace the way vehicle data items are compiled and validated by SDL. Instead of using the hard coded xml file, valid vehicle data type would be fetched from mapping file over the cloud. (there would be a local copy for the initial build). The interface between SDL and HMI needs to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference keys.
