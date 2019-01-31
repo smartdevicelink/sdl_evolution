@@ -99,7 +99,7 @@ Trello offers an oauth-based API capable of managing boards, lists, cards, and c
 ### Open-source Forum Software
 There are various open-source forum (or forum-like) solutions which we could host such as NodeBB, phpBB, myBB, Discourse, etc, but in my investigation I was only able to find one (Discourse) which offers a comprehensive, documented API. These out-of-the-box generic solutions contain many features which we would likely never use (read: overcomplicated; technical debt), are mostly built upon older technology stacks (PHP, MySQL, Apache) than the rest of SDL's infrastructure, and would likely require heavy customization to achieve seamless integration into the Developer Portal.
 
-[app-chat]: ../assets/proposals/NNNN-developer-oem-communication/chat.png
-[issue-list]: ../assets/proposals/NNNN-developer-oem-communication/issue-list.png
-[issue-view]: ../assets/proposals/NNNN-developer-oem-communication/issue-view.png
-[issue-create]: ../assets/proposals/NNNN-developer-oem-communication/issue-create.png
+[app-chat]: ../assets/proposals/NNNN-developer-oem-communication/app-chat.jpg
+[issue-list]: ../assets/proposals/NNNN-developer-oem-communication/issue-list.jpg
+[issue-view]: ../assets/proposals/NNNN-developer-oem-communication/issue-view.jpg
+[issue-create]: ../assets/proposals/NNNN-developer-oem-communication/issue-create.jpg
