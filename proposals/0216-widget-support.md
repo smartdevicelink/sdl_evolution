@@ -215,7 +215,9 @@ The current design of SDL does not clearly separate displays and screens. Togeth
 
 ## Impact on existing code
 
-On SDL there are additional RPCs that need to be added. The HMI needs to design templates for widgets. This proposal did not focus on the mobile changes. For mobile libraries it's necessary to add the new RPCs and add support for multiple screen managers. This will also be part of a separate proposal.
+On SDL there are additional RPCs that need to be added. The HMI needs to design templates for widgets. This proposal did not focus on the mobile changes. For mobile libraries it's necessary to add the new RPCs and add support for multiple screen managers.
+
+This will also be part of a separate proposal.
 
 ## Alternatives considered
 
