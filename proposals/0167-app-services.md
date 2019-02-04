@@ -330,7 +330,7 @@ A navigation service is defined as a service that is currently listed as the nav
 	    </param>
 	    
 	    <param name="details" type="String" mandatory="false">
-	        <description>This is a string representation of this instruction. For use to display instruction to users. This is not intended to be read aloud to users, see the param prompt in NavigationServiceData for that.</description>
+	        <description>This is a string representation of this instruction, used to display instructions to the users. This is not intended to be read aloud to the users, see the param prompt in NavigationServiceData for that.</description>
 	    </param>
 	    
 	    <param name "image"  type="Image" mandatory="false">
