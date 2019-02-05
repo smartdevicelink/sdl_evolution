@@ -482,7 +482,7 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 		</param>
 		
 		<param name="serviceIcon" type="Image" mandatory="false">
-			<description> The image object be associated with this service. Most likely the same as the appIcon.</description>
+			<description> The icon to be associated with this service. Most likely the same as the appIcon.</description>
 		</param>
 		
 		<param name="allowAppConsumers" type="Boolean" mandatory="false" defvalue="false">
