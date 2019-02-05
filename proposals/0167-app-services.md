@@ -471,7 +471,7 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 
 ```xml
 	<struct name="AppServiceManifest">
-		<description> This manifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it</description>
+		<description>This manifest contains all the information necessary for the service to be published, activated, and allow consumers to interact with it</description>
 		
 		<param name="serviceName" type="String" mandatory="false">
 			<description> Unique name of this service</description>
@@ -1007,7 +1007,7 @@ The HMI will be responsible for the actual selection and activation of app servi
     <description>The ID of the service that should have an activation event take place on</description>
   </param>
   <param name="serviceType" type="String" mandatory="true">
-    <description>The service type the service should have the activation event occur on. See AppServiceType</description>
+    <description>The service type of the service should have the activation event occur on. See AppServiceType</description>
   </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service is to be activated. False if the app is to be deactivated</description>
@@ -1022,7 +1022,7 @@ The HMI will be responsible for the actual selection and activation of app servi
     <description>The ID of the service that was requested to have an activation event take place</description>
   </param>
   <param name="serviceType" type="String" mandatory="true">
-    <description>The service type the service that was requested to have an activation event take place. See AppServiceType</description>
+    <description>The service type **of** the service that was requested to have an activation event take place. See AppServiceType</description>
   </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service was activated. False if the app was deactivated or unable to be activated</description>
@@ -1086,7 +1086,7 @@ Proposed policy table structure:
             }
 ```
 
-In the policy table, the `app_policies` section will have a new `app_services` object parameter. Each object will have the service type as the object key. `service_names` will be an array of allowed app service nick names. `handled_rpcs` will be an array of objects to with the function_id of allowed handled rpcs. `handled_rpcs` as an array of objects instead of an array of integers will allow for future expansion of the `handled_rpcs` permission item.
+In the policy table, the `app_policies` section will have a new `app_services` object parameter. Each object will have the service type as the object key. `service_names` will be an array of allowed app service nick names. `handled_rpcs` will be an array of objects with the function_id of allowed handled rpcs. `handled_rpcs` will be an array of objects instead of an array of integers, this will allow for future expansion of the `handled_rpcs` permission item.
 
 If an app tries to publish an app service with information that does not match the policy table entry, the request will be disallowed.
 
