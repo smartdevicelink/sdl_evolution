@@ -1022,7 +1022,7 @@ The HMI will be responsible for the actual selection and activation of app servi
     <description>The ID of the service that was requested to have an activation event take place</description>
   </param>
   <param name="serviceType" type="String" mandatory="true">
-    <description>The service type **of** the service that was requested to have an activation event take place. See AppServiceType</description>
+    <description>The service type of the service that was requested to have an activation event take place. See AppServiceType</description>
   </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service was activated. False if the app was deactivated or unable to be activated</description>
