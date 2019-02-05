@@ -478,11 +478,11 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 		</param>
 		
 		<param name="serviceType" type="String" mandatory="true">
-			<description>The type of service that is to be offered by this app</description>
+			<description>The type of service that is to be offered by this app. See AppServiceType</description>
 		</param>
 		
 		<param name="serviceIcon" type="Image" mandatory="false">
-			<description> The file name of the icon to be associated with this service. Most likely the same as the appIcon.</description>
+			<description> The image object be associated with this service. Most likely the same as the appIcon.</description>
 		</param>
 		
 		<param name="allowAppConsumers" type="Boolean" mandatory="false" defvalue="false">
@@ -502,7 +502,7 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 			<description> This is the max RPC Spec version the app service understands. This is important during the RPC passthrough functionality. If not included, it is assumed the max version of the module is acceptable. </description>
 		</param>
 		<param name="handledRPCs" type="Integer" array="true" mandatory="false">
-			<description> This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. </description>
+			<description> This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. See FunctionID.</description>
 		</param>
 		
 		<param name="mediaServiceManifest" type="MediaServiceManifest" mandatory="false"/>
@@ -715,7 +715,9 @@ When requesting the data from the app service the developer can expect the data 
 <struct name="AppServiceData">
 	<description> Contains all the current data of the app service. The serviceType will link to which of the service data objects are included in this object. (eg if service type equals MEDIA, the mediaServiceData param should be included.</description>
 	
-	<param name="serviceType" type="String" mandatory="true"/>
+	<param name="serviceType" type="String" mandatory="true">
+		<description>See AppServiceType</description>
+	</param>
 	<param name="serviceID" type="String" mandatory="true"/>
 		
 	<param name="mediaServiceData" type="MediaServiceData" mandatory="false"/>
@@ -741,7 +743,9 @@ The response from a `GetAppServiceData`  should include all service data that is
 <function name="GetAppServiceData" functionID="GetAppServiceDataID" messagetype="request">
 	<description> This request asks the module for current data related to the specific service. It also includes an option to subscribe to that service for future updates</description>
 	
-	<param name="serviceType" type="String" mandatory="true"/>
+	<param name="serviceType" type="String" mandatory="true">
+		<description>See AppServiceType</description>
+	</param>
 	
 	<param name="subscribe" type="Boolean" mandatory="false">
 		<description> If true, the consumer is requesting to subscribe to all future updates from the service publisher. If false, the consumer doesn't wish to subscribe and should be unsubscribed if it was previously subscribed.</description>
@@ -898,7 +902,7 @@ SDL should make no guarantees that:
 
 
 ```xml
-<element name="PerformAppServiceInteractiontFileID" value="55" hexvalue="37" since="5.1" />
+<element name="PerformAppServiceInteractionID" value="55" hexvalue="37" since="5.1" />
 
 <function name="PerformAppServiceInteraction" functionID="PerformAppServiceInteractionID" messagetype="request">
 
@@ -986,13 +990,13 @@ The HMI will be responsible for the actual selection and activation of app servi
 
 ```xml
 <function name="GetAppServiceRecords" messagetype="request">
-  <param name="serviceTypes" type="Common.ServiceType" mandatory="false">
-    <description>If included, only service records of supplied type will be returned in response. If not included, all service records for all types will be returned.</description>
+  <param name="serviceType" type="String" mandatory="false">
+    <description>If included, only service records of supplied type will be returned in response. If not included, all service records for all types will be returned. See AppServiceType</description>
   </param>
 </function>
 
 <function name="GetAppServiceRecords" messagetype="response">
-  <param name="serviceRecords" type="Common.AppServiceRecord" array="true"mandatory="false">
+  <param name="serviceRecords" type="Common.AppServiceRecord" array="true" mandatory="false">
     <description>All app service records of requested type.</description>
   </param>
 </function>
@@ -1003,7 +1007,7 @@ The HMI will be responsible for the actual selection and activation of app servi
     <description>The ID of the service that should have an activation event take place on</description>
   </param>
   <param name="serviceType" type="String" mandatory="true">
-    <description>The service type the service should have the activation event occur on</description>
+    <description>The service type the service should have the activation event occur on. See AppServiceType</description>
   </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service is to be activated. False if the app is to be deactivated</description>
@@ -1018,7 +1022,7 @@ The HMI will be responsible for the actual selection and activation of app servi
     <description>The ID of the service that was requested to have an activation event take place</description>
   </param>
   <param name="serviceType" type="String" mandatory="true">
-    <description>The service type the service that was requested to have an activation event take place</description>
+    <description>The service type the service that was requested to have an activation event take place. See AppServiceType</description>
   </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service was activated. False if the app was deactivated or unable to be activated</description>
