@@ -412,10 +412,11 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 
 				
 		<param name="uriPrefix" type="String" mandatory="false">
-			<description> The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it. This can also be referred to as the scheme of the URI.</description>
+			<description> The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it. This can also be referred to as the scheme of the URI. This scheme, if included, will be followed by a colon (:) as well as two slashes (//) if the service action includes a baseUri. If this is not included the uri shall start with a single slash (/). For example, uriPrefix://baseUri?parameters or uriPrefix:paramters or /baseUri?parameters </description>
 		</param>
+
 		<param name="uriActionSheet" type="ServiceAction" array="true" mandatory="false">
-			<description> This is a custom schema for this service. Each of the actions should be formatted into a ServiceAction object that contains basic information to ensure consumers can read the data. The uriActionSheet should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. If the app intends to expose Quick Action actions, the list should be ordered with the most important at index 0.  </description>
+			<description> This is a custom schema for this service. Each of the actions should be formatted into a ServiceAction object that contains basic information to ensure consumers can read the data. The uriActionSheet should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. If the app intends to expose Quick Action actions, the list should be ordered with the most important at index 0. </description>
 		</param>
 		
 	
@@ -436,15 +437,22 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 	
 	<struct name="ServiceAction">
 	    <param name="baseUri" type="String" mandatory="true">
-	        <description> Also referred to as the authority and path of the URI. The base URI of this action. If no params are required, this plus the URI prefix can be used as the entire URI. If this param is left as an empty set, params will be assumed to be part of the path of the URI and the fully qualified URI will be constructed accordingly.</description>
+	        <description> Also referred to as the authority and path of the URI. The base URI of this action. If no params are required, this plus the URI prefix can be used as the entire URI (uriPrefix://baseUri?paramKey=paramValue&paramKey=paramValue#paramKey=paramValue). If this param is left as an empty set, params will be assumed to be part of the path of the URI with no keys and the fully qualified URI will be constructed accordingly (uriPrefix:param:param:param).</description>
 	    </param>
-	    <param name="actionParameters" type="Parameter" array="true" mandatory="false">
-	        <description>An array of parameters for this action. When sent as a fully qualified URI these parameters will be attached in accordance to RFC3986 https://tools.ietf.org/html/rfc3986</description>
+	    
+	    <param name="queryParameters" type="Parameter" array="true" mandatory="false">
+	        <description>An array of parameters for this action that should be included as part of the query string of the URI. When sent as a fully qualified URI these parameters will be attached in accordance to RFC3986 https://tools.ietf.org/html/rfc3986</description>
 	    </param>
+	    
+	    <param name="fragmentParameters" type="Parameter" array="true" mandatory="false">
+	        <description>An array of parameters for this action that should be included in the fragment section of the URI. When sent as a fully qualified URI these parameters will be attached in accordance to RFC3986 https://tools.ietf.org/html/rfc3986</description>
+	    </param>
+	    
 	    <param name="isQuickAction" type="Boolean" mandatory="false">
 	        <description>If set to true, this implies this action can be acted upon without an additional parameters or actions. Most common use case would be a consumer displaying a soft button to represent this action</description>
 	    </param>
-	    <param name="iconFileName" type="String" mandatory="false">
+	    
+	    <param name="icon" type="Image" mandatory="false">
 	        <description>The file name of an image that can be used in association with this action. Most common use case is this used when the action</description>
 	    </param>
 	
@@ -457,15 +465,15 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 	    </param>
 	    
 	    <param name="type" type="String" mandatory="true">
-	        <description></description>
+	        <description>The provided type of this object. For example String, boolean, etc. However, when put into the action URI they will all be converted to string representations.</description>
 	    </param>
 	    
 	    <param name="isArray" type="boolean" mandatory="false">
-	        <description></description>
+	        <description>True if this parameter is intended to be an array of the included type, false if it is not an array.</description>
 	    </param>
 	    
 	    <param name="isMandatory" type="boolean" mandatory="false">
-	        <description></description>
+	        <description>True if the parameter is required, false if it is optional.</description>
 	    </param>
 	</struct>
 	
