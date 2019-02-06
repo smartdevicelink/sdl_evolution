@@ -11,7 +11,7 @@ This proposal is based on [SDL 0156 High level interface: Foundation](https://gi
 
 ## Motivation
 
-In order to work with SDL, app developers need to learn a new API which mostly doesn't adopt familiar patterns. Including but not limited to
+In order to work with SDL, app developers need to learn a new API which mostly doesn't adopt familiar patterns. Including but not limited to:
 - read best practices and implement proxy (manager) lifecycle
 - the use of RPCs and handle notifications, requests and responses
 - manually manage concurrent and sequential operations (e.g. image upload)
@@ -30,7 +30,7 @@ Overlay controllers are responsible for overlay related RPCs such as `Alert`, `S
 
 ### SDLViewController (additions)
 
-When a view controller wants to present an overlay controller it must call `presentOverlayController:completion:` of itself.
+When a view controller wants to present an overlay controller, it must call `presentOverlayController:completion:` of itself.
 The presenting VC must be top VC in the view controller stack. Calling the method will forward the presentation request to the VC manager.
 
 ```objc
@@ -44,7 +44,11 @@ The presenting VC must be top VC in the view controller stack. Calling the metho
 
 ### SDLViewControllerManager (additions)
 
-The VC manager should initiate the presentation (call `present` of the overlay controller class) and store the overlay controller and completion handler in an internal list independent of the current system context or how many items this list contains. The overlay controller should be able to listen to responses and notifications relevant to the presentation. If the overlay controller has detected the end of the presentation (or the app is disconnected) it should call the completion handler provided by the VC manager.
+Independent of the current system context or how many items this list contains, the VC manager should:
+1. Initiate the presentation (call `present` of the overlay controller class), then
+2. Store the overlay controller and completion handler in an internal list.
+
+The overlay controller should be able to listen to responses and notifications relevant to the presentation. If the overlay controller has detected the end of the presentation (or the app is disconnected) it should call the completion handler provided by the VC manager.
 
 ```objc
 @interface SDLViewControllerManager
@@ -146,15 +150,19 @@ Depending on the subclass (and the min/max values of the parameter) the duration
 
 ### Main screen overlay
 
-`SDLOverlayController` inherits `SDLViewController`. With that it is possible to manipulate the app's main screen during a presentation. This can be very useful to show a text message for "Loading..." or "Please wait" if the overlay takes more time to load. It could even add buttons to cancel the overlay request if possible. This feature is planned in the proposal for Overlay controller related to choice sets.
+`SDLOverlayController` inherits `SDLViewController`. With this, it is possible to manipulate the app's main screen during a presentation. This can be very useful to:
+- show a text message for "Loading..." or "Please wait" if the overlay takes more time to load
+- add buttons to cancel the overlay request if possible.
 
-To do that the app developer must create a new view and place it in the `view` property of the overlay controller. When presenting the overlay controller with a view object the view controller manager would override the full screen of the app but it may be handy to just override a single text field. With that a new property should be added to `SDLView` for an opaque mode.
+This feature is planned in the proposal for Overlay controller related to choice sets.
+
+To realize above behavior, the app developer must create a new view and place it in the `view` property of the overlay controller. When presenting the overlay controller with a view object the view controller manager would override the full screen of the app but it may be handy to just override a single text field. With that a new property should be added to `SDLView` for an opaque mode.
 
 ```objc
 @interface SDLView
 
 /**
- * Specifies wether the view is opaque. An opaque view will be presented on the app's screen
+ * Specifies whether the view is opaque. An opaque view will be presented on the app's screen
  * overriding all content from underlying views. If this property is set to NO the view is
  * transparent and the view controller manager will composite content from underlying views.
  * The default value is YES.
@@ -164,9 +172,9 @@ To do that the app developer must create a new view and place it in the `view` p
 @end
 ```
 
-If the `opaque` flag is set to NO the view will be called transparent. It should allow views or view parts from the underlying view controller to stay visible while the overlay controller is presenting. The opaque mode is view type related and allows . With this flag 
-- the app developer has full control to decide on what to show and how to show
-- the complexity is scalable per app developer choice (no overlay view -> no screen changes)
+If the `opaque` flag is set to NO the view will be called transparent. It should allow views or view parts from the underlying view controller to stay visible while the overlay controller is presenting. The opaque mode is view type related and allows . With this flag:
+- the app developer has full control to decide on what to show and how to show it.
+- the complexity is scalable per the app developers choice (no overlay view -> no screen changes)
 
 #### Example: Top view controller's view hierarchy
 
@@ -175,7 +183,7 @@ If the `opaque` flag is set to NO the view will be called transparent. It should
   - buttonView (opaque) with three buttons ("fav", "remove", "radio")
   - imageView (opaque) for primary graphic
 
-App presents following overlay controller (present list of albums) with view hierachy:
+App presents the following overlay controller (present list of albums) with view hierarchy:
 
 - view (transparent)
   - textView (transparent) with one line of text ("loading")
@@ -337,7 +345,7 @@ This property is optional and maps to `ScrollableMessage.softButtons` and uses t
 
 ### SDLSliderController
 
-This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider) but for consistency to SDL it makes more sense to treat it as an overlay controller. In order to work with the RPC `Slider` it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler but simply provide the result in a property of the overlay controller.
+This controller matches very closely to the view [`UISlider`](https://developer.apple.com/documentation/uikit/uislider) but for consistency of SDL it makes more sense to treat it as an overlay controller. In order to work with the RPC `Slider`, it is important to provide the selected value back to the caller. As of UIKit this is not done by using a custom completion handler, but simply providing the result in a property of the overlay controller.
 
 As per mobile API the property `Slider.sliderFooter` is an array used for two purposes. Either it's a footer text (single item) or a list of names representing slider values (number of items must match `.numTicks`). This controller is used for the "single item" case. Another controller called `SDLValuePickerController` will be used for picking a named value (see next section). This helps to reduce complexity with properties being ignored (like min/max values).
 
@@ -420,7 +428,7 @@ The property `value` maps to `Slider.value` *and*  to `SliderResponse.sliderValu
 
 The initial workload in order to implement this high level interface is expected to be quite high. Once implemented it is expected that developers will be able to implement SDL into their apps in less time than they would need today. At the end the maintenance of the high level interface may be lower compared to the counterproposal for different reasons.
 
-The block type `SDLOverlayControllerCompletionHandler` does not return the presented overlay instance. The best practice for overlays follows `UIAlertController` using local variables. See [`UIViewController.presentViewController:animated:completion:`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621380-presentviewcontroller) and [Objective-C Working with Blocks](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html).  The reason for not returning the presented overlay in the block is to avoid the pain of dealing with `__kindof` and casting back from the base class to the sub class. With that a potential downside may happen if an app developer stores the presented view controller in a strong property which may cause a temporary retain cycle to `self` during presentation. This temporary retain cycle is acceptable as it is automatically released therefore it will not cause any problems within the app. The gain of avoiding casts and `__kindof` for *every* usage is higher than the rare and hypothetical case of a developer storing the overlay instance in a strong property especially as it is automaically released after the end of the presentation or after a disconnect. Last The proposed way follows existing practice.
+The block type `SDLOverlayControllerCompletionHandler` does not return the presented overlay instance. The best practice for overlays follows `UIAlertController` using local variables. See [`UIViewController.presentViewController:animated:completion:`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621380-presentviewcontroller) and [Objective-C Working with Blocks](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html).  The reason for not returning the presented overlay in the block is to avoid the pain of dealing with `__kindof` and casting back from the base class to the sub class. With that, a potential downside may happen if an app developer stores the presented view controller in a strong property which may cause a temporary retain cycle to `self` during presentation. This temporary retain cycle is acceptable as it is automatically released, therefore it will not cause any problems within the app. The gain of avoiding casts and `__kindof` for *every* usage is higher than the rare and hypothetical case of a developer storing the overlay instance in a strong property, especially as it is automatically released after the end of the presentation or after a disconnect. Last The proposed way follows existing practice.
 
 This proposal mimics the native UI API. Compared to the counterproposal this proposal is not that close to the native UI kit experience. On the other side some SDL specific APIs can be easily abstracted and integrated into the rest of the high level interface.
 
@@ -432,7 +440,7 @@ This proposal will add a total new high level interface layer abstracting many p
 
 As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
 
-Regarding `SDLSliderController` there is a different behavior depending on the existance of a message string. In the main proposal it is proposed to show either value strings *or* the message. The alternative solution would be to alwas show value strings and concatenate the message into each value string if provided. The concatenation would be `@"%ld\n%@"` where `%ld` is the value and `%@` is the message. The upside is that we can merge translated values including a message. The downside is that the message is repeated for each value. Example:
+Regarding `SDLSliderController` there is a different behavior depending on the existance of a message string. In the main proposal it is proposed to show either value strings *or* the message. The alternative solution would be to always show value strings and concatenate the message into each value string if provided. The concatenation would be `@"%ld\n%@"` where `%ld` is the value and `%@` is the message. The upside is that we can merge translated values including a message. The downside is that the message is repeated for each value. Example:
 
 ```objc
 [[SDLSliderController alloc] initWithTitle:@"Title" message:@"Negative, Neutral or Positive" value:0 minimumValue:-1 maximumValue:1];
