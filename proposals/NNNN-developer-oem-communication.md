@@ -20,13 +20,11 @@ Ideally, all communication between an OEM and an application developer should be
 * Close self-authored issues that have been deemed solved or irrelevant
 * Re-open self-authored closed issues
 * Exchange text-based messages with the app developer regarding a specific issue
-* Delete any self-authored text-based message
 
 App developers should be able to:
 * Initiate, view, and reply to general text-based messages from all OEMs
 * See all open and closed issues against their app
 * Exchange text-based messages with the OEM regarding a specific issue
-* Delete any self-authored text-based message
 
 SDLC Administrators should be able to:
 * See the opened and closed issues for each app, but not the messages exchanged between OEMs and app developers
@@ -39,7 +37,6 @@ The proposed solution is to create an administrative enhancement to SHAID to sup
 This would require the following new APIs which would be utilized by the Developer Portal:
 
 * POST `/application/message`: creates a new text-based message for an application-level thread
-* DELETE `/application/message`: deletes a target text-based message for an application-level thread
 * GET `/application/message`: retrieves text-based messages for an application-level thread
 
 * POST `/application/issue`: creates a new issue for an application
@@ -47,7 +44,6 @@ This would require the following new APIs which would be utilized by the Develop
 * PUT `/application/issue`: update an issue as closed or open
 
 * POST `/application/issue/message`: creates a new text-based discussion message for a specific issue
-* DELETE `/application/issue/message`: deletes a target text-based discussion message for a specific issue
 * GET `/application/issue/message`: retrieves text-based messages for a specific issue
 
 And modifications for existing APIs as follows:
