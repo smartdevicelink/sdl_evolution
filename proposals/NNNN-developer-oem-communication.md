@@ -19,14 +19,12 @@ Ideally, all communication between an OEM and an application developer should be
 * See all open and closed issues for apps which were either created by the OEM or made public by another OEM
 * Close self-authored issues that have been deemed solved or irrelevant
 * Re-open self-authored closed issues
-* Mark an open self-authored issue as resolved or unresolved
 * Exchange text-based messages with the app developer regarding a specific issue
 * Delete any self-authored text-based message
 
 App developers should be able to:
 * Initiate, view, and reply to general text-based messages from all OEMs
 * See all open and closed issues against their app
-* Mark an open issue as resolved or unresolved
 * Exchange text-based messages with the OEM regarding a specific issue
 * Delete any self-authored text-based message
 
@@ -36,7 +34,9 @@ SDLC Administrators should be able to:
 ## Proposed solution
 
 ### Overview
-The proposed solution is to create an administrative enhancement to SHAID to support the creation, retrieval, updating, and deletion (as appropriate) of text-based messages and issues between an OEM and app developer with the behavior defined above. This would require the following new APIs which would be utilized by the Developer Portal:
+The proposed solution is to create an administrative enhancement to SHAID to support the creation, retrieval, updating, and deletion (as appropriate) of text-based messages and issues between an OEM and app developer with the behavior defined above.
+
+This would require the following new APIs which would be utilized by the Developer Portal:
 
 * POST `/application/message`: creates a new text-based message for an application-level thread
 * DELETE `/application/message`: deletes a target text-based message for an application-level thread
@@ -44,17 +44,22 @@ The proposed solution is to create an administrative enhancement to SHAID to sup
 
 * POST `/application/issue`: creates a new issue for an application
 * GET `/application/issue`: retrieves issues for an application
-* PUT `/application/issue`: update an issue as resolved, unresolved, closed, or open
+* PUT `/application/issue`: update an issue as closed or open
 
 * POST `/application/issue/message`: creates a new text-based discussion message for a specific issue
 * DELETE `/application/issue/message`: deletes a target text-based discussion message for a specific issue
 * GET `/application/issue/message`: retrieves text-based messages for a specific issue
 
+And modifications for existing APIs as follows:
+
+* GET `/application`: to retrieve applications with a negative OEM allowance filter (that is, retrieve SDLC-certified applications which have not been granted access to a specific OEM by the app developer)
+* GET `/vendor`: to retrieve vendors with a negative OEM allowance filter ()
+
 ### Data Storage
 The data for these new features would be stored in new relational tables in the existing SHAID Postgres database, as follows:
 * `application_vendor_message`: stores an auto-generated ID, which application the message is regarding, which OEM thread the message is associated with, who the message is from (OEM or app developer ID), the name of the individual who authored the message, the message contents, creation time, deletion time
-* `application_issue`: stores a globally-unique auto-generated ID, an application-specific unique auto-generated ID, which application the issue is regarding, which OEM created the issue, the issue title, description, whether it is accessible by other OEMs, it's opened/closed status, it's resolved/unresolved status, creation time, updated time
-* `application_issue_message`: stores an auto-generated ID, which issue ID the message is targeted to, who the message is from (OEM or app developer ID), the message type ('DISCUSSION', 'RESOLVED', 'UNRESOLVED', 'CLOSED', 'OPENED'), the name of the individual who authored the message, the message contents, creation time, deletion time
+* `application_issue`: stores a globally-unique auto-generated ID, an application-specific unique auto-generated ID, which application the issue is regarding, which OEM created the issue, the issue title, description, whether it is accessible by other OEMs, it's opened/closed status, creation time, updated time
+* `application_issue_message`: stores an auto-generated ID, which issue ID the message is targeted to, who the message is from (OEM or app developer ID), the message type ('DISCUSSION', 'CLOSED', 'OPENED'), the name of the individual who authored the message, the message contents, creation time, deletion time
 
 ### User Interface
 By taking a custom-built approach, the SDLC is able to retain more control of the OEM and developer experiences for greater flexibility and ease-of-use. Since the proposed solution does not rely on any third-party integrations, the features would be instantly available to all OEMs and application developers without requiring additional setup/configuration from them. Please see the proposed design illustrations below.
@@ -71,6 +76,14 @@ App developers and granted OEMs to be able to partake in general discussion with
 ![app-chat-dev][app-chat-dev]
 > From an app developer's perspective
 
+App developers and OEMs will select which opposite party they wish to talk to via the following interfaces.
+
+![catalog-of-apps][catalog-of-apps]
+> From an OEM's perspective, choosing an app
+
+![catalog-of-oems][catalog-of-oems]
+> From an app developer's perspective, choosing an OEM
+
 #### App Issue List
 App developers and granted OEMs will be able to see a list of issues for an app. OEMs will see issues that were self-authored or shared by another OEM. App developers will see all issues for their app authored by any granted OEM.
 
@@ -81,7 +94,7 @@ App developers and granted OEMs will be able to see a list of issues for an app.
 > From an app developer's perspective
 
 #### Viewing an App Issue
-App developers and granted OEMs will be able to view the details of the issue and participate in an issue-specific discussion. The authoring OEM is able to discuss, close, re-open, resolve, and un-resolve the issue. Other OEMs may only participate in the discussion. The app developer may participate in the discussion and mark the issue as resolved or un-resolved.
+App developers and granted OEMs will be able to view the details of the issue and participate in an issue-specific discussion. The authoring OEM is able to discuss, close, and re-open the issue. The app developer and other OEMs (if the issue is shared with all OEMs) may only participate in the discussion of the issue.
 
 ![issue-view-oem][issue-view-oem]
 > From an OEM's perspective
@@ -131,10 +144,13 @@ Trello offers an oauth-based API capable of managing boards, lists, cards, and c
 ### Open-source Forum Software
 There are various open-source forum (or forum-like) solutions which we could host such as NodeBB, phpBB, myBB, Discourse, etc, but in my investigation I was only able to find one (Discourse) which offers a comprehensive, documented API. These out-of-the-box generic solutions contain many features which we would likely never use (read: overcomplicated; technical debt), are mostly built upon older technology stacks (PHP, MySQL, Apache) than the rest of SDL's infrastructure, and would likely require heavy customization to achieve seamless integration into the Developer Portal.
 
-[app-chat-oem]: ../assets/proposals/NNNN-developer-oem-communication/app-chat.jpg
-[issue-list-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-list.jpg
-[issue-view-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-view.jpg
-[issue-create-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-create.jpg
+[catalog-of-apps]: ../assets/proposals/NNNN-developer-oem-communication/catalog-of-apps.jpg
+[catalog-of-oems]: ../assets/proposals/NNNN-developer-oem-communication/catalog-of-oems.jpg
+
+[app-chat-oem]: ../assets/proposals/NNNN-developer-oem-communication/app-chat-oem.jpg
+[issue-list-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-list-oem.jpg
+[issue-view-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-view-oem.jpg
+[issue-create-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-create-oem.jpg
 
 [app-chat-dev]: ../assets/proposals/NNNN-developer-oem-communication/app-chat-dev.jpg
 [issue-list-dev]: ../assets/proposals/NNNN-developer-oem-communication/issue-list-dev.jpg
