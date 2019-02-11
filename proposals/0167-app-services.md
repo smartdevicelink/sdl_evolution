@@ -416,7 +416,7 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 		</param>
 
 		<param name="uriActionSheet" type="ServiceAction" array="true" mandatory="false">
-			<description> This is a custom schema for this service. Each of the actions should be formatted into a ServiceAction object that contains basic information to ensure consumers can read the data. The uriActionSheet should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. If the app intends to expose `Quick Action `actions, the list should be ordered with the most important at index 0. </description>
+			<description> This is a custom schema for this service. Each of the actions should be formatted into a ServiceAction object that contains basic information to ensure consumers can read the data. The uriActionSheet should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. If the app intends to expose `Quick Action` actions, the list should be ordered with the most important at index 0. </description>
 		</param>
 		
 	
