@@ -93,7 +93,7 @@ SDLCarWindow.m relies heavily on ```[self.rootViewController.view drawViewHierar
 
 * Nothing beyond keeping the original design.
 
-## Update
+## Amendments
 
 * After testing the SDL Lock Screen appearance, ReplayKit does not take in a root view controller to display; it seems to record the current window that is displayed.  Because the SDL Lockscreen shows up on another window, it does not seem to impede the recording of the original window.
 * Attached in the proposal issue is an app that can run as an example - there still needs to be code that resizes the pixel buffer (it needs to be determined if it is possible at all, the snippet provided did not alter the stream).
