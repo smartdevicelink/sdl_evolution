@@ -416,7 +416,7 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 		</param>
 
 		<param name="uriActionSheet" type="ServiceAction" array="true" mandatory="false">
-			<description> This is a custom schema for this service. Each of the actions should be formatted into a ServiceAction object that contains basic information to ensure consumers can read the data. The uriActionSheet should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. If the app intends to expose Quick Action actions, the list should be ordered with the most important at index 0. </description>
+			<description> This is a custom schema for this service. Each of the actions should be formatted into a ServiceAction object that contains basic information to ensure consumers can read the data. The uriActionSheet should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. If the app intends to expose `Quick Action `actions, the list should be ordered with the most important at index 0. </description>
 		</param>
 		
 	
@@ -449,11 +449,11 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 	    </param>
 	    
 	    <param name="isQuickAction" type="Boolean" mandatory="false">
-	        <description>If set to true, this implies this action can be acted upon without an additional parameters or actions. Most common use case would be a consumer displaying a soft button to represent this action</description>
+	        <description>If set to true, this implies this action can be acted upon without any additional parameters or actions. The most common use case would be a consumer displaying a soft button to represent this action</description>
 	    </param>
 	    
 	    <param name="icon" type="Image" mandatory="false">
-	        <description>The file name of an image that can be used in association with this action. Most common use case is this used when the action</description>
+	        <description>The file name of an image that can be used in association with this action. A use case for this image would be to display the action as a button on a widget.</description>
 	    </param>
 	
 	</struct>
