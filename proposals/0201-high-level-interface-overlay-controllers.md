@@ -156,7 +156,7 @@ Depending on the subclass (and the min/max values of the parameter) the duration
 
 This feature is planned in the proposal for Overlay controller related to choice sets.
 
-To realize above behavior, the app developer must create a new view and place it in the `view` property of the overlay controller. When presenting the overlay controller with a view object the view controller manager would override the full screen of the app but it may be handy to just override a single text field. With that a new property should be added to `SDLView` for an opaque mode.
+To realize the above behavior, the app developer must create a new view and place it in the `view` property of the overlay controller. When presenting the overlay controller with a view object the view controller manager would override the full screen of the app, but it may be handy to just override a single text field. With that a new property should be added to `SDLView` for an opaque mode.
 
 ```objc
 @interface SDLView
@@ -172,7 +172,7 @@ To realize above behavior, the app developer must create a new view and place it
 @end
 ```
 
-If the `opaque` flag is set to NO the view will be called transparent. It should allow views or view parts from the underlying view controller to stay visible while the overlay controller is presenting. The opaque mode is view type related and allows . With this flag:
+If the `opaque` flag is set to NO the view will be called transparent. It should allow views or view parts from the underlying view controller to stay visible while the overlay controller is presenting. The opaque mode is view type related and allows overriding content per view. As an example a transparend overlay, which contains a graphic will only override the graphic view of the underlying view. With this flag:
 - the app developer has full control to decide on what to show and how to show it.
 - the complexity is scalable per the app developers choice (no overlay view -> no screen changes)
 
@@ -428,7 +428,7 @@ The property `value` maps to `Slider.value` *and*  to `SliderResponse.sliderValu
 
 The initial workload in order to implement this high level interface is expected to be quite high. Once implemented it is expected that developers will be able to implement SDL into their apps in less time than they would need today. At the end the maintenance of the high level interface may be lower compared to the counterproposal for different reasons.
 
-The block type `SDLOverlayControllerCompletionHandler` does not return the presented overlay instance. The best practice for overlays follows `UIAlertController` using local variables. See [`UIViewController.presentViewController:animated:completion:`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621380-presentviewcontroller) and [Objective-C Working with Blocks](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html).  The reason for not returning the presented overlay in the block is to avoid the pain of dealing with `__kindof` and casting back from the base class to the sub class. With that, a potential downside may happen if an app developer stores the presented view controller in a strong property which may cause a temporary retain cycle to `self` during presentation. This temporary retain cycle is acceptable as it is automatically released, therefore it will not cause any problems within the app. The gain of avoiding casts and `__kindof` for *every* usage is higher than the rare and hypothetical case of a developer storing the overlay instance in a strong property, especially as it is automatically released after the end of the presentation or after a disconnect. Last The proposed way follows existing practice.
+The block type `SDLOverlayControllerCompletionHandler` does not return the presented overlay instance. The best practice for overlays follows `UIAlertController` using local variables. See [`UIViewController.presentViewController:animated:completion:`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621380-presentviewcontroller) and [Objective-C Working with Blocks](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html). The reason for not returning the presented overlay in the block is to avoid the pain of dealing with `__kindof` and casting back from the base class to the sub class. With that, a potential downside may happen if an app developer stores the presented view controller in a strong property which may cause a temporary retain cycle to `self` during presentation. This temporary retain cycle is acceptable as it is automatically released, therefore it will not cause any problems within the app. The gain of avoiding casts and `__kindof` for *every* usage is higher than the rare and hypothetical case of a developer storing the overlay instance in a strong property, especially as it is automatically released after the end of the presentation or after a disconnect. Last, the proposed way follows the existing practice.
 
 This proposal mimics the native UI API. Compared to the counterproposal this proposal is not that close to the native UI kit experience. On the other side some SDL specific APIs can be easily abstracted and integrated into the rest of the high level interface.
 
@@ -440,7 +440,7 @@ This proposal will add a total new high level interface layer abstracting many p
 
 As discussed in the steering committee meeting from March 20 (see [here](https://github.com/smartdevicelink/sdl_evolution/issues/379#issuecomment-374736496)) this proposal is a counterproposal to [0133 - Enhanced iOS Proxy Interface](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0133-EnhancediOSProxyInterface.md).
 
-Regarding `SDLSliderController` there is a different behavior depending on the existance of a message string. In the main proposal it is proposed to show either value strings *or* the message. The alternative solution would be to always show value strings and concatenate the message into each value string if provided. The concatenation would be `@"%ld\n%@"` where `%ld` is the value and `%@` is the message. The upside is that we can merge translated values including a message. The downside is that the message is repeated for each value. Example:
+Regarding `SDLSliderController` there is a different behavior depending on the existance of a message string. In the main proposal it is proposed to show either value strings *or* the message. The alternative solution would be to always show value strings and concatenate the message into each value string if provided. The concatenation would be `@"%ld\n%@"` where `%ld` is the value and `%@` is the message. The upside is that SDLC can merge translated values including a message. The downside is that the message is repeated for each value. Example:
 
 ```objc
 [[SDLSliderController alloc] initWithTitle:@"Title" message:@"Negative, Neutral or Positive" value:0 minimumValue:-1 maximumValue:1];
