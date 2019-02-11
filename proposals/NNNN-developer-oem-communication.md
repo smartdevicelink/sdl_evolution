@@ -11,7 +11,7 @@ The goal of this proposal is to provide OEMs and application developers a simple
 
 ## Motivation
 
-Currently, OEMs are offered a simple form via the [SDL Developer Portal](https://smartdevicelink.com) which sends an email to the selected application developer. However, this method does not allow for the tracking and organization of specific issues an OEM has identified with an application on their head units, fragments the SDL developer experience by requiring the use of an external communication method (email) for additional follow-up, and creates a high risk of leaving important stakeholders out of the communication loop.
+Currently, OEMs are offered a simple form via the [SDL Developer Portal](https://smartdevicelink.com) which sends an email to the selected application developer. However, this method does not allow for the tracking and organization of specific issues an OEM has identified with an application on their head units, fragments SDL developer experiences by requiring the use of an external communication method (email) for additional follow-up, and creates a high risk of leaving important stakeholders out of the communication loop.
 
 Ideally, all communication between an OEM and an application developer should be viewable and actionable from the [SDL Developer Portal](https://smartdevicelink.com). From the Developer Portal, OEMs should be able to:
 * Initiate, view, and reply to general text-based messages from an application developer
@@ -53,9 +53,9 @@ And modifications for existing APIs as follows:
 
 ### Data Storage
 The data for these new features would be stored in new relational tables in the existing SHAID Postgres database, as follows:
-* `application_vendor_message`: stores an auto-generated ID, which application the message is regarding, which OEM thread the message is associated with, who the message is from (OEM or app developer ID), the name of the individual who authored the message, the message contents, creation time, deletion time
-* `application_issue`: stores a globally-unique auto-generated ID, an application-specific unique auto-generated ID, which application the issue is regarding, which OEM created the issue, the issue title, description, whether it is accessible by other OEMs, it's opened/closed status, creation time, updated time
-* `application_issue_message`: stores an auto-generated ID, which issue ID the message is targeted to, who the message is from (OEM or app developer ID), the message type ('DISCUSSION', 'CLOSED', 'OPENED'), the name of the individual who authored the message, the message contents, creation time, deletion time
+* `application_vendor_message`: stores an auto-generated ID, which application the message is regarding, which OEM thread the message is associated with, who the message is from (OEM or app developer ID), the name of the individual who authored the message, the message contents, creation date/time, deletion date/time
+* `application_issue`: stores a globally-unique auto-generated ID, an application-specific unique auto-generated ID, which application the issue is regarding, which OEM created the issue, the issue title, description, whether it is accessible by other OEMs, it's opened/closed status, creation date/time, updated date/time
+* `application_issue_message`: stores an auto-generated ID, which issue ID the message is targeted to, who the message is from (OEM or app developer ID), the message type ('DISCUSSION', 'CLOSED', 'OPENED'), the name of the individual who authored the message, the message contents, creation date/time, deletion date/time
 
 ### User Interface
 By taking a custom-built approach, the SDLC is able to retain more control of the OEM and developer experiences for greater flexibility and ease-of-use. Since the proposed solution does not rely on any third-party integrations, the features would be instantly available to all OEMs and application developers without requiring additional setup/configuration from them. Please see the proposed design illustrations below.
@@ -64,7 +64,7 @@ By taking a custom-built approach, the SDLC is able to retain more control of th
 To start a conversation (general or issue-specific), an OEM must first select which application they wish to discuss. Similarly, an app developer must first select which OEM they would like to talk with.
 
 #### General App Chat
-App developers and granted OEMs to be able to partake in general discussion with each other about an app through "Chat".
+App developers and OEMs are able to partake in general discussion with each other about an app through "Chat".
 
 ![app-chat-oem][app-chat-oem]
 > From an OEM's perspective
@@ -81,7 +81,7 @@ App developers and OEMs will select which opposite party they wish to talk to vi
 > From an app developer's perspective, choosing an OEM
 
 #### App Issue List
-App developers and granted OEMs will be able to see a list of issues for an app. OEMs will see issues that were self-authored or shared by another OEM. App developers will see all issues for their app authored by any granted OEM.
+App developers and granted OEMs will be able to see a list of issues for an app. OEMs will see issues that were self-authored or shared by another OEM. App developers will see all issues for their app authored by any granted OEMs.
 
 ![issue-list-oem][issue-list-oem]
 > From an OEM's perspective
@@ -138,7 +138,7 @@ Similar to GitHub, GitLab also offers a comprehensive oauth2-powered API to mana
 Trello offers an oauth-based API capable of managing boards, lists, cards, and card comments. There are no documented limits to the number of boards, board members, or lists. Similar to GitHub and GitLab, users would be required to sign up for Trello and link their Trello account to the Developer Portal. Members added to a Trello board via API would likely receive an email from Trello with a direct link to the board, along with other Trello-specific emails.
 
 ### Open-source Forum Software
-There are various open-source forum (or forum-like) solutions which we could host such as NodeBB, phpBB, myBB, Discourse, etc, but in my investigation I was only able to find one (Discourse) which offers a comprehensive, documented API. These out-of-the-box generic solutions contain many features which we would likely never use (read: overcomplicated; technical debt), are mostly built upon older technology stacks (PHP, MySQL, Apache) than the rest of SDL's infrastructure, and would likely require heavy customization to achieve seamless integration into the Developer Portal.
+There are various open-source forum (or forum-like) solutions which the Developer Portal could host such as NodeBB, phpBB, myBB, Discourse, etc, but when investigating there was only one (Discourse) which offers a comprehensive, documented API. These out-of-the-box generic solutions contain many features which would likely never be used (read: overcomplicated; technical debt), are mostly built upon older technology stacks (PHP, MySQL, Apache) than the rest of SDL's infrastructure, and would likely require heavy customization to achieve seamless integration into the Developer Portal.
 
 [catalog-of-apps]: ../assets/proposals/NNNN-developer-oem-communication/catalog-of-apps.jpg
 [catalog-of-oems]: ../assets/proposals/NNNN-developer-oem-communication/catalog-of-oems.jpg
