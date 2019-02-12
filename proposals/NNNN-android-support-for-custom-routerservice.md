@@ -1,0 +1,175 @@
+# Android support for custom RouterService
+* Proposal: [SDL-NNNN](NNNN-android-support-for-custom-routerservice.md)
+* Author: [Shinichi Watanabe](https://github.com/shiniwat)
+* Status: **Awaiting review**
+* Impacted Platforms: Android
+
+## Introduction
+This proposal is to improve the case where SDL application needs to work with custom RouterService. The definition of custom RouterService is varied, but this proposal refers to the case where the specific head unit requires the specific application working as the RouterService.
+
+## Motivation
+
+Currently AndroidManifest.xml can indicate the application has custom RouterService, something like below:
+```java
+    <service
+        android:name=".SdlRouterService"
+        android:enabled="true"
+        android:exported="true"
+        android:process="com.smartdevicelink.router">
+        <intent-filter>
+            <action android:name="com.smartdevicelink.router.service" />
+        </intent-filter>
+        <meta-data android:name="sdl_custom_router" android:value="true" />
+        <meta-data android:name="sdl_router_version" android:value="@integer/sdl_router_service_version_value" />
+    </service>
+```
+
+When SDL application determines which RouterService to bind with, the app creates the list of SDL enabled apps, and checks to see if connected RouterService exists.
+If connected RouterService is custom RouterService, it works fine, but if not, the application instantiates "possibly the best" RouterService. In this case, custom RouterService is unlikely being chosen, because custom RouterService has lower priority for finding the best RouterService.
+If the custom RouterService is the only RouterService that connects with the specific head unit, the application unlikely finds the custom RouterService, and hence unlikely get registered to SDL Core.
+This proposal is to improve the connectivity with custom RouterService.
+
+### Current logic for finding RouterService
+
+Currently SdlProxy finds the best RouterService in three steps:
+
+1. SdlBroadcastReceiver class has the public method called queryForConnectedService, which as the name implies, finds the RouterService that has connection with SDL Core. This also pays attention to if the RouterService is trusted RouterService.
+    -  Internally, this binds with RouterService one by one and ask if you're connecting with. So the cost is non-trivial, though.
+2. If the step#1 fails, then wake up the possibly the best RouterService.
+    -  Internally, SdlProxy has the priority order, the latest non-custom RouteService has the priority.
+3. When the app actually binds with the RouterService, it has validation logic, and the RouterService must be trusted RouterService. If the validation fails. then the app launches the next order of the best RouterService.
+
+The problem is that step #2 and #3 unlikely find the custom RouterService, because custom RouterService is lowest order.
+Step #1 actually depends on the timing when the app calls queryForConnectedService. It is up to the application that when to calls queryForConnectedService, but the integration-basic doc suggests it should be called at Activitiy onCreate.
+
+## Proposed solution
+
+### RouterServiceValidator should pay attention to currently connected RouterService.
+
+The custom RouterService is basically designed for the specific head unit, and the head unit will unlikely works with other trusted RouterService.
+In order to make custom RouterService to work, the app should pay attention to "currently connected RouterService" whenever required.
+The required time is right before the app binds to RouterService, and that should be done automatically without relying on application's specific code.
+The proposed solution is to add new asynchronous method to RouterServiceValidator, and calls it right before the TransportManager connect to the RouterService.
+
+### Detailed design of asynchronous method
+The pseudo-code of new asynchronous methos in RouterServiceValidator looks like this:
+```java
+	public void validateAsync(final ValidationStatusCallback callback) {
+		if(securityLevel == -1){
+			securityLevel = getSecurityLevel(context);
+		}
+
+		if(securityLevel == MultiplexTransportConfig.FLAG_MULTI_SECURITY_OFF){ //If security isn't an issue, just return true;
+			if (callback != null) {
+				callback.onFinishedValidation(true, null);
+			}
+		}
+
+		final PackageManager pm = context.getPackageManager();
+
+		if(this.service != null){
+			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O && !isServiceRunning(context,this.service)){
+				//This means our service isn't actually running, so set to null. Hopefully we can find a real router service after this.
+				service = null;
+				Log.w(TAG, "Supplied service is not actually running.");
+			} else {
+				// If the running router service is created by this app, the validation is good by default
+				if (this.service.getPackageName().equals(context.getPackageName()) && callback != null) {
+					callback.onFinishedValidation(true, this.service);
+					return;
+				}
+			}
+		}
+
+		if(this.service == null){
+			// retrieveBestRouterServiceName works asynchronous, and calls FindConnectedRouterCallback when it finished to find
+			retrieveBestRouterServiceName(this.context, new FindConnectedRouterCallback() {
+				@Override
+				public void onFound(ComponentName component) {
+					service = component;
+					Log.d(TAG, "FindConnectedRouterCallback.onFound got called. Package=" + component);
+					checkTrustedRouter(callback, pm);
+				}
+
+				@Override
+				public void onFailed() {
+					Log.d(TAG, "FindConnectedRouterCallback.onFailed was called");
+					if (callback != null) {
+						callback.onFinishedValidation(false, null);
+					}
+					// @REVIEW: do we need this??
+					//wakeUpRouterServices();
+				}
+			});
+		} else {
+			// already found the RouterService
+			checkTrustedRouter(callback, pm);
+		}
+```
+
+ValidationStatusCallback interface and FindConnectedRouterCallback looks as follows:
+```java
+	public interface ValidationStatusCallback {
+		public void onFinishedValidation(boolean valid, ComponentName name);
+	}
+
+	private interface FindConnectedRouterCallback {
+		void onFound(ComponentName component);
+		void onFailed();
+	}
+
+```
+
+### The caller of the asynchronous method
+The validateAsync is expected to be called in TransportManager, something like this:
+
+```java
+    public TransportManager(final MultiplexTransportConfig config, TransportEventListener listener, final boolean autoStart){
+
+        this.transportListener = listener;
+        this.TRANSPORT_STATUS_LOCK = new Object();
+        synchronized (TRANSPORT_STATUS_LOCK){
+            this.transportStatus = new ArrayList<>();
+        }
+
+        if(config.service == null) {
+            config.service = SdlBroadcastReceiver.consumeQueuedRouterService();
+        }
+
+        contextWeakReference = new WeakReference<>(config.context);
+
+        final RouterServiceValidator validator = new RouterServiceValidator(config);
+        validator.validateAsync(new RouterServiceValidator.ValidationStatusCallback() {
+            @Override
+            public void onFinishedValidation(boolean valid, ComponentName name) {
+                if (valid) {
+                    if (config.service == null) {
+                        config.service = name;
+                    }
+                    transport = new TransportBrokerImpl(contextWeakReference, config.appId, config.service);
+                    // because this callback works asynchrnous, we have to call TransportManager.start here.
+                    transport.start();
+                } else {
+                    enterLegacyMode("Router service is not trusted. Entering legacy mode");
+                }
+            }
+        });
+    }
+
+```
+
+### Using cache for saving cost to find the connected RouterService.
+When the app finds the connected RouterService, I think it's better to cache the service name on somewhere, e.g. SharedPreferences, so that it won't bother the other app's RouterService too often.
+
+## Potential downsides
+
+- The proposed solution will use SdlRouterStatusProvider, which actually binds to other app's RouterService and asks if the RouterService has connected transports. This will be done in main thread, so the caller must not be in main thread. This can be done with AsyncTask anyway.
+
+## Impact on existing code
+
+- RouterServiceValidator's validate will become asynchronous method.
+- The synchronous validate() method would be deprecated.
+
+## Alternatives considered
+- The solution would be benefical for both custom RouterService and non-custom RouterService, because it actually finds the already connected RouterService. But when finding the connected RouterService, I believe it is better to try the custom RouterService first, which is different order from what BestRouterComparator in SdlAppInfo offers. I think it is better to add another comparator for this purpose.
+
