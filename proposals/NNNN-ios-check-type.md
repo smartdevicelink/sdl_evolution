@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Specify returned types from NSDictionary (Store). 
+**This proposal is to** specify returned types from NSDictionary (Store).
 This ensures that the return value is assigned to a variable of the correct type. 
 
 ## Motivation
@@ -60,7 +60,7 @@ Proposal implemented in https://github.com/smartdevicelink/sdl_ios/pull/1158
 
 ## Potential downsides
 
-Store returns **nil** by getting with **wrong key** or **incorect type** without **highlighting on compile time**. 
+Store returns **nil** by getting with the **wrong key** or **incorrect type** without **highlighting **the** on compile time**.
 For example: 
 ````
 NSNumber *number = @2;
