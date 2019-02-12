@@ -172,7 +172,7 @@ To realize the above behavior, the app developer must create a new view and plac
 @end
 ```
 
-If the `opaque` flag is set to NO the view will be called transparent. It should allow views or view parts from the underlying view controller to stay visible while the overlay controller is presenting. The opaque mode is view type related and allows overriding content per view. As an example, a transparend overlay, which contains a graphic will only override the graphic view of the underlying view. With this flag:
+If the `opaque` flag is set to NO the view will be called transparent. It should allow views or view parts from the underlying view controller to stay visible while the overlay controller is presenting. The opaque mode is view type related and allows overriding content per view. As an example, a transparent overlay, which contains a graphic will only override the graphic view of the underlying view. With this flag:
 - the app developer has full control to decide on what to show and how to show it.
 - the complexity is scalable per the app developers choice (no overlay view -> no screen changes)
 
