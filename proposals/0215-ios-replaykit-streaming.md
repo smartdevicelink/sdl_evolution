@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0215](0215-ios-replaykit-streaming.md)
 * Author: [Satbir Tanda](https://github.com/satbirtanda)
-* Status: **Returned for Revisions**
+* Status: **Awaiting review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
@@ -92,3 +92,11 @@ SDLCarWindow.m relies heavily on ```[self.rootViewController.view drawViewHierar
 * There are private methods that can capture the screen very efficiently, however, implementing these can get your app removed from the app store or rejected from submission by Apple.
 
 * Nothing beyond keeping the original design.
+
+## Amendments
+
+* After testing the SDL Lock Screen appearance, ReplayKit does not take in a root view controller to display; it seems to record the current window that is displayed.  Because the SDL Lockscreen shows up on another window, it does not seem to impede the recording of the original window.
+* Attached in the proposal issue is an app that can run as an example - there still needs to be code that resizes the pixel buffer (it needs to be determined if it is possible at all, the snippet provided did not alter the stream).
+* The app does not need to be landscaped if the pixel sizing issue is solved, however, then it would also need to make sure the root-view controller does not resize on video streaming.
+* It has been determined the replay kit stream also contains audio data that can be used to stream audio to the Head Unit exactly like a media app. This would mean the developer would no longer need to send PCM audio files to SDL (they can play audio as they would in their app and it should carry over).
+* Tests would need to be done with iPhone XS, X, XS Max, XR - when testing these phones, there has been notable crashes.
