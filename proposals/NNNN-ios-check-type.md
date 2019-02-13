@@ -7,13 +7,13 @@
 
 ## Introduction
 
-**This proposal is to** specify returned types from NSDictionary (Store).
+This proposal is to specify returned types from NSDictionary (Store).
 This ensures that the return value is assigned to a variable of the correct type. 
 
 ## Motivation
 
-Method (`-(nullable id)sdl_objectForName:(SDLName)name`) in NSDictionary (Store) returns `id` in the future it can be casted to **any** type.
-As result **wrong casting** leads to **a crash in runtime**.
+Method (`-(nullable id)sdl_objectForName:(SDLName)name`) in NSDictionary (Store) returns `id` in the future it can be casted to any type.
+As result wrong casting leads to a crash in runtime.
 For example:
 ````
 - (SDLLanguage)languageDesired {
@@ -30,13 +30,13 @@ For example:
 
 ## Proposed solution
 
-**Remove method** :
+Remove method :
 `-(nullable id)sdl_objectForName:(SDLName)name;`. 
 
-**Instead of** removed method use **existing method**:
+Instead of removed method use existing method:
 `- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;`.
 
-**For suitable** working with **SDLEnums** create methods:
+For suitable working with SDLEnums create methods:
 `- (nullable SDLEnum)sdl_enumForName:(SDLName)name`
 `- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name;`
 
@@ -60,7 +60,7 @@ Proposal implemented in https://github.com/smartdevicelink/sdl_ios/pull/1158
 
 ## Potential downsides
 
-Store returns **nil** by getting with the **wrong key** or **incorrect type** without **highlighting **the** on compile time**.
+Store returns `nil` by getting with the wrong key or incorrect type without highlighting the on compile time.
 For example: 
 ````
 NSNumber *number = @2;
@@ -72,7 +72,7 @@ NSString *string = [self.store sdl_objectForName:SDLSomeValue ofClass:NSString.c
 
 ## Impact on existing code
 
-Possible nullability issues when classes expect **nonnull** value can be returned **nil**.
+Possible nullability issues when classes expect nonnull value can be returned nil.
 
 For example:
 ```
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_END
     }
 }
 ```
-Now, someProperty **isn't** nil, after **applying** changes someProperty would be **nil**.
+Now, someProperty isn't nil, after applying changes someProperty would be nil.
 
 ## Alternatives considered
 
