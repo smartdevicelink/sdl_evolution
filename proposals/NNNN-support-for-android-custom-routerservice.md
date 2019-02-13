@@ -41,7 +41,7 @@ Currently SdlProxy identify the RouterService in three steps:
 3. Before the app actually binds with the RouterService, it has validation logic, and the RouterService must be trusted RouterService. If the validation fails. then the app fails to find the trusted RouterService, and fallback to legacy Bluetooth mode.
 
 The problem is that step #2 and #3 unlikely find the custom RouterService, because custom RouterService is lowest order.
-Step #1 actually depends on the timing when the app calls queryForConnectedService. It is up to the application that when to calls queryForConnectedService, but [the integration-basic document] (https://smartdevicelink.com/en/guides/android/getting-started/integration-basics/) suggests it should be called at Activitiy onCreate.
+Step #1 actually depends on the timing when the app calls queryForConnectedService. It is up to the application that when to calls queryForConnectedService, but [the integration-basic document](https://smartdevicelink.com/en/guides/android/getting-started/integration-basics/) suggests it should be called at Activitiy onCreate.
 
 ## Proposed solution
 
