@@ -36,7 +36,7 @@ Remove method :
 Instead of removed method use existing method:
 `- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;`.
 
-For suitable working with SDLEnums create methods:
+For suitable working with SDLEnums create the following methods:
 `- (nullable SDLEnum)sdl_enumForName:(SDLName)name`
 `- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name;`
 
