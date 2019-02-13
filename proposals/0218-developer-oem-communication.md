@@ -1,8 +1,8 @@
 # Facilitating OEM Communication with App Developers
 
-* Proposal: [SDL-NNNN](NNNN-developer-oem-communication.md)
+* Proposal: [SDL-0218](0218-developer-oem-communication.md)
 * Author: [Nick Schwab](https://github.com/nickschwab), [Jonathan Cooper](https://github.com/jnthncpr)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [SHAID / Developer Portal]
 
 ## Introduction
