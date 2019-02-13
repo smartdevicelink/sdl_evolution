@@ -41,7 +41,7 @@ Services will be defined to a few high level categories so that we can support t
 _Same for both MOBILE\_API and HMI\_API._
 
 ```xml
-<enum name="AppServiceType">
+<enum name="AppServiceType" platform="documentation">
 	 <element name = "MEDIA"/>
 	 <element name = "WEATHER"/>
 	 <element name = "NAVIGATION"/>
@@ -64,7 +64,7 @@ Some services will need more structs defined to help standardize the data that i
 
 #### Media
 
-A media service is defined as a service that is currently the audio source for the module. 
+A media service is defined as a service that is currently the audio source for the module. The `MediaServiceData` object is defined in a general way for all types of media (music, podcast, audiobook, other). This allows the struct to be simplified with clear descriptions of what data should be contained in for each key.
 
 
 ###### Struct:
@@ -73,19 +73,93 @@ A media service is defined as a service that is currently the audio source for t
 	<struct name="MediaServiceManifest">
 	
 	</struct>
-
-	<struct name="MediaServiceData">
-		<description> This data is related to what a media service would provide</description>
-		<param name="mediaTitle" type="String" mandatory="false"/>
-		<param name="mediaArtist" type="String" mandatory="false"/>
-		<param name="mediaAlbum" type="String" mandatory="false"/>
-		<param name="mediaYear" type="String" mandatory="false"/>
-		<param name="mediaGenre" type="String" mandatory="false"/>
-		<param name="mediaStation" type="String" mandatory="false"/>
-		<param name="rating" type="int" minvalue ="0" maxvalue="100" mandatory="false"/>
-		<param name="mediaImageName" type="String" mandatory="false">
-
-	</struct>
+	
+	<enum name="MediaType">
+	    <element name="MUSIC">
+	    <element name="PODCAST">
+	    <element name="AUDIOBOOK">
+	    <element name="OTHER">
+	</enum>
+	
+    <struct name="MediaServiceData">
+         <description> This data is related to what a media service should provide</description>
+         <param name="mediaType" type="MediaType" mandatory="false">
+             <description>The type of the currently playing or paused track.</description>
+         </param>
+         <param name="mediaTitle" type="String" mandatory="false">
+             <description>
+             Music: The name of the current track
+             Podcast: The name of the current episode
+             Audiobook: The name of the current chapter
+             </description>
+         </param>
+         <param name="mediaArtist" type="String" mandatory="false">
+             <description>
+             Music: The name of the current album artist
+             Podcast: The provider of the podcast (hosts, network, company)
+             Audiobook: The book author's name
+             </description>
+         </param>
+         <param name="mediaAlbum" type="String" mandatory="false">
+             <description>
+             Music: The name of the current album
+             Podcast: The name of the current podcast show
+             Audiobook: The name of the current book
+             </description>
+         </param>
+         <param name="playlistName" type="String" mandatory="false">
+             <description>
+             Music: The name of the playlist or radio station, if the user is playing from a playlist, otherwise, Null
+             Podcast: The name of the playlist, if the user is playing from a playlist, otherwise, Null
+             Audiobook: Likely not applicable, possibly a collection or "playlist" of books
+             </description>
+         </param>
+         <param name="isExplicit" type="Bool" mandatory="false">
+             <description> Whether or not the content currently playing (e.g. the track, episode, or book) contains explicit content</description>
+         </param>
+         <param name="trackPlaybackProgress" type="Int" mandatory="false">
+             <description>
+             Music: The current progress of the track in seconds
+             Podcast: The current progress of the episode in seconds
+             Audiobook: The current progress of the current segment (e.g. the chapter) in seconds
+             </description>
+         </param>
+         <param name="trackPlaybackDuration" type="Int" mandatory="false">
+             <description>
+             Music: The total duration of the track in seconds
+             Podcast: The total duration of the episode in seconds
+             Audiobook: The total duration of the current segment (e.g. the chapter) in seconds
+             </description>
+         </param>
+         <param name="queuePlaybackProgess" type="Int" mandatory="false">
+             <description>
+             Music: The current progress of the playback queue in seconds
+             Podcast: The current progress of the playback queue in seconds
+             Audiobook: The current progress of the playback queue (e.g. the book) in seconds
+             </description>
+         </param>
+         <param name="queuePlaybackDuration" type="Int" mandatory="false">
+             <description>
+             Music: The total duration of the playback queue in seconds
+             Podcast: The total duration of the playback queue in seconds
+             Audiobook: The total duration of the playback queue (e.g. the book) in seconds
+             </description>
+         </param>
+         <param name="queueCurrentTrackNumber" type="Int" mandatory="false">
+             <description>
+             Music: The current number (1 based) of the track in the playback queue
+             Podcast: The current number (1 based) of the episode in the playback queue
+             Audiobook: The current number (1 based) of the episode in the playback queue (e.g. the chapter number in the book)
+             </description>
+         </param>
+         <param name="queueTotalTrackCount" type="Int" mandatory="false">
+             <description>
+             Music: The total number of tracks in the playback queue
+             Podcast: The total number of episodes in the playback queue
+             Audiobook: The total number of sections in the playback queue (e.g. the number of chapters in the book)
+             </description>
+         </param>
+     </struct>
     
 ```
 
@@ -106,57 +180,221 @@ A weather service is defined as a service that can provide weather data.
 
 ```xml
 
-	<struct name="WeatherServiceManifest">
-		<param name="currentForecastSupported type="Boolean" mandatory="false"/>
-		<param name="maxMultidayForecastAmount" type="Integer" mandatory="false"/>
-		<param name="weatherForLocationSupported" type="Boolean" mandatory="false"/>
-	</struct>
+    <struct name="WeatherServiceManifest">
+        <param name="currentForecastSupported" type="Boolean" mandatory="false"/>
+        <param name="maxMultidayForecastAmount" type="Integer" mandatory="false"/>
+        <param name="maxHourlyForecastAmount" type="Integer" mandatory="false"/>
+        <param name="maxMinutelyForecastAmount" type="Integer" mandatory="false"/>
+        <param name="weatherForLocationSupported" type="Boolean" mandatory="false"/>
+    </struct>
 
-	<struct name="WeatherServiceData">
-		<description> This data is related to what a weather service would provide</description>
-		<param name="currentForecast" type="DailyForecast" mandatory="false"/>
-		<param name="multidayForecast" type="DailyForecast" array="true" minsize="1" mandatory="false">
-			<description> This array should be ordered with the first object being the current day</description>
-		</param>
-	</struct>
-	
-	<struct name="DailyForecast">
-		<param name="currentTemperature" type="Temperature" mandatory="false"/>
-		<param name="maximumTemperature" type="Temperature" mandatory="false"/>
-		<param name="minimumTemperature" type="Temperature" mandatory="false"/>
-		<param name="weatherTerm" type="String" mandatory="false"/>
-		<param name="humidity" type="String" mandatory="false"/>
-		<param name="weatherImageName" type="String" mandatory="false">
-	</struct>
+    <struct name="WeatherServiceData">
+        <description> This data is related to what a weather service would provide</description>
+        <param name="location" type="LocationDetails" mandatory="true"/>
+        <param name="currentForecast" type="WeatherData" mandatory="false"/>
+        <param name="minuteForecast" type="WeatherData" array="true" minsize="15" maxsize="60" mandatory="false" />
+        <param name="hourlyForecast" type="WeatherData" array="true" minsize="1" maxsize="96" mandatory="false" />
+        <param name="multidayForecast" type="WeatherData" array="true" minsize="1" maxsize="30" mandatory="false" />
+        <param name="alerts" type="WeatherAlert" array="true" minsize="1" maxsize="10" mandatory="false" >
+            <description> This array should be ordered with the first object being the current day</description>
+        </param>
+    </struct>
+
+    <struct name="WeatherData">
+        <param name="currentTemperature" type="Temperature" mandatory="false"/>
+        <param name="temperatureHigh" type="Temperature" mandatory="false"/>
+        <param name="temperatureLow" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperature" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperatureHigh" type="Temperature" mandatory="false"/>
+        <param name="apparentTemperatureLow" type="Temperature" mandatory="false"/>
+    
+        <param name="weatherSummary" type="String" mandatory="false"/>
+        <param name="time" type="DateTime" mandatory="false"/>
+        <param name="humidity" type="Float" mandatory="false">
+            <description> 0 to 1, percentage humidity </description>
+        </param>
+        <param name="cloudCover" type="Float" mandatory="false">
+            <description> 0 to 1, percentage cloud cover </description>
+        </param>
+        <param name="moonPhase" type="Float" mandatory="false">
+            <description> 0 to 1, percentage of the moon seen, e.g. 0 = no moon, 0.25 = quarter moon </description>
+        </param>
+
+        <param name="windBearing" type="Integer" mandatory="false">
+            <description> In degrees, true north at 0 degrees </description>
+        </param>
+        <param name="windGust" type="Float" mandatory="false">
+            <description> km/hr </description>
+        </param>
+        <param name="windSpeed" type="Float" mandatory="false">
+            <description> km/hr </description>
+        </param>
+
+        <param name="nearestStormBearing" type="Integer" mandatory="false">
+            <description> In degrees, true north at 0 degrees </description>
+        </param>
+        <param name="nearestStormDistance" type="Integer" mandatory="false">
+            <description> In km </description>
+        </param>
+        <param name="precipAccumulation" type="Float" mandatory="false" >
+            <description> cm </description>
+        </param>
+        <param name="precipIntensity" type="Float" mandatory="false" >
+            <description> cm of water per hour </description>
+        </param>
+        <param name="precipProbability" type="Float" mandatory="false" >
+            <description> 0 to 1, percentage chance </description>
+        </param>
+        <param name="precipType" type="String" mandatory="false" >
+            <description> e.g. "rain", "snow", "sleet", "hail" </description>
+        </param>
+        <param name="visibility" type="Float" mandatory="false" >
+            <description> In km </description>
+        </param>
+
+        <param name="weatherIconImageName" type="String" mandatory="false" />
+    </struct>
+
+    <struct name="WeatherAlert">
+        <param name="title" type="String" mandatory="false" />
+        <param name="summary" type="String" mandatory="false" />
+        <param name="expires" type="DateTime" mandatory="false" />
+        <param name="regions" type="String" array="true" minsize="1" maxsize="99" mandatory="false" />
+        <param name="severity" type="String" mandatory="false" />
+        <param name="timeIssued" type="DateTime" mandatory="false" />
+    </struct>
     
 ```
 
 
 #### Navigation
-A navigation service is defined as a service that is currently listed as the navigation provider. 
+A navigation service is defined as a service that is currently listed as the navigation provider. This service type will likely deprecate the TBT RPCs. However, when the Service managers are created they could send the TBT information based on the service manager to maintain compatibility with older head units.
 
 ```xml
 	<struct name="NavigationServiceManifest">
-		<param name="acceptsWayPoints" type="Boolean" mandatory="false"/>
-	</struct>
-
-	<struct name="NavigationServiceData">
-		<description> This data is related to what a navigation service would provide</description>
-		
-		<param name="waypoints" type="LocationDetails" array="true" minsize="2" mandatory="false">
-			<description> This array should be ordered with the first object being the start location of the current trip and the last object the final destination. </description>
+		<param name="acceptsWayPoints" type="Boolean" mandatory="false">
+		<description>  Informs the subscriber if this service can actually accept way points.</description>
 		</param>
-		
-		<param name="eta" type="DateTime" mandatory="false"/>
-
 	</struct>
+
+    <struct name="NavigationServiceData">
+	    <description> This data is related to what a navigation service would provide.</description>
 	
+	    <param name="timestamp" type="" mandatory="true">
+	        <description> This is the timestamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary. </description>
+	    </param>
+	
+	    <param name="origin" type="LocationDetails" mandatory="false"/>
+	
+	    <param name="destination" type="LocationDetails" mandatory="false"/>
+	
+	    <param name="destinationETA" type="DateTime" mandatory="false"/>
+   
+   
+        <param name="instructions" type="NavigationInstruction" array="true" mandatory="false">
+            <description> This array should be ordered with all remaining instructions. The start of this array should always contain the next instruction.</description>
+	    </param>
+	
+	    <param name="nextInstructionETA" type="DateTime" mandatory="false"/>
+	    <param name="nextInstructionDistance" type="Float" mandatory="false">
+	        <description>The distance to this instruction from current location. This should only be updated ever .1 unit of distance. For more accuracy the consumer can use the GPS location of itself and the next instruction. </description>
+	    </param>
+        <param name="nextInstructionDistanceScale" type="Float" mandatory="false">
+            <description>Distance till next maneuver (starting from) from previous maneuver.</description>
+        </param>
+        
+        <param name="prompt" type="String" mandatory="false">
+            <description>This is a prompt message that should be conveyed to the user through either display or voice (TTS). This param will change often as it should represent the following: approaching instruction, post instruction, alerts that affect the current navigation session, etc.</description>
+        </param>
+    </struct>
+
+    <struct name="NavigationInstruction">
+	    <param name="locationDetails" type="LocationDetails" mandatory="true">
+	    </param>
+	
+	    <param name="action" type="NavigationAction" mandatory="true">
+	    </param>
+	    
+	    <param name="eta" type="DateTime" mandatory="false">
+	    </param>	
+	
+	    <param name="bearing" type="int" minValue="0" maxValue="359" mandatory="false">
+	        <description>The angle at which this instruction takes place. For example, 0 would mean straight, <=45 is bearing right, >= 135 is sharp right, between 45 and 135 is a regular right, and 180 is a U-Turn, etc. </description>
+	    </param>
+	
+	    <param name="junctionType" type="NavigationJunction" mandatory="false">
+	    </param>	
+	    	
+	    <param name="drivingSide" type="Direction" mandatory="false">
+	        <description>Used to infer which side of the road this instruction takes place. For a U-Turn (Action=Turn, direction=180) this will determine which direction the turn should take place. </description>
+	    </param>
+	    
+	    <param name="details" type="String" mandatory="false">
+	        <description>This is a string representation of this instruction, used to display instructions to the users. This is not intended to be read aloud to the users, see the param prompt in NavigationServiceData for that.</description>
+	    </param>
+	    
+	    <param name "image"  type="Image" mandatory="false">
+	        <description>An image representation of this instruction. </description>
+	    </param>
+    </struct>
+    
+    <enum name="NavigationAction">
+        <element name="TURN">
+            <description> Using this action plus a supplied direction can give the type of turn. </description>
+        </element>
+        <element name="EXIT">
+        </element>
+        <element name="STAY">
+        </element>              
+        <element name="MERGE">
+        </element>
+        <element name="FERRY">
+        </element>
+        <element name="CAR_SHUTTLE_TRAIN">
+        </element>
+        <element name="WAYPOINT">
+        </element>      
+    <enum>
+    
+    <enum name="NavigationJunction">
+        <element name="REGULAR">
+            <description> A junction that represents a standard intersection with a single road crossing another.</description>
+        </element>
+        <element name="BIFURCATION">
+            <description> A junction where the road splits off into two paths; a fork in the road.</description>
+        </element>
+        <element name="MULTI_CARRIAGEWAY">
+            <description> A junction that has multiple intersections and paths.</description>
+        </element>              
+        <element name="ROUNDABOUT">
+            <description>A junction where traffic moves in a single direction around a central, non-traversable point to reach one of the connecting roads.</description>
+        </element>
+        <element name="TRAVESABLE_ROUNDABOUT">
+        <description> Similar to a roundabout, however the center of the roundabout is fully traversable. Also known as a mini-roundabout.</description>
+        </element>
+        <element name="JUGHANDLE">
+        <description>A junction where lefts diverge to the right, then curve to the left, converting a left turn to a crossing maneuver.</description>
+        </element>
+        <element name="ALL_WAY_YIELD">
+            <description> Multiple way intersection that allows traffic to flow based on priority; most commonly right of way and first in, first out.</description>
+        </element>
+        <element name="TURN_AROUND">
+            <description> A junction designated for traffic turn arounds.</description>
+        </element>
+    </enum>
+    
+    <enum name="Direction">
+        <element name="LEFT"/>
+        <element name="RIGHT"/>
+    </enum>
     
 ```
 
 ###### RPCs to be handled:
  - SendLocation
  - GetWayPoints
+ - SubscribeWayPoints
+ - OnWayPointChange
 
 
 #### Voice Assistant
@@ -257,21 +495,21 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 
 ```xml
 	<struct name="AppServiceManifest">
-		<description> This manfifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it</description>
+		<description>This manifest contains all the information necessary for the service to be published, activated, and allow consumers to interact with it</description>
 		
 		<param name="serviceName" type="String" mandatory="false">
 			<description> Unique name of this service</description>
 		</param>
 		
-		<param name="serviceType" type="AppServiceType" mandatory="true">
-			<description>The type of service that is to be offered by this app</description>
+		<param name="serviceType" type="String" mandatory="true">
+			<description>The type of service that is to be offered by this app. See AppServiceType</description>
 		</param>
 		
-		<param name="serviceIcon" type="String" mandatory="false">
-			<description> The file name of the icon to be associated with this service. Most likely the same as the appIcon.</description>
+		<param name="serviceIcon" type="Image" mandatory="false">
+			<description> The icon to be associated with this service. Most likely the same as the appIcon.</description>
 		</param>
 		
-		<param name="allowAppConsumers" type="Boolean" mandatory="false" defValue="false">
+		<param name="allowAppConsumers" type="Boolean" mandatory="false" defvalue="false">
 			<description>If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false. </description>
 		</param>
 
@@ -279,7 +517,7 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 		<param name="uriPrefix" type="String" mandatory="false">
 			<description> The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it.</description>
 		</param>
-		<param name="uriScheme" type="JSONObject" mandatory="false">
+		<param name="uriScheme" type="String" mandatory="false">
 			<description> This is a custom schema for this service. SDL will not do any verification on this param past that it has a correctly formated JSON Object as its base. The uriScheme should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. </description>
 		</param>
 		
@@ -287,8 +525,8 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 		<param name="rpcSpecVersion" type="SyncMsgVersion" mandatory="false">
 			<description> This is the max RPC Spec version the app service understands. This is important during the RPC passthrough functionality. If not included, it is assumed the max version of the module is acceptable. </description>
 		</param>
-		<param name="handledRPCs" type="FunctionID" array="true" mandatory="false">
-			<description> This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. </description>
+		<param name="handledRPCs" type="Integer" array="true" mandatory="false">
+			<description> This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. See FunctionID.</description>
 		</param>
 		
 		<param name="mediaServiceManifest" type="MediaServiceManifest" mandatory="false"/>
@@ -308,6 +546,8 @@ The next action the App Service has to take is publishing their service. This is
 
 
 ```xml
+<element name="PublishAppServiceID" value="52" hexvalue="34" since="5.1" />
+
 <function name="PublishAppService" functionID="PublishAppServiceID" messagetype="request">
 	<description>Registers a service offered by this app on the module</description>
 
@@ -357,27 +597,27 @@ _Same for both MOBILE\_API and HMI\_API._
 
 ```xml
 <enum name="ServiceUpdateReason">
-	 <element name = "PUBLISHED">
-	 	<description> The service has just been published with the module and once activated to the primary service of its type, it will be ready for possible consumption.</description>
+	 <element name="PUBLISHED">
+	 	<description>The service has just been published with the module and once activated to the primary service of its type, it will be ready for possible consumption.</description>
 	 </element>
-	 <element name = "REMOVED">
-	 	<description> The service has just been unpublished with the module and is no longer accessible</description>
+	 <element name="REMOVED">
+	 	<description>The service has just been unpublished with the module and is no longer accessible</description>
 	 </element>
-	 <element name = "ACTIVATED">
-	 	<description> The service is activated as the primary service of this type. All requests dealing with this service type will be handled by this service.</description>
+	 <element name="ACTIVATED">
+	 	<description>The service is activated as the primary service of this type. All requests dealing with this service type will be handled by this service.</description>
 	 </element>
-	 <element name = "DEACTIVATED">
-	 	<description> The service has been deactivated as the primary service of its type</description>
+	 <element name="DEACTIVATED">
+	 	<description>The service has been deactivated as the primary service of its type</description>
 	 </element>
-	 <element name = "MANIFEST_UPDATE">
-	 	<description> The service has updated its manifest. This could imply updated capabilities</description>
+	 <element name="MANIFEST_UPDATE">
+	 	<description>The service has updated its manifest. This could imply updated capabilities</description>
 	 </element>
 </enum>
 
 <struct name="AppServiceRecord">
 	<description> This is the record of an app service publisher that the module has. It should contain the most up to date information including the service's active state</description>
 	
-	<param name="serviceId" type="String" mandatory="true">
+	<param name="serviceID" type="String" mandatory="true">
 		<description> A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves. </description>
 	</param>
 	
@@ -395,6 +635,7 @@ _Same for both MOBILE\_API and HMI\_API._
 </struct>
 
 ```
+Note: A published app services can change the capabilities of other systemCapabilityType(s) and trigger a corresponding onSystemCapabilityUpdated for that type. For example, an app that publishes a navigation service on a head unit that does not support navigation will send onSystemCapabilityUpdated notifications to apps that are subscribed to systemCapabilityTypes NAVIGATION and/or APP_SERVICES.
 
 ##### Notifying provider of removal
 
@@ -422,7 +663,9 @@ When a service sends a `PublishAppService` request it will automatically be subs
 
 _Note: There should be a separate proposal to update the existing `SystemCapability` structs._ 
 
-```
+```xml
+<element name="OnSystemCapabilityUpdatedID" value="32787" hexvalue="8013" since="5.1" />
+
 <function name="GetSystemCapability" functionID="GetSystemCapabilityID" messagetype="request">
     <description>Request for expanded information about a supported system/HMI capability</description>
     
@@ -458,16 +701,11 @@ _Note: There should be a separate proposal to update the existing `SystemCapabil
 ```xml
 <struct name="SystemCapability">
 	...
-	<param name="appServicesCapabilities" type="AppServicesCapabilities" mandatory="false"/>
+	<param name="appServiceCapability" type="AppServicesCapabilities" mandatory="false"/>
 </struct>
     
 <struct name="AppServicesCapabilities">
 	<description> Capabilities of app services including what service types are supported and the current state of services. </description>
-	
-	<param name="servicesSupported" type="AppServiceType" array="true" mandatory="true">
-	    <description> An array of supported app service types</description>
-	</param>	
-   
    	<param name="appServices" type="AppServiceCapability" array="true" mandatory="false">
    	    <description> An array of currently available services. If this is an update to the capability the affected services will include an update reason in that item</description>
    	</param>
@@ -486,6 +724,10 @@ _Note: There should be a separate proposal to update the existing `SystemCapabil
 
 
 ```
+
+Note: `onSystemCapabilityUpdated` notification for type `APP_SERVICES` contains all known active service records, even if only one app service is updated. The service(s) that was updated will contain the `updateReason` parameter.
+
+
 ##### Get service data
 
 The app service consumer can then decide which services it wants to get more info from and even subscribe to for future updates from the service.
@@ -497,8 +739,10 @@ When requesting the data from the app service the developer can expect the data 
 <struct name="AppServiceData">
 	<description> Contains all the current data of the app service. The serviceType will link to which of the service data objects are included in this object. (eg if service type equals MEDIA, the mediaServiceData param should be included.</description>
 	
-	<param name="serviceType" type="AppServiceType" mandatory="true"/>
-	<param name="serviceId" type="String" mandatory="true"/>
+	<param name="serviceType" type="String" mandatory="true">
+		<description>See AppServiceType</description>
+	</param>
+	<param name="serviceID" type="String" mandatory="true"/>
 		
 	<param name="mediaServiceData" type="MediaServiceData" mandatory="false"/>
 	<param name="weatherServiceData" type="WeatherServiceData" mandatory="false"/>
@@ -515,11 +759,17 @@ Now that we know what to expect in terms of the actual data, the next piece will
 
 ###### GetAppServiceData
 
+The response from a `GetAppServiceData`  should include all service data that is currently available. This is different from the `OnAppServiceData` that will be discussed below. 
+
 ```xml
+<element name="GetAppServiceDataID" value="53" hexvalue="35" since="5.1" />
+
 <function name="GetAppServiceData" functionID="GetAppServiceDataID" messagetype="request">
 	<description> This request asks the module for current data related to the specific service. It also includes an option to subscribe to that service for future updates</description>
 	
-	<param name="serviceType" type="AppServiceType" mandatory="true"/>
+	<param name="serviceType" type="String" mandatory="true">
+		<description>See AppServiceType</description>
+	</param>
 	
 	<param name="subscribe" type="Boolean" mandatory="false">
 		<description> If true, the consumer is requesting to subscribe to all future updates from the service publisher. If false, the consumer doesn't wish to subscribe and should be unsubscribed if it was previously subscribed.</description>
@@ -563,7 +813,11 @@ If the app service consumer subscribed to updates from the app service provider 
 
 ###### OnAppServiceData
 
+Notifications will come through as data changes. Only the data that changed should be expected to be included. This prevents the provider and subscriber traffic from becoming too large. However, it is recommended that these be batched together when possible to avoid constant traffic.
+
 ```xml
+<element name="OnAppServiceDataID" value="32786" hexvalue="8012" since="5.1" />
+
 <function name="OnAppServiceData" functionID="OnAppServiceDataID" messagetype="notification">
 	<description> This notification includes the data that is updated from the specific service</description>
 	
@@ -582,6 +836,8 @@ One of the aspects to publishing services will be to include data beyond simple 
 When an app service consumer receives an `AppServiceData` object that contains file names of the media that the app service provider intends to share they will need to send a `GetFile` request. The structure of the `GetFile` request/response pair is very similar to that of the `PutFile` pair.
 
 ```xml
+<element name="GetFileID" value="54" hexvalue="36" since="5.1" />
+
 <function name="GetFile" functionID="GetFileID" messagetype="request">
 	<description> This request is sent to the module to retrieve a file</description>
 
@@ -670,13 +926,15 @@ SDL should make no guarantees that:
 
 
 ```xml
+<element name="PerformAppServiceInteractionID" value="55" hexvalue="37" since="5.1" />
+
 <function name="PerformAppServiceInteraction" functionID="PerformAppServiceInteractionID" messagetype="request">
 
 	<param name="serviceUri" type="String"  mandatory="true">
 		<description>Fully qualified URI based on the URI prefix and URI scheme the app service provided. SDL makes no gurantee that this URI is correct.</description>
 	</param>
 	
-	<param name="appServiceId" type="String" mandatory="true">
+	<param name="serviceID" type="String" mandatory="true">
 		<description> The service ID that the app consumer wishes to send this URI.</description>
 	</param>
 	
@@ -728,10 +986,6 @@ CoresOriginId = "sdl_core"
 
 ; Services that exist on the module. Values are of AppServiceType in RPC Spec. These services will be used as default and app services will only become primary service publisher with direct user interaction. These services will also be a fallback if no app service publisher is registered with the system of that type.
 EmbeddedServices = MEDIA, WEATHER, NAVIGATION, VOICE_ASSISTANT, COMMUNICATION_VOIP, MESSAGING, TTS
-
-; App services that are supported by the module. Values are of AppServiceType in RPC Spec. If an app attempts to publish a service of a type that is not listed here it will be rejected.
-SupportedAppServices = MEDIA, WEATHER, NAVIGATION, VOICE_ASSISTANT, COMMUNICATION_VOIP, MESSAGING, TTS
-
  
 ; Additional time added to RPC timeout when passing through to App service
 RpcPassThroughTimeout = 10000
@@ -760,24 +1014,24 @@ The HMI will be responsible for the actual selection and activation of app servi
 
 ```xml
 <function name="GetAppServiceRecords" messagetype="request">
-  <param name="serviceTypes" type="Common.ServiceType" mandatory="false">
-    <description>If included, only service records of supplied type will be returned in response. If not included, all service records for all types will be returned.</description>
+  <param name="serviceType" type="String" mandatory="false">
+    <description>If included, only service records of supplied type will be returned in response. If not included, all service records for all types will be returned. See AppServiceType</description>
   </param>
 </function>
 
 <function name="GetAppServiceRecords" messagetype="response">
-  <param name="serviceRecords" type="Common.AppServiceRecord" array="true"mandatory="false">
+  <param name="serviceRecords" type="Common.AppServiceRecord" array="true" mandatory="false">
     <description>All app service records of requested type.</description>
   </param>
 </function>
 
 
 <function name="AppServiceActivation" messagetype="request">
-  <param name="serviceId" type="String" mandatory="true" >
+  <param name="serviceID" type="String" mandatory="true" >
     <description>The ID of the service that should have an activation event take place on</description>
   </param>
-  <param name="serviceType" type="Common.ServiceType" mandatory="true">
-    <description>The service type the service should have the activation event occur on</description>
+  <param name="serviceType" type="String" mandatory="true">
+    <description>The service type of the service should have the activation event occur on. See AppServiceType</description>
   </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service is to be activated. False if the app is to be deactivated</description>
@@ -788,11 +1042,11 @@ The HMI will be responsible for the actual selection and activation of app servi
 </function>
 
 <function name="AppServiceActivation" messagetype="response">
-  <param name="serviceId" type="String" mandatory="true" >
+  <param name="serviceID" type="String" mandatory="true" >
     <description>The ID of the service that was requested to have an activation event take place</description>
   </param>
-  <param name="serviceType" type="Common.ServiceType" mandatory="true">
-    <description>The service type the service that was requested to have an activation event take place</description>
+  <param name="serviceType" type="String" mandatory="true">
+    <description>The service type of the service that was requested to have an activation event take place. See AppServiceType</description>
   </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service was activated. False if the app was deactivated or unable to be activated</description>
@@ -831,6 +1085,34 @@ Core will need to parse and store received params even if they are not listed in
 ##### Policy Table
 
 The IVI system can enable/disable app service providers from offering their services and consumers from using them through additions to the policy table. New functional groups will be introduced for `AppServiceProvider` and `AppServiceConsumer`. Furthermore, the functional groups can become more granular to provide access to publishing/consuming of specific app service types.
+
+Proposed policy table structure:
+```
+        "app_policies": {
+            "SDLSuperApp12345": {
+                "keep_context": false,
+                "steal_focus": false,
+                "priority": "NONE",
+                "default_hmi": "NONE",
+                "groups": ["Base-4"],
+                "RequestType": [],
+                "RequestSubType": [],
+                "app_services": {
+                    "MEDIA": {
+                        "service_names": ["SDL Music", "App Music"],
+                        "handled_rpcs": [{"function_id": 41}]
+                        },
+                    "NAVIGATION": {
+                        "service_names": ["SDL Navigation", "App Navigation"],
+                        "handled_rpcs": [{"function_id": 39}]                    
+                    }
+                }
+            }
+```
+
+In the policy table, the `app_policies` section will have a new `app_services` object parameter. Each object will have the service type as the object key. `service_names` will be an array of allowed app service nick names. `handled_rpcs` will be an array of objects with the function_id of allowed handled rpcs. `handled_rpcs` will be an array of objects instead of an array of integers, this will allow for future expansion of the `handled_rpcs` permission item.
+
+If an app tries to publish an app service with information that does not match the policy table entry, the request will be disallowed.
 
 
 ## Potential downsides
