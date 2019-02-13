@@ -84,7 +84,7 @@ The pseudo-code of new asynchronous methos in RouterServiceValidator looks like 
 
 		if(this.service == null){
 			// retrieveBestRouterServiceName works asynchronous, and calls FindConnectedRouterCallback when it finished to find
-			retrieveBestRouterServiceName(this.context, new FindConnectedRouterCallback() {
+			retrieveBestRouterServiceNameAsync(this.context, new FindConnectedRouterCallback() {
 				@Override
 				public void onFound(ComponentName component) {
 					service = component;
@@ -120,6 +120,66 @@ ValidationStatusCallback interface and FindConnectedRouterCallback looks as foll
 		void onFailed();
 	}
 
+```
+
+retrieveBestRouterServiceNameAsync uses AsyncTask, and look something like below:
+```java
+	private void retrieveBestRouterServiceNameAsync(Context context, FindConnectedRouterCallback callback) {
+		new FindRouterTask(callback).execute(context;
+	}
+```
+
+The pseudo-code of FindRoutertask will be:
+```java
+	class FindRouterTask extends AsyncTask<Context, Void, ComponentName> {
+		FindConnectedRouterCallback mCallback;
+
+		FindRouterTask(FindConnectedRouterCallback callback) {
+			mCallback = callback;
+		}
+
+		@Override
+		protected ComponentName doInBackground(final Context... contexts) {
+			if (RouterServiceValidator.this.service != null) {
+				return RouterServiceValidator.this.service;
+			}
+			List<SdlAppInfo> sdlAppInfoList = AndroidTools.querySdlAppInfo(contexts[0], new SdlAppInfo.BestRouterComparator());
+			if (sdlAppInfoList != null && !sdlAppInfoList.isEmpty()) {
+				SdlAppInfo lastItem = sdlAppInfoList.get(sdlAppInfoList.size()-1);
+				for (SdlAppInfo info: sdlAppInfoList) {
+					final boolean isLast = (info.equals(lastItem));
+					ComponentName name = info.getRouterServiceComponentName();
+					final SdlRouterStatusProvider provider = new SdlRouterStatusProvider(contexts[0], name, new SdlRouterStatusProvider.ConnectedStatusCallback() {
+						@Override
+						public void onConnectionStatusUpdate(boolean connected, ComponentName service, Context context) {
+							if (connected) {
+								if (mCallback != null) {
+									mCallback.onFound(service);
+								}
+							} else {
+								Log.d(TAG, "SdlRouterStatusProvider returns service=" + service + "; connected=" + connected);
+								if (isLast && mCallback != null) {
+									mCallback.onFailed();
+								}
+							}
+						}
+					});
+					provider.checkIsConnected();
+					provider.cancel();
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(ComponentName componentName) {
+			super.onPostExecute(componentName);
+			if (componentName != null && mCallback != null) {
+				mCallback.onFound(componentName);
+			}
+		}
+
+	}
 ```
 
 ### The caller of the asynchronous method
