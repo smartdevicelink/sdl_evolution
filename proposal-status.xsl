@@ -342,7 +342,7 @@ on the gh-pages branch).
          background-color: #bac6d2; // SDL Grey
         color: #000;
       }
-        a.number.platform-devportal {
+        a.number.platform-dev portal {
          background-color: #7ebc79; // SDL Lime
       }
     </style>
