@@ -343,7 +343,7 @@ on the gh-pages branch).
         color: #000;
       }
         a.number.platform-devportal {
-        background-color: #394e50; // SDL Dark Grey
+         background-color: #c691c5; // SDL Purple
       }
     </style>
   </xsl:template>
