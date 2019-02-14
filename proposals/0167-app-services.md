@@ -1074,3 +1074,98 @@ New functional groups should be created based on [this section](#policy-table).
 	<param name="updateReason" type="ServiceUpdateReason" mandatory="true"/>
 </function> 
 ```
+
+## Amendments
+
+The following values were removed from `AppServiceType`.
+
+```xml
+	<element name = "VOICE_ASSISTANT"/>
+    <element name = "GENERIC"/>
+    <element name = "COMMUNICATION_VOIP"/> <!-- Currently no specific definitions -->
+    <element name = "MESSAGING"/>			<!-- Currently no specific definitions -->
+    <element name = "TTS"/> 
+```
+
+The following Voice Assistant section was removed from the proposal.
+
+
+#### Voice Assistant
+	A voice assistant service is defined as a service that is currently acting as the voice assistant provider. This provider needs to be flushed out with a lot of extra details as its functionality is far reaching.
+	
+	```xml
+	
+		<struct name="VoiceAssistantServiceManifest">
+			<param name="wakeWords" type="String" array="true" minsize="1" mandatory="false"/>
+	
+		</struct>
+	
+		<struct name="VoiceAssistantServiceData">
+			<description> This data is related to what a voice assistant service would provide</description>
+	
+		</struct>
+	
+		<enum name="VoiceAssistantTrigger">
+			<element name="PUSH_TO_TALK_BUTTON"/>
+			<element name="WAKE_WORD"/>
+		</enum>
+	```
+	
+	##### New RPCs for Voice Assistant
+	
+	```xml
+		<function name="OnVoiceAssistantActivated" functionID="OnVoiceAssistantActivatedID" messagetype="notification">
+			<param name="triggerSource" type="VoiceAssistantTrigger" mandatory="true">
+				<description>Informs the voice assistant of which source triggered the event.</description>
+			</param>
+			<param name="triggerInfo" type="String" mandatory="false">
+				<description>Any extra information about the trigger. This should include the wake word used and any other speech strings recognized.</description>
+			</param>
+	
+		</function>
+	
+		<struct name="VRSynonym">
+			<param name="synonym" type="String" mandatory="true"/>
+			<param name="id" type="Integer" mandatory="true"/>
+		</struct>
+	
+		<function name="UpdateVRSynonyms" functionID="UpdateVRSynonymsID" messagetype="request">
+				<param name="vrSynonyms" type="VRSynonym" array="true" mandatory="true"/>
+				<param name="shouldAdd" type="Boolean" mandatory="true">
+					<description>Set to true if the synonyms should be added. Set to false if they should be removed</description>
+				</param>
+		</function>
+	
+	
+		<function name="UpdateVRSynonyms" functionID="UpdateVRSynonymsID" messagetype="response">
+				<param name="success" type="Boolean" platform="documentation" mandatory="true">
+			<description> true, if successful; false, if failed </description>
+		</param>
+	
+		<param name="resultCode" type="Result" platform="documentation" mandatory="true">
+			<description>See Result</description>
+			<element name="SUCCESS"/>
+			<element name="REJECTED"/>
+			<element name="DISALLOWED"/>
+			<element name="INVALID_DATA"/>
+			<element name="OUT_OF_MEMORY"/>
+			<element name="TOO_MANY_PENDING_REQUESTS"/>
+			<element name="APPLICATION_NOT_REGISTERED"/>
+			<element name="GENERIC_ERROR"/>
+		</param>
+	
+		<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+			<description>Provides additional human readable info regarding the result.</description>
+		</param>
+	
+	</function>
+	
+		<function name="OnVRChoiceSelected" functionID="OnVoiceAssistantActivatedID" messagetype="notification">
+				<param name="vrSynonymSelected" type="VRSynonym" mandatory="true"/>
+		</function>
+	
+	```
+	
+	###### RPCs to be handled:
+	- OnVoiceAssistantActivated
+	- UpdateVRSynonyms
