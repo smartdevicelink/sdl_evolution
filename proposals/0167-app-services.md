@@ -284,12 +284,9 @@ A navigation service is defined as a service that is currently listed as the nav
 	
 	    <param name="destinationETA" type="DateTime" mandatory="false"/>
    
-       <param name="wayPoints" type="LocationDetails" mandatory="false" array="true">
-           <description> The current way points for the current navigation session. See also LocationDetails</description>
-        </param>
    
-        <param name="instructions" type="NavInstruction" array="true" mandatory="false">
-            <description> This array should be ordered with the first object being the start location of the current trip and the last object the final destination. </description>
+        <param name="instructions" type="NavigationInstruction" array="true" mandatory="false">
+            <description> This array should be ordered with all remaining instructions. The start of this array should always contain the next instruction.</description>
 	    </param>
 	
 	    <param name="nextInstructionETA" type="DateTime" mandatory="false"/>
@@ -299,25 +296,43 @@ A navigation service is defined as a service that is currently listed as the nav
         <param name="nextInstructionDistanceScale" type="Float" mandatory="false">
             <description>Distance till next maneuver (starting from) from previous maneuver.</description>
         </param>
-	
+        
+        <param name="prompt" type="String" mandatory="false">
+            <description>This is a prompt message that should be conveyed to the user through either display or voice (TTS). This param will change often as it should represent the following: approaching instruction, post instruction, alerts that affect the current navigation session, etc.</description>
+        </param>
     </struct>
 
-    <struct name="NavInstruction">
+    <struct name="NavigationInstruction">
 	    <param name="locationDetails" type="LocationDetails" mandatory="true">
 	    </param>
 	
-	    <param name="action" type="NavAction" mandatory="true">
+	    <param name="action" type="NavigationAction" mandatory="true">
+	    </param>
+	    
+	    <param name="eta" type="DateTime" mandatory="false">
 	    </param>	
 	
-	    <param name="direction" type="int" minValue="0" maxValue="359" mandatory="false">
-	        <description>The angle at which this instruction takes place. For example, 0 would mean straight, 45 a sharp right, 180 a U-Turn, etc. </description>
+	    <param name="bearing" type="int" minValue="0" maxValue="359" mandatory="false">
+	        <description>The angle at which this instruction takes place. For example, 0 would mean straight, <=45 is bearing right, >= 135 is sharp right, between 45 and 135 is a regular right, and 180 is a U-Turn, etc. </description>
 	    </param>
 	
-	    <param name="junctionType" type="NavJunctionType" mandatory="false">
+	    <param name="junctionType" type="NavigationJunction" mandatory="false">
 	    </param>	
+	    	
+	    <param name="drivingSide" type="Direction" mandatory="false">
+	        <description>Used to infer which side of the road this instruction takes place. For a U-Turn (Action=Turn, direction=180) this will determine which direction the turn should take place. </description>
+	    </param>
+	    
+	    <param name="details" type="String" mandatory="false">
+	        <description>This is a string representation of this instruction, used to display instructions to the users. This is not intended to be read aloud to the users, see the param prompt in NavigationServiceData for that.</description>
+	    </param>
+	    
+	    <param name "image"  type="Image" mandatory="false">
+	        <description>An image representation of this instruction. </description>
+	    </param>
     </struct>
     
-    <enum name="NavAction">
+    <enum name="NavigationAction">
         <element name="TURN">
             <description> Using this action plus a supplied direction can give the type of turn. </description>
         </element>
@@ -328,10 +343,14 @@ A navigation service is defined as a service that is currently listed as the nav
         <element name="MERGE">
         </element>
         <element name="FERRY">
-        </element>        
+        </element>
+        <element name="CAR_SHUTTLE_TRAIN">
+        </element>
+        <element name="WAYPOINT">
+        </element>      
     <enum>
     
-    <enum name="NavJunctionType">
+    <enum name="NavigationJunction">
         <element name="REGULAR">
             <description> A junction that represents a standard intersection with a single road crossing another.</description>
         </element>
@@ -356,7 +375,12 @@ A navigation service is defined as a service that is currently listed as the nav
         <element name="TURN_AROUND">
             <description> A junction designated for traffic turn arounds.</description>
         </element>
-    <enum>
+    </enum>
+    
+    <enum name="Direction">
+        <element name="LEFT"/>
+        <element name="RIGHT"/>
+    </enum>
     
 ```
 
@@ -904,7 +928,7 @@ The HMI will be responsible for the actual selection and activation of app servi
 ```xml
 <function name="GetAppServiceRecords" messagetype="request">
   <param name="serviceType" type="String" mandatory="false">
-    <description>The type of service that is to be offered by this app. See AppServiceType for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.</description>
+    <description>If included, only service records of supplied type will be returned in response. If not included, all service records for all types will be returned. See AppServiceType for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.</description>
   </param>
 </function>
 
@@ -920,7 +944,7 @@ The HMI will be responsible for the actual selection and activation of app servi
     <description>The ID of the service that should have an activation event take place on</description>
   </param>
   <param name="serviceType" type="String" mandatory="true">
-    <description>The type of service that is to be offered by this app. See AppServiceType for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.</description>
+    <description>The service type of the service should have the activation event occur on. See AppServiceType for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.</description>
   </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service is to be activated. False if the app is to be deactivated</description>

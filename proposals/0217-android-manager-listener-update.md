@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0217](0217-android-manager-listener-update.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Rejected**
 * Impacted Platforms: [ Android ]
 
 ## Introduction
