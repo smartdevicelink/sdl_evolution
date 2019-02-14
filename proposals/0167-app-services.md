@@ -548,7 +548,7 @@ _Same for both MOBILE\_API and HMI\_API._
 </struct>
 
 ```
-Note: A published app services can change the capabilities of other systemCapabilityType(s) and trigger a corresponding onSystemCapabilityUpdated for that type. For example, an app that publishes a navigation service on a head unit that does not support navigation will send onSystemCapabilityUpdated notifications to apps that are subscribed to systemCapabilityTypes NAVIGATION and/or APP_SERVICES.
+Note: A published app services can change the capabilities of other systemCapabilityType(s) and trigger a corresponding onSystemCapabilityUpdated for that type. For example, an app that publishes a navigation service on a head unit that does not have a native navigation solution will send onSystemCapabilityUpdated notifications to apps that are subscribed to systemCapabilityTypes NAVIGATION and/or APP_SERVICES.
 
 ##### Notifying provider of removal
 
