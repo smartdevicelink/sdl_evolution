@@ -943,9 +943,6 @@ The HMI will be responsible for the actual selection and activation of app servi
   <param name="serviceID" type="String" mandatory="true" >
     <description>The ID of the service that should have an activation event take place on</description>
   </param>
-  <param name="serviceType" type="String" mandatory="true">
-    <description>The service type of the service should have the activation event occur on. See AppServiceType for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.</description>
-  </param>
   <param name="activate" type="Boolean" mandatory="true">
     <description>True if the service is to be activated. False if the app is to be deactivated</description>
   </param>
