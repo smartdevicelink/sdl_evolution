@@ -232,7 +232,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0215" status="active"   primary-platform="ios" sdl-version="x.x" name="iOS ReplayKit Streaming" filename="0215-ios-replaykit-streaming.md"/>
 <proposal id="0216" status="rejected"   primary-platform="rpc" sdl-version="x.x" name="Widget Support" filename="0216-widget-support.md"/>
 <proposal id="0217" status="rejected"   primary-platform="android" sdl-version="x.x" name="Android ManagerListener Update" filename="0217-android-manager-listener-update.md"/>
-<proposal id="0218" status="active"   primary-platform="dev portal" sdl-version="x.x" name="Facilitating OEM Communication with App Developers" filename="0218-developer-oem-communication.md"/>
+<proposal id="0218" status="active"   primary-platform="devportal" sdl-version="x.x" name="Facilitating OEM Communication with App Developers" filename="0218-developer-oem-communication.md"/>
 
 
 
@@ -241,7 +241,7 @@ Recognized values for a proposal's status:
 	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected, withdrawn
 
 Recognized values for primary-platform:
-	protocol, rpc, core, could, atf, ios, android, dev portal policy, mobile, (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
+	protocol, rpc, core, could, atf, ios, android, devportal policy, mobile, (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
 
 Note: status="implemented" also requires sdl-version="XX".
 -->
