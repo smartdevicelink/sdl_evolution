@@ -2,7 +2,7 @@
 
 * Proposal: [SDL- 0216](0216-widget-support.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11), [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
@@ -19,7 +19,7 @@ This proposal is focusing on main display widgets, but provides futuristic APIs 
 
 This proposal should allow an app to create one or multiple widgets on the single (main) display. Each widget can be individually addressed by the app and the HMI can present widgets on the infotainment display.
 
-The below image shows SYNC3 home screen presenting two widgets with weather and VOIP features. The application itself (and the main screen) are currently not visible but still the driver can interact with the applications and control the app state and HMI e.g. by requesting weather forecast or by muting/unmuting the VOIP call.
+The below image shows SYNC3 home screen presenting two widgets with weather and VOIP features. The application itself (and the main screen) are currently not visible, but still the driver can interact with the applications and control the app state and HMI e.g. by requesting weather forecast or by muting/unmuting the VOIP call.
 
 ![Example SYNC3 Home screen](../assets/proposals/NNNN-widgets/example-home.jpg)
 
@@ -31,7 +31,7 @@ This phase will not be part of this proposal. Providing Widget support has been 
 
 ![Rear Seat Entertainment Systems](../assets/proposals/NNNN-widgets/rse.jpg)
 
-> Figure: Example of having rear seat entertainment system and also head-up display.
+> Figure: Example of having rear seat entertainment system and also a head-up display.
 
 The following sections of the motivation provide brief description of phase 2.
 
@@ -52,13 +52,13 @@ Today in the vehicle, SDL works as a system with a single main display and a sin
 
 #### System
 
-The terminology "system" in this proposal means the system's endpoint running inside the machine where the app connects to. In the classical term this means SDL core running in IVI.
+The terminology "system" in this proposal means the system's endpoint running inside the machine where the app connects to. In classical terms this means SDL core running in IVI.
 
 List of RPCs identified as system related: `RegisterAppInterface`, `UnregisterAppInterface`, `SetGlobalProperties`, `ResetGlobalProperties`, `CreateInteractionChoiceSet`, `DeleteInteractionChoiceSet`, `Speak` (and other RPCs with `.ttsChunks`), `SubscribeButton`, `UnsubscribeButton`, `ButtonPress`, `SubscribeVehicleData`, `UnsubscribeVehicleData`, `GetVehicleData`, `ReadDID`, `GetDTCs`, `ChangeRegistration`, `GenericResponse`, `PutFile`, `DeleteFile`, `ListFiles`, `SetAppIcon`, `DiagnosticMessage`, `SystemRequest`, `SendLocation`, `DialNumber`, `UpdateTurnList`, `OnAppInterfaceUnregistered`, `OnButtonEvent`, `OnButtonPress`, `OnVehicleData`, `OnCommand`, `OnTBTClientState`, `GetInteriorVehicleData`, `SetInteriorVehicleData`, `GetWayPoints`, `SubscribeWayPoints`, `UnsubscribeWayPoints`, `GetSystemCapability`, `OnDriverDistraction`, `OnPermissionsChange`, `OnSystemRequest`, `OnHashChange`, `OnInteriorVehicleData`, `OnWayPointChange`, `OnRCStatus`, `OnLanguageChange`
 
 #### Display
 
-A "Display" is a **physical device** mounted on a defined position inside the system's area of work. Today e.g. in Ford vehicles this means the IVI display in the center stack. However, the system should not be limited to a single (implicit) display. SDL should provide an interface to the HMI so that it can provide information of other displays, such as a cluster display, head-up display, rear seat, door panels or widget displays that also act as touch pads. 
+A "Display" is a **physical device** mounted on a defined position inside the system's area of work. Today e.g. in Ford vehicles this means the IVI display in the center stack. However, the system should not be limited to a single (implicit) display. SDL should provide an interface to the HMI so that it can provide information to other displays, such as a cluster display, head-up display, rear seat, door panels or widget displays that also act as touch pads. 
 
 The below image shows SYNC3 with an app screen being part of the display. The SYNC3 display in the center stack is the main display of the SDL system. The highlighted area is the viewport of app screens. Each app has one single main app screen that is presented on the SYNC3 display on user selection. Selecting another app will cause the display to show the screen of the other app. If that screen is visible, the app is defined as in HMI level FULL.
 
@@ -68,7 +68,7 @@ The below image shows SYNC3 with an app screen being part of the display. The SY
 
 List of RPCs identified as display related: `Alert`, `PerformInteraction`, `PerformAudioPassThru`, `EndAudioPassThru`, `ScrollableMessage`, `Slider`, `ShowConstantTBT`, `AlertManeuver`, `OnAudioPassThru`, `OnKeyboardInput` (for keyboard interactions).
 
-All above RPCs should be extended with a `displayID` parameter when adding multi display support. Below example shows how `Alert` should be extended:
+All of the above RPCs should be extended with a `displayID` parameter when adding multi display support. The below example shows how `Alert` should be extended:
 
 ```xml
 <function name="AlertID" type="Request">
@@ -81,7 +81,7 @@ All above RPCs should be extended with a `displayID` parameter when adding multi
 
 As of today, once an SDL app registers, it gets a main screen allocated by default on the IVI head unit. Strictly speaking, the `Show` RPC is manipulating the content presented in the single main screen. Adding the capability for apps to address a specific screen per Show request allows apps to fill app screens individually.
 
-A "screen" defines a **logical area on a physical display** addressed to an app which connected to the system. Apps can present text, buttons and/or images on screens. The capabilities of the screen are provided to the app which contain information about number of text lines, number of buttons, size of images etc.
+A "screen" defines a **logical area on a physical display** addressed to an app which connected to the system. Apps can present text, buttons and/or images on screens. The capabilities of the screen are provided to the app which contain information about the number of text lines, number of buttons, and size of images etc.
 
 An app can have multiple screens of different types on a single display. However, screens may change the visibility on a display. Other applications or screens can be brought to focus by the user.
 
@@ -98,7 +98,7 @@ The proposed solution is to allow apps to create one or multiple widget screens.
 
 It is the OEMs responsibility and decision on how and where widgets will be presented. They could be listed on the IVI home screen, in the apps domain or next to the main app screen area. Just as today, the application should be notified about widget visibility by using HMI levels for widgets.
 
-In order to provide widget support, it is needed to add APIs to manage and manipulate screens.
+In order to provide widget support, it is necessary to add APIs to manage and manipulate screens.
 
 ### Screen management
 
@@ -189,11 +189,11 @@ After a screen is successfully created, the response will contain information an
 
 This proposal contains two types of screens.
 
-The main screen is the full size apps screen on a display. It should not be allowed to have multiple main screen on a single display. However, with multi display support, an app can have multiple main screens e.g. main screen on the central console and main screen on rear seat entertainment system.
+The main screen is the full size app screen on a display. It should not be allowed to have multiple main screens on a single display per app. However, with multi display support, an app can have multiple main screens e.g. main screen on the central console and main screen on rear seat entertainment system.
 
-The widget screen is a small screen type to provide quick information and softbuttons. Depending on the app policies apps can create widgets from any HMI level as allowed by policies (e.g. from HMI_NONE or BACKGROUND). Once the widget is activated by the HMI apps can send `Show` or `SetDisplayLayout` to add content (text and soft buttons) to that widget. The RPCs sent to the widget follow same policies according to widget's HMI level. 
+The widget screen is a small screen type to provide quick information and softbuttons. Depending on the app policies, apps can create widgets from any HMI level as allowed by policies (e.g. from HMI_NONE or BACKGROUND). Once the widget is activated by the HMI, apps can send `Show` or `SetDisplayLayout` to add content (text and soft buttons) to that widget. The RPCs sent to the widget follow same policies according to the widget's HMI level. 
 
-Just as push notifications (`Alert` from `HMI_BACKGROUND`), widgets should have effect to the HMI level of the app's main screen in case of `STEAL_FOCUS` soft buttons. If a user taps on a soft button in the widget with `.systemAction = STEAL_FOCUS`, the app's main screen should be activated by the HMI and therefore become HMI_FULL.
+Just like push notifications (`Alert` from `HMI_BACKGROUND`), widgets should have effect to the HMI level of the app's main screen in case of `STEAL_FOCUS` soft buttons. If a user taps on a soft button in the widget with `.systemAction = STEAL_FOCUS`, the app's main screen should be activated by the HMI and therefore become HMI_FULL.
 
 #### PredefinedScreens
 
@@ -203,7 +203,7 @@ The default screen is always available and represents the app screen on the main
 
 #### Screen related `OnHMIStatus`
 
-Today, SDL uses HMI level to inform an app about launch state and visibility. In fact, every screen instance of an app should have its own HMI level. The notification `OnHMIStatus` should be extended to address a specific screen.
+Today, SDL uses HMI levels to inform an app about the launch state and visibility. In fact, every screen instance of an app should have its own HMI level. The notification `OnHMIStatus` should be extended to address a specific screen.
 
 ```xml
 <function name="OnHMIStatus" functionID="OnHMIStatusID" messagetype="notification" since="1.0">
@@ -216,9 +216,9 @@ The additional parameter can be used by the system to specify the HMI level of a
 
 If a widget becomes visible on the display, the HMI should notify Core that the widget is activated. Core should then notify the app that the widget is now in HMI_FULL. This can be the case if the user changes the HMI to present the widget area (e.g. the home screen shows app widgets).
 
-Audio streaming state is not related to screens but to system's audible state. To limit the changes in the RPC and support backward compatibility, `audioStreamingState` should be provided to all screens of one app. The HMI and SDL core must make sure to send the same audio states to all screens. Example: If a media app has created a widget and then becomes audible, the media app should receive two `OnHMIStatus` notifications for both screens (main and widget) and both audio streaming states are set to `AUDIBLE`.
+Audio streaming state is not related to screens but to system's audible state. To limit the changes in the RPC and support backward compatibility, `audioStreamingState` should be provided to all screens of one app. HMI and SDL core must make sure to send the same audio states to all screens. Example: If a media app has created a widget and then becomes audible, the media app should receive two `OnHMIStatus` notifications for both screens (main and widget) and both audio streaming states are set to `AUDIBLE`.
 
-The paramter system context make sense for main screens to inform an app if the user entered the menu or started VR session. Knowing the system context of a widget may not be necessary. Therefore every widget's systemContext is always `MAIN`.
+The parameter system context makes sense for main screens to inform an app if the user entered the menu or started VR session. Knowing the system context of a widget may not be necessary. Therefore every widget's systemContext is always `MAIN`.
 
 #### HMI: widget screen activation
 
@@ -236,7 +236,7 @@ Above requirements regarding modifying the HMI level require modifications to th
 </function>
 ```
 
-The screen ID is told to the HMI by the app using `CreateScreen`. If a user taps on an app icon to launch the app, the HMI activates the app sending `OnAppActivated` to SDL Core with `screenID = 0` which points the application's main screen. If a widget becomes visible on the HMI, the HMI should also send `OnAppActivated` but this time using the widget's `screenID`. There could be multiple widgets presented at the same time (from one app or from multiple) and hence can be in HMI_FULL.
+The screen ID is told to the HMI by the app using `CreateScreen`. If a user taps on an app icon to launch the app, the HMI activates the app sending `OnAppActivated` to SDL Core with `screenID = 0` which points to the application's main screen. If a widget becomes visible on the HMI, the HMI should also send `OnAppActivated` but this time using the widget's `screenID`. There could be multiple widgets presented at the same time (from one app or from multiple), which means it can be in HMI_FULL.
 
 ### Screen manipulation
 
@@ -308,7 +308,7 @@ This parameter informs the app how many screens per type are supported. The OEM 
 
 ### Policies
 
-With above modification of `OnHMIStatus` the existing policies are compatible to widgets. The policy manager should be modified and use the HMI level of the main screen to evaluate permissions for RPCs except screen specific RPCs. In this case the HMI level of the targeting screen should be used for evaluation.
+With above modification of `OnHMIStatus` the existing policies are compatible to widgets. The policy manager should be modified and use the HMI level of the main screen to evaluate permissions for all RPCs, except screen specific RPCs. In this case the HMI level of the targeting screen should be used for evaluation.
 
 ## Potential downsides
 
@@ -325,6 +325,6 @@ After investigating impact to SDL Core, the impact is expected to be minor. Glob
 
 ## Alternatives considered
 
-To reduce complexity on the head unit, screen duplication can be supported by the SDL libraries. This could allow more flexibility to  display duplication for existing screens. However this increases the number of RPCs to be sent by the app and the user might see a delay in screen update (duplication not synchronized).
+To reduce complexity on the head unit, screen duplication can be supported by the SDL libraries. This could allow more flexibility to  display duplication for existing screens. However this increases the number of RPCs to be sent by the app and the user might see a delay in screen updates (duplication not synchronized).
 
 In order to reduce state machine complexity for widget HMI levels on SDL core side, the HMI can take control of HMI level transitions for widgets. However this might cause different behavior per HMI implementation which could be confusing to developers as the behavior is not consistent.
