@@ -33,7 +33,7 @@ For example:
 Remove method :
 `-(nullable id)sdl_objectForName:(SDLName)name;`. 
 
-Instead of removed method use existing method:
+Instead of the removed method, use this existing method:
 `- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;`.
 
 For suitable working with SDLEnums create the following methods:
