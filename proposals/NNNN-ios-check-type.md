@@ -1,4 +1,4 @@
-# Explicit returned type from NSDictrionary(Store) category
+# Explicit returned type from NSDictionary(Store) category
 
 * Proposal: [SDL-NNNN](NNNN-ios-check-type.md)
 * Author: [Misha Vyrko](https://github.com/mvyrko)
