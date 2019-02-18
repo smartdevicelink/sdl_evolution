@@ -70,7 +70,11 @@ We also add a new result code. SDL sends this code to a mobile app when it recei
 </enum>
 ```
 
-In this proposal, RPC messages need encryption/protection if the app does not have `requireEncryption`=`false` in the `OnPermissionsChange` and the RPC has `requireEncryption`=`true` in the `PermissionItem`. The RPC message does not need encryption/protection if the app has `requireEncryption`=`false` in the `OnPermissionsChange` or the app does not have `requireEncryption`=`false` in the `OnPermissionsChange` and either the RPC has `requireEncryption`=`false` or the `requireEncryption` does not exist in the `PermissionItem`. 
+In this proposal, RPC messages need encryption/protection if the app does not have `requireEncryption`=`false` in the `OnPermissionsChange` and the RPC has `requireEncryption`=`true` in the `PermissionItem`. 
+
+The RPC message does not need encryption/protection if:
+- The app has `requireEncryption`=`false` in the `OnPermissionsChange`. 
+- The app does not have `requireEncryption`=`false` in the `OnPermissionsChange` and either the RPC has `requireEncryption`=`false` or the `requireEncryption` does not exist in the `PermissionItem`. 
 
 
 Here we list existing related RPC and data types for completeness of understanding.
@@ -127,7 +131,7 @@ After the encryption of RPC service 7 is enabled (encryption is available), SDL 
 ### Policy updates:
 
 #### Proposed solution
-Add an optional Boolean flag `encryption_required` to each app within `app_policies` to indicate whether the app requires encryption or not. SDL core shall translate this flag in tje policy to `requireEncryption` in the OnPermissionsChange.
+Add an optional Boolean flag `encryption_required` to each app within `app_policies` to indicate whether the app requires encryption or not. SDL core shall translate this flag in the policy to `requireEncryption` in the OnPermissionsChange.
 
 ```json
 "app_policies": {
