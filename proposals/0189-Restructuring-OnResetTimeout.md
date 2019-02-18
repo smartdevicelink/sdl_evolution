@@ -104,7 +104,8 @@ _OnResetTimeout_ function definition would be as follows for the _BasicCommunica
 	</param>
 </function>
 ```
-Since HMI API does not support(as i have been told) _deprecated_, we are going to remove the older implementation.
+
+Since HMI API does not support deprecated, it is going to be removed from the older implementations.
 
 **Note**: HMI Integration Guidelines will need to be updated to call out that currently there is no version negotiation between HMI and Core, so older HMI implementations will not work with this new version of Core as UI/TTS _OnResetTimeout_ will be removed.
 
