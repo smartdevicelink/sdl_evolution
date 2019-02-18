@@ -37,7 +37,7 @@ A mobile application only shall adopt a security library from an OEM if it uses 
 
 
 ### Mobile API change
-We add two new Boolean parameters with the same name `requireEncryption`. One for app level is added to `OnPermissionsChange` and the other for RPC level is added to the  `PermissionItem` data type. A list of `PermissionItem` will be received by the app via `OnPermissionsChange` notification, so that the app side knows whether the app need encryption or not and which RPCs need encryption. Please note, to follow the naming conventions, we use `requireEncryption` in RPC messages and use `encryption_required` in policy configuration. However, they shall refer to the same thing. 
+We add two new Boolean parameters with the same name `requireEncryption`. One for app level is added to `OnPermissionsChange` and the other for RPC level is added to the  `PermissionItem` data type. A list of `PermissionItem` will be received by the app via `OnPermissionsChange` notification, so that the app side knows whether the app needs encryption or not and which RPCs will need encryption. Please note, to follow the naming conventions, we use `requireEncryption` in RPC messages and use `encryption_required` in policy configuration. However, they shall refer to the same thing. 
 
 ```xml
 <function name="OnPermissionsChange" functionID="OnPermissionsChangeID" messagetype="notification" since="2.0">
@@ -70,7 +70,7 @@ We also add a new result code. SDL sends this code to a mobile app when it recei
 </enum>
 ```
 
-In this proposal, we say a RPC message needs encryption/protection if the app does not have `requireEncryption`=`false` in the `OnPermissionsChange` and the RPC has `requireEncryption`=`true` in the `PermissionItem`. We say a RPC message does not need encryption/protection if the app has `requireEncryption`=`false` in the `OnPermissionsChange` or the app does not have `requireEncryption`=`false` in the `OnPermissionsChange` but the RPC has `requireEncryption`=`false` or the `requireEncryption` does not exist in the `PermissionItem`. 
+In this proposal, RPC messages need encryption/protection if the app does not have `requireEncryption`=`false` in the `OnPermissionsChange` and the RPC has `requireEncryption`=`true` in the `PermissionItem`. The RPC message does not need encryption/protection if the app has `requireEncryption`=`false` in the `OnPermissionsChange` or the app does not have `requireEncryption`=`false` in the `OnPermissionsChange` and either the RPC has `requireEncryption`=`false` or the `requireEncryption` does not exist in the `PermissionItem`. 
 
 
 Here we list existing related RPC and data types for completeness of understanding.
@@ -101,9 +101,9 @@ SDL proxy shall support sending a PRC with both encrypted and unencrypted format
 SDL proxy may start service 7 with encryption enabled in several situations. 
 - 1. Before mobile proxy sends the first RPC message that needs encryption. This works similar to delaying the loading of a dynamic library. Mobile proxy enables encryption for the RPC service only when it really needs encryption. This is the latest time. This option may cause a delay. Since the channel is not ready, it must wait until the encryption gets enabled in order to send an encrypted message.
 - 2. After mobile proxy receives an `OnPermissionsChange` notification and there is at least one RPC that needs encryption. In this case, proxy enables encryption for any potential usage. This is the earliest time that the app/proxy knows it may need encryption.
-- 3. Sometime in between (Proposed option). For example, when the driver activates the app and HMI brings the app to foreground. Because it may take some time to get RPC service encryption enabled for the first time, and there is no overhead after that, we recommend the proxy enable encryption after the app is activated (SDL proxy receives `OnHMIStatus` notification with `hmiLevel=FULL\LIMITED\BACKGROUND`, but not `NONE`) and there is at least one RPC that needs protection.
+- 3. Sometime in between (proposed option). For example, when the driver activates the app and HMI brings the app to foreground. Because it may take some time to get RPC service encryption enabled for the first time, and there is no overhead after that, we recommend the proxy enable encryption after the app is activated (SDL proxy receives `OnHMIStatus` notification with `hmiLevel=FULL\LIMITED\BACKGROUND`, but not `NONE`) and there is at least one RPC that needs protection.
 
-When the mobile proxy receives `OnPermissionsChange` message, it shall remember the flag for the app and the list of RPCs that need encryption if the app's flag is true for later use.
+When the mobile proxy receives `OnPermissionsChange` message, it shall remember the flag for the app and the lists of RPCs that need encryption if the app's flag is true for later use.
 
 Mobile proxy shall only send encrypted RPC requests and receive encrypted RPC responses and notifications in an encryption enabled service if the corresponding RPC needs encryption.
 
@@ -127,7 +127,7 @@ After the encryption of RPC service 7 is enabled (encryption is available), SDL 
 ### Policy updates:
 
 #### Proposed solution
-Add an optional Boolean flag `encryption_required` to each app within `app_policies` to indicate whether the app require encryption or not. SDL core shall translate this flag in policy to `requireEncryption` in the OnPermissionsChange.
+Add an optional Boolean flag `encryption_required` to each app within `app_policies` to indicate whether the app requires encryption or not. SDL core shall translate this flag in tje policy to `requireEncryption` in the OnPermissionsChange.
 
 ```json
 "app_policies": {
@@ -175,7 +175,7 @@ In addition, add an optional Boolean flag `encryption_required` to a function gr
 
 Note that even the flag is defined in the function group level in the Policy Table, SDL core still needs to cascade this flag from the function group level to each RPC level because there is no concept of `function group` in `OnPermissionsChange` notification. 
 
-If `encryption_required`=`false` in the app level in `app_policies`, sdl core and mobile proxy shall not enable rpc encryption regardless of the value of `encryption_required` in function group level. SDL core does not need to check the flag in function group level. Mobile proxy does not need to check the flag in RPC level.
+If `encryption_required`=`false` in the app level in `app_policies`, sdl core and mobile proxy shall not enable rpc encryption regardless of the value of `encryption_required` in the function group level. SDL core does not need to check the flag in the function group level. Mobile proxy does not need to check the flag in RPC level.
 
 If `encryption_required`=`true` or `encryption_required` does not exist in the app level, the flag in the function group level or RPC level shall be checked.
 
@@ -211,12 +211,12 @@ In this alternative solution,  SDL has the flexibility of configuring the protec
 
 ### SDL server updates:
 
-The SDL server need to support the new parameters in the policy table.
+The SDL server needs to support the new parameters in the policy table.
 * Database and API modifications to support the new `encryption_required` attribute of Functional Groups.
 * UI addition of a checkbox or toggle-switch to enable/disable the state of `encryption_required` for a Functional Group.
 * Database and API modifications to support the new `encryption_required` app_policy attribute.
 * New `encryption_required` server environment variable to indicate whether auto-approved applications should automatically have their `encryption_required` app_policy value set to `true` or `false` (default `false`)
-* UI addition of a checkbox or toggle-switch to enable/disable an individual application version's `encryption_required` app_policy value.
+* UI addition of a checkbox or toggle-switch to enable/disable an individual application version `encryption_required` app_policy value.
 * API modifications to build Policy Tables with the new `encryption_required` attributes in Functional Groups and App Policy structs.
 
 
