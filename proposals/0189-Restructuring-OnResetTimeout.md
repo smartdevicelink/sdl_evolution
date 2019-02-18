@@ -47,7 +47,7 @@ _OnResetTimeout_ function definition would be as follows for the _BasicCommunica
     <description>
 		HMI must send this notification to SDL for method instance for which timeout needs to be reset
     </description>	
-    <param name="requestID" type="Integer" minvalue="0" maxvalue="65535" mandatory="true">	
+    <param name="requestID" type="Integer" mandatory="true">	
 		<description>
 			Id between HMI and SDL which SDL used to send the request for method in question, for which timeout needs to be reset.
 		</description>
@@ -68,17 +68,15 @@ _OnResetTimeout_ function definition would be as follows for the _BasicCommunica
 
 **Note**: Though type needs to be Long for _resetPeriod_, I have kept it as Integer to maintain consistency in API as no other param uses Long irrespective of _maxvalue_
 
-**Note**: HMI Integration Guidelines will need to be updated to reflect that currently there is no version negotiation between HMI and Core, so older HMI implementations will not work with this new version of Core.
-
 * SDL can uniquely identify the request instance for which OnResetTimeout is being requested by HMI by using the ID between SDL<->HMI (_requestID_) and _methodName_
     * SDL uses unique ID across interfaces and apps, so we do not need appID to uniquely identify the function instance	
 * HMI would be responsible to fine tune the wait time per method call as needed. It is up to HMI to control number of reset timeouts and duration of each reset timeout for endless or finite method timeout.
 * This _OnResetTimeout_ function can be used across all the interfaces and for all the request functions.
 
-### UI: _OnResetTimeout would be deprecated:_
+### UI: _OnResetTimeout would be removed:_
 
 ```
-<function name="OnResetTimeout" messagetype="notification" deprecated="true" since="X.Y">
+<function name="OnResetTimeout" messagetype="notification">
 	<description>
 		HMI must provide SDL with notifications specific to the current Turn-By-Turn client status on the module
 	</description>
@@ -91,10 +89,10 @@ _OnResetTimeout_ function definition would be as follows for the _BasicCommunica
 </function>
 ```
 
-### TTS: _OnResetTimeout would be deprecated:_
+### TTS: _OnResetTimeout would be removed:_
 
 ```
-<function name="OnResetTimeout" messagetype="notification" deprecated="true" since="X.Y">
+<function name="OnResetTimeout" messagetype="notification">
 	<description>
 		Sender: HMI->SDL. HMI must send this notification every 10 sec. in case the 'methodName' results long processing on HMI
 	</description>
@@ -106,12 +104,13 @@ _OnResetTimeout_ function definition would be as follows for the _BasicCommunica
 	</param>
 </function>
 ```
+Since HMI API does not support(as i have been told) _deprecated_, we are going to remove the older implementation.
 
-
+**Note**: HMI Integration Guidelines will need to be updated to call out that currently there is no version negotiation between HMI and Core, so older HMI implementations will not work with this new version of Core as UI/TTS _OnResetTimeout_ will be removed.
 
 
 ## Potential downsides
-  * These changes would deprecate OnResetTimeout from _UI_ and _TTS_ interfaces.
+  * These changes would remove OnResetTimeout from _UI_ and _TTS_ interfaces.
 
 ## Impact on existing code
 * HMI API needs to be updated
