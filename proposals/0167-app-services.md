@@ -426,13 +426,6 @@ The `AppServiceManifest` is essentially detailing everything about a particular 
 			<description>If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false. </description>
 		</param>
 
-				
-		<param name="uriPrefix" type="String" mandatory="false">
-			<description> The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it.</description>
-		</param>
-		<param name="uriScheme" type="String" mandatory="false">
-			<description> This is a custom schema for this service. SDL will not do any verification on this param past that it has a correctly formated JSON Object as its base. The uriScheme should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. </description>
-		</param>
 		
 	
 		<param name="rpcSpecVersion" type="SyncMsgVersion" mandatory="false">
@@ -826,13 +819,13 @@ When an app service consumer receives an `AppServiceData` object that contains f
 
 App service providers will likely have different actions exposed to the module and app service consumers. It will be difficult to standardize these actions by RPC versions and can easily become stale. Therefore, we introduce a best-effort attempt to take actions on a service. 
 
-The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider's manifest. SDL takes no steps to validate an app service provider's action sheet JSON object. In the future, plug in libraries could be added to handle these sheets on a provider by provider basis. 
+The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action In the future, plug in libraries could be added to handle action sheets sent at runtime on a provider by provider basis or give them a known structure that would allow runtime usage. 
 
 An app service consumer can also request for this service to become the active service of its respective type. If the app service consumer currently has an HMI state of HMI_FULL this request can be performed without user interaction. If the app is currently not in that state, the HMI should present the user with a choice to allow this app service provider to become the active service of its specified type. If the app service provider is not allowed to become active, the request will not be sent to it and an unsuccessful response will be sent to the requester. 
 
 SDL should make no guarantees that:
 
-1. App service providers offer URI prefix and URI Schema
+1. App service providers offer a URI Schema
 2. App service providers will correctly respond to the requests
 3. The requested app service provider will become the active service of that type
 4. The `serviceUri` will be a correctly formatted URI from the app service consumer
@@ -844,7 +837,7 @@ SDL should make no guarantees that:
 <function name="PerformAppServiceInteraction" functionID="PerformAppServiceInteractionID" messagetype="request">
 
 	<param name="serviceUri" type="String"  mandatory="true">
-		<description>Fully qualified URI based on the URI prefix and URI scheme the app service provided. SDL makes no gurantee that this URI is correct.</description>
+		<description>Fully qualified URI the app service provided prior to runtime. SDL makes no guarantee that this URI is correct.</description>
 	</param>
 	
 	<param name="serviceID" type="String" mandatory="true">
@@ -1091,9 +1084,10 @@ The following Voice Assistant section was removed from the proposal.
 
 
 #### Voice Assistant
-	A voice assistant service is defined as a service that is currently acting as the voice assistant provider. This provider needs to be flushed out with a lot of extra details as its functionality is far reaching.
+
+A voice assistant service is defined as a service that is currently acting as the voice assistant provider. This provider needs to be flushed out with a lot of extra details as its functionality is far reaching.
 	
-	```xml
+```
 	
 		<struct name="VoiceAssistantServiceManifest">
 			<param name="wakeWords" type="String" array="true" minsize="1" mandatory="false"/>
@@ -1109,11 +1103,11 @@ The following Voice Assistant section was removed from the proposal.
 			<element name="PUSH_TO_TALK_BUTTON"/>
 			<element name="WAKE_WORD"/>
 		</enum>
-	```
+```
 	
-	##### New RPCs for Voice Assistant
+##### New RPCs for Voice Assistant
 	
-	```xml
+```xml
 		<function name="OnVoiceAssistantActivated" functionID="OnVoiceAssistantActivatedID" messagetype="notification">
 			<param name="triggerSource" type="VoiceAssistantTrigger" mandatory="true">
 				<description>Informs the voice assistant of which source triggered the event.</description>
@@ -1164,8 +1158,24 @@ The following Voice Assistant section was removed from the proposal.
 				<param name="vrSynonymSelected" type="VRSynonym" mandatory="true"/>
 		</function>
 	
-	```
+```
 	
-	###### RPCs to be handled:
-	- OnVoiceAssistantActivated
-	- UpdateVRSynonyms
+###### RPCs to be handled:
+- OnVoiceAssistantActivated
+- UpdateVRSynonyms
+
+###### URI scheme sent in manifest
+- The original proposal sent the URI prefix and scheme in the manifest. It was determined that it was not very useful as the consumer would already have to know how to parse and use the scheme and couldn't do so at run time. If the URI scheme becomes structured this can be resisted.
+
+```xml
+<struct name="AppServiceManifest">
+...
+				
+		<param name="uriPrefix" type="String" mandatory="false">
+			<description> The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it.</description>
+		</param>
+		<param name="uriScheme" type="String" mandatory="false">
+			<description> This is a custom schema for this service. SDL will not do any verification on this param past that it has a correctly formated JSON Object as its base. The uriScheme should contain all available actions to be taken through a PerformAppServiceInteraction request from an app service consumer. </description>
+		</param>
+</struct>
+```
