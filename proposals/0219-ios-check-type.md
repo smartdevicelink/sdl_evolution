@@ -1,8 +1,8 @@
 # Explicit returned type from NSDictionary(Store) category
 
-* Proposal: [SDL-NNNN](NNNN-ios-check-type.md)
+* Proposal: [SDL-0219](0219-ios-check-type.md)
 * Author: [Misha Vyrko](https://github.com/mvyrko)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
