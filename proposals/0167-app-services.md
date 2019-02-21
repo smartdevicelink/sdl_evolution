@@ -819,7 +819,7 @@ When an app service consumer receives an `AppServiceData` object that contains f
 
 App service providers will likely have different actions exposed to the module and app service consumers. It will be difficult to standardize these actions by RPC versions and can easily become stale. Therefore, we introduce a best-effort attempt to take actions on a service. 
 
-The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action In the future, plug in libraries could be added to handle action sheets sent at runtime on a provider by provider basis or give them a known structure that would allow runtime usage. 
+The `PerformAppServiceInteraction` request will be sent to the service that has the matching `appServiceId`. The `serviceUri` should be the fully qualified URI with all parameters that are necessary for the given action. In the future, plug in libraries could be added to handle action sheets sent at runtime on a provider by provider basis or given as known structures that would allow runtime usage. 
 
 An app service consumer can also request for this service to become the active service of its respective type. If the app service consumer currently has an HMI state of HMI_FULL this request can be performed without user interaction. If the app is currently not in that state, the HMI should present the user with a choice to allow this app service provider to become the active service of its specified type. If the app service provider is not allowed to become active, the request will not be sent to it and an unsuccessful response will be sent to the requester. 
 
