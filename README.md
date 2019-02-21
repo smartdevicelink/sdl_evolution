@@ -5,7 +5,7 @@ For more information about SDL, go to [www.smartdevicelink.com](https://www.smar
 
 This process and document is based on Apple's excellent [Swift Evolution](https://github.com/apple/swift-evolution) process.
 
-This document tracks the ongoing evolution of SDL. Proposals should be made for any public API surface change, that is, any change that would necessitate a minor or major version change in any SDL mobile library. If a protocol or RPC change does not change any API surface, they must still be brought through the proposal process. In sum, the following changes must be proposed:
+This document tracks the ongoing evolution of SDL. Proposals should be made for any public API surface change, that is, any change that would necessitate a minor or major version change in any SDL mobile library. If a protocol or RPC change does not change any API surface, they must still be brought through the proposal process. If changes are made to modify any remote control feature, only a single module should be addressed within a proposal. In sum, the following changes must be proposed:
 
 * Changes necessitating minor or major version updates to SDL Core, the mobile libraries, Manticore, SDL Policy Server, and SHAID according to [semantic versioning](http://www.semver.org), except those that are caused by a misspelling.
 * **Any** change to the SDL Protocol.
