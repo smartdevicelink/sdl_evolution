@@ -35,7 +35,7 @@ This proposal is to improve the connectivity for custom RouterService to work wi
 Currently SdlProxy identifies the RouterService in three steps:
 
 1. SdlBroadcastReceiver class has a public method called queryForConnectedService, which finds the RouterService whose primary transport connects with SDL Core. This step also pays attention to if the RouterService is trusted one or not.
-    -  Internally, this binds with RouterService one by one and asks if its primary transport has connection with head unit. So takes some time, and the cost depends on how many SDL apps exist in the device.
+    -  Internally, this binds with RouterService one by one and asks if its primary transport has connection with head unit. So it takes some time, and the cost depends on how many SDL apps exist in the device.
 2. If the step#1 fails, then SdlProxy wakes up the best possible RouterService.
     -  Internally, SdlProxy has the priority order, the latest (which means having the newest version) non-custom RouteService has the priority.
 3. Before the app binds with the RouterService, it verifies that the RouterService is trusted one. If not, then the app falls back to legacy Bluetooth mode.
@@ -46,12 +46,12 @@ Step #1 actually depends on the timing when an app calls queryForConnectedServic
 ## Proposed solution
 
 Suppose a custom RouterService is basically designed for OEM-specific head unit, and the head unit works only with that specific custom RouterService.
-The current logic in previous section does not work very well with custom RouterService, because it heavily depends on the timing when the app calls SdlBroadcastReceiver#queryForConnectedService.
+The current logic in previous section does not work very well in this scenario, because it heavily depends on the timing when the app calls SdlBroadcastReceiver#queryForConnectedService.
 To improve the connectivity of custom RouterService, the approach would be:
 
 1. Do not rely on user app to call queryForConnectedService; instead, SdlProxy should automatically checks to see the RouterService that connects with SDL Core whenever needed.
 
-2. Custom RouterService can not rely on other apps wake up the custom RouterService, because of its priority order. Instead, it needs to start RouterService by himself.
+2. Custom RouterService can not rely on other apps to be waken up, because of its priority order. Instead, it needs to start RouterService by himself.
 
 3. We can reuse the existing logic that verifies the trusted RouterService. If a RouterService is not trusted, SdlProxy can wake up the best possible RouterService in the same way as current proxy does. 
 
