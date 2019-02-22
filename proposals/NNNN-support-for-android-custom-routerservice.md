@@ -5,8 +5,8 @@
 * Impacted Platforms: Android
 
 ## Introduction
-This proposal is to improve the case where SDL application needs to work with custom RouterService. The definition of custom RouterService is varied, but this proposal refers to the case where the specific OEM's head unit requires the specific application that works as the RouterService.
-For instance, if an OEM uses specific Bluetooth server UUID that differs from SDL standard, that should be custom RouterService.
+This proposal is to improve the case where SDL application needs to work with custom RouterService. The definition of custom RouterService is varied, but this proposal refers to the case where a head unit requires an OEM-specific app that works as a RouterService.
+For instance, if an OEM uses specific Bluetooth server UUID that differs from SDL standard's one, that should be custom RouterService.
 
 ## Motivation
 
@@ -25,42 +25,44 @@ Currently, AndroidManifest.xml can indicate the application has custom RouterSer
     </service>
 ```
 
-When SDL application determines which RouterService to bind with, the app creates the list of SDL enabled apps, and checks to see if connected RouterService exists.
-If the custom RouterService is already connected, and the SDL application can identify the connected RouterService correctly, the app will work fine. However, it not, the application instantiates "possibly the best" RouterService. In this case, custom RouterService is unlikely being chosen, because custom RouterService has lower priority for finding the best RouterService.
-If the custom RouterService is the only RouterService that connects with the specific head unit, the application unlikely finds the custom RouterService, and hence unlikely get registered to SDL Core.
+When SDL application determines which RouterService to bind with, the app creates the list of SDL enabled apps, and checks to see if a RouterService whose transport connects with a head unit.
+If a custom RouterService is already connected with a head unit, and a SDL application can identify the RouterService correctly, the app should work fine. However, if not, the application instantiates "possibly the best" RouterService. In this case, custom RouterService is less likely chosen, because custom RouterService has lower priority than non-custom RouterService.
+If the custom RouterService is the only RouterService that connects with OEM-specific head unit, and the custom RouterService does not connect with yet, the application unlikely finds the custom RouterService, and hence unlikely get registered to SDL Core.
 This proposal is to improve the connectivity with custom RouterService.
 
 ### Current logic for finding RouterService
 
-Currently SdlProxy identify the RouterService in three steps:
+Currently SdlProxy identifies the RouterService in three steps:
 
-1. SdlBroadcastReceiver class has the public method called queryForConnectedService, which finds the RouterService that has connection with SDL Core. This also pays attention to if the RouterService is trusted RouterService.
-    -  Internally, this binds with RouterService one by one and ask if you're connecting with. So the cost is non-trivial, though.
-2. If the step#1 fails, then wake up the possibly the best RouterService.
+1. SdlBroadcastReceiver class has a public method called queryForConnectedService, which finds the RouterService whose primary transport connects with SDL Core. This step also pays attention to if the RouterService is trusted RouterService or not.
+    -  Internally, this binds with RouterService one by one and asks if its primary transport has connection with head unit. So the cost is not trivial.
+2. If the step#1 fails, then SdlProxy wakes up the best possible RouterService.
     -  Internally, SdlProxy has the priority order, the latest (which means having the newer version) non-custom RouteService has the priority.
-3. Before the app actually binds with the RouterService, it has validation logic, and the RouterService must be trusted RouterService. If the validation fails. then the app fails to find the trusted RouterService, and fallback to legacy Bluetooth mode.
+3. Before the app binds with the RouterService, it verifies that the RouterService is trusted one. If not, then the app falls back to legacy Bluetooth mode.
 
-The problem is that step #2 and #3 unlikely find the custom RouterService, because custom RouterService is lowest order.
-Step #1 actually depends on the timing when the app calls queryForConnectedService. It is up to the application that when to calls queryForConnectedService, but [the integration-basic document](https://smartdevicelink.com/en/guides/android/getting-started/integration-basics/) suggests it should be called at Activitiy's onCreate.
+The problem is that custom RouterService is unlikely chosen in step #2.
+Step #1 actually depends on the timing when an app calls queryForConnectedService. It is up to the application when queryForConnectedService is called, but [the integration-basic document](https://smartdevicelink.com/en/guides/android/getting-started/integration-basics/) suggests it should be called at Activitiy's onCreate.
 
 ## Proposed solution
 
-The custom RouterService is basically designed for the specific head unit, and the head unit will work only with that specific custom RouterService.
-The current logic does not work very well with custom RouterService, because it heavily depends on the timing when the app calls SdlBroadcastReceiver#queryForConnectedService.
+A custom RouterService is basically designed for OEM-specific head unit, and the head unit will work only with that specific custom RouterService.
+As mentioned in previous section, the current logic does not work very well with custom RouterService, because it heavily depends on the timing when the app calls SdlBroadcastReceiver#queryForConnectedService.
 To improve the connectivity with custom RouterService, the approach would be:
 
-1. Do not rely on app to call queryConnectedService; instead SdlProxy should automatically checks to see the connected RouterService whenever needed.
+1. Do not rely on app to call queryForConnectedService; instead, SdlProxy should automatically checks to see the connected RouterService whenever needed.
 
-2. We can reuse the current trusted RouterService validation logic. If currently connected RouterService is not trusted, wake up the possibly the best RouterService as current proxy does. 
+2. Custom RouterService can not rely on being waken up by other apps, because of its priority order. Instead, it needs to start RouterService by himself.
 
-The important point is the location where we check to see currently connected RouterService. I think it is RouterServiceValidator.
+3. We can reuse the existing logic that verifies the trusted RouterService. If a RouterService is not trusted, SdlProxy can wake up the best possible RouterService in the same way as current proxy does. 
+
+In approach #1, the important point is the location where we find the RouterService its primary transport connects with head unit. I think it is in RouterServiceValidator class.
 
 ### RouterServiceValidator should pay attention to currently connected RouterService.
 
 When would be the expected time to check the currently connected RouterService? That would be right before the app binds to RouterService, and that should be done automatically without relying on application's specific code.
-The proposed solution is to add new asynchronous method to RouterServiceValidator, and calls it right before the TransportManager connects to the RouterService.
+The proposed solution is to add new asynchronous method to RouterServiceValidator, and calls it right before TransportManager connects to the RouterService.
 
-### Detailed design of asynchronous method
+#### Detailed design of asynchronous method
 The pseudo-code of new asynchronous methos in RouterServiceValidator looks like this:
 ```java
 	public void validateAsync(final ValidationStatusCallback callback) {
@@ -190,7 +192,7 @@ The pseudo-code of FindRoutertask will be:
 	}
 ```
 
-### The caller of the asynchronous method
+#### The caller of the asynchronous method
 The validateAsync is expected to be called in TransportManager, something like this:
 
 ```java
@@ -228,8 +230,34 @@ The validateAsync is expected to be called in TransportManager, something like t
 
 ```
 
-### Using cache for saving cost to find the connected RouterService.
+#### Using cache for saving cost to find the connected RouterService.
 When the app finds the connected RouterService, I think it's better to cache the service name on somewhere, e.g. SharedPreferences, so that it won't bother the other app's RouterService too often.
+
+### If an app contains custom RouterService, it must start by himself
+Because custom RouterService cannot rely on other apps to be waken up, it must start RouterService whenever needed:
+Pseudo-code in SdlBroadcastReceiver class
+
+```java
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        ...
+        if(action.equalsIgnoreCase(TransportConstants.START_ROUTER_SERVICE_ACTION)){
+            ... // snip
+            // if we need to wake up RotuerService, first check to see if we have the custom RouterService.
+            try {
+                ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+                if (appInfo.metaData != null) {
+                    boolean isCustom = appInfo.metaData.getBoolean(context.getString(R.string.sdl_router_service_is_custom_name);
+                    if (isCustom) {
+                        // then startService myself.
+                        Intent serviceIntent = new Intent(context, SdlRouterService.class);
+                        context.startService(serviceIntent);
+                    }
+                }
+            } catch(PackageManager.NameNotFoundException e) {}
+        }
+    }
+```
 
 ## Potential downsides
 
@@ -242,5 +270,5 @@ When the app finds the connected RouterService, I think it's better to cache the
 - The synchronous validate() method would be deprecated.
 
 ## Alternatives considered
-- The solution would be beneficial for both custom RouterService and standard RouterService, because it actually finds the already connected RouterService. But one thing to consider is that when finding the connected RouterService, I believe it is better to try the custom RouterService first, which is different order from what BestRouterComparator in SdlAppInfo offers. I think it is better to add another comparator for this purpose.
+- The solution would be beneficial for both custom RouterService and standard RouterService, because it actually finds a RouterService that connects with head unit. But one thing to consider is that when finding the connected RouterService, I believe it is better to try the custom RouterService first, which is different order from what BestRouterComparator in SdlAppInfo offers. I think it is better to add another comparator for this purpose.
 
