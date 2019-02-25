@@ -3,7 +3,7 @@
 * Proposal: [SDL-0158](0158-cloud-app-transport-adapter.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core]
+* Impacted Platforms: [Core, Android, IOS, RPC, Server, Protocol]
 
 ## Introduction
 
@@ -120,7 +120,7 @@ Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
         <param name="enabled" type="Boolean" mandatory="false">
             <description>If true, cloud app will be included in HMI RPC UpdateAppList</description>
         </param>
-        <param name="cloudAppAuthToken" type="String" maxlength="65535" mandatory="false">
+        <param name="authToken" type="String" maxlength="65535" mandatory="false">
             <description>Used to authenticate websocket connection on app activation</description>
         </param>
         <param name="cloudTransportType" type="String" maxlength="100" mandatory="false">
@@ -372,7 +372,7 @@ The purpose of these example use cases is to show how leveraging the existing po
 
 This diagram describes the flow in which the user could enable the cloud apps they want to use in their vehicle by using an OEM Companion App.
 
-Note: CloudAppAuthToken and CloudAppVehicleId are optional.
+Note: AuthToken and CloudAppVehicleId are optional.
 
 ![alt text](../assets/proposals/0158-cloud-app-transport-adapter/example_use_case_1.png "Example Use Case 1")
 
@@ -459,7 +459,7 @@ struct PolicyBase : CompositeType {
   Optional<String<0, 65535> > auth_token;
   Optional<String<0, 255> > cloud_transport_type;
   Optional<Enum<HybridAppPreference>> hybrid_app_preference;
-  Optional<String<0, 65535> > app_icon_url;
+  Optional<String<0, 65535> > icon_url;
 
 ```
 
@@ -486,7 +486,7 @@ policy_table_interface_ext.xml
         <param name="cloud_transport_type" type="String" minlength="0" maxlength="255"
             mandatory="false"/>
         <param name="hybrid_app_preference" type="HybridAppPreference" mandatory="false"/>
-        <param name="app_icon_url" type="String" minlength="0" maxlength="65535" mandatory="false"/>
+        <param name="icon_url" type="String" minlength="0" maxlength="65535" mandatory="false"/>
     </struct>
 ```
 This feature should be supported by both regular and external policy build configurations.
@@ -518,7 +518,7 @@ Policy Table Entry:
 
 #### App Icon URL
 
-In order to show an app icon before the first time a cloud app is connected and registered, Core should use the app's "app_icon_url" parameter stored in the policy table with the onSystemRequest and SystemRequest RPCs to get the image data. This process is similar to how the lock screen image is obtained.
+In order to show an app icon before the first time a cloud app is connected and registered, Core should use the app's "icon_url" parameter stored in the policy table with the onSystemRequest and SystemRequest RPCs to get the image data. This process is similar to how the lock screen image is obtained.
 
 A new RequestType should be added to the Mobile and HMI APIs specific to a cloud app's icon.
 
@@ -547,7 +547,7 @@ A new RequestType should be added to the Mobile and HMI APIs specific to a cloud
         <element name="MEDIA" />
         <element name="FOTA" />
         <element name="OEM_SPECIFIC" since="5.0" />v
-+        <element name="APP_ICON_URL" since="5.x" />
++        <element name="ICON_URL" since="5.x" />
     </enum>   
 ```
 
