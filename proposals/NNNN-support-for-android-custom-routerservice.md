@@ -55,7 +55,7 @@ To improve the connectivity of custom RouterService, the approach would be:
 
 3. We can reuse the existing logic that verifies the trusted RouterService. If a RouterService is not trusted, SdlProxy can wake up the best possible RouterService in the same way the current proxy does. 
 
-In approach #1, the important point is the location where the RouterService's primary transport connects with the head unit. It should be the RouterServiceValidator class.
+In approach #1, the important point is the location where the RouterService's primary transport connects with the head unit. It should be in the RouterServiceValidator class.
 
 ### RouterServiceValidator should pay attention to currently connected RouterService.
 
