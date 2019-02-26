@@ -45,7 +45,7 @@ Step #1 actually depends on the timing of when the app calls queryForConnectedSe
 
 ## Proposed solution
 
-Suppose a custom RouterService is basically designed for OEM-specific head unit, and the head unit works only with that specific custom RouterService.
+Suppose a custom RouterService is basically designed for OEM-specific head units, and the head unit only works with that specific custom RouterService.
 The current logic in the previous section does not work very well in this scenario, because it heavily depends on the timing of when the app calls SdlBroadcastReceiver.queryForConnectedService.
 To improve the connectivity of custom RouterService, the approach would be:
 
