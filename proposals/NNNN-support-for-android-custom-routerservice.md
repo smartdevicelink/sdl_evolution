@@ -26,7 +26,7 @@ Currently, AndroidManifest.xml can indicate the application has a custom RouterS
 ```
 
 When a SDL application determines which RouterService to bind with, the app creates a list of SDL enabled apps, and checks to see if a RouterService transport connects with the head unit.
-If a custom RouterService is already connected with a head unit, and if a SDL application can identify the RouterService correctly, the app should work fine. However, if not, the application instantiates "possibly the best" RouterService. In this case, the custom RouterService is less likely chosen, because the custom RouterService has lower priority than the non-custom RouterService.
+If a custom RouterService is already connected with a head unit, and if a SDL application can identify the RouterService correctly, then the app should work fine. However, if not, the application instantiates "possibly the best" RouterService. In this case, the custom RouterService is less likely chosen, because the custom RouterService has lower priority than the non-custom RouterService.
 If the custom RouterService is the only RouterService that connects with OEM-specific head unit, and the custom RouterService does not connect, the SDL app is unlikely to find the custom RouterService; which means it is unlikely to register with SDL Core.
 This proposal is to improve the connectivity for custom RouterService to work with OEM-specific head units.
 
