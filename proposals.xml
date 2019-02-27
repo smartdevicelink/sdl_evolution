@@ -215,7 +215,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0198" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Skip Indicators" filename="0198-media-skip-indicators.md"/>
 <proposal id="0199" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
 <proposal id="0200" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="Removing URL Parameter Max Length" filename="0200-Removing-URL-Param-Max-Length.md"/>
-<proposal id="0201" status="active"   primary-platform="ios" sdl-version="x.x" name="High level interface: Overlay Controllers" filename="0201-high-level-interface-overlay-controllers.md"/>
+<proposal id="0201" status="returned"   primary-platform="ios" sdl-version="x.x" name="High level interface: Overlay Controllers" filename="0201-high-level-interface-overlay-controllers.md"/>
 <proposal id="0202" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="Supported Character Sets" filename="0202-character-sets.md"/>
 <proposal id="0203" status="accepted"   primary-platform="cloud" sdl-version="x.x" name=" Cloud App Library - Phase 1" filename="0203-cloud_client_library_phase_1.md"/>
 <proposal id="0204" status="accepted"   primary-platform="core" sdl-version="x.x" name="Support running the same app from multiple devices at the same time" filename="0204-same-app-from-multiple-devices.md"/>	
@@ -232,7 +232,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0215" status="active"   primary-platform="ios" sdl-version="x.x" name="iOS ReplayKit Streaming" filename="0215-ios-replaykit-streaming.md"/>
 <proposal id="0216" status="active"   primary-platform="rpc" sdl-version="x.x" name="Widget Support" filename="0216-widget-support.md"/>
 <proposal id="0217" status="rejected"   primary-platform="android" sdl-version="x.x" name="Android ManagerListener Update" filename="0217-android-manager-listener-update.md"/>
-<proposal id="0218" status="active"   primary-platform="dev-portal" sdl-version="x.x" name="Facilitating OEM Communication with App Developers" filename="0218-developer-oem-communication.md"/>
+<proposal id="0218" status="accepted"   primary-platform="dev-portal" sdl-version="x.x" name="Facilitating OEM Communication with App Developers" filename="0218-developer-oem-communication.md"/>
 <proposal id="0219" status="active"   primary-platform="ios" sdl-version="x.x" name="Explicit returned type from NSDictionary(Store) category" filename="0219-ios-check-type.md"/>
 
 
