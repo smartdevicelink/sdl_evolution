@@ -59,7 +59,7 @@ In approach #1, the important point is the location where the RouterService's pr
 
 ### RouterServiceValidator should pay attention to currently connected RouterService.
 
-The expected time to check if a RouterService connects with head unit would be right before the app binds with the RouterService, and that should be done automatically without relying on user application.
+The expected time to check if a RouterService connects with head unit would be right before the app binds with the RouterService - this should be done automatically without relying on user application.
 The proposed solution is to add new asynchronous method to RouterServiceValidator, and call it right before the TransportManager connects to the RouterService.
 
 #### Detailed design of asynchronous method
@@ -164,11 +164,12 @@ The pseudo-code of FindRouterTask will be:
 						public void onConnectionStatusUpdate(boolean connected, ComponentName service, Context context) {
 							if (connected) {
 								if (mCallback != null) {
+									RouterServiceValidator.this.service = service;
 									mCallback.onFound(service);
 								}
 							} else {
 								Log.d(TAG, "SdlRouterStatusProvider returns service=" + service + "; connected=" + connected);
-								if (isLast && mCallback != null) {
+								if (isLast && mCallback != null && RouterServiceValidator.this.service == null) {
 									mCallback.onFailed();
 								}
 							}
