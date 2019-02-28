@@ -176,7 +176,7 @@ The HMI API should contain:
 
 The RPC `CreateScreen` allows an app to create a new screen on the display. The app needs to specify a screen ID that is used for screen manipulation e.g. with the RPC `Show` and the screen type which can either be `MAIN` or `WIDGET` (see sub-section *Screen types*). 
 
-If desired the apps can duplicate content of an existing screen to the created screen using parameter `duplicateScreenID`. All RPCs sent to the screen with the ID equals `dulicateScreenID` will be duplicated to the created screen. Bidirectional screen content duplication should not be supported. RPCs sent to the creating screen will not be duplicated to the screen with ID matching `duplicateScreenID`. 
+If desired, the apps can duplicate content of an existing screen to the created screen using parameter `duplicateScreenID`. All RPCs sent to the screen with the ID equals `dulicateScreenID` will be duplicated to the created screen. Bidirectional screen content duplication should not be supported. RPCs sent to the creating screen should be rejected by the HMI.
 
 After a screen is successfully created, the response will contain information and capabilities about the created screen. These capabilities will be provided by using the capabilities structure as it is used today. These capabilities include:
 - Number of text fields available
@@ -216,9 +216,26 @@ The additional parameter can be used by the system to specify the HMI level of a
 
 If a widget becomes visible on the display, the HMI should notify Core that the widget is activated. Core should then notify the app that the widget is now in HMI_FULL. This can be the case if the user changes the HMI to present the widget area (e.g. the home screen shows app widgets).
 
-Audio streaming state is not related to screens but to system's audible state. To limit the changes in the RPC and support backward compatibility, `audioStreamingState` should be provided to all screens of one app. HMI and SDL core must make sure to send the same audio states to all screens. Example: If a media app has created a widget and then becomes audible, the media app should receive two `OnHMIStatus` notifications for both screens (main and widget) and both audio streaming states are set to `AUDIBLE`.
+Audio streaming state is not related to screens but to system's audible state. To limit the changes in the RPC and support backward compatibility, `audioStreamingState` should be provided to all screens of one app. HMI and SDL core must make sure to send the same audio states to all screens. Example: If a media app has created a widget and then becomes audible, the media app should receive two `OnHMIStatus` notifications for both screens (main and widget) and both audio streaming states are set to `AUDIBLE`. This will ensure a consistent audible state.
 
-The parameter system context makes sense for main screens to inform an app if the user entered the menu or started VR session. Knowing the system context of a widget may not be necessary. Therefore every widget's systemContext is always `MAIN`.
+Just as today, main and widget screens will receive a notification about their current system context. By default screens system context will be `MAIN`. In case of a voice session the context of all existing screens will be `VRSESSION`. As for main screens, widgets should be told if they are obscured by an Alert of the own application `ALERT` or by any other HMI overlay `HMI_OBSCURED`.
+
+Above requirement to provide system context notifications to widgets requires additions to the HMI_API
+
+```xml
+<interface name="UI">
+  <function name="OnSystemContext" messagetype="notification">
+    <param name="systemContext" type="Common.SystemContext" mandatory="true">
+      <description>The context the application is brought into.</description>
+    </param>
+    <param name="appID" type="Integer" mandatory="false">
+      <description>ID of application that is related to this RPC.</description>
+    </param>
+    <param name="screenID" type="Integer" mandatory="false" /> <!-- new -->
+  </function>
+```
+
+With adding `screenID` to the system context notification, the HMI can provide individual context state to screens.
 
 #### HMI: widget screen activation
 
@@ -284,31 +301,31 @@ Examples for widget screens:
 | graphic with text  | ![template](../assets/proposals/NNNN-widgets/template-graphic-with-text.png) |
 | buttons with graphic | ![template](../assets/proposals/NNNN-widgets/template-tiles-with-graphic.png) |
 
-### Screen type capabilities
-
-In order to inform the app what screen types are supported, the struct `DisplayCapabilities` should be extended with a single optional parameter called `screenTypeCapabilities`.
-
-```xml
-<struct name="ScreenTypeCapabilities" since="5.1">
-  <param name="type" type="ScreenType" mandatory="true" />
-  <param name="maximumNumberOfScreens" type="Integer" mandatory="true" />
-</struct>
-
-<struct name="DisplayCapabilities" since="2.0">
- :
- <param name="screenTypeCapabilities" type="ScreenTypeCapabilities" array="true" minsize="1" mandatory="false" since="5.1">
-   <description>
-    Informs the application how many screens the app is allowed to create per type. 
-   </description>
- </param>
-</struct>
-```
-
-This parameter informs the app how many screens per type are supported. The OEM decides on how many screens should be displayed. Example: 1 main screen and 6 widgets.
-
 ### Policies
 
 With above modification of `OnHMIStatus` the existing policies are compatible to widgets. The policy manager should be modified and use the HMI level of the main screen to evaluate permissions for all RPCs, except screen specific RPCs. In this case the HMI level of the targeting screen should be used for evaluation.
+
+A new functional group should be added that reflects permissions of the new RPCs.
+
+```json
+"functional_groupings": {
+  …
+  "WidgetSupport" : {
+      "rpcs":{
+          "CreateScreen":{
+              "hmi_levels":["NONE","BACKGROUND","LIMITED","FULL"]
+          }, 
+          "DeleteScreen":{
+              "hmi_levels":["NONE","BACKGROUND","LIMITED","FULL"]
+          }
+      }
+  }
+}
+```
+
+### App Resumption
+
+If the app registers with a resumption ID and this ID is recognized by the HMI, all screens created by the application will resume including widgets and their content.
 
 ## Potential downsides
 
