@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0201](0201-high-level-interface-overlay-controllers.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction

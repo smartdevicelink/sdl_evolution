@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0218](0218-developer-oem-communication.md)
 * Author: [Nick Schwab](https://github.com/nickschwab), [Jonathan Cooper](https://github.com/jnthncpr)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [SHAID / Developer Portal]
 
 ## Introduction
