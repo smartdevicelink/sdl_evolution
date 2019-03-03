@@ -115,7 +115,9 @@ Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
     </enum>
 
     <struct name="CloudAppProperties" since="5.x">
-        <param name="appName" type="String" maxlength="100" mandatory="true"></param>
+        <param name="appName" type="String" minlength="0" maxlength="100" array="true" minsize="0" maxsize="100" mandatory="false">
+            <description>Array of app names a cloud app is allowed to register with. If included in the setCloudAppProperties, the array of app names will overwrite the existing nicknames array in the app policies section of the policy table.</description>
+        </param>
         <param name="appID" type="String" maxlength="100" mandatory="true"></param>
         <param name="enabled" type="Boolean" mandatory="false">
             <description>If true, cloud app will be included in HMI RPC UpdateAppList</description>
