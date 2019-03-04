@@ -104,6 +104,18 @@ Granted OEMs may open new issues against an app and select whether or not they w
 ![issue-create-oem][issue-create-oem]
 > From an OEM's perspective
 
+### Email Notifications
+Since this communication tool is intended to be a core component of the SDL developer experience, app developers and OEMs will be opted into receiving email notifications for new issues and messages by default. Users of either party may opt out of email notifications on behalf of their affiliated organization via a checkbox within the "Company Info" tab of the Developer Portal.
+
+#### New Issue Email Notification
+![email-new-issue][email-new-issue]
+> Mock email sent when a new issue has been opened against an application
+
+#### New Message Email Notification
+![email-new-message][email-new-message]
+> Mock email sent when a new message has been posted between an OEM and an app developer (either via general chat or a specific issue)
+
+
 ## Impact on Existing Code
 This is a new addition to the SHAID database and APIs, so it would have no direct impact on existing SHAID tables and APIs. However, the features outlined in this proposal - regardless of the implementation method chosen - would require several modifications and additions to the Developer Portal user interface, as well as minor back-end changes to the Developer Portal to call the appropriate SHAID APIs. This includes removing the legacy app developer contact email form which exists today and creating new pages and navigation elements to support the new enhanced functionality. Please see the `User Interface` section above for visual design previews of the proposed solution.
 
@@ -151,3 +163,6 @@ There are various open-source forum (or forum-like) solutions which the Develope
 [app-chat-dev]: ../assets/proposals/NNNN-developer-oem-communication/app-chat-dev.jpg
 [issue-list-dev]: ../assets/proposals/NNNN-developer-oem-communication/issue-list-dev.jpg
 [issue-view-dev]: ../assets/proposals/NNNN-developer-oem-communication/issue-view-dev.jpg
+
+[email-new-issue]: ../assets/proposals/NNNN-developer-oem-communication/email-new-issue.png
+[email-new-message]: ../assets/proposals/NNNN-developer-oem-communication/email-new-message.png
