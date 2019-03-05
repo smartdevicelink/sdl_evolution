@@ -56,10 +56,10 @@ The proposed Policy Table structure assumes that SDL enums are defined in the RP
 #### Schema file location and updates
 A base JSON schema file for SDL core and proxy will be kept locally and an additional one in the OEM cloud. OEMs can update the schema file with OEM specific items, which SDL core would be able to download over the cloud along with policy updates; SDL proxy would still process the local(static) copy of schema for existing data items. For OEM specific additional items, the OEM app would process a generic _Object_ to retrieve vehicle data item response _struct_. This new design would ensure flexibility to add OEM specific vehicle data items while maintaining access control via policies the same way it is done currently.
 
-* OEM's schema file should always be baselined with latest version of standardized schema file from open SDL. OEM can then further add OEM specific custom vehicle data items. This ensures that any version of core which implements this proposal would be able to process the latest version of standardized vehicle data item schema, and hence would be able to support all future additions for new standardized vehicle data items.
+* OEM's schema file should always be baselined with latest version of standardized schema file from open SDL. OEMs can then further add OEM specific custom vehicle data items. This ensures that any version of core that implements this proposal would be able to process the latest version of standardized vehicle data item schema, and hence would be able to support all future additions for new standardized vehicle data items.
 * VehicleData item availability and definitions in the official SDL RPC Spec will always take precedence over custom ("proprietary") parameters.
-* VehicleData items in the official SDL RPC Spec are immutable and therefore cannot be extended with proprietary data
-* All VehicleData items must be defined in the Policy Table (not just the custom/proprietary items), per recommendation by PM's Core team
+* VehicleData items in the official SDL RPC Spec are immutable and therefore cannot be extended with proprietary data.
+* All VehicleData items must be defined in the Policy Table (not just the custom/proprietary items), per recommendation by PM's Core team.
 * Root-Level vehicle data type items such as `rpm` are always `mandatory`:`false` as defined by the RPC Spec for the vehicle data RPCs. If a data item is of type `Struct`, that struct can have mandatory parameters but the struct itself cannot be mandatory for the root-level item.
 
 ### Example of sample schema addition to policy table for SDL core update:
@@ -436,7 +436,7 @@ Note: PTU for app permissions/functional groups would add new vehicle data items
 
 * APIs would need a new Request/Response API to act as the Generic Request Response for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData_
 
-* SDL_Server project needs updates as defined above
+* SDL_Server project needs updates as defined above.
 
 ## Alternatives considered
 * Instead of using JSON to define vehicle data items schema, SDL can use either of following:
