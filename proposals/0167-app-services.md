@@ -274,7 +274,7 @@ A navigation service is defined as a service that is currently listed as the nav
     <struct name="NavigationServiceData">
 	    <description> This data is related to what a navigation service would provide.</description>
 	
-	    <param name="timeStamp" type="" mandatory="true">
+	    <param name="timeStamp" type="DateTime" mandatory="true">
 	        <description> This is the timeStamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary. </description>
 	    </param>
 	
