@@ -116,7 +116,12 @@ In order to work with multiple screens, the app needs to be able to create or de
       A unique ID to identify the screen.
     </description>
   </param>
-  <param name="type" type="ScreenType" mandatory="true" />
+  <param name="screenName" type="String" maxlength="100" mandatory="true">
+     <description>The screen name to be used by the HMI. The name of the precreated default screen will match the app name.</description>
+  </param>
+  <param name="type" type="ScreenType" mandatory="true">
+    <description>The type of the screen to be created. Main screen or widget screen.</description>
+  </param>
   <param name="duplicateScreenID" type="Integer" mandatory="false">
     <description>
       Optional parameter. Specify whether the content of an existing screen should be duplicated
@@ -499,7 +504,7 @@ This functional group should be provided to the app developers as a conditional 
 
 ### App Resumption
 
-If the app registers with a resumption ID and this ID is recognized by the HMI, all screens created by the application will resume including widgets and their content.
+If the app registers with a resumption ID and this ID is recognized by the HMI, all screens created by the application will resume including widgets and their content (text, images and buttons). The `OnSystemCapabilityUpdate` notification will provide information of the resumed screens. 
 
 ## Potential downsides
 
@@ -518,7 +523,7 @@ T screen managers should be refactored to read screen capabilities notifications
 
 ## Alternatives considered
 
-To reduce complexity on the head unit, screen duplication can be supported by the SDL libraries. This could allow more flexibility to  display duplication for existing screens. However this increases the number of RPCs to be sent by the app and the user might see a delay in screen updates (duplication not synchronized).
+To reduce complexity on the head unit, screen duplication can be supported by the SDL libraries. This could allow more flexibility to display duplication for existing screens. However this increases the number of RPCs to be sent by the app and the user might see a delay in screen updates (duplication not synchronized).
 
 In order to reduce state machine complexity for widget HMI levels on SDL core side, the HMI can take control of HMI level transitions for widgets. However this might cause different behavior per HMI implementation which could be confusing to developers as the behavior is not consistent.
 
