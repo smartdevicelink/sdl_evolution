@@ -125,7 +125,7 @@ A media service is defined as a service that is currently the audio source for t
              Audiobook: The total duration of the current segment (e.g. the chapter) in seconds
              </description>
          </param>
-         <param name="queuePlaybackProgess" type="Int" mandatory="false">
+         <param name="queuePlaybackProgress" type="Int" mandatory="false">
              <description>
              Music: The current progress of the playback queue in seconds
              Podcast: The current progress of the playback queue in seconds
@@ -274,8 +274,8 @@ A navigation service is defined as a service that is currently listed as the nav
     <struct name="NavigationServiceData">
 	    <description> This data is related to what a navigation service would provide.</description>
 	
-	    <param name="timestamp" type="" mandatory="true">
-	        <description> This is the timestamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary. </description>
+	    <param name="timeStamp" type="DateTime" mandatory="true">
+	        <description> This is the timeStamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary. </description>
 	    </param>
 	
 	    <param name="origin" type="LocationDetails" mandatory="false"/>
@@ -363,7 +363,7 @@ A navigation service is defined as a service that is currently listed as the nav
         <element name="ROUNDABOUT">
             <description>A junction where traffic moves in a single direction around a central, non-traversable point to reach one of the connecting roads.</description>
         </element>
-        <element name="TRAVESABLE_ROUNDABOUT">
+        <element name="TRAVERSABLE_ROUNDABOUT">
         <description> Similar to a roundabout, however the center of the roundabout is fully traversable. Also known as a mini-roundabout.</description>
         </element>
         <element name="JUGHANDLE">

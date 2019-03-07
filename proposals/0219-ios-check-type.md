@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0219](0219-ios-check-type.md)
 * Author: [Misha Vyrko](https://github.com/mvyrko)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS]
 
 ## Introduction

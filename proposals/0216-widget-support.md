@@ -2,7 +2,7 @@
 
 * Proposal: [SDL- 0216](0216-widget-support.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11), [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction

@@ -229,11 +229,12 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0212" status="accepted"   primary-platform="core" sdl-version="x.x" name="Add Ability to Reuse a SyncFileName for a PutFile" filename="0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md"/>
 <proposal id="0213" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="Remote Control - Radio and Climate Parameter Update" filename="0213-rc-radio-climate-parameter-update.md"/>
 <proposal id="0214" status="accepted"   primary-platform="core" sdl-version="x.x" name="Secondary Transport Optimization" filename="0214-secondary-transport-optimization.md"/>
-<proposal id="0215" status="active"   primary-platform="ios" sdl-version="x.x" name="iOS ReplayKit Streaming" filename="0215-ios-replaykit-streaming.md"/>
+<proposal id="0215" status="deferred"   primary-platform="ios" sdl-version="x.x" name="iOS ReplayKit Streaming" filename="0215-ios-replaykit-streaming.md"/>
 <proposal id="0216" status="returned"   primary-platform="rpc" sdl-version="x.x" name="Widget Support" filename="0216-widget-support.md"/>
 <proposal id="0217" status="rejected"   primary-platform="android" sdl-version="x.x" name="Android ManagerListener Update" filename="0217-android-manager-listener-update.md"/>
 <proposal id="0218" status="accepted"   primary-platform="dev-portal" sdl-version="x.x" name="Facilitating OEM Communication with App Developers" filename="0218-developer-oem-communication.md"/>
-<proposal id="0219" status="active"   primary-platform="ios" sdl-version="x.x" name="Explicit returned type from NSDictionary(Store) category" filename="0219-ios-check-type.md"/>
+<proposal id="0219" status="accepted"   primary-platform="ios" sdl-version="x.x" name="Explicit returned type from NSDictionary(Store) category" filename="0219-ios-check-type.md"/>
+<proposal id="0220" status="active"   primary-platform="Android" sdl-version="x.x" name="Support for Android custom RouterService" filename="0220-support-for-android-custom-routerservice.md"/>
 
 
 

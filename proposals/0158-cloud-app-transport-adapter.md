@@ -115,7 +115,9 @@ Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
     </enum>
 
     <struct name="CloudAppProperties" since="5.x">
-        <param name="appName" type="String" maxlength="100" mandatory="true"></param>
+        <param name="nicknames" type="String" minlength="0" maxlength="100" array="true" minsize="0" maxsize="100" mandatory="false">
+            <description>An array of app names a cloud app is allowed to register with. If included in a SetCloudAppProperties request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.</description>
+        </param>
         <param name="appID" type="String" maxlength="100" mandatory="true"></param>
         <param name="enabled" type="Boolean" mandatory="false">
             <description>If true, cloud app will be included in HMI RPC UpdateAppList</description>
@@ -141,7 +143,7 @@ Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
         </param>
     </function>
 
-    <function name="SetCloudAppProperties" functionID="RegisterAppInterfaceID" messagetype="response" since="5.x">
+    <function name="SetCloudAppProperties" functionID="SetCloudAppPropertiesID" messagetype="response" since="5.x">
         <description>The response to SetCloudAppProperties</description>
         <param name="success" type="Boolean" platform="documentation" mandatory="true">
             <description> true if successful; false if failed </description>
@@ -153,25 +155,19 @@ Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
             <element name="OUT_OF_MEMORY"/>
             <element name="TOO_MANY_PENDING_REQUESTS"/>
             <element name="GENERIC_ERROR"/>
-            <element name="DUPLICATE_NAME"/>
-            <element name="TOO_MANY_APPLICATIONS"/>
-            <element name="APPLICATION_REGISTERED_ALREADY"/>
-            <element name="UNSUPPORTED_VERSION"/>
-            <element name="WRONG_LANGUAGE"/>
             <element name="DISALLOWED"/>
             <element name="WARNINGS"/>
-            <element name="RESUME_FAILED"/>
         </param>
     </function>
 
-    <function name="GetCloudAppProperties" functionID="SetCloudAppPropertiesID" messagetype="request" since="5.x">
+    <function name="GetCloudAppProperties" functionID="GetCloudAppPropertiesID" messagetype="request" since="5.x">
         <description>
             RPC used to get the current properties of a cloud application
         </description> 
         <param name="appID" type="String" maxlength="100" mandatory="true"></param>
     </function>
 
-    <function name="GetCloudAppProperties" functionID="RegisterAppInterfaceID" messagetype="response" since="5.x">
+    <function name="GetCloudAppProperties" functionID="GetCloudAppPropertiesID" messagetype="response" since="5.x">
         <description>The response to GetCloudAppProperties</description>
         <param name="properties" type="CloudAppProperties" mandatory="false">
             <description> The requested cloud application properties </description>
@@ -186,14 +182,8 @@ Add new RPCs `SetCloudAppProperties` and `GetCloudAppProperties`.
             <element name="OUT_OF_MEMORY"/>
             <element name="TOO_MANY_PENDING_REQUESTS"/>
             <element name="GENERIC_ERROR"/>
-            <element name="DUPLICATE_NAME"/>
-            <element name="TOO_MANY_APPLICATIONS"/>
-            <element name="APPLICATION_REGISTERED_ALREADY"/>
-            <element name="UNSUPPORTED_VERSION"/>
-            <element name="WRONG_LANGUAGE"/>
             <element name="DISALLOWED"/>
             <element name="WARNINGS"/>
-            <element name="RESUME_FAILED"/>
         </param>
     </function>
 ```
