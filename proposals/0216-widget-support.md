@@ -324,6 +324,17 @@ Apps requesting the display capabilities can use `GetSystemCapability` and set t
 </struct>
 ```
 
+#### Struct `ScreenTypeCapabilities`
+
+This capability struct should be used to inform an app how many screen instances per type they can create.
+
+```xml
+<struct name="ScreenTypeCapabilities" since="5.1">
+  <param name="type" type="ScreenType" mandatory="true" />
+  <param name="maximumNumberOfScreens" type="Integer" mandatory="true" />
+</struct>
+```
+
 #### Struct `DisplayCapability`
 
 To hold screen capabilities, the display capabilities should contain the display related information and all screens related to that display.
@@ -331,6 +342,11 @@ To hold screen capabilities, the display capabilities should contain the display
 ```xml
 <struct name="DisplayCapability" since="5.x">
   <param name="displayName" type="String" mandatory="false" />
+   <param name="screenTypeSupported" type="ScreenTypeCapabilities" array="true" minsize="1" mandatory="false">
+   <description>
+    Informs the application how many screens the app is allowed to create per type. 
+   </description>
+ </param>
   <param name="screenCapabilities" type="ScreenCapability" array="true" minsize="1" maxsize="1000" mandatory="false" />
 </struct>
 ```
