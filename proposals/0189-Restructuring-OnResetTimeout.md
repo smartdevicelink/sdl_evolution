@@ -111,10 +111,10 @@ Since HMI API does not support deprecated, it is going to be removed from the ol
 
 
 ## Potential downsides
-  * These changes would remove OnResetTimeout from _UI_ and _TTS_ interfaces.
+  * These changes would remove OnResetTimeout from _UI_ and _TTS_ interfaces. As a result, this will cause a major version change to both _HMI API_ and _Core_.
 
 ## Impact on existing code
-* HMI API needs to be updated
+* HMI API needs to be updated so that _onResetTimeout_ is removed from _UI_ and _TTS_ interfaces. These changes would be made to _HMI API_ and _Core_ for a new major version. Till then these _functions_ would still be supported.
 * SDL core needs to be updated
 
 ## Alternatives considered
