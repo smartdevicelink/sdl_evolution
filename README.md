@@ -99,47 +99,7 @@ SHAID is a centralized service designed to keep information about SDL-supported 
 ## Recent and Upcoming Releases
 You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
 
-#### SHAID: 2.0.0
-**Release Date**: August 15, 2017
 
-**Contents**: This release enhances SHAID to allow application information (including name, description, default HMI level, RPCs required for integration, and ID) for SDLC-approved apps to be stored and accessible to "App Consumer" companies (OEMs and Suppliers).  SHAID will also send notifications to these App Consumer companies when an SDLC-approved application registered on SHAID has been modified.
-
----
-
-#### SDL Protocol: 5.0.0
-**Release Date**: October 30, 2017
-
-**Contents**: Introducing control frame payloads and a revised version negotiation scheme.  Release information can be found [here](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.0.0).
-
----
-
-#### SDL RPC Spec: 4.5.0
-**Release Date**: October 30, 2017
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/rpc_spec/releases/tag/4.5.0).
-
----
-
-#### Core: 4.5.0
-**Release Date**: April 5, 2018
-
-**Contents**: This release includes stabilization fixes and the Connectivity via iAP-BT and Transport Switch feature described [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0053-Connectivity-via-iAP-BT-and-Transport-Switch.md).  Contents of this release are described in detail in the [Core 4.5.0 Release Notes](https://github.com/smartdevicelink/sdl_core/releases/tag/4.5.0).
-
-
-#### Android SDK: 4.6.0
-**Release Date**: June 21, 2018
-
-**Contents**: This release focuses on bug fixes and making integration easier for application developers.  Contents of this release are described in detail in the [Android 4.6.0 Release Notes](https://github.com/smartdevicelink/sdl_android/releases/tag/4.6.0).
-
----
-
-#### iOS SDK: 6.0.0
-**Release Date**: June 27, 2018
-
-**Contents**: This major release includes additional Screen Manager components, and also hides Transport, Protocol and Proxy layers by making them private.  Contents of this release are described in detail in the the [iOS 6.0.0 Release Notes](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.0.0).
-
-
----
 
 #### SHAID: 2.1.0
 **Release Date**: October 19, 2018
@@ -168,12 +128,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.1.0).
 
----
-
-#### Manticore: 2.0.0
-**Release Date**: October 23, 2018
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.0.0).
 
 ---
 
@@ -196,10 +150,40 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.1.0).
 
+---
 
+#### Android SDK: 4.8.0
+**Expected Release Date**: April 2, 2019
+
+**Contents**: Contents of this release can be tracked on the [Android 4.8.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/9).
 
 ---
 
-[sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
-[sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
-[proposal-status]: https://smartdevicelink.github.io/sdl_evolution/
+#### iOS SDK: 6.2.0
+**Expected Release Date**: April 2, 2019
+
+**Contents**: Contents of this release can be tracked on the [iOS 6.2.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/11).
+
+---
+
+#### SDL Protocol: 5.2.0
+**Expected Release Date**: April 2, 2019
+
+**Contents**: Contents of this release can be tracked on the [Protocol Spec 5.2.0 Project Page](https://github.com/smartdevicelink/protocol_spec/projects/3).
+
+---
+
+#### SDL RPC Spec: 5.1.0
+**Release Date**: April 2, 2019
+
+**Contents**: Contents of this release can be tracked on the [RPC Spec 5.1.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/).
+
+---
+
+#### Core: 5.1.0
+**Expected Release Date**: April 2, 2019
+
+**Contents**: Contents of this release can be tracked on the [Core 5.1.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/13).
+
+---
+
