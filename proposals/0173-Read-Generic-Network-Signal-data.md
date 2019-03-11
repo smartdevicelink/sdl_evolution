@@ -151,7 +151,7 @@ A base JSON schema file for SDL core and proxy will be kept locally and an addit
 			"type":"String",
 			"key":"OEM_REF_MSG",
 			"array":true,
-			"mandatory":true,
+			"mandatory":false,
 			"since":"X.x",
 			"maxsize":100,
 			"params":[]
@@ -341,7 +341,7 @@ Sample value for map:
 	"type":"String",
 	"key":"OEM_REF_MSG",
 	"array":true,
-	"mandatory":true,
+	"mandatory":false,
 	"since":"X.x",
 	"maxsize":100,
 	"params":[]
