@@ -187,3 +187,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
+[sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
+[sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
+[proposal-status]: https://smartdevicelink.github.io/sdl_evolution/
