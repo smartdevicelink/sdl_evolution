@@ -75,7 +75,7 @@ Proposal implemented in https://github.com/smartdevicelink/sdl_ios/pull/1158
 
 ## Potential downsides
 
-Store can return wrong type that would be highlighted by error.
+Store can return wrong type, which would be highlighted by an error.
 For example: 
 ````
 NSNumber *number = @2;
