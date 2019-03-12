@@ -117,7 +117,7 @@ In order to work with multiple screens, the app needs to be able to create or de
     </description>
   </param>
   <param name="screenName" type="String" maxlength="100" mandatory="true">
-     <description>The screen name to be used by the HMI. The name of the precreated default screen will match the app name.</description>
+     <description>The screen name to be used by the HMI. The name of the pre-created default screen will match the app name.</description>
   </param>
   <param name="type" type="ScreenType" mandatory="true">
     <description>The type of the screen to be created. Main screen or widget screen.</description>
@@ -210,11 +210,13 @@ The additional parameter can be used by the system to specify the HMI level of a
 
 If a widget becomes visible on the display, the HMI should notify Core that the widget is activated. Core should then notify the app that the widget is now in HMI_FULL. This can be the case if the user changes the HMI to present the widget area (e.g. the home screen shows app widgets).
 
-Audio streaming state is not related to screens but to system's audible state. To limit the changes in the RPC and support backward compatibility, `audioStreamingState` should be provided to all screens of one app. HMI and SDL core should make sure to send the same audio states to all screens. Example: If a media app has created a widget and then becomes audible, the media app should receive two `OnHMIStatus` notifications for both screens (main and widget) and both audio streaming states are set to `AUDIBLE`. This will ensure a consistent audible state.
+Audio streaming state is not related to screens, it is related to system's audible state. To limit the changes in the RPC and support backward compatibility, `audioStreamingState` should be provided to all screens of one app. HMI and SDL core should make sure to send the same audio states to all screens. 
 
-Just as today, main and widget screens will receive a notification about their current system context. By default screens system context will be `MAIN`. In case of a voice session the context of all existing screens will be `VRSESSION`. As for main screens, widgets should be told if they are obscured by an Alert of the own application `ALERT` or by any other HMI overlay `HMI_OBSCURED`.
+Example: If a media app has created a widget and then becomes audible, the media app should receive two `OnHMIStatus` notifications for both screens (main and widget) and both audio streaming states are set to `AUDIBLE`. This will ensure a consistent audible state.
 
-Above requirement to provide system context notifications to widgets requires additions to the HMI_API
+Currently, main and widget screens will receive a notification about their current system context. By default screens system context will be `MAIN`. In case of a voice session the context of all existing screens will be `VRSESSION`. In regards to main screens, widgets should be told if they are obscured by an Alert of the application `ALERT` or by any other HMI overlay `HMI_OBSCURED`.
+
+The above requirements require additions to the HMI_API in order to provide system context notifications to widgets.
 
 ```xml
 <interface name="UI">
@@ -289,7 +291,7 @@ A new system capability type is necessary in order to provide display capabiliti
 </enum>
 ```
 
-This new type should contain display but also screen capabilities. The following sections are starting with screen capabilities, which is then used by display capabilities. At last, they are coming together in the system capability struct.
+This new type should contain display and screen capabilities. The following sections describe screen capabilities and the new display capabilities. Finally, both come together in the system capability struct.
 
 #### Struct `ScreenCapability`
 
@@ -316,10 +318,10 @@ Apps requesting the display capabilities can use `GetSystemCapability` and set t
     <description>The number of on-screen custom presets available (if any); otherwise omitted.</description>
   </param>
   <param name="buttonCapabilities" type="ButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false">
-    <description>The number of button and the capabilities of each on-screen button.</description>
+    <description>The number of buttons and the capabilities of each on-screen button.</description>
   </param>
   <param name="softButtonCapabilities" type="SoftButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false">
-    <description>The number of soft button available on-screen and the capabilities for each button.</description>
+    <description>The number of soft buttons available on-screen and the capabilities for each button.</description>
   </param>
 </struct>
 ```
@@ -353,7 +355,7 @@ To hold screen capabilities, the display capabilities should contain the display
 
 #### System capabilitiy additions
 
-The above struct needs to be added as a parameter into system capability struct. The parameter needs to be of type array to be ready for multi-display support.
+The above struct needs to be added as a parameter into the system capability struct. The parameter needs to be an array to be ready for multi-display support.
 
 ```xml
 <struct name="SystemCapability" since="4.5">
@@ -363,7 +365,7 @@ The above struct needs to be added as a parameter into system capability struct.
 
 #### Deprecate existing params
 
-With above change, it will be possible to deprecate existing parameters in `RegisterAppInterfaceResponse`. Regarding `SetDisplayLayout` it can make sense to refactor the RPC to be called `SetScreenLayout` instead by deprecating the old RPC and creating a new RPC. Deprecation is valid as they all are replaced in favor of display capability over system capability. 
+With the above change, it will be possible to deprecate existing parameters in `RegisterAppInterfaceResponse`. Regarding `SetDisplayLayout`, it makes sense to refactor the RPC to be called `SetScreenLayout` instead by deprecating the old RPC and creating a new RPC. Deprecation is valid as they all are replaced in favor of display capability over system capability. 
 
 ```xml
 <function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response" since="1.0">
@@ -374,19 +376,19 @@ With above change, it will be possible to deprecate existing parameters in `Regi
     </history>
   </param>
   <param name="buttonCapabilities" type="ButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" deprecated="true" since="5.x">
-    <description>See ButtonCapabilities. This parameter is deprecated and replaced by  SystemCapability using DISPLAY.</description >
+    <description>See ButtonCapabilities. This parameter is deprecated and replaced by  SystemCapability using DISPLAY.</description>
     <history>
         <param name="buttonCapabilities" type="ButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" until="5.x">
     </history>
   </param>
   <param name="softButtonCapabilities" type="SoftButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" deprecated="true" since="5.x">
-    <description>If returned, the platform supports on-screen SoftButtons; see SoftButtonCapabilities.  This parameter is deprecated and replaced by  SystemCapability using DISPLAY.</description >
+    <description>If returned, the platform supports on-screen SoftButtons; see SoftButtonCapabilities.  This parameter is deprecated and replaced by  SystemCapability using DISPLAY.</description>
     <history>
         <param name="softButtonCapabilities" type="SoftButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" since="2.0" until="5.x" />
     </history>
   </param>
   <param name="presetBankCapabilities" type="PresetBankCapabilities" mandatory="false" deprecated="true" since="5.x">
-    <description>If returned, the platform supports custom on-screen Presets; see PresetBankCapabilities. This parameter is deprecated and replaced by  SystemCapability using DISPLAY.</description >
+    <description>If returned, the platform supports custom on-screen Presets; see PresetBankCapabilities. This parameter is deprecated and replaced by  SystemCapability using DISPLAY.</description>
     <history>
         <param name="presetBankCapabilities" type="PresetBankCapabilities" mandatory="false" since="2.0" until="5.x" />
     </history>
@@ -394,11 +396,11 @@ With above change, it will be possible to deprecate existing parameters in `Regi
 </function>
 
 <function name="SetDisplayLayout" functionID="SetDisplayLayoutID" messagetype="request" deprecated="true" since="5.x">
-    <description>this RPC is deprecated in favor of SetScreenLayout</description>
+    <description>This RPC is deprecated in favor of SetScreenLayout</description>
 </function>
 
 <function name="SetDisplayLayout" functionID="SetDisplayLayoutID" messagetype="response" deprecated="true" since="5.x">
-    <description>this RPC is deprecated in favor of SetScreenLayout</description>
+    <description>This RPC is deprecated in favor of SetScreenLayout</description>
 </function>
 
 <function name="SetScreenLayout" functionID="SetScreenLayoutID" messagetype="request" since="5.x">
@@ -440,7 +442,7 @@ The information contained in the deprecated parameters will be made available wi
 
 #### Automatic subscription to display and screen capabilities
 
-As accepted in the app services proposal, the application can subscribe to system capabilities. With this proposal it would inclde display capabilities. In order to provide display capabilities as soon as possible after the app registered, the application should be automatically subscribed to display capabilities. With this rule, Core should send a system capability notification with display capabilities right after sending the response of the app registration. This approach results in a better performance compared to the need of the app to get/subscribe to display capabilities. Without this approach applications would perform slower as with the todays solution having capabilities being returned in `RegisterAppInterfaceResponse`.
+As accepted in the app services proposal, the application can subscribe to system capabilities. With this proposal it would inclde display capabilities. In order to provide display capabilities as soon as possible after the app registered, the application should be automatically subscribed to display capabilities. With this rule, Core should send a system capability notification with display capabilities right after sending the response of the app registration. This approach will result in a better performance compared to the need of the app to get/subscribe to display capabilities. Without this approach, applications will perform slower than the solution used today, which is having capabilities being returned in `RegisterAppInterfaceResponse`.
 
 If an app sends `GetSystemCapability` with `DISPLAY` type including `subscribe` flag, Core should ignore a subscription (`subscribe: true`) or unsubscription (`subscribe: false`) and return a message in `GetSystemCapabilityResponse`. It should mention that the `subscribe` parameter is ignored for `DISPLAY` type and that the app is always subscribed to this type. The response should contain the display capability regardless.
 
@@ -516,7 +518,7 @@ A new functional group should be added that reflects permissions of the new RPCs
 }
 ```
 
-This functional group should be provided to the app developers as a conditional feature, they can request. This should be done on the SmartDeviceLink developer portal when managing the app and the permissions. The web portal needs to have a checkbox additionally to the other checkboxes. The checkbox could be labeled "Allow creating widgets".
+This functional group should be provided to the app developers as a conditional feature, they can request. This will need to be added on the SmartDeviceLink Developer Portal when creating a "New App". The "New App" page needs to have a checkbox under "Special Permissions Required for Integration" labeled "Allow Creating Widgets".
 
 ### App Resumption
 
@@ -524,7 +526,7 @@ If the app registers with a resumption ID and this ID is recognized by the HMI, 
 
 ## Potential downsides
 
-Moving screen metadata will cause more effort for OEMs and app consumers to implement this feature. The metadata needs to be send twice, in the responses but also in the system capability notification. However as the data is basically just a copy it is expected as an acceptable effort in favor of an improved API design.
+Moving screen metadata will cause more effort for OEMs and app consumers to implement this feature. The metadata needs to be sent twice, in the responses but also in the system capability notification. However, since the data is basically a copy it is expected as an acceptable effort in favor of an improved API design.
 
 ## Impact on existing code
 
@@ -539,11 +541,11 @@ T screen managers should be refactored to read screen capabilities notifications
 
 ## Alternatives considered
 
-To reduce complexity on the head unit, screen duplication can be supported by the SDL libraries. This could allow more flexibility to display duplication for existing screens. However this increases the number of RPCs to be sent by the app and the user might see a delay in screen updates (duplication not synchronized).
+To reduce complexity on the head unit, screen duplication can be supported by the SDL libraries. This could allow more flexibility to display duplication for existing screens. However, this increases the number of RPCs to be sent by the app and the user might see a delay in screen updates (duplication not being synchronized).
 
 In order to reduce state machine complexity for widget HMI levels on SDL core side, the HMI can take control of HMI level transitions for widgets. However this might cause different behavior per HMI implementation which could be confusing to developers as the behavior is not consistent.
 
-Instead of only having display capability type it is possible to separate display capability and screen capability in `SystemCapability`. This may allow some benefits avoiding repeating display data when screens have changed. Also it may allow to notify changes only to a specific screen, instead of repeating all screens data.
+Instead of only having `DisplayCapability` it is possible to separate display capability and screen capability in `SystemCapability`. This may allow some benefits avoiding repeating display data when screens have changed. Also, it may allow `OnSystemCapabilityUpdated` to specific screens, instead of repeating all screens data.
 
 It is possible to have a manual subscription to display capabilities. This is definitely a possible solution as the SDL managers will perform the capabilities subscription. However, as this subscription will be made for 100% of the apps and as subscribing takes more time sending RPCs it was considered that autosubscription improves performance in this case. Without the automatic subscription, this redesign would perform worse than the current design of returning the information in a response.
 
@@ -560,19 +562,19 @@ To avoid refactoring `SetDisplayLayout` to `SetScreenLayout` it is possible to j
     </history>
   </param>
   <param name="buttonCapabilities" type="ButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" deprecated="true" since="5.x">
-    <description>See ButtonCapabilities.  This parameter is deprecated and replaced by screen capabilities.</description >
+    <description>See ButtonCapabilities.  This parameter is deprecated and replaced by screen capabilities.</description>
     <history>
         <param name="buttonCapabilities" type="ButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" until="5.x">
     </history>
   </param>
   <param name="softButtonCapabilities" type="SoftButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" deprecated="true" since="5.x">
-    <description>If returned, the platform supports on-screen SoftButtons; see SoftButtonCapabilities. This parameter is deprecated and replaced by screen capabilities.</description >
+    <description>If returned, the platform supports on-screen SoftButtons; see SoftButtonCapabilities. This parameter is deprecated and replaced by screen capabilities.</description>
     <history>
         <param name="softButtonCapabilities" type="SoftButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" until="5.x" />
     </history>
   </param>
   <param name="presetBankCapabilities" type="PresetBankCapabilities" mandatory="false" deprecated="true" since="5.x">
-    <description>If returned, the platform supports custom on-screen Presets; see PresetBankCapabilities. This parameter is deprecated and replaced by screen capabilities.</description >
+    <description>If returned, the platform supports custom on-screen Presets; see PresetBankCapabilities. This parameter is deprecated and replaced by screen capabilities.</description>
     <history>
         <param name="presetBankCapabilities" type="PresetBankCapabilities" mandatory="false" until="5.x" />
     </history>
