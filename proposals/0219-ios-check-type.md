@@ -30,18 +30,33 @@ For example:
 
 ## Proposed solution
 
-Remove method :
+Mark method as private:
 `-(nullable id)sdl_objectForName:(SDLName)name;`. 
 
-Instead of the removed method, use this existing method:
+Instead of method above use next methods:
+
+For optional values, can be used functions that return object of classType or nil:
 `- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;`.
+`- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType`.
+
+For mandatory values, next functions try to return object of classType overwise error would be filled. 
+In case, when error isn't `nil`, returned object can be not type of `classType`:
+`- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType error:(NSError **)error`
+`- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType error:(NSError **)error;`.
 
 For suitable working with SDLEnums create the following methods:
-`- (nullable SDLEnum)sdl_enumForName:(SDLName)name`
+`- (nullable SDLEnum)sdl_enumForName:(SDLName)name;`
+`- (nullable SDLEnum)sdl_enumForName:(SDLName)name error:(NSError *);`.
 `- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name;`
+`- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name error:(NSError *);`.
+
 
 Examples:
 ~~~~
+- (NSNumber<SDLInt> *)menuID {
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameMenuId ofClass:NSNumber.class error:&error];
+}
 - (nullable NSString *)fullAppID {
     return [parameters sdl_objectForName:SDLNameFullAppID ofClass:NSString.class];
 }
@@ -60,69 +75,21 @@ Proposal implemented in https://github.com/smartdevicelink/sdl_ios/pull/1158
 
 ## Potential downsides
 
-Store returns `nil` by getting with the wrong key or incorrect type without highlighting the on compile time.
+Store can return wrong type that would be highlighted by error.
 For example: 
 ````
 NSNumber *number = @2;
 self.store = @{SDLSomeValue : number};
 
-NSString *string = [self.store sdl_objectForName:SDLSomeValue ofClass:NSString.class]; 
-//string is always nil
+NSError *error;
+NSString *string = [self.store sdl_objectForName:SDLSomeValue ofClass:NSString.class error:&error]; 
+
+//string is NSNumber
+//string and error aren't nil
 ````
 
 ## Impact on existing code
 
-Possible nullability issues when classes expect nonnull value can be returned nil.
-
-For example:
-```
-// In .h file
-NS_ASSUME_NONNULL_BEGIN
-
-@interface SDLSomeClass: NSObject
-
-@property (nonatomic, strong) SDLSomeEnum someProperty;
-
-- (instanceType)init {
-    self = [super init];
-    if(self) {
-        NSNumber *number = @2;
-        self.store = @{SDLSomeValue : number};
-    }
-    return self;
-    }
-
-@end
-
-NS_ASSUME_NONNULL_END
-
-// In .m file
-
-- (SDLSomeEnum)someProperty {
-    return [self.store sdl_objectForName:SDLSomeValue];
-}
-
-- (void)exampleFunction:(SDLSomeClass *)someClass {
-    if(someClass.someProperty != nil) {
-        // to do something
-    }
-}
-```
-Now, someProperty isn't nil, after applying changes someProperty would be nil.
+No impact
 
 ## Alternatives considered
-
-In every method add checking of type like:
-~~~~
-- (nullable NSArray<NSString *> *)vrSynonyms {
-    id vrSynonyms = [parameters sdl_objectsForName:SDLNameVRSynonyms];
-    if ([vrSynonyms isKindOfClass:NSArray.class]) {
-        id firstSynonym = vrSynonyms.first;
-        if ([firstSynonym isKindOfClass:NSString.class]) {
-            return vrSynonyms;
-        }
-    }
-    return nil;
-}
-~~~~
-
