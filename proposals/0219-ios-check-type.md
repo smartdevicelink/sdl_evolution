@@ -40,7 +40,7 @@ For optional values, can be used functions that return object of classType or ni
 `- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType`.
 
 For mandatory values, next functions try to return object of classType overwise error would be filled. 
-In case, when error isn't `nil`, returned object can be not type of `classType`:
+When the object is not of type `classType`, the error will not be `nil`
 `- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType error:(NSError **)error`
 `- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType error:(NSError **)error;`.
 
