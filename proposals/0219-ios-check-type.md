@@ -46,7 +46,7 @@ When the object is not of type `classType`, the error will not be `nil`
 
 For suitable working with SDLEnums create the following methods:
 `- (nullable SDLEnum)sdl_enumForName:(SDLName)name;`
-`- (nullable SDLEnum)sdl_enumForName:(SDLName)name error:(NSError *);`.
+`- (nullable SDLEnum)sdl_enumForName:(SDLName)name error:(NSError **)error;
 `- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name;`
 `- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name error:(NSError *);`.
 
