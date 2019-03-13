@@ -26,21 +26,21 @@ In order to use a custom RouterService, AndroidManifest.xml must indicate the ap
     </service>
 ```
 
-In order to identify the issued cases, let's pay attention to when a SDL app starts proxy.
+Let's see how and when a SDL application starts proxy.
 
-### When SDL apps start proxy?
+### How and when SDL apps start proxy
 There are two major triggers where SDL applications start SdlProxy; one is a broadcast intent sent from RouterService, and the other is all other cases where the app starts SdlProxy by itself.
 Let's see those two triggers in detail.
 
 #### A trigger sent from RouterService
 
-A SDL app usually starts proxy when the app receives START_ROUTER_SERVICE_ACTION, which is broadcast intent sent from RouterService. In this case, the broadcast intent includes ComponentName of the RouterService, which is taken by SdlBroadcastReceiver, set it to an instance variable (called queuedService) and then onSdlEnabled is called.
+A SDL app usually starts proxy when the app receives START_ROUTER_SERVICE_ACTION, which is a broadcast intent sent from RouterService. In this case, the broadcast intent includes ComponentName of the RouterService, which is taken by SdlBroadcastReceiver, set it to an instance variable (called queuedService) and then onSdlEnabled is called.
 The SDL app is responsible for overriding onSdlEnabled, starts its own service, and then starts Proxy. The Proxy checks to see queuedService, and uses that ComponentName to determine the target RouterService.
 This case works fine regardless of the RouterService is custom or not.
 
-#### A trigger invoked by SDL app on demand
+#### All other triggers on demand
 
-This case refers to all other cases than "the trigger sent from RouterService". This case requires the app to determine which RouterService to bind with.
+This refers to all other cases than "the trigger sent from RouterService". This case requires the app to determine which RouterService to bind with.
 Unless the app identifies the right RouterService, it cannot register with SDL Core. Even in that case, Sdl proxy has some fallback logic. Let's see the current logic anyway.
 
 #### Current logic for finding RouterService
@@ -57,14 +57,15 @@ The problem is that custom RouterService is unlikely chosen in step #2.
 Step #1 actually depends on the timing of when the app calls queryForConnectedService. It is up to the application when queryForConnectedService is called, but [the integration-basic document](https://smartdevicelink.com/en/guides/android/getting-started/integration-basics/) suggests it should be called at Main Activities onCreate.
 
 #### The cases where this proposal focuses on
-The following section focuses on the case other than "a trigger sent from RouterService". For example, in the following cases, the app may start proxy on demand:
+The following section focuses on the case other than "a trigger sent from RouterService". For example, in the following cases, the app will start proxy:
 - When OnLanguageChange is notified: in this case, the app has to restart the proxy.
-- When user removed the app from Recent List: in this case, ActvityManager may automatically restarts its service, and restarts proxy in there.
-- When user enforce the app to stop by settings | Apps | force stop: in this case ActivityManager may automatically restarts its service too.
+- When a user removes the app from Recent List: in this case, ActvityManager may automatically restarts the killed service, and restarts proxy in there.
+- When a user enforces the app to stop by settings | Apps | force stop: in this case ActivityManager may automatically restarts the killed service.
 - An app may pay attention to some error case (e.g. onProxyClosed, etc), and then restarts the proxy to get recovered.
-- An app has the capability to restart proxy when yet another transport is connected. This might be useful if the SDL core does not support secondary transport.
+- An app can restart proxy when yet another transport is connected. This might be useful especially if the SDL core does not support secondary transport.
 
-In addition to above cases, SdlProxyBase#cycleProxy function also internally restarts the proxy when some errors are detected. That case is also problematic to work with custom RouterService.
+In addition to above cases, SdlProxyBase#cycleProxy function also internally restarts the proxy when some errors are detected.
+All the cases above have some issues to work with custom RouterService.
 
 ## Proposed solution
 
@@ -78,7 +79,7 @@ To improve the connectivity of custom RouterService, the approach would be:
 
 3. We can reuse the existing logic that verifies the trusted RouterService. If a RouterService is not trusted, SdlProxy can wake up the best possible RouterService in the same way the current proxy does. 
 
-In approach #1, the important point is the location where the RouterService's primary transport connects with the head unit. It should be in the RouterServiceValidator class.
+In approach #1, the important point is the location to check if the RouterService's primary transport connects with the head unit. It should be in the RouterServiceValidator class.
 
 ### RouterServiceValidator should pay attention to currently connected RouterService.
 
