@@ -64,6 +64,8 @@ The following section focuses on the case other than "a trigger sent from Router
 - An app may pay attention to some error case (e.g. onProxyClosed, etc), and then restarts the proxy to get recovered.
 - An app has the capability to restart proxy when yet another transport is connected. This might be useful if the SDL core does not support secondary transport.
 
+In addition to above cases, SdlProxyBase#cycleProxy function also internally restarts the proxy when some errors are detected. That case is also problematic to work with custom RouterService.
+
 ## Proposed solution
 
 Suppose a custom RouterService is basically designed for OEM-specific head units, and the head unit only works with that specific custom RouterService.
