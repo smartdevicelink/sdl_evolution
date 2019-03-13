@@ -35,7 +35,7 @@ Mark method as private:
 
 Instead of method above use next methods:
 
-For optional values, can be used functions that return object of classType or nil:
+For optional values, can use functions that return object of classType or nil:
 `- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;`.
 `- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType`.
 
