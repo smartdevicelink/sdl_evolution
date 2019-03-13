@@ -48,7 +48,7 @@ For suitable working with SDLEnums create the following methods:
 `- (nullable SDLEnum)sdl_enumForName:(SDLName)name;`
 `- (nullable SDLEnum)sdl_enumForName:(SDLName)name error:(NSError **)error;
 `- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name;`
-`- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name error:(NSError *);`.
+`- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name error:(NSError **)error;
 
 
 Examples:
