@@ -35,14 +35,14 @@ Mark method as private:
 
 Instead of method above use next methods:
 
-For optional values, can use functions that return object of classType or nil:
-`- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;`.
-`- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType`.
-
 For mandatory values, the following functions try to return object of classType overwise error will be filed. 
 When the object is not of type `classType`, the error will not be `nil`
 `- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType error:(NSError **)error`
 `- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType error:(NSError **)error;`.
+
+For optional values, can use functions that return object of classType or nil. These functions are syntactic sugar on functions with error where put nil to error parameter.
+`- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;`.
+`- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType`.
 
 For suitable working with SDLEnums create the following methods:
 `- (nullable SDLEnum)sdl_enumForName:(SDLName)name;`
