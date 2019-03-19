@@ -45,10 +45,8 @@ For optional values, can use functions that return object of classType or nil. T
 `- (nullable NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType`.
 
 For suitable working with SDLEnums create the following methods:
-`- (nullable SDLEnum)sdl_enumForName:(SDLName)name;`
-`- (nullable SDLEnum)sdl_enumForName:(SDLName)name error:(NSError **)error;
-`- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name;`
-`- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name error:(NSError **)error;
+`- (nullable SDLEnum)sdl_enumForName:(SDLName)name error:(NSError **)error;`
+`- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name error:(NSError **)error;`
 
 These new methods will assert (which only affects apps in DEBUG mode), log the error using the SDL logging framework, and return `nil` with an error object containing the faulty data sent by the head unit and an error message.
 
