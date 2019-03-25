@@ -36,11 +36,11 @@ Let's see those two triggers in detail.
 
 A SDL app usually starts proxy when the app receives START_ROUTER_SERVICE_ACTION, which is a broadcast intent sent from RouterService. In this case, the broadcast intent includes ComponentName of the RouterService, which is taken by SdlBroadcastReceiver, set it to an instance variable (called queuedService) and then onSdlEnabled is called.
 The SDL app is responsible for overriding onSdlEnabled, starts its own service, and then starts Proxy. The Proxy checks to see queuedService, and uses that ComponentName to determine the target RouterService to bind with.
-This case works fine regardless of the RouterService is custom or not.
+This case works fine regardless of whether or not the RouterService is custom.
 
 #### All other triggers on demand
 
-This refers to all other cases than "the trigger sent from RouterService". This case requires the app to determine which RouterService to bind with.
+This refers to all cases other than "the trigger sent from RouterService". This case requires the app to determine which RouterService to bind with.
 Unless the app identifies the right RouterService, it cannot register with SDL Core. Even in that case, Sdl proxy has some fallback logic. Let's see the current logic anyway.
 
 #### Current logic for finding RouterService
@@ -59,10 +59,10 @@ Step #1 actually depends on the timing of when the app calls queryForConnectedSe
 #### The cases where this proposal focuses on
 The following section focuses on the case other than "a trigger sent from RouterService". For example, in the following cases, the app will start proxy:
 - When OnLanguageChange is notified: in this case, the app has to restart the proxy.
-- When a user removes the app from Recent List: in this case, ActvityManager may automatically restarts the killed service, and restarts proxy in there. RouterService internally uses DeathRecipient interface to detect binderDied case, which might help some cases, but not all the cases.
-- When a user enforces the app to stop by settings | Apps | force stop: in this case ActivityManager may automatically restarts the killed service as well as the remove from Recent list case.
-- An app may pay attention to some error case (e.g. onProxyClosed, etc), and then restarts the proxy to get recovered.
-- An app may restart proxy when yet another transport is connected. This might be useful especially if the SDL core does not support secondary transport. For instance, if BT transport is connected, the app uses NON_MEDIA layout. When user connected USB or WIFI, then the app restarts the proxy instance and then uses NAV_FULLSCREEN_MAP layout.
+- When a user removes the app from Recent List: in this case, ActivityManager may automatically restart the killed service, and restart proxy in there. RouterService internally uses DeathRecipient interface to detect binderDied case, which might help some cases, but not all the cases.
+- When a user enforces the app to stop by settings | Apps | force stop: in this case ActivityManager may automatically restart the killed service as well as the remove from Recent list case.
+- An app may pay attention to some error case (e.g. onProxyClosed, etc), and then restart the proxy to get recovered.
+- An app may restart proxy when yet another transport is connected. This might be useful especially if the SDL core does not support secondary transport. For instance, if BT transport is connected, the app uses NON_MEDIA layout. When user connects USB or WIFI, then the app restarts the proxy instance and then uses NAV_FULLSCREEN_MAP layout.
 
 In addition to above cases, SdlProxyBase#cycleProxy function also internally restarts the proxy when some errors are detected.
 All the cases above have some issues to work with custom RouterService.
