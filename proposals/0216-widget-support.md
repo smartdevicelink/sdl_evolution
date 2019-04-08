@@ -96,7 +96,7 @@ This proposal will only focus on RPCs affecting widgets, which are `Show`, `SetD
 
 The proposed solution is to allow apps to create one or multiple widget screens. Each widget can be individually addressed with text, images and buttons. For convenience it should be possible to enable content duplication from another widget or screen. One app should be allowed to create one or multiple widgets.
 
-It is the OEMs responsibility and decision on how and where widgets will be presented. They could be listed on the IVI home screen, in the apps domain or next to the main app screen area. Just as today, the application should be notified about widget visibility by using HMI levels for widgets.
+It is the OEMs responsibility and decision on how and where widgets will be presented. They could be listed on the IVI home screen, in the apps domain of the IVI system or next to the main app screen area. Just as today, the application should be notified about widget visibility by using HMI levels for widgets.
 
 In order to provide widget support, it is necessary to add APIs to manage and manipulate screens.
 
@@ -112,8 +112,8 @@ In order to work with multiple screens, the app needs to be able to create or de
     Create a new screen on the display with the specified screen type.
   </description>
   <param name="screenID" type="Integer" mandatory="true">
-    <description>
-      A unique ID to identify the screen.
+     <description>
+       A unique ID to identify the screen. The value of '0' will always be the default main screen on the main display and should not be used in this context as it will already be created for the app. See PredefinedScreens enum.
     </description>
   </param>
   <param name="screenName" type="String" maxlength="100" mandatory="true">
@@ -138,7 +138,11 @@ In order to work with multiple screens, the app needs to be able to create or de
   <description>
     Deletes previously created screen of the SDL application.
   </description>
-  <param name="screenID" type="Integer" mandatory="true" />
+  <param name="screenID" type="Integer" mandatory="true">
+    <description>
+      A unique ID to identify the screen. The value of '0' will always be the default main screen on the main display and should not be used in this context as it will already be created for the app. See PredefinedScreens enum.
+    </description>
+  </param>
 </function>
 
 <function name="DeleteScreen" messagetype="response" since="5.x">
@@ -161,7 +165,7 @@ In order to work with multiple screens, the app needs to be able to create or de
 <enum "PredefinedScreens" since="5.x">
 <element name="DEFAULT_SCREEN" value="0">
   <description>
-    The default screen is a main screen pre-created on behalfs of the app.
+    The default screen is a main screen pre-created on behalf of the app.
   </description>
 </element>
 </enum>
@@ -177,7 +181,7 @@ The HMI API should contain:
 
 The RPC `CreateScreen` allows an app to create a new screen on the display. The app needs to specify a screen ID that is used for screen manipulation e.g. with the RPC `Show` and the screen type which can either be `MAIN` or `WIDGET` (see sub-section *Screen types*). 
 
-If desired, the apps can duplicate content of an existing screen to the created screen using parameter `duplicateScreenID`. All RPCs sent to the screen with the ID equals `dulicateScreenID` will be duplicated to the created screen. Bidirectional screen content duplication should not be supported. RPCs sent to the creating screen should be rejected by the HMI.
+If desired, the apps can duplicate content of an existing screen to the created screen using parameter `duplicateScreenID`. All RPCs sent to the screen with the ID equals `duplicateScreenID` will be duplicated to the created screen. Bidirectional screen content duplication should not be supported. RPCs sent to the creating screen should be rejected by the HMI.
 
 #### Screen types
 
@@ -202,7 +206,11 @@ Today, SDL uses HMI levels to inform an app about the launch state and visibilit
 ```xml
 <function name="OnHMIStatus" functionID="OnHMIStatusID" messagetype="notification" since="1.0">
   :
-  <param name="screenID" type="Integer" mandatory="false" since="5.x" />
+  <param name="screenID" type="Integer" mandatory="false" since="5.x" >
+    <description>
+      This is the unique ID assigned to the screen that this RPC is intended. If this param is not included, it will be assumed that this request is specifically for the main screen on the main display. See PredefinedScreens enum. 
+    </description>
+  </param>
 </function>    
 ```
 
@@ -227,7 +235,11 @@ The above requirements require additions to the HMI_API in order to provide syst
     <param name="appID" type="Integer" mandatory="false">
       <description>ID of application that is related to this RPC.</description>
     </param>
-    <param name="screenID" type="Integer" mandatory="false" /> <!-- new -->
+    <param name="screenID" type="Integer" mandatory="false" > <!-- new -->
+      <description>
+        This is the unique ID assigned to the screen that this RPC is intended. If this param is not included, it will be assumed that this request is specifically for the main screen on the main display. See PredefinedScreens enum. 
+      </description>
+    </param>
   </function>
 ```
 
@@ -241,11 +253,19 @@ Above requirements regarding modifying the HMI level require modifications to th
 <interface name="BasicCommunication">
 <function name="OnAppActivated" messagetype="notification">
   :
-  <param name="screenID" type="Integer" mandatory="true" /> <-- new -->
+  <param name="screenID" type="Integer" mandatory="true" > <-- new -->
+    <description>
+      This is the unique ID assigned to the screen that this RPC is intended. If this param is not included, it will be assumed that this request is specifically for the main screen on the main display. See PredefinedScreens enum.  
+    </description>
+  </param>
 </function>
 <function name="OnAppDeactivated" messagetype="notification">
   :
-  <param name="screenID" type="Integer" mandatory="true" /> <-- new -->
+  <param name="screenID" type="Integer" mandatory="true" > <-- new -->
+    <description>
+      This is the unique ID assigned to the screen that this RPC is intended. If this param is not included, it will be assumed that this request is specifically for the main screen on the main display. See PredefinedScreens enum. 
+    </description>
+  </param>
 </function>
 ```
 
@@ -265,13 +285,21 @@ The RPC `Show` and `SetDisplayLayout` are identified as the only screen related 
 <function name="Show" functionID="ShowID" messagetype="request" since="1.0">
  :
  :
-<param name="screenID" type="Integer" mandatory="false" since="5.x" />
+  <param name="screenID" type="Integer" mandatory="false" since="5.x" >
+    <description>
+      This is the unique ID assigned to the screen that this RPC is intended. If this param is not included, it will be assumed that this request is specifically for the main screen on the main display. See PredefinedScreens enum. 
+    </description>
+  </param>
 </function>
 
 <function name="SetDisplayLayout" functionID="SetDisplayLayoutID" messagetype="request" since="2.0">
  :
  :
- <param name="screenID" type="Integer" mandatory="false" since="5.x" />
+  <param name="screenID" type="Integer" mandatory="false" since="5.x" >
+    <description>
+      This is the unique ID assigned to the screen that this RPC is intended. If this param is not included, it will be assumed that this request is specifically for the main screen on the main display. See PredefinedScreens enum. 
+    </description>
+  </param>
 </function>
 ```
 
@@ -581,3 +609,30 @@ To avoid refactoring `SetDisplayLayout` to `SetScreenLayout` it is possible to j
   </param>
 </function>
 ```
+## Appendix
+
+### RPC Table
+This table is for referencing which RPCs are display or screen addressable. While multiple displays are not yet supported, nor included in this proposal, this table can help see which RPCs will be affected.
+
+RPC                    | Display Addressable | Screen Addressable  | `ScreenType`      | Notes
+---------------------- | ------------------- | ------------------  | ------------------| -------- |
+`Alert`                | <center>x</center>  | <center> </center>  | <center> </center>|
+`PerformInteraction`   | <center>x</center>  | <center> </center>  | <center> </center>|
+`PerformAudioPassThru` | <center>x</center>  | <center> </center>  | <center> </center>|
+`EndAudioPassThru`     | <center>x</center>  | <center> </center>  | <center> </center>|
+`OnAudioPassThru`      | <center>x</center>  | <center> </center>  | <center> </center>|
+`ScrollableMessage`    | <center>x</center>  | <center> </center>  | <center> </center>|
+`Slider`               | <center>x</center>  | <center> </center>  | <center> </center>|
+`ShowConstantTBT`      | <center>x</center>  | <center> </center>  | <center> </center>|
+`AlertManeuver`        | <center>x</center>  | <center> </center>  | <center> </center>|
+`OnKeyboardInput`      | <center>x</center>  | <center>x</center>  | <center>`MAIN`</center>| Display addressable for keyboard interactions. Screen addressable for `NAV_KEYBOARD` template
+`AddCommand `          | <center> </center>  | <center>x</center>  | <center>`MAIN`</center>|
+`DeleteCommand `       | <center> </center>  | <center>x</center>  | <center>`MAIN`</center>|
+`AddSubMenu `          | <center> </center>  | <center>x</center>  | <center>`MAIN`</center>|
+`DeleteSubMenu `       | <center> </center>  | <center>x</center>  | <center>`MAIN`</center>|
+`SetMediaClockTimer `  | <center> </center>  | <center>x</center>  | <center>`MAIN`</center>|
+`SendHapticData `      | <center> </center>  | <center>x</center>  | <center>`MAIN`</center>|
+`OnTouchEvent `        | <center> </center>  | <center>x</center>  | <center>`MAIN`</center>|
+`Show `                | <center> </center>  | <center>x</center>  | <center>`MAIN`, `WIDGET`</center>|
+`SetDisplayLayout `    | <center> </center>  | <center>x</center>  | <center>`MAIN`, `WIDGET`</center>|
+`OnHMIStatus `         | <center> </center>  | <center>x</center>  | <center>`MAIN`, `WIDGET`</center>|
