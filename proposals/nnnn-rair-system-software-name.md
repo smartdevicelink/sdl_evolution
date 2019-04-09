@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal add a new Register App Interface Response parameter called `systemSoftwareName` that pairs with the existing `systemSoftwareVersion` and `sdlVersion`.
+This proposal adds a new Register App Interface Response parameter called `systemSoftwareName` that pairs with the existing `systemSoftwareVersion` and `sdlVersion`.
 
 ## Motivation
 
