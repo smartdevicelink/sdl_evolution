@@ -113,11 +113,15 @@ In order to work with multiple screens, the app needs to be able to create or de
   </description>
   <param name="screenID" type="Integer" mandatory="true">
      <description>
-       A unique ID to identify the screen. The value of '0' will always be the default main screen on the main display and should not be used in this context as it will already be created for the app. See PredefinedScreens enum.
+       A unique ID to identify the screen. The value of '0' will always be the default main screen on the main display and should not be used in this context as it will already be created for the app. See PredefinedScreens enum. Creating a screen with an ID already in use will be rejected with `INVALID_ID`.
     </description>
   </param>
   <param name="screenName" type="String" maxlength="100" mandatory="true">
-     <description>The screen name to be used by the HMI. The name of the pre-created default screen will match the app name.</description>
+     <description>
+       The screen name to be used by the HMI. The name of the pre-created default screen will match the app name.
+       Multiple apps can share the same screen name except for the default main screen. 
+       Creating a screen with a name, which is already in use by the app. will result in `DUPLICATE_NAME`.
+     </description>
   </param>
   <param name="type" type="ScreenType" mandatory="true">
     <description>The type of the screen to be created. Main screen or widget screen.</description>
@@ -126,12 +130,40 @@ In order to work with multiple screens, the app needs to be able to create or de
     <description>
       Optional parameter. Specify whether the content of an existing screen should be duplicated
       to the created screen.
+      If the screen with the ID doesn't exist the request will be rejected with `INVALID_DATA`.
     </description>
+  </param>
+  <param name="appHMIType" type="AppHMIType" minsize="1" maxsize="100" array="true" mandatory="false">
+    <description>
+      Allows an app to create a screen related to one or multiple HMI types.
+      As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
+      directed to this active media app. In case of widgets, the system can provide a single "media" widget will acts as a placeholder for the active media app.
+      The default main screen, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
+      It is only allowed to have one screen per screen type and per HMI type. this means that a media app can only have a single MEDIA main screen and a single MEDIA widget. Still the app can create widgets omitting this parameter or with specifying the default HMI type. Those widgets would be available to the user independent of the HMI type.
+    </descripion>
   </param>
 </function>
 
 <function name="CreateScreen" messagetype="response" since="5.x">
-  <!-- common response params -->
+  <param name="success" type="Boolean" platform="documentation" mandatory="true">
+    <description> true if successful; false, if failed.</description>
+  </param>
+  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+    <description>Provides additional human readable info regarding the result.</description>
+  </param>
+  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+    <description>See Result</description>
+    <element name="SUCCESS"/>
+    <element name="REJECTED"/>
+    <element name="INVALID_DATA"/>
+    <element name="INVALID_ID"/>
+    <element name="DUPLICATE_NAME"/>
+    <element name="DISALLOWED"/>
+    <element name="OUT_OF_MEMORY"/>
+    <element name="TOO_MANY_PENDING_REQUESTS"/>
+    <element name="APPLICATION_NOT_REGISTERED"/>
+    <element name="GENERIC_ERROR"/>
+  </param>
 </function>
 
 <function name="DeleteScreen" messagetype="request" since="5.x">
@@ -146,7 +178,25 @@ In order to work with multiple screens, the app needs to be able to create or de
 </function>
 
 <function name="DeleteScreen" messagetype="response" since="5.x">
-  <!-- common response params -->
+  <param name="success" type="Boolean" platform="documentation" mandatory="true">
+    <description> true if successful; false, if failed.</description>
+  </param>
+  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+    <description>Provides additional human readable info regarding the result.</description>
+  </param>
+  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+    <description>See Result</description>
+    <element name="SUCCESS"/>
+    <element name="REJECTED"/>
+    <element name="INVALID_DATA"/>
+    <element name="INVALID_ID"/>
+    <element name="DUPLICATE_NAME"/>
+    <element name="DISALLOWED"/>
+    <element name="OUT_OF_MEMORY"/>
+    <element name="TOO_MANY_PENDING_REQUESTS"/>
+    <element name="APPLICATION_NOT_REGISTERED"/>
+    <element name="GENERIC_ERROR"/>
+  </param>
 </function>
 
 <enum "ScreenType">
@@ -192,6 +242,12 @@ The main screen is the full size app screen on a display. It should not be allow
 The widget screen is a small screen type to provide quick information and softbuttons. Depending on the app policies, apps can create widgets from any HMI level as allowed by policies (e.g. from HMI_NONE or BACKGROUND). Once the widget is activated by the HMI, apps can send `Show` or `SetDisplayLayout` to add content (text and soft buttons) to that widget. The RPCs sent to the widget follow same policies according to the widget's HMI level. 
 
 Just like push notifications (`Alert` from `HMI_BACKGROUND`), widgets should have effect to the HMI level of the app's main screen in case of `STEAL_FOCUS` soft buttons. If a user taps on a soft button in the widget with `.systemAction = STEAL_FOCUS`, the app's main screen should be activated by the HMI and therefore become HMI_FULL.
+
+#### Screens and `AppHMIType`
+
+Specifying an HMI type allows an app to create a screen related to one or multiple HMI types. As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be directed to this active media app. In case of widgets, the system can provide a single "media" widget will acts as a placeholder for the active media app. The default main screen, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request. It is only allowed to have one screen per screen type and per HMI type. this means that a media app can only have a single MEDIA main screen and a single MEDIA widget. If the app requests a second screen of the same screen and HMI type, the response will be rejected with the result "INVALID_DATA".
+
+Still the app can create widgets omitting this parameter or with specifying the default HMI type. Those widgets would be available to the user independent of the HMI type.
 
 #### PredefinedScreens
 
@@ -377,7 +433,16 @@ To hold screen capabilities, the display capabilities should contain the display
     Informs the application how many screens the app is allowed to create per type. 
    </description>
  </param>
-  <param name="screenCapabilities" type="ScreenCapability" array="true" minsize="1" maxsize="1000" mandatory="false" />
+  <param name="screenCapabilities" type="ScreenCapability" array="true" minsize="1" maxsize="1000" mandatory="false">
+    <description>
+      Contains a list of capabilities of all screens related to the app.
+      Once the app has registered the capabilities of all screens are provided.
+      GetSystemCapability still allows requesting screen capabilities of all screens.
+      After registration only screens with capabilities changed will be included. Following cases will cause only affected screens to be included:
+      1. App creates a new screen. After the screen is created a system capability notification will be sent related only to the created screen.
+      2. App sets a new layout to the screen. The new layout changes screen capabilties. The notification will reflect those changes to the single screen.
+    </description>
+  </param>
 </struct>
 ```
 
@@ -482,15 +547,15 @@ Below scenario shows the expected RPCs being send at app registration:
 4. System sends `OnHMIStatus` notification 
 5. System sends `OnPermissionsChange` notification
 
-The display capabilities should contain all screen's available immediately after registration. This can be important for app resumption when widgets are reused by a hash ID in the app registration.
+The display capabilities should contain *all* screen's available immediately after registration. This is important for app resumption when widgets are reused by a hash ID in the app registration.
 
 Another scenario is changing the layout using `SetScreenLayout`:
 
-1. App sends `SetDisplayLayout`
-2. System responds with `SetDisplayLayoutResponse`
+1. App sends `SetScreenLayout`
+2. System responds with `SetScreenLayoutResponse`
 3. System sends `OnSystemCapability` notification with display capabilities
 
-Same as on app registration, the notification should return capabilities to all screens created.
+Different to registration the notification should contain only the affected screen.
 
 With this proposal the scenario of creating a new screen should be similar to set a new layout:
 
@@ -498,7 +563,7 @@ With this proposal the scenario of creating a new screen should be similar to se
 2. System responds with `CreateScreenResponse`
 3. System sends `OnSystemCapability` notification with display capabilities
 
-Same again, the notification should return capabilities to all screens created.
+Again, different to registration the notification should contain only the affected (created) screen.
 
 In all scenarios it should not be necessary for the app to subscribe to screen capabilities.
 
@@ -572,8 +637,6 @@ T screen managers should be refactored to read screen capabilities notifications
 To reduce complexity on the head unit, screen duplication can be supported by the SDL libraries. This could allow more flexibility to display duplication for existing screens. However, this increases the number of RPCs to be sent by the app and the user might see a delay in screen updates (duplication not being synchronized).
 
 In order to reduce state machine complexity for widget HMI levels on SDL core side, the HMI can take control of HMI level transitions for widgets. However this might cause different behavior per HMI implementation which could be confusing to developers as the behavior is not consistent.
-
-Instead of only having `DisplayCapability` it is possible to separate display capability and screen capability in `SystemCapability`. This may allow some benefits avoiding repeating display data when screens have changed. Also, it may allow `OnSystemCapabilityUpdated` to specific screens, instead of repeating all screens data.
 
 It is possible to have a manual subscription to display capabilities. This is definitely a possible solution as the SDL managers will perform the capabilities subscription. However, as this subscription will be made for 100% of the apps and as subscribing takes more time sending RPCs it was considered that autosubscription improves performance in this case. Without the automatic subscription, this redesign would perform worse than the current design of returning the information in a response.
 
