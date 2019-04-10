@@ -118,7 +118,7 @@ Would require a minor version change.
 
 The author could not think of a better alternate solution.
 
-[sunny-day-scenario]:../assets/proposals/NNNN-ServiceStatusUpdateToHMI/sunny-day-scenario.png
-[PTU-Time-Out]: ../assets/proposals/NNNN-ServiceStatusUpdateToHMI/PTU-Time-Out.png
-[Invalid-Cert]: ../assets/proposals/NNNN-ServiceStatusUpdateToHMI/Invalid-Cert.png
-[Invalid-System-Time]: ../assets/proposals/NNNN-ServiceStatusUpdateToHMI/invalid-system-time.png
+[sunny-day-scenario]:../assets/proposals/0211-ServiceStatusUpdateToHMI/sunny-day-scenario.png
+[PTU-Time-Out]: ../assets/proposals/0211-ServiceStatusUpdateToHMI/PTU-Time-Out.png
+[Invalid-Cert]: ../assets/proposals/0211-ServiceStatusUpdateToHMI/Invalid-Cert.png
+[Invalid-System-Time]: ../assets/proposals/0211-ServiceStatusUpdateToHMI/invalid-system-time.png

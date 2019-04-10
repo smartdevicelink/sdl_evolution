@@ -101,7 +101,7 @@ This proposal introduces a coordinate system, which divides the space of the veh
 
 For example, in a regular sedan with two rows, three columns and one level. The following image and table show the positions and the grid of each seat.
 
-![4-5 Passenger](/assets/proposals/nnnn-multiple-modules/2x3.jpg)
+![4-5 Passenger](../assets/proposals/0221-multiple-modules/2x3.jpg)
 
 | col=-1, row=-1  | col=0 | col=1 | col=2 |
 | --- | --- | --- | --- |
@@ -112,7 +112,7 @@ Please note grids can be overlapping. A grid that covers the completely internal
 
 The following images and tables show the positions of each seat in popular 7-seat and 12-seat configurations with 3x3 and 4x4 grids.
 
-![7 Passenger](/assets/proposals/nnnn-multiple-modules/3x3.jpg)
+![7 Passenger](../assets/proposals/0221-multiple-modules/3x3.jpg)
 
 | col=-1, row=-1  | col=0 | col=1 | col=2 |
 | --- | --- | --- | --- |
@@ -120,7 +120,7 @@ The following images and tables show the positions of each seat in popular 7-sea
 | row=1 | 1A |  |  1C  |
 | row=2 | 2A | 2B |  2C  |
 
-![11 or 12 Passenger](/assets/proposals/nnnn-multiple-modules/4x4.jpg)
+![11 or 12 Passenger](../assets/proposals/0221-multiple-modules/4x4.jpg)
 
 | col=-1, row=-1  | col=0 | col=1 | col=2 | col=3 
 | --- | --- | --- | --- | --- | 
