@@ -1,4 +1,4 @@
-# Add Image to Media Service
+# Add Currently Playing Media Image to MediaServiceData
 
 * Proposal: [SDL-NNNN](NNNN-media-service-image.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
