@@ -1,8 +1,8 @@
 # Remote Control - Allow Multiple Modules per Module Type
 
-* Proposal: [SDL-NNNN](nnnn-multiple-modules.md)
+* Proposal: [SDL-0221](0221-multiple-modules.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
