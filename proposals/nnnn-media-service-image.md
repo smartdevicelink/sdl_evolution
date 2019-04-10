@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-media-service-image.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Web / RPC]
+* Impacted Platforms: [Core / iOS / Android / Cloud Proxy / RPC]
 
 ## Introduction
 This proposal adds an image for the currently playing media item to the media app service.
