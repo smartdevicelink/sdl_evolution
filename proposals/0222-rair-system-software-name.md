@@ -1,8 +1,8 @@
 # Add System Software Name parameter to Register App Interface Response
 
-* Proposal: [SDL-NNNN](NNNN-rair-system-software-name.md)
+* Proposal: [SDL-0222](0222-rair-system-software-name.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
