@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0203](0203-cloud_client_library_phase_1.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Accpeted**
+* Status: **Accepted**
 * Impacted Platforms: **New: Cloud - Java** 
 
 ## Introduction
@@ -26,7 +26,7 @@ Java's main advantage is that it can be written once, and ran everywhere. While 
 
 Java has been expanded to many different areas outside of the standard edition for specific applications, web/mobile/embedded. Java Enterprise Edition (EE) is a superset of Java Standard Edition (SE) so creating the common library with the subset of Java SE available through the Android SDK will enable developers to tailor their cloud integrations for large-scale applications. 
 
-![Java Sets](../assets/proposals/NNNN-cloud_client_library_phase_1/java_sets.png "Java Sets")
+![Java Sets](../assets/proposals/0203-cloud_client_library_phase_1/java_sets.png "Java Sets")
 
 #### Opportunity to refactor
 
@@ -47,21 +47,21 @@ This proposal intends to introduce a change to existing libraries and creation o
 
 The first potential architecture would be to simply include the SDL library into the main backend of the application. This would be possible if the backend supported a Java application or written in Java itself.
 
-![SDL Integration](../assets/proposals/NNNN-cloud_client_library_phase_1/cloud_arch_0.png "SDL Integration")
+![SDL Integration](../assets/proposals/0203-cloud_client_library_phase_1/cloud_arch_0.png "SDL Integration")
 
 ##### SDL Cloud as separate endpoint
 
 Secondly, the library could be deployed to a standalone server that was separated out from the main backend. In the example provided it shows how it can be connected to the backend by utilizing exposed API hooks into the application. The SDL cloud application server would translate that API into the SDL messages and integration for a cloud app to connect to Core.
 
 
-![SDL as separate service](../assets/proposals/NNNN-cloud_client_library_phase_1/cloud_arch_1.png "SDL as separate service")
+![SDL as separate service](../assets/proposals/0203-cloud_client_library_phase_1/cloud_arch_1.png "SDL as separate service")
 
 ##### SDL Cloud as Embedded App
 
 Lastly, the library could be deployed in an embedded app that ran on the IVI system or a different module that had access to the local network for Core to connect to the app.
 
 
-![SDL as embedded app](../assets/proposals/NNNN-cloud_client_library_phase_1/cloud_arch_2.png "SDL as embedded app")
+![SDL as embedded app](../assets/proposals/0203-cloud_client_library_phase_1/cloud_arch_2.png "SDL as embedded app")
 
 #### Code base
 
@@ -71,7 +71,7 @@ The library would follow the SDL Android library. This would include the new man
 
 ##### Proposed project hierarchy:
 
-![Project Hierarchy](../assets/proposals/NNNN-cloud_client_library_phase_1/project_hierarchy.png "Proposed project hierarchy")
+![Project Hierarchy](../assets/proposals/0203-cloud_client_library_phase_1/project_hierarchy.png "Proposed project hierarchy")
 
 
 The solution will have three defined milestones that should be implemented over a span of time.

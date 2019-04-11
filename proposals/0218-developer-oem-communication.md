@@ -152,17 +152,17 @@ Trello offers an oauth-based API capable of managing boards, lists, cards, and c
 ### Open-source Forum Software
 There are various open-source forum (or forum-like) solutions which the Developer Portal could host such as NodeBB, phpBB, myBB, Discourse, etc, but when investigating there was only one (Discourse) which offers a comprehensive, documented API. These out-of-the-box generic solutions contain many features which would likely never be used (read: overcomplicated; technical debt), are mostly built upon older technology stacks (PHP, MySQL, Apache) than the rest of SDL's infrastructure, and would likely require heavy customization to achieve seamless integration into the Developer Portal.
 
-[catalog-of-apps]: ../assets/proposals/NNNN-developer-oem-communication/catalog-of-apps.jpg
-[catalog-of-oems]: ../assets/proposals/NNNN-developer-oem-communication/catalog-of-oems.jpg
+[catalog-of-apps]: ../assets/proposals/0218-developer-oem-communication/catalog-of-apps.jpg
+[catalog-of-oems]: ../assets/proposals/0218-developer-oem-communication/catalog-of-oems.jpg
 
-[app-chat-oem]: ../assets/proposals/NNNN-developer-oem-communication/app-chat-oem.jpg
-[issue-list-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-list-oem.jpg
-[issue-view-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-view-oem.jpg
-[issue-create-oem]: ../assets/proposals/NNNN-developer-oem-communication/issue-create-oem.jpg
+[app-chat-oem]: ../assets/proposals/0218-developer-oem-communication/app-chat-oem.jpg
+[issue-list-oem]: ../assets/proposals/0218-developer-oem-communication/issue-list-oem.jpg
+[issue-view-oem]: ../assets/proposals/0218-developer-oem-communication/issue-view-oem.jpg
+[issue-create-oem]: ../assets/proposals/0218-developer-oem-communication/issue-create-oem.jpg
 
-[app-chat-dev]: ../assets/proposals/NNNN-developer-oem-communication/app-chat-dev.jpg
-[issue-list-dev]: ../assets/proposals/NNNN-developer-oem-communication/issue-list-dev.jpg
-[issue-view-dev]: ../assets/proposals/NNNN-developer-oem-communication/issue-view-dev.jpg
+[app-chat-dev]: ../assets/proposals/0218-developer-oem-communication/app-chat-dev.jpg
+[issue-list-dev]: ../assets/proposals/0218-developer-oem-communication/issue-list-dev.jpg
+[issue-view-dev]: ../assets/proposals/0218-developer-oem-communication/issue-view-dev.jpg
 
-[email-new-issue]: ../assets/proposals/NNNN-developer-oem-communication/email-new-issue.png
-[email-new-message]: ../assets/proposals/NNNN-developer-oem-communication/email-new-message.png
+[email-new-issue]: ../assets/proposals/0218-developer-oem-communication/email-new-issue.png
+[email-new-message]: ../assets/proposals/0218-developer-oem-communication/email-new-message.png

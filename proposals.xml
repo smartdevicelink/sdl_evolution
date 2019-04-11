@@ -128,7 +128,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0115" status="accepted" primary-platform="rpc" sdl-version="x.x" name="CloseApplicationRPC" filename="0115-close-application.md"/>
 <proposal id="0116" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Open Menu RPC" filename="0116-open-menu.md"/>	
 <proposal id="0117" status="accepted" primary-platform="core" sdl-version="x.x" name="Configurable time before shutdown" filename="0117-configurable-time-before-shutdown.md"/>	
-<proposal id="0118" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
+<proposal id="0118" status="accepted" primary-platform="android" sdl-version="x.x" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
+<proposal id="0118" status="implemented" primary-platform="ios" sdl-version="6.2" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
 <proposal id="0119" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
 <proposal id="0120" status="implemented" primary-platform="core" sdl-version="5.0" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
 <proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
@@ -210,31 +211,36 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0193" status="accepted" primary-platform="android" sdl-version="x.x" name="Update SDL-Android minimum SDK" filename="0193-update-android-min-sdk.md"/>
 <proposal id="0194" status="implemented" primary-platform="android" sdl-version="4.7" name="Android Transport Layer Overhaul" filename="0194-android-transport-overhaul.md"/>
 <proposal id="0195" status="returned" primary-platform="rpc" sdl-version="x.x" name="Minimum Main and Secondary Font Size" filename="0195-minimum-main-and-secondary-font-size.md"/>
-<proposal id="0196" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add Support for Static Icons to SDLArtwork" filename="0196-sdlartwork-static-icons.md"/>
-<proposal id="0197" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Update SetMediaClockTimer Initializers" filename="0197-setmediaclocktimer-initializers.md"/>
+<proposal id="0196" status="implemented" primary-platform="ios" sdl-version="6.2" name="Add Support for Static Icons to SDLArtwork" filename="0196-sdlartwork-static-icons.md"/>
+<proposal id="0196" status="implemented" primary-platform="android" sdl-version="4.8" name="Add Support for Static Icons to SDLArtwork" filename="0196-sdlartwork-static-icons.md"/>
+<proposal id="0197" status="implemented" primary-platform="ios" sdl-version="6.2" name="Update SetMediaClockTimer Initializers" filename="0197-setmediaclocktimer-initializers.md"/>
+<proposal id="0197" status="implemented" primary-platform="android" sdl-version="4.8" name="Update SetMediaClockTimer Initializers" filename="0197-setmediaclocktimer-initializers.md"/>
 <proposal id="0198" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Skip Indicators" filename="0198-media-skip-indicators.md"/>
 <proposal id="0199" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
-<proposal id="0200" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="Removing URL Parameter Max Length" filename="0200-Removing-URL-Param-Max-Length.md"/>
-<proposal id="0201" status="returned"   primary-platform="ios" sdl-version="x.x" name="High level interface: Overlay Controllers" filename="0201-high-level-interface-overlay-controllers.md"/>
-<proposal id="0202" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="Supported Character Sets" filename="0202-character-sets.md"/>
-<proposal id="0203" status="accepted"   primary-platform="cloud" sdl-version="x.x" name=" Cloud App Library - Phase 1" filename="0203-cloud_client_library_phase_1.md"/>
-<proposal id="0204" status="accepted"   primary-platform="core" sdl-version="x.x" name="Support running the same app from multiple devices at the same time" filename="0204-same-app-from-multiple-devices.md"/>	
-<proposal id="0205" status="accepted"   primary-platform="core" sdl-version="x.x" name="Avoid Custom button subscription in case HMI incompatibility" filename="0205-Avoid_custom_button_subscription_when_HMI_does_not_support.md"/>
-<proposal id="0206" status="accepted"   primary-platform="atf" sdl-version="x.x" name="Remote Automated testing" filename="0206-remote_atf_testing.md"/>
-<proposal id="0207" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="RPC message protection" filename="0207-rpc-message-protection.md"/>
-<proposal id="0208" status="accepted"   primary-platform="mobile" sdl-version="x.x" name="Block Old SDL Head Units from Mobile" filename="0208-block-sdl-head-units.md"/>
-<proposal id="0209" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="Static Icon Capability" filename="0209-static-icon-capability.md"/>
-<proposal id="0210" status="accepted"   primary-platform="mobile" sdl-version="x.x" name="Mobile Manager Dynamic Menu Cell Updating" filename="0210-mobile-dynamic-menu-cell-updating.md"/>
-<proposal id="0211" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="Service Status Update to HMI" filename="0211-ServiceStatusUpdateToHMI.md"/>
-<proposal id="0212" status="accepted"   primary-platform="core" sdl-version="x.x" name="Add Ability to Reuse a SyncFileName for a PutFile" filename="0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md"/>
-<proposal id="0213" status="accepted"   primary-platform="rpc" sdl-version="x.x" name="Remote Control - Radio and Climate Parameter Update" filename="0213-rc-radio-climate-parameter-update.md"/>
-<proposal id="0214" status="accepted"   primary-platform="core" sdl-version="x.x" name="Secondary Transport Optimization" filename="0214-secondary-transport-optimization.md"/>
-<proposal id="0215" status="deferred"   primary-platform="ios" sdl-version="x.x" name="iOS ReplayKit Streaming" filename="0215-ios-replaykit-streaming.md"/>
-<proposal id="0216" status="active"   	primary-platform="rpc" sdl-version="x.x" name="Widget Support" filename="0216-widget-support.md"/>
-<proposal id="0217" status="rejected"   primary-platform="android" sdl-version="x.x" name="Android ManagerListener Update" filename="0217-android-manager-listener-update.md"/>
-<proposal id="0218" status="accepted"   primary-platform="dev-portal" sdl-version="x.x" name="Facilitating OEM Communication with App Developers" filename="0218-developer-oem-communication.md"/>
-<proposal id="0219" status="accepted"   primary-platform="ios" sdl-version="x.x" name="Explicit returned type from NSDictionary(Store) category" filename="0219-ios-check-type.md"/>
-<proposal id="0220" status="returned"   primary-platform="android" sdl-version="x.x" name="Support for Android custom RouterService" filename="0220-support-for-android-custom-routerservice.md"/>
+<proposal id="0200" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Removing URL Parameter Max Length" filename="0200-Removing-URL-Param-Max-Length.md"/>
+<proposal id="0201" status="returned" primary-platform="ios" sdl-version="x.x" name="High level interface: Overlay Controllers" filename="0201-high-level-interface-overlay-controllers.md"/>
+<proposal id="0202" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Supported Character Sets" filename="0202-character-sets.md"/>
+<proposal id="0203" status="accepted" primary-platform="cloud" sdl-version="x.x" name=" Cloud App Library - Phase 1" filename="0203-cloud_client_library_phase_1.md"/>
+<proposal id="0204" status="accepted" primary-platform="core" sdl-version="x.x" name="Support running the same app from multiple devices at the same time" filename="0204-same-app-from-multiple-devices.md"/>	
+<proposal id="0205" status="accepted" primary-platform="core" sdl-version="x.x" name="Avoid Custom button subscription in case HMI incompatibility" filename="0205-Avoid_custom_button_subscription_when_HMI_does_not_support.md"/>
+<proposal id="0206" status="accepted" primary-platform="atf" sdl-version="x.x" name="Remote Automated testing" filename="0206-remote_atf_testing.md"/>
+<proposal id="0207" status="accepted" primary-platform="rpc" sdl-version="x.x" name="RPC message protection" filename="0207-rpc-message-protection.md"/>
+<proposal id="0208" status="implemented" primary-platform="android" sdl-version="4.8" name="Block Old SDL Head Units from Mobile" filename="0208-block-sdl-head-units.md"/>
+<proposal id="0208" status="implemented" primary-platform="ios" sdl-version="6.2" name="Block Old SDL Head Units from Mobile" filename="0208-block-sdl-head-units.md"/>
+<proposal id="0209" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Static Icon Capability" filename="0209-static-icon-capability.md"/>
+<proposal id="0210" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Mobile Manager Dynamic Menu Cell Updating" filename="0210-mobile-dynamic-menu-cell-updating.md"/>
+<proposal id="0211" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Service Status Update to HMI" filename="0211-ServiceStatusUpdateToHMI.md"/>
+<proposal id="0212" status="accepted" primary-platform="core" sdl-version="x.x" name="Add Ability to Reuse a SyncFileName for a PutFile" filename="0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md"/>
+<proposal id="0213" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Radio and Climate Parameter Update" filename="0213-rc-radio-climate-parameter-update.md"/>
+<proposal id="0214" status="accepted" primary-platform="core" sdl-version="x.x" name="Secondary Transport Optimization" filename="0214-secondary-transport-optimization.md"/>
+<proposal id="0215" status="deferred" primary-platform="ios" sdl-version="x.x" name="iOS ReplayKit Streaming" filename="0215-ios-replaykit-streaming.md"/>
+<proposal id="0216" status="returned" primary-platform="rpc" sdl-version="x.x" name="Widget Support" filename="0216-widget-support.md"/>
+<proposal id="0217" status="rejected" primary-platform="android" sdl-version="x.x" name="Android ManagerListener Update" filename="0217-android-manager-listener-update.md"/>
+<proposal id="0218" status="accepted" primary-platform="dev-portal" sdl-version="x.x" name="Facilitating OEM Communication with App Developers" filename="0218-developer-oem-communication.md"/>
+<proposal id="0219" status="accepted" primary-platform="ios" sdl-version="x.x" name="Explicit returned type from NSDictionary(Store) category" filename="0219-ios-check-type.md"/>
+<proposal id="0220" status="returned" primary-platform="android" sdl-version="x.x" name="Support for Android custom RouterService" filename="0220-support-for-android-custom-routerservice.md"/>
+<proposal id="0221" status="active" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Allow Multiple Modules per Module Type" filename="0221-multiple-modules.md"/>
+<proposal id="0222" status="active" primary-platform="rpc" sdl-version="x.x" name="Add System Software Name parameter to Register App Interface Response" filename="0222-rair-system-software-name.md"/>
 
 
 
