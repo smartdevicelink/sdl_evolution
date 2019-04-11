@@ -94,12 +94,6 @@ The pseudo-code of new asynchronous methos in RouterServiceValidator looks like 
 			securityLevel = getSecurityLevel(context);
 		}
 
-		if(securityLevel == MultiplexTransportConfig.FLAG_MULTI_SECURITY_OFF){ //If security isn't an issue, just return true;
-			if (callback != null) {
-				callback.onFinishedValidation(true, null);
-			}
-		}
-
 		final PackageManager pm = context.getPackageManager();
 
 		if(this.service != null){
@@ -116,30 +110,30 @@ The pseudo-code of new asynchronous methos in RouterServiceValidator looks like 
 			}
 		}
 
-		if(this.service == null){
-			// retrieveBestRouterServiceName works asynchronous, and calls FindConnectedRouterCallback when it finished to find
-			retrieveBestRouterServiceNameAsync(this.context, new FindConnectedRouterCallback() {
-				@Override
-				public void onFound(ComponentName component) {
-					service = component;
-					Log.d(TAG, "FindConnectedRouterCallback.onFound got called. Package=" + component);
-					checkTrustedRouter(callback, pm);
-				}
+		final FindConnectedRouterCallback findRouterCallback = new FindConnectedRouterCallback() {
+			@Override
+			public void onFound(ComponentName component) {
+				Log.d(TAG, "FindConnectedRouterCallback.onFound got called. Package=" + component);
+				checkTrustedRouter(callback, pm, component);
+			}
 
-				@Override
-				public void onFailed() {
-					Log.d(TAG, "FindConnectedRouterCallback.onFailed was called");
-					if (callback != null) {
-						callback.onFinishedValidation(false, null);
-					}
-					// @REVIEW: do we need this??
-					//wakeUpRouterServices();
+			@Override
+			public void onFailed() {
+				Log.d(TAG, "FindConnectedRouterCallback.onFailed was called");
+				if (callback != null) {
+					callback.onFinishedValidation(false, null);
 				}
-			});
+			}
+		};
+
+		if(this.service == null){
+			Log.d(TAG, "about finding the best Router by using retrieveBestRouterServiceName");
+			new FindRouterTask(findRouterCallback).execute(this.context);
 		} else {
 			// already found the RouterService
-			checkTrustedRouter(callback, pm);
+			checkTrustedRouter(callback, pm, service);
 		}
+
 	}
 ```
 
@@ -156,64 +150,130 @@ ValidationStatusCallback interface and FindConnectedRouterCallback looks as foll
 
 ```
 
-retrieveBestRouterServiceNameAsync uses AsyncTask, and look something like below:
-```java
-	private void retrieveBestRouterServiceNameAsync(Context context, FindConnectedRouterCallback callback) {
-		new FindRouterTask(callback).execute(context;
-	}
-```
-
 The pseudo-code of FindRouterTask will be:
 ```java
 	class FindRouterTask extends AsyncTask<Context, Void, ComponentName> {
 		FindConnectedRouterCallback mCallback;
+		ServiceNameHolder serviceNameHolder = null;
 
 		FindRouterTask(FindConnectedRouterCallback callback) {
-			mCallback = callback;
+			if (callback != null) {
+				mCallback = callback;
+			}
 		}
 
 		@Override
 		protected ComponentName doInBackground(final Context... contexts) {
-			if (RouterServiceValidator.this.service != null) {
-				return RouterServiceValidator.this.service;
-			}
-			List<SdlAppInfo> sdlAppInfoList = AndroidTools.querySdlAppInfo(contexts[0], new SdlAppInfo.BestRouterComparator());
-			if (sdlAppInfoList != null && !sdlAppInfoList.isEmpty()) {
-				SdlAppInfo lastItem = sdlAppInfoList.get(sdlAppInfoList.size()-1);
-				for (SdlAppInfo info: sdlAppInfoList) {
-					final boolean isLast = (info.equals(lastItem));
-					ComponentName name = info.getRouterServiceComponentName();
-					final SdlRouterStatusProvider provider = new SdlRouterStatusProvider(contexts[0], name, new SdlRouterStatusProvider.ConnectedStatusCallback() {
-						@Override
-						public void onConnectionStatusUpdate(boolean connected, ComponentName service, Context context) {
-							if (connected) {
-								if (mCallback != null) {
-									RouterServiceValidator.this.service = service;
-									mCallback.onFound(service);
-								}
-							} else {
-								Log.d(TAG, "SdlRouterStatusProvider returns service=" + service + "; connected=" + connected);
-								if (isLast && mCallback != null && RouterServiceValidator.this.service == null) {
-									mCallback.onFailed();
+			// let's use ServiceFinder here
+			Context context = contexts[0];
+			new ServiceFinder(context, context.getPackageName(), new ServiceFinder.ServiceFinderCallback() {
+				@Override
+				public void onComplete(Vector<ComponentName> routerServices) {
+					// OK, we found the routerServices. Let's see one-by-one.
+					if (routerServices == null || routerServices.isEmpty()) {
+						return;
+					}
+					serviceNameHolder = new ServiceNameHolder(contexts[0]);
+					if (serviceNameHolder.isValid()) {
+						routerServices.insertElementAt(serviceNameHolder.getServiceName(), 0);
+					}
+
+					for (ComponentName name: routerServices) {
+						final boolean isLast = name.equals(routerServices.lastElement());
+						final SdlRouterStatusProvider provider = new SdlRouterStatusProvider(contexts[0], name, new SdlRouterStatusProvider.ConnectedStatusCallback() {
+							@Override
+							public void onConnectionStatusUpdate(boolean connected, ComponentName service, Context context) {
+								if (connected) {
+									serviceNameHolder.setServiceName(service);
+									serviceNameHolder.save(contexts[0]);
+									if (mCallback != null) {
+										mCallback.onFound(service);
+									}
+								} else {
+									if (isLast && mCallback != null && !serviceNameHolder.isValid()) {
+										mCallback.onFailed();
+										serviceNameHolder.clear();
+									}
 								}
 							}
-						}
-					});
-					provider.checkIsConnected();
-					provider.cancel();
+						});
+						provider.checkIsConnected();
+						provider.cancel();
+					}
 				}
-			}
+			});
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(ComponentName componentName) {
 			super.onPostExecute(componentName);
-			if (componentName != null && mCallback != null) {
-				mCallback.onFound(componentName);
-			}
+		}
+	}
+```
+
+ServiceNameHolder will be a helper class that holds the last connected service name.
+The pseudo-code would be:
+```java
+	class ServiceNameHolder {
+		static final String prefName = "RouterServiceValidator.FindRouterTask";
+		static final String packageKey = "packageName";
+		static final String classKey = "className";
+		static final String tsKey = "timestamp";
+		final int _validSpan = 300; // 300 seconds == 5 minutes
+		ComponentName _serviceName;
+		long _timeStamp;
+		Context mContext;
+
+		public ServiceNameHolder(String packageName, String className, long timeStamp) {
+			_serviceName = new ComponentName(packageName, className);
+			_timeStamp = timeStamp;
+		}
+		public ServiceNameHolder(Context context) {
+			SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+			String packageName = pref.getString(packageKey, "");
+			String className = pref.getString(classKey, "");
+			_serviceName = new ComponentName(packageName, className);
+			_timeStamp = pref.getLong(tsKey, 0);
+			mContext = context;
 		}
 
+		public ComponentName getServiceName() {
+			return _serviceName;
+		}
+		public void setServiceName(ComponentName name) {
+			_serviceName = name;
+		}
+		public long getTimeStamp() {
+			return _timeStamp;
+		}
+
+		@TargetApi(9)
+		public void save(Context context) {
+			SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = pref.edit();
+			editor.putString(packageKey, _serviceName.getPackageName());
+			editor.putString(classKey, _serviceName.getClassName());
+			_timeStamp = System.currentTimeMillis() / 1000;
+			editor.putLong(tsKey, _timeStamp);
+			editor.apply();
+		}
+
+		public boolean isValid() {
+			return (_timeStamp != 0 && System.currentTimeMillis() / 1000 - _timeStamp < _validSpan);
+		}
+
+		@TargetApi(9)
+		public void clear() {
+			if (mContext != null) {
+				SharedPreferences pref = mContext.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor = pref.edit();
+				editor.putString(packageKey, "");
+				editor.putString(classKey, "");
+				editor.putLong(tsKey, 0);
+				editor.apply();
+			}
+		}
 	}
 ```
 
@@ -255,9 +315,6 @@ The validateAsync is expected to be called in TransportManager, something like t
 
 ```
 
-#### Using cache for saving cost to find the connected RouterService.
-When the app finds the connected RouterService, it might be better to cache the service name on somewhere, e.g. SharedPreferences, so that it won't bother the other app's RouterService too often. When the cache is used, the time to clear the cache is very important. This is optional, however.
-
 ### If an app contains custom RouterService, it must start by itself
 Because the custom RouterService cannot rely on other apps to be woken up, it must start RouterService whenever needed.
 The time when the app starts RouterService highly depends on the application, however.
@@ -274,4 +331,4 @@ The time when the app starts RouterService highly depends on the application, ho
 
 ## Alternatives considered
 - The solution would be beneficial for both custom RouterService and standard RouterService, because it actually increases the chance to find a RouterService that connects with the head unit.
-But one thing to consider is that when finding the connected RouterService, it would be better to try the custom RouterService first, which is different order from what BestRouterComparator in SdlAppInfo offers. It is believed to be better to add another comparator for this purpose.
+It internally utilize ServiceFinder class, which sends broadcast to currently running RouterServices, and receive another broadcast from them. So this way will check currently running RouterService only, and avoid starting services merely for checking the currently connected service.
