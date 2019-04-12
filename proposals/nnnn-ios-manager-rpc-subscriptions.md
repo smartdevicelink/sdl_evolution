@@ -48,7 +48,6 @@ typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *, NSError *__nullabl
  * @param type The type of the RPC you want to subscribe to. While notification `rpcName`s are unique, requests and responses are not. This means that we need to differentiate between them when subscribing.
  * @param observer The object that will have its selector called every time an RPC of the name and type specified is received.
  * @param selector The selector on `observer` that will be called every time an RPC of the name and type specified is received.
-
  */
 - (void)subscribeToRPC:(SDLRPCFunctionName)rpcName ofType:(SDLRPCMessageType)type withObserver:(id)observer selector:(SEL)selector;
 
