@@ -87,7 +87,7 @@ The expected time to check if a RouterService connects with head unit would be r
 The proposed solution is to add new asynchronous method to RouterServiceValidator, and call it right before the TransportManager connects to the RouterService.
 
 #### Detailed design of asynchronous method
-The pseudo-code of new asynchronous methos in RouterServiceValidator looks like this:
+The pseudo-code of new asynchronous method in RouterServiceValidator looks like this:
 ```java
 	public void validateAsync(final ValidationStatusCallback callback) {
 		if(securityLevel == -1){
@@ -95,6 +95,7 @@ The pseudo-code of new asynchronous methos in RouterServiceValidator looks like 
 		}
 
 		final PackageManager pm = context.getPackageManager();
+		//Grab the package for the currently running router service. We need this call regardless of if we are in debug mode or not.
 
 		if(this.service != null){
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O && !isServiceRunning(context,this.service)){
@@ -110,25 +111,22 @@ The pseudo-code of new asynchronous methos in RouterServiceValidator looks like 
 			}
 		}
 
-		final FindConnectedRouterCallback findRouterCallback = new FindConnectedRouterCallback() {
-			@Override
-			public void onFound(ComponentName component) {
-				Log.d(TAG, "FindConnectedRouterCallback.onFound got called. Package=" + component);
-				checkTrustedRouter(callback, pm, component);
-			}
-
-			@Override
-			public void onFailed() {
-				Log.d(TAG, "FindConnectedRouterCallback.onFailed was called");
-				if (callback != null) {
-					callback.onFinishedValidation(false, null);
-				}
-			}
-		};
-
 		if(this.service == null){
-			Log.d(TAG, "about finding the best Router by using retrieveBestRouterServiceName");
-			new FindRouterTask(findRouterCallback).execute(this.context);
+			new FindRouterTask(new FindConnectedRouterCallback() {
+				@Override
+				public void onFound(ComponentName component) {
+					Log.d(TAG, "FindConnectedRouterCallback.onFound got called. Package=" + component);
+					checkTrustedRouter(callback, pm, component);
+				}
+
+				@Override
+				public void onFailed() {
+					Log.d(TAG, "FindConnectedRouterCallback.onFailed was called");
+					if (callback != null) {
+						callback.onFinishedValidation(false, null);
+					}
+				}
+			}).execute(this.context);
 		} else {
 			// already found the RouterService
 			checkTrustedRouter(callback, pm, service);
@@ -150,6 +148,7 @@ ValidationStatusCallback interface and FindConnectedRouterCallback looks as foll
 
 ```
 
+validateAsync method needs to determine the component name of the target RouterService, which is done in FindRouterTask.
 The pseudo-code of FindRouterTask will be:
 ```java
 	class FindRouterTask extends AsyncTask<Context, Void, ComponentName> {
@@ -212,7 +211,7 @@ The pseudo-code of FindRouterTask will be:
 	}
 ```
 
-ServiceNameHolder will be a helper class that holds the last connected service name.
+ServiceNameHolder is a helper class that holds the last connected service name.
 The pseudo-code would be:
 ```java
 	class ServiceNameHolder {
@@ -278,7 +277,7 @@ The pseudo-code would be:
 ```
 
 #### The caller of the asynchronous method
-The validateAsync is expected to be called in TransportManager, something like this:
+validateAsync method is expected to be called in TransportManager, something like this:
 
 ```java
     public TransportManager(final MultiplexTransportConfig config, TransportEventListener listener, final boolean autoStart){
@@ -322,7 +321,7 @@ The time when the app starts RouterService highly depends on the application, ho
 ## Potential downsides
 
 - The proposed solution will use SdlRouterStatusProvider, which actually binds to other app's RouterService and asks if the RouterService has connected transports. This will be done in the main thread, so the caller should execute it from the worker thread. This can be done with AsyncTask anyway.
-- Also when RouterService is bound from SdlRouterStatusProvider, RouterService should not enter to foreground. This is to avoid unneeded notification messages coming up especially on Android 8 or above.
+- When RouterService is bound from SdlRouterStatusProvider, RouterService should not enter to foreground. This is to avoid unneeded notification messages coming up especially on Android 8 or above. This can be done by not calling startService from SdlRouterStatusProvider. bindService should suffice the needs.
 
 ## Impact on existing code
 
@@ -331,4 +330,4 @@ The time when the app starts RouterService highly depends on the application, ho
 
 ## Alternatives considered
 - The solution would be beneficial for both custom RouterService and standard RouterService, because it actually increases the chance to find a RouterService that connects with the head unit.
-It internally utilize ServiceFinder class, which sends broadcast to currently running RouterServices, and receive another broadcast from them. So this way will check currently running RouterService only, and avoid starting services merely for checking the currently connected service.
+FindRouterTask internally utilizes ServiceFinder class, which sends broadcast to currently running RouterServices, and receive another broadcast from them. So this way will check currently running RouterService only, and avoid starting services merely for checking if the RouterService is connected or not.
