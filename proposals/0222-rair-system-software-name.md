@@ -20,7 +20,7 @@ Add a new parameter to the `RegisterAppInterfaceResponse` called `systemSoftware
 ```xml
 <function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response" since="1.0">
     <!-- Everything already there -->
-    <parameter name="systemSoftwareVersion" type="String" maxlength="100" mandatory="false" since="X.X">
+    <parameter name="systemSoftwareName" type="String" maxlength="100" mandatory="false" since="X.X">
         <description>The name of the head unit software, to be paired with the version in `systemSoftwareVersion`.</description>
     </parameter>
 </function>
