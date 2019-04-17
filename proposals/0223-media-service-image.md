@@ -3,7 +3,7 @@
 * Proposal: [SDL-0223](0223-media-service-image.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **In Review**
-* Impacted Platforms: [Core / iOS / Android / Cloud Proxy / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
 This proposal adds an image for the currently playing media item to the media app service.
