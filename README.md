@@ -110,7 +110,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL Java Suite: 4.8.0
 **Release Date**: April 17, 2019
 
-**Contents**: Contents of this release can be tracked on the [Java Suite 4.8.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite).
+**Contents**: Contents of this release can be tracked on the [Java Suite 4.8.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/9).
 
 ---
 
