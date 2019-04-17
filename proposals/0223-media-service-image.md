@@ -1,6 +1,6 @@
 # Add Currently Playing Media Image to MediaServiceData
 
-* Proposal: [SDL-NNNN](0223-media-service-image.md)
+* Proposal: [SDL-0223](0223-media-service-image.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **In Review**
 * Impacted Platforms: [Core / iOS / Android / Cloud Proxy / RPC]
