@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0222](0222-rair-system-software-name.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC]
 
 ## Introduction
