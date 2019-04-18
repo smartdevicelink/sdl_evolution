@@ -1,32 +1,46 @@
-# Feature name
+# Navigation Subscription Buttons
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
-* Author: [SDL Developer](https://github.com/smartdevicelink)
+* Proposal: [SDL-NNNN](NNNN-navigation-subscription-buttons.md)
+* Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Cloud Proxy / HMI / Policy Server / SHAID / RPC / Protocol]
+* Impacted Platforms: [Core / iOS / Android / Cloud Proxy / HMI / RPC]
 
 ## Introduction
-
-A short description of what the feature is. Try to keep it to a single-paragraph "elevator pitch" so the reader understands what problem this proposal is addressing.
+This proposal adds support for new subscription buttons (like the existing Play/Pause, Next, Previous, etc.) specifically designed for navigation scenarios.
 
 ## Motivation
-
-Describe the problems that this proposal seeks to address. If the problem is that some common pattern is currently hard to express, show how one can currently get a similar effect and describe its drawbacks. If it's completely new functionality that cannot be emulated, motivate why this new functionality would help SDL mobile developers or OEMs provide users with useful functionality.
+SDL currently primarily supports touch screen interaction for video streaming navigation apps. However, some OEMs provide haptic (hard button) input that can and should correspond to the streamed navigation map. This should be made easier than it currently is.
 
 ## Proposed solution
+The proposed solution is to add new subscription buttons specifically for these navigation use cases.
 
-Describe your solution to the problem. Provide examples and describe how they work. Show how your solution is better than current workarounds: is it cleaner, safer, or more efficient? Use subsections if necessary.
+### MOBILE_API / HMI_API
+```xml
+<enum name="ButtonName">
+    <!-- New options -->
+    <element name="NAV_CENTER_LOCATION" />
+    <element name="NAV_ZOOM_IN" />
+    <element name="NAV_ZOOM_OUT" />
+    <element name="NAV_PAN_UP" />
+    <element name="NAV_PAN_UP_RIGHT" />
+    <element name="NAV_PAN_RIGHT" />
+    <element name="NAV_PAN_DOWN_RIGHT" />
+    <element name="NAV_PAN_DOWN" />
+    <element name="NAV_PAN_DOWN_LEFT" />
+    <element name="NAV_PAN_LEFT" />
+    <element name="NAV_PAN_UP_LEFT" />
+</enum>
+```
 
-Describe the design of the solution in detail. Use subsections to describe various details. If it involves new protocol changes or RPC changes, show the full XML of all changes and how they changed. Show documentation comments detailing what it does. Show how it might be implemented on the Mobile Library and Core. The detail in this section should be sufficient for someone who is *not* one of the authors to be able to reasonably implement the feature and future [smartdevicelink.com](https://www.smartdevicelink.com) guides.
+### Implementation Notes
+* These buttons should either be unsupported on touch screen head units (i.e. if these buttons can not be implemented as hard buttons in the vehicle), or if they are implemented on the touch screen head unit, they should not overlay the map at all times. Because the OEMs could place them on the screen in different locations, this would prevent the app developer from knowing what areas of the screen are accessible for them to place buttons. Instead, they should be hidden behind, for example, tapping the map, or a button that doesn't overlay the map.
+* This should be considered an _alternate_ way to interact with a map, while touches, pans, and pinches are the primary way to interact.
 
 ## Potential downsides
-
-Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
+1. Poor implementations of this feature could lead to poor app developer experience and poor UX, but that doesn't mean we shouldn't implement the feature at all.
 
 ## Impact on existing code
-
-Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
+This would be a minor version change for the proxy libraries, core, and the specs. This should be fairly light to implement in SDL.
 
 ## Alternatives considered
-
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+* No alternatives were considered.
