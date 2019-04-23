@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-update-published-app-services.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Cloud Proxy / Policy Server / SHAID / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / Policy Server / SHAID / RPC]
 
 ## Introduction
 
