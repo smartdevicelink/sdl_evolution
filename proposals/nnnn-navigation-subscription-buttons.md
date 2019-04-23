@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-navigation-subscription-buttons.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Cloud Proxy / HMI / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
 This proposal adds support for new subscription buttons (like the existing Play/Pause, Next, Previous, etc.) specifically designed for navigation scenarios.
