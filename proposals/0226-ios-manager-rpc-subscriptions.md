@@ -1,8 +1,8 @@
 # Add iOS SDLManager RPC Subscriptions
 
-* Proposal: [SDL-NNNN](NNNN-ios-manager-rpc-subscriptions.md)
+* Proposal: [SDL-0226](0226-ios-manager-rpc-subscriptions.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
