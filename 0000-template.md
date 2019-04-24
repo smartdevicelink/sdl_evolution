@@ -4,7 +4,7 @@
 * Proposal: [SDL-NNNN](NNNN-filename.md)
 * Author: [SDL Developer](https://github.com/smartdevicelink)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Cloud Proxy / HMI / Policy Server / SHAID / RPC / Protocol]
+* Impacted Platforms: [Core / iOS / Java Suite / HMI / Policy Server / SHAID / RPC / Protocol]
 
 ## Introduction
 
