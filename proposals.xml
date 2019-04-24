@@ -240,8 +240,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0220" status="active" primary-platform="java-suite" sdl-version="x.x" name="Support for Android custom RouterService" filename="0220-support-for-android-custom-routerservice.md"/>
 <proposal id="0221" status="returned" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Allow Multiple Modules per Module Type" filename="0221-multiple-modules.md"/>
 <proposal id="0222" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add System Software Name parameter to Register App Interface Response" filename="0222-rair-system-software-name.md"/>
-<proposal id="0223" status="active" primary-platform="rpc" sdl-version="x.x" name="Add Currently Playing Media Image to MediaServiceData" filename="0223-media-service-image.md"/>
-
+<proposal id="0223" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Currently Playing Media Image to MediaServiceData" filename="0223-media-service-image.md"/>
+<proposal id="0224" status="active" primary-platform="rpc" sdl-version="x.x" name="Navigation Subscription Buttons" filename="0224-navigation-subscription-buttons.md"/>
+<proposal id="0225" status="active" primary-platform="rpc" sdl-version="x.x" name="Update Published App Services" filename="0225-update-published-app-services.md"/>
+<proposal id="0226" status="active" primary-platform="ios" sdl-version="x.x" name="Add iOS SDLManager RPC Subscriptions" filename="0226-ios-manager-rpc-subscriptions.md"/>
 
 
 	<!--
