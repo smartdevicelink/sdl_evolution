@@ -1,8 +1,8 @@
 # Update Published App Services
 
-* Proposal: [SDL-NNNN](NNNN-update-published-app-services.md)
+* Proposal: [SDL-0225](0225-update-published-app-services.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / Policy Server / SHAID / RPC]
 
 ## Introduction
