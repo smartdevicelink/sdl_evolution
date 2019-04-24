@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0223](0223-media-service-image.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
