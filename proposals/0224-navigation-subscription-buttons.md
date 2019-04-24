@@ -1,8 +1,8 @@
 # Navigation Subscription Buttons
 
-* Proposal: [SDL-NNNN](NNNN-navigation-subscription-buttons.md)
+* Proposal: [SDL-0224](0224-navigation-subscription-buttons.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
