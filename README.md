@@ -32,7 +32,7 @@ All new SDL implementations should implement the newest version of the protocol.
 
 - Core
 - iOS
-- Android
+- Java Suite
 
 ---
 
@@ -45,7 +45,7 @@ Spec for RPC messages sent between mobile devices and hardware modules.
 
 - Core
 - iOS
-- Android
+- Java Suite
 - HMI (in most cases)
 
 ---
