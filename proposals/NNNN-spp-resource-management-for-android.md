@@ -8,23 +8,22 @@
 ## Introduction
 
 RFCOMM is a connection-oriented, streaming transport over Bluetooth, which is known as Serial Port Profile (SPP) in Android. 
-SDL Proxy uses BluetoothServerSocket for listening SPP channel, and it is used for primary transport. It is known that number of SPP resources is limited in Android device, and BluetoothServerSocket fails to accept connections when SPP channel runs out of available resource.
+SDL Proxy uses BluetoothServerSocket to listen on a SPP channel, and it is used for primary transport.
+On an Android device, number of SPP resources is limited, and BluetoothServerSocket fails to accept connections when SPP channel runs out of available resource.
 Current SDL Proxy does not handle that case very well. This proposal is to improve the SPP resource management in SDL Android.
 
 ## Motivation
 
 This proposal addresses two issues regarding SPP resource management.
 
-1. Detect the case where BluetoothServerSocket fails to accept a connection from head unit. Currently, we handle that case as the error case, but user has no way to know what happened.
-2. Some BluetoothServerSocket are created, but will never be used. Such unused BluetoothServerSocket can be reduced.
+1. It improves user experience of an edge case where SPP resources are exhausted and an app cannot communicate with head unit. Right now, that error is not notified to the app. A user has no way to figure out why connection fails.
+2. MultiplexingTransport has legacy mode, which won't be used in normal case. It reduces the SPP resource consumption by disabling the legacy mode. Right now, legacy mode is used if SdlProxy failed to find the target RouterService.
 
 ## Proposed solution
 
-We have to address two issues mentioned in the previous section.
-
 ### Detect the case where BluetoothServerSocket fails to accept a connection from head unit. 
 Even though we could detect the case, we cannot increase the number of available SPP resources, because they are used by other apps.
-All we can do in this case is to notify users that SPP channel runs out of available resources, and let users to close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by bluetooth adapter. It's suffice our needs to just notice users we're running out of resource.
+All we can do in this case is to notify users that SPP channel runs out of available resources, and to let users to close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. It's sufficient just to notify users that we're running out of resource.
 
 Prior to detect the error, we can define the runnable interface as the listener in MultiplexBluetoothTransport class:
 ```java
@@ -156,8 +155,8 @@ In production code, MultiplexTransport is assumed, so SDL is assumed to use sing
     }
 ```
 
-This happens in production code if ir fails to find the connected RouterService.
-If legacyMode is required for backward compatibility, the proposed solution is to add a flag to MultiplexTransportConfig, which indicates legacyMode is allowed or not:
+This happens when it fails to find the RouterService that is connected with head unit.
+If legacyMode is required for backward compatibility, the proposed solution is to add a flag to MultiplexTransportConfig, and enable legacy mode when it is requested by an app:
 ```java
 public class MultiplexTransportConfig extends BaseTransportConfig{
     boolean legacyModeAllowed = false; // disallow LegacyMode by default.
@@ -204,8 +203,7 @@ It is not the downside, but the application should be responsible for implementi
 
 ## Impact on existing code
 
-- An application that does not implement the notification listener still keeps working as well as current SdlProxy (no impact).
-- If an application relies on legacy mode in some case, the application needs to explicitly turns on lagacyModeAllowed flag by ```MultiplexTransportConfig.setLegacyModeAllowed(true)```
+- If an application relies on legacy mode in some case, the application needs to turn on lagacyModeAllowed flag explicitly by calling ```MultiplexTransportConfig.setLegacyModeAllowed(true)```
 
 ## Alternatives considered
 
