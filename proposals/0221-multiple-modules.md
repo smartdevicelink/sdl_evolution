@@ -134,17 +134,14 @@ The following images and tables show the positions of each seat in popular 7-sea
 | row=3 | 3A | 3B |  3C  | 3D |
 
 
- The vehicle HMI needs to publish how many rows, columns and levels are available for the vehicle and the list of modules in some properly defined grids. This proposal proposes to publish the row number, column number and level number in a new `SeatLocationCapability`, which also includes all the seats installed and their locations. An app may use this information to show a user a seat map. In a message sent from the vehicle to mobile apps, the seat `id` must be an id published by the capabilities. 
+ The vehicle HMI needs to publish how many rows, columns and levels are available for the vehicle and the list of modules in some properly defined grids. This proposal proposes to publish the row number, column number and level number in a new `SeatLocationCapability`, which also includes all the seats installed and their locations. An app might use this information to show a user a seat map on the mobile device. Note, there is no `id` parameter defined here. 
 
 
 ```xml
 <struct name="SeatLocation" since="5.x">
     <description>Describes the location of a seat.</description>
-    <param name="id" type="String" maxlength="100" mandatory="true">
-        <description>uuid of a seat </description>
-    </param>
     <param name="grid" type="Grid"  mandatory="false">
-        <description>HMI shall include this parameter when publishing seat locations in capabilities. Apps do not need this parameter in a request.</description>
+        <description>HMI shall include this parameter when publishing seat locations in capabilities. App shall include it even it is optional.</description>
     </param>
 </struct>
 ```
@@ -409,9 +406,6 @@ HMI API is similar to but not the same as the mobile API.
 
 <struct name="SeatLocation" since="5.x">
     <description>Describes the location of a seat.</description>
-    <param name="id" type="String" mandatory="true">
-        <description>uuid of a seat</description>
-    </param>
     <param name="grid" type="Grid"  mandatory="false">
     </param>
 </struct>
