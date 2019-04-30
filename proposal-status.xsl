@@ -53,22 +53,17 @@ on the gh-pages branch).
         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Android v4.6</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='android'][@sdl-version='4.6']"/>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.6']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Android v4.7</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='android'][@sdl-version='4.7']"/>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.7']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Android v4.8</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='android'][@sdl-version='4.8']"/>
-        </xsl:call-template>
-        
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Core v4.3</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='4.3']"/>
+          <xsl:with-param name="title">Implemented for SDL Java Suite (formerly Android) v4.8</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.8']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -79,6 +74,11 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Core v5.0</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='5.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Core v5.1</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='5.1']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -104,11 +104,6 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Protocol Spec v5.1</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='protocol'][@sdl-version='5.1']"/>
-        </xsl:call-template>
-        
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Protocol Spec v5.2</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='protocol'][@sdl-version='5.2']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -333,7 +328,7 @@ on the gh-pages branch).
       a.number.platform-ios {
         background-color: #39609a; // SDL Navy
       }
-      a.number.platform-android {
+      a.number.platform-java-suite {
         background-color: #4ea57f; // SDL Forest
       }
       a.number.platform-meta {

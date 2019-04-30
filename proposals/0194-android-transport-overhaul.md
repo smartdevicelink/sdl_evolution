@@ -34,15 +34,15 @@ The first step will be to refactor how the transport and protocol layers work.
 Currently this is how the transport layer looks. As can be seen the protocol layer is mixed into the transport layer and only receiving messages through multiple listeners. 
 
 
-![Old Layers](../assets/proposals/NNNN-android-transport-overhaul/TransportOverhaul_old.png "Old transport layers")
+![Old Layers](../assets/proposals/0194-android-transport-overhaul/TransportOverhaul_old.png "Old transport layers")
 
 The first implementation will look like this for a minor change.
-![Bridge Layers](../assets/proposals/NNNN-android-transport-overhaul/TransportOverhaul_bridge.png "Bridged transport layers")
+![Bridge Layers](../assets/proposals/0194-android-transport-overhaul/TransportOverhaul_bridge.png "Bridged transport layers")
 
 
 After the refactor the layers will look like this.
 
-![New Layers](../assets/proposals/NNNN-android-transport-overhaul/TransportOverhaul_new.png "New transport layers")
+![New Layers](../assets/proposals/0194-android-transport-overhaul/TransportOverhaul_new.png "New transport layers")
 
 #### Move the protocol layer 
 

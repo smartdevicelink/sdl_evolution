@@ -32,7 +32,7 @@ All new SDL implementations should implement the newest version of the protocol.
 
 - Core
 - iOS
-- Android
+- Java Suite
 
 ---
 
@@ -45,7 +45,7 @@ Spec for RPC messages sent between mobile devices and hardware modules.
 
 - Core
 - iOS
-- Android
+- Java Suite
 - HMI (in most cases)
 
 ---
@@ -61,10 +61,10 @@ The Core component is the software which Vehicle Manufacturers (OEMs) implement 
 
 ---
 
-#### Android SDK
-The Android library is implemented by Android app developers into their applications to enable command and control via the connected head unit.
+#### Java Suite
+The Android, Java SE, and Java EE libraries are implemented by app developers into their applications to enable command and control via the connected head unit. 
 
-**Repository**: [https://github.com/smartdevicelink/sdl_android](https://github.com/smartdevicelink/sdl_android)
+**Repository**: [https://github.com/smartdevicelink/sdl_java_suite](https://github.com/smartdevicelink/sdl_java_suite)
 
 ---
 
@@ -100,51 +100,6 @@ SHAID is a centralized service designed to keep information about SDL-supported 
 You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
 
 
-
-#### SHAID: 2.1.0
-**Release Date**: October 19, 2018
-
-**Contents**: New endpoints for managing vendor API keys.
-
----
-
-
-#### Android SDK: 4.7.0
-**Release Date**: October 19, 2018
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_android/releases/tag/4.7.0).
-
----
-
-#### iOS SDK: 6.1.0
-**Release Date**: October 19, 2018
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.1.0).
-
----
-
-#### SDL Protocol: 5.1.0
-**Release Date**: October 19, 2018
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.1.0).
-
-
----
-
-#### SDL RPC Spec: 5.0.0
-**Release Date**: October 19, 2018
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.0.0).
-
----
-
-#### Core: 5.0.0
-**Release Date**: October 19, 2018
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_core/releases/tag/5.0.0).
-
----
-
 #### Manticore: 2.1.0
 **Release Date**: November 16, 2018
 
@@ -152,36 +107,36 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Android SDK: 4.8.0
-**Expected Release Date**: April 10, 2019
+#### SDL Java Suite: 4.8.0
+**Release Date**: April 17, 2019
 
-**Contents**: Contents of this release can be tracked on the [Android 4.8.0 Project Page](https://github.com/smartdevicelink/sdl_android/projects/9).
+**Contents**: Contents of this release can be tracked on the [Java Suite 4.8.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/9).
 
 ---
 
-#### iOS SDK: 6.2.0
-**Expected Release Date**: April 10, 2019
+#### SDL iOS SDK: 6.2.0
+**Release Date**: April 17, 2019
 
 **Contents**: Contents of this release can be tracked on the [iOS 6.2.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/11).
 
 ---
 
 #### SDL Protocol: 5.2.0
-**Expected Release Date**: April 10, 2019
+**Release Date**: April 17, 2019
 
 **Contents**: Contents of this release can be tracked on the [Protocol Spec 5.2.0 Project Page](https://github.com/smartdevicelink/protocol_spec/projects/3).
 
 ---
 
 #### SDL RPC Spec: 5.1.0
-**Release Date**: April 10, 2019
+**Release Date**: April 17, 2019
 
 **Contents**: Contents of this release can be tracked on the [RPC Spec 5.1.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/).
 
 ---
 
-#### Core: 5.1.0
-**Expected Release Date**: April 10, 2019
+#### SDL Core: 5.1.0
+**Release Date**: April 17, 2019
 
 **Contents**: Contents of this release can be tracked on the [Core 5.1.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/13).
 

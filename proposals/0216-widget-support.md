@@ -21,7 +21,7 @@ This proposal should allow an app to create one or multiple widgets on the singl
 
 The below image shows SYNC3 home screen presenting two widgets with weather and VOIP features. The application itself (and the main screen) are currently not visible, but still the driver can interact with the applications and control the app state and HMI e.g. by requesting weather forecast or by muting/unmuting the VOIP call.
 
-![Example SYNC3 Home screen](../assets/proposals/NNNN-widgets/example-home.jpg)
+![Example SYNC3 Home screen](../assets/proposals/0216-widget-support/example-home.jpg)
 
 > Figure: "Home" area of the SYNC3 display. Showing widgets from a different apps.
 
@@ -31,7 +31,7 @@ Included in this phase will be a redesign of display capabilities for single dis
 
 This phase will not be part of this proposal. Providing Widget support has been identified as a concept that can be extended to support multiple displays including clusters, heads up and rear seat entertainment systems. The long-term vision of this proposal is to provide multi-screen and multi-display support. This means that one app should not only be able to have multiple screens of different types on one display, but also address other displays inside the vehicle.
 
-![Rear Seat Entertainment Systems](../assets/proposals/NNNN-widgets/rse.jpg)
+![Rear Seat Entertainment Systems](../assets/proposals/0216-widget-support/rse.jpg)
 
 > Figure: Example of having rear seat entertainment system and also a head-up display.
 
@@ -62,7 +62,7 @@ A "Display" is a **physical device** mounted on a defined position inside the sy
 
 The below image shows SYNC3 with an app screen being part of the display. The SYNC3 display in the center stack is the main display of the SDL system. The highlighted area is the viewport of app screens. Each app has one single main app screen that is presented on the SYNC3 display on user selection. Selecting another app will cause the display to show the screen of the other app. If that screen is visible, the app is defined as in HMI level FULL.
 
-![App screen and display](../assets/proposals/NNNN-widgets/screen.png)
+![App screen and display](../assets/proposals/0216-widget-support/screen.png)
 
 > Figure: "Display and Screen" showing a media-app's screen on the SYNC3 main display.
 
@@ -329,7 +329,7 @@ The screen ID is told to the HMI by the app using `CreateScreen`. If a user taps
 
 With above HMI change the HMI level transitions for main screens and widget screens can be manipulated separately and individually. See the chart below for clarity.
 
-![HMI level chart for screens](../assets/proposals/NNNN-widgets/hmi-chart.png)
+![HMI level chart for screens](../assets/proposals/0216-widget-support/hmi-chart.png)
 
 > Figure: The chart shows possible transitions between the HMI levels for main screens and widget screens. It shows that the HMI level transitions are independent from other screens.
 
@@ -585,9 +585,9 @@ Examples for widget screens:
 
 | template name | Example layout |
 |-|-|
-| text with graphic  | ![template](../assets/proposals/NNNN-widgets/template-text-with-graphic.png) |
-| graphic with text  | ![template](../assets/proposals/NNNN-widgets/template-graphic-with-text.png) |
-| buttons with graphic | ![template](../assets/proposals/NNNN-widgets/template-tiles-with-graphic.png) |
+| text with graphic  | ![template](../assets/proposals/0216-widget-support/template-text-with-graphic.png) |
+| graphic with text  | ![template](../assets/proposals/0216-widget-support/template-graphic-with-text.png) |
+| buttons with graphic | ![template](../assets/proposals/0216-widget-support/template-tiles-with-graphic.png) |
 
 ### Policies
 
