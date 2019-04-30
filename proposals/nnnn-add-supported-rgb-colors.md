@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](nnnn-add-supported-rgb-colors.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
 
