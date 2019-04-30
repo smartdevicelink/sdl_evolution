@@ -3,7 +3,7 @@
 * Proposal: [SDL-0221](0221-multiple-modules.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
 * Status: **Returned for Revisions**
-* Impacted Platforms: [Core / iOS / Android / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
 SDL remote control baseline proposal [SDL-0071](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0071-remote-control-baseline.md) groups available controllable items of the same category into a RC module type. SDL defines six module types: `RADIO`, `CLIMATE`, `AUDIO`, `LIGHT`, `HMI_SETTINGS` and `SEAT`. SDL allows only one module per module type so far. However, there are production needs to support multiple modules of the same module type. For example, some vehicles in the market are equipped with "dual-zone" climate control systems. There are also ["tri-zone" or even "quad-zone" climate control](https://www.autotrader.com/car-info/definitions-dual-zone-climate-control-211783) in the existing vehicles. Some vehicles in the market have seat control for several seats (driver's seat, front passenger's seat for example). Some vehicles have both a default entertainment system and a back seat entertainment system. There are car headrest monitors, seat back monitors, car roof mount monitors and flip down screens. Passengers can use a back seat entertainment system to play video, audio or even games. 
