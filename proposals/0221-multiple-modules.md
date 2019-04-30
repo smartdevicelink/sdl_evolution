@@ -504,7 +504,7 @@ A simple Module Id based permission control is listed here.
 
 - `GetInteriorVehicleDataConsent` needs be extended to mobile API, so that an app can send a request to control/reserve a RC module after getting the SystemCapabilites and user's intent. 
 
-- Once SDL receives a `GetInteriorVehicleDataConsent`, `SetInteriorVehicleData` or `ButtonPress`, if the requested RC module is exclusive to a user (`allowMultipleAccess=false`), without asking the driver, SDL shall grant the access only if the user's grid equals to or is within module service area. (The reason behind it is that a user shall be able to control his own seat without asking driver's permission, it does not make sense if a pop up is shown on driver's screen). Otherwise, SDL rejects the request.
+- Once SDL receives a `GetInteriorVehicleDataConsent`, `SetInteriorVehicleData` or `ButtonPress`, if the requested RC module is exclusive to a user (`allowMultipleAccess=false`), without asking the driver, SDL shall grant the access only if the user's grid equals to or is within module service area. (The reason behind this is that a user shall be able to control his own seat without asking driver's permission; it does not make sense if a pop up is shown on driver's screen). Otherwise, SDL rejects the request.
 
 - If the requested RC module is shared among multiple users (`allowMultipleAccess=true`), all users located within the module's service area can potentially control the module without asking driver's permission.
   - If the RC setting is auto deny (always no), then only the first user can control the module. Whoever requests a free shared module can lock the module and use it until the user frees the module. 
