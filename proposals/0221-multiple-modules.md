@@ -45,7 +45,7 @@ The `ModuleInfo` serves two purposes. First, its mandatory parameter `moduleId` 
 
 Flag `allowMultipleAccess` indicates whether a RC module can be accessed by multiple users or exclusively used by a user. In general, examples of shared module types are `RADIO`, `AUDIO`, `LIGHT` and `HMI`. An example of exclusive module types is `SEAT`. Depending on single climate zone or multiple climate zone support, a module with `CLIMATE` module type can be shared or exclusive.
 
-It is suggested that HMI always include all parameters in capabilities even they are defined as optional.
+It is suggested that the HMI always includes all parameters in capabilities even if they are defined as optional.
 
 Ideally, `ModuleInfo` shall also include a `moduleType` parameter and a `moduleName` parameter. However, moving the existing mandatory parameters from other data types into the new data type will cause a breaking change.
 
@@ -141,7 +141,7 @@ The following images and tables show the positions of each seat in popular 7-sea
 <struct name="SeatLocation" since="5.x">
     <description>Describes the location of a seat.</description>
     <param name="grid" type="Grid"  mandatory="false">
-        <description>HMI shall include this parameter when publishing seat locations in capabilities. App shall include it even it is optional.</description>
+        <description>HMI shall include this parameter when publishing seat locations in capabilities. App shall include it even if it is optional.</description>
     </param>
 </struct>
 ```
@@ -151,7 +151,7 @@ The following images and tables show the positions of each seat in popular 7-sea
 Examples:
 - To read/get module data for a specific moduleType and moduleId.
 - To subscribe or unsubscribe data change notifications for a specific moduleType and moduleId.
-- To control/update a module data for a specific moduleType and moduleId.
+- To control/update module data for a specific moduleType and moduleId.
 - To notify that a module is allocated to an app.
 - To request permissions for a specific moduleType and moduleId.
 
@@ -434,15 +434,15 @@ The following HMI API needs an update and needs to be added to mobile API.
 </function>
 <function name="GetInteriorVehicleDataConsent" messagetype="response">    
     <param name="allowed" type="Boolean" array="true" mandatory="true">
-      <description>this array has the same size as "moduleIds" in the request, each element corresponding to one moduleId 
-      "true" - if the driver grants the permission for controlling to the named app;
-      "false" - in case the driver denies the permission for controlling to the named app.</description>
+      <description>This array has the same size as "moduleIds" in the request; each element corresponding to one moduleId 
+      "true" - if the driver grants the permission for controlling the named app;
+      "false" - in case the driver denies the permission for controlling the named app.</description>
     </param>
     <histroy>
         <param name="allowed" type="Boolean" mandatory="true">
         <description>
-        "true" - if the driver grants the permission for controlling to the named app;
-        "false" - in case the driver denies the permission for controlling to the named app.</description>
+        "true" - if the driver grants the permission for controlling the named app;
+        "false" - in case the driver denies the permission for controlling the named app.</description>
         </param>
     </histroy>
 </function>
@@ -465,7 +465,7 @@ Mobile version
 
 <function name="GetInteriorVehicleDataConsent" functionID="GetInteriorVehicleDataConsentID" messagetype="response" since="5.x">
     <param name="allowed" type="Boolean" array="true" mandatory="true">
-        <description>this array has the same size as "moduleIds" in the request, each element corresponding to one moduleId  
+        <description>This array has the same size as "moduleIds" in the request; each element corresponding to one moduleId  
 		"true" - if SDL grants the permission for the requested module;
         "false" - SDL denies the permission for the requested module.</description>
     </param>
@@ -504,13 +504,13 @@ A simple Module Id based permission control is listed here.
 
 - `GetInteriorVehicleDataConsent` needs be extended to mobile API, so that an app can send a request to control/reserve a RC module after getting the SystemCapabilites and user's intent. 
 
-- Once the SDL receives a `GetInteriorVehicleDataConsent`, `SetInteriorVehicleData` or `ButtonPress`, if the requested RC module is exclusive to a user (`allowMultipleAccess=false`), without asking the driver, SDL shall grant the access only if the user's grid equals to or is within module service area. (The reason behind it is that a user shall be able to control his own seat without asking driver's permission, it does not make sense if a pop up is shown on driver's screen). Otherwise, SDL rejects the request.
+- Once SDL receives a `GetInteriorVehicleDataConsent`, `SetInteriorVehicleData` or `ButtonPress`, if the requested RC module is exclusive to a user (`allowMultipleAccess=false`), without asking the driver, SDL shall grant the access only if the user's grid equals to or is within module service area. (The reason behind it is that a user shall be able to control his own seat without asking driver's permission, it does not make sense if a pop up is shown on driver's screen). Otherwise, SDL rejects the request.
 
 - If the requested RC module is shared among multiple users (`allowMultipleAccess=true`), all users located within the module's service area can potentially control the module without asking driver's permission.
   - If the RC setting is auto deny (always no), then only the first user can control the module. Whoever requests a free shared module can lock the module and use it until the user frees the module. 
   - If the RC setting is auto allow (always yes), then every user can control the module. 
   - If the RC setting is ask driver, SDL shall grant or deny the request following the current resource allocation rules: if a module is free, allow access; if the module is used by another app, and current app is in HMI FULL, SDL shall trigger or forward `GetInteriorVehicleDataConsent` to HMI. HMI shows a popup so that the driver can give permission to the app for accessing the requested module and options to switch to two other RC settings. (4 options: yes/no/always yes/always no)
-  - In order to reduce driver distractions, the default setting shall be auto allow(always yes). 
+  - In order to reduce driver distractions, the default setting shall be auto allow (always yes). 
   - The driver's yes/no decision shall be cached for certain time (30 days default) configurable in ini file.  Later if the same user (identified by device id or MAC address) uses the same app (identified by policy app id), and tries to control the same module (identified by module type and module id), SDL shall use driver's last known decision if asking driver is needed. A cached item is removed if it is older than 30 days by default. Disable RC will clear all cached items.
 
 - A new RPC `ReleaseInteriorVehicleDataModule` is needed to indicate that the app is done with the RC module and no longer needs access to it.
@@ -576,7 +576,7 @@ It is not scalable for many parameters.
 
 #### Option 2: OEM assigned ID
 
-In this option, instead of saying a module is located in a grid, an OEM assigns an ID to each module （Basically, only `moduleId` in `ModuleInfo` is used, all optional parameters are not used). The ID may be a UUID that does not have any meaning that can be understood by a user or an app. The ID may be a meaningful ID for the module, for example, a seat number assigned by the OEM or anything meaningful that can allow a normal user/driver/passenger to associate the ID to the module with just common sense.
+In this option, instead of saying a module is located in a grid, an OEM assigns an ID to each module (basically, only `moduleId` in `ModuleInfo` is used, all optional parameters are not used). The ID may be a UUID that does not have any meaning that can be understood by a user or an app. The ID may be a meaningful ID for the module, for example, a seat number assigned by the OEM or anything meaningful that can allow a normal user/driver/passenger to associate the ID to the module with just common sense.
 
 OEM module ID + module type together identify the module and potentially UUID alone identifies the module.
 Once implemented, there would be no additional SDL work when new modules are added for an existing module type.
@@ -602,7 +602,7 @@ There is a "driver" module ID. It is potentially for the modules that are design
 
 There is a "passenger" or "passengers" module ID. To tell which passenger from all possible passengers, it may have "front passenger" or "rear row passengers". To extend the idea, the name of a location or seat position may be introduced. For example, rear left (the 2nd row vehicle), rear right (2nd row vehicle), second row, third row, etc. It is a short version of "grid" system with only commonly used location defined.
 
-Consider a normal passenger vehicle with 2~8 seats. There are one (driver/front row only), two (front row and rear row) or three rows (front-middle-back rows or equivalently front row, second row, and third row). There are usually two (driver-passenger sides or left-right sides) or three columns in a row ( left-middle-right sides).
+Consider a normal passenger vehicle with 2~8 seats. There are one (driver/front row only), two (front row and rear row), or three (front-middle-back rows or equivalently front row, second row, and third row) rows. There are usually two (driver-passenger sides or left-right sides) or three (left-middle-right sides) columns in a row.
 
 For vehicles with more (9, 12, 15) seats, there may be four or five rows and four seats per row. It can get complex to give a name to each seat location. The "grid" system will work better. However, it is not common to have a RC module specific to a seat in these vehicles.
 
