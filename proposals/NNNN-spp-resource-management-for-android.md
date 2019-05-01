@@ -203,7 +203,7 @@ It is not the downside, but the application should be responsible for implementi
 
 ## Impact on existing code
 
-If an application relies on legacy mode in some case, the application needs to turn on lagacyModeAllowed flag explicitly by calling ```MultiplexTransportConfig.setLegacyModeAllowed(true)```
+If an application relies on legacy mode in some case, the application needs to turn on legacyModeAllowed flag explicitly by calling ```MultiplexTransportConfig.setLegacyModeAllowed(true)```
 
 ## Alternatives considered
 
