@@ -459,7 +459,7 @@ The above struct needs to be added as a parameter into the system capability str
 
 #### Deprecate existing params
 
-With the above change, it will be possible to deprecate existing parameters in `RegisterAppInterfaceResponse`. Regarding `SetDisplayLayout`, it makes sense to refactor the RPC to be called `SetWindowLayout` instead by deprecating the old RPC and creating a new RPC. Deprecation is valid as they all are replaced in favor of display capability over system capability. 
+With the above change, it will be possible to deprecate existing parameters in `RegisterAppInterfaceResponse`. Regarding `SetDisplayLayout`, it makes sense to deprecate this RPC and include `layout` and color scheme parameters into `Show` RPC. Deprecation is valid as they all are replaced in favor of display capability over system capability. Adding the parameters into the `Show` RPC has benefits of synchronizing layout/color changes with content changes.
 
 ```xml
 <function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response" since="1.0">
@@ -490,15 +490,19 @@ With the above change, it will be possible to deprecate existing parameters in `
 </function>
 
 <function name="SetDisplayLayout" functionID="SetDisplayLayoutID" messagetype="request" deprecated="true" since="5.x">
-    <description>This RPC is deprecated in favor of SetWindowLayout</description>
+    <description>This RPC is deprecated. Use Show RPC to change layout.</description>
 </function>
 
 <function name="SetDisplayLayout" functionID="SetDisplayLayoutID" messagetype="response" deprecated="true" since="5.x">
-    <description>This RPC is deprecated in favor of SetWindowLayout</description>
+    <description>This RPC is deprecated. Use Show RPC to change layout.</description>
 </function>
 
-<function name="SetWindowLayout" functionID="SetWindowLayoutID" messagetype="request" since="5.x">
-  <param name="windowLayout" type="String" maxlength="500" mandatory="true">
+<function name="Show" functionID="ShowID" messagetype="request" since="1.0">
+  <description>Updates window layout and data. Supported fields depend on display capabilities.</description>
+    .
+    .
+    .
+  <param name="layout" type="String" maxlength="500" mandatory="true">
     <description>
         Predefined or dynamically created window layout.
         Currently only predefined window layouts are defined.
@@ -508,31 +512,11 @@ With the above change, it will be possible to deprecate existing parameters in `
   <param name="dayColorScheme" type="TemplateColorScheme" mandatory="false" />
   <param name="nightColorScheme" type="TemplateColorScheme" mandatory="false" />
 </function>
-
-<function name="SetWindowLayout" functionID="SetWindowLayoutID" messagetype="response" since="5.x">
-  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-      <description>Provides additional human readable info regarding the result.</description>
-  </param>
-  <param name="success" type="Boolean" platform="documentation" mandatory="true">
-    <description> true, if successful; false, if failed </description>
-  </param>
-  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
-    <description>See Result</description>
-    <element name="SUCCESS"/>
-    <element name="INVALID_DATA"/>
-    <element name="OUT_OF_MEMORY"/>
-    <element name="TOO_MANY_PENDING_REQUESTS"/>
-    <element name="APPLICATION_NOT_REGISTERED"/>
-    <element name="GENERIC_ERROR"/>
-    <element name="REJECTED"/>
-    <element name="UNSUPPORTED_REQUEST"/>
-  </param>
-</function>
 ```
 
 The information contained in the deprecated parameters will be made available with the newly proposed window capability struct. In the next major release these parameters can be marked as removed.
 
-> Note: The alternative solution describe how to keep `SetDisplayLayout` and deprecate just the parameters within the response RPC. Above solution to create a new `SetWindowLayout` RPC is more clean to the naming and design, which is why it's the primary proposed solution. Either way works and can be chosen by the steering committee.
+> Note: The alternative solution describe how to refactor `SetDisplayLayout` and keep the same structure as earlier. Above solution to add a new parameter in `Show` RPC is more clean, which is why it's the primary proposed solution. Either way works and can be chosen by the steering committee.
 
 #### Automatic subscription to display and window capabilities
 
@@ -643,36 +627,42 @@ It is possible to have a manual subscription to display capabilities. This is de
 
 Another alternative, similar to above, allows manual subscritpion but with automatic notifications after `RegisterAppInterfaceResponse` and `SetDisplayLayout`, regardless of the subscription. This would allow applications to subscribe, in order to get notified on HMI changes related to the window caused by the system or the user. Still it provides automatic notifications if the window related HMI change is caused by the app (e.g. by changing the layout). 
 
-To avoid refactoring `SetDisplayLayout` to `SetWindowLayout` it is possible to just deprecate the parameters of the response.
+Instead of deprecating `SetDisplayLayout` RPC and adding a new paramter in `Show` RPC, we can refactor the RPC to be called `SetWindowLayout`. This would also prevent overburdenning of `Show` RPC. 
 
 ```xml
-<function name="SetDisplayLayout" functionID="SetDisplayLayoutID" messagetype="response" since="3.0">
-  <param name="displayCapabilities" type="DisplayCapabilities" mandatory="false" deprecated="true" since="5.x">
-    <description>See DisplayCapabilities.  This parameter is deprecated and replaced by window capabilities.</description>
-    <history>
-        <param name="displayCapabilities" type="DisplayCapabilities" mandatory="false" until="5.x"/>
-    </history>
+<function name="SetWindowLayout" functionID="SetWindowLayoutID" messagetype="request" since="5.x">
+  <param name="layout" type="String" maxlength="500" mandatory="true">
+    <description>
+        Predefined or dynamically created screen layout.
+        Currently only predefined screen layouts are defined.
+    </description>
   </param>
-  <param name="buttonCapabilities" type="ButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" deprecated="true" since="5.x">
-    <description>See ButtonCapabilities.  This parameter is deprecated and replaced by window capabilities.</description>
-    <history>
-        <param name="buttonCapabilities" type="ButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" until="5.x">
-    </history>
+
+  <param name="dayColorScheme" type="TemplateColorScheme" mandatory="false" />
+  <param name="nightColorScheme" type="TemplateColorScheme" mandatory="false" />
+</function>
+
+<function name="SetWindowLayout" functionID="SetWindowLayoutID" messagetype="response" since="5.x">
+  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+      <description>Provides additional human readable info regarding the result.</description>
   </param>
-  <param name="softButtonCapabilities" type="SoftButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" deprecated="true" since="5.x">
-    <description>If returned, the platform supports on-window SoftButtons; see SoftButtonCapabilities. This parameter is deprecated and replaced by window capabilities.</description>
-    <history>
-        <param name="softButtonCapabilities" type="SoftButtonCapabilities" minsize="1" maxsize="100" array="true" mandatory="false" until="5.x" />
-    </history>
+  <param name="success" type="Boolean" platform="documentation" mandatory="true">
+    <description> true, if successful; false, if failed </description>
   </param>
-  <param name="presetBankCapabilities" type="PresetBankCapabilities" mandatory="false" deprecated="true" since="5.x">
-    <description>If returned, the platform supports custom on-screen Presets; see PresetBankCapabilities. This parameter is deprecated and replaced by window capabilities.</description>
-    <history>
-        <param name="presetBankCapabilities" type="PresetBankCapabilities" mandatory="false" until="5.x" />
-    </history>
+  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+    <description>See Result</description>
+    <element name="SUCCESS"/>
+    <element name="INVALID_DATA"/>
+    <element name="OUT_OF_MEMORY"/>
+    <element name="TOO_MANY_PENDING_REQUESTS"/>
+    <element name="APPLICATION_NOT_REGISTERED"/>
+    <element name="GENERIC_ERROR"/>
+    <element name="REJECTED"/>
+    <element name="UNSUPPORTED_REQUEST"/>
   </param>
 </function>
 ```
+
 ## Appendix
 
 ### RPC Table
