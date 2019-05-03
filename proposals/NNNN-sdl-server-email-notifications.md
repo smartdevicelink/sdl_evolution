@@ -56,9 +56,11 @@ Using these new settings, SDL Server should attempt to connect to the given SMTP
 
 #### Visual Configuration Options
 To indicate whether or not these email notifications are enabled, a new indicator should be placed on the `About` tab of SDL Server, similar to the one below:
+
 ![visual-config-preview][visual-config-preview]
 
 #### Pending App Review Email Notification
+
 ![email-preview][email-preview]
 > Mock email sent when a new application version has arrived and is pending review
 
@@ -85,5 +87,5 @@ Although this extension of the proposed solution would reduce technical requirem
 * Mail deliverability issues due to potential OEM firewalls
 * Many senders on one server increases likelihood of high bounce rates which would harm overall deliverability
 
-[email-preview]: ../assets/proposals/NNNN-sdl-server-email-notifications/email-preview.png
+[email-preview]: ../assets/proposals/NNNN-sdl-server-email-notifications/email-preview.jpg
 [visual-config-preview]: ../assets/proposals/NNNN-sdl-server-email-notifications/visual-config-preview.png
