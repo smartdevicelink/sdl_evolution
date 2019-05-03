@@ -66,7 +66,7 @@ To indicate whether or not these email notifications are enabled, a new indicato
 
 
 ## Impact on Existing Code
-The proposed solution has only minor impact on existing code since no APIs or key visual elements are affected. The implementation would involve connecting to SMTP server upon startup, and utilizing that connection to send email notifications behind-the-scenes when a new application version is retrieved from SHAID and pending review.
+The proposed solution has only minor impact on existing code since no APIs or key visual elements are affected. The implementation would involve connecting to an SMTP server upon startup and utilizing that connection to send email notifications asynchronously when a new application version is retrieved from SHAID and is pending review.
 
 ## Potential Downsides
 * Requires OEMs to have access to an SMTP server (internal or external)
