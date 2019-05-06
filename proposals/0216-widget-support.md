@@ -62,7 +62,7 @@ A "Display" is a **physical device** mounted on a defined position inside the sy
 
 The below image shows SYNC3 with an app window presented on the display. The SYNC3 display in the center stack is the main display of the SDL system. The highlighted area is the viewport of app windows. Each app has one single main app window that is presented on the SYNC3 display on user selection. Selecting another app will cause the display to show the window of the other app. If that window is visible, the app is defined as in HMI level FULL.
 
-![App window and display](../assets/proposals/0216-widget-support/window.png)
+![App window and display](../assets/proposals/0216-widget-support/screen.png)
 
 > Figure: "Display and Window" showing a media-app's window on the SYNC3 main display.
 
