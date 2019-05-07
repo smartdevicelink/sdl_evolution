@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is about widget support for SDL applications on modern infotainment systems and large displays. At the same time the proposed feature should prepare SDL for multi window and multi display support. 
+This proposal is about widget support for SDL applications on modern infotainment systems and large displays. At the same time the proposed feature should prepare SDL for multi-window and multi-display support. 
 
 ## Motivation
 
@@ -25,7 +25,7 @@ The below image shows SYNC3 home screen presenting two widgets with weather and 
 
 > Figure: "Home" area of the SYNC3 display. Showing widgets from a different apps.
 
-Included in this phase will be a redesign of display capabilities for single display and multi-window support. The goal is to make SDL ready with multi display support.
+Included in this phase will be a redesign of display capabilities for single display and multi-window support. The goal is to make SDL ready with multi-display support.
 
 ### Phase 2: Multi display support
 
@@ -81,7 +81,7 @@ All of the above RPCs should be extended with a `displayID` parameter when addin
 
 As of today, once an SDL app registers, it gets a main window created by default on the IVI head unit. Strictly speaking, the `Show` RPC is manipulating the content presented in the single main window. Adding the capability for apps to address a specific window per Show request allows apps to fill app windows individually.
 
-A "window" defines a **logical area on a physical display** addressed to an app which connected to the system. Apps can present text, buttons and/or images on windows. The capabilities of the window are provided to the app which contain information about the number of text lines, number of buttons, and size of images etc.
+A "window" defines a **logical area on a physical display** addressed to an app which is connected to the system. Apps can present text, buttons and/or images on windows. The capabilities of the window are provided to the app which contain information about the number of text lines, number of buttons, and size of images etc.
 
 An app can have multiple windows of different types on a single display. However, windows may change the visibility on a display. Other applications or windows can be brought to focus by the user.
 
@@ -96,7 +96,7 @@ This proposal will only focus on RPCs affecting widgets, which are `Show`, `SetD
 
 The proposed solution is to allow apps to create one or multiple widget windows. Each widget can be individually addressed with text, images and buttons. For convenience it should be possible to enable content duplication from another widget or window. One app should be allowed to create one or multiple widgets.
 
-It is the OEMs responsibility and decision on how and where widgets will be presented. They could be listed on the IVI home window, in the apps domain of the IVI system or next to the main app window area. Just as today, the application should be notified about widget visibility by using HMI levels for widgets.
+It is the OEM's responsibility and decision on how and where widgets will be presented. They could be listed on the IVI home window, in the app's domain of the IVI system, or next to the main app window area. Just as today, the application should be notified about widget visibility by using HMI levels for widgets.
 
 In order to provide widget support, it is necessary to add APIs to manage and manipulate windows.
 
@@ -113,14 +113,14 @@ In order to work with multiple windows, the app needs to be able to create or de
   </description>
   <param name="windowID" type="Integer" mandatory="true">
      <description>
-       A unique ID to identify the window. The value of '0' will always be the default main window on the main display and should not be used in this context as it will already be created for the app. See PredefinedWindows enum. Creating a window with an ID already in use will be rejected with `INVALID_ID`.
+       A unique ID to identify the window. The value of '0' will always be the default main window on the main display and should not be used in this context as it will already be created for the app. See PredefinedWindows enum. Creating a window with an ID that is already in use will be rejected with `INVALID_ID`.
     </description>
   </param>
   <param name="windowName" type="String" maxlength="100" mandatory="true">
      <description>
        The window name to be used by the HMI. The name of the pre-created default window will match the app name.
        Multiple apps can share the same window name except for the default main window. 
-       Creating a window with a name, which is already in use by the app. will result in `DUPLICATE_NAME`.
+       Creating a window with a name which is already in use by the app will result in `DUPLICATE_NAME`.
      </description>
   </param>
   <param name="type" type="WindowType" mandatory="true">
@@ -129,8 +129,8 @@ In order to work with multiple windows, the app needs to be able to create or de
   <param name="duplicateWindowID" type="Integer" mandatory="false">
     <description>
       Optional parameter. Specify whether the content sent to an existing window
-      should be duplicated to the creating window.
-      If there doesn't exist a window with the ID the request will be rejected with `INVALID_DATA`.
+      should be duplicated to the created window.
+      If there isn't a window with the ID, the request will be rejected with `INVALID_DATA`.
     </description>
   </param>
 </function>
@@ -199,7 +199,7 @@ In order to work with multiple windows, the app needs to be able to create or de
 </element>
 <element name="WIDGET">
   <description>
-    A widget is a small window that the app can create to provide information and softbuttons for a quick app control.
+    A widget is a small window that the app can create to provide information and soft buttons for quick app control.
   </description>
 </element>
 </enum>
@@ -223,25 +223,25 @@ The HMI API should contain:
 
 The RPC `CreateWindow` allows an app to create a new window on the display. The app needs to specify a window ID that is used for window manipulation e.g. with the RPC `Show` and the window type which can either be `MAIN` or `WIDGET` (see sub-section *Window types*). 
 
-If desired, the apps can duplicate content sent to an existing window to the created window using parameter `duplicateWindowID`. All RPCs sent to the window with the ID equals `duplicateWindowID` will be duplicated to the created window. Bidirectional window content duplication should not be supported. RPCs sent to the creating window should be rejected by the HMI.
+If desired, the apps can duplicate content sent to an existing window to the created window using parameter `duplicateWindowID`. All RPCs sent to the window with the ID `duplicateWindowID` will be duplicated to the created window. Bidirectional window content duplication should not be supported. RPCs sent to the created window should be rejected by the HMI.
 
-Widgets that are created by an app are not necessarily visible on the HMI. The HMI can hold widgets in a list of available widgets so that a user can choose what widgets they want to 
+Widgets that are created by an app are not necessarily visible on the HMI. The HMI can hold widgets in a list of available widgets so that a user can choose the widgets they want. 
 
 #### Window types
 
 This proposal contains two types of windows.
 
-The main window is the full size app window on a display. Per app it should not be allowed to have multiple main windows on a single display. However, with multi display support, an app can have multiple main windows e.g. main window on the central console and main window on rear seat entertainment system.
+The main window is the full size app window on a display. Per app it should not be allowed to have multiple main windows on a single display. However, with multi-display support, an app can have multiple main windows e.g. main window on the central console and main window on rear seat entertainment system.
 
-The widget window is a small window type to provide quick information and softbuttons. Depending on the app policies, apps can create widgets from any HMI level as allowed by policies (e.g. from HMI_NONE or BACKGROUND). Once the widget is activated by the HMI, apps can send `Show` requests to add content (text and soft buttons) to that widget. The RPCs sent to the widget follow same policies according to the widget's HMI level. 
+The widget window is a small window type that provides quick information and soft buttons. Depending on the app policies, apps can create widgets from any HMI level as allowed by policies (e.g. from HMI_NONE or BACKGROUND). Once the widget is activated by the HMI, apps can send `Show` requests to add content (text and soft buttons) to that widget. The RPCs sent to the widget follow same policies according to the widget's HMI level. 
 
-Just like push notifications (`Alert` from `HMI_BACKGROUND`), widgets should have effect to the HMI level of the app's main window in case of `STEAL_FOCUS` soft buttons. If a user taps on a soft button in the widget with `.systemAction = STEAL_FOCUS`, the app's main window should be activated by the HMI and therefore become HMI_FULL.
+Just like push notifications (`Alert` from `HMI_BACKGROUND`), widgets should be able to change the HMI level of the app's main window by using `STEAL_FOCUS` soft buttons. If a user taps on a soft button in the widget with `.systemAction = STEAL_FOCUS`, the app's main window should be activated by the HMI and therefore become HMI_FULL.
 
 #### PredefinedWindows
 
 The enum `PredefinedWindows` specifies what windows and IDs are predefined and pre-created on behalf of the app.
 
-The default window is always available and represents the app window on the main display. It's an equivalent to the todays app window. For backward compatibility, this will ensure the app always has at least the default window on the main display. The app can choose to use this predefined enum element to specifically address app's main window or to duplicate window content. It is not possible to duplicate another window to the default window.
+The default window is always available and represents the app window on the main display. It's an equivalent to today's app window. For backward compatibility, this will ensure the app always has at least the default window on the main display. The app can choose to use this predefined enum element to specifically address app's main window or to duplicate window content. It is not possible to duplicate another window to the default window.
 
 #### Window related `OnHMIStatus`
 
@@ -262,7 +262,7 @@ The additional parameter can be used by the system to specify the HMI level of a
 
 If a widget becomes visible on the display, the HMI should notify Core that the widget is activated. Core should then notify the app that the widget is now in HMI_FULL. This can be the case if the user changes the HMI to present the widget area (e.g. the home screen shows app widgets).
 
-Audio streaming state is not related to windows, it is related to system's audible state. To limit the changes in the RPC and support backward compatibility, `audioStreamingState` should be provided to all windows of one app. HMI and SDL core should make sure to send the same audio states to all windows. 
+Audio streaming state is not related to windows, it is related to system's audible state. To limit the changes in the RPC and support backward compatibility, `audioStreamingState` should be provided to all windows of one app. HMI and SDL Core should make sure to send the same audio states to all windows. 
 
 Example: If a media app has created a widget and then becomes audible, the media app should receive two `OnHMIStatus` notifications for both windows (main and widget) and both audio streaming states are set to `AUDIBLE`. This will ensure a consistent audible state.
 
@@ -317,7 +317,7 @@ The window ID is told to the HMI by the app using `CreateWindow`. If a user taps
 
 Widgets created should be stored in a list of available widgets by the HMI. This list should use the app icon and the window name when showing the list to a user. The HMI level of these widgets is `HMI_NONE` and they are not visible on the HMI. A user can select or deselect widgets from this list to be added to the HMI. This means they can be added to a widget area or to a specific widget slot (depends on HMI implementation). The HMI will notify Core about widgets that are select to be part of the HMI using `OnAppActivated` with the widget's window ID. 
 
-Widgets that are part of the HMI are not necessarily visible to the user. The display of the infotainment system can present content other than widgets. While a widget is added to the HMI but not visible it should be in `HMI_BACKGROUND`. If a widget becomes visible on the HMI, the HMI should send `OnAppActivated` with the widget's window ID to move the widget to `HMI_FULL`. There could be multiple widgets presented at the same time (from one app or from multiple), which means multiple widgets can be in `HMI_FULL`. Widgets that become invisible on the HMI should be deactivated by the HMI using `OnAppDeactivated` to transit them from `HMI_FULL` to `HMI_BACKGROUD`.
+Widgets that are part of the HMI are not necessarily visible to the user. The display of the infotainment system can present content other than widgets. While a widget is added to the HMI but not visible it should be in `HMI_BACKGROUND`. If a widget becomes visible on the HMI, the HMI should send `OnAppActivated` with the widget's window ID to move the widget to `HMI_FULL`. There could be multiple widgets presented at the same time (from one app or from multiple), which means multiple widgets can be in `HMI_FULL`. Widgets that become invisible on the HMI should be deactivated by the HMI using `OnAppDeactivated` to transition them from `HMI_FULL` to `HMI_BACKGROUND`.
 
 With above HMI change the HMI level transitions for main windows and widget windows can be manipulated separately and individually. See the chart below for clarity.
 
@@ -343,7 +343,7 @@ The information contained in the deprecated parameters will be made available wi
 </function>
 ```
 
-> Note: The alternative solution describe how to refactor `SetDisplayLayout` and keep the same structure as earlier. Above solution to add a new parameter in `Show` RPC is more clean, which is why it's the primary proposed solution. Either way works and can be chosen by the steering committee.
+> Note: The alternative solution describes how to refactor `SetDisplayLayout` and keep the same structure as earlier. Above solution to add a new parameter in `Show` RPC is more clean, which is why it's the primary proposed solution. Either way works and can be chosen by the steering committee.
 
 #### `Show`
 
@@ -377,11 +377,11 @@ This allows the app to use the full flexibility of the `Show` RPC for main windo
 
 As the app can present soft buttons on different locations, it is more important to protect uniqueness of the button IDs. Every soft button ID used by the app should be unique throughout the whole system. Example: If an app developer presents a soft button on the main window with ID=1, the app must not use the same ID on any other window. If the app wants to present two buttons for the same button action, the app developer must use a different ID.
 
-The color scheme parameter are related to the app's color scheme. Setting a new color scheme parameter will change the color scheme of all windows of the app. Color scheme parameters will ignore the window ID parameter.
+The color scheme parameters are related to the app's color scheme. Setting a new color scheme parameter will change the color scheme of all windows of the app. Color scheme parameters will ignore the window ID parameter.
 
 ### Window capabilities
 
-The RPCs `RegisterAppInterfaceResponse` and `SetDisplayLayoutResponse` contain parameters about display and window capabilities including text, image and button capabilities. This approach of providing capabilities is outdated and a new system capability feature is ready to take over. In order to provide a more modern API desgin and ability to resize or reposition windows, this proposal should move metadata out of the repsonse RPCs into a system capability RPC. 
+The RPCs `RegisterAppInterfaceResponse` and `SetDisplayLayoutResponse` contain parameters about display and window capabilities including text, image and button capabilities. This approach of providing capabilities is outdated and a new system capability feature is ready to take over. In order to provide a more modern API design and ability to resize or reposition windows, this proposal should move metadata out of the response RPCs into a system capability RPC. 
 
 A new system capability type is necessary in order to provide display capabilities.
 
@@ -454,8 +454,8 @@ To hold window capabilities, the display capabilities should contain the display
       Contains a list of capabilities of all windows related to the app.
       Once the app has registered the capabilities of all windows are provided.
       GetSystemCapability still allows requesting window capabilities of all windows.
-      After registration only windows with capabilities changed will be included. Following cases will cause only affected windows to be included:
-      1. App creates a new window. After the window is created a system capability notification will be sent related only to the created window.
+      After registration, only windows with capabilities changed will be included. Following cases will cause only affected windows to be included:
+      1. App creates a new window. After the window is created, a system capability notification will be sent related only to the created window.
       2. App sets a new layout to the window. The new layout changes window capabilties. The notification will reflect those changes to the single window.
     </description>
   </param>
@@ -529,13 +529,13 @@ Another scenario is changing the layout using `Show`:
 
 Different to registration the notification should contain only the affected window.
 
-With this proposal the scenario of creating a new window should be similar to set a new layout:
+With this proposal the scenario of creating a new window should be similar to setting a new layout:
 
 1. App sends `CreateWindow`
 2. System responds with `CreateWindowResponse`
 3. System sends `OnSystemCapability` notification with display capabilities
 
-Again, different to registration the notification should contain only the affected (created) window.
+Again, different from registration, the notification should contain only the affected (created) window.
 
 In all scenarios it should not be necessary for the app to subscribe to window capabilities.
 
@@ -591,7 +591,7 @@ If the app registers with a resumption ID and this ID is recognized by the HMI, 
 
 ## Potential downsides
 
-Moving window metadata will cause more effort for OEMs and app consumers to implement this feature. The metadata needs to be sent twice, in the responses but also in the system capability notification. However, since the data is basically a copy it is expected as an acceptable effort in favor of an improved API design.
+Moving window metadata will require more effort from OEMs and app consumers to implement this feature. The metadata needs to be sent twice, in the responses but also in the system capability notification. However, since the data is basically a copy it is expected as an acceptable effort in favor of an improved API design.
 
 ## Impact on existing code
 
@@ -606,7 +606,7 @@ The window managers should be refactored to read window capabilities notificatio
 
 ## Additional features
 
-This section describes a possible feature to allow widgets per app or service type. Instead of providing only app specific widgets, an infotainment systems with widget support can also offer widgets per type. As an example The infotainment system can offer a "Media Player" widget which will present the widget of the active/audible media application. This can include media sources offered by the infotainment system such as Radio, Bluetooth or USB playback. A similar user experience can be offered to other app types like navigation, weather, (voice) communication or telephony, voice assitant etc.
+This section describes a possible feature to allow widgets per app or service type. Instead of providing only app specific widgets, an infotainment system with widget support can also offer widgets per type. As an example, the infotainment system can offer a "Media Player" widget which will present the widget of the active/audible media application. This can include media sources offered by the infotainment system such as Radio, Bluetooth or USB playback. A similar user experience can be offered to other app types like navigation, weather, (voice) communication or telephony, voice assistant etc.
 
 There are different approaches to provide this feature.
 
@@ -619,9 +619,9 @@ There are different approaches to provide this feature.
     <description>
       Allows an app to create a widget related to a specific HMI type.
       As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
-      directed to this active media app. In case of widgets, the system can provide a single "media" widget will acts as a placeholder for the active media app.
+      directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
 
-      It is only allowed to have one window per HMI type. This means that a media app can only have a a single MEDIA widget. Still the app can create widgets omitting this parameter or with specifying the HMI type `DEFAULT`. Those widgets would be available to the user independent of the HMI type.
+      It is only allowed to have one window per HMI type. This means that a media app can only have a a single MEDIA widget. Still the app can create widgets omitting this parameter or by specifying the HMI type `DEFAULT`. Those widgets would be available to the user independent of the HMI type.
 
       This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
     </descripion>
@@ -631,9 +631,9 @@ There are different approaches to provide this feature.
 
 Allows an app to create a widget related to a specific HMI type.
 As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
-directed to this active media app. In case of widgets, the system can provide a single "media" widget will acts as a placeholder for the active media app.
+directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
 
-It is only allowed to have one window per HMI type. This means that a media app can only have a a single MEDIA widget. Still the app can create widgets omitting this parameter or with specifying the HMI type `DEFAULT`. Those widgets would be available to the user independent of the HMI type.
+It is only allowed to have one window per HMI type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter or by specifying the HMI type `DEFAULT`. Those widgets would be available to the user independent of the HMI type.
 
 This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
 
@@ -648,7 +648,7 @@ The benefit of `AppHMIType` is the linkage to embedded features such as embedded
     <description>
       Allows an app to create a widget related to a specific service type.
       As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
-      directed to this active media app. In case of widgets, the system can provide a single "media" widget will acts as a placeholder for the active media app.
+      directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
       
       It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI.
 
@@ -660,25 +660,25 @@ The benefit of `AppHMIType` is the linkage to embedded features such as embedded
 
 Allows an app to create a widget related to a specific service type.
 As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
-directed to this active media app. In case of widgets, the system can provide a single "media" widget will acts as a placeholder for the active media app.
+directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
 
 It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI.
 
 This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
 
-The benefits of using `AppServiceType` is the ability to also have weather as a generic widget and possible future improvements with service manifest data.
+The benefit of using `AppServiceType` is the ability to also have weather as a generic widget and possible future improvements with service manifest data.
 
 ## Alternatives considered
 
 To reduce complexity on the head unit, window duplication can be supported by the SDL libraries. This could allow more flexibility to display duplication for existing windows. However, this increases the number of RPCs to be sent by the app and the user might see a delay in window updates (duplication not being synchronized).
 
-In order to reduce state machine complexity for widget HMI levels on SDL core side, the HMI can take control of HMI level transitions for widgets. However this might cause different behavior per HMI implementation which could be confusing to developers as the behavior is not consistent.
+In order to reduce state machine complexity for widget HMI levels on SDL Core side, the HMI can take control of HMI level transitions for widgets. However this might cause different behavior per HMI implementation which could be confusing to developers as the behavior is not consistent.
 
-It is possible to have a manual subscription to display capabilities. This is definitely a possible solution as the SDL managers will perform the capabilities subscription. However, as this subscription will be made for 100% of the apps and as subscribing takes more time sending RPCs it was considered that autosubscription improves performance in this case. Without the automatic subscription, this redesign would perform worse than the current design of returning the information in a response.
+It is possible to have a manual subscription to display capabilities. This is definitely a possible solution as the SDL managers will perform the capabilities subscription. However, as this subscription will be made for 100% of the apps and as subscribing takes more time than sending RPCs, it was determined that autosubscription improves performance in this case. Without the automatic subscription, this redesign would perform worse than the current design of returning the information in a response.
 
-Another alternative, similar to above, allows manual subscritpion but with automatic notifications after `RegisterAppInterfaceResponse` and `SetDisplayLayout`, regardless of the subscription. This would allow applications to subscribe, in order to get notified on HMI changes related to the window caused by the system or the user. Still it provides automatic notifications if the window related HMI change is caused by the app (e.g. by changing the layout). 
+Another alternative, similar to above, allows manual subscription but with automatic notifications after `RegisterAppInterfaceResponse` and `SetDisplayLayout`, regardless of the subscription. This would allow applications to subscribe, in order to get notified of HMI changes related to the window caused by the system or the user. Still it provides automatic notifications if the window related HMI change is caused by the app (e.g. by changing the layout). 
 
-Instead of deprecating `SetDisplayLayout` RPC and adding a new paramter in `Show` RPC, we can refactor the RPC to be called `SetWindowLayout`. This would also prevent overburdenning of `Show` RPC. 
+Instead of deprecating `SetDisplayLayout` RPC and adding a new parameter in `Show` RPC, we can refactor the RPC to be called `SetWindowLayout`. This would also prevent overburdening of `Show` RPC. 
 
 ```xml
 <function name="SetWindowLayout" functionID="SetWindowLayoutID" messagetype="request" since="5.x">
@@ -717,7 +717,7 @@ Instead of deprecating `SetDisplayLayout` RPC and adding a new paramter in `Show
 ## Appendix
 
 ### RPC Table
-This table is for referencing which RPCs are display or window addressable. While multiple displays are not yet supported, nor included in this proposal, this table can help see which RPCs will be affected.
+This table is for referencing which RPCs are display or window addressable. While multiple displays are not yet supported, nor included in this proposal, this table can help show which RPCs will be affected.
 
 RPC                    | Display Addressable | Window Addressable  | `WindowType`      | Notes
 ---------------------- | ------------------- | ------------------  | ------------------| -------- |
