@@ -1,8 +1,8 @@
 # SDL Server Email Notifications
 
-* Proposal: [SDL-NNNN](NNNN-sdl-server-email-notifications.md)
+* Proposal: [SDL-0228](0228-sdl-server-email-notifications.md)
 * Author: [Nick Schwab](https://github.com/nickschwab)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [SDL Server]
 
 ## Introduction
