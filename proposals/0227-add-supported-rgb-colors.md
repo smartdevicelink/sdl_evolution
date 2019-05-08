@@ -1,8 +1,8 @@
 # Add Supported RGB Colors to Light Capabilities
 
-* Proposal: [SDL-NNNN](nnnn-add-supported-rgb-colors.md)
+* Proposal: [SDL-0227](0227-add-supported-rgb-colors.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
