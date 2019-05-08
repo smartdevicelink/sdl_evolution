@@ -1,8 +1,8 @@
 # SDL Server Version Tracking
 
-* Proposal: [SDL-NNNN](NNNN-sdl-server-version-tracking.md)
+* Proposal: [SDL-0229](0229-sdl-server-version-tracking.md)
 * Author: [Nick Schwab](https://github.com/nickschwab)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [SDL Server, SHAID]
 
 ## Introduction
