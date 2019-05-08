@@ -114,14 +114,14 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL iOS SDK: 6.2.0
+#### SDL iOS: 6.2.0
 **Release Date**: April 17, 2019
 
 **Contents**: Contents of this release can be tracked on the [iOS 6.2.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/11).
 
 ---
 
-#### SDL Protocol: 5.2.0
+#### SDL Protocol Spec: 5.2.0
 **Release Date**: April 17, 2019
 
 **Contents**: Contents of this release can be tracked on the [Protocol Spec 5.2.0 Project Page](https://github.com/smartdevicelink/protocol_spec/projects/3).
@@ -131,7 +131,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL RPC Spec: 5.1.0
 **Release Date**: April 17, 2019
 
-**Contents**: Contents of this release can be tracked on the [RPC Spec 5.1.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/).
+**Contents**: Contents of this release can be tracked on the [RPC Spec 5.1.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/3).
 
 ---
 
@@ -141,6 +141,42 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Contents**: Contents of this release can be tracked on the [Core 5.1.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/13).
 
 ---
+
+#### SDL Java Suite: 4.9.0
+**Expected Release Date**: June 27, 2019
+
+**Contents**: Contents of this release can be tracked on the [Java Suite 4.9.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/10).
+
+---
+
+#### SDL iOS: 6.3.0
+**Expected Release Date**: June 27, 2019
+
+**Contents**: Contents of this release can be tracked on the [iOS 6.3.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/13).
+
+---
+
+#### SDL Protocol: 5.3.0
+**Expected Release Date**: October 9, 2019
+
+**Contents**: Contents of this release can be tracked on the [Protocol Spec 5.3.0 Project Page](https://github.com/smartdevicelink/protocol_spec/projects/4).
+
+---
+
+#### SDL RPC Spec: 5.2.0
+**Expected Release Date**: October 9, 2019
+
+**Contents**: Contents of this release can be tracked on the [RPC Spec 5.2.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/4).
+
+---
+
+#### SDL Core: 5.2.0
+**Release Date**: October 9, 2019
+
+**Contents**: Contents of this release can be tracked on the [Core 5.2.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/15).
+
+---
+
 
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
