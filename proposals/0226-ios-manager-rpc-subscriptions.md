@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0226](0226-ios-manager-rpc-subscriptions.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS]
 
 ## Introduction
