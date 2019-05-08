@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0225](0225-update-published-app-services.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / Policy Server / SHAID / RPC]
 
 ## Introduction
