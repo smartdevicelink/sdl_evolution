@@ -87,5 +87,5 @@ Although this extension of the proposed solution would reduce technical requirem
 * Mail deliverability issues due to potential OEM firewalls
 * Many senders on one server increases likelihood of high bounce rates which would harm overall deliverability
 
-[email-preview]: ../assets/proposals/NNNN-sdl-server-email-notifications/email-preview.jpg
-[visual-config-preview]: ../assets/proposals/NNNN-sdl-server-email-notifications/visual-config-preview.png
+[email-preview]: ../assets/proposals/0228-sdl-server-email-notifications/email-preview.jpg
+[visual-config-preview]: ../assets/proposals/0228-sdl-server-email-notifications/visual-config-preview.png
