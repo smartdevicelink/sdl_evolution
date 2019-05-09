@@ -161,6 +161,7 @@ The pseudo-code of FindRouterTask will be:
 		@Override
 		protected ComponentName doInBackground(final Context... contexts) {
 			final BlockingQueue<ComponentName> serviceQueue = new LinkedBlockingQueue<>();
+			final AtomicInteger _counter = new AtomicInteger(0);
 			Context context = contexts[0];
 			new ServiceFinder(context, context.getPackageName(), new ServiceFinder.ServiceFinderCallback() {
 				@Override
@@ -169,8 +170,8 @@ The pseudo-code of FindRouterTask will be:
 						return;
 					}
 
+					final int numServices = routerServices.size();
 					for (ComponentName name: routerServices) {
-						final ComponentName lastName = routerServices.lastElement();
 						final SdlRouterStatusProvider provider = new SdlRouterStatusProvider(contexts[0], name, new SdlRouterStatusProvider.ConnectedStatusCallback() {
 							@Override
 							public void onConnectionStatusUpdate(final boolean connected, final ComponentName service, final Context context) {
@@ -178,10 +179,11 @@ The pseudo-code of FindRouterTask will be:
 								new Handler(Looper.getMainLooper()).post(new Runnable() {
 									@Override
 									public void run() {
+										_counter.incrementAndGet();
 										if (connected) {
 											serviceQueue.add(service);
 										} else {
-											if (lastName.equals(service)) {
+											if (_counter.get() == numServices) {
 												serviceQueue.add(new ComponentName("", ""));
 											}
 										}
