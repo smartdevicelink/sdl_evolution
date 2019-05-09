@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Currently there is no way for an application to update the manifest of an app service or manually delete this service once it has been published. This proposal will detail the additions necessary to support this functionality.
+Currently there is no way for an application to update the manifest of an app service or manually unpublish this service once it has been published. This proposal will detail the additions necessary to support this functionality.
 
 ## Motivation
 
@@ -17,27 +17,27 @@ In addition, the `REMOVED` value for `ServiceUpdateReason` is only used when an 
 
 ## Proposed solution
 
-The simplest way to allow an app to update the manifest of a service it published is to extend the `PublishAppService` RPC. After receiving a `PublishAppService` SDL Core will check if this application has already published a service of this type. If such a service was already published, Core would overwrite the existing manifest for that service and send a `OnSystemCapabilityUpdated(APP_SERVICES, MANIFEST_UPDATE)` notification, rather than publishing a new service.
+The simplest way to allow an app to update the manifest of a service it published is to extend the `PublishAppService` RPC. After receiving a `PublishAppService` SDL Core will check if this application has already published a service of this type. If such a service was already published, Core would overwrite the existing manifest for that service (rather than publish a new service) and send a `OnSystemCapabilityUpdated(APP_SERVICES, MANIFEST_UPDATE)` notification if the manifest was changed as a result.
 
-To delete an already published service, a new RPC will need to be introduced, `DeleteAppService`:
+To unpublish an already published service, a new RPC will need to be introduced, `UnpublishAppService`:
 
 ```
     <enum name="FunctionID" internal_scope="base" since="1.0">
         ...
         
-        <element name="DeleteAppService" value="XX" hexvalue="XX" since="X.X" />
+        <element name="UnpublishAppServiceID" value="XX" hexvalue="XX" since="X.X" />
     </enum>
 
-    <function name="DeleteAppService" functionID="DeleteAppServiceID" messagetype="request" since="X.X">
-        <description> Delete a service published by this application. </description>
+    <function name="UnpublishAppService" functionID="UnpublishAppServiceID" messagetype="request" since="X.X">
+        <description> Unpublish an existing service published by this application. </description>
 
         <param name="serviceID" type="String" mandatory="true">
-            <description> The ID of the service to be deleted. </description>
+            <description> The ID of the service to be unpublished. </description>
         </param>
     </function>
     
-    <function name="DeleteAppService" functionID="DeleteAppServiceID" messagetype="response" since="X.X">
-        <description> The response to DeleteAppService </description>
+    <function name="UnpublishAppService" functionID="UnpublishAppServiceID" messagetype="response" since="X.X">
+        <description> The response to UnpublishAppService </description>
         <param name="success" type="Boolean" platform="documentation" mandatory="true">
             <description> true, if successful; false, if failed </description>
         </param>
@@ -67,9 +67,9 @@ This solution would not allow an application to publish multiple services of the
 
 ## Impact on existing code
 
-The logic for `PublishAppService` would need to be updated in the Core codebase accordingly.
+The logic for `PublishAppService` would need to be updated in the Core codebase accordingly. For `UnpublishAppService`, an app should only be able to unpublish services which were published by itself, and Core would need logic to enforce this.
 
-In the RPC spec, the `DeleteAppService` RPC would need to be added (as described in the "Proposed Solution" section), and the description for `PublishAppService` would need to be updated:
+In the RPC spec, the `UnpublishAppService` RPC would need to be added (as described in the "Proposed Solution" section).  The description for `PublishAppService` would need to be updated:
 
 ```
     <function name="PublishAppService" functionID="PublishAppServiceID" messagetype="request" since="5.1">
@@ -87,7 +87,7 @@ In the RPC spec, the `DeleteAppService` RPC would need to be added (as described
     </function>
 ```
 
-The `DeleteAppService` RPC would be needed to all other affected platforms.
+The `UnpublishAppService` RPC would be needed to all other affected platforms.
 
 ## Alternatives considered
 
