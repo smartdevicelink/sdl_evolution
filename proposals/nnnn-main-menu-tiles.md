@@ -151,7 +151,78 @@ Finally, the `SDLMenuCell *` class will be updated to allow for submenus with di
 ```
 
 #### Android
-// TODO
+A new property would be added to the `BaseMenuManager`. These methods would be exposed via the `BaseScreenManager` to allow developers to set and get the values:
+
+```java
+MenuConfiguration menuConfiguration;
+...
+
+/**
+* This method is called via the screen manager to set the menuConfiguration. 
+* This will be used when a menu item with sub-cells has a null value for menuConfiguration
+* @param menuConfiguration - The default menuConfiguration
+*/
+public void setMenuConfiguration(MenuConfiguration menuConfiguration) {
+	this.menuConfiguration = menuConfiguration;
+}
+	
+public MenuConfiguration getMenuConfiguration(){
+	return this.menuConfiguration;
+}
+```
+
+The property is a new class called `MenuConfiguration`:
+
+```java
+public class MenuConfiguration {
+
+  /**
+	 * Changes the default main menu layout. Defaults to `MenuLayoutList`.
+	 * @param mainMenuLayout - the layout of the main menu
+	 */
+	public void setMenuLayout(MenuLayout mainMenuLayout){}
+
+	public MenuLayout getMenuLayout { return mainMenuLayout; }
+	
+  /**
+	 * Changes the default submenu layout. To change this for an individual submenu, set the `menuLayout` property on the `MenuCell` constructor for creating a cell with sub-cells. Defaults to `MenuLayoutList`.
+	 * @param defaultSubmenuLayout - the MenuLayout for this sub menu
+	 */
+	public void setSubMenuLayout(MenuLayout defaultSubmenuLayout){}
+
+	public MenuLayout getSubMenuLayout { return defaultSubmenuLayout; }
+
+}
+```
+
+Finally, the `MenuCell` class would be updated to allow the setting of an individual `MenuConfiguration` for each submenu.
+
+```java
+private MenuConfiguration subMenuLayout;
+
+
+/**
+* Creates a new MenuCell Object with multiple parameters set
+* @param title The cell's primary text
+* @param menuLayout The submenu's layout that the subCells will be shown in. If `null`, the default submenu layout set via the screen manager's `MenuConfiguration` will be used.
+* @param icon The cell's image
+* @param subCells The sub-cells for the sub menu that will appear when the cell is selected
+*/
+public MenuCell(@NonNull String title, @Nullable MenuConfiguration menuLayout, @Nullable SdlArtwork icon, @Nullable List<MenuCell> subCells) {}
+
+
+/**
+* The submenu's layout that the subCells will be shown in. If `null`, the default submenu layout set via the screen manager's `MenuConfiguration` will be used.
+* @param subMenuLayout - the layout used for the sub menu
+*/
+public void setSubMenuLayout(MenuConfiguration subMenuLayout) {
+	this.subMenuLayout = subMenuLayout;
+}
+
+public MenuConfiguration getSubMenuLayout() {
+	return subMenuLayout;
+}
+```
 
 ## Potential downsides
 1. Adding a new value to the `DisplayCapabilities` bloats the `RegisterAppInterfaceResponse`, however, the author could not think of a valid alternate location. The author welcomes feedback on locations it could be moved to.
