@@ -13,7 +13,7 @@ This proposal is to add the ability to push audio buffer to `AudioStreamManager`
 
 Currently, `AudioStreamManager` in Java Suite supports pushing audio source only from actual files. It doesn't support pushing audio buffer. iOS, however, has that ability but not through the `AudioManager`. It can do that through the `StreamManager`:
 
-```
+```objc
 [self.sdlManager.streamManager sendAudioData:audioData]
 ```
 
@@ -25,7 +25,7 @@ It will be useful to make `AudioStreamManager` in Java Suite support playing aud
 New API will be added to `AudioStreamManager` to support playing audio from a buffer:
 
 ### Java Suite
-```
+```java
 public class AudioStreamManager extends BaseAudioStreamManager {
     ...
     public void pushBuffer(ByteBuffer data, final CompletionListener completionListener);
@@ -33,7 +33,7 @@ public class AudioStreamManager extends BaseAudioStreamManager {
 ```
 
 ### iOS
-```
+```objc
 @implementation SDLAudioStreamManager
 ...
 - (void)pushWithData:(NSData *)data;
@@ -41,8 +41,7 @@ public class AudioStreamManager extends BaseAudioStreamManager {
 ```
 
 ## Potential downsides
-
-The iOS modifications may require some deprecation and clean up in the `StreamManager` APIs because the new pushing buffer API will be part of the `AudioStreamManager` instead of `StreamManager`.
+The iOS library will end up having two possible APIs for playing audio from a buffer one in the `StreamManager` and one in the `AudioStreamManager`.
 
 ## Impact on existing code
 
