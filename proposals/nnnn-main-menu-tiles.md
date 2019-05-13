@@ -1,7 +1,7 @@
 # Add Tiles as an Option for Main Menus
 
 * Proposal: [SDL-NNNN](NNNN-main-menu-tiles.md)
-* Author: [Joel fischer](https://github.com/joeljfischer)
+* Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Java Suite / Cloud Proxy / RPC / HMI]
 
