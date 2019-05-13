@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-main-menu-tiles.md)
 * Author: [Joel fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Cloud Proxy / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / Cloud Proxy / RPC / HMI]
 
 ## Introduction
 In addition to a list of menu items, we should allow the developers the option to use a tiled layout for their menu.
