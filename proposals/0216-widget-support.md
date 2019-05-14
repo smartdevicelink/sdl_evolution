@@ -626,13 +626,8 @@ If the app registers with a resumption ID and this ID is recognized by the HMI, 
 
 ## Service based widgets
 
-Moving window metadata will cause more effort for OEMs and app consumers to implement this feature. The metadata needs to be sent twice, in the responses but also in the system capability notification. However, since the data is basically a copy it is expected as an acceptable effort in favor of an improved API design.
-This section describes a possible feature to allow widgets per app or service type. Instead of providing only app specific widgets, an infotainment system with widget support can also offer widgets per type. As an example, the infotainment system can offer a "Media Player" widget which will present the widget of the active/audible media application. This can include media sources offered by the infotainment system such as Radio, Bluetooth or USB playback. A similar user experience can be offered to other app types like navigation, weather, (voice) communication or telephony, voice assistant etc.
+This section describes a possible feature to allow widgets per app or service type. Instead of providing only app specific widgets, an infotainment system with widget support can also offer widgets per type. As an example, the infotainment system can offer a "Media Player" widget which will present the widget of the active/audible media application. This can include media sources offered by the infotainment system such as Radio, Bluetooth or USB playback. A similar user experience can be offered to other app types like navigation, weather, (voice) communication or telephony, voice assistant etc. 
 
-      directed to this active media app. In case of widgets, the system can provide a single "media" widget will acts as a placeholder for the active media app.
-      It is only allowed to have one window per HMI type. This means that a media app can only have a a single MEDIA widget. Still the app can create widgets omitting this parameter or with specifying the HMI type `DEFAULT`. Those widgets would be available to the user independent of the HMI type.
-directed to this active media app. In case of widgets, the system can provide a single "media" widget will acts as a placeholder for the active media app.
-It is only allowed to have one window per HMI type. This means that a media app can only have a a single MEDIA widget. Still the app can create widgets omitting this parameter or with specifying the HMI type `DEFAULT`. Those widgets would be available to the user independent of the HMI type.
 ### Service type
 
 ```xml
@@ -653,8 +648,7 @@ It is only allowed to have one window per HMI type. This means that a media app 
 ```
 
 Allows an app to create a widget related to a specific service type.
-As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
-directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
+As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
 
 It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI.
 
