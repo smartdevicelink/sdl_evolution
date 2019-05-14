@@ -126,6 +126,17 @@ In order to work with multiple windows, the app needs to be able to create or de
   <param name="type" type="WindowType" mandatory="true">
     <description>The type of the window to be created. Main window or widget.</description>
   </param>
+  <param name="associatedServiceType" type="String" mandatory="false">
+    <description>
+      Allows an app to create a widget related to a specific service type.
+      As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
+      directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
+      
+      It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI.
+
+      This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
+    </descripion>
+  </param>
   <param name="duplicateUpdatesFromWindowID" type="Integer" mandatory="false">
     <description>
       Optional parameter. Specify whether the content sent to an existing window
@@ -249,6 +260,21 @@ The enum `PredefinedWindows` specifies what windows and IDs are predefined and p
 The default window is always available and represents the app window on the main display. It's an equivalent to today's app window. For backward compatibility, this will ensure the app always has at least the default window on the main display. The app can choose to use this predefined enum element to specifically address app's main window or to duplicate window content. It is not possible to duplicate another window to the default window.
 
 The primary widget is a special widget, that can be associated with a service type, which is used by the HMI whenever a single widget needs to represent the whole app. The primary widget should be named as the app and can be pre-created by the HMI.
+
+#### Associated Service type
+
+This section describes a possible feature to allow widgets per app or service type. Instead of providing only app specific widgets, an infotainment system with widget support can also offer widgets per type. As an example, the infotainment system can offer a "Media Player" widget which will present the widget of the active/audible media application. This can include media sources offered by the infotainment system such as Radio, Bluetooth or USB playback. A similar user experience can be offered to other app types like navigation, weather, (voice) communication or telephony, voice assistant etc. 
+
+`assiciatedServiceType` allows an app to create a widget related to a specific service type.
+As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
+
+It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI.
+
+This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
+
+The benefit of using `AppServiceType` is the ability to also have weather as a generic widget and possible future improvements with service manifest data.
+
+For the mobile API this parameter is of type String. However for the mobile library implementations the string-enum should be used instead.
 
 #### Window related `OnHMIStatus`
 
@@ -623,40 +649,6 @@ This functional group should be provided to the app developers as a conditional 
 ### App Resumption
 
 If the app registers with a resumption ID and this ID is recognized by the HMI, all windows created by the application will resume including widgets and their content (text, images and buttons). The `OnSystemCapabilityUpdate` notification will provide information of the resumed windows. 
-
-## Service based widgets
-
-This section describes a possible feature to allow widgets per app or service type. Instead of providing only app specific widgets, an infotainment system with widget support can also offer widgets per type. As an example, the infotainment system can offer a "Media Player" widget which will present the widget of the active/audible media application. This can include media sources offered by the infotainment system such as Radio, Bluetooth or USB playback. A similar user experience can be offered to other app types like navigation, weather, (voice) communication or telephony, voice assistant etc. 
-
-### Service type
-
-```xml
-<function name="CreateWindow" messagetype="request">
-  :
-  <param name="widgetType" type="String" mandatory="false">
-    <description>
-      Allows an app to create a widget related to a specific service type.
-      As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
-      directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
-      
-      It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI.
-
-      This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
-    </descripion>
-  </param>
-</function>
-```
-
-Allows an app to create a widget related to a specific service type.
-As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
-
-It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI.
-
-This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
-
-The benefit of using `AppServiceType` is the ability to also have weather as a generic widget and possible future improvements with service manifest data.
-
-For the mobile API this parameter is of type String. However for the mobile library implementations the string-enum should be used instead.
 
 ## Potential downsides
 
