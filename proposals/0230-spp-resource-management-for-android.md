@@ -1,8 +1,8 @@
 # SPP resource management for Android
 
-* Proposal: [SDL-NNNN](NNNN-spp-resource-management-for-android.md)
+* Proposal: [SDL-0230](0230-spp-resource-management-for-android.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: Java Suite
 
 ## Introduction
