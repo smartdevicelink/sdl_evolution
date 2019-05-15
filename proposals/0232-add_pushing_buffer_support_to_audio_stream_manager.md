@@ -1,8 +1,8 @@
 # Add Pushing Buffer Support to AudioStreamManager
 
-* Proposal: [SDL-NNNN](nnnn-add_pushing_buffer_support_to_audio_stream_manager)
+* Proposal: [SDL-0232](0232-add_pushing_buffer_support_to_audio_stream_manager.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Java Suite / iOS]
 
 ## Introduction
