@@ -2,7 +2,7 @@
 * Proposal: [SDL-0220](0220-support-for-android-custom-routerservice.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
 * Status: **Returned for Revisions**
-* Impacted Platforms: Android
+* Impacted Platforms: Java Suite
 
 ## Introduction
 This proposal is to improve the case where SDL applications need to work with custom RouterService. A custom RouterService refers to the RouterService that does not use the open source's RouterService code. The app that contains custom RouterService must indicate the flag in its AndroidManifest.xml.
@@ -153,47 +153,42 @@ The pseudo-code of FindRouterTask will be:
 ```java
 	class FindRouterTask extends AsyncTask<Context, Void, ComponentName> {
 		FindConnectedRouterCallback mCallback;
-		ServiceNameHolder serviceNameHolder = null;
 
 		FindRouterTask(FindConnectedRouterCallback callback) {
-			if (callback != null) {
-				mCallback = callback;
-			}
+			mCallback = callback;
 		}
 
 		@Override
 		protected ComponentName doInBackground(final Context... contexts) {
-			// let's use ServiceFinder here
+			final BlockingQueue<ComponentName> serviceQueue = new LinkedBlockingQueue<>();
+			final AtomicInteger _counter = new AtomicInteger(0);
 			Context context = contexts[0];
 			new ServiceFinder(context, context.getPackageName(), new ServiceFinder.ServiceFinderCallback() {
 				@Override
 				public void onComplete(Vector<ComponentName> routerServices) {
-					// OK, we found the routerServices. Let's see one-by-one.
 					if (routerServices == null || routerServices.isEmpty()) {
 						return;
 					}
-					serviceNameHolder = new ServiceNameHolder(contexts[0]);
-					if (serviceNameHolder.isValid()) {
-						routerServices.insertElementAt(serviceNameHolder.getServiceName(), 0);
-					}
 
+					final int numServices = routerServices.size();
 					for (ComponentName name: routerServices) {
-						final boolean isLast = name.equals(routerServices.lastElement());
 						final SdlRouterStatusProvider provider = new SdlRouterStatusProvider(contexts[0], name, new SdlRouterStatusProvider.ConnectedStatusCallback() {
 							@Override
-							public void onConnectionStatusUpdate(boolean connected, ComponentName service, Context context) {
-								if (connected) {
-									serviceNameHolder.setServiceName(service);
-									serviceNameHolder.save(contexts[0]);
-									if (mCallback != null) {
-										mCallback.onFound(service);
+							public void onConnectionStatusUpdate(final boolean connected, final ComponentName service, final Context context) {
+								// make sure this part runs on main thread.
+								new Handler(Looper.getMainLooper()).post(new Runnable() {
+									@Override
+									public void run() {
+										_counter.incrementAndGet();
+										if (connected) {
+											serviceQueue.add(service);
+										} else {
+											if (_counter.get() == numServices) {
+												serviceQueue.add(new ComponentName("", ""));
+											}
+										}
 									}
-								} else {
-									if (isLast && mCallback != null && !serviceNameHolder.isValid()) {
-										mCallback.onFailed();
-										serviceNameHolder.clear();
-									}
-								}
+								});
 							}
 						});
 						provider.checkIsConnected();
@@ -201,76 +196,29 @@ The pseudo-code of FindRouterTask will be:
 					}
 				}
 			});
+
+			while(!Thread.currentThread().isInterrupted()) {
+				try {
+					ComponentName found = serviceQueue.take();
+					return found;
+				} catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 			return null;
 		}
 
 		@Override
+		@TargetApi(9)
 		protected void onPostExecute(ComponentName componentName) {
+			Log.d(TAG, "onPostExecute componentName=" + componentName);
 			super.onPostExecute(componentName);
-		}
-	}
-```
-
-ServiceNameHolder is a helper class that holds the last connected service name.
-The pseudo-code would be:
-```java
-	class ServiceNameHolder {
-		static final String prefName = "RouterServiceValidator.FindRouterTask";
-		static final String packageKey = "packageName";
-		static final String classKey = "className";
-		static final String tsKey = "timestamp";
-		final int _validSpan = 300; // 300 seconds == 5 minutes
-		ComponentName _serviceName;
-		long _timeStamp;
-		Context mContext;
-
-		public ServiceNameHolder(String packageName, String className, long timeStamp) {
-			_serviceName = new ComponentName(packageName, className);
-			_timeStamp = timeStamp;
-		}
-		public ServiceNameHolder(Context context) {
-			SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-			String packageName = pref.getString(packageKey, "");
-			String className = pref.getString(classKey, "");
-			_serviceName = new ComponentName(packageName, className);
-			_timeStamp = pref.getLong(tsKey, 0);
-			mContext = context;
-		}
-
-		public ComponentName getServiceName() {
-			return _serviceName;
-		}
-		public void setServiceName(ComponentName name) {
-			_serviceName = name;
-		}
-		public long getTimeStamp() {
-			return _timeStamp;
-		}
-
-		@TargetApi(9)
-		public void save(Context context) {
-			SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = pref.edit();
-			editor.putString(packageKey, _serviceName.getPackageName());
-			editor.putString(classKey, _serviceName.getClassName());
-			_timeStamp = System.currentTimeMillis() / 1000;
-			editor.putLong(tsKey, _timeStamp);
-			editor.apply();
-		}
-
-		public boolean isValid() {
-			return (_timeStamp != 0 && System.currentTimeMillis() / 1000 - _timeStamp < _validSpan);
-		}
-
-		@TargetApi(9)
-		public void clear() {
-			if (mContext != null) {
-				SharedPreferences pref = mContext.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-				SharedPreferences.Editor editor = pref.edit();
-				editor.putString(packageKey, "");
-				editor.putString(classKey, "");
-				editor.putLong(tsKey, 0);
-				editor.apply();
+			if (mCallback != null) {
+				if (componentName != null && !componentName.getPackageName().isEmpty()) {
+					mCallback.onFound(componentName);
+				} else {
+					mCallback.onFailed();
+				}
 			}
 		}
 	}
@@ -280,38 +228,53 @@ The pseudo-code would be:
 validateAsync method is expected to be called in TransportManager, something like this:
 
 ```java
-    public TransportManager(final MultiplexTransportConfig config, TransportEventListener listener, final boolean autoStart){
+	public TransportManager(final MultiplexTransportConfig config, TransportEventListener listener){
 
-        this.transportListener = listener;
-        this.TRANSPORT_STATUS_LOCK = new Object();
-        synchronized (TRANSPORT_STATUS_LOCK){
-            this.transportStatus = new ArrayList<>();
-        }
+		this.transportListener = listener;
+		this.TRANSPORT_STATUS_LOCK = new Object();
+		this.mConfig = config;
+		synchronized (TRANSPORT_STATUS_LOCK){
+		    this.transportStatus = new ArrayList<>();
+		}
 
-        if(config.service == null) {
-            config.service = SdlBroadcastReceiver.consumeQueuedRouterService();
-        }
+		if(config.service == null) {
+		    config.service = SdlBroadcastReceiver.consumeQueuedRouterService();
+		}
 
-        contextWeakReference = new WeakReference<>(config.context);
+		contextWeakReference = new WeakReference<>(config.context);
+	}
 
-        final RouterServiceValidator validator = new RouterServiceValidator(config);
-        validator.validateAsync(new RouterServiceValidator.ValidationStatusCallback() {
-            @Override
-            public void onFinishedValidation(boolean valid, ComponentName name) {
-                if (valid) {
-                    if (config.service == null) {
-                        config.service = name;
-                    }
-                    transport = new TransportBrokerImpl(contextWeakReference, config.appId, config.service);
-                    // because this callback works asynchrnous, we have to call TransportManager.start here.
-                    transport.start();
-                } else {
-                    enterLegacyMode("Router service is not trusted. Entering legacy mode");
-                }
-            }
-        });
+	/**
+	 * start is now synonym of startValidate, and transport.start gets called in startTransport.  
+	 */
+	public void start() {
+		startValidate();
+	}
+
+	private void startValidate() {
+		final RouterServiceValidator validator = new RouterServiceValidator(mConfig);
+		validator.validateAsync(new RouterServiceValidator.ValidationStatusCallback() {
+			@Override
+			public void onFinishedValidation(boolean valid, ComponentName name) {
+			    if (valid) {
+				    mConfig.service = name;
+				    transport = new TransportBrokerImpl(contextWeakReference, config.appId, config.service);
+				    startTransport();
+			    } else {
+				    enterLegacyMode("Router service is not trusted. Entering legacy mode");
+				    startTransport();
+			    }
+		    }
+	    });
     }
 
+    private void startTransport(){
+		if(transport != null){
+			transport.start();
+		}else if(legacyBluetoothTransport != null){
+			legacyBluetoothTransport.start();
+		}
+    }
 ```
 
 ### If an app contains custom RouterService, it must start by itself
@@ -320,8 +283,7 @@ The time when the app starts RouterService highly depends on the application, ho
 
 ## Potential downsides
 
-- The proposed solution will use SdlRouterStatusProvider, which actually binds to other app's RouterService and asks if the RouterService has connected transports. This will be done in the main thread, so the caller should execute it from the worker thread. This can be done with AsyncTask anyway.
-- When RouterService is bound from SdlRouterStatusProvider, RouterService should not enter to foreground. This is to avoid unneeded notification messages coming up especially on Android 8 or above. This can be done by not calling startService from SdlRouterStatusProvider. bindService should suffice the needs.
+The proposed solution will use SdlRouterStatusProvider, which actually binds to other app's RouterService and asks if the RouterService has connected transports. This will be done in the main thread, so the caller should execute it from the worker thread. This can be done with AsyncTask anyway.
 
 ## Impact on existing code
 
@@ -329,5 +291,6 @@ The time when the app starts RouterService highly depends on the application, ho
 - The synchronous validate() method would be deprecated.
 
 ## Alternatives considered
+
 - The solution would be beneficial for both custom RouterService and standard RouterService, because it actually increases the chance to find a RouterService that connects with the head unit.
-FindRouterTask internally utilizes ServiceFinder class, which sends broadcast to currently running RouterServices, and receive another broadcast from them. So this way will check currently running RouterService only, and avoid starting services merely for checking if the RouterService is connected or not.
+- FindRouterTask internally utilizes ServiceFinder class, which sends broadcast to currently running RouterServices, and receive another broadcast from them. So this way will check currently running RouterService only, and avoid starting services merely for checking if the RouterService is connected or not.
