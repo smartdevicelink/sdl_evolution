@@ -29,8 +29,18 @@ The proposed solution is to add new subscription buttons specifically for these 
     <element name="NAV_PAN_DOWN_LEFT" />
     <element name="NAV_PAN_LEFT" />
     <element name="NAV_PAN_UP_LEFT" />
+    <element name="NAV_TILT_TOGGLE">
+        <description>If supported, this toggles between a top-down view and an angled/3D view. If you app supports different, but substatially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.</description>
+    </element>
+    <element name="NAV_ROTATE_CLOCKWISE" />
+    <element name="NAV_ROTATE_COUNTERCLOCKWISE" />
+    <element name="NAV_HEADING_TOGGLE">
+        <description>If supported, this toggles between locking the orientation to north or to the vehicle's heading. If you app supports different, but substatially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.
+    </element>
 </enum>
 ```
+
+Additionally, Navigation Services should handle a new RPC: `ButtonPress`. The elements listed above are able to be handled by the service provider.
 
 ### Implementation Notes
 * These buttons should either be unsupported on touch screen head units (i.e. if these buttons can not be implemented as hard buttons in the vehicle), or if they are implemented on the touch screen head unit, they should not overlay the map at all times. Because the OEMs could place them on the screen in different locations, this would prevent the app developer from knowing what areas of the screen are accessible for them to place buttons. Instead, they should be hidden behind, for example, tapping the map, or a button that doesn't overlay the map.
