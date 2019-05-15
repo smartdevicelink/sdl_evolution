@@ -15,44 +15,40 @@ To avoid trial and error and allow mobile apps to know what RGB colors are suppo
 
 ## Proposed solution
 
-This proposal adds a new parameter `supportedRgbColors` which is an array of supported RGB colors to the `LightCapabilities`.
+This proposal adds a new parameter `supportedRGBColorRanges` which is an array of supported `RGBColorRange` to the `LightCapabilities`.
+
+The mobile API needs the following changes.
 
 ```xml
 <struct name="LightCapabilities" since="5.0">
-    <param name="name" type="LightName" mandatory="true" />
-    <param name="statusAvailable" type="Boolean" mandatory="false">
-      <description>
-        Indicates if the status (ON/OFF) can be set remotely. App shall not use read-only values (RAMP_UP/RAMP_DOWN/UNKNOWN/INVALID) in a setInteriorVehicleData request.
-      </description>
-    </param>
-    <param name="densityAvailable" type="Boolean" mandatory="false">
-        <description>
-            Indicates if the light's density can be set remotely (similar to a dimmer).
-        </description>
-    </param>
-    <param name="rgbColorSpaceAvailable" type="Boolean" mandatory="false">
-        <description>
-            Indicates if the light's color can be set remotely by using the RGB color space.
-        </description>
-    </param>
-+    <param name="supportedRgbColors" type="RGBColor" array="true" mandatory="false" since="5.x">
-+        <description>
-+            A list of RGB colors that are supported by the vehicle. Zero length array means support all possible combinations.
-+        </description>
-+    </param>
+: 
+: 
+   <param name="supportedRGBColorRanges" type="RGBColorRange" array="true" minsize="1" maxSize="999999" mandatory="false" since="x.x"/>
+
 </struct>
 
 
-<struct name="RGBColor" since="5.0">
-    <param name="red" type="Integer" minvalue="0" maxvalue="255" mandatory="true" />
-    <param name="green" type="Integer" minvalue="0" maxvalue="255" mandatory="true" />
-    <param name="blue" type="Integer" minvalue="0" maxvalue="255" mandatory="true" />
+<struct name="RGBColorRange" since="x.x">
+    <description>
+        Indicate a color or a color range, include the following cases:
+        If only minimums are included for R, G, and B, it is a single color;
+        If a max is included on any R, G, B color, it is a range of color;
+        If two or more color elements contain both min and max, those two colors can be shaded together within the ranges supplied.
+    </description>
+    <param name="redMin" type="Integer" minvalue="0" maxvalue="255" mandatory="true" />
+    <param name="redMax" type="Integer" minvalue="0" maxvalue="255" mandatory="false" />
+    <param name="greenMin" type="Integer" minvalue="0" maxvalue="255" mandatory="true" />
+    <param name="greenMax" type="Integer" minvalue="0" maxvalue="255" mandatory="false" />
+    <param name="blueMin" type="Integer" minvalue="0" maxvalue="255" mandatory="true" />
+    <param name="blueMax" type="Integer" minvalue="0" maxvalue="255" mandatory="false" />
 </struct>
 ```
 
+The changes to the HMI API are smiliar to those in the mobile API.
+
 ## Potential downsides
 
-Only RGB colors will be supported. It does not support color name or color scheme id/label with dynamic change.
+Only RGB colors will be supported. It does not support color name or color scheme id/label with dynamic change. The list can be big if too many discrete colors are supported.
 
 ## Impact on existing code
 
