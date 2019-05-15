@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0224](0224-navigation-subscription-buttons.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
