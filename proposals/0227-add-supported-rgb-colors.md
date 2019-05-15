@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0227](0227-add-supported-rgb-colors.md)
 * Author: [Zhimin Yang](https://github.com/yang1070)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
