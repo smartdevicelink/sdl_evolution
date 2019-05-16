@@ -30,7 +30,7 @@ The proposed solution is to add new subscription buttons specifically for these 
     <element name="NAV_PAN_LEFT" />
     <element name="NAV_PAN_UP_LEFT" />
     <element name="NAV_TILT_TOGGLE">
-        <description>If supported, this toggles between a top-down view and an angled/3D view. If you app supports different, but substatially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.</description>
+        <description>If supported, this toggles between a top-down view and an angled/3D view. If your app supports different, but substantially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.</description>
     </element>
     <element name="NAV_ROTATE_CLOCKWISE" />
     <element name="NAV_ROTATE_COUNTERCLOCKWISE" />
