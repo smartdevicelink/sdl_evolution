@@ -77,18 +77,18 @@ The following SDL Server environment variable configuration options will be avai
 ### Reporting Interface
 A "Statistics" reporting page will be added to the SDL Server user interface containing the following graphs/charts/tables of the analyzed data:
 
-* Number of daily PTUs over past 30 days, stacked by the triggering event (miles, days, ignition cycles)
-* Percent of PTUs in past 30 days caused by miles, days, ignition cycles
-* Top device models in past 30 days
-* Distribution of device operating systems in past 30 days
-* Distribution of device operating system versions in past 30 days
-* Top device carriers in past 30 days
+* Number of daily PTUs during the retention period, stacked by the triggering event (miles, days, ignition cycles)
+* Percent of PTUs during the retention period caused by miles, days, ignition cycles
+* Top device models over the retention period
+* Distribution of device operating systems during the retention period
+* Distribution of device operating system versions during the retention period
+* Top device carriers during the retention period
 
 Additionally, a statistics sub-section will be added to the application review/details page, subject to data availability, to include information such as:
 
-* Aggregate minutes the app is in each HMI level, over past 30 days
-* Aggregate times the app has been opened by users, over past 30 days
-* Aggregate count of rejected RPCs, over past 30 days
+* Aggregate minutes the app is in each HMI level, over the retention period
+* Aggregate times the app has been opened by users, over the retention period
+* Aggregate count of rejected RPCs, over the retention period
 
 ### Default Behavior (opt-in to enable)
 By default, statistics recording will be turned off in order to limit I/O throughput to the database. While disabled, the reporting interface will show a "disabled" state. Statistics recording may be turned on via the setting of an SDL Server environment variable.
