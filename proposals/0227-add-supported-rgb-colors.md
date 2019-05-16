@@ -44,7 +44,7 @@ The mobile API needs the following changes.
 </struct>
 ```
 
-The changes to the HMI API are smiliar to those in the mobile API.
+The changes to the HMI API are similar to those in the mobile API.
 
 ## Potential downsides
 
