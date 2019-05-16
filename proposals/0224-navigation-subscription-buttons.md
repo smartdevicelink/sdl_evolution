@@ -35,7 +35,7 @@ The proposed solution is to add new subscription buttons specifically for these 
     <element name="NAV_ROTATE_CLOCKWISE" />
     <element name="NAV_ROTATE_COUNTERCLOCKWISE" />
     <element name="NAV_HEADING_TOGGLE">
-        <description>If supported, this toggles between locking the orientation to north or to the vehicle's heading. If you app supports different, but substatially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.
+        <description>If supported, this toggles between locking the orientation to north or to the vehicle's heading. If your app supports different, but substantially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.
     </element>
 </enum>
 ```
