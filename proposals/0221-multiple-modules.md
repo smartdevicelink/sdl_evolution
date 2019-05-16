@@ -364,6 +364,12 @@ HMI API is similar to but not the same as the mobile API.
     </param>
 </struct>
 
+<function name="ButtonPress" functionID="ButtonPressID" messagetype="request" since="4.5">
+    ...
++   <param name="moduleId" type="String" maxlength="100" mandatory="false" since="5.x">
++      <description>Id of a module, published by System Capability. <description>
++   </param>
+</function>
 ```
 
 The following HMI API needs an update and needs to be added to mobile API.
