@@ -2,7 +2,7 @@
 
 * Proposal: [SDL- 0216](0216-widget-support.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11), [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Returned for Revisions**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Android / RPC ]
 
 ## Introduction
@@ -265,7 +265,7 @@ The primary widget is a special widget, that can be associated with a service ty
 
 This section describes a possible feature to allow widgets per app or service type. Instead of providing only app specific widgets, an infotainment system with widget support can also offer widgets per type. As an example, the infotainment system can offer a "Media Player" widget which will present the widget of the active/audible media application. This can include media sources offered by the infotainment system such as Radio, Bluetooth or USB playback. A similar user experience can be offered to other app types like navigation, weather, (voice) communication or telephony, voice assistant etc. 
 
-`assiciatedServiceType` allows an app to create a widget related to a specific service type.
+`associatedServiceType` allows an app to create a widget related to a specific service type.
 As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app.
 
 It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI.
