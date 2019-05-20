@@ -19,16 +19,16 @@ The solution is to create a common JavaScript library that offers a public proxy
 
 ### SDL library layers
 
-Looking into the existing libraries, developed in Java and Objective-C, they are contained of the following superset of layers:
+Looking into the existing libraries, developed in Java and Objective-C, they contain the following superset of layers:
 
 1. The **High Level Interface** is a work-in-progress developer friendly API with the purpose to provide a programming interface similar to mobile frameworks.
 2. The **Manager layer** is the current programming interface that abstracts the heavy load of dealing with application lifecycle, screen, dealing with RPCs and many more.
 3. The **Proxy layer** also known as RPC layer, is the lower level interface with the purpose of managing the connection to the remote endpoint and sending and receiving RPCs. The [RPC specification](https://github.com/smartdevicelink/rpc_spec) of the mobile API is implemented in this layer.
 4. The **SDL Session layer** is responsible for the lifecycle of service sessions for e.g. RPC/Bulk, video and audio. It packages application data and sends it to the protocol layer. 
-5. The **SDL protocol layer** is responsible to organize sending and receiving frames as per the [Protocol specification](https://github.com/smartdevicelink/protocol_spec)
-6. The **transport layer** is the root level of SmartDeviceLink and therefore the most critical layer as it is responsible of the foundation of data transmission. 
+5. The **SDL protocol layer** is responsible for organizing the sending and receiving of frames as per the [Protocol specification](https://github.com/smartdevicelink/protocol_spec)
+6. The **transport layer** is the root level of SmartDeviceLink and therefore the most critical layer as it is responsible for the foundation of data transmission. 
 
-It is not realistic to develop a new SDL library at once, that can provide the same set of features as the Android and iOS library. Therefore it is important to focus on a "milestone 1" which includes the following fundamental elements:
+It is not realistic to develop a new SDL library that can provide the same set of features as the Android and iOS library all at once. Therefore it is important to focus on a "milestone 1" which includes the following fundamental elements:
 
 #### Included tasks in this proposal
 
@@ -48,13 +48,13 @@ The first release should come with a base/abstract definition of the transport l
 
 #### Manager layer
 
-The first managers that should be introduced in future proposals should be a lifecycle manager and the file manager. Other managers (screen manager etc.) are be added in future releases.
+The first managers that should be introduced in future proposals should be a lifecycle manager and the file manager. Other managers (screen manager etc.) should be added in future releases.
 
 This proposal does not include a manager layer. Managers will be introduced via new proposals.
 
 ### Development in TypeScript
 
-The development of this library should not be done in pure JavaScript but in TypeScript. The reason is that TypeScript allows to use data types, classes and other useful development features. This will reduce complexity and risk of issues during development. With TypeScript the maintenance of the library will be much easier compared to pure JavaScript.
+The development of this library should not be done in pure JavaScript but in TypeScript. The reason is that TypeScript allows use of data types, classes and other useful development features. This will reduce complexity and risk of issues during development. With TypeScript the maintenance of the library will be much easier compared to pure JavaScript.
 
 TypeScript will still allow JavaScript support. Whenever a new release version is planned, the TypeScript code can be transcompiled to JavaScript. This [TypeScript Playground](https://www.typescriptlang.org/play/index.html) from typescriptlang.org shows how easy TypeScript can be transcompiled into JavaScript. The export can also provide a source map file for Lint and auto complete when developing JavaScript applications e.g. in VS code. https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
 
@@ -70,11 +70,11 @@ https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance
 
 ### Project management
 
-The JavaScript library will be open source and stored in a new smartdevicelink repository on GitHub called sdl_javascript. The project maintainers will be responsible of maintaining and reviewing the code and the project.
+The JavaScript library will be open source and stored in a new smartdevicelink repository on GitHub called sdl_javascript. The project maintainers will be responsible for maintaining and reviewing the code and the project.
 
 ## Potential downsides
 
-The downsides of having another SDL library is the increase of SDL maintenance. The project maintainers may need to assign persons who's responsible of managing issues, projects and releases, reviewing pull requests. The SDLC has to decide on the benefits of having a JavaScript library compared to the effort maintaining it.
+The downside of having another SDL library is the increase of SDL maintenance. The project maintainers may need to assign individuals who are responsible for managing issues, projects and releases, and reviewing pull requests. The SDLC has to decide on the benefits of having a JavaScript library compared to the effort maintaining it.
 
 ## Impact on existing code
 
