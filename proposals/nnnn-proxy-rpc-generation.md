@@ -9,7 +9,7 @@
 This proposal adds automatic RPC generation for iOS and Java from the XML spec via a python script.
 
 ## Motivation
-Adding RPCs is currently difficult. Every RPC to be added requires hand-writing each parameter, then review, and then unit testing. This makes large RPC changes very difficult, and at times, error-prone. Beyond that, alterations to the RPC classes require an enormous amount of work due to the number of RPCs that already exist – in addition to the problems of code duplication. This does not happen often, but it does happen.
+Adding RPCs is currently difficult. Every RPC to be added requires handwriting each parameter, then review, and then unit testing. This makes large RPC changes very difficult, and at times, error-prone. Beyond that, alterations to the RPC classes require an enormous amount of work due to the number of RPCs that already exist – in addition to the problems of code duplication. This does not happen often, but it does happen.
 
 ## Proposed solution
 The proposed solution is to create python scripts that auto-generate Objective-C and Android code based on a given SDL MOBILE_API XML spec. This allows us to generate new Obj-C and Android classes whenever the XML spec changes, and to update the script whenever the classes themselves need to change.
