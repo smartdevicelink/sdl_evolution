@@ -31,7 +31,7 @@ The proposed solution is to store the statistics data sent from Core to the SDL 
 * Device operating system (requires Core update for `PROPRIETARY` mode)
 * Device operating system version (requires Core update for `PROPRIETARY` mode)
 
-Most of these data items are currently only available when Core is running in `EXTERNAL_PROPRIETARY` mode. Therefore, a change Core is required to support the sending of these attributes - when available - while running in `PROPRIETARY` mode. SDL Server will only record this data if the OEM has enabled the statistics and reporting feature and if the data is present in the policy table update request payload.
+Most of these data items are currently only available when Core is running in `EXTERNAL_PROPRIETARY` mode. Therefore, a change in Core is required to support the sending of these attributes - when available - while running in `PROPRIETARY` mode. SDL Server will only record this data if the OEM has enabled the statistics and reporting feature and if the data is present in the policy table update request payload.
 
 The following is an example of data attributes sent by Core in a policy table update request while in `EXTERNAL_PROPRIETARY` mode which must be added to `PROPRIETARY` mode in order to support this proposal:
 
