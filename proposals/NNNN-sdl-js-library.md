@@ -34,7 +34,7 @@ It is not realistic to develop a new SDL library at once, that can provide the s
 
 **1. Proxy layer** 
 
-Provide a Proxy class and implementations of all RPCs according to the [RPC specification v5.1](https://github.com/smartdevicelink/rpc_spec/tree/5.1.0). As this specification is XML structured it makes sense to develop a code generator to export all the RPCs, structs and enums to usable code. This generator should be included in the JavaScript repository and be used at least for the initial code generation of the proxy layer.
+Provide a Proxy class and implementations of all RPCs according to the [RPC specification v5.1](https://github.com/smartdevicelink/rpc_spec/tree/5.1.0). As this specification is XML structured it makes sense to develop a code generator to export all the RPCs, structs and enums to usable code.
 
 **2. SDL Session layer and Protocol layer**
 
