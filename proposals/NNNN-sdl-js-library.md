@@ -56,17 +56,13 @@ This proposal does not include a manager layer. Managers will be introduced via 
 
 The development of this library should not be done in pure JavaScript but in TypeScript. The reason is that TypeScript allows use of data types, classes and other useful development features. This will reduce complexity and risk of issues during development. With TypeScript the maintenance of the library will be much easier compared to pure JavaScript.
 
-TypeScript will still allow JavaScript support. Whenever a new release version is planned, the TypeScript code can be transcompiled to JavaScript. This [TypeScript Playground](https://www.typescriptlang.org/play/index.html) from typescriptlang.org shows how easy TypeScript can be transcompiled into JavaScript. The export can also provide a source map file for Lint and auto complete when developing JavaScript applications e.g. in VS code. https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
+TypeScript will still allow JavaScript support. Whenever a new release version is planned, the TypeScript code can be transcompiled to JavaScript. This [TypeScript Playground](https://www.typescriptlang.org/play/index.html) from typescriptlang.org shows how easy TypeScript can be transcompiled into JavaScript. The export can also provide a [JavaScript Source Map](https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/) for Lint and auto complete when developing JavaScript applications e.g. in VS code. 
 
 ### Promise based development
 
 Just as the other existing libraries, the JavaScript library requires possibilities to perform async operations. JavaScript is very well capable of serving this task especially with using the Promise pattern. 
 
-There are many sources describing the Promise pattern with JavaScript and how it is used already in the native API and other libraries and frameworks.
-
-https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Promise
-
-https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch3.md
+There are many sources describing the Promise pattern with JavaScript and how it is used already in the native API and other libraries and frameworks. See [Mozilla: Promise](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Promise) and [You Don't Know JS - Promises](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch3.md)
 
 ### Project management
 
