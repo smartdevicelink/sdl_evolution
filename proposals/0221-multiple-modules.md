@@ -202,7 +202,7 @@ app_policies": {
   "xyz app": {
       ....
       "moduleType": ["RADIO", "CLIMATE"],
-      "moduleId": ["id1", "id2", "id3"]
+      "moduleId": [{"id":"id1", "type","RADIO"}, {"id":"id2", "type","RADIO"}, {"id":"id3", "type","CLIMATE"}]
    }
 }
 ```
@@ -484,7 +484,7 @@ Mobile version
 </function>
 ```
 
-An alternative solution is to add a new optional parameter `userLocation` to three RPCs `GetInteriorVehicleDataConsent`, `ButtonPress` and `SetInteriorVehicleData`, which are sent from an mobile app to SDL and forwarded to HMI, instead of including `userLocation` as a parameter of the `SetGlobalProperties` RPC.
+An alternative solution is to add a new optional parameter `userLocation` to four RPCs `GetInteriorVehicleDataConsent`, `ButtonPress`, `GetInteriorVehicleData` and `SetInteriorVehicleData`, which are sent from an mobile app to SDL and forwarded to HMI, instead of including `userLocation` as a parameter of the `SetGlobalProperties` RPC.
 
 
 ### How to use the new parameter for permission control
@@ -547,9 +547,9 @@ Not aware from the author.
 
 ## Impacts on existing code
 
-- New parameters will need to be updated within the RPC.
+- New parameters and/or new RPCs will need to be updated within the RPC.
 
-- SDL core and the mobile proxies will need updates to support the new parameters.
+- SDL core and the mobile proxies will need updates to support the new parameters and RPCs.
 
 - There is no policy change regarding module permission. Policy still controls per module type.
 
