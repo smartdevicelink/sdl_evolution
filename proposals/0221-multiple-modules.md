@@ -416,6 +416,16 @@ The following HMI API needs an update and needs to be added to mobile API.
 </function>
 <function name="SetGlobalProperties" messagetype="response">
 </function>
+
+<function name="GetCapabilities" messagetype="response">
+    <param name="remoteControlCapability" type="Common.RemoteControlCapabilities" mandatory="false">
+        <description>See RemoteControlCapabilities, all available RC modules and buttons shall be returned.</description>
+    </param>
++   <param name="seatLocationCapability" type="Common.SeatLocationCapability" mandatory="false">
++       <description>See SeatLocationCapability, all available seat locations shall be returned.</description>
++   </param>
+</function>
+
 </interface>
 ```
 
