@@ -1,7 +1,7 @@
 # Proxy Library RPC Generation
 
 * Proposal: [SDL-NNNN](NNNN-proxy-rpc-generation.md)
-* Author: [SDL Developer](https://github.com/joeljfischer)
+* Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS / Java Suite]
 
