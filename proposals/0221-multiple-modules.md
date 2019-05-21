@@ -43,7 +43,7 @@ The `ModuleInfo` serves two purposes. First, its mandatory parameter `moduleId` 
 
 `serviceArea` indicates the service area or the coverage area of a module. For example, a seat control covers only one seat. The location and the service area of a seat control module are the same. A radio control serves all passengers in the vehicle. Its service area will cover its own physical location as well as other locations in the vehicle.  If a `serviceArea` is not included, it is assumed the `serviceArea` is the same as `location`. If both are not included, it is assumed that the `serviceArea` covers the whole area of the vehicle.
 
-Flag `allowMultipleAccess` indicates whether a RC module can be accessed by multiple users or exclusively used by a user. In general, examples of shared module types are `RADIO`, `AUDIO`, `LIGHT` and `HMI`. An example of exclusive module types is `SEAT`. Depending on single climate zone or multiple climate zone support, a module with `CLIMATE` module type can be shared or exclusive. `allowMultipleAllow` is defined per module, not per module type.
+Flag `allowMultipleAccess` indicates whether a RC module can be accessed by multiple users or exclusively used by a user. In general, examples of shared module types are `RADIO`, `AUDIO`, `LIGHT` and `HMI`. An example of exclusive module types is `SEAT`. Depending on single climate zone or multiple climate zone support, a module with `CLIMATE` module type can be shared or exclusive. `allowMultipleAccess` is defined per module, not per module type.
 
 It is suggested that the HMI always includes all parameters in capabilities even if they are defined as optional.
 
@@ -78,7 +78,7 @@ The `moduleId` is defined as optional in order to keep backward compatibility. I
 
 In addition, this proposal deprecates the `SupportedSeat` Enumeration and parameter `id` in `SeatControlData` in order to get a uniformed solution.
 
-If a mobile app uses the `SupportedSeat` `id` and no `moduleId` in a RPC request, SDL shall forward the request as is to HMI, HMI shall automatically convert seat `id=DRIVER` to the `moduleId` that corresponds to the driver’s seat module, and seat `id=FRONT_PASSENGER` to the `moduleId` that corresponds to the front passenger's seat. If a mobile app include both `SupportedSeat` `id` and `moduleId` in a RPC request, `id` shall be ignored since `moduleId` has a higher priority.
+If a mobile app uses the `SupportedSeat` `id` and no `moduleId` in a RPC request, SDL shall forward the request as is to HMI, HMI shall automatically convert seat `id=DRIVER` to the `moduleId` that corresponds to the driver’s seat module, and seat `id=FRONT_PASSENGER` to the `moduleId` that corresponds to the front passenger's seat. If a mobile app includes both `SupportedSeat` `id` and `moduleId` in a RPC request, `id` shall be ignored since `moduleId` has a higher priority.
 
 ### Define the Grid
 
