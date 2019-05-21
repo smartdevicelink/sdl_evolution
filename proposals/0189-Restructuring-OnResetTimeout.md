@@ -109,6 +109,7 @@ Since HMI API does not support deprecated, it is going to be removed from the ol
 
 **Note**: HMI Integration Guidelines will need to be updated to call out that currently there is no version negotiation between HMI and Core, so older HMI implementations will not work with this new version of Core as UI/TTS _OnResetTimeout_ will be removed.
 
+**Note**: Original accepted proposal should be implemented by **not** removing onResetTimeout from UI and TTS for next available release. For release 6.0 though, we should remove onResetTimeout from UI and TTS interfaces.
 
 ## Potential downsides
   * These changes would remove OnResetTimeout from _UI_ and _TTS_ interfaces. As a result, this will cause a major version change to both _HMI API_ and _Core_.
