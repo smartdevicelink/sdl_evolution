@@ -1,7 +1,7 @@
 # Support for Android custom RouterService
 * Proposal: [SDL-0220](0220-support-for-android-custom-routerservice.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: Java Suite
 
 ## Introduction
