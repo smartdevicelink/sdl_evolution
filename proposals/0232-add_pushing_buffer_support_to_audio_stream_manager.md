@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0232](0232-add_pushing_buffer_support_to_audio_stream_manager.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Java Suite / iOS]
 
 ## Introduction
