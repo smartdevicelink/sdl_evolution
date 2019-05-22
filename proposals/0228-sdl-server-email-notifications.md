@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0228](0228-sdl-server-email-notifications.md)
 * Author: [Nick Schwab](https://github.com/nickschwab)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [SDL Server]
 
 ## Introduction
