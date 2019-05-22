@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0231](0231-main-menu-tiles.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC / HMI]
 
 ## Introduction
