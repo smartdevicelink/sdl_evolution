@@ -1,8 +1,8 @@
 # Update mismatch in TireStatus structure
 
-* Proposal: [NNNN](NNNN-TireStatus-Mismatch.md)
+* Proposal: [SDL-0236](0236-TireStatus-Mismatch.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core / RPC / iOS / Java Suite]
 
 ## Introduction
