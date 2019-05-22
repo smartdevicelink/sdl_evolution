@@ -1,8 +1,8 @@
 # SDL JavaScript library
 
-* Proposal: [NNNN](NNNN-sdl-js-library.md)
+* Proposal: [SDL-0235](0235-sdl-js-library.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford), [Mauricio Juarez](https://github.com/mjuarez-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ JavaScript ]
 
 ## Introduction
