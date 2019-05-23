@@ -14,6 +14,8 @@ We already provide a tiled template layout using soft buttons. In some cases, it
 ## Proposed solution
 
 ### MOBILE_API Updates
+
+#### Capabilities
 We will add an enum for the various menu layout options:
 
 ```xml
@@ -30,12 +32,24 @@ We will add new capabilities so that developers can know if the head unit suppor
 <struct name="DisplayCapabilities" since="1.0">
     <!-- All existing params -->
 
-    <param name="menuLayouts" type="MenuLayout" array="true" minValue="1" maxValue="1000" mandatory="false">
+    <param name="menuLayoutsAvailable" type="MenuLayout" array="true" minValue="1" maxValue="1000" mandatory="false">
         <description>An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available</description>
     </param>
 </struct>
 ```
 
+Alternatively, if this proposal is implemented in a release simultaneously with, or after, [SDL-0216 Widget Support](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0216-widget-support.md), then the `menuLayouts` parameter should be placed within the new `WindowCapabilities` struct, and not the `DisplayCapabilities` struct above:
+
+```xml
+<struct name="WindowCapability" since="5.x">
+    <!-- Existing params from SDL-0216 -->
+    <param name="menuLayoutsAvailable" type="MenuLayout" array="true" minValue="1" maxValue="1000" mandatory="false">
+        <description>An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available</description>
+    </param>
+</struct>
+```
+
+#### Changing Layouts
 We will then add the ability to change the menu to a tiled layout using `SetGlobalProperties`. Submenus can be tiled as well using the `AddSubmenu` command:
 
 ```xml
