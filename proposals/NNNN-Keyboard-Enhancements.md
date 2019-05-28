@@ -121,7 +121,7 @@ In case of older SDL versions, if _"maskInputCharactersSupported"_ value is not 
 #### Changes in _"KeyboardEvent"_ Enum
 
 If App sends _"maskInputCharacters"_ value as _"USER_CHOICE_INPUT_KEY_MASK"_, the HMI keyboard will provide a key, so that the user can unmask input characters.
-The app will be notified whether the input is masked or not using _"UI.OnKeyboardInput"_ with below keyboard events.
+The app will be notified whether the input is masked or not, using _"UI.OnKeyboardInput"_ with below keyboard events.
 
 ```xml
 <enum name="KeyboardEvent">
