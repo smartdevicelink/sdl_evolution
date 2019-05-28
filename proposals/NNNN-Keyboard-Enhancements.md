@@ -49,7 +49,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 
 ![AZERTY Keyboard with 4 special characters](../assets/proposals/nnnn-keyboard-enhancements/azerty_special_chars.png)
 
-![Numeric Keyboard with 2 special characters](assets/proposals/nnnn-keyboard-enhancements/numeric_keypad.png)
+![Numeric Keyboard with 2 special characters](../assets/proposals/nnnn-keyboard-enhancements/numeric_keypad.png)
 
 ## Proposed solution
 
