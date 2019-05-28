@@ -39,7 +39,7 @@ It would be convenient for users and desirable for app partners if an app can co
 
 This proposal addresses above mentioned issues.
 
-**_Please refer below sample keyboard layouts.As you can see there's always a possibility to customize special characters button marked by red circle_**
+**_Please refer below for sample keyboard layouts. As you can see, there's always a possibility to customize special characters buttons marked by red circle_**
 
 _As shown in the sample Layouts, for QWERTY, there could be three customizable buttons for the special characters, for AZERTY, there could be four and for numeric keyboard, there could be two customizable buttons._
 
