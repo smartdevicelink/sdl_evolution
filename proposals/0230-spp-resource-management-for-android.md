@@ -112,7 +112,7 @@ When notifySppError gets called, the notification is shown like below:
 ### Expected settings for the notification channel
 
 When SPP resource error is detected, notification is expected to be shown as popup. For this reason, we need another notification channel in addition to existing SDL notification channel, which is used when SdlRouterService enters foreground.
-This is why Code-1 above uses different channel ID (SDL_ERROR_NOTIFICATION_CHANNEL_ID), and different setting of channel importance flag (IMPORTANCE_MAX)
+This is why Code-1 above uses different channel ID (SDL_ERROR_NOTIFICATION_CHANNEL_ID), and different setting of channel importance flag (IMPORTANCE_HIGH)
 
 When user opens "manage notifications", the app's notification setting will be shown below:
 
@@ -131,7 +131,9 @@ And the channel ("SDL Error") should be configured like below:
 
 ### When user clicks on notification popup
 
-In previous code snippet in Code-1, SdlNotificationActivity is specified for ContentIntent. The sample UX of SdlNotificationActivity looks like below:
+In previous code snippet (Code-1), SdlNotificationActivity is specified for ContentIntent. The activity is shown when user clicks on the notification popup.
+
+The sample UX of SdlNotificationActivity looks like below:
 
 ![SdlNotificationActivity UX](../assets/proposals/0230-spp-resource-management-for-android/spp_error_activity.png)
 
@@ -158,7 +160,7 @@ The default language would be en_US.
 ## Potential downsides
 
 - We need to think about who is responsible for the localization process, which includes management of string resources.
-- In Fig. 3 (Manage notification category setting), if user changed the behavior to "no sound", user won't notice anything even if SPP error occurred. This seems to be a potential issue, but it is up to the user's configuration. 
+- In Fig. 3 (Manage notification category setting), if user changed the behavior to "No sound", user won't notice anything even if SPP error occurred. This seems to be a potential issue, but it is up to the user's configuration.
 
 
 ## Impact on existing code
