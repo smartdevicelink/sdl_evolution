@@ -164,7 +164,7 @@ This struct object will be returned with _"KeyboardCapabilities"_ in _"RegisterA
 4. If the number of keys in _"customizeKeys"_ array is more than customizable keys allowed, the SDL core should respond with _"INVALID_DATA"_ and the info string should include a detailed message, that **_"customizeKeys exceeds the number of customizable keys in this Layout"_**.
 5. If the number of keys in _"customizeKeys"_ array is less than or equal to customizable keys allowed, the SDL core should respond with _"SUCCESS"_. 
 6. HMI should show default characters in the remaining customizable Keys if _"customizeKeys"_ array is less than or equal to the customizable keys allowed.
-7. If a certain special character is not supported by the system. The HMI should send _"WARNING"_ response, with _"info"_ text as _" some symbols might not be supported by system"_. This will give a chance to use symbols that are supported and also inform the app about the system not supporting certain characters.
+7. If a certain special character is not supported by the system the HMI should send _"WARNING"_ response, with _"info"_ text as _" some symbols might not be supported by system"_. This will give a chance to use symbols that are supported and also inform the app about the system not supporting certain characters.
 
 **Example usage:** If an app wants to change three symbols, the app sends the value of _"customizeKeys"_ as _"₹£$"_. The parameter follows a similar structure as _"limitedCharacterList"_.
  
