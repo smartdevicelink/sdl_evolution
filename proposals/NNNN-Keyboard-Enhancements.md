@@ -35,7 +35,7 @@ In addition to the above issues, some apps expect input with special characters.
 
 In both of the above examples, if a special character, which an app expects, is not shown at the root level of a keyboard, the user needs to find it in symbols' page or sub-levels of a keyboard.
 
-It would be convenient for users and desirable for app partners, if an app can configure special characters, accepted as input value in text fields, at the root level of Keyboard. 
+It would be convenient for users and desirable for app partners if an app can configure special characters, accepted as input value in text fields, at the root level of Keyboard. 
 
 This proposal addresses above mentioned issues.
 
