@@ -14,10 +14,9 @@ Current SDL Proxy does not handle that case very well. This proposal is to impro
 
 ## Motivation
 
-This proposal addresses two issues regarding SPP resource management.
+When SPP resources are exhausted, the SDL app cannot communicate with head unit. Right now, that error is not notified to the app and a user has no way to figure out why connection fails.
+This proposal focuses on the case where Proxy detects the SPP resource error, and let users know what happened and suggests possible work around.
 
-1. It improves user experience of an edge case where SPP resources are exhausted and an app cannot communicate with head unit. Right now, that error is not notified to the app. A user has no way to figure out why connection fails.
-2. MultiplexingTransport has legacy mode, which won't be used in normal case. It reduces the SPP resource consumption by disabling the legacy mode. Right now, legacy mode is used if SdlProxy failed to find the target RouterService.
 
 ## Proposed solution
 
@@ -36,175 +35,134 @@ and define the setter:
     }
 ```
 
-In SdlRouterService, we can implement the runnable something like below:
+In SdlRouterService, we can implement the runnable to utilize notification channel something like below:
 ```java
     bluetoothTransport.setSocketErrorListener(new Runnable() {
         @Override
         public void run() {
-            if (mNotificationDialogListener != null) {
-                mNotificationDialogListener.onRequestShowDialog(NotificationDialogListener.MessageType.ERROR_OUT_OF_SPP_RESOURCE);
-            }
+            // utilize Android notification channel in this case.
+            notifySppError();
         }
     });
 ```
 
-mNotificationListener is the interface defined below:
+notifySppError() method looks like below:
 ```java
-    public interface NotificationDialogListener {
-        /**
-         * Type of the message in the dialog.
-         */
-        enum MessageType {
-            /**
-             * This message indicates that SdlRoterService fails to start SPP services due to out-of-
-             * resources issue. The user needs to close other apps which use BluetoothSocket.
-             */
-            ERROR_OUT_OF_SPP_RESOURCE,
-            // there may be other message types
-        }
-
-        /**
-         * This method is called on the main thread when RouterService wants to show a dialog.
-         *
-         * @param type  Indicates the message which will be shown by the dialog.
-         */
-        void onRequestShowDialog(MessageType type);
-    }
-
-	private NotificationDialogListener mNotificationDialogListener;
-	public void setNotificationDialogListener(NotificationDialogListener listener) {
-		mNotificationDialogListener = listener;
-    }
-``` 
-SDL application can override SdlRouterService and set the notification listener. 
-The implementation is up to the app, but pseudo-code looks like below:
-
-```java
-	private class MyNotificationDialogListener implements NotificationDialogListener {
-		private Context mContext;
-		myNotificationListener(Context context) {
-			mContext = context;
+	/**
+	 * notifySppError: utilize notification channel to notify the SPP out-of-resource error.
+	 */
+	@TargetApi(28)
+	public void notifySppError() {
+		Notification.Builder builder;
+		if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
+			builder = new Notification.Builder(getApplicationContext());
+		} else {
+			builder = new Notification.Builder(getApplicationContext(), TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_ID);
 		}
-		@Override
-		public void onRequestShowDialog(MessageType type) {
-			if (type.equals(MessageType.ERROR_OUT_OF_SPP_RESOURCE)) {
-				Intent intent = new Intent(ERROR_OUT_OF_SPP_RESOURCE);
-				intent.setClassName(mContext.getPackageName(), getReceiverClassName())
-				mContext.sendBroadcast(intent);
+
+		builder.setContentTitle(getString(R.string.notification_title));
+		builder.setTicker(TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_NAME);
+		builder.setContentText(getString(R.string.spp_out_of_resource));
+
+		//We should use icon from library resources if available
+		int trayId = getResources().getIdentifier("sdl_tray_icon", "drawable", getPackageName());
+
+		builder.setSmallIcon(trayId);
+		Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sdl);
+		builder.setLargeIcon(icon);
+
+		// Create an intent that will be fired when the user clicks the notification.
+		// The code snippet implements a new activity, called SdlNotificationActivity.
+		Intent intent = new Intent(getApplicationContext(), SdlNotificationActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		builder.setContentIntent(pendingIntent);
+		builder.setOngoing(false);
+
+		synchronized (NOTIFICATION_LOCK) {
+			final String tag = "SDL";
+			//Now we need to add a notification channel
+			final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			if (notificationManager != null) {
+				notificationManager.cancel(tag, TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_ID_INT);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+					NotificationChannel notificationChannel = new NotificationChannel(TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_ID, TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_MAX);
+					notificationChannel.enableLights(true);
+					notificationChannel.enableVibration(true);
+					notificationChannel.setShowBadge(false);
+					notificationManager.createNotificationChannel(notificationChannel);
+					builder.setChannelId(notificationChannel.getId());
+				}
+				Notification notification = builder.build();
+				notificationManager.notify(tag, TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_ID_INT, notification);
+			} else {
+				Log.e(TAG, "notifySppError: Unable to retrieve notification Manager service");
 			}
 		}
 	}
-	
-	...
-	@Override
-    public void onCreate() {
-	    ...
-	    mMyNotificationListener = new MyNotificationDialogListener(getApplicationContext);
-        setNotificationDialogListener(mMyNotificationListener);
-    }
 ```
-We can do whatever we would like to do in the broadcast receiver, which runs in app's main process.
 
-And finally, we can detect and notify the error something like below in MultiplexBluetoothTransport class:
+**Code-1: code snippet of notifySppError method**
+
+When notifySppError gets called, the notification is shown like below:
+
+![spp error notification popup](../assets/proposals/0230-spp-resource-management-for-android/spp_notification_popup.png)
+
+**Fig. 1: Notification popup is shown when SPP resource error is detected**
+
+### Expected settings for the notification channel
+
+When SPP resource error is detected, notification is expected to be shown as popup. For this reason, we need another notification channel in addition to existing SDL notification channel, which is used when SdlRouterService enters foreground.
+This is why Code-1 above uses different channel ID (SDL_ERROR_NOTIFICATION_CHANNEL_ID), and different setting of channel importance flag (IMPORTANCE_MAX)
+
+When user opens "manage notifications", the app's notification setting will be shown below:
+
+![manage notification setting](../assets/proposals/0230-spp-resource-management-for-android/manage_notification_1.png)
+
+**Fig. 2: Manage notifications setting**
+
+Please note that channel name ("SDL Error" in Fig. 2) is TBD.
+
+And the channel ("SDL Error") should be configured like below:
+
+![manage notification category setting](../assets/proposals/0230-spp-resource-management-for-android/manage_notification_2.png)
+
+
+**Fig. 3: Manage notification category setting**
+
+### When user clicks on notification popup
+
+In previous code snippet in Code-1, SdlNotificationActivity is specified for ContentIntent. The sample UX of SdlNotificationActivity looks like below:
+
+![SdlNotificationActivity UX](../assets/proposals/0230-spp-resource-management-for-android/spp_error_activity.png)
+
+All strings used for this error UX is defined in strings.xml like below:
+
 ```java
-    private class AcceptThread extends Thread {
-	    ....
-        public void run() {
-            while (mState != STATE_CONNECTED) {
-                try {
-                    socket = mmServerSocket.accept();
-                } catch(IOException e) {
-                    Log.e(TAG, "Socket Type: " + mSocketType + "accept() failed");
-                    MultiplexBluetoothTransport.this.stop(STATE_ERROR);
-                    if (mSocketErrorListener != null) {
-                        new Handler(Looper.getMainLooper()).post(mSocketErrorListener);
-                    }
-                    return;
-                }
-            }
-        }
-    }
+    <string name="spp_out_of_resource">Bluetooth channel is out of resource</string>
+    <string name="notification_title">SmartDeviceLink</string>
+    <string name="spp_out_of_resource_message">There are too many bluetooth apps running on your device. Please close them and try to re-connect</string>
+    <string name="button_ok">OK</string>
 ```
 
-### Reduce the number of BluetoothServerSockets that may not be required
+The strings above are TBD (requires review).
 
-In production code, MultiplexTransport is assumed, so SDL is assumed to use single BluetoothServerSocket. When SdlProxy fails to find the target RouterService, however, it falls back to legacy mode, which consumes another BluetoothServerSocket:
-```java
-    private synchronized void enterLegacyMode(final String info){
-        if(legacyBluetoothTransport != null && legacyBluetoothHandler != null){
-            return; //Already in legacy mode
-        }
+### Localization of SPP error UX
 
-        if(transportListener.onLegacyModeEnabled(info)) {
-            if(Looper.myLooper() == null){
-                Looper.prepare();
-            }
-            legacyBluetoothHandler = new LegacyBluetoothHandler(this);
-            legacyBluetoothTransport = new MultiplexBluetoothTransport(legacyBluetoothHandler);
-            if(contextWeakReference.get() != null){
-                contextWeakReference.get().registerReceiver(legacyDisconnectReceiver,new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED) );
-            }
-        }else{
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    transportListener.onError(info + " - Legacy mode unacceptable; shutting down.");
-                }
-            });
-        }
-    }
-```
+Because all strings used for error UX is defined in strings.xml, the standard localization process for Android can be applied; i.e. adding language specific strings.xml per language.
+All language enums of Mobile API are assumed as the supported languages. They are:
+ar_SA, cs_CZ, da_DK, de_DE, el_GR, en_AU, en_GB, en_IN, en_SA, en_US, es_ES, es_MX, fi_FI, fr_CA, fr_FR, he_IL, hi_IN, hu_HU, id_ID, it_IT, ja_JP, ko_KR, ms_MY, no_NO, pl_PL, pt_BR, pt_PT, ro_RO, ru_RU, sk_SK, sv_SE, th_TH, tr_TR, uk_UA, vi_VN, zh_TW, zh_CN
 
-This happens when it fails to find the RouterService that is connected with head unit.
-If legacyMode is required for backward compatibility, the proposed solution is to add a flag to MultiplexTransportConfig, and enable legacy mode when it is requested by an app:
-```java
-public class MultiplexTransportConfig extends BaseTransportConfig{
-    boolean legacyModeAllowed = false; // disallow LegacyMode by default.
-
-    /**
-     * Some apps never want to use legacy mode. This allows them to do so.
-     * @param legacyModeAllowed
-     */
-    public void setLegacyModeAllowed(boolean legacyModeAllowed) {
-        this.legacyModeAllowed = legacyModeAllowed;
-    }
-
-    /**
-     * getLegacyModeAllowed (getter)
-     * @return
-     */
-    public boolean getLegacyModeAllowed() {
-        return this.legacyModeAllowed;
-    }
-}
-```
-```enterLegacyMode``` checks to see ```transportListener.onLegacyModeEnabled```, and we can check the flag in ```onLegacyModeEnabled``` something like below:
-```java
-in SdlProtocol:
-
-        public boolean onLegacyModeEnabled(String info) {
-            //Await a connection from the legacy transport
-            if(transportConfig.getLegacyModeAllowed() && requestedPrimaryTransports!= null && requestedPrimaryTransports.contains(TransportType.BLUETOOTH)
-                    && !transportConfig.requiresHighBandwidth()){
-                Log.d(TAG, "Entering legacy mode; creating new protocol instance");
-                reset();
-                return true;
-            }else{
-                Log.d(TAG, "legacy mode is not allowed");
-                return false;
-            }
-        }
-```
+The default language would be en_US.
 
 ## Potential downsides
 
-It is not the downside, but the application should be responsible for implementing the notification listener when SPP resource runs out. The implementation guide should be updated accordingly.
+We need to think about who is responsible for the localization process, which includes management of string resources.
 
 
 ## Impact on existing code
 
-If an application relies on legacy mode in some case, the application needs to turn on legacyModeAllowed flag explicitly by calling ```MultiplexTransportConfig.setLegacyModeAllowed(true)```
+There's no impact to existing code, because all error UX is provided by Proxy. Developers do not have to implement the error UX at all.
 
 ## Alternatives considered
 
-It's not certain how many production apps rely on legacy mode to work, but if we can mark legacy mode as the deprecated feature, ```enterLegacyMode``` function can be cleaned up without adding legacyModeAllowed flag in MultiplexTransportConfig.
+Do the proxy needs to have all localized strings? This question arises because the supported languages are varied per app.
