@@ -45,11 +45,11 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 
 **_Number of customizable buttons could be different for different Layouts._**
 
-![Alt text](https://github.ford.com/AKAREMOR/sdl_evolution_fordinternal/blob/master/assets/F087/qwerty_special_chars.png?raw=true "QWERTY Keyboard with 3 special characters")
+![Alt text](assets/proposals/nnnn-keyboard-enhancements/qwerty_special_chars.png?raw=true "QWERTY Keyboard with 3 special characters")
 
-![Alt text](https://github.ford.com/AKAREMOR/sdl_evolution_fordinternal/blob/master/assets/F087/azerty_special_chars.png?raw=true "AZERTY Keyboard with 4 special characters")
+![Alt text](assets/proposals/nnnn-keyboard-enhancements/azerty_special_chars.png?raw=true "AZERTY Keyboard with 4 special characters")
 
-![Alt text](https://github.ford.com/AKAREMOR/sdl_evolution_fordinternal/blob/master/assets/F087/numeric_keypad.png?raw=true "Numeric Keyboard with 2 special characters")
+![Alt text](assets/proposals/nnnn-keyboard-enhancements/numeric_keypad.png?raw=true "Numeric Keyboard with 2 special characters")
 
 ## Proposed solution
 
