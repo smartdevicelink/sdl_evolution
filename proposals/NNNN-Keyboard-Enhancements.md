@@ -33,7 +33,7 @@ In addition to the above issues, some apps expect input with special characters.
 >Another example would be an app using a numeric keypad for payments. If we consider this use case of entering amount for payment, the app would expect a decimal separator on a numeric keyboard. Now, since different countries use a different decimal separator, users would expect decimal separator used for their country to be shown at the root level of keyboard layout. 
 
 
-In both of the above examples, if a special character; which an app expects, is not shown at the root level of a keyboard,the user needs to find it in symbols' page or sub-levels of a keyboard.
+In both of the above examples, if a special character, which an app expects, is not shown at the root level of a keyboard, the user needs to find it in symbols' page or sub-levels of a keyboard.
 
 It would be convenient for users and desirable for app partners, if an app can configure special characters, accepted as input value in text fields, at the root level of Keyboard. 
 
