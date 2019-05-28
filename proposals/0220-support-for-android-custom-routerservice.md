@@ -242,7 +242,7 @@ validateAsync method is expected to be called in TransportManager, something lik
 	}
 
 	/**
-	 * start does validateAsync first, and then acxtually starts transport after the target RouterService is validated.
+	 * start does validateAsync first, and then actually starts transport after the target RouterService is validated.
 	 */
     public void start() {
         final RouterServiceValidator validator = new RouterServiceValidator(mConfig);
