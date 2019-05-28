@@ -77,7 +77,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 
 **_This enhancement is applicable only for root level keys in the keyboard layout. If HMI does not provide configurable keys in root level of keyboards, the system should return Zero in number of configurable keys._**
 
-**For example:** If an app wants to use _"QWERTY"_ Keyboard Layout, but HMI does not support Configurable keys at the root level. it should return _"ConfigurableKeyboards"_ Struct with _"keyboardLayout"_ equals _"QWERTY"_ (defined in _"KeyboardLayout"_) and _"numOfKeys"_ equals _Zero_.
+**For example:** If an app wants to use _"QWERTY"_ Keyboard Layout, but HMI does not support Configurable keys at the root level, it should return _"ConfigurableKeyboards"_ Struct with _"keyboardLayout"_ equals _"QWERTY"_ (defined in _"KeyboardLayout"_) and _"numOfKeys"_ equals _Zero_.
 
 ### MOBILE_API and HMI_API Changes
 
