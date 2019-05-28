@@ -212,7 +212,7 @@ Instead of returning _"KeyboardCapabilities"_ in _"RegisterAppInterface"_, struc
 
 1. The HMI should add the support for numeric keypad.
 2. In cases where App sets _"maskInputCharacters"_ as _"USER_CHOICE_INPUT_KEY_MASK"_, HMI Keyboard should provide a button to the user to show/hide characters entered using the keyboard. 
-3. In cases, where app sets _"maskInputCharacters"_ as _"ENABLE_INPUT_KEY_MASK"_ or _"DISABLE_INPUT_KEY_MASK"_, HMI keyboard will not provide a button to the user to show/hide characters entered using the keyboard. 
+3. In cases where app sets _"maskInputCharacters"_ as _"ENABLE_INPUT_KEY_MASK"_ or _"DISABLE_INPUT_KEY_MASK"_, HMI keyboard will not provide a button to the user to show/hide characters entered using the keyboard. 
 
 ## Android and iOS changes
 
