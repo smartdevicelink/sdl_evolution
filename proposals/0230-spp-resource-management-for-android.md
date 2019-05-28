@@ -61,7 +61,7 @@ notifySppError() method looks like below:
 		}
 
 		builder.setContentTitle(getString(R.string.notification_title));
-		builder.setTicker(TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_NAME);
+		builder.setTicker(getString(R.string.sdl_error_notification_channel_name));
 		builder.setContentText(getString(R.string.spp_out_of_resource));
 
 		//We should use icon from library resources if available
@@ -85,7 +85,7 @@ notifySppError() method looks like below:
 			if (notificationManager != null) {
 				notificationManager.cancel(tag, TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_ID_INT);
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-					NotificationChannel notificationChannel = new NotificationChannel(TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_ID, TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_MAX);
+					NotificationChannel notificationChannel = new NotificationChannel(TransportConstants.SDL_ERROR_NOTIFICATION_CHANNEL_ID, getString(R.string.sdl_error_notification_channel_name), NotificationManager.IMPORTANCE_HIGH);
 					notificationChannel.enableLights(true);
 					notificationChannel.enableVibration(true);
 					notificationChannel.setShowBadge(false);
@@ -142,6 +142,7 @@ All strings used for this error UX is defined in strings.xml like below:
     <string name="notification_title">SmartDeviceLink</string>
     <string name="spp_out_of_resource_message">There are too many bluetooth apps running on your device. Please close them and try to re-connect</string>
     <string name="button_ok">OK</string>
+    <string name="sdl_error_notification_channel_name">SDL Error</string>
 ```
 
 The strings above are TBD (requires review).
@@ -156,7 +157,8 @@ The default language would be en_US.
 
 ## Potential downsides
 
-We need to think about who is responsible for the localization process, which includes management of string resources.
+- We need to think about who is responsible for the localization process, which includes management of string resources.
+- In Fig. 3 (Manage notification category setting), if user changed the behavior to "no sound", user won't notice anything even if SPP error occurred. This seems to be a potential issue, but it is up to the user's configuration. 
 
 
 ## Impact on existing code
@@ -165,4 +167,4 @@ There's no impact to existing code, because all error UX is provided by Proxy. D
 
 ## Alternatives considered
 
-Do the proxy needs to have all localized strings? This question arises because the supported languages are varied per app.
+Does sdl_java_suite library need to have all localized strings? This question is raised because the supported languages can be varied on the app.
