@@ -153,6 +153,7 @@ The pseudo-code of FindRouterTask will be:
 ```java
 	class FindRouterTask extends AsyncTask<Context, Void, ComponentName> {
 		FindConnectedRouterCallback mCallback;
+		final Handler mHandler = new Handler(Looper.getMainLooper());
 
 		FindRouterTask(FindConnectedRouterCallback callback) {
 			mCallback = callback;
@@ -163,6 +164,7 @@ The pseudo-code of FindRouterTask will be:
 			final BlockingQueue<ComponentName> serviceQueue = new LinkedBlockingQueue<>();
 			final AtomicInteger _counter = new AtomicInteger(0);
 			Context context = contexts[0];
+			final Thread _currentThread = Thread.currentThread();
 			new ServiceFinder(context, context.getPackageName(), new ServiceFinder.ServiceFinderCallback() {
 				@Override
 				public void onComplete(Vector<ComponentName> routerServices) {
@@ -176,34 +178,29 @@ The pseudo-code of FindRouterTask will be:
 							@Override
 							public void onConnectionStatusUpdate(final boolean connected, final ComponentName service, final Context context) {
 								// make sure this part runs on main thread.
-								new Handler(Looper.getMainLooper()).post(new Runnable() {
+								mHandler.post(new Runnable() {
 									@Override
 									public void run() {
 										_counter.incrementAndGet();
 										if (connected) {
 											serviceQueue.add(service);
-										} else {
-											if (_counter.get() == numServices) {
-												serviceQueue.add(new ComponentName("", ""));
-											}
+										} else if (_counter.get() == numServices) {
+											_currentThread.interrupt();
 										}
 									}
 								});
 							}
 						});
 						provider.checkIsConnected();
-						provider.cancel();
 					}
 				}
 			});
 
-			while(!Thread.currentThread().isInterrupted()) {
-				try {
-					ComponentName found = serviceQueue.take();
-					return found;
-				} catch(InterruptedException e) {
-					e.printStackTrace();
-				}
+			try {
+				ComponentName found = serviceQueue.take();
+				return found;
+			} catch(InterruptedException e) {
+				e.printStackTrace();
 			}
 			return null;
 		}
@@ -214,7 +211,7 @@ The pseudo-code of FindRouterTask will be:
 			Log.d(TAG, "onPostExecute componentName=" + componentName);
 			super.onPostExecute(componentName);
 			if (mCallback != null) {
-				if (componentName != null && !componentName.getPackageName().isEmpty()) {
+				if (componentName != null && componentName.getPackageName() != null && !componentName.getPackageName().isEmpty()) {
 					mCallback.onFound(componentName);
 				} else {
 					mCallback.onFailed();
@@ -245,35 +242,25 @@ validateAsync method is expected to be called in TransportManager, something lik
 	}
 
 	/**
-	 * start is now synonym of startValidate, and transport.start gets called in startTransport.  
+	 * start does validateAsync first, and then actually starts transport after the target RouterService is validated.
 	 */
-	public void start() {
-		startValidate();
-	}
-
-	private void startValidate() {
-		final RouterServiceValidator validator = new RouterServiceValidator(mConfig);
-		validator.validateAsync(new RouterServiceValidator.ValidationStatusCallback() {
-			@Override
-			public void onFinishedValidation(boolean valid, ComponentName name) {
-			    if (valid) {
-				    mConfig.service = name;
-				    transport = new TransportBrokerImpl(contextWeakReference, config.appId, config.service);
-				    startTransport();
-			    } else {
-				    enterLegacyMode("Router service is not trusted. Entering legacy mode");
-				    startTransport();
-			    }
-		    }
-	    });
-    }
-
-    private void startTransport(){
-		if(transport != null){
-			transport.start();
-		}else if(legacyBluetoothTransport != null){
-			legacyBluetoothTransport.start();
-		}
+    public void start() {
+        final RouterServiceValidator validator = new RouterServiceValidator(mConfig);
+        validator.validateAsync(new RouterServiceValidator.ValidationStatusCallback() {
+            @Override
+            public void onFinishedValidation(boolean valid, ComponentName name) {
+                if (valid) {
+                    mConfig.service = name;
+                    transport = new TransportBrokerImpl(contextWeakReference, config.appId, config.service);
+                    transport.start();
+                } else {
+                    enterLegacyMode("Router service is not trusted. Entering legacy mode");
+                    if(legacyBluetoothTransport != null) {
+                        legacyBluetoothTransport.start();
+                    }
+                }
+            }
+        });
     }
 ```
 
