@@ -193,6 +193,22 @@ This struct object will be returned with _"KeyboardCapabilities"_ in _"RegisterA
 </function>
 ```
 
+## Potential downsides
+
+None
+
+## Impact on existing code
+
+### HMI changes
+
+1. The HMI should add the support for numeric keypad.
+2. In cases where App sets _"maskInputCharacters"_ as _"USER_CHOICE_INPUT_KEY_MASK"_, HMI Keyboard should provide a button to the user to show/hide characters entered using the keyboard. 
+3. In cases where app sets _"maskInputCharacters"_ as _"ENABLE_INPUT_KEY_MASK"_ or _"DISABLE_INPUT_KEY_MASK"_, HMI keyboard will not provide a button to the user to show/hide characters entered using the keyboard. 
+
+### Android and iOS changes
+
+The libraries need to implement mobile API changes.
+
 ## Alternatives considered 
 
 Instead of returning _"KeyboardCapabilities"_ in _"RegisterAppInterface"_, struct _"ScreenCapability"_ can be used. [Struct _"ScreenCapability"_ is defined in Widget Support Proposal.](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0216-widget-support.md)
@@ -207,13 +223,3 @@ Instead of returning _"KeyboardCapabilities"_ in _"RegisterAppInterface"_, struc
     </param>
 </struct>
 ```
-
-## HMI changes
-
-1. The HMI should add the support for numeric keypad.
-2. In cases where App sets _"maskInputCharacters"_ as _"USER_CHOICE_INPUT_KEY_MASK"_, HMI Keyboard should provide a button to the user to show/hide characters entered using the keyboard. 
-3. In cases where app sets _"maskInputCharacters"_ as _"ENABLE_INPUT_KEY_MASK"_ or _"DISABLE_INPUT_KEY_MASK"_, HMI keyboard will not provide a button to the user to show/hide characters entered using the keyboard. 
-
-## Android and iOS changes
-
-The libraries need to implement mobile API changes.
