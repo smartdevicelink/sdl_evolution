@@ -152,7 +152,8 @@ The strings above are TBD (requires review).
 ### Localization of SPP error UX
 
 Because all strings used for error UX is defined in strings.xml, the standard localization process for Android can be applied; i.e. adding language specific strings.xml per language.
-All language enums of Mobile API are assumed as the supported languages. They are:
+All language enums of [Mobile_API](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/interfaces/MOBILE_API.xml#L167) are assumed as the supported languages. They are:
+
 ar_SA, cs_CZ, da_DK, de_DE, el_GR, en_AU, en_GB, en_IN, en_SA, en_US, es_ES, es_MX, fi_FI, fr_CA, fr_FR, he_IL, hi_IN, hu_HU, id_ID, it_IT, ja_JP, ko_KR, ms_MY, no_NO, pl_PL, pt_BR, pt_PT, ro_RO, ru_RU, sk_SK, sv_SE, th_TH, tr_TR, uk_UA, vi_VN, zh_TW, zh_CN
 
 The default language would be en_US.
