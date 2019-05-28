@@ -173,7 +173,7 @@ This struct object will be returned with _"KeyboardCapabilities"_ in _"RegisterA
         <description>Configuration of on-screen keyboard (if available).</description>         
 		:       
 		<param name="maskInputCharacters" type="KeyboardInputMask" mandatory="false"  since="X.X"> 
-			<description>Allows an app to mask entered chanracters on HMI</description>
+			<description>Allows an app to mask entered characters on HMI</description>
 		</param> 
 		<param name="customizeKeys" type="String" maxlength="1" minsize="1" maxsize="10" array="true" mandatory="false"  since="X.X">
             <description>Array of special characters to show in customisable Keys.</description>
