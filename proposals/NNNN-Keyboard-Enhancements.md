@@ -64,7 +64,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 
 **_Addition for Enhancement #2: Allow apps to mask entered characters._**
 
-1. Add _"maskInputCharacters"_ element in _"KeyboardProperties"_ struct. This element _"maskInputCharacters"_ will let HMI keyboard know, if it should start masking input characters. 
+1. Add _"maskInputCharacters"_ element in _"KeyboardProperties"_ struct. This element _"maskInputCharacters"_ will let HMI keyboard know if it should start masking input characters. 
 2. _"maskInputCharacters"_ will take values of type _"KeyboardInputMask"_ enum.
 3. If _"maskInputCharacters"_ is set as _"ENABLE_INPUT_KEY_MASK"_, keyboard will mask input characters and if _"maskInputCharacters"_ is set as _"DISABLE_INPUT_KEY_MASK"_, keyboard will show input characters. 
 4. *By default, value of "maskInputCharacters" will be "DISABLE_INPUT_KEY_MASK".*
