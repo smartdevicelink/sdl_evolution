@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-Keyboard-Enhancements.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
 * Status: **Awaiting review**
-* Impacted Platforms: [ Android / iOS / RPC / Core]
+* Impacted Platforms: [ Java Suite / iOS / RPC / Core]
 
 ## Introduction
 
