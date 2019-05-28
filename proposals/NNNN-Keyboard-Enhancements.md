@@ -176,7 +176,7 @@ This struct object will be returned with _"KeyboardCapabilities"_ in _"RegisterA
 			<description>Allows an app to mask entered characters on HMI</description>
 		</param> 
 		<param name="customizeKeys" type="String" maxlength="1" minsize="1" maxsize="10" array="true" mandatory="false"  since="X.X">
-            <description>Array of special characters to show in customisable Keys.</description>
+            <description>Array of special characters to show in customizable Keys.</description>
             <description>If omitted, keyboard will show default special characters</description>
         </param>  
     </struct>
