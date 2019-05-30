@@ -1,6 +1,6 @@
 # Add Feature to Disable "Video Streaming Backgrounded String" Feature
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-NNNN](XXXX-add-feature-to-disable-video-streaming-backgrounded-string-feature.md)
 * Author: [t-yoshii](https://github.com/smartdevicelink)
 * Status: **Awaiting review**
 * Impacted Platforms: iOS
@@ -19,17 +19,17 @@ Therefore, it will be better to offer an option to app developer to disable to s
 
 
 ## Proposed solution
-Add parameter `sendVideoBackgroundedString` to `SDLStreminMediaConfiguration` class to disable the "video streaming backgrounded string (SDL-0118)" feature. The default value of this parameter is `true` and "Video Streaming Backgrounded String" will be sent (Current behavior as of sdl_ios v6.2). If this parameter is set to `false`, `backgroundingPixelBuffer` will not be sent.
+Add parameter `sendVideoBackgroundedString` to `SDLStreamingMediaConfiguration` class to disable the "video streaming backgrounded string (SDL-0118)" feature. The default value of this parameter is `true` and "Video Streaming Backgrounded String" will be sent (Current behavior as of sdl_ios v6.2). If this parameter is set to `false`, `backgroundingPixelBuffer` will not be sent.
 
 
 ## Potential downsides
 
-App developer must be careful which solution to use, default "Video Streaming Backgrounded String" or other by checking HU make/model/trim in RAI response. However, as mentioned above, the default behavior will be *send the backgrounded string*, so, if app developer skip checking, nothing will be changed from sdl_ios v6.2.
+App developer must be careful which solution to use, default "Video Streaming Backgrounded String" or other by checking HU make/model/trim in RAI response. However, as mentioned above, the default behavior will be *send the backgrounded string*, so, if app developer skips checking, nothing will be changed from sdl_ios v6.2.
 
 
 ## Impact on existing code
 
-Minor API changes are required in `SDLStreminMediaConfiguration` and `SDLVideoLifecycleManager` in sdl_ios.
+Minor API changes are required in `SDLStreamingMediaConfiguration` and `SDLVideoLifecycleManager` in sdl_ios.
 
 ## Alternatives considered
 
