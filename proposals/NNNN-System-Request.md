@@ -283,7 +283,7 @@ HMI API.
 ###  Alternative 2
 Creata a new app service `ProprietaryVehicleServiceData` and re-use the app services framework.
 
-![ProprietaryVehicleServiceData Flow](../assets/proposals/nnnn_system_request/ProprietaryVehicleServiceData.png)
+![ProprietaryVehicleServiceData Flow](../assets/proposals/nnnn_system_request/ProprietaryVehicleService.png)
 
 mobile API.
 ```xml
