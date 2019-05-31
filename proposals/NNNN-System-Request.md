@@ -281,7 +281,7 @@ HMI API.
 </function>
 ```
 ###  Alternative 2
-Creata a new app service `ProprietaryVehicleData` (or `PVD` for short) Service and re-use the app services framework. And make sure that OEM can publish such service.
+Creata a new app service `ProprietaryVehicleData` (or `PVD` for short) Service and re-use the app services framework.  Make sure that only OEM can publish such service.
 
 ![ProprietaryVehicleServiceData Flow](../assets/proposals/nnnn_system_request/ProprietaryVehicleService.png)
 
