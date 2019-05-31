@@ -281,7 +281,7 @@ HMI API.
 </function>
 ```
 ###  Alternative 2
-Creata a new app service `ProprietaryVehicleServiceData` and re-use the app services framework.
+Creata a new app service `ProprietaryVehicleData` (or `PVD` for short) Service and re-use the app services framework. And make sure that OEM can publish such service.
 
 ![ProprietaryVehicleServiceData Flow](../assets/proposals/nnnn_system_request/ProprietaryVehicleService.png)
 
@@ -290,12 +290,12 @@ mobile API.
 <enum name="AppServiceType" platform="documentation" since="5.1">
     :
     :
-+   <element name="ProprietaryData" since="5.x"/>
++   <element name="PVD" since="5.x"/>
 </enum>
 ```
 
 ```xml
-<struct name="ProprietaryVehicleData" since="x.x">
+<struct name="ProprietaryData" since="x.x">
     <description> expandable vehicle data </description>
     <!--
         <param name="data1" type="Type1" mandatory="false">
@@ -315,12 +315,12 @@ mobile API.
     <param name="escapedData" type="String" minsize="1" maxsize="65535" mandatory="false">
         <description> JSON escaped string data </description>
     </param>
-    <param name="vData" type="ProprietaryVehicleData" mandatory="false">
+    <param name="vData" type="ProprietaryData" mandatory="false">
         <description> expandable vehicle data </description>
     </param>
 </struct>
 
-<struct name="ProprietaryVehicleServiceData" since="x.x">
+<struct name="PVDServiceData" since="x.x">
     <param name="type" type="String" maxlength="255" mandatory="false">
         <description> string value must comes from a private feature list </description>
     </param>
@@ -339,17 +339,17 @@ mobile API.
 <struct name="AppServiceData" since="5.1">
     :
     :
-+   <param name="ProprietaryVehicleServiceData" type="ProprietaryVehicleServiceData" mandatory="false" since="5.x"/>
++   <param name="pvdServiceData" type="PVDServiceData" mandatory="false" since="5.x"/>
 </struct>
 
-+<struct name="ProprietaryVehicleServiceManifest" since="5.x">
++<struct name="PVDServiceManifest" since="5.x">
 +
 +</struct>
 
 <struct name="AppServiceManifest" since="5.1">
     :
     :
-+   <param name="proprietaryVehicleServiceManifest" type="ProprietaryVehicleServiceManifest" mandatory="false"/>
++   <param name="pvdServiceManifest" type="PVDServiceManifest" mandatory="false"/>
 </struct>
 ```
 
