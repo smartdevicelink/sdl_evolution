@@ -1,4 +1,4 @@
-# SDL local apps using WebSocket, JavaScript and (Progressive) Web Apps
+# Browser support for SDL JavaScript
 
 * Proposal: [SDL-NNNN](NNNN-sdl-js-pwa.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
@@ -15,7 +15,7 @@ Allowing new user facing applications to run in a vehicle is a big opportunity f
 
 ## Proposed solution
 
-The proposed solution is to allow apps running in a browser and connect to SDL Core using WebSockets. The browser can be on the local host or in the local network where SDL Core is hosted. The solution includes the cloud app transport adapter with additions to support apps running locally in a sandboxed (browser) environment.
+The proposed solution is to allow apps running in a browser and connect to SDL Core using WebSockets. The browser can be on the local host or in the local network where SDL Core is hosted. The proposed solution based on the cloud app transport adapter with additions to support apps running locally in a sandboxed (browser) environment.
 
 ### High level overview 
 
@@ -24,32 +24,89 @@ The proposed solution is to allow apps running in a browser and connect to SDL C
 3. The manifest.sjon file should contain:
    1. app ID,
    2. app version,
-   3. app vendor,
-   4. app publisher,
    5. per supporting locale:
       1. nick names
-      2. short name <- Should be added to sdl policy?
-      3. VR app names <- Should be added to sdl policy?
-      4. TTS app name <- Should be added to sdl policy?
+      2. short name
+      3. VR app names
+      4. TTS app name
    6. a main/default locale
    7. a relative path to an app icon in the app bundle
-   8. permission groups known to be used
 4. The OEM store's backend should store the compressed app.
-5. If the user chooses to install an app the store should download and decompress the app to the application storage.
+5. If the user chooses to install an app the store should download and decompress the app to the application storage of the system.
 6. The OEM may choose to 
    1. either operate the app as a local web page (file://somewhere/helloSDL/index.html)
-   2. or run a single http server instance which acts as an app host (https://localhost:443/helloSDL/index.html)
+   2. or run a single http server instance which acts as an app host (https://localhost/helloSDL/index.html)
    3. or run an http server instance for each installed app where each app get's a local port (https://localhost:4711/index.html)
 7. The OEM store uses `SetCloudAppProperties` using the manifest data. The store will set "enabled" parameter to "true" so that this app get's included in the HMI RPC "UpdateAppList".
 8. The OEM store may be setting an auth token if the app requires the store to perform the auth process.
-9.  For local apps the "endpoint" parameter will be empty/omitted. Instead the HMI is responsible to launch local apps.
-10. If a user selects a local app, which is not running (not connected to Core) Core should use HMI_API to activate the app.
-11. Core should use BasicCommunication.ActivateApp to tell the HMI to launch the app. 
-12. The HMI should know that it's the local app and that it needs to be launched to the browser.
-13. An app should be able to update the auth token while being registered/activated.
-14. The OEM store should be notified about the auth token change.
+9. An app should be able to update the auth token while being registered/activated.
+10. The OEM store should be notified about the auth token change.
+11. For local apps the "endpoint" parameter will be empty/omitted. Instead the HMI is responsible to launch local apps.
+12. If a user selects a local app, which is not running (not connected to Core) Core should use HMI_API to activate the app.
+13. Core should use BasicCommunication.ActivateApp to tell the HMI to launch the app. 
+14. The HMI should know that it's the local app and that it needs to be launched to the browser.
 15. If the user activates the app, HMI should launch the app in the browser.
-16. After the app is launched it will initiate the SDL library to connect.
+16. Launching the app should should include SDL Core's hostname and port as GET parameters (.../index.html?ws-host=localhost&ws-port=123456)
+17. After the app is launched it will initiate the SDL library to connect using the GET parametes hostname and port.
+
+### OEM store
+
+There should be an OEM owned app which allows users to discover available apps but also install and uninstall apps. The app appearence and behavior is OEM specific however it should have a constant connection to SDL Core in order to control the available cloud and local apps.
+
+### Changing App properties
+
+```xml
+<struct name="CloudAppProperties" since="5.1">
+<param name="nicknames" type="String" minlength="0" maxlength="100" array="true" minsize="0" maxsize="100" mandatory="false">
+    <description>An array of app names a cloud app is allowed to register with. If included in a SetCloudAppProperties request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.</description>
+</param>
++ <param name="ttsAppName" type="TTSChunk" minsize="1" maxsize="100" array="true" mandatory="false" since="5.x">
++    <description>The app name as text-to-speech to be used by the system's voice engine.</description>
++ </param>
++ <param name="vrAppName" type="String" maxlength="40" minsize="1" maxsize="100" array="true" mandatory="false" since="5.x">
++    <description>App names for the voice engine to be recognized with this app.</description>
++ </param>
+
+<param name="appID" type="String" maxlength="100" mandatory="true"/>
+<param name="enabled" type="Boolean" mandatory="false">
+    <description>If true, cloud app will be included in HMI RPC UpdateAppList</description>
+</param>
++ <param name="greyOut" type="Boolean" mandatory="false" defvalue="false" since="5.x">
++    <description>If the app is enabled and greyOut is true, the app will be included in the UpdateAppList, however the app should be dimmed on the screen.</description>
++ </param>
+
+<param name="authToken" type="String" maxlength="65535" mandatory="false">
+    <description>Used to authenticate websocket connection on app activation</description>
+</param>
+<param name="cloudTransportType" type="String" maxlength="100" mandatory="false">
+    <description>Specifies the connection type Core should use</description>
+</param>
+<param name="hybridAppPreference" type="HybridAppPreference" mandatory="false">
+    <description>Specifies the user preference to use the cloud app version or mobile app version when both are available</description>
+</param>
+<param name="endpoint" type="String" maxlength="65535" mandatory="false">
+    <description>Specifies the endpoint which Core will attempt to connect to when this app is selected</description>
+</param>
+</struct>
+```
+
+The OEM store would set cloud app properties based on the current system language. If the system language changes the OEM store would update the app properties to the new language.
+
+The flag "greyOut" allows SDL Core to show an app in a dimmed state whlie the app is in the download and installation progress.
+
+### Local web app installation
+
+If a user selects an app from the OEM store to be installed, the OEM store would notify SDL Core about the new app. The new app should appear in a dimmed state during the installation. 
+
+![Flow of installing a web app](../assets/proposals/NNNN-sdl-js-pwa/install-web-app.png)
+
+> Figure 1: Flow of installing a web app.
+
+### Local web app activation
+
+![Flow of user activating a web app](../assets/proposals/NNNN-sdl-js-pwa/activate-web-app.png)
+
+> Figure 2: Flow of how a user activates a web app and how it gets visible on the screen.
 
 ### WebSocket transport
 
@@ -112,4 +169,22 @@ The upside of apps running on a browser is that it comes with an extremely flexi
 
 ## Alternatives considered
 
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+Alternative to the new "greyOut" parameter a more detailed structure can be added to give a better indication about the download and installation progress.
+
+```xml
+<enum name="AppInstallationState">
+  <element name="INSTALLED" />
+  <element name="INSTALLING" />
+  <element name="DOWNLOADING" />
+</enum>
+
+<struct name="AppInstallationProgress">
+   <param name="state" type="AppInstallationState" mandatory="true" />
+   <param name="progress" type="Float" minvalue="0" maxvalue="1" mandatory="false" />
+</struct>
+
+<struct name="CloudAppProperties">
+  :
+  <param name="appState" type="AppInstallationProgress" mandatory="false" />
+</struct>
+```
