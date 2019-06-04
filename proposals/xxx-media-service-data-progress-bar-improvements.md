@@ -11,7 +11,7 @@ This proposal adds new parameters to the media service data to allow the app con
 
 ## Motivation
 
-The movitation for the proposal came from creating an implementation of a media type app service consumer that displays the progress bar data from an active media service provider.
+The motivation for the proposal came from creating an implementation of a media type app service consumer that displays the progress bar data from an active media service provider.
 
 Currently app service providers can send notify consumers about a tracks playback progress via `trackPlaybackProgress` and `trackPlaybackDuration`. However, if an app consumer wants to display an updating progress using these parameters, it would require the app provider to send an OnAppServiceData RPC with updated information every second.
 
