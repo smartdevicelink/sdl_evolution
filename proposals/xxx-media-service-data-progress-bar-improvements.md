@@ -15,7 +15,7 @@ The motivation for the proposal came from creating an implementation of a media 
 
 Currently app service providers can notify consumers about a track's playback progress via `trackPlaybackProgress` and `trackPlaybackDuration`. However, if an app consumer wants to display progress using these parameters, it would require the app provider to send an `OnAppServiceData` RPC with updated information every second.
 
-Also, there are no paramters in the media service data struct that tell the consumer if the track is playing, paused, or stopped. 
+Also, there are no parameters in the media service data struct that tell the consumer if the track is playing, paused, or stopped. 
 
 ## Proposed solution
 1. Add a new parameter `updateMode` to the media service data struct. The use of this parameter follows the usage of `updateMode` in the `SetMediaClockTimer` RPC.
