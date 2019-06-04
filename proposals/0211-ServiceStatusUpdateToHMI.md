@@ -35,14 +35,14 @@ The proposed solution is to introduce a new RPC for SDL Core to update HMI with 
   <param name="serviceEvent" type="Common.ServiceEvent" mandatory="false">
     <description>Specifies service update event.</description>
   </param>
-  <param name="reason" type="Common.ServiceUpdateReason" mandatory="false">
+  <param name="reason" type="Common.ServiceStatusUpdateReason" mandatory="false">
     <description>
       The reason for a service event. Certain events may not have a reason, such as when a service is ACCEPTED (which is the normal expected behavior).
     </description>
   </param>
    <param name="appID" type="Integer" mandatory="false">
        <description>ID of the application which triggered the update.</description>
-   </param>	
+   </param>
 </function>
 
 <interface name="Common" version="2.0.0" date="2018-09-05">
@@ -57,7 +57,7 @@ The proposed solution is to introduce a new RPC for SDL Core to update HMI with 
     </element>
     <element name="RPC" >
       <description>Refers to the RPC service.</description>
-    </element>	  
+    </element>
   </enum>
 
   <enum name="ServiceEvent">
@@ -66,27 +66,34 @@ The proposed solution is to introduce a new RPC for SDL Core to update HMI with 
     </element>
     <element name="REQUEST_ACCEPTED" >
       <description>When a request for a Service is Accepted.</description>
-    </element>			
+    </element>
     <element name="REQUEST_REJECTED" >
       <description>When a request for a Service is Rejected.</description>
-    </element>			
-  </enum>	
+    </element>
+  </enum>
 
-  <enum name="ServiceUpdateReason">
+  <enum name="ServiceStatusUpdateReason">
     <element name="PTU_FAILED" >
       <description>When a Service is rejected because the system was unable to get a required Policy Table Update.</description>
     </element>
     <element name="INVALID_CERT" >
       <description>When a Service is rejected because the security certificate is invalid/expired.</description>
-    </element>			
+    </element>
     <element name="INVALID_TIME" >
       <description>When a Service is rejected because the system was unable to get a valid SystemTime from HMI, which is required for certificate authentication.</description>
-    </element>			
-  </enum>	
+    </element>
+
+    <element name="PROTECTION_ENFORCED" >
+      <description>When a Service is rejected because the system configuration ini file requires the service must be protected, but the app asks for an unprotected service.</description>
+    </element>
+    <element name="PROTECTION_DISABLED" >
+      <description>When a mobile app requests a protected service, but the system starts an unprotected service instead.</description>
+    </element>
+  </enum>
 </interface>
 ```
- Note that the only time when SDL would not be able provide the appID would be during the first StartService request for the RPC service before RAI was sent.  
-	
+ Note that the only time when SDL would not be able provide the appID would be during the first StartService request for the RPC service before RAI was sent.
+
 The details of the use cases are as follows:
 (Note: Pop-ups on HMI side only serve as example.)
 
