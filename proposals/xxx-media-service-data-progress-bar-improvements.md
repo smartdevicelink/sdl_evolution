@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal adds new paramters to the media service data to allow the app consumers know the playback status and progress of a selected track.
+This proposal adds new parameters to the media service data to allow the app consumers to know the playback status and progress of a selected track.
 
 ## Motivation
 
