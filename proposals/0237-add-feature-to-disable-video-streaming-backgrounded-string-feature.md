@@ -1,8 +1,8 @@
 # Add Feature to Disable "Video Streaming Backgrounded String" Feature
 
-* Proposal: [SDL-NNNN](XXXX-add-feature-to-disable-video-streaming-backgrounded-string-feature.md)
-* Author: [t-yoshii](https://github.com/smartdevicelink)
-* Status: **Awaiting review**
+* Proposal: [SDL-0237](0237-add-feature-to-disable-video-streaming-backgrounded-string-feature.md)
+* Author: [Takamitsu Yoshii](https://github.com/t-yoshii)
+* Status: **In Review**
 * Impacted Platforms: iOS
 
 ## Introduction
