@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0233](0233-policy-server-statistics-recording-visualizations.md)
 * Author: [Nick Schwab](https://github.com/nickschwab), [Cameron Kachur](https://github.com/ckachur)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [SDL Server, Core]
 
 ## Introduction
