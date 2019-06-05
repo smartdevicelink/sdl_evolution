@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0234](0234-proxy-rpc-generation.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
