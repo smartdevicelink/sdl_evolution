@@ -31,7 +31,7 @@ Add a new parameter `climateEnable` to `ClimateControlData` to allow an applicat
 
 Update `RadioControlCapabilities` and `ClimateControlCapabilities` correspondingly.
 
-In addition, the minimum index of HD radio sub-channels will need to be changed from 1 to 0. This change does not apply to availableHDs because the parameter is being deprecated.
+In addition, the minimum index of HD radio sub-channels will need to be changed from 1 to 0. Note that this will require a major version change. Also, this change does not apply to availableHDs because the parameter is being deprecated.
 
 #### Mobile and HMI API
 
