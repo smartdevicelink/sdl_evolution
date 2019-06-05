@@ -1,8 +1,8 @@
 # Add Currently Playing Media Image to MediaServiceData
 
-* Proposal: [SDL-xxx](xxx-media-service-data-progress-bar-improvements.md)
+* Proposal: [SDL-0239](0239-media-service-data-progress-bar-improvements.md)
 * Author: [Jack Byrne](https://github.com/jacklivio)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
