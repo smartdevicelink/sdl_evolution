@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0236](0236-TireStatus-Mismatch.md)
 * Author: [Robin Kurian](https://github.com/robinmk)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / RPC / iOS / Java Suite]
 
 ## Introduction
