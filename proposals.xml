@@ -250,7 +250,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0229" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Version Tracking" filename="0229-sdl-server-version-tracking.md"/>
 <proposal id="0230" status="active" primary-platform="java-suite" sdl-version="x.x" name="SPP resource management for Android" filename="0230-spp-resource-management-for-android.md"/>
 <proposal id="0231" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Tiles as an Option for Main Menus" filename="0231-main-menu-tiles.md"/>
-<proposal id="0232" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
+<proposal id="0232" status="implemented" primary-platform="ios" sdl-version="6.3" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
+<proposal id="0232" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
 <proposal id="0233" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Statistics Recording and Visualizations" filename="0233-policy-server-statistics-recording-visualizations.md"/>
 <proposal id="0234" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Proxy Library RPC Generation" filename="0234-proxy-rpc-generation.md"/>
 <proposal id="0235" status="accepted" primary-platform="meta" sdl-version="x.x" name="SDL JavaScript library" filename="0235-sdl-js-library.md"/>
