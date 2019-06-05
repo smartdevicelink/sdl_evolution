@@ -40,10 +40,11 @@ In addition, the minimum index of HD radio sub-channels will need to be changed 
 ...
 <!-- new additions or changes -->
 -   <param name="availableHDs" type="Integer" minvalue="1 maxvalue="7" mandatory="false" since="5.0">
-+   <param name="availableHDs" type="Integer" minvalue="0" maxvalue="7" mandatory="false" deprecated="true" since="5.1">
++   <param name="availableHDs" type="Integer" minvalue="1" maxvalue="7" mandatory="false" deprecated="true" since="5.x">
         <description>number of HD sub-channels if available</description>
         <history>
             <param name="availableHDs" type="Integer" minvalue="1" maxvalue="3" mandatory="false" since="4.5" until="5.0"/>
++           <param name="availableHDs" type="Integer" minvalue="1 maxvalue="7" mandatory="false" since="5.0" until="5.x"/>
         </history>
     </param>
     
@@ -52,11 +53,11 @@ In addition, the minimum index of HD radio sub-channels will need to be changed 
 +   </param>
     
 -    <param name="hdChannel" type="Integer" minvalue="1" maxvalue="7" mandatory="false" since="5.0">
-+    <param name="hdChannel" type="Integer" minvalue="0" maxvalue="7" mandatory="false" since="5.1">
++    <param name="hdChannel" type="Integer" minvalue="0" maxvalue="7" mandatory="false" since="6.x">
         <description>Current HD sub-channel if available</description>
         <history>
             <param name="hdChannel" type="Integer" minvalue="1" maxvalue="3" mandatory="false" since="4.5" until="5.0"/>
-+           <param name="hdChannel" type="Integer" minvalue="1" maxvalue="7" mandatory="false" since="5.0" until="5.1"/>
++           <param name="hdChannel" type="Integer" minvalue="1" maxvalue="7" mandatory="false" since="5.0" until="6.x"/>
         </history>
     </param>
 ...
@@ -65,13 +66,13 @@ In addition, the minimum index of HD radio sub-channels will need to be changed 
 <struct name="RadioControlCapabilities" since="4.5">
 ...
 -    <param name="availableHDsAvailable" type="Boolean" mandatory="false">
-+    <param name="availableHDsAvailable" type="Boolean" mandatory="false" deprecated="true" since="5.1">
++    <param name="availableHDsAvailable" type="Boolean" mandatory="false" deprecated="true" since="5.x">
         <description>
             Availability of the getting the number of available HD channels.
             True: Available, False: Not Available, Not present: Not Available.
         </description>
     </param>
-+   <param name="availableHdChannelsAvailable" type="Boolean" mandatory="false" since="5.1">
++   <param name="availableHdChannelsAvailable" type="Boolean" mandatory="false" since="5.x">
 +       <description>
 +           Availability of the list of available HD sub-channel indexes.
 +           True: Available, False: Not Available, Not present: Not Available.
@@ -84,7 +85,7 @@ In addition, the minimum index of HD radio sub-channels will need to be changed 
 
 <struct name="ClimateControlCapabilities" since="4.5">
 ...
-+   <param name="climateEnableAvailable" type="Boolean" mandatory="false" since="5.1">
++   <param name="climateEnableAvailable" type="Boolean" mandatory="false" since="5.x">
 +       <description>
 +           Availability of the control of enable/disable climate control.
 +           True: Available, False: Not Available, Not present: Not Available.
@@ -95,7 +96,7 @@ In addition, the minimum index of HD radio sub-channels will need to be changed 
 
 <struct name="ClimateControlData" since="4.5">
 ...
-+    <param name="climateEnable" type="Boolean" mandatory="false" since="5.1">
++    <param name="climateEnable" type="Boolean" mandatory="false" since="5.x">
 +    </param>
 ...
 </struct>
@@ -112,6 +113,7 @@ None
 
 - New parameters will need to be updated within the RPC.
 - SDL core and the mobile proxies will need updates to support the new parameters.
+- Updating the hdChannel minvalue will incur a major version change.
 
 
 ## Alternatives considered
