@@ -1,8 +1,8 @@
 # Keyboard Enhancements
 
-* Proposal: [SDL-NNNN](NNNN-Keyboard-Enhancements.md)
+* Proposal: [SDL-0238](0238-Keyboard-Enhancements.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Java Suite / iOS / RPC / Core]
 
 ## Introduction
