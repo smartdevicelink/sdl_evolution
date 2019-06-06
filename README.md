@@ -100,13 +100,6 @@ SHAID is a centralized service designed to keep information about SDL-supported 
 You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
 
 
-#### Manticore: 2.1.0
-**Release Date**: November 16, 2018
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.1.0).
-
----
-
 #### SDL Java Suite: 4.8.0
 **Release Date**: April 17, 2019
 
@@ -139,6 +132,13 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Release Date**: April 17, 2019
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_core/releases/tag/5.1.0).
+
+---
+
+#### Manticore: 2.3.0
+**Release Date**: June 4, 2019
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.3.0).
 
 ---
 
