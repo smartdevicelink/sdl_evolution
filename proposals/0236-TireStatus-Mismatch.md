@@ -79,7 +79,7 @@ N/A
 ## Impact on existing code
 
 * MOBILE_API needs to be updated.
-* Since the update is to mark a previously mandatory field as non-mandatory for a structure which is sent from SDL Core to App, the author believes the change to not be a breaking one and therefore not require a major version change.
+* Since the update is to mark a previously mandatory field as non-mandatory, the author believes it is a breaking change and therefore requires a major version change.
 
 
 ## Alternatives considered
@@ -87,3 +87,4 @@ N/A
 The desired results of eliminating the mismatch between HMI_API and MOBILE_API could also be achieved by marking the parameters of the `TireStatus` as mandatory in the HMI_API. However, the author believes such an approach would be less than ideal because:
 * It becomes a breaking change and integrators would need to ensure that they send values for all these parameters
 * For vehicle's which do not support all the parameters, it does not seem appropriate to force the head unit to send a response for the unsupported parameters.
+
