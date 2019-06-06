@@ -45,11 +45,11 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 
 **_Number of customizable buttons could be different for different Layouts._**
 
-![QWERTY Keyboard with 3 special characters](../assets/proposals/nnnn-keyboard-enhancements/qwerty_special_chars.png)
+![QWERTY Keyboard with 3 special characters](../assets/proposals/0238-keyboard-enhancements/qwerty_special_chars.png)
 
-![AZERTY Keyboard with 4 special characters](../assets/proposals/nnnn-keyboard-enhancements/azerty_special_chars.png)
+![AZERTY Keyboard with 4 special characters](../assets/proposals/0238-keyboard-enhancements/azerty_special_chars.png)
 
-![Numeric Keyboard with 2 special characters](../assets/proposals/nnnn-keyboard-enhancements/numeric_keypad.png)
+![Numeric Keyboard with 2 special characters](../assets/proposals/0238-keyboard-enhancements/numeric_keypad.png)
 
 ## Proposed solution
 
