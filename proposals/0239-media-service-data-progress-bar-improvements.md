@@ -1,4 +1,4 @@
-# Add Currently Playing Media Image to MediaServiceData
+# Media Service Data Progress Bar Improvements
 
 * Proposal: [SDL-0239](0239-media-service-data-progress-bar-improvements.md)
 * Author: [Jack Byrne](https://github.com/jacklivio)
