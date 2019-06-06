@@ -79,7 +79,7 @@ N/A
 ## Impact on existing code
 
 * MOBILE_API needs to be updated.
-* Since the update is to mark a previously mandatory field as non-mandatory, the author believes it is a breaking change and therefore requires a major version change.
+* Since the update is to mark a previously mandatory field as non-mandatory for a structure which is sent from SDL Core to App, the author believes the change to not be a breaking one and therefore not require a major version change.
 
 
 ## Alternatives considered
