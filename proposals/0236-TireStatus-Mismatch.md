@@ -87,4 +87,3 @@ N/A
 The desired results of eliminating the mismatch between HMI_API and MOBILE_API could also be achieved by marking the parameters of the `TireStatus` as mandatory in the HMI_API. However, the author believes such an approach would be less than ideal because:
 * It becomes a breaking change and integrators would need to ensure that they send values for all these parameters
 * For vehicle's which do not support all the parameters, it does not seem appropriate to force the head unit to send a response for the unsupported parameters.
-
