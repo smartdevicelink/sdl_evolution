@@ -14,17 +14,18 @@ Adding RPCs is currently difficult. Every RPC to be added requires handwriting e
 ## Proposed solution
 The proposed solution is to create python scripts that auto-generate Objective-C and Android code based on a given SDL MOBILE_API XML spec. This allows us to generate new Obj-C and Android classes whenever the XML spec changes, and to update the script whenever the classes themselves need to change.
 
-The script should take a `MOBILE_API` XML spec as input. The script should then output a folder of RPC classes.
+The script should take a `MOBILE_API` XML spec as input and a location to output. The script will then output the RPC files at that location.
 
 ### Implementation Notes
-1. The spec is not currently housed within the library. Therefore the spec will need to be fed into the script (i.e. the spec should not be auto-downloaded or stored in the library repository but should be an input to the script).
-2. This proposal is left intentionally ambiguous regarding implementation details of the scripts. I wish to leave implementation details up to the author(s) of the scripts.
+1. The spec is not currently housed within the library. Therefore the `rpc_spec` repository will be pulled into each library repository as a submodule. The `MOBILE_API` in the `rpc_spec` submodule will be the version used by the script to output the RPC files.
+2. This proposal is left intentionally ambiguous regarding implementation details of the scripts. I wish to leave implementation details up to the author(s) of the scripts. However, the command-line switches should be identical between implementations.
 3. The different platform scripts should be very similar outside of the actual code that's generated (e.g. file system code and XML parsing code should be nearly identical).
+4. The author(s) of these scripts should use the `rpc_spec` markdown generator as a base.
 
 ## Potential downsides
 1. Creating the generator scripts may take longer than simply handwriting, reviewing, and unit testing any particular RPC change. However, in the long run, the time savings will be significant.
-2. We would still need to handwrite unit tests for the generated RPC classes. In the future, another proposal could be written to cover auto-generation of RPC test cases.
-3. The generator could produce bad RPC classes, however, the library authors will ensure that this is not the case and that the generated code matches what already exists.
+2. We would still need to handwrite unit tests for the generated RPC classes.
+3. The generator could produce bad RPC classes, however, the library authors will ensure that this is not the case and that the first version of the generated code matches what already exists, and the unit tests will continue to pass.
 
 ## Impact on existing code
 There should be no API changes. 
