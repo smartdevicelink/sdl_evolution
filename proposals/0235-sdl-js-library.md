@@ -44,19 +44,13 @@ An open source BSON libray developed in JavaScript should be used by the SDL Jav
 
 **3. Transport layer**
 
-The first release should come with a base/abstract definition of the transport layer. Based on this definition a TCP socket client transport and a WebSocket Server transport described in [Cloud App Transport Adapter](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0158-cloud-app-transport-adapter.md) should be implemented with this proposal.
+The first release should come with a base/abstract definition of the transport layer. Based on this definition a WebSocket Server transport described in [Cloud App Transport Adapter](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0158-cloud-app-transport-adapter.md) should be implemented with this proposal. Additionally a TCP socket client transport should be implemented for development purposes. Both transports should be implemented for Node.js runtime.
 
 #### Manager layer
 
 The first managers that should be introduced in future proposals should be a lifecycle manager and the file manager. Other managers (screen manager etc.) should be added in future releases.
 
 This proposal does not include a manager layer. Managers will be introduced via new proposals.
-
-### Development in TypeScript
-
-The development of this library should not be done in pure JavaScript but in TypeScript. The reason is that TypeScript allows use of data types, classes and other useful development features. This will reduce complexity and risk of issues during development. With TypeScript the maintenance of the library will be much easier compared to pure JavaScript.
-
-TypeScript will still allow JavaScript support. Whenever a new release version is planned, the TypeScript code can be transcompiled to JavaScript. This [TypeScript Playground](https://www.typescriptlang.org/play/index.html) from typescriptlang.org shows how easy TypeScript can be transcompiled into JavaScript. The export can also provide a [JavaScript Source Map](https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/) for Lint and auto complete when developing JavaScript applications e.g. in VS code. 
 
 ### Promise based development
 
@@ -66,7 +60,11 @@ There are many sources describing the Promise pattern with JavaScript and how it
 
 ### Project management
 
-The JavaScript library will be open source and stored in a new smartdevicelink repository on GitHub called sdl_javascript. The project maintainers will be responsible for maintaining and reviewing the code and the project.
+The JavaScript library will be open source and stored in a new smartdevicelink repository on GitHub called sdl_javascript_suite. The project maintainers will be responsible for maintaining and reviewing the code and the project.
+
+The development should be done in JavaScript (not TypeScript) following ECMA-Script 2017. All the base source code should be developed using [JavaScript standard built-in objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects). 
+
+The transport related source code for Node.js can use Node specific libraries needed (like socket.io). This code should be stored in a separate folder from the base source code in the repository.
 
 ## Potential downsides
 
