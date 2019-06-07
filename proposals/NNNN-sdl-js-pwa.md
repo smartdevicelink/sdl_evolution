@@ -15,7 +15,7 @@ Allowing new user facing applications to run in a vehicle is a big opportunity f
 
 ## Proposed solution
 
-The proposed solution is to allow apps running in a WebEngine and connect to SDL Core using WebSockets. The WebEngine can be a browser that is reduced to the HTML rendering part only (without url bar, tabs etc.). The WebEngine can be on the local host or in the local network where SDL Core is hosted. The proposed solution based on the cloud app transport adapter with additions to support apps running locally in a sandboxed (browser) environment.
+The proposed solution is to allow apps running in a WebEngine and connect to SDL Core using WebSockets. The WebEngine can be a browser that is reduced to the HTML rendering part only (without url bar, tabs etc.). The WebEngine can be on the local host or in the local network where SDL Core is hosted. The proposed solution uses cloud app transport adapter with additions to support apps running locally in a sandboxed (browser) environment.
 
 ### High level overview 
 
@@ -41,9 +41,14 @@ The proposed solution is to allow apps running in a WebEngine and connect to SDL
    4. If Core doesn't know the app ID it should ask HMI for a policy update.
 8. An app should be able to update the auth token while being registered/activated.
 9. The OEM store should be notified about the auth token change.
-10. If a user activates a local app through the HMI, the HMI should launch the app by opening the index.html file.
-11. HMI should launch the app including SDL Core's hostname and port as GET parameters (file://somewhere/HelloSDL/index.html?ws-host=localhost&ws-port=123456)
-12. The app should connect to Core using the SDL library using hostname and port specified.
+10. Core should support a WebSocket Server as a transport.
+11. If a user activates a local app through the HMI, the HMI should launch the app by opening the index.html file.
+12. HMI should launch the app including SDL Core's hostname and port as GET parameters (file://somewhere/HelloSDL/index.html?ws-host=localhost&ws-port=123456)
+13. The app should connect to Core using the SDL library using hostname and port specified.
+
+![Overview of apps using WebSocket connections and Cloud App Transport Adapter](../assets/proposals/NNNN-sdl-js-pwa/arch-overview.png)
+
+> An overview of application runtime environment and how they get connected to SDL Core. This proposal adds the WebEngine part.
 
 ### Hybrid app preference
 
@@ -67,7 +72,7 @@ Due to a new app platform/location the hybrid app pference should be modified to
 </enum>
 ```
 
-The app developer portal should allow a developer to specify an app as a local app. Also as the app platforms increase a new way to specify preferences should be introduced. The element `BOTH` should be deprecated and replaced by `ALL`.
+The app developer portal should allow a developer to specify an app as a local app. Also as the app platforms increase (2 -> 3) a new way to specify preferences should be introduced. The element `BOTH` should be deprecated and replaced by `ALL`.
 
 ### OEM store and `CloudAppProperties`
 
@@ -75,7 +80,7 @@ There should be an OEM owned app which allows users to discover available apps b
 
 The RPC `SetCloudAppProperties` and all related items should also be included in the HMI_API in order to allow settings app properties from the mobile side but also from the system side (if the OEM store is embedded).
 
-With `BOTH` as an app preference being deprecated on the mobile API, SDL core should translate `BOTH` to `ALL` when forwarding app properties to the HMI.
+With `BOTH` as an app preference being deprecated on the mobile API, SDL core should translate `BOTH` to `ALL` when forwarding app properties to the HMI. Below addition to the HMI_API is a copy of the mobile API regarding cloud app properties.
 
 ** HMI_API **
 
@@ -181,7 +186,7 @@ With `BOTH` as an app preference being deprecated on the mobile API, SDL core sh
 
 ### Policy table update
 
-With app properties being set by the OEM store, SDL Core may require a policy table update. The [HMI documentation for OnSystemRequest](https://smartdevicelink.com/en/docs/hmi/master/basiccommunication/onsystemrequest/) shows sequence diagrams of how the update can be performed today. With the transport adapter the vehicle has the own modem to communicate over the internet, therefore can be able to perform the update without the need of a mobile app. 
+With app properties being set by the OEM store, SDL Core may require a policy table update. The [HMI documentation for OnSystemRequest](https://smartdevicelink.com/en/docs/hmi/master/basiccommunication/onsystemrequest/) shows sequence diagrams of how the update can be performed today. With vehicles having internet connectivity they can be able to perform the update without the need of a mobile app. 
 
 The cloud app transport adapter proposal includes a use case that describes how a policy server with transport adapter enhancements can update the policy table (see [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0158-cloud-app-transport-adapter.md#example-use-case-2)).
 
@@ -219,7 +224,15 @@ If a user selects an app from the OEM store to be installed, the OEM store would
 
 ![Flow of installing a web app](../assets/proposals/NNNN-sdl-js-pwa/install-web-app.png)
 
-> Flow of installing a web app on the infotainment system.
+> Flow of installing a web app on the infotainment system. Using SDL to list the app on the HMI.
+
+In case the HMI already has a procedure to present installed local applications the OEM store can set `enabled=false` to avoid SDL Core sending `UpdateAppsList`. Following flow describes the difference between listing the app with SDL or by the system.
+
+![Flow of installing a web app with system listing](../assets/proposals/NNNN-sdl-js-pwa/install-web-app-proprietary-listing.png)
+
+> Flow installing a web app on the infotainment system. Using existing system function to list the app on the HMI.
+
+With the app registering on SDL the HMI will be notified of the app registration. The HMI should correlate if the app is already listed by using the app ID. If the HMI identifies that the app is not yet listed it should present the registered app on the app list.
 
 ### Local web app activation
 
@@ -253,6 +266,8 @@ A new App HMI type called `OPEN_HMI` should be introduced. When apps with this H
   <element name="OPEN_HMI" since="5.x">
 </enum>
 ```
+
+Using the new HMI type would be policy controlled. Only apps with permissions to use this new HMI type would be allowed to register.
 
 ## Potential downsides
 
