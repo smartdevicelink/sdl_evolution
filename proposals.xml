@@ -228,7 +228,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0208" status="implemented" primary-platform="ios" sdl-version="6.2" name="Block Old SDL Head Units from Mobile" filename="0208-block-sdl-head-units.md"/>
 <proposal id="0209" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Static Icon Capability" filename="0209-static-icon-capability.md"/>
 <proposal id="0210" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Mobile Manager Dynamic Menu Cell Updating" filename="0210-mobile-dynamic-menu-cell-updating.md"/>
-<proposal id="0210" status="accepted" primary-platform="ios" sdl-version="x.x" name="Mobile Manager Dynamic Menu Cell Updating" filename="0210-mobile-dynamic-menu-cell-updating.md"/>
+<proposal id="0210" status="implemented" primary-platform="ios" sdl-version="6.3" name="Mobile Manager Dynamic Menu Cell Updating" filename="0210-mobile-dynamic-menu-cell-updating.md"/>
 <proposal id="0211" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Service Status Update to HMI" filename="0211-ServiceStatusUpdateToHMI.md"/>
 <proposal id="0212" status="accepted" primary-platform="core" sdl-version="x.x" name="Add Ability to Reuse a SyncFileName for a PutFile" filename="0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md"/>
 <proposal id="0213" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Radio and Climate Parameter Update" filename="0213-rc-radio-climate-parameter-update.md"/>
