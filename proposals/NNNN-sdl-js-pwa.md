@@ -7,27 +7,27 @@
 
 ## Introduction
 
-This proposal is adding a new transport to the SDL JavaScript library to support (progressive) web apps running on a WebEngine, web view or a browser.
+This proposal is adding a new transport to the SDL JavaScript library to support (progressive) web apps to run on a WebEngine, web view or a browser.
 
 ## Motivation
 
-Allowing new user facing applications to run in a vehicle is a big opportunity for SmartDeviceLink to enhance the user experience. Recent browsers allow a hardware independent runtime environment for apps with application management, sandboxing together with decent performance.
+Applications running in vehicle opens big opportunities for SmartDeviceLink enhancing the user experience. Recent browsers allow a hardware independent runtime environment for apps with application management, sandboxing together with decent performance.
 
 ## Proposed solution
 
-The proposed solution is to allow apps running in a WebEngine and connect to SDL Core using WebSockets. The WebEngine can be a browser that is reduced to the HTML rendering part only (without url bar, tabs etc.). The WebEngine can be on the local host or in the local network where SDL Core is hosted.
+The proposed solution is to allow web apps to run in a WebEngine and connect to SDL Core using WebSockets. A web app is a single page application developed with web technology like HTML, CSS and JavaScript. The WebEngine can be a browser that is reduced to the HTML rendering part only (without url bar, tabs etc.). The WebEngine should be on the same host as SDL Core (in the infotainment system). It can also be in the local network for development purposes.
 
 ### High level overview 
 
-1. Apps should be made available to the user through an OEM store. The user should be able to install or uninstall apps from the store.
-2. An app should be a compressed bundle of application files, such as html, css or script files. At minimum it requires following files
+1. An OEM store should make apps available to the user. The user should be able to install or uninstall apps from the store.
+2. An app should be a compressed bundle of application files, such as HTML, css or script files. At minimum it requires following files
    1. sdl.js file
    2. manifest.json file
-   3. An html file where the manifest is pointing to
+   3. An HTML file where the manifest is pointing to
 3. The manifest.json file must be included in the HTML file as a script source
 4. The OEM store's backend should store the compressed app.
 5. If a user installs an app, the OEM store should download and decompress the app to the system.
-6. After installation the OEM store should make the app visible and available on the HMI.
+6. After installation, the OEM store should make the app visible and available on the HMI.
 7. Core should support a WebSocket Server as a transport.
 8.  If a user activates a local app through the HMI, the HMI should launch the app by opening the index.html file.
 9.  HMI should launch the app including SDL Core's hostname and port as GET parameters (file://somewhere/HelloSDL/index.html?ws-host=localhost&ws-port=123456)
@@ -36,11 +36,11 @@ The proposed solution is to allow apps running in a WebEngine and connect to SDL
 
 ![Overview of WebSocket for cloud and embedded apps](../assets/proposals/NNNN-sdl-js-pwa/arch-overview.png)
 
-> An overview of application runtime environment and how they get connected to SDL Core. This proposal adds the WebEngine part.
+> An overview of application runtime environment and how they connect to SDL Core. This proposal adds the WebEngine part.
 
 ### Hybrid app preference
 
-Due to a new app platform/location the hybrid app pference should be modified to track mobile, cloud and local apps.
+Due to a new app platform, the hybrid app prefence should be modified to track mobile, cloud and local apps.
 
 **Mobile API**
 
@@ -60,7 +60,7 @@ Due to a new app platform/location the hybrid app pference should be modified to
 </enum>
 ```
 
-The app developer portal should allow a developer to specify an app as a local web app. Also as the app platforms increase (2 -> 3) a new way to specify preferences should be introduced. The element `BOTH` should be deprecated and replaced by `ALL`.
+The app developer portal should allow a developer to specify an app as a local web app. As the app platforms increase (2 -> 3) a new way to specify preferences should be introduced. The element `BOTH` should be deprecated and replaced by `ALL`.
 
 ### WebSocket transport
 
@@ -68,7 +68,7 @@ This proposal introduces a new runtime environment; the WebEngine. Data communic
 
 The transport for Core should be a WebSocket server which listens to a port specified in the smartDeviceLink.ini file. While SDL Core is operating the server should be permanently available and listen for connections on the specified port. Another ini configuration should allow binding the socket to the localloop address or any address. This increases security in production environment and allows remote connection in development systems.
 
-On the library side a new transport based on a WebSocket client should be created using the [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/Websockets_API). This transport requires a hostname or ip address with a port to connect to Core's WebSocket server.
+On the library side, a new WebSocket client transport should be created using the [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/Websockets_API). This transport requires a hostname or ip address with a port to connect to Core's WebSocket server.
 
 ### JavaScript library
 
@@ -84,16 +84,16 @@ With installing an app on the infotainment system there should be a minimum set 
 2. It should contain a manifest.json and the sdl.js file
 3. The manifest file should contain:
    1. a relative path to an html file which is the entry point of the app
-   6. a relative path to an app icon in the app bundle
-   2. SDL app ID
-   3. app name
-   4. optionally per supporting SDL locale:
+   2. a relative path to an app icon in the app bundle
+   3. SDL app ID
+   4. app name
+   5. optionally per supporting SDL locale:
       1. app name (overrides global app name) (must be one of the valid app nicknames)
       2. optionally relative path to an app icon (overrides global app icon)
       3. optionally TTS name (an array of tts chunks)
       4. optionally VR app names (an array of strings)
-   5. App version
-   6. Min SDL version supported
+   6. App version
+   7. Min SDL version supported
 4. All script files should be included in the package
    1. Any `<script>` element with `src` attribute should point to a script file in the package
    2. No scripts from outside the package should be allowed
