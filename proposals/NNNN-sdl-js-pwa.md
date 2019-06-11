@@ -1,4 +1,4 @@
-# WebEngine support for SDL JavaScript
+# WebEngine & WebView support for SDL JavaScript
 
 * Proposal: [SDL-NNNN](NNNN-sdl-js-pwa.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
@@ -15,38 +15,26 @@ Allowing new user facing applications to run in a vehicle is a big opportunity f
 
 ## Proposed solution
 
-The proposed solution is to allow apps running in a WebEngine and connect to SDL Core using WebSockets. The WebEngine can be a browser that is reduced to the HTML rendering part only (without url bar, tabs etc.). The WebEngine can be on the local host or in the local network where SDL Core is hosted. The proposed solution uses cloud app transport adapter with additions to support apps running locally in a sandboxed (browser) environment.
+The proposed solution is to allow apps running in a WebEngine and connect to SDL Core using WebSockets. The WebEngine can be a browser that is reduced to the HTML rendering part only (without url bar, tabs etc.). The WebEngine can be on the local host or in the local network where SDL Core is hosted.
 
 ### High level overview 
 
 1. Apps should be made available to the user through an OEM store. The user should be able to install or uninstall apps from the store.
 2. An app should be a compressed bundle of application files, such as html, css or script files. At minimum it requires following files
-   1. index.html
-   2. manifest.json
+   1. sdl.js file
+   2. manifest.json file
+   3. An html file where the manifest is pointing to
 3. The manifest.json file must be included in the HTML file as a script source
-4. The manifest.json file should contain:
-   1. SDL app ID
-   2. App nicknames
-   3. App version
-   4. Min SDL version
-   5. a relative path to an app icon in the app bundle
-5. The OEM store's backend should store the compressed app.
-6. If a user installs an app the store should download and decompress the app to the system.
-7. The OEM store uses `SetCloudAppProperties` using the manifest data.
-   1. The OEM store may choose to set "enabled" parameter to "true" to include the app in the HMI RPC "UpdateAppList".
-   2. The OEM store may be setting an auth token if the app requires the store to perform the auth process.
-   3. For local apps
-      1. "cloudTransportType" will be "ws" (WebSocket) or "wss" (WebSocket-Secure)
-      2. "endpoint" parameter will be omitted. Instead the HMI is responsible to launch local apps.
-   4. If Core doesn't know the app ID it should ask HMI for a policy update.
-8. An app should be able to update the auth token while being registered/activated.
-9. The OEM store should be notified about the auth token change.
-10. Core should support a WebSocket Server as a transport.
-11. If a user activates a local app through the HMI, the HMI should launch the app by opening the index.html file.
-12. HMI should launch the app including SDL Core's hostname and port as GET parameters (file://somewhere/HelloSDL/index.html?ws-host=localhost&ws-port=123456)
-13. The app should connect to Core using the SDL library using hostname and port specified.
+4. The OEM store's backend should store the compressed app.
+5. If a user installs an app, the OEM store should download and decompress the app to the system.
+6. After installation the OEM store should make the app visible and available on the HMI.
+7. Core should support a WebSocket Server as a transport.
+8.  If a user activates a local app through the HMI, the HMI should launch the app by opening the index.html file.
+9.  HMI should launch the app including SDL Core's hostname and port as GET parameters (file://somewhere/HelloSDL/index.html?ws-host=localhost&ws-port=123456)
+10. The app should connect to Core using the SDL library using hostname and port specified.
+11. If Core sends UpdateAppList, the HMI should compare matching SDL app IDs and avoid showing an app twice.
 
-![Overview of apps using WebSocket connections and Cloud App Transport Adapter](../assets/proposals/NNNN-sdl-js-pwa/arch-overview.png)
+![Overview of WebSocket for cloud and embedded apps](../assets/proposals/NNNN-sdl-js-pwa/arch-overview.png)
 
 > An overview of application runtime environment and how they get connected to SDL Core. This proposal adds the WebEngine part.
 
@@ -72,137 +60,7 @@ Due to a new app platform/location the hybrid app pference should be modified to
 </enum>
 ```
 
-The app developer portal should allow a developer to specify an app as a local app. Also as the app platforms increase (2 -> 3) a new way to specify preferences should be introduced. The element `BOTH` should be deprecated and replaced by `ALL`.
-
-### OEM store and `CloudAppProperties`
-
-There should be an OEM owned app which allows users to discover available apps but also install and uninstall apps. The app appearence and behavior is OEM specific however it should be able to communicate with SDL Core using the HMI API in order to provide cloud app properties of cloud and local apps.
-
-The RPC `SetCloudAppProperties` and all related items should also be included in the HMI_API in order to allow settings app properties from the mobile side but also from the system side (if the OEM store is embedded).
-
-With `BOTH` as an app preference being deprecated on the mobile API, SDL core should translate `BOTH` to `ALL` when forwarding app properties to the HMI. Below addition to the HMI_API is a copy of the mobile API regarding cloud app properties.
-
-** HMI_API **
-
-```xml
-<interface name="Common" ...>
-:
-<enum name="HybridAppPreference">
-  <description>Enumeration for the user's preference of which app type to use when both are available</description>
-  <element name="MOBILE" />
-  <element name="CLOUD" />
-  <element name="LOCAL"/>
-  <element name="ALL"/>
-</enum>
-</interface>
-
-<interface name="BasicCommunication" ...>
-:
-<struct name="CloudAppProperties">
-  <param name="nicknames" type="String" minlength="0" maxlength="100" array="true" minsize="0" maxsize="100" mandatory="false">
-      <description>An array of app names a cloud app is allowed to register with. If included in a SetCloudAppProperties request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.</description>
-  </param>
-  <param name="appID" type="String" maxlength="100" mandatory="true"/>
-  <param name="enabled" type="Boolean" mandatory="false">
-      <description>If true, cloud app will be included in HMI RPC UpdateAppList</description>
-  </param>
-  <param name="authToken" type="String" maxlength="65535" mandatory="false">
-      <description>Used to authenticate websocket connection on app activation</description>
-  </param>
-  <param name="cloudTransportType" type="String" maxlength="100" mandatory="false">
-      <description>Specifies the connection type Core should use</description>
-  </param>
-  <param name="hybridAppPreference" type="HybridAppPreference" mandatory="false">
-      <description>Specifies the user preference to use the cloud app version or mobile app version when both are available</description>
-  </param>
-  <param name="endpoint" type="String" maxlength="65535" mandatory="false">
-      <description>Specifies the endpoint which Core will attempt to connect to when this app is selected</description>
-  </param>
-</struct>
-
-<function name="SetCloudAppProperties" messagetype="request">
-  <description>
-    HMI > SDL. RPC used to enable/disable a cloud application and set authentication data
-  </description>
-  <param name="properties" type="CloudAppProperties" mandatory="true">
-    <description> The new cloud application properties </description>
-  </param>
-</function>
-
-<function name="SetCloudAppProperties" messagetype="response">
-  <description>The response to SetCloudAppProperties</description>
-  <param name="success" type="Boolean" platform="documentation" mandatory="true">
-    <description> true if successful; false if failed </description>
-  </param>
-  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
-    <description>See Result</description>
-    <element name="SUCCESS"/>
-    <element name="INVALID_DATA"/>
-    <element name="OUT_OF_MEMORY"/>
-    <element name="TOO_MANY_PENDING_REQUESTS"/>
-    <element name="GENERIC_ERROR"/>
-    <element name="DISALLOWED"/>
-    <element name="WARNINGS"/>
-  </param>
-</function>
-
-<function name="GetCloudAppProperties" messagetype="request">
-  <description>
-    HMI > SDL. RPC used to get the current properties of a cloud application
-  </description> 
-  <param name="appID" type="String" maxlength="100" mandatory="true"></param>
-</function>
-
-<function name="GetCloudAppProperties" messagetype="response">
-  <description>The response to GetCloudAppProperties</description>
-  <param name="properties" type="CloudAppProperties" mandatory="false">
-    <description> The requested cloud application properties </description>
-  </param>
-  <param name="success" type="Boolean" platform="documentation" mandatory="true">
-    <description> true if successful; false if failed </description>
-  </param>
-  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
-    <description>See Result</description>
-    <element name="SUCCESS"/>
-    <element name="INVALID_DATA"/>
-    <element name="OUT_OF_MEMORY"/>
-    <element name="TOO_MANY_PENDING_REQUESTS"/>
-    <element name="GENERIC_ERROR"/>
-    <element name="DISALLOWED"/>
-    <element name="WARNINGS"/>
-  </param>
-</function>
-
-<function name="OnCloudAppPropertiesChange" messagetype="notification">
-  <description>
-    SDL > HMI. RPC used to inform HMI about app properties change (such as auth token).
-  </description>
-  <param name="properties" type="CloudAppProperties" mandatory="true">
-    <description> The new cloud application properties </description>
-  </param>
-</function>
-</interface>
-```
-
-### Policy table update
-
-With app properties being set by the OEM store, SDL Core may require a policy table update. The [HMI documentation for OnSystemRequest](https://smartdevicelink.com/en/docs/hmi/master/basiccommunication/onsystemrequest/) shows sequence diagrams of how the update can be performed today. With vehicles having internet connectivity they can be able to perform the update without the need of a mobile app. 
-
-The cloud app transport adapter proposal includes a use case that describes how a policy server with transport adapter enhancements can update the policy table (see [here](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0158-cloud-app-transport-adapter.md#example-use-case-2)).
-
-SDL Core should trigger a policy update after a new and unknown appID is entered from a `SetCloudAppProperties` request or after a new app has registered. In addition to the existing update procedures, the HMI should be able to perform an update request without sending a system request back to SDL Core. 
-
-![Diagram PTU external proprietary over modem](../assets/proposals/NNNN-sdl-js-pwa/diagram_PolicyUpdate_external_proprietary_enhanced.png)
-
-> Diagram showing an additional way to perform a policy table update using the vehicle modem.
-
-SDL Core logic should be changed to allow triggering policy updates without any connected applications. This should be a configurable option in the smartDeviceLink.ini file. The configuration flag should be located in the `[HMI]` section and could be called `SupportsPolicyUpdate`. The flag can be set to `true` or `false` (defaults to `false`).
-
-In case the policy updates fails using the in-vehicle modem, the HMI should still be able to return the policy table snapshot with a system request to SDL. This would allow a fallback to the existing sequence using mobile phones to transfer the policy table.
-
-![Diagram PTU external fallback](../assets/proposals/NNNN-sdl-js-pwa/diagram_PolicyUpdate_external_proprietary_enhanced_fallback.png)
-
-> Diagram showing an additional way to perform a policy table update using the vehicle modem.
+The app developer portal should allow a developer to specify an app as a local web app. Also as the app platforms increase (2 -> 3) a new way to specify preferences should be introduced. The element `BOTH` should be deprecated and replaced by `ALL`.
 
 ### WebSocket transport
 
@@ -214,31 +72,43 @@ On the library side a new transport based on a WebSocket client should be create
 
 ### JavaScript library
 
-As described above the JavaScript library should be extended with a new transport. The library should also be extended to be exportable to a single .js file that can be included in an HTML file. This export could be done per library release using Webpack.
+As described above the JavaScript library should be extended with a new transport. The library should also be extended to be exportable to a single .js file that can be easily included in an HTML file. This export could be done per library release using Webpack.
 
 This new transport should be specifically for WebEngine purposes and should not be included for the Node.js platform. In order to improve simple "plug-an-play" of the library, the .js file should include only this single transport.
 
-### Local web app installation
+### Web application package
 
-If a user selects an app from the OEM store to be installed, the OEM store would notify SDL Core about the new app. The new app should appear in a dimmed state during the installation. 
+With installing an app on the infotainment system there should be a minimum set of requirements on how the app should be packaged.
 
-![Flow of installing a web app](../assets/proposals/NNNN-sdl-js-pwa/install-web-app.png)
+1. The app package should be a compressed zip file
+2. It should contain a manifest.json and the sdl.js file
+3. The manifest file should contain:
+   1. a relative path to an html file which is the entry point of the app
+   6. a relative path to an app icon in the app bundle
+   2. SDL app ID
+   3. app name
+   4. optionally per supporting SDL locale:
+      1. app name (overrides global app name) (must be one of the valid app nicknames)
+      2. optionally relative path to an app icon (overrides global app icon)
+      3. optionally TTS name (an array of tts chunks)
+      4. optionally VR app names (an array of strings)
+   5. App version
+   6. Min SDL version supported
+4. All script files should be included in the package
+   1. Any `<script>` element with `src` attribute should point to a script file in the package
+   2. No scripts from outside the package should be allowed
+5. A whitelist of urls the app want to access
+6. The entry point HTML file should refer to the manifest file (`<script src="manifest.json" />`)
 
-> Flow of installing a web app on the infotainment system. Using SDL to list the app on the HMI.
+Above metadata may be used for the OEM app store and for presenting the app on the HMI (including voice capability).
 
-In case the HMI already has a procedure to present installed local applications the OEM store can set `enabled=false` to avoid SDL Core sending `UpdateAppsList`. Following flow describes the difference between listing the app with SDL or by the system.
+This definition should ensure that apps can be approved and verified by SDLC and OEMs without possibility of modifications after approval. Also this set of requirements should ensure compatibility throughout integrators. The final approval process will be part of another proposal.
 
-![Flow of installing a web app with system listing](../assets/proposals/NNNN-sdl-js-pwa/install-web-app-proprietary-listing.png)
-
-> Flow installing a web app on the infotainment system. Using existing system function to list the app on the HMI.
-
-With the app registering on SDL the HMI will be notified of the app registration. The HMI should correlate if the app is already listed by using the app ID. If the HMI identifies that the app is not yet listed it should present the registered app on the app list.
-
-### Local web app activation
+### Activating a web app
 
 Activating a local web app by a user will cause the HMI to launch the app's index.html file in the WebEngine. Once the engine has loaded the web page the JavaScript SDL library will initiate a WebSocket connection to SDL Core's 
 
-![Flow of user activating a web app](../assets/proposals/NNNN-sdl-js-pwa/activate-web-app-disabled.png)
+![Flow of user activating a web app](../assets/proposals/NNNN-sdl-js-pwa/activate-web-app.png)
 
 > Flow of how a user activates a web app and how it gets visible on the screen.
 
@@ -256,7 +126,7 @@ A new App HMI type called `OPEN_HMI` should be introduced. When apps with this H
 
 ![Screenshot example of a web app](../assets/proposals/NNNN-sdl-js-pwa/web-app-example.jpg)
 
-> Screenshot shows a local web app presenting the user interface with the HTML renderer of the WebEngine.
+> Example of a local web app presenting the user interface with the HTML renderer of the WebEngine.
 
 **Mobile and HMI API**
 
@@ -275,11 +145,12 @@ The upside of apps running with a WebEngine is that it comes with an extremely f
 
 ## Impact on existing code
 
-1. This proposal is using many pieces of the cloud app transport adapter but outside of a cloud app.
-2. The transport adapter needs to support both WebSocket Client<->Server sequences.
-3. Core needs a new transport type to support a WebSocket Server.
-4. The JavaScript library needs a new transport type to support WebSocket Client.
+1. Core needs a new transport type to support a WebSocket Server.
+2. The JavaScript library needs a new transport type to support WebSocket Client.
+3. Developer site needs a new field for local apps.
+
+
 
 ## Alternatives considered
 
-No other altnernatives considered.
+An additional (alternative) feature considered is to use cloud app transport adapter to inform Core about a new app installation. Originally this concept was part of this proposal. However it was removed from this proposal as the cloud app transport adapter is designed for the concept of Core being a client to connect to apps being the server.
