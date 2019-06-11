@@ -48,7 +48,7 @@ In addition, the minimum index of HD radio sub-channels will need to be changed 
         </history>
     </param>
     
-+   <param name="availableHdChannels" type="Integer" minvalue="0" maxvalue="7" array="true" minsize="0" maxsize="8" mandatory="false" since="5.1">
++   <param name="availableHdChannels" type="Integer" minvalue="0" maxvalue="7" array="true" minsize="0" maxsize="8" mandatory="false" since="5.x">
 +       <description>the list of available hd sub-channel indexes, empty list means no Hd channel is available, read-only </description>
 +   </param>
     
