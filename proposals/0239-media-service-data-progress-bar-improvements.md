@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0239](0239-media-service-data-progress-bar-improvements.md)
 * Author: [Jack Byrne](https://github.com/jacklivio)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
