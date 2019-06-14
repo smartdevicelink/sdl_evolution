@@ -57,7 +57,9 @@ On the library side, a new WebSocket client transport should be created using th
 
 #### 1.2 Activating a web app
 
-Activating a local web app by a user will cause the HMI to launch the app's index.html file in the WebEngine. Once the engine has loaded the web page the JavaScript SDL library will initiate a WebSocket connection to SDL Core's 
+Activating a local web app by a user will cause the HMI to launch the app's entrypoint HTML file in the WebEngine. Once the engine has loaded the web app, the JavaScript SDL library will initiate a WebSocket connection to SDL Core's WebSocket server port and then establish the  RPC/Bulk service session.
+
+After the app registered HMI will be notified which allows the HMI to return to SDL and activate the app. This will make the app HMI level set to HMI_FULL.
 
 ![Flow of user activating a web app](../assets/proposals/NNNN-sdl-js-pwa/activate-web-app.png)
 
@@ -187,12 +189,12 @@ An additional (alternative) feature considered is to use cloud app transport ada
 ### Launching an app (alternative solution)
 
 If the user taps on an app icon and
-  a) and the app is listed as per `UpdateAppList` (app is set with `enabled=true`)
-    1. HMI should use `OnAppActivated` to Core to trigger app activation
-    2. Core recognizes the app is not connected. Core sends `ActivateApp` back to HMI
-    3. HMI launches the WebEngine to load the web app
-  b) and the app is listed by the HMI directly (app is set with `enabled=false`)
-    The main proposal flow applies (see section 1.2)
+1. app is set with `enabled=true` (app listed as per `UpdateAppList`) then
+     - HMI should use `OnAppActivated` to Core to trigger app activation
+     - Core recognizes the app is not connected. Core sends `ActivateApp` back to HMI
+     - HMI launches the WebEngine to load the web app
+2. app is set with `enabled=false` (app listed by the HMI directly) then
+     - The main proposal flow applies (see section 1.2)
 
 ### Downsides and difficulties
 
