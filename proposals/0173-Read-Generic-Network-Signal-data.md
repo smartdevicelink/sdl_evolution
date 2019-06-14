@@ -53,7 +53,7 @@ Instead of validating vehicle data items against APIs XML, SDL would rely on a d
 The proposed Policy Table structure assumes that SDL enums are defined in the RPC Spec and are _not_ defined within the Policy Table.
 
 
-#### Schema file location and updates
+### Schema file location and updates
 A base JSON schema file for SDL core and proxy will be kept locally and an additional one in the OEM cloud. OEMs can update the schema file with OEM specific items, which SDL core would be able to download over the cloud along with policy updates; SDL proxy would still process the local(static) copy of schema for existing data items. For OEM specific additional items, the OEM app would process a generic _Object_ to retrieve vehicle data item response _struct_. This new design would ensure flexibility to add OEM specific vehicle data items while maintaining access control via policies the same way it is done currently.
 
 * OEM's schema file should always be baselined with latest version of standardized schema file from open SDL. OEMs can then further add OEM specific custom vehicle data items. This ensures that any version of core that implements this proposal would be able to process the latest version of standardized vehicle data item schema, and hence would be able to support all future additions for new standardized vehicle data items.
@@ -62,101 +62,153 @@ A base JSON schema file for SDL core and proxy will be kept locally and an addit
 * All VehicleData items must be defined in the Policy Table (not just the custom/proprietary items), per recommendation by PM's Core team.
 * Root-Level vehicle data type items such as `rpm` are always `mandatory`:`false` as defined by the RPC Spec for the vehicle data RPCs. If a data item is of type `Struct`, that struct can have mandatory parameters but the struct itself cannot be mandatory for the root-level item.
 
+#### Use cases for vehicle data schema update:
+This section defines SDL behavior in case _vehicle_data_items_ schema is not present in PTU or if data in schema does not match with API/exiting schema. So if in a PTU:
+* _vehicle_data_items_ key does not exist; do not update _vehicle_data_items_ local schema/items.
+* _vehicle_data_items_ exists; replace all local schema vehicle data items with new ones except the standard ones.
+* _vehicle_data_items_ exists but is empty; remove all local schema vehicle data items except the standard ones.
+* _vehicle_data_items_ has item with same name as one of standard vehicle data items, ignore those data items.
+
+*Standard vehicle data items are the ones which are, either present in API or are provided in base schema with SDL core release. Standard vehicle data items are immutable.
+
+
+#### Versioning for Vehicle Data Schema
+Since vehicle data schema will be downloaded as part of policy update, we should not send this data with every update when there is no change in schema. One solution could be that we include the schema in sdl_snapshot when requesting policy update, but that again does not solve the issue as snapshot gets large this way.
+
+Solution to this is to include a schema versioning. This version information will be sent along with PTU when schema update is sent to module in PTU and SDL will persist this value in local policy DB. sdl_snapshot will contain this schema version information when requesting the policy update. Policy server would then compare the schema version received from cloud with what is available on server. Based on this comparison, vehicle data schema update would be sent in policy update response. e.g.
+
+```
+"vehicle_data_schema_version":"00.00.01",
+```
+
+#### Versioning and endpoint for OEM mapping table and to provide HMI a way to read OEM mapping table version
+
+OEM mapping table version would be included in PTU, which SDL will persist in local policy DB. HMI needs to be able to read this value on demand so that it can control if and when to download the OEM mapping table. HMI will utilize the _endpoint_ for OEM mapping table file to download this file using _SystemRequest_ type _OEM_SPECIFIC_. OEM mapping table file would have _endpoint_ key (_service_) as  _oem_mapping_file_.
+
+SDL still needs to provide an API for HMI to read this value, we can do so by adding new API to read OEM mapping file version, we can make it generic so that it can also be used in future to read some other configuration params from policy. e.g.
+
+```
+<function name="GetPolicyConfigurationData" messagetype="request" scope="internal">
+	<description>Request from HMI to SDL to get policy configuration data (i.e. OEM mapping table file version etc.) from Policy Table.</description>
+	<param name="identifier" type="String" array="true" minsize="1" maxsize="100" maxlength="500" mandatory="true">
+		<description>Id of configuration data to be received according to Policy Table i.e. oem_mapping_version etc.</description>
+	</param>  
+</function>
+<function name="GetPolicyConfigurationData" messagetype="response">
+	<param name="identifierValue" type="String" array="true" minsize="1" maxsize="100" mandatory="false">
+		<description>If no message was found in PT for specified message code and for HMI current or specified language, this parameter will be omitted.</description>
+	</param>
+</function>
+```
+
+This API can also be extended to be used for future configuration items as well.
+
+##### Rules for OEM mapping table and schema versioning:
+* These two variables (_oem_mapping_version_ & _vehicle_data_schema_version_) would be fed by Policy server to module during PTU. _oem_mapping_version_ would always be included in a PTU, unlike _vehicle_data_items_ and _vehicle_data_schema_version_, which would only be present if there is a change/update in vehicle data items. 
+* SDL would need to include _vehicle_data_schema_version_ in sdl_snapshot while requesting the policy update. SDL  policy server would this to decide whether _vehicle_data_items_ schema needs to be pushed in PTU response.
+  * _vehicle_data_schema_version_ would only be included in _vehicle_data_ only if _vehicle_data_items_ schema is included.
+* SDL would need to provide a way for HMI to read _oem_mapping_version_ so that HMI can decided whether to request OEM mapping file download using the _endpoint_ mentioned in PTU for the OEM table mapping file, using _SystemRequest_ type _OEM_SPECIFIC_
+
+
 ### Example of sample schema addition to policy table for SDL core update:
 ```json
 ....
-      "BaseBeforeDataConsent"
+	"BaseBeforeDataConsent"
         ]
       }
     },
-	"VehicleDataItems":
-	[
-		{
-			"name":"rpm",
-			"type":"Integer",
-			"key":"OEM_REF_RPM",
-			"array":false,
-			"mandatory":false,
-			"params":[]
-		},
-		{
-			"name":"headLampStatus",
-			"type":"Struct",
-			"key":"OEM_REF_HLSTATUS",
-			"mandatory":false,
-			"params":[
-				{
-					"name":"ambientLightSensorStatus",
-					"type":"AmbientLightStatus",
-					"key":"OEM_REF_AMB_LIGHT",
-					"mandatory":false,
-					"params":[]
-				},				
-				{
-					"name":"highBeamsOn",
-					"type":"Boolean",
-					"key":"OEM_REF_HIGH_BEAM",
-					"mandatory":true,
-					"params":[]
-				},
-				{
-					"name":"lowBeamsOn",
-					"type":"Boolean",
-					"key":"OEM_REF_LOW_BEAM",
-					"mandatory":true,
-					"params":[]
-				}				
-			]
-		},
-		{
-			"name":"engineState",
-			"type":"Struct",
-			"key":"OEM_REF_STRUCT",
-			"mandatory":false,
-			"params":[
-				{
-					"name":"engineCoolantTemp",
-					"type":"Integer",
-					"key":"OEM_REF_ENG_COOL_TEMP",
-					"array":false,
-					"mandatory":true,
-					"params":[]
-				},
-				{
-					"name":"engineO2Sat",
-					"type":"Float",
-					"key":"OEM_REF_ENG_O2_SAT",				
-					"mandatory":true,
-					"params":[]
-				},
-				{
-					"name":"engineState",
-					"type":"String",
-					"key":"OEM_REF_ENG_STATE",
-					"mandatory":true,
-					"params":[]
-				},
-				{
-					"name":"engineServiceRequired",
-					"type":"Boolean",
-					"key":"OEM_REF_ENG_SER_REQ",
-					"array":false,
-					"mandatory":false,
-					"params":[]
-				}
-			]
-		},
-		{
-			"name":"messageName",
-			"type":"String",
-			"key":"OEM_REF_MSG",
-			"array":true,
-			"mandatory":false,
-			"since":"X.x",
-			"maxsize":100,
-			"params":[]
-		}
-	]
+	"vehicle_data":{
+		"oem_mapping_version":"00.00.01",
+		"vehicle_data_schema_version":"00.00.01",	
+		"vehicle_data_items":
+		[
+			{
+				"name":"rpm",
+				"type":"Integer",
+				"key":"OEM_REF_RPM",
+				"array":false,
+				"mandatory":false,
+				"params":[]
+			},
+			{
+				"name":"headLampStatus",
+				"type":"Struct",
+				"key":"OEM_REF_HLSTATUS",
+				"mandatory":false,
+				"params":[
+					{
+						"name":"ambientLightSensorStatus",
+						"type":"AmbientLightStatus",
+						"key":"OEM_REF_AMB_LIGHT",
+						"mandatory":false,
+						"params":[]
+					},				
+					{
+						"name":"highBeamsOn",
+						"type":"Boolean",
+						"key":"OEM_REF_HIGH_BEAM",
+						"mandatory":true,
+						"params":[]
+					},
+					{
+						"name":"lowBeamsOn",
+						"type":"Boolean",
+						"key":"OEM_REF_LOW_BEAM",
+						"mandatory":true,
+						"params":[]
+					}				
+				]
+			},
+			{
+				"name":"engineState",
+				"type":"Struct",
+				"key":"OEM_REF_STRUCT",
+				"mandatory":false,
+				"params":[
+					{
+						"name":"engineCoolantTemp",
+						"type":"Integer",
+						"key":"OEM_REF_ENG_COOL_TEMP",
+						"array":false,
+						"mandatory":true,
+						"params":[]
+					},
+					{
+						"name":"engineO2Sat",
+						"type":"Float",
+						"key":"OEM_REF_ENG_O2_SAT",				
+						"mandatory":true,
+						"params":[]
+					},
+					{
+						"name":"engineState",
+						"type":"String",
+						"key":"OEM_REF_ENG_STATE",
+						"mandatory":true,
+						"params":[]
+					},
+					{
+						"name":"engineServiceRequired",
+						"type":"Boolean",
+						"key":"OEM_REF_ENG_SER_REQ",
+						"array":false,
+						"mandatory":false,
+						"params":[]
+					}
+				]
+			},
+			{
+				"name":"messageName",
+				"type":"String",
+				"key":"OEM_REF_MSG",
+				"array":true,
+				"mandatory":false,
+				"since":"X.x",
+				"maxsize":100,
+				"params":[]
+			}
+		]
+	}
 ....
 ```
 #### Integer, Float, String can use the common range values defined in HMI/Mobile API
@@ -357,6 +409,142 @@ Sample response from module:
 * _since_ param would be used only if this vehicle data is converted to standardized type in open.
 
 
+### SDL<->HMI request structure for Get/Subscribe vehicle data
+
+In case of VehicleDataItems defined in API, SDL should send to HMI 'dataItemName : true' of item according to HMI_API.
+HMI should work as is to provide response on such request. 
+
+In case of VehicleData Items from schema, SDL should provide hierarchical structure description of vehicle data item.
+
+We propose to send schema vehicle data Items with following structure : 
+```
+{
+	"dataItemKey" : // Struct with parameters 
+}
+```
+
+Here is an example for "headLampStatus"
+
+#### HMI request response approach for vehicle data item present in API:
+
+##### Request: 
+```json
+{
+	"headLampStatus" : "true"	
+}
+```
+
+##### Response: 
+```json
+{
+	"headLampStatus" : {
+		"lowBeamsOn" : true,
+		"highBeamsOn" : true,
+		"ambientLightSensorStatus" : "TWILIGHT_1"
+	}
+}
+```
+
+#### Consider headLampStatus sent as schema vehicle data item : 
+
+
+##### Request:
+```json
+{
+	"HEAD_LAMP_STATUS" : {
+		"HEAD_LAMP_STATUS_LEFT" : "true",
+		"HEAD_LAMP_STATUS_RIGHT" : "true",
+		"HEAD_LAMP_STATUS_RIGHT" : "true"
+	}
+}
+```
+
+##### Response:
+```json
+{
+	"HEAD_LAMP_STATUS" : {
+		"HEAD_LAMP_STATUS_LEFT" : true,
+		"HEAD_LAMP_STATUS_RIGHT" : true,
+		"HEAD_LAMP_STATUS_RIGHT" : "TWILIGHT_1"
+	}
+}
+```
+
+Note that in request SDL provided list of nested "keys" of structure. 
+
+#### Example of structure with 3 nested levels.
+
+##### Request: 
+```json
+{
+	"KEY_LEVEL_1" : {
+		"KEY_LEVEL_2" : "true",
+		"KEY2_LEVEL_2" : {
+			"KEY2_LEVEL_3" : "true"
+		}
+	}
+}
+```
+
+##### Request: 
+```json
+{
+	"KEY_LEVEL_1" : {
+		"KEY_LEVEL_2" : "value of key level 2",
+		"KEY2_LEVEL_2" : {
+			"KEY2_LEVEL_3" : "value of key level 3"
+		}
+	}
+}
+```
+#### Backward compatibility 
+
+Such approach is backward compatible. This also provides ability to send vehicle data items present in API and vehicle data items present in schema in one request.
+
+#### Mix example 
+
+Consider **gps** as API vehicle data Item, and **HEAD_LAMP_STATUS** as vehicle data item from schema: 
+
+##### Request:
+```json
+{
+	"gps" : "true", 
+	"HEAD_LAMP_STATUS" : {
+		"HEAD_LAMP_STATUS_LEFT" : "true",
+		"HEAD_LAMP_STATUS_RIGHT" : "true",
+		"HEAD_LAMP_STATUS_RIGHT" : "true"
+	}
+}
+```
+
+##### Response: 
+
+```json
+{
+	"gps" : {
+		"longtitudeDegrees" : 0.0,
+		"latitudeDegrees" : 0.0
+	},
+	"HEAD_LAMP_STATUS" : {
+		"HEAD_LAMP_STATUS_LEFT" : true,
+		"HEAD_LAMP_STATUS_RIGHT" : true,
+		"HEAD_LAMP_STATUS_RIGHT" : "TWILIGHT_1"
+	}
+}
+```
+
+#### Rules for SDL<->HMI structure for requests and responses
+
+- HMI should consider parameter in GVD request as name in case if it exist in list HMI_API.xml GetVehicleData of parameters.
+- HMI should consider parameter in GVD request as key if it is not in list of HMI_API.xml GetVehicleData of parameters.
+- _name_ is always boolean (according to API)
+- _key_ in GVD request may be either boolean or struct. Struct may contain either booleans or structs. 
+- Response type for vehicle data items from schema would be _VehicleDataResult_
+- If HMI response to SDL with wrong item schema for GVD, SDL will not process this response and respond to mobile with GENERIC_ERROR
+- If HMI send to SDL _OnVehicleData_ Notification with wrong item schema, SDL will ignore this notification.
+- In case of UnsubscribeVehicleData, SDL will send only root level **key**.
+
+
 ## Proxy side changes
 Once core has downloaded and processed the new vehicle data params, it'd send an _onPermissionsChange_ notification to the connected app with new vehicle data params. The App developer would rely on this notification to request new vehicle data items using a generic request/response methods in _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ request and response messages.
 
@@ -428,17 +616,25 @@ Required Policy Server additions:
 * Modified interface to create "Proprietary Functional Groups" with associated RPCs and custom VehicleData parameters
 * Ability to manually grant zero-to-many "Proprietary Functional Groups" to an application during application review. (Note: auto app approval will not grant any Proprietary Functional Groups)
 * Injection of VehicleData parameters into the generated Policy Table
+* SDL Server would need to compare the version received from sdl_snapshot before serving schema update
 
 Note: PTU for app permissions/functional groups would add new vehicle data items in a similar way as current vehicle data items are handled. In given example, _engineState_ would be added along with _rpm_, _headLampStatus_ etc. Of-course OEM can have different combinations of functional-groups and vehicle data items per app.
+
 
 ## Impact on existing code
 * SDL core would need to add support to download and parse the new JSON schema for vehicle data. SDL would either keep the existing vehicle data items in HMI/Mobile API and only use this approach for new vehicle data items or totally replace the way vehicle data items are compiled and validated by SDL. Instead of using the hard coded xml file, valid vehicle data type would be fetched from mapping file over the cloud. (there would be a local copy for the initial build). The interface between SDL and HMI needs to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference keys.
 
 * APIs would need a new Request/Response API to act as the Generic Request Response for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData_
 
+* New API is needed to provide HMI a way to read OEM mapping table version
+* SDL would need to persist OEM and schema versions in policy DB
+* SDL would need to add schema version to sdl_snapshot
+
 * SDL_Server project needs updates as defined above.
 
 ## Alternatives considered
+* Instead of adding new API to read OEM Mapping table version, we can reuse existing API:
+  * API _GetUserFriendlyMessage_ with _messageCodes_ as _oem_mapping_version_ and any language.
 * Instead of using JSON to define vehicle data items schema, SDL can use either of following:
   * XML:
     * This would reuse the XML based design with adding "key" as another attribute or as a sub-element. Instead of sending a JSON file from cloud to the headunit, SDL would send a XML file that would be like a subset of the mobile API. 
