@@ -19,7 +19,7 @@ Therefore, it will be better to offer an option to app developer to disable to s
 
 
 ## Proposed solution
-Add parameter `showVideoBackgroundedString` to `SDLStreamingMediaConfiguration` class to disable the "video streaming backgrounded string (SDL-0118)" feature. The default value of this parameter is `true` and "Video Streaming Backgrounded String" will be sent (Current behavior as of sdl_ios v6.2). If this parameter is set to `false`, `backgroundingPixelBuffer` will not be sent.
+Add parameter `showVideoBackgroundDisplay` to `SDLStreamingMediaConfiguration` class to disable the "video streaming backgrounded string (SDL-0118)" feature. The default value of this parameter is `true` and "Video Streaming Backgrounded String" will be sent (Current behavior as of sdl_ios v6.2). If this parameter is set to `false`, `backgroundingPixelBuffer` will not be sent.
 
 
 ## Potential downsides
