@@ -85,7 +85,7 @@ Solution to this is to include a schema versioning. This version information wil
 
 OEM mapping table version would be included in PTU, which SDL will persist in local policy DB. HMI needs to be able to read this value on demand so that it can control if and when to download the OEM mapping table. HMI will utilize the _endpoint_ for OEM mapping table file to download this file using _SystemRequest_ type _OEM_SPECIFIC_. OEM mapping table file would have _endpoint_ key (_service_) as  _oem_mapping_file_.
 
-SDL still needs to provide an API for HMI to read this value, we can do so by adding new API to read OEM mapping file version, we can make it generic so that it can also be used in future to read some other configuration params from policy. e.g.
+SDL still needs to provide an API for HMI to read this value, we can do so by adding new API to read OEM mapping file version, we can make it generic so that it can also be used in future to read some other configuration params from policy. e.g. following new API can be used to read OEM mapping table version with _identifier_ _oem_mapping_version_
 
 ```
 <function name="GetPolicyConfigurationData" messagetype="request" scope="internal">
@@ -105,8 +105,9 @@ This API can also be extended to be used for future configuration items as well.
 
 ##### Rules for OEM mapping table and schema versioning:
 * These two variables (_oem_mapping_version_ & _vehicle_data_schema_version_) would be fed by Policy server to module during PTU. _oem_mapping_version_ would always be included in a PTU, unlike _vehicle_data_items_ and _vehicle_data_schema_version_, which would only be present if there is a change/update in vehicle data items. 
-* SDL would need to include _vehicle_data_schema_version_ in sdl_snapshot while requesting the policy update. SDL  policy server would this to decide whether _vehicle_data_items_ schema needs to be pushed in PTU response.
+* SDL would need to include _vehicle_data_schema_version_ in sdl_snapshot while requesting the policy update. SDL  policy server would use this to decide whether _vehicle_data_items_ schema needs to be pushed in PTU response.
   * _vehicle_data_schema_version_ would only be included in _vehicle_data_ only if _vehicle_data_items_ schema is included.
+* SDL should skip the _vehicle_data_Items_ update in case _vehicle_data_schema_version_ is not included along with it.
 * SDL would need to provide a way for HMI to read _oem_mapping_version_ so that HMI can decided whether to request OEM mapping file download using the _endpoint_ mentioned in PTU for the OEM table mapping file, using _SystemRequest_ type _OEM_SPECIFIC_
 
 
@@ -445,7 +446,7 @@ Here is an example for "headLampStatus"
 }
 ```
 
-#### Consider headLampStatus sent as schema vehicle data item : 
+#### To highlight the difference, let's consider headLampStatus as vehicle data item from schema instead of from API  : 
 
 
 ##### Request:
