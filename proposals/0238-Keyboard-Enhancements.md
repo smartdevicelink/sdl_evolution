@@ -54,7 +54,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 ## Proposed solution
 
 1. SDL needs to define new struct _"KeyboardCapabilities"_ to inform apps about keyboard capabilities of HMI.
-2. _"KeyboardCapabilities"_ struct should be returned with _"RegisterAppInterface"_ response.
+2. _"KeyboardCapabilities"_ struct should be returned with _"ScreenCapability"_ struct.
 3. This struct should inform the apps about all the supported keyboard layouts, the capability to mask input characters and to configure special character keys in a keyboard layout.
 
 **_Addition for Enhancement #1: Adding support for numeric keyboard._**
@@ -92,10 +92,10 @@ In case of older SDL versions, if _"maskInputCharactersSupported"_ value is not 
        <param name="maskInputCharactersSupported" type="Boolean" mandatory="false">
            <description>Availability of capability to mask input characters using keyboard. True: Available, False: Not Available</description>
        </param>
-	   <param name="supportedKeyboardLayouts" type="KeyboardLayout" minsize="0" maxsize="10" array="true" mandatory="false" since="X.X" >
+	   <param name="supportedKeyboardLayouts" type="KeyboardLayout" minsize="1" maxsize="10" array="true" mandatory="false" since="X.X" >
            <description>Supported keyboard layouts by HMI.</description>
        </param> 
-	   <param name="configurableKeys" type="ConfigurableKeyboards" minsize="0" maxsize="10" maxlength="10" array="true" mandatory="false" since="X.X" >
+	   <param name="configurableKeys" type="ConfigurableKeyboards" minsize="1" maxsize="10" array="true" mandatory="false" since="X.X" >
            <description>Get Number of Keys for Special characters, App can customize as per their needs.</description>
        </param>  
 </struct>
@@ -133,7 +133,7 @@ The app will be notified whether the input is masked or not, using _"UI.OnKeyboa
 
 #### Addition of _"ConfigurableKeyboards"_ Struct
 
-This struct object will be returned with _"KeyboardCapabilities"_ in _"RegisterAppInterface"_ response. Each layout can have a different number of customizable buttons. Hence, this struct object will map a number of customizable buttons and keyboard layout.
+This _"KeyboardCapabilities"_ object will be returned with in _"ScreenCapability"_ struct. Each layout can have a different number of customizable buttons. Hence, this struct object will map a number of customizable buttons and keyboard layout.
 
 ```xml
     <struct name="ConfigurableKeyboards" since="X.X">
@@ -182,15 +182,15 @@ This struct object will be returned with _"KeyboardCapabilities"_ in _"RegisterA
     </struct>
  ```
 
-#### Change in _"RegisterAppInterface"_ response
- 
+#### Change in ScreenCapability Struct
+
 ```xml
-<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response" since="1.0">
-		:
-        <param name="keyboardCapabilities"  type="KeyboardCapabilities" mandatory="false" since="X.X">
-            <description>See KeyboardCapabilities</description>
-        </param>
-</function>
+<struct name="ScreenCapability" since="5.x">
+    :
+    <param name="keyboardCapabilities"  type="KeyboardCapabilities" mandatory="false" since="X.X">
+        <description>See KeyboardCapabilities</description>
+    </param>
+</struct>
 ```
 
 ## Potential downsides
@@ -211,15 +211,6 @@ The libraries need to implement mobile API changes.
 
 ## Alternatives considered 
 
-Instead of returning _"KeyboardCapabilities"_ in _"RegisterAppInterface"_, struct _"ScreenCapability"_ can be used. [Struct _"ScreenCapability"_ is defined in Widget Support Proposal.](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0216-widget-support.md)
+None
 
-### Change in ScreenCapability
 
-```xml
-<struct name="ScreenCapability" since="5.x">
-    :
-    <param name="keyboardCapabilities"  type="KeyboardCapabilities" mandatory="false" since="X.X">
-        <description>See KeyboardCapabilities</description>
-    </param>
-</struct>
-```
