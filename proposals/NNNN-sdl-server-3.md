@@ -32,29 +32,21 @@ improvements and fixes.
 ## Potential downsides
 
 With refactoring there is a time investment without having the benefit
-of new features or bug fixes. The authors believe that it is worth
-the time investment because
-
-The time investment on making the changes now rather than later is worth it
-because the technical debt of having hard to maintain code will be a much
+of new features or bug fixes. The time investment on making these improvements now rather than later is worth it
+because the technical debt of having difficult to maintain code will end up being a much
 larger time investment in the future.
 
-Describe any potential downsides or known objections to the course of action presented in this proposal, 
-then provide counter-arguments to these objections. 
-You should anticipate possible objections that may come up in review and provide an initial response here. 
-Explain why the positives of the proposal outweigh the downsides, 
-or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
-
 ## Impact on existing code
-
-
-Describe the impact that this change will have on existing code. 
-Will some SDL integrations stop compiling due to this change? 
-Will applications still compile but produce different behavior than they used to? 
-Is it possible to migrate existing SDL code to use a new feature or API automatically?
+This is a very board refactor change and will impact most all existing code. Integrations with the sdl_server REST API
+should not be affected especially in the case of sdl_core's integration. Server setup instructions for local
+development may need to be updated to remove references to obsolete start-up scripts.
 
 ## Alternatives considered
 
-Postponing until we have the need for new features or when bugs come up.
-This is not a good appro
+The list of changes in this issue will need to be made at some point to be able to maintain the sdl
+server. Alternatives would be to wait until other requests come in and make refactor changes on the
+files that are impacted by this request. This would allow you to make refactor changes in smaller
+pieces. This process of making refactor changes piece by piece would most likely take much longer 
+than doing a single refactor. Doing it at once will likely be quicker and result in more consistent
+code which is one of the main goals to produce a maintainable code base.
 
