@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-sdl-js-pwa.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Awaiting review**
-* Impacted Platforms: [ Core / RPC / JavaScript / Server / Local ]
+* Impacted Platforms: [ Core / RPC / JavaScript / Server ]
 
 ## Introduction
 
@@ -57,9 +57,9 @@ On the library side, a new WebSocket client transport should be created using th
 
 #### 1.2 Activating a web app
 
-Activating a local web app by a user will cause the HMI to launch the app's entrypoint HTML file in the WebEngine. Once the engine has loaded the web app, the JavaScript SDL library will initiate a WebSocket connection to SDL Core's WebSocket server port and then establish the  RPC/Bulk service session.
+Activating a local web app by a user will cause the HMI to launch the app's entrypoint HTML file in the WebEngine. Once the engine has loaded the web app, the JavaScript SDL library will initiate a WebSocket connection to SDL Core's WebSocket server port and then establish the RPC/Bulk service session.
 
-After the app registered HMI will be notified which allows the HMI to return to SDL and activate the app. This will make the app HMI level set to HMI_FULL.
+After the app registers, the HMI will be notified which allows the HMI to return to SDL and activate the app. This will make the app HMI level set to HMI_FULL.
 
 ![Flow of user activating a web app](../assets/proposals/NNNN-sdl-js-pwa/activate-web-app.png)
 
