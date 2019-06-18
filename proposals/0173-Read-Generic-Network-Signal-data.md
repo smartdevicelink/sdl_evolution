@@ -453,9 +453,9 @@ Here is an example for "headLampStatus"
 ```json
 {
 	"HEAD_LAMP_STATUS" : {
-		"HEAD_LAMP_STATUS_LEFT" : "true",
-		"HEAD_LAMP_STATUS_RIGHT" : "true",
-		"HEAD_LAMP_STATUS_RIGHT" : "true"
+		"LOW_BEAMS_ON" : "true",
+		"HIGH_BEAMS_ON" : "true",
+		"AMBIENT_LIGHT_SENSOR_STATUS" : "true"
 	}
 }
 ```
@@ -464,9 +464,9 @@ Here is an example for "headLampStatus"
 ```json
 {
 	"HEAD_LAMP_STATUS" : {
-		"HEAD_LAMP_STATUS_LEFT" : true,
-		"HEAD_LAMP_STATUS_RIGHT" : true,
-		"HEAD_LAMP_STATUS_RIGHT" : "TWILIGHT_1"
+		"LOW_BEAMS_ON" : true,
+		"HIGH_BEAMS_ON" : true,
+		"AMBIENT_LIGHT_SENSOR_STATUS" : "TWILIGHT_1"
 	}
 }
 ```
@@ -511,9 +511,9 @@ Consider **gps** as API vehicle data Item, and **HEAD_LAMP_STATUS** as vehicle d
 {
 	"gps" : "true", 
 	"HEAD_LAMP_STATUS" : {
-		"HEAD_LAMP_STATUS_LEFT" : "true",
-		"HEAD_LAMP_STATUS_RIGHT" : "true",
-		"HEAD_LAMP_STATUS_RIGHT" : "true"
+		"LOW_BEAMS_ON" : "true",
+		"HIGH_BEAMS_ON" : "true",
+		"AMBIENT_LIGHT_SENSOR_STATUS" : "true"
 	}
 }
 ```
@@ -527,9 +527,9 @@ Consider **gps** as API vehicle data Item, and **HEAD_LAMP_STATUS** as vehicle d
 		"latitudeDegrees" : 0.0
 	},
 	"HEAD_LAMP_STATUS" : {
-		"HEAD_LAMP_STATUS_LEFT" : true,
-		"HEAD_LAMP_STATUS_RIGHT" : true,
-		"HEAD_LAMP_STATUS_RIGHT" : "TWILIGHT_1"
+		"LOW_BEAMS_ON" : true,
+		"HIGH_BEAMS_ON" : true,
+		"AMBIENT_LIGHT_SENSOR_STATUS" : "TWILIGHT_1"
 	}
 }
 ```
