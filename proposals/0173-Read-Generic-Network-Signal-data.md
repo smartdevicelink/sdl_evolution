@@ -64,12 +64,12 @@ A base JSON schema file for SDL core and proxy will be kept locally and an addit
 
 #### Use cases for vehicle data schema update:
 This section defines SDL behavior in case _vehicle_data_items_ schema is not present in PTU or if data in schema does not match with API/exiting schema. So if in a PTU:
-* _vehicle_data_items_ key does not exist; do not update _vehicle_data_items_ local schema/items.
-* _vehicle_data_items_ exists; replace all local schema vehicle data items with new ones except the standard ones.
-* _vehicle_data_items_ exists but is empty; remove all local schema vehicle data items except the standard ones.
+* _vehicle_data_items_ key does not exist, do not update _vehicle_data_items_ local schema/items.
+* _vehicle_data_items_ exists, replace all local schema vehicle data items with new ones except the standard ones.
+* _vehicle_data_items_ exists but is empty, remove all local schema vehicle data items except the standard ones.
 * _vehicle_data_items_ has item with same name as one of standard vehicle data items, ignore those data items.
 
-*Standard vehicle data items are the ones which are, either present in API or are provided in base schema with SDL core release. Standard vehicle data items are immutable.
+**Standard vehicle data items are the ones which are either present in API, or are provided in base schema with SDL core release. Standard vehicle data items are immutable.**
 
 
 #### Versioning for Vehicle Data Schema
@@ -83,9 +83,9 @@ Solution to this is to include a schema versioning. This version information wil
 
 #### Versioning and endpoint for OEM mapping table and to provide HMI a way to read OEM mapping table version
 
-OEM mapping table version would be included in PTU, which SDL will persist in local policy DB. HMI needs to be able to read this value on demand so that it can control if and when to download the OEM mapping table. HMI will utilize the _endpoint_ for OEM mapping table file to download this file using _SystemRequest_ type _OEM_SPECIFIC_. OEM mapping table file would have _endpoint_ key (_service_) as  _oem_mapping_file_.
+OEM mapping table version would be included in PTU, which SDL will persist in local policy DB. HMI needs to be able to read this value on demand so that it can control if and when to download the OEM mapping table. HMI will utilize the _endpoint_ for OEM mapping table file to download this file using _SystemRequest_ type _OEM_SPECIFIC_. OEM mapping table file would have _endpoint_ key (_service_) as _oem_mapping_file_.
 
-SDL still needs to provide an API for HMI to read this value, we can do so by adding new API to read OEM mapping file version, we can make it generic so that it can also be used in future to read some other configuration params from policy. e.g. following new API can be used to read OEM mapping table version with _identifier_ _oem_mapping_version_
+SDL still needs to provide an API for HMI to read this value. We can do so by adding a new API to read OEM mapping file version; we can make it generic so that it can also be used in the future to read some other configuration params from policy. e.g. following new API can be used to read OEM mapping table version with _identifier_ _oem_mapping_version_
 
 ```
 <function name="GetPolicyConfigurationData" messagetype="request" scope="internal">
@@ -104,11 +104,11 @@ SDL still needs to provide an API for HMI to read this value, we can do so by ad
 This API can also be extended to be used for future configuration items as well.
 
 ##### Rules for OEM mapping table and schema versioning:
-* These two variables (_oem_mapping_version_ & _vehicle_data_schema_version_) would be fed by Policy server to module during PTU. _oem_mapping_version_ would always be included in a PTU, unlike _vehicle_data_items_ and _vehicle_data_schema_version_, which would only be present if there is a change/update in vehicle data items. 
+* These two variables (_oem_mapping_version_ & _vehicle_data_schema_version_) would be fed by policy server to module during PTU. _oem_mapping_version_ would always be included in a PTU, unlike _vehicle_data_items_ and _vehicle_data_schema_version_, which would only be present if there is a change/update in vehicle data items.
 * SDL would need to include _vehicle_data_schema_version_ in sdl_snapshot while requesting the policy update. SDL  policy server would use this to decide whether _vehicle_data_items_ schema needs to be pushed in PTU response.
   * _vehicle_data_schema_version_ would only be included in _vehicle_data_ only if _vehicle_data_items_ schema is included.
 * SDL should skip the _vehicle_data_Items_ update in case _vehicle_data_schema_version_ is not included along with it.
-* SDL would need to provide a way for HMI to read _oem_mapping_version_ so that HMI can decided whether to request OEM mapping file download using the _endpoint_ mentioned in PTU for the OEM table mapping file, using _SystemRequest_ type _OEM_SPECIFIC_
+* SDL would need to provide a way for HMI to read _oem_mapping_version_ so that HMI can decide whether or not to request OEM mapping file download using the _endpoint_ mentioned in PTU for the OEM table mapping file, using _SystemRequest_ type _OEM_SPECIFIC_
 
 
 ### Example of sample schema addition to policy table for SDL core update:
@@ -417,7 +417,7 @@ HMI should work as is to provide response on such request.
 
 In case of VehicleData Items from schema, SDL should provide hierarchical structure description of vehicle data item.
 
-We propose to send schema vehicle data Items with following structure : 
+We propose to send schema VehicleData Items with following structure :
 ```
 {
 	"dataItemKey" : // Struct with parameters 
@@ -536,13 +536,13 @@ Consider **gps** as API vehicle data Item, and **HEAD_LAMP_STATUS** as vehicle d
 
 #### Rules for SDL<->HMI structure for requests and responses
 
-- HMI should consider parameter in GVD request as name in case if it exist in list HMI_API.xml GetVehicleData of parameters.
+- HMI should consider parameter in GVD request as name in case if it exists in list HMI_API.xml GetVehicleData of parameters.
 - HMI should consider parameter in GVD request as key if it is not in list of HMI_API.xml GetVehicleData of parameters.
 - _name_ is always boolean (according to API)
 - _key_ in GVD request may be either boolean or struct. Struct may contain either booleans or structs. 
 - Response type for vehicle data items from schema would be _VehicleDataResult_
-- If HMI response to SDL with wrong item schema for GVD, SDL will not process this response and respond to mobile with GENERIC_ERROR
-- If HMI send to SDL _OnVehicleData_ Notification with wrong item schema, SDL will ignore this notification.
+- If HMI responds to SDL with wrong item schema for GVD, SDL will not process this response and respond to mobile with GENERIC_ERROR
+- If HMI sends to SDL _OnVehicleData_ Notification with wrong item schema, SDL will ignore this notification.
 - In case of UnsubscribeVehicleData, SDL will send only root level **key**.
 
 
