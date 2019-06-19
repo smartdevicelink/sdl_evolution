@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0230](0230-spp-resource-management-for-android.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: Java Suite
 
 ## Introduction
