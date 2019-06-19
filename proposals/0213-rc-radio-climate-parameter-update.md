@@ -67,10 +67,13 @@ In addition, the minimum index of HD radio sub-channels will need to be changed 
 ...
 -    <param name="availableHDsAvailable" type="Boolean" mandatory="false">
 +    <param name="availableHDsAvailable" type="Boolean" mandatory="false" deprecated="true" since="5.x">
-        <description>
+         <description>
             Availability of the getting the number of available HD channels.
             True: Available, False: Not Available, Not present: Not Available.
-        </description>
+         </description>
++        <history>
++            <param name="availableHDsAvailable" type="Boolean" mandatory="false" since="4.5" until="5.x"/>
++        </history>
     </param>
 +   <param name="availableHdChannelsAvailable" type="Boolean" mandatory="false" since="5.x">
 +       <description>
