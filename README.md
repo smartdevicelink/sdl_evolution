@@ -163,17 +163,17 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL RPC Spec: 5.2.0
+#### SDL RPC Spec: 6.0.0
 **Expected Release Date**: October 30, 2019
 
-**Contents**: Contents of this release can be tracked on the [RPC Spec 5.2.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/4).
+**Contents**: Contents of this release can be tracked on the [RPC Spec 6.0.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/4).
 
 ---
 
-#### SDL Core: 5.2.0
+#### SDL Core: 6.0.0
 **Release Date**: October 30, 2019
 
-**Contents**: Contents of this release can be tracked on the [Core 5.2.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/15).
+**Contents**: Contents of this release can be tracked on the [Core 6.0.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/15).
 
 ---
 
