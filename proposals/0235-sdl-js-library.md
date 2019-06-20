@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0235](0235-sdl-js-library.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford), [Mauricio Juarez](https://github.com/mjuarez-ford)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [ JavaScript ]
 
 ## Introduction
