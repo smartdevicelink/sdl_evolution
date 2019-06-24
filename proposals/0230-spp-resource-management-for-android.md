@@ -24,7 +24,7 @@ This proposal focuses on the case where Proxy detects the SPP resource error, an
 Even though we could detect the case, we cannot increase the number of available SPP resources, because they are used by other apps.
 All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information when user wants to.
 
-Prior to detecting the error, let's extend setState and notifyStateChanged in MultiplexBaseTransport class and allow them to notify an error:
+Prior to detecting the error, ```setState``` and ```notifyStateChanged``` in MultiplexBaseTransport class need to be extended, so that they can notify an error:
 ```java
     public static final String ERROR_REASON_KEY = "ERROR_REASON";
     public static final byte REASON_SPP_ERROR   = 0x01;    // REASON = SPP error, which is sent through Message.arg2.
@@ -45,13 +45,13 @@ Prior to detecting the error, let's extend setState and notifyStateChanged in Mu
     private void notifyStateChanged(int arg1, int arg2, byte error) {
         Message msg = handler.obtainMessage(SdlRouterService.MESSAGE_STATE_CHANGE, arg1, arg2, getTransportRecord());
         Bundle bundle = new Bundle();
-        bundle.putByte(ERROR_REASON_KEY, REASON_SPP_ERROR);
+        bundle.putByte(ERROR_REASON_KEY, error);
         msg.setData(bundle);
         msg.sendToTarget();
     }
 ```
 
-In MultiplexBluetoothTransport, stop method is extended and error information is passed to setState:
+In MultiplexBluetoothTransport, stop method needs to be extended, so that the error information is passed to setState:
 ```java
     @Override
     protected synchronized void stop(int stateToTransitionTo, byte error) {
@@ -83,14 +83,14 @@ When TransportHandler in SdlRouterService detected STATE_ERROR, notifies it to u
 	            TransportRecord transportRecord = (TransportRecord) msg.obj;
 	            switch (msg.arg1) {
 	        	....
-	            case MultiplexBaseTransport.STATE_ERROR:
+                case MultiplexBaseTransport.STATE_ERROR:
                     service.onTransportError(transportRecord);
                     Bundle reason = msg.getData();
                     if (reason != null && reason.getByte(MultiplexBaseTransport.ERROR_REASON_KEY) == MultiplexBaseTransport.REASON_SPP_ERROR) {
                         service.notifySppError();
                     }
-	            	break;
-	    	    }
+                    break;
+                }
 	    }
 	}
 ```
@@ -196,7 +196,7 @@ In previous code snippet (Code-1), we get the Intent from getErrorNotificationIn
 ```
 
 By default (i.e. if developer does NOT override getErrorNotificationIntent), library will lead users to WebPage, which explains what happened.
-The details of error text on the WebPage is still TBD, but sdl_java_suite library is expected to include the default activity to include the consistent error UX.
+The details of error text on the WebPage is still TBD. In addition to the Webpage, sdl_java_suite library is expected to include the error activity to provide the consistent and localized error UX.
 
 The sample UX of SdlNotificationActivity looks like below:
 
@@ -224,7 +224,7 @@ ar_SA, cs_CZ, da_DK, de_DE, el_GR, en_AU, en_GB, en_IN, en_SA, en_US, es_ES, es_
 
 The default language would be en_US.
 
-Regarding who is responsible for the localization process, three steps are proposed:
+Regarding who is responsible for the localization process, two steps are proposed:
 1. English strings (which is default language) must be properly reviewed and maintained by steering committee.
 2. Localized strings are maintained by project maintainer, and steering committee will be responsible for sign off those localized strings.  
 
@@ -297,4 +297,4 @@ There's no impact to existing code, because all error UX is provided by Proxy. D
 
 ## Alternatives considered
 
-Does sdl_java_suite library need to have all localized strings? This question is raised because the supported languages can be varied on the app.
+Does sdl_java_suite library need to have all localized strings? This question is raised because the supported languages can be varied on the app. As the result of some discussion, steering committee will be responsible for all localized strings.
