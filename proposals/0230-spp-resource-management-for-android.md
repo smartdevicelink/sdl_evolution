@@ -85,8 +85,9 @@ When TransportHandler in SdlRouterService detected STATE_ERROR, notifies it to u
 	        	....
 	            case MultiplexBaseTransport.STATE_ERROR:
                     service.onTransportError(transportRecord);
-                    if ((msg.arg2 & MultiplexBaseTransport.REASON_SPP_ERROR) != 0) {
-	                    service.notifySppError();
+                    Bundle reason = msg.getData();
+                    if (reason != null && reason.getByte(MultiplexBaseTransport.ERROR_REASON_KEY) == MultiplexBaseTransport.REASON_SPP_ERROR) {
+                        service.notifySppError();
                     }
 	            	break;
 	    	    }
@@ -206,7 +207,8 @@ All strings used for this error UX is defined in strings.xml like below:
 ```java
     <string name="spp_out_of_resource">Too many apps are using Bluetooth</string>
     <string name="notification_title">SmartDeviceLink</string>
-    <string name="spp_out_of_resource_message">There are too many bluetooth apps running on your device. Please close them and try to re-connect</string>
+    <string name="spp_out_of_resource_message">There are too many bluetooth apps running on your device. Please close some of them and try to re-connect</string>
+    <string name="spp_out_of_resource_possible_apps">Following apps may use Bluetooth: </string>
     <string name="button_ok">OK</string>
     <string name="sdl_error_notification_channel_name">SDL Error</string>
 ```
