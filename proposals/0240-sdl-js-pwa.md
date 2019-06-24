@@ -34,7 +34,7 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
 10. The app should connect to Core using the SDL library using hostname and port specified.
 11. If Core sends UpdateAppList, the HMI should compare matching SDL app IDs and avoid showing an app twice.
 
-![Overview of WebSocket for cloud and embedded apps](../assets/proposals/NNNN-sdl-js-pwa/arch-overview.png)
+![Overview of WebSocket for cloud and embedded apps](../assets/proposals/0240-sdl-js-pwa/arch-overview.png)
 
 > An overview of application runtime environment and how they connect to SDL Core. This proposal adds the WebEngine part.
 
@@ -61,7 +61,7 @@ Activating a local web app by a user will cause the HMI to launch the app's entr
 
 After the app registers, the HMI will be notified which allows the HMI to return to SDL and activate the app. This will make the app HMI level set to HMI_FULL.
 
-![Flow of user activating a web app](../assets/proposals/NNNN-sdl-js-pwa/activate-web-app.png)
+![Flow of user activating a web app](../assets/proposals/0240-sdl-js-pwa/activate-web-app.png)
 
 > Flow of how a user activates a web app and how it becomes visible on the screen.
 
@@ -104,7 +104,7 @@ The default app presentation approach should be template based. With the web app
 
 A new App HMI type called `OPEN_HMI` should be introduced. When apps with this HMI type are activated, the HMI should make the web page of this app visible on the screen. This web page will become the main window of the application. The window capabilities of this open main window will be empty except for the window ID and physical button capabilities. `Show` requests that address the main window won't have any effect on the HMI. If the app sends this request, Core should return an unsuccessful response with the result code `RESOURCE_NOT_AVAILABLE`. The info field should note that the app is registered with an open HMI.
 
-![Screenshot example of a web app](../assets/proposals/NNNN-sdl-js-pwa/web-app-example.jpg)
+![Screenshot example of a web app](../assets/proposals/0240-sdl-js-pwa/web-app-example.jpg)
 
 > Example of a local web app presenting the user interface with the HTML renderer of the WebEngine.
 
