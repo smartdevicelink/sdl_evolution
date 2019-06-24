@@ -22,7 +22,7 @@ This proposal focuses on the case where Proxy detects the SPP resource error, an
 
 ### Detect the case where BluetoothServerSocket fails to accept a connection from head unit. 
 Even though we could detect the case, we cannot increase the number of available SPP resources, because they are used by other apps.
-All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information when user wants to.
+All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information when the user requests it.
 
 Prior to detecting the error, ```setState``` and ```notifyStateChanged``` in MultiplexBaseTransport class need to be extended, so that they can notify an error:
 ```java
@@ -32,13 +32,13 @@ Prior to detecting the error, ```setState``` and ```notifyStateChanged``` in Mul
 
     protected synchronized void setState(int state, byte error) {
         if(state == mState){
-            return; //State hasn't changed. Will not updated listeners.
+            return; //State hasn't changed. Will not update listeners.
         }
         int arg2 = mState;
         mState = state;
 
         // Give the new state to the Handler so the UI Activity can update
-        //Also sending the previous state so we know if we lost a connection
+        // Also send the previous state so we know if we lost a connection
         notifyStateChanged(state, arg2, error);
     }
 
@@ -74,7 +74,7 @@ The stop method gets called when server socket's accept failed:
     }
 ```
 
-When TransportHandler in SdlRouterService detected STATE_ERROR, notifies it to user:
+When TransportHandler in SdlRouterService detects STATE_ERROR, notifies it to user:
 ```java
 	private static class TransportHandler extends Handler{
 	    @Override
@@ -226,11 +226,11 @@ The default language would be en_US.
 
 Regarding who is responsible for the localization process, two steps are proposed:
 1. English strings (which is default language) must be properly reviewed and maintained by steering committee.
-2. Localized strings are maintained by project maintainer, and steering committee will be responsible for sign off those localized strings.  
+2. Localized strings are maintained by project maintainer, and steering committee will be responsible for sign off of those localized strings.
 
 ### Listing application that uses Bluetooth
 
-When SPP resource error is detected, if we can narrow down the apps that actually uses the Bluetooth socket, that will be helpful for users to get recovered. Unfortunately, it is not realistic to identify exactly what apps are using Bluetooth. We can, however, list up applications that requests bluetooth permission, something like below:
+When SPP resource error is detected, if we can narrow down the apps that actually use the Bluetooth socket, that will be helpful for users to get recovered. Unfortunately, it is not realistic to identify exactly what apps are using Bluetooth. We can, however, list applications that request bluetooth permission, something like below:
 
 ```java
 	public static List<ApplicationInfo> checkBluetoothApps(Context context) {
