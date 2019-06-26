@@ -1,6 +1,6 @@
 # Support for Multiple Proxy Managers
 
-* Proposal: [NNNN](NNNN-Multi-Proxy-Managers.md)
+* Proposal: [SDL-NNNN](NNNN-Multi-Proxy-Managers.md)
 * Author: [Kevin Burdette](https://github.com/khburdette), [Markos Rapitis](https://github.com/mrapitis)
 * Status: **Awaiting review**
 * Impacted Platforms: [Java Suite / iOS]
