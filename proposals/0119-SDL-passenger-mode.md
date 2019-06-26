@@ -42,23 +42,32 @@ Modify the `OnDriverDistraction` notification:
 
 ### Part 1 - Core
 
-In addition to modifying the notification as shown above, there needs to be an addition to the policy table that feeds into that notification. This way, the OEM can update the ability to allow / disallow this with an update to their policy table.  The exact values used for `lockScreenDismissalEnabled` and `lockScreenDismissalWarning` would be defined by the following new policy table fields in the `module_config` section:
+In addition to modifying the notification as shown above, there needs to be an addition to the policy table that feeds into that notification. This way, the OEM can update the ability to allow / disallow this with an update to their policy table.  The exact values used for `lockScreenDismissalEnabled` and `lockScreenDismissalWarning` would be defined by the following new policy table fields:
 
 ```json
 {
     "policy_table": {
         "module_config": {
             ...
-            "lock_screen_dismissal_enabled": true,
-            "lock_screen_dismissal_warning": {
-                "en-us": "Swipe up to dismiss, acknowledging that you are not the driver",
-                ...
+            "lock_screen_dismissal_enabled": true
+        },
+        ...
+        "consumer_friendly_messages" : {
+            ...
+            "LockScreenDismissalWarning": 
+                "languages": {
+                    "en-us": {
+                        "textBody": "Swipe up to dismiss, acknowledging that you are not the driver"
+                    },
+                    ...
+                }
             }
         }
-        ...
     }
 }
 ```
+
+The `lockScreenDismissalWarning` text would specifically be pulled from the `textBody` field of the appropriate consumer-friendly message (corresponding to the active UI language), all other fields will be ignored.
 
 ### Part 2 - Proxy
 
