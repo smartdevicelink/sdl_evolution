@@ -97,7 +97,7 @@ This new RPC is necessary for a consumer app to be able to search for POIs.
     </param>
 
     <param name="searchRadius" type="Float" mandatory="true">
-        <description> This is radius of where to search. </description>
+        <description> This is the radius of where to search. </description>
     </param>
 </function>
 
