@@ -89,7 +89,7 @@ This new RPC is necessary for a consumer app to be able to search for POIs.
 	<description> This request is sent to the module to send POIs. </description>
 
     <param name="keywords" type="String" array="true" mandatory="true">
-        <description> This is an arrary of search words that the user is searching for. </description>
+        <description> This is an array of search words that the user is searching for. </description>
     </param>
 
     <param name="searchCenter" type="GPSData" mandatory="true">
