@@ -100,20 +100,6 @@ SHAID is a centralized service designed to keep information about SDL-supported 
 You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
 
 
-#### SDL Java Suite: 4.8.0
-**Release Date**: April 17, 2019
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/4.8.0).
-
----
-
-#### SDL iOS: 6.2.0
-**Release Date**: April 17, 2019
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.2.0).
-
----
-
 #### SDL Protocol Spec: 5.2.0
 **Release Date**: April 17, 2019
 
@@ -143,16 +129,16 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 ---
 
 #### SDL Java Suite: 4.9.0
-**Expected Release Date**: June 27, 2019
+**Release Date**: June 27, 2019
 
-**Contents**: Contents of this release can be tracked on the [Java Suite 4.9.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/10).
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/4.9.0).
 
 ---
 
 #### SDL iOS: 6.3.0
-**Expected Release Date**: June 27, 2019
+**Release Date**: June 27, 2019
 
-**Contents**: Contents of this release can be tracked on the [iOS 6.3.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/13).
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.3.0).
 
 ---
 
@@ -171,12 +157,24 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 ---
 
 #### SDL Core: 6.0.0
-**Release Date**: October 30, 2019
+**Expected Release Date**: October 30, 2019
 
 **Contents**: Contents of this release can be tracked on the [Core 6.0.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/15).
 
 ---
+#### SDL Java Suite: 4.10.0
+**Expected Release Date**: October 30, 2019
 
+**Contents**: Contents of this release can be tracked on the [Java Suite 4.10.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/11).
+
+---
+
+#### SDL iOS: 6.4.0
+**Expected Release Date**: October 30, 2019
+
+**Contents**: Contents of this release can be tracked on the [iOS 6.4.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/15).
+
+---
 
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
