@@ -93,7 +93,7 @@ This new RPC is necessary for a consumer app to be able to search for POIs.
     </param>
 
     <param name="searchCenter" type="GPSData" mandatory="true">
-        <description> This is center of where the user is searching. </description>
+        <description> This is the center of where the user is searching. </description>
     </param>
 
     <param name="searchRadius" type="Float" mandatory="true">
