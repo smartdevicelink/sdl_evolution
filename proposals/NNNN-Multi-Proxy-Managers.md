@@ -24,7 +24,7 @@ OS Specific:
 * Android
   * Current behavior on 4.8
     * Every SdlManager requires a unique service
-    * Every SDL app will have it's own foreground service present in the notifications pull down
+    * Every SDL app will have its own foreground service present in the notifications pull down
   * Regression
     * 4.5 allows you to start as many SdlProxyALM objects as you want withing a single service. 4.8 only allows you to start 1 SdlManager per service
   * Workaround
