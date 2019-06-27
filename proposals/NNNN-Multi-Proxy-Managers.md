@@ -47,8 +47,10 @@ Recent mobile library releases for both iOS and Android make use of proxy manage
 OS Specific:
 * Android
   * The ability to use mutiple SdlManagers within a single service
+  * This can be accomplished by allowing the manager to create multiple sessions on a single transport
 * iOS
   * The ability to start multiple SDLManagers when using multisession
+  * This can be accomplished by allowing the manager to create multiple sessions on a single transport
 
 ## Potential downsides
 
