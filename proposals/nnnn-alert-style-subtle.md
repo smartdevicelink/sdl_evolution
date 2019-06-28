@@ -81,8 +81,6 @@ Using a separate RPC allows us to (1) control this alert style separately from `
 ```xml
 <function name="SubtleAlert" functionID="SubtleAlertID" messagetype="request">
     <description>Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.</description>
-    
-    <description>Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.</description>
         
         <param name="alertText1" type="String" maxlength="500" mandatory="false">
             <description>The first line of the alert text field</description>
