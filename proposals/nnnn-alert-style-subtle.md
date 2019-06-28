@@ -11,7 +11,7 @@ This feature adds a new style of alert: the "subtle" alert, which does not take 
 ## Motivation
 Competitive systems in this space often have "notification" style alerts, and user expectations are often set by mobile devices, which have notification alerts that don't take over the screen. To meet user and developer expectations, we should provide both prominent (modal) and subtle (notification) style alerts.
 
-Places where subtle alerts may be useful is for messaging apps that notify the user of a new message, a VOIP app notifying the user of an incoming call, or a navigation app notifying the user of an upcoming accident. These should have the ability to be presenting outside of the current screen-takeover method.
+Places where subtle alerts may be useful include messaging apps that notify the user of a new message, a VOIP app notifying the user of an incoming call, or a navigation app notifying the user of an upcoming accident. These should have the ability to be presented outside of the current screen-takeover method.
 
 ## Proposed solution
 The proposed solution is to create a new `AlertStyle` enum that can be sent along with the `Alert` RPC.
