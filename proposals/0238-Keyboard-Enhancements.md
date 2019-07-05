@@ -54,7 +54,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 ## Proposed solution
 
 1. SDL needs to define new struct _"KeyboardCapabilities"_ to inform apps about keyboard capabilities of HMI.
-2. _"KeyboardCapabilities"_ struct should be returned with _"ScreenCapability"_ struct.
+2. _"KeyboardCapabilities"_ struct should be returned with _"WindowCapability"_ struct.
 3. This struct should inform the apps about all the supported keyboard layouts, the capability to mask input characters and to configure special character keys in a keyboard layout.
 
 **_Addition for Enhancement #1: Adding support for numeric keyboard._**
@@ -133,7 +133,7 @@ The app will be notified whether the input is masked or not, using _"UI.OnKeyboa
 
 #### Addition of _"ConfigurableKeyboards"_ Struct
 
-This _"KeyboardCapabilities"_ object will be returned with in _"ScreenCapability"_ struct. Each layout can have a different number of customizable buttons. Hence, this struct object will map a number of customizable buttons and keyboard layout.
+This _"KeyboardCapabilities"_ object will be returned with in _"WindowCapability"_ struct. Each layout can have a different number of customizable buttons. Hence, this struct object will map a number of customizable buttons and keyboard layout.
 
 ```xml
     <struct name="ConfigurableKeyboards" since="X.X">
@@ -182,10 +182,10 @@ This _"KeyboardCapabilities"_ object will be returned with in _"ScreenCapability
     </struct>
  ```
 
-#### Change in ScreenCapability Struct
+#### Change in WindowCapability Struct
 
 ```xml
-<struct name="ScreenCapability" since="5.x">
+<struct name="WindowCapability" since="5.x">
     :
     <param name="keyboardCapabilities"  type="KeyboardCapabilities" mandatory="false" since="X.X">
         <description>See KeyboardCapabilities</description>
@@ -207,7 +207,11 @@ None
 
 ### Android and iOS changes
 
-The libraries need to implement mobile API changes.
+1. Mobile SDK will need to define `KeyboardCapabilities` class. This class should include all elements of `KeyboardCapabilities` struct defined above.
+2. Choice Set Managers need to subscribe to Keyboard capability.
+3. Choice Set manager should construct default keyboard properties based on `KeyboardCapabilities` received from HMI.
+4. Present Keyboard Operation should check if `KeyboardProperties` send by application has supported `KeyboardCapabilities`.
+5. `KeyboardEvent`/`SDLKeyboardEvent` and `KeyboardListener`/ `SDLKeyboardDelegate` should be updated to include keyboard input mask events.
 
 ## Alternatives considered 
 
