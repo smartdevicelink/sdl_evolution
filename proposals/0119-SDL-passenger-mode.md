@@ -33,7 +33,7 @@ Modify the `OnDriverDistraction` notification:
     <description>
       Warning message to be displayed on the lock screen when dismissal is enabled.
       This warning should be used to ensure that the user is not the driver of the vehicle, 
-      ex. `Swipe up to dismiss, acknowledging that you are not the driver.`.
+      ex. `Swipe down to dismiss, acknowledging that you are not the driver.`.
       This parameter must be present if "lockScreenDismissalEnabled" is set to true.
     </description>
   </param>
@@ -57,7 +57,7 @@ In addition to modifying the notification as shown above, there needs to be an a
             "LockScreenDismissalWarning": 
                 "languages": {
                     "en-us": {
-                        "textBody": "Swipe up to dismiss, acknowledging that you are not the driver"
+                        "textBody": "Swipe down to dismiss, acknowledging that you are not the driver"
                     },
                     ...
                 }
@@ -71,7 +71,7 @@ The `lockScreenDismissalWarning` text would specifically be pulled from the `tex
 
 ### Part 2 - Proxy
 
-In addition to modifying the notification, the proposed solution is to add a swipe up gesture to dismiss the lock screen (as well as display the provided warning message), similar to Android Auto. This gesture will be allowed if `lockScreenDismissalEnabled` is set to `true`, and disabled if set to `false`. If a subsequent notification is received, the lockscreen will re-appear.
+In addition to modifying the notification, the proposed solution is to add a swipe down gesture to dismiss the lock screen (as well as display the provided warning message), similar to Android Auto. This gesture will be allowed if `lockScreenDismissalEnabled` is set to `true`, and disabled if set to `false`. If a subsequent notification is received that changes the `lockScreenDismissalEnabled` parameter, the lockscreen will re-appear.
 
 ## Potential downsides
 
