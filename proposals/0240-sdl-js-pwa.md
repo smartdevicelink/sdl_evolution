@@ -13,6 +13,8 @@ This proposal is adding a new transport to the SDL JavaScript library to support
 
 Applications running in vehicle opens big opportunities for SmartDeviceLink enhancing the user experience. Recent browsers allow a hardware independent runtime environment for apps with application management, sandboxing together with decent performance.
 
+The motivation of this proposal is to provide an extensible in-vehicle infotainment system. An in-vehicle application store (OEM store) should provide applications and services to be installed directly into the vehicle. These applications should be independent from a mobile phone. Instead they connect to the locally running SDL Core and use the in-vehicle modem to communicate to the internet.
+
 ## Proposed solution
 
 The proposed solution is to allow web apps to run in a WebEngine and connect to SDL Core using WebSockets. A web app is a single page application developed with web technology like HTML, CSS and JavaScript. The WebEngine can be a browser that is reduced to the HTML rendering part only (without url bar, tabs etc.). The WebEngine should be on the same host as SDL Core (in the infotainment system). It can also be in the local network for development purposes.
@@ -51,6 +53,8 @@ This proposal introduces a new runtime environment: the WebEngine. Data communic
 
 The transport for Core should be a WebSocket server which listens to a port specified in the smartDeviceLink.ini file. While SDL Core is operating, the server should be permanently available and listen for connections on the specified port. Another ini configuration should allow binding the socket to the localloop address or any address. This increases security in the production environment and allows remote connection in development systems.
 
+The new transport should be available as a build configuration called `BUILD_WEBSOCKET_SERVER_SUPPORT` (definition `-DWEBSOCKET_SERVER_TRANSPORT_SUPPORT`) so that SDL Core can be compiled with or without this additional transport type.
+
 ##### 1.1.2 JavaScript library
 
 On the library side, a new WebSocket client transport should be created using the [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/Websockets_API). This transport should require a hostname or ip address with a port to connect to Core's WebSocket server. The library should also be extended to be exportable to a single .js file that can be easily included in an HTML file. This export could be done per library release using Webpack. This new transport should be specifically for WebEngine purposes and should not be included for the Node.js platform. In order to improve simple "plug-and-play" of the library, the .js file should include only this single transport.
@@ -59,13 +63,13 @@ On the library side, a new WebSocket client transport should be created using th
 
 Activating a local web app by a user will cause the HMI to launch the app's entrypoint HTML file in the WebEngine. Once the engine has loaded the web app, the JavaScript SDL library will initiate a WebSocket connection to SDL Core's WebSocket server port and then establish the RPC/Bulk service session.
 
-After the app registers, the HMI will be notified which allows the HMI to return to SDL and activate the app. This will make the app HMI level set to HMI_FULL.
+After the app registers, the HMI will be notified which allows the HMI to return to SDL and activate the app. This will make the app HMI level set to HMI_FULL and the HMI will present the app's template. At no time the web view of the web application will be visible.
 
 ![Flow of user activating a web app](../assets/proposals/0240-sdl-js-pwa/activate-web-app.png)
 
 > Flow of how a user activates a web app and how it becomes visible on the screen.
 
-#### 1.3 Hybrid app preference
+#### 1.3 Mobile App properties change
 
 Due to a new app platform, the hybrid app preference should be modified to track mobile, cloud and local apps.
 
@@ -89,6 +93,22 @@ Due to a new app platform, the hybrid app preference should be modified to track
 
 App registration on the SDL Developer Portal (smartdevicelink.com) should allow a developer to specify an app as a local web app. As the app platforms increase (2 -> 3) a new way to specify preferences should be introduced. The element `BOTH` should be deprecated and replaced by `ALL` for a next major release. Occurrences of `BOTH` would be treated as `ALL`.
 
+### 1.4 HMI API using App Properties RPCs
+
+The HMI API should be extended to set app properties to SDL Core. This addition should allow the HMI to add app policy IDs to the policy database as they are installed by the embedded OEM catalog.
+
+The HMI API extension is mostly a copy of the cloud-app-properties included in the mobile API. 
+
+1. The OEM store uses `SetAppProperties` using the manifest data.
+2. The OEM store may choose add not-installed apps to SDL using `enabled` parameter set to `false` (optional)
+3. If an embedded app is installed the `enabled` flag should be set to `true` to appear in UpdateAppsList RPC
+4. For local apps
+  1. "cloudTransportType" will be "ws" (WebSocket) or "wss" (WebSocket-Secure)
+  2. "endpoint" parameter will be omitted. Instead the HMI is responsible to launch local apps.
+5. If Core doesn't know the app ID it should ask HMI for a policy update.
+  1. Alternatively HMI can call `UpdateSDL` after setting app properties to enforce SDL to peform the policy update.
+6. Policy HMI impl. (incl. SYNCP) should have the ability to use embedded modem to send policy snapshot to the policy server.
+
 ### Chapter 2: App presentation
 ---------
 
@@ -109,7 +129,7 @@ A new App HMI type called `OPEN_HMI` should be introduced. When apps with this H
 > Example of a local web app presenting the user interface with the HTML renderer of the WebEngine.
 
 Widgets are still available and can be controlled using `Show` RPC. Any overlay like Alert, ChoiceSets, Slider etc. are also available to the application.
-
+ 
 ##### 2.2.1 Mobile and HMI API
 
 ```xml
@@ -151,7 +171,7 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
    2. No scripts from outside the package should be allowed
 5. The entry point HTML file should refer to the manifest file (`<script src="manifest.json" />`)
 
-Above metadata may be used for the OEM app store and for presenting the app on the HMI (including voice capability).
+Above metadata may be used for the OEM app store and for presenting the app on the HMI (including voice capability). See appendix for an example manifest file.
 
 This definition should ensure that apps can be approved and verified by SDLC and OEMs without possibility of modifications after approval. Also this set of requirements should ensure compatibility throughout integrators. The final approval process will be part of another proposal.
 
@@ -168,48 +188,143 @@ The upside of apps running with a WebEngine is that it comes with an extremely f
 
 ## Alternatives considered
 
-An additional (alternative) feature considered is to use cloud app transport adapter to inform Core about a new app installation. Originally this concept was part of this proposal. However it was removed from this proposal as the cloud app transport adapter is designed for the concept of Core being a client to connect to apps being the server. Using the cloud app properties of the cloud app transport adapter with this way of local web apps could require changes to the app properties and policies leading to the risk of versioning the policy server.
+Local Node.js or Java were considered as alternative options for locally running applications. However both options have downsides:
+1. Both are difficult to sandbox. Compared to a web engine the effort to sandbox a Node.js or java application and to protect the vehicle system are very high.
+2. Limited app availability. App developers would potentially need to reassemble existing code and write lot of new code to make locally running applications possible.
+3. Licensing and compatibility. License cost may apply for embedded in-vehicle use. Efforts avoiding license using older versions may cause compatiblity issues leading to code rewrite. Open source variants may cause other license issues.
 
-### High level overview extending cloud transport adapter
+Many services are available over a web appliation and modern WebEngines provide a good sandboxing ability. Last the ability of an open HMI is outstanding and not supported by either of the alternatives.
 
-1. The OEM store uses `SetCloudAppProperties` using the manifest data.
-  1. The OEM store may choose to set `enabled` parameter to `true` to include the app in the HMI RPC `UpdateAppList`.
-  2. If the HMI already supports listing apps installed by the OEM store, the `enabled` parameter should be `false` to avoid listing the app in `UpdateAppList`.
-  3. For local apps
-    1. "cloudTransportType" will be "ws" (WebSocket) or "wss" (WebSocket-Secure)
-    2. "endpoint" parameter will be omitted. Instead the HMI is responsible to launch local apps.
-  4. If Core doesn't know the app ID it should ask HMI for a policy update.
-     1. Alternatively HMI can call `UpdateSDL` to enforce SDL to peform the policy update.
-2. Policy HMI impl. (incl. SYNCP) should have the ability to use embedded modem to send policy snapshot to the policy server.
-3. All CloudAppProperties RPCs and related structs should also be available through HMI_API
-   1. This allows OEM stores easier communication with SDL.
-4. A new enum called "CoreTransportRole" with "CLIENT" and "SERVER" elements should be added
-   1. CloudAppProperties should have a parameter for "coreTransportRole"
+## Appendix
 
-### Launching an app (alternative solution)
+### HMI API change for App Properties
 
-If the user taps on an app icon and
-1. app is set with `enabled=true` (app listed as per `UpdateAppList`) then
-     - HMI should use `OnAppActivated` to Core to trigger app activation
-     - Core recognizes the app is not connected. Core sends `ActivateApp` back to HMI
-     - HMI launches the WebEngine to load the web app
-2. app is set with `enabled=false` (app listed by the HMI directly) then
-     - The main proposal flow applies (see section 1.2)
+```xml
+<interface name="Common" ...>
+:
+<enum name="HybridAppPreference">
+  <description>Enumeration for the user's preference of which app type to use when both are available</description>
+  <element name="MOBILE" />
+  <element name="CLOUD" />
+  <element name="LOCAL"/>
+  <element name="ALL"/>
+</enum>
+</interface>
 
-### Downsides and difficulties
+<interface name="BasicCommunication" ...>
+:
+<struct name="AppProperties">
+  <param name="nicknames" type="String" minlength="0" maxlength="100" array="true" minsize="0" maxsize="100" mandatory="false">
+      <description>An array of app names an app is allowed to register with. If included in a SetAppProperties request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.</description>
+  </param>
+  <param name="appID" type="String" maxlength="100" mandatory="true"/>
+  <param name="enabled" type="Boolean" mandatory="false">
+      <description>If true, the app will be marked as "available" or "installed" and will be included in HMI RPC UpdateAppList.</description>
+  </param>
+  <param name="authToken" type="String" maxlength="65535" mandatory="false">
+      <description>Used to authenticate connection on app activation</description>
+  </param>
+  <param name="transportType" type="String" maxlength="100" mandatory="false">
+      <description>
+        Specifies the connection type Core should use. The Core role (server or client) is dependent of "endpoint" being specified.
+        See "endpoint" for details.
+      </description>
+  </param>
+  <param name="hybridAppPreference" type="HybridAppPreference" mandatory="false">
+      <description>Specifies the user preference to use one specific app type or all available types</description>
+  </param>
+  <param name="endpoint" type="String" maxlength="65535" mandatory="false">
+      <description>
+        If specified, which Core uses a client implementation of the connection type and attempts to connect to the endpoint when this app is selected (activated).
+        If omitted, Core won't attempt to connect as the app selection (activation) is managed outside of Core. Instead it uses a server implementation of the connection type and expects the app to connect.
+      </description>
+  </param>
+</struct>
 
-There are several difficulties to deal with if the transport adapter concept is applied to web apps:
+<function name="SetAppProperties" messagetype="request">
+  <description>
+    HMI >SDL. RPC used to enable/disable an application and set authentication data
+  </description>
+  <param name="properties" type="AppProperties" mandatory="true">
+    <description>The new application properties</description>
+  </param>
+</function> 
 
-The `endpoint` parameter could not be used as a launch command (`/someApp/./index.html`) to launch a local web app unless SDL Core has full control of the WebEngine. There is a potential risk that Core launches an app which is already launched but not connected to SDL. This leads to multiple instances of a single app. Launching an app should be in the responsibility of the HMI. 
+<function name="SetAppProperties" messagetype="response">
+  <description>The response to SetAppProperties</description>
+  <param name="success" type="Boolean" platform="documentation" mandatory="true">
+    <description>true if successful; false if failed</description>
+  </param>
+  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+    <description>See Result</description>
+    <element name="SUCCESS"/>
+    <element name="INVALID_DATA"/>
+    <element name="OUT_OF_MEMORY"/>
+    <element name="TOO_MANY_PENDING_REQUESTS"/>
+    <element name="GENERIC_ERROR"/>
+    <element name="DISALLOWED"/>
+    <element name="WARNINGS"/>
+  </param>
+</function>
 
-The `enabled` parameter is implemented slightly different as expected. If set to `true` it treats the app as a cloud app. It cannot be used to enable or disable an app as the name would imply. Changing `enabled` flag behavior may be a breaking change that (in the worst case) requires versioning of the policy server.
+<function name="GetAppProperties" messagetype="request">
+  <description>
+    HMI >SDL. RPC used to get the current properties of an application
+  </description>
+  <param name="appID" type="String" maxlength="100" mandatory="false">
+    If specified the response will contain the properties of the specified app ID.
+    Otherwise if omitted all app properties will be returned at once.
+  </param>
+</function>
 
-### Add `LocalAppProperties`
+<function name="GetAppProperties" messagetype="response">
+  <description>The response to GetAppProperties</description>
+  <param name="properties" type="AppProperties" array="true" minsize="1" mandatory="false">
+    <description>The requested application properties</description>
+  </param>
+  <param name="success" type="Boolean" platform="documentation" mandatory="true">
+    <description>true if successful; false if failed</description>
+  </param>
+  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+    <description>See Result</description>
+    <element name="SUCCESS"/>
+    <element name="INVALID_DATA"/>
+    <element name="OUT_OF_MEMORY"/>
+    <element name="TOO_MANY_PENDING_REQUESTS"/>
+    <element name="GENERIC_ERROR"/>
+    <element name="DISALLOWED"/>
+    <element name="WARNINGS"/>
+  </param>
+</function>
 
-Another solution would be to add another set of RPCs only for local web apps. These RPCs would be tailored to the web apps and would not break any existing behavior for cloud apps.
+<function name="OnAppPropertiesChange" messagetype="notification">
+  <description>
+    SDL >HMI. RPC used to inform HMI about app properties change (such as auth token).
+  </description>
+  <param name="properties" type="AppProperties" mandatory="true">
+    <description>The new application properties</description>
+  </param>
+</function>
+</interface>
+```
 
-### Conclusion
+### Example manifest file
 
-Many difficulties with remote cloud apps don't apply to local (web) apps. All the effort to make cloud (or local) app properties to work has only little benefit. SDL Core would already know about apps installed and *could* update the policies before they are launched. Due to the fact that the IVI and the HMI already know everything about the local web apps, and that it can easily launch, such apps doesn't require app properties on the SDL side.
-
-At the end the expected effort is very high compared to the benefits that are nice-to-have but not key for this feature.
+```json
+{
+  "entrypoint": "index.html",
+  "appIcon": "appIcon.png",
+  "sdlAppID": "180eb7aa-6e52-4c01-99c0-375bda718743",
+  "appName": "HelloSDL",
+  "locales": {
+    "de_DE": {
+      "appName": "HalloSDL",
+      "appIcon": "appIcon.de.png",
+      "ttsName": [ { "type": "TEXT", "text": "Hallo S D L" } ],
+      "vrNames": [ "Hallo S D L" ]
+    }
+  },
+  "appVersion": "1.0.0",
+  "sdlMinVersion": "6.0",
+}
+```
