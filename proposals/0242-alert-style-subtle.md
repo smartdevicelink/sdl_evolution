@@ -1,8 +1,8 @@
 # Subtle Alert Style
 
-* Proposal: [SDL-NNNN](NNNN-alert-style-subtle.md)
+* Proposal: [SDL-0242](0242-alert-style-subtle.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
