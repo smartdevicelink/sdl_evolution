@@ -1,8 +1,8 @@
 # Commerce App Service
 
-* Proposal: [SDL-NNNN](NNNN-Commerce-App-Service.md)
+* Proposal: [SDL-0241](0241-Commerce-App-Service.md)
 * Author: [Kevin Burdette](https://github.com/khburdette)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
