@@ -2,8 +2,8 @@
 
 * Proposal: [SDL-0238](0238-Keyboard-Enhancements.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
-* Status: **Returned for Revisions**
-* Impacted Platforms: [ Java Suite / iOS / RPC / Core]
+* Status: **In Review**
+* Impacted Platforms: [Java Suite / iOS / RPC / Core]
 
 ## Introduction
 
