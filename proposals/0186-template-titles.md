@@ -30,6 +30,15 @@ Basic templates have nothing to orient the user to where they are in the UI. A t
         </description>
     </param>
 </function>
+
+<enum name="TextFieldName" since="1.0">
+    <!-- Existing RPCs -->
+
+    <!-- Additions -->
+    <element name="templateTitle">
+        <description>The template title field in Show</description>
+    </element>
+</enum>
 ```
 
 ## Potential downsides
