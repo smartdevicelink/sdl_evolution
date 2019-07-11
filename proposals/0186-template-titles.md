@@ -35,7 +35,7 @@ Basic templates have nothing to orient the user to where they are in the UI. A t
     <!-- Existing RPCs -->
 
     <!-- Additions -->
-    <element name="templateTitle">
+    <element name="templateTitle" since="x.x">
         <description>The template title field in Show</description>
     </element>
 </enum>
