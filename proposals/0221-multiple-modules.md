@@ -78,7 +78,10 @@ The `moduleId` is defined as optional in order to keep backward compatibility. I
 
 In addition, this proposal deprecates the `SupportedSeat` Enumeration and parameter `id` in `SeatControlData` in order to get a uniformed solution.
 
-If a mobile app uses the `SupportedSeat` `id` and no `moduleId` in a RPC request, SDL shall forward the request as is to HMI, HMI shall automatically convert seat `id=DRIVER` to the `moduleId` that corresponds to the driver’s seat module, and seat `id=FRONT_PASSENGER` to the `moduleId` that corresponds to the front passenger's seat. If a mobile app includes both `SupportedSeat` `id` and `moduleId` in a RPC request, `id` shall be ignored since `moduleId` has a higher priority.
+If a mobile app that negotiates as a <=6.0 rpc spec version uses the `SupportedSeat` `id` and omits `moduleId` in an RPC request, SDL shall add the `moduleId` parameter to HMI request according to the following rules:
+ - if `id = DRIVER`  then `moduleId = <moduleId of first published module in seatControlCapabilities via RC.GetCapabilities>`
+ - if `id = FRONT_PASSENGER` then `moduleId = <moduleId of second published module in seatControlCapabilities via RC.GetCapabilities>`
+If a mobile app that negotiates as a >= 6.0 and <7.0 rpc spec version includes both `SupportedSeat` `id` and `moduleId` in an RPC request, SDL shall forward the request as is to HMI.
 
 ### Define the Grid
 
@@ -425,6 +428,13 @@ The following HMI API needs an update and needs to be added to mobile API.
 +       <description>See SeatLocationCapability, all available seat locations shall be returned.</description>
 +   </param>
 </function>
+
+<struct name="SeatControlData">
+    <description>Seat control data corresponds to "SEAT" ModuleType. </description>
+-   <param name="id" type="SupportedSeat" mandatory="true"></param>
++   <param name="id" type="SupportedSeat" mandatory="false"></param>
+    ...
+</struct>
 
 </interface>
 ```
