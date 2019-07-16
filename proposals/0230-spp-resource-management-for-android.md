@@ -22,7 +22,7 @@ This proposal focuses on the case where Proxy detects the SPP resource error, an
 
 ### Detect the case where BluetoothServerSocket fails to accept a connection from head unit. 
 Even though we could detect the case, we cannot increase the number of available SPP resources, because they are used by other apps.
-All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information if needed (though this proposal does not include giving more information part).
+All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information if needed (though this proposal does not include the giving more information part).
 
 Prior to detecting the error, Bundle parameter should be added to ```setState``` in MultiplexBaseTransport class, so that ```setState``` can send the extra information to the target RouterService:
 ```java
@@ -205,7 +205,7 @@ All strings used for this error UX is defined in strings.xml like below:
     <string name="sdl_error_notification_channel_name">SDL Error</string>
 ```
 
-The strings above needs to be reviewed by steering committee.
+The strings above need to be reviewed by SDLC steering committee.
 
 ### Localization of SPP error UX
 
@@ -223,7 +223,7 @@ Regarding who is responsible for the localization process, two steps are propose
 ## Potential downsides
 
 In Fig. 3 (Manage notification category setting), if user changed the behavior to "No sound", user won't notice anything even if SPP error occurred. This seems to be a potential issue, but it is up to the user's configuration.
-On the other hand, we should be very aware of the fact that SDL proxy notifies error with sound and/or vibration when SPP error occurred.
+On the other hand, we should be very aware of the fact that SDL proxy notifies error with sound and/or vibration when SPP error occurs.
 
 ## Impact on existing code
 
