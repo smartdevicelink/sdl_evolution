@@ -65,7 +65,7 @@ Alternatively, if this proposal is implemented in a release simultaneously with,
 Also note that if [Cancel Interaction](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0184-cancel-interaction.md) is implemented, this would be affected as well.
 
 ### Mockup
-![Subtle Alert Mockup](../assets/proposals/nnnn-alert-style-subtle/subtle-alert-mockup.png)
+![Subtle Alert Mockup](../assets/proposals/0242-alert-style-subtle/subtle-alert-mockup.png)
 
 ## Potential downsides
 Because this is an addition to the `Alert` RPC and not a new separate RPC, policies cannot allow an app to send a "subtle" notification while preventing them from sending a "prominent" notification. This is a significant downside and almost caused the author to change the approach. The author ultimately determined that adding a new non-mandatory parameter was better due to the API similarity, but if the SDLC decides to use Alternative 1 below, that would be acceptable by the author.
