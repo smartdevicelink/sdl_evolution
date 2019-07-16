@@ -147,6 +147,10 @@ Using the new HMI type would be policy controlled. On the policy server this new
 
 With the current depth of this chapter, the new HMI type should be used by 1st party OEM apps only. With future proposals and workshops the SDLC should open the new HMI type to 3rd party by creating and defining proper driver distraction and user interface guidelines. 
 
+##### 2.2.4 System context and event change
+
+Regardless of the app presentation type, the HMI will provide system context information from the app.
+
 ### Chapter 3: Web application package
 ---------
 
