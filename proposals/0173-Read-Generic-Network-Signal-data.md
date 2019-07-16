@@ -18,6 +18,7 @@ This proposal is to make vehicle data APIs (GetVehicleData/SubscribeVehicleData/
 
 #### Definitions for terms used in proposal:
 * OEM Network Mapping: This file referse to key value pairs that the OEM module will use to retrieve vehicle data off its network
+* OEM Network Mapping version: Version variable for OEM Network Mapping table located in `module_config` -> `endpoint_properties`
 * Vehicle Data Schema: This is a JSON object that contains vehicle data defintions for both requests and responses that can be sent using
 
 Solution is to replace the way vehicle data items are validated for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ APIs. 
@@ -89,9 +90,69 @@ Solution to this is to include a schema versioning. This version information wil
 
 #### Versioning and endpoint for OEM Network Mapping table and to provide HMI a way to read OEM Network Mapping table version
 
-OEM Network Mapping table version would be included in PTU, which SDL core will persist in local policy DB. HMI needs to be able to read this value on demand so that it can control if and when to download the OEM Network Mapping table. HMI will utilize the _endpoint_ for OEM Network Mapping table file to download this file using _SystemRequest_ `requestType` _OEM_SPECIFIC_ and  `requestSubType` _VEHICLE_DATA_MAPPING_. OEM Network Mapping table file would have _endpoint_ key (_service_) as _0x0A_.
+OEM Network Mapping table version would be included in PTU, which SDL core will persist in local policy DB. HMI needs to be able to read this value on demand so that it can control if and when to download the OEM Network Mapping table. HMI will utilize the _endpoint_ for OEM Network Mapping table file to download this file using _SystemRequest_ `requestType` _OEM_SPECIFIC_ and  `requestSubType` _VEHICLE_DATA_MAPPING_. OEM Network Mapping table file would have _endpoint_ key (_service_) as _custom_vehicle_data_mapping_url_.
 
-SDL core still needs to provide an API for HMI to read this value. We can do so by adding a new API to read OEM Network Mapping file version; we can make it generic so that it can also be used in the future to read some other configuration params from policy. e.g. following new API can be used to read OEM Network Mapping table version with _identifier_ `oem_mapping_version`
+Example for OEM Network Mapping table file `endpoint` and `version` in PTU, please note that `module_config` has a new object called `endpoint_properties`:
+```
+{  
+   "module_config":{  
+      "full_app_id_supported":true,
+      "exchange_after_x_ignition_cycles":100,
+      "exchange_after_x_kilometers":1800,
+      "exchange_after_x_days":30,
+      "timeout_after_x_seconds":60,
+      "seconds_between_retries":[  
+         1,
+         5,
+         25,
+         125,
+         625
+      ],
+      "endpoints":{  
+         "0x07":{  
+            "default":[  
+               "http://192.168.1.143:3001/api/v1/staging/policy"
+            ]
+         },
+         "0x04":{  
+            "default":[  
+               "http://localhost:3000/api/1/softwareUpdate"
+            ]
+         },
+         "queryAppsUrl":{  
+            "default":[  
+               "http://localhost:3000/api/1/queryApps"
+            ]
+         },
+         "lock_screen_icon_url":{  
+            "default":[  
+               "https://i.imgur.com/TgkvOIZ.png"
+            ]
+         },
+         "custom_vehicle_data_mapping_url":{  
+            "default":[  
+               "http://localhost:3000/api/1/vehicleDataMap"
+            ]
+         }
+      },
+      "endpoint_properties":{  
+         "custom_vehicle_data_mapping_url":{  
+            "version":"0.1.2"
+         }
+      },
+      "notifications_per_minute_by_priority":{  
+         "EMERGENCY":60,
+         "NAVIGATION":15,
+         "VOICECOM":20,
+         "COMMUNICATION":6,
+         "NORMAL":4,
+         "NONE":0
+      }
+   }
+}
+```
+
+SDL core still needs to provide an API for HMI to read this value. We can do so by adding a new API to read OEM Network Mapping file version; we can make it generic so that it can also be used in the future to read some other configuration params from policy. e.g. following new API can be used to read OEM Network Mapping table version from `module_config` -> `endpoint_properties` for `custom_vehicle_data_mapping_url`
 
 ```
 <function name="GetPolicyConfigurationData" messagetype="request" scope="internal">
@@ -110,25 +171,37 @@ SDL core still needs to provide an API for HMI to read this value. We can do so 
 </function>
 ```
 
-This API can also be extended to be used for future configuration items as well.
+This API can also be extended to be used for future configuration items as well and also can replace current `GetURLS` method. So we can actually deprecate `GetURLs` such that HMI_API.xml would **remove** following:
+
+```
+<function name="GetURLS" messagetype="request" scope="internal">
+	<description>Sent by system to SDL to get list of URL for specified service type and optionally policy's application id.</description>
+	<param name="service" type="Integer" minvalue="0" maxvalue="100" mandatory="true"/>
+</function>
+<function name="GetURLS" messagetype="response" scope="internal">
+	<param name="urls" type="Common.ServiceInfo" array="true" mandatory="false" minsize="1" maxsize="100"/>
+</function>
+```
+
+
 
 Here is the flow diagram for OEM Network Mapping table download:
 ![OEM%20Mapping%20table%20update%20flow](../assets/proposals/0173-Read-Generic-Network-Signal-data/OEM%20Mapping%20table%20update%20flow.png)
 
-* HMI sends _GetPolicyConfigurationData_ request to core to read `oem_mapping_version` from policy
-* Core responds with available `oem_mapping_version`
-* HMI compares the `oem_mapping_version` with local copy and dedides if OEM Network Mapping table needs to be updated
-* HMI sends _GetURLs_ request to core to read `url` for OEM Network Mapping table download using `service` _0x0A_
-* Core responds with `url`
+* HMI sends _GetPolicyConfigurationData_ request to core to read OEM Network Mapping version from `module_config` -> `endpoint_properties`
+* Core responds with available `endpoint_properties`
+* HMI parses the `version` for `custom_vehicle_data_mapping_url` and compares that with `version` of local copy of OEM Network Mapping table file and decides if OEM Network Mapping table needs to be updated
+* HMI sends _GetPolicyConfigurationData_ request to core to read `url` from `endpoint` object for OEM Network Mapping table
+* Core responds with `endpoints` and HMI parses the `url` for `service` _custom_vehicle_data_mapping_url_
 * HMI sends _onSystemRequest_ with `requestType` _OEM_SPECIFIC_ and  `requestSubType` _VEHICLE_DATA_MAPPING_ to core which core forwards to Mobile app (via proxy)
 * Mobile app downloads the OEM Network Mapping table and sends to core as bulk data in _SystemRequest_ `requestType` _OEM_SPECIFIC_ and  `requestSubType` _VEHICLE_DATA_MAPPING_ which core forwards to HMI
 
 ##### Rules for OEM Network Mapping table and Vehicle Data Schema versioning:
-* These two variables (`oem_mapping_version` & `schema_version`) would be fed by policy server to module during PTU. `oem_mapping_version` would always be included in a PTU, unlike `schema_items` and `schema_version`, which would only be present if there is a change/update in vehicle data items.
+* These two variables (`endpoint_properties`->`custom_vehicle_data_mapping_url`->`version` & `vehicle_data`->`schema_version`) would be fed by policy server to module during PTU. OEM Network Mapping version would always be included in a PTU, unlike `schema_items` and `schema_version`, which would only be present if there is a change/update in vehicle data items.
 * SDL core would need to include `schema_version` in sdl_snapshot while requesting the policy update. SDL server would use this to decide whether `schema_items` schema needs to be pushed in PTU response.
 * `schema_version` would only be included in `vehicle_data` only if `schema_items` schema is included.
 * SDL core should skip the `schema_items` update in case `schema_version` is not included along with it.
-* SDL core would need to provide a way for HMI to read `oem_mapping_version` so that HMI can decide whether or not to request OEM Network Mapping file download using the _endpoint_ mentioned in PTU for the OEM table mapping file, using _SystemRequest_ `requestType` _OEM_SPECIFIC_ and  `requestSubType` _VEHICLE_DATA_MAPPING_.
+* SDL core would need to provide a way for HMI to read OEM Network Mapping version so that HMI can decide whether or not to request OEM Network Mapping file download using the _endpoint_ mentioned in PTU for the OEM table mapping file, using _SystemRequest_ `requestType` _OEM_SPECIFIC_ and  `requestSubType` _VEHICLE_DATA_MAPPING_.
 
 Here is the flow diagram SDL server and core need to follow:
 ![Schema_Version_Update_flow](../assets/proposals/0173-Read-Generic-Network-Signal-data/Schema_Version_Update_flow.png)
@@ -142,8 +215,7 @@ Here is the flow diagram SDL server and core need to follow:
         ]
       }
     },
-	"vehicle_data":{
-		"oem_mapping_version":"00.00.01",
+	"vehicle_data":{		
 		"schema_version":"00.00.01",	
 		"schema_items":
 		[
@@ -638,26 +710,64 @@ It'd be the app's responsibility to map the vehicle data object to the correspon
 Required SHAID additions:
 
 * Conversion and transfer of full RPC Spec VehicleData parameters and enums into SHAID's database
-* New/updated API endpoint(s) for synchronization of the VehicleData parameters and enums to instances of Policy Server
+* New/updated API endpoint(s) for synchronization of the VehicleData parameters and enums to instances of Policy Server and new object called `endpoint_properties` in `module_config`
 
-### ToDo - Update based on aggrement on point #14
 ```
-"endpoints": {
-	"0x07": {
-		"default": ["http://x.x.x.x:3000/api/1/policies/proprietary"]
-	},
-	"0x04": {
-		"default": ["http://x.x.x.x:3000/api/1/softwareUpdate"]
-	},
-	"queryAppsUrl": {
-		"default": ["http://sdl.shaid.server"]
-	},
-	"lock_screen_icon_url": {
-		"default": ["http://i.imgur.com/TgkvOIZ.png"]
-	},
-	"0x0A": {
-		"default": ["<http://oemMappingUrl.com>"]
-	}
+{  
+   "module_config":{  
+      "full_app_id_supported":true,
+      "exchange_after_x_ignition_cycles":100,
+      "exchange_after_x_kilometers":1800,
+      "exchange_after_x_days":30,
+      "timeout_after_x_seconds":60,
+      "seconds_between_retries":[  
+         1,
+         5,
+         25,
+         125,
+         625
+      ],
+      "endpoints":{  
+         "0x07":{  
+            "default":[  
+               "http://192.168.1.143:3001/api/v1/staging/policy"
+            ]
+         },
+         "0x04":{  
+            "default":[  
+               "http://localhost:3000/api/1/softwareUpdate"
+            ]
+         },
+         "queryAppsUrl":{  
+            "default":[  
+               "http://localhost:3000/api/1/queryApps"
+            ]
+         },
+         "lock_screen_icon_url":{  
+            "default":[  
+               "https://i.imgur.com/TgkvOIZ.png"
+            ]
+         },
+         "custom_vehicle_data_mapping_url":{  
+            "default":[  
+               "http://localhost:3000/api/1/vehicleDataMap"
+            ]
+         }
+      },
+      "endpoint_properties":{  
+         "custom_vehicle_data_mapping_url":{  
+            "version":"0.1.2"
+         }
+      },
+      "notifications_per_minute_by_priority":{  
+         "EMERGENCY":60,
+         "NAVIGATION":15,
+         "VOICECOM":20,
+         "COMMUNICATION":6,
+         "NORMAL":4,
+         "NONE":0
+      }
+   }
 }
 ```
 
@@ -669,6 +779,7 @@ Required Policy Server additions:
 * Ability to manually grant zero-to-many "Proprietary Functional Groups" to an application during application review. (Note: auto app approval will not grant any Proprietary Functional Groups)
 * Injection of VehicleData parameters into the generated Policy Table
 * SDL Server would need to compare the version received from sdl_snapshot before serving schema update
+* SDL Server needs to add a new UI field on "Module Config" tab "Endpoints" to allow and OEM to add `url` for OEM Network Mapping table file.
 * OEM Network Mapping table file will be hosted by OEM and there is no plan for an SDL supported sample of that project that would serve up all those different OEM Network Mapping table file
 * If OEM fails to update endpoint URL for OEM Network Mapping file, SDL server will NOT serve that endpoint in PTU.
 
@@ -677,19 +788,16 @@ Note: PTU for app permissions/functional groups would add new vehicle data items
 
 ## Impact on existing code
 * SDL core would need to add support to download and parse the new JSON schema for vehicle data. The interface between SDL core and HMI needs to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference keys.
-
 * APIs would need a new Request/Response API to act as the Generic Request Response for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData_
-
 * New API is needed to provide HMI a way to read OEM Network Mapping table version
 * SDL core would need to persist OEM and schema versions in policy DB
 * SDL core would need to add `schema_version` to sdl_snapshot
-
 * SDL Server project needs updates as defined above.
-* SDL Server needs to add a new UI field on "Module Config" tab "Endpoints" to allow and OEM to add `url` for OEM Network Mapping table file.
+
 
 ## Alternatives considered
 * Instead of adding new API to read OEM Network Mapping table version, we can reuse existing API:
-  * API _GetUserFriendlyMessage_ with _messageCodes_ as `oem_mapping_version` and any language.
+  * API _GetUserFriendlyMessage_ with _messageCodes_ as OEM Network Mapping version and any language.
 * Instead of using JSON to define vehicle data items schema, SDL core can use either of following:
   * XML:
     * This would reuse the XML based design with adding "key" as another attribute or as a sub-element. Instead of sending a JSON file from cloud to the headunit, SDL core would send a XML file that would be like a subset of the mobile API. 
