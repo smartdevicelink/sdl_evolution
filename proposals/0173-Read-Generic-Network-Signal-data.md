@@ -17,9 +17,9 @@ This proposal is to make vehicle data APIs (GetVehicleData/SubscribeVehicleData/
 ## Proposed solution
 
 #### Definitions for terms used in proposal:
-* OEM Network Mapping: This file referse to key value pairs that the OEM module will use to retrieve vehicle data off its network
+* OEM Network Mapping: This file refers to key value pairs that the OEM module will use to retrieve vehicle data off its network
 * OEM Network Mapping version: Version variable for OEM Network Mapping table located in `module_config` -> `endpoint_properties`
-* Vehicle Data Schema: This is a JSON object that contains vehicle data defintions for both requests and responses that can be sent using
+* Vehicle Data Schema: This is a JSON object that contains vehicle data definitions for both requests and responses that can be sent using
 
 Solution is to replace the way vehicle data items are validated for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ APIs. 
 
@@ -72,7 +72,7 @@ For OEM specific additional items, the OEM app would process a generic _Object_ 
 * Root-Level vehicle data type items such as `rpm` are always `mandatory`:`false` as defined by the RPC Spec for the vehicle data RPCs. If a data item is of type `Struct`, that struct can have mandatory parameters but the struct itself cannot be mandatory for the root-level item.
 
 #### Use cases for vehicle data schema update:
-This section defines SDL core behavior in case `schema_items` is not present in PTU or if data in schema does not match with API/exiting schema. So if in a PTU:
+This section defines SDL core behavior in case `schema_items` is not present in PTU or if data in schema does not match with RPC spec. So if in a PTU:
 * `schema_items` key does not exist, do not update `schema_items` local schema/items.
 * `schema_items` exists, replace all local schema vehicle data items with new ones except the ones defined in RPC spec.
 * `schema_items` exists but is empty, remove all local schema vehicle data items except the ones defined in RPC spec.
@@ -158,15 +158,15 @@ SDL core still needs to provide an API for HMI to read this value. We can do so 
 <function name="GetPolicyConfigurationData" messagetype="request" scope="internal">
 	<description>Request from HMI to SDL core to get policy configuration data (i.e. OEM Network Mapping table file version etc.) from Policy Table.</description>
 	<param name="policyType" type="String" maxlength="1000" minlength="1" mandatory="true">
-		<description>Name of the Struct from where configuration data to be received according to Policy Table types i.e. module_config etc.</description>
+		<description>Name of the Struct where configuration data is located in Policy Table, i.e. module_config etc.</description>
 	</param>  
 	<param name="property" type="String" maxlength="1000" minlength="1" mandatory="true">
-		<description>Name of the variable for which the configuration data to be received according to Policy Table types i.e. vehicle_year etc.</description>
+		<description>Name of the property located within the policyType Struct, i.e. vehicle_year etc..</description>
 	</param>  
 </function>
 <function name="GetPolicyConfigurationData" messagetype="response">
 	<param name="value" type="String" array="true" maxlength="1000" minsize="1" maxsize="100" mandatory="false">
-		<description>Value of requested property from polocyType in PT. If no value is found in PT for specified policyType and property, this parameter will be omitted.</description>
+		<description>Value of requested property from policyType in PT. If no value is found in PT for specified policyType and property, this parameter will be omitted.</description>
 	</param>
 </function>
 ```
@@ -206,7 +206,7 @@ Here is the flow diagram for OEM Network Mapping table download:
 Here is the flow diagram SDL server and core need to follow:
 ![Schema_Version_Update_flow](../assets/proposals/0173-Read-Generic-Network-Signal-data/Schema_Version_Update_flow.png)
 
-* `version mismatch` decision box simply checks if `schema_version` recevied in snapshot equals to `schema_version` available at server side.
+* `version mismatch` decision box simply checks if `schema_version` received in snapshot equals to `schema_version` available at server side.
 
 ### Example of sample schema addition to policy table for SDL core update:
 ```json
