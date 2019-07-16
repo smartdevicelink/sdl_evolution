@@ -22,9 +22,9 @@ This proposal focuses on the case where Proxy detects the SPP resource error, an
 
 ### Detect the case where BluetoothServerSocket fails to accept a connection from head unit. 
 Even though we could detect the case, we cannot increase the number of available SPP resources, because they are used by other apps.
-All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information when the user requests it.
+All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information if needed (though this proposal does not include giving more information part).
 
-Prior to detecting the error, Bundle parameter should be added to ```setState``` in MultiplexBaseTransport class, so that ```setState``` takes the extra information:
+Prior to detecting the error, Bundle parameter should be added to ```setState``` in MultiplexBaseTransport class, so that ```setState``` can send the extra information to the target RouterService:
 ```java
     public static final String ERROR_REASON_KEY = "ERROR_REASON";
     public static final byte REASON_SPP_ERROR   = 0x01;    // REASON_SPP_ERROR will be sent as value in message bundle
@@ -53,9 +53,9 @@ In MultiplexBluetoothTransport, stop method needs to be extended, so that the er
     	
     	...
         if (stateToTransitionTo == MultiplexBaseTransport.STATE_ERROR) {
-			Bundle bundle = new Bundle();
-			bundle.putByte(ERROR_REASON_KEY, error);
-			setState(stateToTransitionTo, bundle);
+            Bundle bundle = new Bundle();
+            bundle.putByte(ERROR_REASON_KEY, error);
+            setState(stateToTransitionTo, bundle);
         } else {
 	        setState(stateToTransitionTo, null);
         }
@@ -76,17 +76,17 @@ The stop method gets called when server socket's accept failed:
 
 onTransportError in SdlRouterService should take Bundle parameter, and notify the error information if needed:
 ```java
-	@Deprecated
-	public void onTransportError(TransportType transportType){
-	    onTransportError(new TransportRecord(transportType,null), null);
+    @Deprecated
+    public void onTransportError(TransportType transportType){
+        onTransportError(new TransportRecord(transportType,null), null);
     }
 
     @Deprecated
     public void onTransportError(TransportRecord record) {
-		onTransportError(record, null);
+        onTransportError(record, null);
     }
 
-	public void onTransportError(TransportRecord transport, Bundle errorBundle){
+    public void onTransportError(TransportRecord transport, Bundle errorBundle){
         switch (transport.getType()){
             case BLUETOOTH:
                 if(bluetoothTransport !=null){
