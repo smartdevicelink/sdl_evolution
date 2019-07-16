@@ -100,7 +100,7 @@ The HMI API should be extended to set app properties to SDL Core. This addition 
 The HMI API extension is mostly a copy of the cloud-app-properties included in the mobile API. 
 
 1. The OEM store uses `SetAppProperties` using the manifest data.
-2. The OEM store may choose add not-installed apps to SDL using `enabled` parameter set to `false` (optional)
+2. The OEM store may choose to add not-installed apps to SDL using `enabled` parameter set to `false` (optional)
 3. If an embedded app is installed the `enabled` flag should be set to `true` to appear in UpdateAppsList RPC
 4. For local apps
   1. "cloudTransportType" will be "ws" (WebSocket) or "wss" (WebSocket-Secure)
@@ -165,7 +165,7 @@ More items may be included in the ruleset as they become Driver Distraction affe
 
 ##### 2.2.4 System context and event change
 
-Independent of the app presentation type, the HMI will continue provide system context information from the app. An application which uses the open HMI should continue to recieve `OnHMIStatus` notifications and SDL Core will still be notified about event changes.
+Independent of the app presentation type, the HMI will continue to provide system context information from the app. An application which uses the open HMI should continue to recieve `OnHMIStatus` notifications and SDL Core will still be notified about event changes.
 
 ### Chapter 3: Web application package
 ---------
@@ -210,10 +210,10 @@ The upside of apps running with a WebEngine is that it comes with an extremely f
 
 Local Node.js or Java were considered as alternative options for locally running applications. However both options have downsides:
 1. Both are difficult to sandbox. Compared to a web engine the effort to sandbox a Node.js or java application and to protect the vehicle system are very high.
-2. Limited app availability. App developers would potentially need to reassemble a godd portion of existing code and write new code to make locally running applications possible.
+2. Limited app availability. App developers would potentially need to reassemble a good portion of existing code and write new code to make locally running applications possible.
 3. Licensing and compatibility. License cost may apply for embedded in-vehicle use. Efforts avoiding license using older versions may cause compatiblity issues leading to code rewrite. Open source variants may cause other license issues.
 
-Many services are available over a web appliation and modern WebEngines provide a good sandboxing ability. Last the ability of an open HMI is outstanding and not supported by either of the alternatives.
+Many services are available over a web application and modern WebEngines provide a good sandboxing ability. Lastly, the ability of an open HMI is outstanding and not supported by either of the alternatives.
 
 ## Appendix
 
