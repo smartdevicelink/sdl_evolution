@@ -13,7 +13,7 @@ This proposal is adding a new transport to the SDL JavaScript library to support
 
 Applications running in vehicle opens big opportunities for SmartDeviceLink enhancing the user experience. Recent browsers allow a hardware independent runtime environment for apps with application management, sandboxing together with decent performance.
 
-The motivation of this proposal is to provide an extensible in-vehicle infotainment system. An in-vehicle application store (OEM store) should provide applications and services to be installed directly into the vehicle. These applications should be independent from a mobile phone. Instead they connect to the locally running SDL Core and use the in-vehicle modem to communicate to the internet.
+The motivation of this proposal is to provide an extensible in-vehicle infotainment system using the infotainment system as a platform and runtime for SDL applications. An in-vehicle application store (OEM store) should provide applications and services to the user. These applications and services can be installed directly into the vehicle. These applications should be independent from a mobile phone. Instead they connect to the locally running SDL Core and use the in-vehicle modem to communicate to the internet.
 
 ## Proposed solution
 
@@ -63,7 +63,7 @@ On the library side, a new WebSocket client transport should be created using th
 
 Activating a local web app by a user will cause the HMI to launch the app's entrypoint HTML file in the WebEngine. Once the engine has loaded the web app, the JavaScript SDL library will initiate a WebSocket connection to SDL Core's WebSocket server port and then establish the RPC/Bulk service session.
 
-After the app registers, the HMI will be notified which allows the HMI to return to SDL and activate the app. This will make the app HMI level set to HMI_FULL and the HMI will present the app's template. At no time the web view of the web application will be visible.
+After the app registers, the HMI will be notified with `OnAppRegistered`, which allows the HMI to return to SDL and activate the app. This will make the app HMI level set to HMI_FULL and the HMI will present the app's template. At no time the web view of the web application will be visible.
 
 ![Flow of user activating a web app](../assets/proposals/0240-sdl-js-pwa/activate-web-app.png)
 
@@ -143,13 +143,29 @@ Widgets are still available and can be controlled using `Show` RPC. Any overlay 
 
 Using the new HMI type would be policy controlled. On the policy server this new HMI type can be added to the valid HMI type list per app ID. Only apps with permissions to use this new HMI type would be allowed to register.
 
-##### 2.2.3 Apps using Open HMI
+##### 2.2.3 User interface guidelines (Driver Distraction rules)
 
-With the current depth of this chapter, the new HMI type should be used by 1st party OEM apps only. With future proposals and workshops the SDLC should open the new HMI type to 3rd party by creating and defining proper driver distraction and user interface guidelines. 
+With the current depth of this chapter, the new HMI type should be used by 1st party OEM apps only. With future proposals and workshops the SDLC should open the new HMI type to 3rd party by creating and defining proper driver distraction and user interface guidelines.
+
+At the time of this proposal being in review, a set of driver distraction rules are being created and proposed to enable 3rd party using the open HMI. The following bullet points list items that will be described further in the ruleset:
+
+-	minimum font size
+-	minimum contrast between font and background
+-	min/max brightness (for day and night mode)
+-	number of buttons
+-	minimum size of a button
+- No customized keyboard
+- No video playback (exceptions in standstill per countries)
+-	NHTSA related guidelines
+  o	Amount of text (button and text fields)
+  o	number of lines of text
+  o	Complexity of use cases (number of steps to fulfill a use case)
+
+More items may be included in the ruleset as they become Driver Distraction affected.
 
 ##### 2.2.4 System context and event change
 
-Regardless of the app presentation type, the HMI will provide system context information from the app.
+Independent of the app presentation type, the HMI will continue provide system context information from the app. An application which uses the open HMI should continue to recieve `OnHMIStatus` notifications and SDL Core will still be notified about event changes.
 
 ### Chapter 3: Web application package
 ---------
@@ -194,7 +210,7 @@ The upside of apps running with a WebEngine is that it comes with an extremely f
 
 Local Node.js or Java were considered as alternative options for locally running applications. However both options have downsides:
 1. Both are difficult to sandbox. Compared to a web engine the effort to sandbox a Node.js or java application and to protect the vehicle system are very high.
-2. Limited app availability. App developers would potentially need to reassemble existing code and write lot of new code to make locally running applications possible.
+2. Limited app availability. App developers would potentially need to reassemble a godd portion of existing code and write new code to make locally running applications possible.
 3. Licensing and compatibility. License cost may apply for embedded in-vehicle use. Efforts avoiding license using older versions may cause compatiblity issues leading to code rewrite. Open source variants may cause other license issues.
 
 Many services are available over a web appliation and modern WebEngines provide a good sandboxing ability. Last the ability of an open HMI is outstanding and not supported by either of the alternatives.
