@@ -169,7 +169,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0155" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0156" status="accepted" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
 <proposal id="0157" status="implemented" primary-platform="ios" sdl-version="6.1" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
-<proposal id="0157" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
+<proposal id="0157" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Mobile Choice Set Manager" filename="0157-mobile-choice-manager.md"/>
 <proposal id="0158" status="implemented" primary-platform="core" sdl-version="5.1" name="Cloud App Transport Adapter" filename="0158-cloud-app-transport-adapter.md"/>
 <proposal id="0159" status="implemented" primary-platform="java-suite" sdl-version="4.7" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
 <proposal id="0159" status="implemented" primary-platform="ios" sdl-version="6.1" name="Static SDL Icon Names Enum" filename="0159-Static-SDL-Icon-Names-Enum.md"/>
@@ -248,10 +248,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0227" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Supported RGB Colors to Light Capabilities" filename="0227-add-supported-rgb-colors.md"/>
 <proposal id="0228" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Email Notifications" filename="0228-sdl-server-email-notifications.md"/>
 <proposal id="0229" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Version Tracking" filename="0229-sdl-server-version-tracking.md"/>
-<proposal id="0230" status="active" primary-platform="java-suite" sdl-version="x.x" name="SPP resource management for Android" filename="0230-spp-resource-management-for-android.md"/>
+<proposal id="0230" status="returned" primary-platform="java-suite" sdl-version="x.x" name="SPP resource management for Android" filename="0230-spp-resource-management-for-android.md"/>
 <proposal id="0231" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Tiles as an Option for Main Menus" filename="0231-main-menu-tiles.md"/>
 <proposal id="0232" status="implemented" primary-platform="ios" sdl-version="6.3" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
-<proposal id="0232" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
+<proposal id="0232" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
 <proposal id="0233" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Statistics Recording and Visualizations" filename="0233-policy-server-statistics-recording-visualizations.md"/>
 <proposal id="0234" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Proxy Library RPC Generation" filename="0234-proxy-rpc-generation.md"/>
 <proposal id="0235" status="accepted" primary-platform="meta" sdl-version="x.x" name="SDL JavaScript library" filename="0235-sdl-js-library.md"/>
@@ -259,6 +259,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0237" status="accepted" primary-platform="ios" sdl-version="x.x" name="Add Feature to Disable `Video Streaming Backgrounded String` Feature" filename="0237-add-feature-to-disable-video-streaming-backgrounded-string-feature.md"/>
 <proposal id="0238" status="active" primary-platform="rpc" sdl-version="x.x" name="Keyboard Enhancements" filename="0238-Keyboard-Enhancements.md"/>
 <proposal id="0239" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Service Data Progress Bar Improvements" filename="0239-media-service-data-progress-bar-improvements.md"/>
+<proposal id="0240" status="returned" primary-platform="rpc" sdl-version="x.x" name="WebEngine support for SDL JavaScript" filename="0240-sdl-js-pwa.md"/>
+<proposal id="0241" status="active" primary-platform="rpc" sdl-version="x.x" name="Commerce App Service" filename="0241-Commerce-App-Service.md"/>
+<proposal id="0242" status="active" primary-platform="rpc" sdl-version="x.x" name="Subtle Alert Style" filename="0242-alert-style-subtle.md"/>
 
 
 	<!--

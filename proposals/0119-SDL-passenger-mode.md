@@ -3,7 +3,7 @@
 * Proposal: [SDL-0119](0119-SDL-passenger-mode.md)
 * Author: [Brett McIsaac](https://github.com/brettywhite)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: iOS, Android, Core, RPC
+* Impacted Platforms: iOS, Android, Core, RPC, Policy Server
 
 ## Introduction
 
@@ -26,21 +26,52 @@ Modify the `OnDriverDistraction` notification:
   <param name="lockScreenDismissalEnabled" type="Boolean" mandatory="false">
     <description>
       If enabled, the lock screen will be able to be dismissed while connected to SDL, allowing users 
-      the ability to interact with the app. Dismissals should include a warning to the user and ensure 
-      that they are not the driver.
+      the ability to interact with the app.
     </description>
   </param>
-
+  <param name="lockScreenDismissalWarning" type="String" mandatory="false">
+    <description>
+      Warning message to be displayed on the lock screen when dismissal is enabled.
+      This warning should be used to ensure that the user is not the driver of the vehicle, 
+      ex. `Swipe down to dismiss, acknowledging that you are not the driver.`.
+      This parameter must be present if "lockScreenDismissalEnabled" is set to true.
+    </description>
+  </param>
 </function>
 ```
 
 ### Part 1 - Core
 
-In addition to modifying the notification as shown above, there needs to be an addition to the policy table that feeds into that notification. This way, the OEM can update the ability to allow / disallow this with an update to their policy table. 
+In addition to modifying the notification as shown above, there needs to be an addition to the policy table that feeds into that notification. This way, the OEM can update the ability to allow / disallow this with an update to their policy table.  The exact values used for `lockScreenDismissalEnabled` and `lockScreenDismissalWarning` would be defined by the following new policy table fields:
+
+```json
+{
+    "policy_table": {
+        "module_config": {
+            ...
+            "lock_screen_dismissal_enabled": true
+        },
+        ...
+        "consumer_friendly_messages" : {
+            ...
+            "LockScreenDismissalWarning": 
+                "languages": {
+                    "en-us": {
+                        "textBody": "Swipe down to dismiss, acknowledging that you are not the driver"
+                    },
+                    ...
+                }
+            }
+        }
+    }
+}
+```
+
+The `lockScreenDismissalWarning` text would specifically be pulled from the `textBody` field of the appropriate consumer-friendly message (corresponding to the active UI language), all other fields will be ignored.
 
 ### Part 2 - Proxy
 
-In addition to modifying the notification, the proposed solution is to have a swipe up gesture to dismiss the lock screen, similar to Android Auto. This will be allowed if `lockScreenDismissalEnabled` is set to `true`, and hidden if set to `false`. If a subsequent notification is received, the lockscreen will re-appear.
+In addition to modifying the notification, the proposed solution is to add a swipe down gesture to dismiss the lock screen (as well as display the provided warning message), similar to Android Auto. This gesture will be allowed if `lockScreenDismissalEnabled` is set to `true`, and disabled if set to `false`. If a subsequent notification is received that changes the `lockScreenDismissalEnabled` parameter, the lockscreen will re-appear.
 
 ## Potential downsides
 

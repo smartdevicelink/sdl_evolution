@@ -18,7 +18,7 @@ There are some cases in which dismissing an alert or interaction immediately may
 A new RPC is required to fix this use case. I propose to add an RPC called `CancelInteraction`. This would dismiss any of an app's programmatically displayed alerts without needing to wait for the timeout to complete. This would affect `Alert`, `ScrollableMessage`, `Slider`, and `PerformInteraction`.
 
 ```xml
-<function name="CancelInteraction" functionID="DismissAlertID" messagetype="request" since="X.X.X">
+<function name="CancelInteraction" functionID="CancelInteractionID" messagetype="request" since="X.X.X">
   <param name="cancelID" type="Integer" mandatory="false">
     <description>
       The ID of the specific interaction you want to dismiss. If not set, the most recent of the RPC type set in functionID will be dismissed.
@@ -31,7 +31,7 @@ A new RPC is required to fix this use case. I propose to add an RPC called `Canc
   </param>
 </function>
 
-<function name="CancelInteraction" functionID="DismissAlertID" messagetype="response">
+<function name="CancelInteraction" functionID="CancelInteractionID" messagetype="response">
     <description>
       If no applicable request can be dismissed, the result will be IGNORED.
     </description>
