@@ -89,7 +89,7 @@ The HMI_API updates are very similar to the MOBILE_API updates.
 <struct name="DisplayCapabilities">
     <!-- All existing params -->
 
-    <param name="menuLayouts" type="MenuLayout" array="true" minsize="1" maxsize="1000" mandatory="false">
+    <param name="menuLayoutsAvailable" type="MenuLayout" array="true" minsize="1" maxsize="1000" mandatory="false">
         <description>An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available</description>
     </param>
 </struct>
