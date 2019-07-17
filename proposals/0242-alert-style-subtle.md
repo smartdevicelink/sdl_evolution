@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0242](0242-alert-style-subtle.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
