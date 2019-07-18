@@ -16,9 +16,6 @@ Subtle Alerts would be especially useful when the app is in the background. Plac
 ## Proposed solution
 The proposed solution is to create a new RPC `SubtleAlert` that can be sent by developers to show a less prominent kind of Alert.
 
-### Functionality
-Functionally, this would be identical to the standard (prominent / modal) `Alert` style with the following exceptions:
-
 ### MOBILE_API Changes
 
 #### Capabilities Updates
@@ -40,9 +37,6 @@ Functionally, this would be identical to the standard (prominent / modal) `Alert
     <!-- New Values -->
     <element name="subtleAlertIcon">
         <description>The image of the subtle alert; applies to `SubtleAlert` `alertImage`</description>
-    </element>
-    <element name="subtleAlertSoftButtonImage">
-        <description>An image field in the soft button of a subtle alert; applies to `SubtleAlert` `softButtons`</description>
     </element>
 </enum>
 ```
@@ -141,6 +135,12 @@ Functionally, this would be identical to the standard (prominent / modal) `Alert
         <description>Amount of time (in milliseconds) that SDL must wait before resending an alert. Must be provided if another system event or overlay currently has a higher priority than this alert.</description>
     </param>
 </function>
+
+<function name="UI.OnSubtleAlertPressed" messagetype="notification">
+    <description>
+        Sent when the alert itself is touched (outside of a soft button). Touching (or otherwise selecting) the alert should open the app before sending this notification.
+    </description>
+</function>
 ```
 
 * Changes may need to be made to the above functions for `CancelInteraction` changes.
@@ -153,6 +153,7 @@ Functionally, this would be identical to the standard (prominent / modal) `Alert
 * In most other ways, the subtle alert should function similarly to an `Alert`. Responses should be sent at the same time that current `Alert` responses are sent, for example.
 * Touching outside of the subtle alert should close the alert.
 * Touching (or otherwise selecting) the alert should open the app before sending the `OnSubtleAlertPressed` notification.
+* The `softButtonImage` `ImageField` also affect the `SubtleAlert` soft buttons.
 
 ## Potential downsides
 Because this is a new RPC and not an addition to `Alert`, this increases the API surface of the `MOBILE_API` and `HMI_API`.
