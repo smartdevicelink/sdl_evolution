@@ -103,7 +103,7 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
   <!-- Changed -->
   <param name="functionID" type="Integer" mandatory="true">
     <description>
-      The ID of the type of interaction the developer wants to dismiss. Only values 10, (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), 26 (SliderID), and XX (SubtleAlertID) are permitted.
+      The ID of the type of interaction the developer wants to dismiss. Only values 10 (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), 26 (SliderID), and XX (SubtleAlertID) are permitted.
     </description>
   </param>
 </function>
