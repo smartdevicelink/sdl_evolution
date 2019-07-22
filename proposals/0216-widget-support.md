@@ -428,7 +428,7 @@ A new system capability type is necessary in order to provide display capabiliti
 
 ```xml
 <enum name="SystemCapabilityType" since="4.5">
-    <element name="DISPLAY" since="5.x" />
+    <element name="DISPLAYS" since="5.x" />
 </enum>
 ```
 
@@ -663,7 +663,7 @@ After investigating impact to SDL Core, the impact is expected to be minor. Glob
 2. Changes to State Controller to allow HMI level transitions for widgets and windows
 3. Changes to Request Controller as RPCs from one app can be addressed to different windows
 
-The window managers should be refactored to read window capabilities notifications as well as the deprecated parameters.
+Subsequent proposals should define how to refactor managers (ScreenManager and SystemCapabilityManager) to read window capabilities notifications as well as the deprecated parameters.
 
 ## Alternatives considered
 
