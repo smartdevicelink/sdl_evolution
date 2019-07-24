@@ -152,21 +152,21 @@ Example for OEM Network Mapping table file `endpoint` and `version` in PTU, plea
 }
 ```
 
-SDL core still needs to provide an API for HMI to read this value. We can do so by adding a new API to read OEM Network Mapping file version; we can make it generic so that it can also be used in the future to read some other configuration params from policy. e.g. following new API can be used to read OEM Network Mapping table version from `module_config` -> `endpoint_properties` for `custom_vehicle_data_mapping_url`
+SDL core still needs to provide an API for HMI to read this value. We can do so by adding a new API (`GetPolicyConfigurationData`) to read OEM Network Mapping file version; we can make it generic so that it can also be used in the future to read some other configuration params from policy. e.g. following new API can be used to read OEM Network Mapping table version from `module_config` -> `endpoint_properties` for `custom_vehicle_data_mapping_url`
 
 ```
 <function name="GetPolicyConfigurationData" messagetype="request" scope="internal">
-	<description>Request from HMI to SDL core to get policy configuration data (i.e. OEM Network Mapping table file version etc.) from Policy Table.</description>
+	<description>Request from HMI to SDL Core to get policy configuration data (i.e. OEM mapping table file version etc.) from Policy Table.</description>
 	<param name="policyType" type="String" maxlength="1000" minlength="1" mandatory="true">
-		<description>Name of the Struct where configuration data is located in Policy Table, i.e. module_config etc.</description>
+		<description>Name of the Struct from where configuration data to be received according to Policy Table types i.e. module_config etc.</description>
 	</param>  
 	<param name="property" type="String" maxlength="1000" minlength="1" mandatory="true">
-		<description>Name of the property located within the policyType Struct, i.e. vehicle_year etc..</description>
+		<description>Name of the variable for which the configuration data to be received according to Policy Table types i.e. vehicle_year etc.</description>
 	</param>  
 </function>
 <function name="GetPolicyConfigurationData" messagetype="response">
-	<param name="value" type="String" array="true" maxlength="1000" minsize="1" maxsize="100" mandatory="false">
-		<description>Value of requested property from policyType in PT. If no value is found in PT for specified policyType and property, this parameter will be omitted.</description>
+	<param name="value" type="String" array="true" minsize="1" maxsize="100" mandatory="false">
+		<description>Value of requested property from polocyType in PT. If no value is found in PT for specified policyType and property, core should respond to HMI with DATA_NOT_AVAILABLE. maxlength of the value parameter is system dependent.</description>
 	</param>
 </function>
 ```
@@ -201,7 +201,7 @@ Here is the flow diagram for OEM Network Mapping table download:
 * SDL core would need to include `schema_version` in sdl_snapshot while requesting the policy update. SDL server would use this to decide whether `schema_items` schema needs to be pushed in PTU response.
 * `schema_version` would only be included in `vehicle_data` only if `schema_items` schema is included.
 * SDL core should skip the `schema_items` update in case `schema_version` is not included along with it.
-* SDL core would need to provide a way for HMI to read OEM Network Mapping version so that HMI can decide whether or not to request OEM Network Mapping file download using the _endpoint_ mentioned in PTU for the OEM table mapping file, using _SystemRequest_ `requestType` _OEM_SPECIFIC_ and  `requestSubType` _VEHICLE_DATA_MAPPING_.
+* SDL core would need to provide a way for HMI to read OEM Network Mapping version using `GetPolicyConfigurationData` so that HMI can decide whether or not to request OEM Network Mapping file download using the _endpoint_ mentioned in PTU for the OEM table mapping file, using _SystemRequest_ `requestType` _OEM_SPECIFIC_ and  `requestSubType` _VEHICLE_DATA_MAPPING_.
 
 Here is the flow diagram SDL server and core need to follow:
 ![Schema_Version_Update_flow](../assets/proposals/0173-Read-Generic-Network-Signal-data/Schema_Version_Update_flow.png)
@@ -788,11 +788,17 @@ Note: PTU for app permissions/functional groups would add new vehicle data items
 
 ## Impact on existing code
 * SDL core would need to add support to download and parse the new JSON schema for vehicle data. The interface between SDL core and HMI needs to be updated while passing _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ requests to include return data type and reference keys.
-* APIs would need a new Request/Response API to act as the Generic Request Response for _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData_
-* New API is needed to provide HMI a way to read OEM Network Mapping table version
-* SDL core would need to persist OEM and schema versions in policy DB
+* _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ APIs need to be updated at [proxy side](#proxy-side-changes).
+* SDL core would need to implement new API(`GetPolicyConfigurationData`) which HMI would use to read OEM Network Mapping table version and endpoint `url`. This API replaces `GetURLS` API, hence `GetURLS` API would be removed.
+* SDL core would need to add new endpoint `custom_vehicle_data_mapping_url` and update core's policy classes and table to support the parsing, setting, and retrieving of a new module config field `endpoint_properties`.
+* SDL core would need to create new tables to persist `schema_items` and `schema_version` in policy DB. New table names:
+  * `vehicle_data_items_definitions`
+  * `vehicle_data_item_parameters`
+  * `vehicle_data`
 * SDL core would need to add `schema_version` to sdl_snapshot
 * SDL Server project needs updates as defined above.
+* SDL core would need to modify message validation process to check for known parameters in the vehicle data schema if validation fails against the RPC Spec.
+* SDL core would need to modify the PTU process to parse the vehicle data schema items.
 
 
 ## Alternatives considered
