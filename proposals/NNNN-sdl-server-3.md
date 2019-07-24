@@ -44,9 +44,7 @@ development may need to be updated to remove references to obsolete start-up scr
 ## Alternatives considered
 
 The list of changes in this issue will need to be made at some point to be able to maintain the sdl
-server. Alternatives would be to wait until other requests come in and make refactor changes on the
-files that are impacted by this request. This would allow you to make refactor changes in smaller
-pieces. This process of making refactor changes piece by piece would most likely take much longer 
-than doing a single refactor. Doing it at once will likely be quicker and result in more consistent
-code which is one of the main goals to produce a maintainable code base.
-
+server. Alternatives would be to wait until other requests come in and refactor code that is impacted
+by these requests as they come in. This process of refactoring piece by piece would most likely take much longer 
+than doing a single refactor. Doing it all at once will likely take less overall time and result in more consistent
+code which is one of the main aspects of maintainable code.
