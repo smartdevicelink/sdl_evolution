@@ -166,7 +166,7 @@ SDL core still needs to provide an API for HMI to read this value. We can do so 
 </function>
 <function name="GetPolicyConfigurationData" messagetype="response">
 	<param name="value" type="String" array="true" minsize="1" maxsize="100" mandatory="false">
-		<description>Value of requested property from polocyType in PT. If no value is found in PT for specified policyType and property, core should respond to HMI with DATA_NOT_AVAILABLE. maxlength of the value parameter is system dependent.</description>
+		<description>Value of requested property from policyType in PT. If no value is found in PT for specified policyType and property, core should respond to HMI with DATA_NOT_AVAILABLE. maxlength of the value parameter is system dependent.</description>
 	</param>
 </function>
 ```
