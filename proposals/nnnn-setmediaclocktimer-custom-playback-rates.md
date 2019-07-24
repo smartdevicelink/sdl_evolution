@@ -9,7 +9,7 @@
 This proposal adds the ability for a media app to set the media playback timer and bar to advance at a custom rate like 125% speed.
 
 ## Motivation
-Many non-music audio apps, such as podcast and audiobook apps have features that allow users to playback the audio at a rate that is not 1.0. For example, a user can play a podcast at 125% speed. Competitors like Carplay have this ability built in, and without this ability, the playback timer gets out of sync every few seconds, requiring the developer to update manually update the timer.
+Many non-music audio apps, such as podcast and audiobook apps, have features that allow users to playback the audio at a rate that is not 1.0. For example, a user can play a podcast at 125% speed. Competitors like Carplay have this ability built in, and without this ability, the playback timer gets out of sync every few seconds, requiring the developer to manually update the timer.
 
 ## Proposed solution
 The proposed solution is to add a new `SetMediaClockTimer` RPC parameter called `countRate` that can be set to modify the speed at which the playback timer advances.
