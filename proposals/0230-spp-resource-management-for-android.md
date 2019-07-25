@@ -128,7 +128,7 @@ notifySppError() method looks like below:
 	 * notifySppError: utilize notification channel to notify the SPP out-of-resource error.
 	 */
 	@TargetApi(11)
-	public void notifySppError() {
+	private void notifySppError() {
 		Notification.Builder builder;
 		if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
 			builder = new Notification.Builder(getApplicationContext());
@@ -205,7 +205,7 @@ All strings used for this error UX is defined in strings.xml like below:
     <string name="sdl_error_notification_channel_name">SDL Error</string>
 ```
 
-The strings above need to be reviewed by SDLC steering committee.
+The English strings above has been reviewed, and accepted by SDLC steering committee.
 
 ### Localization of SPP error UX
 
@@ -217,8 +217,8 @@ ar_SA, cs_CZ, da_DK, de_DE, el_GR, en_AU, en_GB, en_IN, en_SA, en_US, es_ES, es_
 The default language would be en_US.
 
 Regarding who is responsible for the localization process, two steps are proposed:
-1. English strings (which is default language) must be properly reviewed and maintained by steering committee.
-2. Localized strings are maintained by project maintainer, and steering committee will be responsible for sign off of those localized strings.
+1. English strings (which is default language) must be properly reviewed by SDLC steering committee.
+2. Localized strings have to be reviewed by SDLC steering committee too, but the localization review will be made in another review process (e.g. as the PR for the upcoming sdl_java_suite issue).
 
 ## Potential downsides
 
