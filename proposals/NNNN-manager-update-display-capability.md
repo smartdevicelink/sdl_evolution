@@ -1,24 +1,76 @@
-```
-# Feature name
+# Manager Update for DisplayCapability
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
-* Author: [SDL Developer](https://github.com/smartdevicelink)
+* Proposal: [SDL-NNNN](NNNN-manager-update-display-capability.md)
+* Author: [SDL Developer](https://github.com/kshala-ford)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Java Suite / HMI / Policy Server / SHAID / RPC / Protocol]
+* Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
 
-A short description of what the feature is. Try to keep it to a single-paragraph "elevator pitch" so the reader understands what problem this proposal is addressing.
+This proposal adds display capabilities redesign described in SDL 0216 Widget Support (see #664) to ScreenManager and SystemCapabilityManager.
 
 ## Motivation
 
-Describe the problems that this proposal seeks to address. If the problem is that some common pattern is currently hard to express, show how one can currently get a similar effect and describe its drawbacks. If it's completely new functionality that cannot be emulated, motivate why this new functionality would help SDL mobile developers or OEMs provide users with useful functionality.
+The widget proposal is very vague in describing how the managers should support the new display capability redesign. It also give's some interpretation in when the manager change should be done (together with the widget code donation or later?). The Java and iOS code was reviewed in order to make a decision if manager changes can be seen as development details. The result is that there's a major conflict with an Android proposal and also a quite complex behavior change of how to provide objects of `DisplayCapabilities`, `DisplayCapability` and `WindowCapability`. The system capability manager needs a major change to support backward and forward compatibility and provide the correct data in the correct format to the depending managers (e.g. ScreenManager).
 
 ## Proposed solution
 
-Describe your solution to the problem. Provide examples and describe how they work. Show how your solution is better than current workarounds: is it cleaner, safer, or more efficient? Use subsections if necessary.
+The solution for the java suite is to extend the system capability manager to return the `DisplayCapability` array when `SystemCapabilityType.DISPLAYS` is used as a param. Different to other async types the manager won't subscribe to `DISPLAYS` as auto subscription is provided to applications.
 
-Describe the design of the solution in detail. Use subsections to describe various details. If it involves new protocol changes or RPC changes, show the full XML of all changes and how they changed. Show documentation comments detailing what it does. Show how it might be implemented on the Mobile Library and Core. The detail in this section should be sufficient for someone who is *not* one of the authors to be able to reasonably implement the feature and future [smartdevicelink.com](https://www.smartdevicelink.com) guides.
+### Deprecate custom Java capability types
+
+Following system capability types that are **not** part of the mobile API should be deprecated with the `@Deprecated` annotation.
+
+```java
+public enum SystemCapabilityType {
+    @Deprecated
+    DISPLAY (false),
+    @Deprecated
+    BUTTON (false),
+    @Deprecated
+    SOFTBUTTON (false),
+    @Deprecated
+    PRESET_BANK (false),
+}
+```
+
+In order to avoid clashes with the mobile API the enum should not be extended any further without adding the enum values to the mobile API. 
+
+### Convert capability type objects
+
+At the time of writing this proposal the source of the capability types will be deprecated with the next major SDL relase (Core 6.0). In order to keep backward and forward compatibility a bi-directional conversion of capability objects should be introduced:
+
+#### Convert from old capabilities to `DisplayCapability`
+
+If the application is connected to a < 6.0 or if the head unit did not provide `DisplayCapability` or `WindowCapability` for the `DEFAULT_WINDOW` yet, the system capability manager should convert `DisplayCapabilities`, `ButtonCapabilities`, `SoftButtonCapabilities` and `PresetBankCapabilities` objects and the string of `displayName` from `RegisterAppInterfaceResponse` and `SetDisplayLayoutResponse` into a new `DisplayCapability` object. This object should be stored in the `DISPLAYS` enum value.
+
+For the Java Suite this means `parseRAIResponse` continues reading the deprecated types. However if they are present it triggers a conversion:
+
+```java
+public void parseRAIResponse(RegisterAppInterfaceResponse response){
+		if(response!=null && response.getSuccess()) {
+            :
+            setCapability(SystemCapabilityType.DISPLAY, response.getDisplayCapabilities());
+            :
+            setCapability(SystemCapabilityType.DISPLAYS, createDisplayCapabilityList(response));
+        }
+}
+
+private void createDisplayCapabilityList(RegisterAppInterfaceResponse rpc) {
+    
+}
+
+private List<DisplayCapability> createDisplayCapabilityList(SetDisplayLayoutResponse rpc) {
+
+}
+
+private List<DisplayCapability> createDisplayCapabilityList(DisplayCapabilities display, ButtonCapabilities button, SoftButtonCapabilities softButton, PresetBankCapabilities presetBank) {
+    // TODO add some code how to convert
+    return new ArrayList<>(newCapability);
+}
+```
+
+In order to remember that the `DisplayCapability` converted from a RAI response and not received by a 
 
 ## Potential downsides
 
@@ -31,4 +83,3 @@ Describe the impact that this change will have on existing code. Will some SDL i
 ## Alternatives considered
 
 Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
-```
