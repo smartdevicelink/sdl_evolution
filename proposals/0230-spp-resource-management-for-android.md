@@ -205,7 +205,7 @@ All strings used for this error UX is defined in strings.xml like below:
     <string name="sdl_error_notification_channel_name">SDL Error</string>
 ```
 
-The English strings above has been reviewed, and accepted by SDLC steering committee.
+The English strings above have been reviewed, and accepted by SDLC steering committee.
 
 ### Localization of SPP error UX
 
