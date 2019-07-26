@@ -7,6 +7,10 @@
 
 ## Introduction
 
+This proposal describes a way HMI can share WiFi credentials with mobile proxy when SDL is using WiFi transport with primary transport. 
+
+## Motivation
+
 In the current implementation of SDL with WiFi transport, IP address and port are shared with Mobile proxy. However, the prerequisite for using SDL with WiFi is that the mobile device should be connected to WiFi.
 In some cases, entering a password for the access point created by HMI could be tedious and it would be a lot more convenient for users if Mobile Apps could automatically connect to a WiFi access point.
 
