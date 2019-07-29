@@ -22,7 +22,7 @@ The available transport type for Secondary Transport can be configured through s
 
 If `MultipleTransportsEnabled` is set as `true` and `SecondaryTransportForBluetooth` is `WiFi` in `smartDeviceLink.ini` configuration file. HMI should create a WiFi Access Point and the WiFi credentials should be communicated to the mobile proxy.
 
-Android and iOS provides API's to connect to a WiFi network in case WiFi SSID and password is known. These API's could be used in Mobile Proxy to connect to the WiFi access point created by HMI. The flow for the proposed solution would be:
+Android and iOS provide APIs to connect to a WiFi network in case WiFi SSID and password is known. These APIs could be used in Mobile Proxy to connect to the WiFi access point created by HMI. The flow for the proposed solution would be:
 
 `HMI creates WiFi Access Point --> HMI provides WiFi Access point credentials to SDL Core --> SDL Core shares WiFi credentials using Primary Transport --> Mobile Proxy receives WiFi access point credentials and check if it is already connected --> If it's not connected, Mobile Proxy automatically connects to the WiFi access point.`
 
