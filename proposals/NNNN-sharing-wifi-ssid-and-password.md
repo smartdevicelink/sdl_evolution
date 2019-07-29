@@ -116,7 +116,7 @@ None
 
 ### Sample Code for WiFi Connection in Android
 
-Below code can be used to connect to Wi-Fi Access point if SSID and password are known.
+Below code can be used to connect to WiFi Access point if SSID and password are known.
 
 ```
     private void connectToWiFi(String ssid,String password){
