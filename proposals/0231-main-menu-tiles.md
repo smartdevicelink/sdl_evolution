@@ -56,7 +56,7 @@ We will then add the ability to change the menu to a tiled layout using `SetGlob
 <function name="SetGlobalProperties" functionID="SetGlobalPropertiesID" messagetype="request">
     ...
     <!-- Additions -->
-    <param name="menuLayout" type="MenuLayout" defvalue="LIST" mandatory="false" since="X.Y">
+    <param name="menuLayout" type="MenuLayout" mandatory="false" since="X.Y">
         <description>Sets the layout of the main menu screen. If this is sent while a menu is already on-screen, the head unit will change the display to the new layout type.</description>
     </param>
 </function>
@@ -66,7 +66,7 @@ We will then add the ability to change the menu to a tiled layout using `SetGlob
     
     ...
     <!-- Additions -->
-    <param name="menuLayout" type="MenuLayout" defvalue="LIST" mandatory="false" since="X.Y">
+    <param name="menuLayout" type="MenuLayout" mandatory="false" since="X.Y">
         <description>Sets the layout of the submenu screen.</description>
     </param>
 </function>
@@ -99,7 +99,7 @@ The HMI_API updates are very similar to the MOBILE_API updates.
 <function name="UI.SetGlobalProperties" messagetype="request">
     ...
     <!-- Additions -->
-    <param name="menuLayout" type="MenuLayout" defvalue="LIST" mandatory="false">
+    <param name="menuLayout" type="MenuLayout" mandatory="false">
         <description>Sets the layout of the main menu screen. If this is sent while a menu is already on-screen, the head unit will change the display to the new layout type.</description>
     </param>
 </function>
@@ -109,7 +109,7 @@ The HMI_API updates are very similar to the MOBILE_API updates.
     
     ...
     <!-- Additions -->
-    <param name="menuLayout" type="MenuLayout" defvalue="LIST" mandatory="false" since="X.Y">
+    <param name="menuLayout" type="MenuLayout" mandatory="false" since="X.Y">
         <description>Sets the layout of the submenu screen.</description>
     </param>
 </function>
