@@ -47,30 +47,100 @@ If the application is connected to a < 6.0 or if the head unit did not provide `
 For the Java Suite this means `parseRAIResponse` continues reading the deprecated types. However if they are present it triggers a conversion:
 
 ```java
-public void parseRAIResponse(RegisterAppInterfaceResponse response){
-		if(response!=null && response.getSuccess()) {
-            :
-            setCapability(SystemCapabilityType.DISPLAY, response.getDisplayCapabilities());
-            :
-            setCapability(SystemCapabilityType.DISPLAYS, createDisplayCapabilityList(response));
-        }
-}
-
 private void createDisplayCapabilityList(RegisterAppInterfaceResponse rpc) {
-    
+    return createDisplayCapabilityList(rpc.getDisplayCapabilities(), rpc.getButtonCapabilities(), rpc.getSoftButtonCapabilities());
 }
 
 private List<DisplayCapability> createDisplayCapabilityList(SetDisplayLayoutResponse rpc) {
-
+    return createDisplayCapabilityList(rpc.getDisplayCapabilities(), rpc.getButtonCapabilities(), rpc.getSoftButtonCapabilities());
 }
 
-private List<DisplayCapability> createDisplayCapabilityList(DisplayCapabilities display, ButtonCapabilities button, SoftButtonCapabilities softButton, PresetBankCapabilities presetBank) {
-    // TODO add some code how to convert
-    return new ArrayList<>(newCapability);
+private List<DisplayCapability> createDisplayCapabilityList(DisplayCapabilities display, List<ButtonCapabilities> button, List<SoftButtonCapabilities> softButton) {
+    // Based on deprecated Display capabilities we don't know if widgets are supported,
+    // The Default MAIN window is the only window we know is supported
+    WindowTypeCapabilities windowTypeCapabilities = new WindowTypeCapabilities(WindowType.MAIN, 1);
+
+    DisplayCapability displayCapability = new DisplayCapability();
+    displayCapability.setDisplayName(display != null ? display.getDisplayName() : null);
+    displayCapability.setWindowTypeSupported(Collections.singletonList(windowTypeCapabilities));
+
+    // Create an window capability object for the default MAIN window
+    WindowCapability defaultWindowCapability = new WindowCapability();
+    defaultWindowCapability.setWindowID(PredefinedWindows.DEFAULT_WINDOW);
+    defaultWindowCapability.setButtonCapabilities(button);
+    defaultWindowCapability.setSoftButtonCapabilities(softButton);
+    
+    // return if display capabilities don't exist.
+    if (display == null) {
+        displayCapability.setWindowCapabilities(Collections.singletonList(defaultWindowCapability));
+        return Collections.singletonList(displayCapability);
+    }
+
+    // copy all available display capabilities 
+    defaultWindowCapability.setTemplatesAvailable(display.getTemplatesAvailable());
+    defaultWindowCapability.setNumCustomPresetsAvailable(display.getNumCustomPresetsAvailable());
+    defaultWindowCapability.setTextFields(display.getTextFields());
+    defaultWindowCapability.setImageFields(display.getImageFields());
+    ArrayList<ImageType> imageTypeSupported = new ArrayList<>();
+    imageTypeSupported.add(ImageType.STATIC); // static images expecte to always work
+    if (display.getGraphicSupported()) {
+        imageTypeSupported.add(ImageType.DYNAMIC);
+    }
+    defaultWindowCapability.setImageTypeSupported(imageTypeSupported);
+    
+    displayCapability.setWindowCapabilities(Collections.singletonList(defaultWindowCapability));
+    return Collections.singletonList(displayCapability);
 }
 ```
 
-In order to remember that the `DisplayCapability` converted from a RAI response and not received by a 
+All properties from the old capabilities can be transferred to the new capabilities objects. In order to remember that the `DisplayCapability` object is converted from a RAI response (and not received by a SystemCapability RPC) the SystemCapability manager should store a flag `convertDisplayCapabilitiesNeeded` which is `true` by default and set to `false` if actual `DisplayCapability` data is received.
+
+```java
+public class SystemCapabilityManager {
+    private boolean convertDisplayCapabilitiesNeeded;
+    :
+    public SystemCapabilityManager(ISdl callback){
+        this.convertDisplayCapabilitiesNeeded = true;
+        :
+    }
+    :
+    public void parseRAIResponse(RegisterAppInterfaceResponse response){
+		if(response!=null && response.getSuccess()) {
+            this.convertDisplayCapabilitiesNeeded = true; // reset the flag
+            setCapability(SystemCapabilityType.DISPLAYS, createDisplayCapabilityList(response));
+        :
+    }
+
+    private void setupRpcListeners(){
+        :
+        if (RPCMessage.KEY_RESPONSE.equals(message.getMessageType())) {
+            switch (message.getFunctionID()) {
+                case SET_DISPLAY_LAYOUT:
+                    SetDisplayLayoutResponse response = (SetDisplayLayoutResponse) message;
+                    if (convertDisplayCapabilitiesNeeded) {
+                        setCapability(SystemCapabilityType.DISPLAYS, createDisplayCapabilityList(response));
+                    }
+                    :
+                case GET_SYSTEM_CAPABILITY:
+                    GetSystemCapabilityResponse response = (GetSystemCapabilityResponse) message;
+                    SystemCapability systemCapability = response.getSystemCapability();
+                    if (response.getSuccess() && systemCapabilityType.DISPLAYS.equals(systemCapability.getSystemCapabilityType())) {
+                        this.convertDisplayCapabilitiesNeeded = false; // Successfully got DISPLAYS data. No conversion needed anymore
+                        setCapability(SystemCapabilityType.DISPLAYS, systemCapability.getDisplayCapabilities());
+                    }
+            :
+        } else if (RPCMessage.KEY_NOTIFICATION.equals(message.getMessageType())){
+            switch (message.getFunctionID()) {
+                case ON_SYSTEM_CAPABILITY_UPDATED:
+                :
+                    switch (systemCapabilityType) {
+                        case DISPLAYS:
+                            // this notification can return only affected windows (hence not all windows)
+                            List<DisplayCapabilities> displayCapabilities = (List<DisplayCapabilities>)capability;
+                            List<DisplayCapabilities> newCapabilities = cachedSystemCapabilities.get(SystemCapabilityType.DISPLAYS);
+                            for ()
+
+```
 
 ## Potential downsides
 
@@ -78,7 +148,7 @@ Describe any potential downsides or known objections to the course of action pre
 
 ## Impact on existing code
 
-Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
+
 
 ## Alternatives considered
 
