@@ -156,7 +156,7 @@ Below code can be used to connect to WiFi Access point if SSID and password are 
         NSLog(@"Error %@",[error debugDescription]);
     }];
 ```
-Capabilities required to use above mentioned API's are as follows:
+Capabilities required to use above mentioned APIs are as follows:
 
 ```
 Hotspot Configuration
