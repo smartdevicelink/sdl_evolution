@@ -54,7 +54,7 @@ Enum to define WiFi security type.
 
 ```
 <enum name="WiFiSecurityType">
-  <description>Lists of the wifi security types used for wifi connection to HU.</description>
+  <description>List of the WiFi security types used for WiFi connection to HU.</description>
   <element name="WIFI_SECURITY_NONE"/>
   <element name="WIFI_SECURITY_WEP"/>
   <element name="WIFI_SECURITY_WPA"/>
