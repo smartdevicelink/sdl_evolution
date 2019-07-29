@@ -44,7 +44,7 @@ HMI will create a WiFi access point and communicate these using below HMI API.
         <description>password to use to connect AP</description>
       </param>
 	    <param name="securityType" type="WiFiSecurityType" mandatory="true">
-        <description>secutity type of WiFi AP</description>
+        <description>security type of WiFi AP</description>
       </param>
   </function>
 </interface>
