@@ -144,7 +144,7 @@ Permissions required to use above mentioned API's are as follows:
 ```
 ### Sample Code for WiFi Connection in iOS
 
-Below code can be used to connect to Wi-Fi Access point if SSID and password are known.
+Below code can be used to connect to WiFi Access point if SSID and password are known.
 
 ```
     NEHotspotConfiguration * config = [[NEHotspotConfiguration alloc] initWithSSID:ssid passphrase:password isWEP:NO];
