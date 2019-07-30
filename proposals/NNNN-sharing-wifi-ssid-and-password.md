@@ -165,5 +165,5 @@ Hotspot Configuration
 
 ## Alternatives considered
 
-None
+Leaving the current behavior of SDL over WiFi transport "as is". However, implementing this proposal will make use of Apps easier with WiFi transport.
 
