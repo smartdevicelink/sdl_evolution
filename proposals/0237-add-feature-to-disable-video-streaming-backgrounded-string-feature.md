@@ -1,7 +1,7 @@
 # Add Feature to Disable "Video Streaming Backgrounded String" Feature
 
 * Proposal: [SDL-0237](0237-add-feature-to-disable-video-streaming-backgrounded-string-feature.md)
-* Author: [Takamitsu Yoshii](https://github.com/t-yoshii)
+* Author: [Takamitsu Yoshii](https://github.com/t-yoshii) and [Joel Fischer](https://www.github.com/joeljfischer)
 * Status: **Accepted with Revisions**
 * Impacted Platforms: iOS
 
@@ -19,7 +19,7 @@ Therefore, it will be better to offer an option to app developer to disable to s
 
 
 ## Proposed solution
-Add parameter `showVideoBackgroundDisplay` to `SDLStreamingMediaConfiguration` class to disable the "video streaming backgrounded string (SDL-0118)" feature. The default value of this parameter is `true` and "Video Streaming Backgrounded String" will be sent (Current behavior as of sdl_ios v6.2). If this parameter is set to `false`, `backgroundingPixelBuffer` will not be sent.
+Add parameter `showVideoBackgroundDisplay` to `SDLStreamingMediaManager` class to disable the "video streaming backgrounded string (SDL-0118)" feature. The default value of this parameter is `true` and "Video Streaming Backgrounded String" will be sent (Current behavior as of sdl_ios v6.2). If this parameter is set to `false`, `backgroundingPixelBuffer` will not be sent.
 
 
 ## Potential downsides
@@ -29,10 +29,12 @@ App developer must be careful which solution to use, default "Video Streaming Ba
 
 ## Impact on existing code
 
-Minor API changes are required in `SDLStreamingMediaConfiguration` and `SDLVideoLifecycleManager` in sdl_ios.
+Minor API changes are required in the `SDLStreamingMediaManager` and `SDLVideoLifecycleManager` in sdl_ios.
 
 ## Alternatives considered
 
 1. Add a dedicated field in RAI response which indicates whether the HMI can preserve rendered video on the screen even after OnVideoDataStreaming(false), thus "Video Streaming Backgrounded String" is effective. This solution is better because OEM can control the behavior, however, this requires major API change and cannot cover old version of SDL Core.
 
 2. Enforce HMI not to hide rendered picture while VPM app is in FULL. However, this may limit the design of HMI a lot. For example, some HMIs may not be able to hold a rendered picture for a long time, or, must release a video rendering resource when it is not in use, because of hardware limitation or resource contention by other components.
+
+3. An earlier version of this proposal altered the `SDLStreamingMediaConfiguration` instead. However, this does not allow developers to enable the background string for some makes and to disable it for other makes. It's all on or all off, and this doesn't fit requirements.
