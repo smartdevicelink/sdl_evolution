@@ -1,13 +1,13 @@
 # Manager Update for DisplayCapability
 
 * Proposal: [SDL-NNNN](NNNN-manager-update-display-capability.md)
-* Author: [SDL Developer](https://github.com/kshala-ford)
+* Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
 
-This proposal adds display capabilities redesign described in SDL 0216 Widget Support (see #664) to ScreenManager and SystemCapabilityManager.
+This proposal adds display capabilities redesign described in [SDL 0216 Widget Support](0216-widget-support.md) (see issue [#664](https://github.com/smartdevicelink/sdl_evolution/issues/664)) to SystemCapabilityManager.
 
 ## Motivation
 
