@@ -40,14 +40,14 @@ In order to avoid clashes with the mobile API the enum should not be extended an
 
 At the time of writing this proposal the source of the capability types will be deprecated with the next major SDL relase (Core 6.0). In order to keep backward and forward compatibility a bi-directional conversion of capability objects should be introduced:
 
-#### Convert from old capabilities to `DisplayCapability`
+#### Convert from `DisplayCapabilities` to `DisplayCapability` and vice versa
 
 If the application is connected to a < 6.0 or if the head unit did not provide `DisplayCapability` or `WindowCapability` for the `DEFAULT_WINDOW` yet, the system capability manager should convert `DisplayCapabilities`, `ButtonCapabilities`, `SoftButtonCapabilities` and `PresetBankCapabilities` objects and the string of `displayName` from `RegisterAppInterfaceResponse` and `SetDisplayLayoutResponse` into a new `DisplayCapability` object. This object should be stored in the `DISPLAYS` enum value.
 
 For the Java Suite this means `parseRAIResponse` continues reading the deprecated types. However if they are present it triggers a conversion:
 
 ```java
-private void createDisplayCapabilityList(RegisterAppInterfaceResponse rpc) {
+private List<DisplayCapability> createDisplayCapabilityList(RegisterAppInterfaceResponse rpc) {
     return createDisplayCapabilityList(rpc.getDisplayCapabilities(), rpc.getButtonCapabilities(), rpc.getSoftButtonCapabilities());
 }
 
@@ -91,22 +91,38 @@ private List<DisplayCapability> createDisplayCapabilityList(DisplayCapabilities 
     displayCapability.setWindowCapabilities(Collections.singletonList(defaultWindowCapability));
     return Collections.singletonList(displayCapability);
 }
+
+private DisplayCapabilities createDisplayCapabilities(String displayName, WindowCapability defaultMainWindow) {
+    DisplayCapabilities convertedCapabilities = new DisplayCapabilities();
+    convertedCapabilities.setDisplayType(DisplayType.SDL_GENERIC); //deprecated but it's mandatory...
+    convertedCapabilities.setDisplayName(displayName);
+    convertedCapabilities.setTextFields(defaultMainWindow.getTextFields());
+    convertedCapabilities.setImageFields(defaultMainWindow.getImageFields());
+    convertedCapabilities.setTemplatesAvailable(defaultMainWindow.getTemplatesAvailable());
+    convertedCapabilities.setNumCustomPresetsAvailable(defaultMainWindow.getNumCustomPresetsAvailable());
+    convertedCapabilities.setMediaClockFormats(Collections.singletonList(MediaClockFormats.CLOCK3)); // mandatory field...
+    convertedCapabilities.setGraphicSupported(defaultMainWindow.getImageTypeSupported().contains(ImageType.DYNAMIC));
+    
+    return convertedCapabilities;
+}
 ```
 
-All properties from the old capabilities can be transferred to the new capabilities objects. In order to remember that the `DisplayCapability` object is converted from a RAI response (and not received by a SystemCapability RPC) the SystemCapability manager should store a flag `convertDisplayCapabilitiesNeeded` which is `true` by default and set to `false` if actual `DisplayCapability` data is received.
+#### Listen for `DISPLAYS` notifications
+
+All properties from the old capabilities can be transferred to the new capabilities objects. In order to remember that the `DisplayCapability` object is converted from a RAI response (and not received by a SystemCapability RPC) the SystemCapability manager should store a flag `convertDeprecatedDisplayCapabilitiesNeeded` which is `true` by default and set to `false` if actual `DisplayCapability` data is received.
 
 ```java
 public class SystemCapabilityManager {
-    private boolean convertDisplayCapabilitiesNeeded;
+    private boolean convertDeprecatedDisplayCapabilitiesNeeded;
     :
     public SystemCapabilityManager(ISdl callback){
-        this.convertDisplayCapabilitiesNeeded = true;
+        this.convertDeprecatedDisplayCapabilitiesNeeded = true;
         :
     }
     :
     public void parseRAIResponse(RegisterAppInterfaceResponse response){
 		if(response!=null && response.getSuccess()) {
-            this.convertDisplayCapabilitiesNeeded = true; // reset the flag
+            this.convertDeprecatedDisplayCapabilitiesNeeded = true; // reset the flag
             setCapability(SystemCapabilityType.DISPLAYS, createDisplayCapabilityList(response));
         :
     }
@@ -117,7 +133,7 @@ public class SystemCapabilityManager {
             switch (message.getFunctionID()) {
                 case SET_DISPLAY_LAYOUT:
                     SetDisplayLayoutResponse response = (SetDisplayLayoutResponse) message;
-                    if (convertDisplayCapabilitiesNeeded) {
+                    if (convertDeprecatedDisplayCapabilitiesNeeded) {
                         setCapability(SystemCapabilityType.DISPLAYS, createDisplayCapabilityList(response));
                     }
                     :
@@ -125,8 +141,9 @@ public class SystemCapabilityManager {
                     GetSystemCapabilityResponse response = (GetSystemCapabilityResponse) message;
                     SystemCapability systemCapability = response.getSystemCapability();
                     if (response.getSuccess() && systemCapabilityType.DISPLAYS.equals(systemCapability.getSystemCapabilityType())) {
-                        this.convertDisplayCapabilitiesNeeded = false; // Successfully got DISPLAYS data. No conversion needed anymore
-                        setCapability(SystemCapabilityType.DISPLAYS, systemCapability.getDisplayCapabilities());
+                        this.convertDeprecatedDisplayCapabilitiesNeeded = false; // Successfully got DISPLAYS data. No conversion needed anymore
+                        List<DisplayCapability> newCapabilities = systemCapability.getDisplayCapabilities();
+                        updateCachedDisplayCapabilityList(newCapabilities);
                     }
             :
         } else if (RPCMessage.KEY_NOTIFICATION.equals(message.getMessageType())){
@@ -135,11 +152,155 @@ public class SystemCapabilityManager {
                 :
                     switch (systemCapabilityType) {
                         case DISPLAYS:
+                            this.convertDeprecatedDisplayCapabilitiesNeeded = false; // Successfully got DISPLAYS data. No conversion needed anymore
                             // this notification can return only affected windows (hence not all windows)
-                            List<DisplayCapabilities> displayCapabilities = (List<DisplayCapabilities>)capability;
-                            List<DisplayCapabilities> newCapabilities = cachedSystemCapabilities.get(SystemCapabilityType.DISPLAYS);
-                            for ()
+                            List<DisplayCapability> newCapabilities = (List<DisplayCapability>)capability;
+                            updateCachedDisplayCapabilityList(newCapabilities);
+            :
+```
 
+#### Apply SystemCapability update 
+
+After receiving the first `DISPLAYS` system capability update (via response or notification) the flag is set to false indicating that no conversion from deprecated display capabilities is needed anymore. The method `updateCachedDisplayCapabilityList` is used to merge the cached object with the new display capability object as the new object could contain only partial window capability updates.
+
+```java
+void updateCachedDisplayCapabilityList(List<DisplayCapability> newCapabilities) {
+    List<DisplayCapability> oldCapabilities = getCapability(SystemCapabilityType.DISPLAYS);
+    
+    if (oldCapabilities == null) {
+        setCapability(SystemCapabilityType.DISPLAYS, newCapabilities);
+        return;
+    }
+
+    DisplayCapability oldDefaultDisplayCapabilities = oldCapabilities.get(0);
+    ArrayList<WindowCapability> copyWindowCapabilities = new ArrayList<>(defaultDisplayCapabilities.getWindowCapabilities());
+
+    DisplayCapability newDefaultDisplayCapabilities = newCapabilities.get(0);
+    List<WindowCapability> newWindowCapabilities = newDefaultDisplayCapabilities.getWindowCapabilities();
+
+    for (windowCapability newWindow : newWindowCapabilities) {
+        ListIterator iterator = copyWindowCapabilities.listIterator();
+        boolean oldFound = false;
+        while (iterator.hasNext()) {
+            WindowCapability oldWindow = iterator.next();
+            if (newWindow.getWindowID().equals(oldWindow.getWindowID())) {
+                iterator.set(newWindow); // replace the old window caps with new ones
+                oldFound = true;
+                break;
+            }
+        }
+
+        if (!oldFound) {
+            copyWindowCapabilities.add(newWindow); // this is a new unknown window
+        }
+    }
+
+    // replace the window capabilities array with the merged one.
+    newDefaultDisplayCapabilities.setWindowCapabilities(copyWindowCapabilities);
+
+    setCapability(SystemCapabilityType.DISPLAYS, Collections.singletonList(newDefaultDisplayCapabilities));
+
+    WindowCapability defaultMainWindowCapabilities = newDefaultDisplayCapabilities.getWindowCapabilities(PredefinedWindows.DEFAULT_WINDOW); // assume the function exist returning window capability of a specified window
+    
+    // cover the  deprecated capabilities for backward compatibility
+    setCapability(SystemCapability.DISPLAY, createDisplayCapabilities(newDefaultDisplayCapabilities.getDisplayName(), defaultMainWindowCapabilities));
+    setCapability(SystemCapability.BUTTON, defaultMainWindowCapabilities.getButtonCapabilities());
+    setCapability(SystemCapability.SOFTBUTTON, defaultMainWindowCapabilities.getSoftButtonCapabilities());
+}
+```
+
+For convenience the system capability manager should provide a method to fetch a window capability object per window ID
+
+```java
+public WindowCapability getWindowCapability(int windowID) {
+    // return the cached WindowCapability object of the window with the specified window ID
+}
+```
+
+### Deprecate iOS changes
+
+For the SDL iOS library the changes are less invasive. The `SDLSystemCapabilityManager` should deprecate properties that return deprecated objects.
+
+```objc
+@interface SDLSystemCapabilityManager : NSObject
+:
+@property (nullable, strong, nonatomic, readonly) SDLDisplayCapabilities *displayCapabilities __deprecated_msg("Use displays instead.");
+@property (nullable, copy, nonatomic, readonly) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities __deprecated_msg("Use displays instead.");
+@property (nullable, copy, nonatomic, readonly) NSArray<SDLButtonCapabilities *> *buttonCapabilities __deprecated_msg("Use displays instead.");
+@property (nullable, strong, nonatomic, readonly) SDLPresetBankCapabilities *presetBankCapabilities __deprecated_msg("Use displays instead.");
+```
+
+### Convert capability type objects
+
+Same as for the Java library the `SDLSystemCapabilityManager` should convert old `DisplayCapabilities` into `DisplayCapability` and vice versa. The logic should be following the Java code already described in the proposal.
+
+```objc
+- (NSArray<SDLDisplayCapability *> *)createDisplayCapabilityListFromRegisterResponse:(SDLRegisterAppInterfaceResponse *)rpc {
+    return [self createDisplayCapabilityList:rpc.displayCapabilities buttons:rpc.buttonCapabilities softButton:rpc.softButtonCapabilities];
+}
+
+- (NSArray<SDLDisplayCapability *> *)createDisplayCapabilityListFromSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)rpc {
+    return [self createDisplayCapabilityList:rpc.displayCapabilities buttons:rpc.buttonCapabilities softButton:rpc.softButtonCapabilities];
+}
+
+- (NSArray<SDLDisplayCapability *> *)createDisplayCapabilityList:(SDLDisplayCapabilities *)display buttons:(NSArray<SDLButtonCapabilities *> *)buttons softButtons:(NSArray<SDLSoftButtonCapabilities *> *)softButton {
+    // Convert objects Similar to Java code
+}
+
+- (SDLDisplayCapabilities *)createDisplayCapabilitiesWithDisplayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability {
+    // Convert object similar to Java code
+}
+```
+
+### Fetch `DisplayCapability` and specific `WindowCapability`
+
+The `SDLSystemCapabilityManager` should provide the `DisplayCapability` array (either converted or received from an RPC) with a new property and method:
+
+```objc
+@interface SDLSystemCapabilityManager : NSObject
+
+@property (nullable, copy, nonatomic, readonly) NSArray<SDLDisplayCapability *> *displays;
+
+// returns WindowCapability of the window specified or nil if the window doesn't exist
+- (nullable SDLWindowCapability *)windowWithID:(NSNumber<SDLInt> *)windowID; 
+```
+
+The property name `displays` should be sufficient as it's within the context of the system **capability** manager. Developers should understand that the property returns capabilities of displays.
+
+#### Listen for `DISPLAYS` notifications
+
+Similar to the Java code the iOS based system capability manager should also listen to `RegisterAppInterfaceResponse` and `SetDisplayLayoutResponse` and convert the old capabilities into the new type as long as no `OnSystemCapabilityUpdated` or `GetSystemCapabilityResponse` is received.
+
+```objc
+- (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
+    SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+    if (!response.success.boolValue) { return; }
+    self.convertDeprecatedDisplayCapabilitiesNeeded = YES; // reset the flag
+    self.displays = [self createDisplayCapabilityListWithRegisterResponse:response];
+    :
+- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+    if (!response.success.boolValue) { return; }
+    if (self.convertDeprecatedDisplayCapabilitiesNeeded) {
+        self.displays = [self createDisplayCapabilityListWithSetDisplayLayoutResponse:response];
+    }
+
+- (BOOL)sdl_saveSystemCapability:(SDLSystemCapability *)systemCapability completionHandler:(nullable SDLUpdateCapabilityHandler)handler {
+    :
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+        self.convertDeprecatedDisplayCapabilitiesNeeded = NO;
+        [self sdl_updateCachedDisplayCapabilityList:systemCapability.displayCapabilities];
+    }
+}
+
+- (void)sdl_updateCachedDisplayCapabilityList(List<DisplayCapability> newCapabilities) {
+    // Similar to Java Code:
+    // 1. Copy the existing Array of existing window capabilities
+    // 2. Replace ocurrences of new window capabilities in the copy
+    // 3. Apply the updated copy into the DisplayCapability
+    // 4. Store the new object in the `displays` property.
+    // 5. Convert objects into the properties `displayCapabilities`, `buttonCapabilities`, `softButtonCapabilities` and `presetBankCapabilities`
+}
 ```
 
 ## Potential downsides
@@ -148,8 +309,10 @@ Describe any potential downsides or known objections to the course of action pre
 
 ## Impact on existing code
 
+`DisplayCapabilities` is a widely used object which now gets deprecated. Compatibility is guaranteed with the object conversion. However applications and also the SDL libraries will face many deprecation notes by the IDE.
 
+The screen managers will be affected by the deprecations hence should upgrade to the new display capability. From a brief code review only private screen manager code is affected therefore the changes are considered as implementation details.
 
 ## Alternatives considered
 
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+An addition to the system capability mangers could be adding listeners for windows with a specified window ID instead of listening for all windows in a `DISPLAYS` notification. This would be helpful and convenient for screen managers and the application to get notified on specific window changes only.
