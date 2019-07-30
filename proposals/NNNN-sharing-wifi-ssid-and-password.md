@@ -105,7 +105,7 @@ On successful connection or if the mobile device is already connected to WiFi ac
 
 ## Potential downsides
 
-Apps need to include additional permissions to use APIs to connect to WiFi. However, it would provide convenience to users if Apps can connect to HMI automatically instead of the manual process.
+Apps need to include additional permissions to use APIs to connect to WiFi. However, it would provide convenience to users if Apps can connect to HMI automatically instead of the manual process and thus outweighs mentioned downside.
 
 ## Impact on existing code
 
