@@ -15,7 +15,7 @@ The widget proposal is very vague in describing how the managers should support 
 
 ## Proposed solution
 
-The solution for the java suite is to extend the system capability manager to return the `DisplayCapability` array when `SystemCapabilityType.DISPLAYS` is used as a param. Different to other async types the manager will not subscribe to `DISPLAYS` as auto subscription is provided to applications.
+The solution for the Java Suite library is to extend the system capability manager to return the `DisplayCapability` array when `SystemCapabilityType.DISPLAYS` is used as a param. Different to other async types the manager will not subscribe to `DISPLAYS` as auto subscription is provided to applications.
 
 ### Deprecate custom Java capability types
 
@@ -44,7 +44,7 @@ At the time of writing this proposal, the source of the capability types will be
 
 If the application is connected to a < 6.0 or if the head unit did not provide `DisplayCapability` or `WindowCapability` for the `DEFAULT_WINDOW` yet, the system capability manager should convert `DisplayCapabilities`, `ButtonCapabilities`, `SoftButtonCapabilities` and `PresetBankCapabilities` objects and the string of `displayName` from `RegisterAppInterfaceResponse` and `SetDisplayLayoutResponse` into a new `DisplayCapability` object. This object should be stored in the `DISPLAYS` enum value.
 
-For the Java Suite this means `parseRAIResponse` continues reading the deprecated types. However if they are present it triggers a conversion:
+For the Java Suite library this means `parseRAIResponse` continues reading the deprecated types. However if they are present it triggers a conversion:
 
 ```java
 private List<DisplayCapability> createDisplayCapabilityList(RegisterAppInterfaceResponse rpc) {
@@ -64,7 +64,7 @@ private List<DisplayCapability> createDisplayCapabilityList(DisplayCapabilities 
     displayCapability.setDisplayName(display != null ? display.getDisplayName() : null);
     displayCapability.setWindowTypeSupported(Collections.singletonList(windowTypeCapabilities));
 
-    // Create an window capability object for the default MAIN window
+    // Create a window capability object for the default MAIN window
     WindowCapability defaultWindowCapability = new WindowCapability();
     defaultWindowCapability.setWindowID(PredefinedWindows.DEFAULT_WINDOW);
     defaultWindowCapability.setButtonCapabilities(button);
@@ -244,7 +244,7 @@ Same as for the Java library the `SDLSystemCapabilityManager` should convert old
 }
 
 - (NSArray<SDLDisplayCapability *> *)createDisplayCapabilityList:(SDLDisplayCapabilities *)display buttons:(NSArray<SDLButtonCapabilities *> *)buttons softButtons:(NSArray<SDLSoftButtonCapabilities *> *)softButton {
-    // Convert objects Similar to Java code
+    // Convert objects similar to Java code
 }
 
 - (SDLDisplayCapabilities *)createDisplayCapabilitiesWithDisplayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability {
@@ -315,4 +315,4 @@ The screen managers will be affected by the deprecations hence should upgrade to
 
 ## Alternatives considered
 
-An addition to the system capability mangers could be adding listeners for windows with a specified window ID instead of listening for all windows in a `DISPLAYS` notification. This would be helpful and convenient for screen managers and the application to be notified on specific window changes only.
+An addition to the system capability managers could be adding listeners for windows with a specified window ID instead of listening for all windows in a `DISPLAYS` notification. This would be helpful and convenient for screen managers and the application to be notified on specific window changes only.
