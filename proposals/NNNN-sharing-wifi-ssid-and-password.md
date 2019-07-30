@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-sharing-wifi-ssid-and-password)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
 * Status: **Awaiting review**
-* Impacted Platforms: [Java Suite / iOS / RPC / Core]
+* Impacted Platforms: [Java Suite / iOS / RPC / Core / HMI]
 
 ## Introduction
 
@@ -105,13 +105,13 @@ On successful connection or if the mobile device is already connected to WiFi ac
 
 ## Potential downsides
 
-None
+Apps need to include additional permissions to use APIs to connect to WiFi. However, it would provide convenience to users if Apps can connect to HMI automatically instead of the manual process.
 
 ## Impact on existing code
 
 1. Implementation of HMI API described above in Core. 
 2. Android App will need to include WiFi permissions in Manifest file if they support WiFi as secondary transport.
-3. Network Capability needs to be added in iOS App.
+3. Network Capability needs to be added in iOS App if they support WiFi as secondary transport.
 4. Implementation in proxy to connect WiFi.
 
 ### Sample Code for WiFi Connection in Android
