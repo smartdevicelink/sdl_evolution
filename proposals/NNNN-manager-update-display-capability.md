@@ -11,11 +11,11 @@ This proposal adds display capabilities redesign described in SDL 0216 Widget Su
 
 ## Motivation
 
-The widget proposal is very vague in describing how the managers should support the new display capability redesign. It also give's some interpretation in when the manager change should be done (together with the widget code donation or later?). The Java and iOS code was reviewed in order to make a decision if manager changes can be seen as development details. The result is that there's a major conflict with an Android proposal and also a quite complex behavior change of how to provide objects of `DisplayCapabilities`, `DisplayCapability` and `WindowCapability`. The system capability manager needs a major change to support backward and forward compatibility and provide the correct data in the correct format to the depending managers (e.g. ScreenManager).
+The widget proposal is very vague in describing how the managers should support the new display capability redesign. It also gives some interpretation in when the manager change should be done (together with the widget code donation or later?). The Java and iOS code was reviewed in order to make a decision if manager changes can be seen as development details. The result is that there is a major conflict with an Android proposal and also a quite complex behavior change of how to provide objects of `DisplayCapabilities`, `DisplayCapability` and `WindowCapability`. The system capability manager needs a major change to support backward and forward compatibility and provide the correct data in the correct format to the depending managers (e.g. ScreenManager).
 
 ## Proposed solution
 
-The solution for the java suite is to extend the system capability manager to return the `DisplayCapability` array when `SystemCapabilityType.DISPLAYS` is used as a param. Different to other async types the manager won't subscribe to `DISPLAYS` as auto subscription is provided to applications.
+The solution for the java suite is to extend the system capability manager to return the `DisplayCapability` array when `SystemCapabilityType.DISPLAYS` is used as a param. Different to other async types the manager will not subscribe to `DISPLAYS` as auto subscription is provided to applications.
 
 ### Deprecate custom Java capability types
 
@@ -38,7 +38,7 @@ In order to avoid clashes with the mobile API the enum should not be extended an
 
 ### Convert capability type objects
 
-At the time of writing this proposal the source of the capability types will be deprecated with the next major SDL relase (Core 6.0). In order to keep backward and forward compatibility a bi-directional conversion of capability objects should be introduced:
+At the time of writing this proposal, the source of the capability types will be deprecated with the next major SDL release (Core 6.0). In order to keep backward and forward compatibility a bi-directional conversion of capability objects should be introduced:
 
 #### Convert from `DisplayCapabilities` to `DisplayCapability` and vice versa
 
@@ -82,7 +82,7 @@ private List<DisplayCapability> createDisplayCapabilityList(DisplayCapabilities 
     defaultWindowCapability.setTextFields(display.getTextFields());
     defaultWindowCapability.setImageFields(display.getImageFields());
     ArrayList<ImageType> imageTypeSupported = new ArrayList<>();
-    imageTypeSupported.add(ImageType.STATIC); // static images expecte to always work
+    imageTypeSupported.add(ImageType.STATIC); // static images expected to always work on any head unit
     if (display.getGraphicSupported()) {
         imageTypeSupported.add(ImageType.DYNAMIC);
     }
@@ -94,7 +94,7 @@ private List<DisplayCapability> createDisplayCapabilityList(DisplayCapabilities 
 
 private DisplayCapabilities createDisplayCapabilities(String displayName, WindowCapability defaultMainWindow) {
     DisplayCapabilities convertedCapabilities = new DisplayCapabilities();
-    convertedCapabilities.setDisplayType(DisplayType.SDL_GENERIC); //deprecated but it's mandatory...
+    convertedCapabilities.setDisplayType(DisplayType.SDL_GENERIC); //deprecated but it is mandatory...
     convertedCapabilities.setDisplayName(displayName);
     convertedCapabilities.setTextFields(defaultMainWindow.getTextFields());
     convertedCapabilities.setImageFields(defaultMainWindow.getImageFields());
@@ -202,14 +202,14 @@ void updateCachedDisplayCapabilityList(List<DisplayCapability> newCapabilities) 
 
     WindowCapability defaultMainWindowCapabilities = newDefaultDisplayCapabilities.getWindowCapabilities(PredefinedWindows.DEFAULT_WINDOW); // assume the function exist returning window capability of a specified window
     
-    // cover the  deprecated capabilities for backward compatibility
+    // cover the deprecated capabilities for backward compatibility
     setCapability(SystemCapability.DISPLAY, createDisplayCapabilities(newDefaultDisplayCapabilities.getDisplayName(), defaultMainWindowCapabilities));
     setCapability(SystemCapability.BUTTON, defaultMainWindowCapabilities.getButtonCapabilities());
     setCapability(SystemCapability.SOFTBUTTON, defaultMainWindowCapabilities.getSoftButtonCapabilities());
 }
 ```
 
-For convenience the system capability manager should provide a method to fetch a window capability object per window ID
+For convenience, the system capability manager should provide a method to fetch a window capability object per window ID
 
 ```java
 public WindowCapability getWindowCapability(int windowID) {
@@ -265,7 +265,7 @@ The `SDLSystemCapabilityManager` should provide the `DisplayCapability` array (e
 - (nullable SDLWindowCapability *)windowWithID:(NSNumber<SDLInt> *)windowID; 
 ```
 
-The property name `displays` should be sufficient as it's within the context of the system **capability** manager. Developers should understand that the property returns capabilities of displays.
+The property name `displays` should be sufficient as it is within the context of the system **capability** manager. Developers should understand that the property returns capabilities of displays.
 
 #### Listen for `DISPLAYS` notifications
 
@@ -296,7 +296,7 @@ Similar to the Java code the iOS based system capability manager should also lis
 - (void)sdl_updateCachedDisplayCapabilityList(List<DisplayCapability> newCapabilities) {
     // Similar to Java Code:
     // 1. Copy the existing Array of existing window capabilities
-    // 2. Replace ocurrences of new window capabilities in the copy
+    // 2. Replace occurrences of new window capabilities in the copy
     // 3. Apply the updated copy into the DisplayCapability
     // 4. Store the new object in the `displays` property.
     // 5. Convert objects into the properties `displayCapabilities`, `buttonCapabilities`, `softButtonCapabilities` and `presetBankCapabilities`
@@ -305,7 +305,7 @@ Similar to the Java code the iOS based system capability manager should also lis
 
 ## Potential downsides
 
-Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
+The downside of the DisplayCapabilities replacement is the fact that the developer has two different options of fetching them. Using deprecation flags and converting capabilities in both directions should be helpful to understand which API is the modern one. Existing apps may have issues with modern head units that don't provide old display capabilities anymore. These apps should be supported with the conversion but they need to do a library update.
 
 ## Impact on existing code
 
@@ -315,4 +315,4 @@ The screen managers will be affected by the deprecations hence should upgrade to
 
 ## Alternatives considered
 
-An addition to the system capability mangers could be adding listeners for windows with a specified window ID instead of listening for all windows in a `DISPLAYS` notification. This would be helpful and convenient for screen managers and the application to get notified on specific window changes only.
+An addition to the system capability mangers could be adding listeners for windows with a specified window ID instead of listening for all windows in a `DISPLAYS` notification. This would be helpful and convenient for screen managers and the application to be notified on specific window changes only.
