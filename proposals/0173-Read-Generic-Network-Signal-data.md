@@ -670,20 +670,20 @@ Here is a sample flow diagram for SDL Core <-> HMI request response model:
 
 `VehicleDataResult` in MOBILE API will be extended with non mandatory parameter `oemCustomDataType`
 
-`VehicleDataType` will be extended with `VEHICLEDATA_OEM_VEHICLE_DATA_TYPE` value in HMI and MOBILE APIs.
+`VehicleDataType` will be extended with `VEHICLEDATA_OEM_CUSTOM_DATA` value in HMI and MOBILE APIs.
 ```
  <enum name="VehicleDataType" since="2.0">
         <description>Defines the data types that can be published and subscribed to.</description>
         <element name="VEHICLEDATA_GPS">
         ...
         <element name="VEHICLEDATA_CLOUDAPPVEHICLEID" since="5.1"/>
- +       <element name="VEHICLEDATA_OEM_VEHICLE_DATA_TYPE" since="6.0"/>
+ +       <element name="VEHICLEDATA_OEM_CUSTOM_DATA" since="6.0"/>
  </enum>
 ```
 
 
 
-For oem specific custom vehicle data items, `oemCustomDataType` will contain type of OEM specific vehicle data (from schema), and `dataType` will be `VEHICLEDATA_OEM_VEHICLE_DATA_TYPE`.
+For oem specific custom vehicle data items, `oemCustomDataType` will contain type of OEM specific vehicle data (from schema), and `dataType` will be `VEHICLEDATA_OEM_CUSTOM_DATA`.
 For vehicle data items from RPCSpec, `oemCustomDataType` will be omitted, and `dataType` will contain appropriate data type from `VehicleDataType` enum.
 
 ## Proxy side changes
