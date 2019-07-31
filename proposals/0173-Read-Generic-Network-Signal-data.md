@@ -670,6 +670,7 @@ Here is a sample flow diagram for SDL Core <-> HMI request response model:
 
 `VehicleDataResult` in MOBILE API will be extended with non mandatory parameter `oemCustomDataType`
 
+`VehicleDataType` will be extended with `VEHICLEDATA_OEM_VEHICLE_DATA_TYPE` value in HMI and MOBILE APIs.
 ```
  <enum name="VehicleDataType" since="2.0">
         <description>Defines the data types that can be published and subscribed to.</description>
