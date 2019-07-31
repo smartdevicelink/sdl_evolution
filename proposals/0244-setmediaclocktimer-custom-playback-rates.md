@@ -1,8 +1,8 @@
 # Custom Playback Rates for SetMediaClockTimer
 
-* Proposal: [SDL-NNNN](NNNN-setmediaclocktimer-custom-playback-rates.md)
+* Proposal: [SDL-0244](0244-setmediaclocktimer-custom-playback-rates.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
