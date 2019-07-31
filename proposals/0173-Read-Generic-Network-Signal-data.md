@@ -648,6 +648,41 @@ Consider **gps** as API vehicle data Item, and **HEAD_LAMP_STATUS** as vehicle d
 Here is a sample flow diagram for SDL Core <-> HMI request response model:
 ![SDL-HMI%20request%20response%20flow](../assets/proposals/0173-Read-Generic-Network-Signal-data/SDL-HMI%20request%20response%20flow.png)
 
+#### Subscribe vehicle data result for oemspecific parameters: 
+
+- VehicleDataResult in MOBILE API will be extended with non mandatory parameter `oemCustomDataType` 
+
+```
+   <struct name="VehicleDataResult" since="2.0">
+        <description>Individual published data request result</description>
+        <param name="dataType" type="VehicleDataType" mandatory="true">
+            <description>Defined published data element type.</description>
+        </param>
+        <param name="resultCode" type="VehicleDataResultCode" mandatory="true">
+            <description>Published data result code.</description>
+        </param>
++        <param name="oemCustomDataType" type="String" mandatory="false" since="6.0">
++            <description>Type of requested oem specific parameter </description>
++        </param>
+    </struct>
+```
+
+
+VehicleDataType will be extended with `OEM_VEHICLE_DATA_TYPE` value:
+
+```
+ <enum name="VehicleDataType" since="2.0">
+        <description>Defines the data types that can be published and subscribed to.</description>
+        <element name="VEHICLEDATA_GPS">
+        ...
+        <element name="VEHICLEDATA_CLOUDAPPVEHICLEID" since="5.1"/>
+ +       <element name="VEHICLEDATA_OEM_VEHICLE_DATA_TYPE" since="6.0"/>
+ </enum>
+```
+
+For oem specific parameters, `oemCustomDataType` will contain type of OEM specific vehicle data (from schema), and `dataType` will be `VEHICLEDATA_OEM_VEHICLE_DATA_TYPE`.
+For parameters from RPCSpec, `oemCustomDataType` will be omitted, and `dataType` will contain appropriate data type from `VehicleDataType` enum.
+
 ## Proxy side changes
 Once core has downloaded and processed the new vehicle data params, it'd send an _onPermissionsChange_ notification to the connected app with new vehicle data params. The App developer would rely on this notification to request new vehicle data items using a generic request/response methods in _GetVehicleData/SubscribeVehicleData/UnsubscribeVehicleData/OnVehicleData_ request and response messages.
 
