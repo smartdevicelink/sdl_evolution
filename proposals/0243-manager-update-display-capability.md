@@ -1,8 +1,8 @@
 # Manager Update for DisplayCapability
 
-* Proposal: [SDL-NNNN](NNNN-manager-update-display-capability.md)
+* Proposal: [SDL-0243](0243-manager-update-display-capability.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
