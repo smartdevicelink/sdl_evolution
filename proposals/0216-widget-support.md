@@ -663,7 +663,7 @@ After investigating impact to SDL Core, the impact is expected to be minor. Glob
 2. Changes to State Controller to allow HMI level transitions for widgets and windows
 3. Changes to Request Controller as RPCs from one app can be addressed to different windows
 
-Subsequent proposals should define how to refactor managers (ScreenManager and SystemCapabilityManager) to read window capabilities notifications as well as the deprecated parameters.
+Subsequent proposals should define how to refactor managers (ScreenManager and SystemCapabilityManager) to read window capabilities notifications as well as the deprecated parameters. These proposals should also deprecate the Java specific custom system capability types `DISPLAY`, `BUTTON`, `SOFTBUTTON` and `PRESET_BANK`. The proxy library releases including this feature should also include mentioned manager updates to ensure this feature to be easily accessible with the managers from the start.
 
 ## Alternatives considered
 
