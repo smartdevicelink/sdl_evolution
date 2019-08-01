@@ -715,13 +715,13 @@ public VehicleDataResult getOEMCustomVehicleData (String vehicleDataName){
 ```
 public static final String KEY_CUSTOM_DATA_TYPE = "oemCustomDataType";
 
-public VehicleDataResult(@NonNull String oemCustomDataType, @NonNull VehicleDataResultCode resultCode){
+public VehicleDataResult(String oemCustomDataType, @NonNull VehicleDataResultCode resultCode){
 	this();
 	setOEMCustomVehicleDataType(oemCustomDataType);
 	setResultCode(resultCode);
 }
 	
-public void setOEMCustomVehicleDataType(@NonNull String oemCustomDataType) {
+public void setOEMCustomVehicleDataType(String oemCustomDataType) {
 	setValue(KEY_OEM_CUSTOM_DATA_TYPE, oemCustomDataType);
 }
 
