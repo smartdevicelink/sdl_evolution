@@ -683,7 +683,7 @@ Here is a sample flow diagram for SDL Core <-> HMI request response model:
 
 
 
-For oem specific custom vehicle data items, `oemCustomDataType` will contain type of OEM specific vehicle data (from schema), and `dataType` will be `VEHICLEDATA_OEM_CUSTOM_DATA`.
+For OEM specific custom vehicle data items, `oemCustomDataType` will contain type of OEM specific vehicle data (from schema), and `dataType` will be `VEHICLEDATA_OEM_CUSTOM_DATA`.
 For vehicle data items from RPCSpec, `oemCustomDataType` will be omitted, and `dataType` will contain appropriate data type from `VehicleDataType` enum.
 
 ## Proxy side changes
