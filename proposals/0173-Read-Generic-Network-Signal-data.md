@@ -662,7 +662,7 @@ Here is a sample flow diagram for SDL Core <-> HMI request response model:
             <description>Published data result code.</description>
         </param>
 +        <param name="oemCustomDataType" type="String" mandatory="false" since="6.0">
-+            <description>Type of requested oem specific parameter </description>
++            <description>Type of requested OEM specific parameter </description>
 +        </param>
     </struct>
 ```
