@@ -181,7 +181,7 @@ Alternatively modify `ScreenParams` struct used by `RegisterAppInterfaceResponse
 <param name="pixelPerInch" type="Float" mandatory="false">
  <description>PPI is the diagonal resolution in pixels divided by the diagonal screen size in inches.</description>
 </param>
-<param name="scale" type="Float" mandatory="false">
+<param name="scale" type="Float" minvalue="1" maxvalue="10" mandatory="false">
   <description>The scaling factor the app should use to change the size of the projecting view.</description>
 </param>
 </struct>
