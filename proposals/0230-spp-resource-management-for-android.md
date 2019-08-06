@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0230](0230-spp-resource-management-for-android.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **Returned for Revisions**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: Java Suite
 
 ## Introduction
@@ -22,15 +22,15 @@ This proposal focuses on the case where Proxy detects the SPP resource error, an
 
 ### Detect the case where BluetoothServerSocket fails to accept a connection from head unit. 
 Even though we could detect the case, we cannot increase the number of available SPP resources, because they are used by other apps.
-All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information when the user requests it.
+All we can do in this case is notify users that SPP channel runs out of available resources, and let users close some apps that may use the BluetoothSocket. It's not practical to show SPP service records that are used by Bluetooth adapter. The proposed approach is to notify users that we're running out of resources, and gives more information if needed (though this proposal does not include the giving more information part).
 
-Prior to detecting the error, ```setState``` and ```notifyStateChanged``` in MultiplexBaseTransport class need to be extended, so that they can notify an error:
+Prior to detecting the error, Bundle parameter should be added to ```setState``` in MultiplexBaseTransport class, so that ```setState``` can send the extra information to the target RouterService:
 ```java
     public static final String ERROR_REASON_KEY = "ERROR_REASON";
-    public static final byte REASON_SPP_ERROR   = 0x01;    // REASON = SPP error, which is sent through Message.arg2.
+    public static final byte REASON_SPP_ERROR   = 0x01;    // REASON_SPP_ERROR will be sent as value in message bundle
     public static final byte REASON_NONE        = 0x0;
 
-    protected synchronized void setState(int state, byte error) {
+    protected synchronized void setState(int state, Bundle bundle) {
         if(state == mState){
             return; //State hasn't changed. Will not update listeners.
         }
@@ -39,13 +39,7 @@ Prior to detecting the error, ```setState``` and ```notifyStateChanged``` in Mul
 
         // Give the new state to the Handler so the UI Activity can update
         // Also send the previous state so we know if we lost a connection
-        notifyStateChanged(state, arg2, error);
-    }
-
-    private void notifyStateChanged(int arg1, int arg2, byte error) {
-        Message msg = handler.obtainMessage(SdlRouterService.MESSAGE_STATE_CHANGE, arg1, arg2, getTransportRecord());
-        Bundle bundle = new Bundle();
-        bundle.putByte(ERROR_REASON_KEY, error);
+        Message msg = handler.obtainMessage(SdlRouterService.MESSAGE_STATE_CHANGE, state, arg2, getTransportRecord());
         msg.setData(bundle);
         msg.sendToTarget();
     }
@@ -58,7 +52,13 @@ In MultiplexBluetoothTransport, stop method needs to be extended, so that the er
     	super.stop(stateToTransitionTo, error);
     	
     	...
-        setState(stateToTransitionTo, error);
+        if (stateToTransitionTo == MultiplexBaseTransport.STATE_ERROR) {
+            Bundle bundle = new Bundle();
+            bundle.putByte(ERROR_REASON_KEY, error);
+            setState(stateToTransitionTo, bundle);
+        } else {
+	        setState(stateToTransitionTo, null);
+        }
     }
 ```
 
@@ -74,7 +74,38 @@ The stop method gets called when server socket's accept failed:
     }
 ```
 
-When TransportHandler in SdlRouterService detects STATE_ERROR, notifies it to user:
+onTransportError in SdlRouterService should take Bundle parameter, and notify the error information if needed:
+```java
+    @Deprecated
+    public void onTransportError(TransportType transportType){
+        onTransportError(new TransportRecord(transportType,null), null);
+    }
+
+    @Deprecated
+    public void onTransportError(TransportRecord record) {
+        onTransportError(record, null);
+    }
+
+    public void onTransportError(TransportRecord transport, Bundle errorBundle){
+        switch (transport.getType()){
+            case BLUETOOTH:
+                if(bluetoothTransport !=null){
+                    bluetoothTransport.setStateManually(MultiplexBluetoothTransport.STATE_NONE);
+                    bluetoothTransport = null;
+                }
+                if (errorBundle != null && errorBundle.getByte(MultiplexBaseTransport.ERROR_REASON_KEY) == MultiplexBaseTransport.REASON_SPP_ERROR) {
+                    notifySppError();
+                }
+                break;
+            case USB:
+                break;
+            case TCP:
+                break;
+        }
+    }
+```
+
+When TransportHandler in SdlRouterService detects STATE_ERROR, the error information should be put into onTransportError:
 ```java
 	private static class TransportHandler extends Handler{
 	    @Override
@@ -84,11 +115,7 @@ When TransportHandler in SdlRouterService detects STATE_ERROR, notifies it to us
 	            switch (msg.arg1) {
 	        	....
                 case MultiplexBaseTransport.STATE_ERROR:
-                    service.onTransportError(transportRecord);
-                    Bundle reason = msg.getData();
-                    if (reason != null && reason.getByte(MultiplexBaseTransport.ERROR_REASON_KEY) == MultiplexBaseTransport.REASON_SPP_ERROR) {
-                        service.notifySppError();
-                    }
+                    service.onTransportError(transportRecord, msg.getData());
                     break;
                 }
 	    }
@@ -101,7 +128,7 @@ notifySppError() method looks like below:
 	 * notifySppError: utilize notification channel to notify the SPP out-of-resource error.
 	 */
 	@TargetApi(11)
-	public void notifySppError() {
+	private void notifySppError() {
 		Notification.Builder builder;
 		if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
 			builder = new Notification.Builder(getApplicationContext());
@@ -120,15 +147,8 @@ notifySppError() method looks like below:
 		Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sdl_error); // use another icon for error notification
 		builder.setLargeIcon(icon);
 
-		// Create an intent that will be fired when the user clicks the notification.
-		// user apps can override getErrorNotificationIntent, to provide the custom UX when user clicks on the notification.
-		Intent intent = getErrorNotificationIntent(MultiplexBaseTransport.REASON_SPP_ERROR);
-		if (intent == null) {
-			// use Webpage by default
-			intent = new Intent(Intent.ACTION_VIEW, Uri.parse(SDL_SPP_ERROR_WEB_PAGE + "?lang=" + Locale.getDefault().getDisplayLanguage()));
-		}
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-		builder.setContentIntent(pendingIntent);
+		// Note: we won't use pending intent at this moment as the result of discussion at SDLC.
+		...
 		builder.setOngoing(false);
 
 		final String tag = "SDL";
@@ -171,49 +191,21 @@ When user opens "manage notifications", the app's notification setting will be s
 
 **Fig. 2: Manage notifications setting**
 
-Please note that channel name ("SDL Error" in Fig. 2) is TBD.
-
 And the channel ("SDL Error") should be configured like below:
 
 ![manage notification category setting](../assets/proposals/0230-spp-resource-management-for-android/manage_notification_2.png)
 
-
 **Fig. 3: Manage notification category setting**
-
-### When user clicks on notification popup
-
-In previous code snippet (Code-1), we get the Intent from getErrorNotificationIntent method, which can be overridden in user's app:
-
-```java
-	/**
-	 * This method can be overridden by developer in their own SdlRouterService class.
-	 * @param error
-	 * @return
-	 */
-	public Intent getErrorNotificationIntent(int error) {
-		return null;
-	}
-```
-
-By default (i.e. if developer does NOT override getErrorNotificationIntent), library will lead users to WebPage, which explains what happened.
-The details of error text on the WebPage is still TBD. In addition to the Webpage, sdl_java_suite library is expected to include the error activity to provide the consistent and localized error UX.
-
-The sample UX of SdlNotificationActivity looks like below:
-
-![SdlNotificationActivity UX](../assets/proposals/0230-spp-resource-management-for-android/spp_error_activity.png)
 
 All strings used for this error UX is defined in strings.xml like below:
 
 ```java
     <string name="spp_out_of_resource">Too many apps are using Bluetooth</string>
     <string name="notification_title">SmartDeviceLink</string>
-    <string name="spp_out_of_resource_message">There are too many bluetooth apps running on your device. Please close some of them and try to re-connect</string>
-    <string name="spp_out_of_resource_possible_apps">Following apps may use Bluetooth: </string>
-    <string name="button_ok">OK</string>
     <string name="sdl_error_notification_channel_name">SDL Error</string>
 ```
 
-The strings above are TBD (requires review).
+The English strings above have been reviewed, and accepted by SDLC steering committee.
 
 ### Localization of SPP error UX
 
@@ -225,71 +217,13 @@ ar_SA, cs_CZ, da_DK, de_DE, el_GR, en_AU, en_GB, en_IN, en_SA, en_US, es_ES, es_
 The default language would be en_US.
 
 Regarding who is responsible for the localization process, two steps are proposed:
-1. English strings (which is default language) must be properly reviewed and maintained by steering committee.
-2. Localized strings are maintained by project maintainer, and steering committee will be responsible for sign off of those localized strings.
-
-### Listing application that uses Bluetooth
-
-When SPP resource error is detected, if we can narrow down the apps that actually use the Bluetooth socket, that will be helpful for users to get recovered. Unfortunately, it is not realistic to identify exactly what apps are using Bluetooth. We can, however, list applications that request bluetooth permission, something like below:
-
-```java
-	public static List<ApplicationInfo> checkBluetoothApps(Context context) {
-		PackageManager pm = context.getPackageManager();
-		List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-		List<ApplicationInfo> bluetoothApps = new ArrayList<>();
-
-		// also get SdlPackages
-		HashMap<String, ResolveInfo> sdlApps = AndroidTools.getSdlEnabledApps(context, null);
-
-		for (ApplicationInfo applicationInfo : packages) {
-			//   let's take a look at non-SDL apps only
-			if (sdlApps.containsKey(applicationInfo.packageName)) {
-				Log.d(TAG, "skip SDL App: " + applicationInfo.packageName);
-			} else {
-				try {
-					PackageInfo packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
-
-					//Get Permissions
-					String[] requestedPermissions = packageInfo.requestedPermissions;
-					boolean usesBluetooth = false;
-					if (requestedPermissions != null) {
-						for (int i = 0; i < requestedPermissions.length; i++) {
-							if (Manifest.permission.BLUETOOTH.equalsIgnoreCase(requestedPermissions[i])
-									|| Manifest.permission.BLUETOOTH_ADMIN.equalsIgnoreCase(requestedPermissions[i])) {
-								usesBluetooth = true;
-								break;
-							}
-
-						}
-					}
-					if (usesBluetooth) {
-						if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
-							Log.i(TAG, "checkBluetoothPermissions: exclude system app: " + applicationInfo.packageName);
-						} else {
-							bluetoothApps.add(applicationInfo);
-							CharSequence appName = pm.getApplicationLabel(applicationInfo);
-							if (appName != null) {
-								Log.i(TAG, "checkBluetoothPermissions: " + appName + " uses bluetooth");
-							} else {
-								Log.i(TAG, "checkBluetoothPermissions: null uses bluetooth");
-							}
-						}
-					}
-				} catch (PackageManager.NameNotFoundException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return bluetoothApps;
-	}
-```
-
-Showing the list to the user will be optional (at least developers can choose), because we may need to determine if it is worth doing or not.
+1. English strings (which is default language) must be properly reviewed by SDLC steering committee.
+2. Localized strings have to be reviewed by SDLC steering committee too, but the localization review will be made in another review process (e.g. as the PR for the upcoming sdl_java_suite issue).
 
 ## Potential downsides
 
 In Fig. 3 (Manage notification category setting), if user changed the behavior to "No sound", user won't notice anything even if SPP error occurred. This seems to be a potential issue, but it is up to the user's configuration.
-
+On the other hand, we should be very aware of the fact that SDL proxy notifies error with sound and/or vibration when SPP error occurs.
 
 ## Impact on existing code
 

@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0238](0238-Keyboard-Enhancements.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Java Suite / iOS / RPC / Core]
 
 ## Introduction
@@ -77,7 +77,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 
 **_This enhancement is applicable only for root level keys in the keyboard layout. If HMI does not provide configurable keys in root level of keyboards, the system should return Zero in number of configurable keys._**
 
-**For example:** If an app wants to use _"QWERTY"_ Keyboard Layout, but HMI does not support Configurable keys at the root level, it should return _"ConfigurableKeyboards"_ Struct with _"keyboardLayout"_ equals _"QWERTY"_ (defined in _"KeyboardLayout"_) and _"numOfKeys"_ equals _Zero_.
+**For example:** If an app wants to use _"QWERTY"_ Keyboard Layout, but HMI does not support Configurable keys at the root level, it should return _"ConfigurableKeyboards"_ Struct with _"keyboardLayout"_ equals _"QWERTY"_ (defined in _"KeyboardLayout"_) and _"numConfigurableKeys"_ equals _Zero_.
 
 ### MOBILE_API and HMI_API Changes
 
@@ -92,10 +92,10 @@ In case of older SDL versions, if _"maskInputCharactersSupported"_ value is not 
        <param name="maskInputCharactersSupported" type="Boolean" mandatory="false">
            <description>Availability of capability to mask input characters using keyboard. True: Available, False: Not Available</description>
        </param>
-	   <param name="supportedKeyboardLayouts" type="KeyboardLayout" minsize="1" maxsize="10" array="true" mandatory="false" since="X.X" >
+	   <param name="supportedKeyboardLayouts" type="KeyboardLayout" minsize="1" maxsize="1000" array="true" mandatory="false" since="X.X" >
            <description>Supported keyboard layouts by HMI.</description>
        </param> 
-	   <param name="configurableKeys" type="ConfigurableKeyboards" minsize="1" maxsize="10" array="true" mandatory="false" since="X.X" >
+	   <param name="configurableKeys" type="ConfigurableKeyboards" minsize="1" maxsize="1000" array="true" mandatory="false" since="X.X" >
            <description>Get Number of Keys for Special characters, App can customize as per their needs.</description>
        </param>  
 </struct>
@@ -141,7 +141,7 @@ This _"KeyboardCapabilities"_ object will be returned with in _"WindowCapability
             Describes number of cofigurable Keys for Special characters.
         </description>
         <param name="keyboardLayout" type="KeyboardLayout" mandatory="true"/>
-        <param name="numOfKeys" type="Integer" mandatory="true"/>
+        <param name="numConfigurableKeys" type="Integer" mandatory="true"/>
     </struct>
 ```
 
@@ -163,7 +163,7 @@ This _"KeyboardCapabilities"_ object will be returned with in _"WindowCapability
 3. If App does not send this string, HMI should show default special characters in the keyboard layout.
 4. If the number of keys in _"customizeKeys"_ array is more than customizable keys allowed, the SDL core should respond with _"INVALID_DATA"_ and the info string should include a detailed message, that **_"customizeKeys exceeds the number of customizable keys in this Layout"_**.
 5. If the number of keys in _"customizeKeys"_ array is less than or equal to customizable keys allowed, the SDL core should respond with _"SUCCESS"_. 
-6. HMI should show default characters in the remaining customizable Keys if _"customizeKeys"_ array is less than or equal to the customizable keys allowed.
+6. HMI should show default characters in the remaining customizable Keys if _"customizeKeys"_ array is less than or equal to the customizable keys allowed. HMI should not duplicate special characters on keyboard. 
 7. If a certain special character is not supported by the system the HMI should send _"WARNING"_ response, with _"info"_ text as _" some symbols might not be supported by system"_. This will give a chance to use symbols that are supported and also inform the app about the system not supporting certain characters.
 
 **Example usage:** If an app wants to change three symbols, the app sends the value of _"customizeKeys"_ as _"₹£$"_. The parameter follows a similar structure as _"limitedCharacterList"_.

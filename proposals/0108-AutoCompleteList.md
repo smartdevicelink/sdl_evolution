@@ -23,8 +23,8 @@ The system currently only allows for a single suggestion while using the keyboar
 
 ```xml
 <param name="autoCompleteText" type="String" maxlength="1000" mandatory="false">
-      <description>Allows an app to prepopulate the text field with a suggested or completed entry as the user types</description>
-     </param>
+    <description>Allows an app to prepopulate the text field with a suggested or completed entry as the user types</description>
+</param>
 ```
 
 ### Proposed Implementation:
@@ -32,9 +32,9 @@ The system currently only allows for a single suggestion while using the keyboar
 There is a new parameter for KeyboardProperties which uses an array to allow multiple listing instead of one. 
 
 ```xml
-<param name="autoCompleteList" type="String" maxlength="1000" minsize="1" maxsize="100" array="true" mandatory="false">
-    <description>Allows an app to prepopulate the text field with a list of suggested or completed entry as the user types</description>
- </param>   
+<param name="autoCompleteList" type="String" maxlength="1000" minsize="0" maxsize="100" array="true" mandatory="false">
+    <description>Allows an app to prepopulate the text field with a list of suggested or completed entry as the user types. Set to 0 to remove the auto-complete list from the screen</description>
+</param>   
 ```
 
 If an app send both an autoCompleteText and an autoCompleteList parameter in a request to a HU that supports autoCompleteList, the response is successful, and the autoCompleteText is ignored all together.

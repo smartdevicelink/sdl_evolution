@@ -36,10 +36,6 @@ on the gh-pages branch).
         </xsl:call-template>
       
         <!-- This needs to include both version and platform -->        
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL iOS v6.1</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='6.1']"/>
-        </xsl:call-template>
 
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL iOS v6.2</xsl:with-param>
@@ -49,6 +45,11 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL iOS v6.3</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='6.3']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL iOS v6.4</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='6.4']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">

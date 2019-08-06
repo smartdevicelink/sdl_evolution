@@ -23,13 +23,22 @@ Basic templates have nothing to orient the user to where they are in the UI. A t
     ...
 
     <!-- New Additions -->
-    <param name="templateTitle" type="String" maxlength="100" mandatory="false">
+    <param name="templateTitle" type="String" minlength="0" maxlength="100" mandatory="false">
         <description>
             The title of the new template that will be displayed. 
             How this will be displayed is dependent on the OEM design and implementation of the template.
         </description>
     </param>
 </function>
+
+<enum name="TextFieldName" since="1.0">
+    <!-- Existing RPCs -->
+
+    <!-- Additions -->
+    <element name="templateTitle" since="x.x">
+        <description>The template title field; applies to "Show"</description>
+    </element>
+</enum>
 ```
 
 ## Potential downsides

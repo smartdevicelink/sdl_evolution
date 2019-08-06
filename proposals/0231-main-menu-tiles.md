@@ -32,7 +32,7 @@ We will add new capabilities so that developers can know if the head unit suppor
 <struct name="DisplayCapabilities" since="1.0">
     <!-- All existing params -->
 
-    <param name="menuLayoutsAvailable" type="MenuLayout" array="true" minValue="1" maxValue="1000" mandatory="false">
+    <param name="menuLayoutsAvailable" type="MenuLayout" array="true" minsize="1" maxsize="1000" mandatory="false">
         <description>An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available</description>
     </param>
 </struct>
@@ -43,7 +43,7 @@ Alternatively, if this proposal is implemented in a release simultaneously with,
 ```xml
 <struct name="WindowCapability" since="5.x">
     <!-- Existing params from SDL-0216 -->
-    <param name="menuLayoutsAvailable" type="MenuLayout" array="true" minValue="1" maxValue="1000" mandatory="false">
+    <param name="menuLayoutsAvailable" type="MenuLayout" array="true" minsize="1" maxsize="1000" mandatory="false">
         <description>An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available</description>
     </param>
 </struct>
@@ -89,7 +89,7 @@ The HMI_API updates are very similar to the MOBILE_API updates.
 <struct name="DisplayCapabilities">
     <!-- All existing params -->
 
-    <param name="menuLayouts" type="MenuLayout" array="true" minValue="1" maxValue="1000" mandatory="false">
+    <param name="menuLayoutsAvailable" type="MenuLayout" array="true" minsize="1" maxsize="1000" mandatory="false">
         <description>An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available</description>
     </param>
 </struct>
