@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0244](0244-setmediaclocktimer-custom-playback-rates.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
