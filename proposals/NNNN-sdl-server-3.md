@@ -34,7 +34,8 @@ This refactor will be a significant time investment that will put a hold on othe
 
 
 ## Impact on existing code
-This is a very broad refactor change and will touch most of the existing sdl server code. The sdl server’s REST API will not be changed in a way that breaks existing integrations. Server setup instructions for local development may need to be updated to remove references to obsolete start-up scripts.
+
+This is a very broad refactor change and will touch most of the existing sdl server code. The input and output of SDL Server’s policy table update API endpoints will not be changed in order to preserve backward compatibility with existing SDL Core integrations. Server setup instructions for local development may need to be updated to remove references to obsolete start-up scripts.
 
 ## Alternatives considered
 
