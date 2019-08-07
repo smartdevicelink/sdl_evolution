@@ -1,8 +1,8 @@
 # Add App Services to HMICapabilities
 
-* Proposal: [SDL-NNNN](NNNN-app-services-hmi-capabilities.md)
+* Proposal: [SDL-0246](0246-app-services-hmi_capabilities.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite /Core / RPC]
 
 
