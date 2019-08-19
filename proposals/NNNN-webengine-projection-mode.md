@@ -20,7 +20,7 @@ The app HMI type `PROJECTION` should be enabled for in-vehicle apps. When apps w
 
 ![Screenshot example of a web app](../assets/proposals/NNNN-webengine-projection-mode/web-app-example.jpg)
 
-> Example of a local web app presenting the user interface with the HTML renderer of the WebEngine.
+> Example of a local web app presenting the user interface with the WebView.
 
 Widgets are still available and can be controlled using `Show` RPC. Any overlay like Alert, ChoiceSets, Slider etc. are also available to the application.
 
@@ -52,7 +52,7 @@ More items may be included in the ruleset as they become Driver Distraction affe
 
 Independent of the app presentation type, the HMI will continue to provide system context information from the app. An application which uses the projection mode should continue to receive `OnHMIStatus` notifications and SDL Core will still be notified about event changes.
 
-Different to mobile app projection mode, in-vehicle apps won't be streaming video to the IVI, therefore the app and the library wouldn't listen for `OnHMIStatus.videoStreamingState` parameter to start presenting the app UI through the web rendering engine.
+Different to mobile app projection mode, in-vehicle apps won't be streaming video to the IVI, therefore the app and the library wouldn't listen for `OnHMIStatus.videoStreamingState` parameter to start presenting the app UI through the WebView.
 
 ## Potential downsides
 
@@ -64,4 +64,4 @@ To the author's knowledge there is no impact to existing code unless there are b
 
 ## Alternatives considered
 
-There are no alternatives available that the author feels competitive to the projection mode using a web rendering engine.
+There are no alternatives available that the author feels competitive to the projection mode using a WebView.
