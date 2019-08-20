@@ -42,9 +42,9 @@ At the time of this proposal being in review, a set of driver distraction rules 
 - no customized keyboard
 - no video playback (exceptions in standstill per countries)
 -	NHTSA related guidelines
-  o	Amount of text (button and text fields)
-  o	number of lines of text
-  o	Complexity of use cases (number of steps to fulfill a use case)
+    - Amount of text (button and text fields)
+    - number of lines of text
+    - Complexity of use cases (number of steps to fulfill a use case)
 
 More items may be included in the ruleset as they become Driver Distraction affected.
 
