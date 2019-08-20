@@ -111,7 +111,7 @@ The HMI API extension is mostly a copy of the cloud-app-properties included in t
 
 #### 1.5 App presentation with Templates
 
-The default app presentation approach should be template based. With the web app becoming active on the HMI, the HMI should present the application template. The body of the index.html file of the web app should be empty and should not be modified with scripts as the app won't be visible on the HMI anyways. The HMI should show the system component responsible for SDL templates. This component would receive the `Show` RPCs provided by the app.
+The default app presentation approach should be template based. With the web app becoming active on the HMI, the HMI should present the application template. The body of the index.html file of the web app should be empty and should not be modified with scripts as the app won't be visible on the HMI anyway. The HMI should show the system component responsible for SDL templates. This component would receive the `Show` RPCs provided by the app.
 
 ### Chapter 2: Web application package
 ---------
