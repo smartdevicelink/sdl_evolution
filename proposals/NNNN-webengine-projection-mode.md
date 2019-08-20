@@ -34,14 +34,14 @@ With the current depth of this proposal, the HMI type should be used by 1st part
 
 At the time of this proposal being in review, a set of driver distraction rules are being created and proposed to enable 3rd party using the projection mode. The following bullet points are items that will be described further in the ruleset:
 
--	minimum font size
--	minimum contrast between font and background
--	min/max brightness (for day and night mode)
--	number of buttons
--	minimum size of a button
+- minimum font size
+- minimum contrast between font and background
+- min/max brightness (for day and night mode)
+- number of buttons
+- minimum size of a button
 - no customized keyboard
 - no video playback (exceptions in standstill per countries)
--	NHTSA related guidelines
+- NHTSA related guidelines
     - Amount of text (button and text fields)
     - number of lines of text
     - Complexity of use cases (number of steps to fulfill a use case)
