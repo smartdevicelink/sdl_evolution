@@ -8,11 +8,11 @@
 ## Introduction
 
 This proposal is created based on discussion in https://github.com/smartdevicelink/sdl_evolution/issues/767.
-It extends [SDl-0240 - WebEngine support for SDL JavaScript](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0240-sdl-js-pwa.md) with a projection mode (formally known as OpenHMI) that was introduce with [SDL-0031 Mobile Projection](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0031-mobile-projection.md).
+It extends [SDl-0240 - WebEngine support for SDL JavaScript](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0240-sdl-js-pwa.md) with a projection mode (formerly known as OpenHMI) that was introduced with [SDL-0031 Mobile Projection](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0031-mobile-projection.md).
 
 ## Motivation
 
-This chapter describes a feature made possible using a WebEngine. A WebEngine can come with a web page rendering component described as a WebView in this proposal. The proposal describes how apps based on a WebEngine can be presented not only using system templates but that can control the WebView using the app's document object.
+This proposal describes a feature made possible using a WebEngine. A WebEngine can come with a web page rendering component described as a WebView in this proposal. The proposal describes how apps based on a WebEngine can be presented not only using system templates but that can control the WebView using the app's document object.
 
 ## Proposed solution
 
@@ -32,15 +32,15 @@ The HMI type `PROJECTION` is policy controlled. On the policy server this HMI ty
 
 With the current depth of this proposal, the HMI type should be used by 1st party OEM apps only. With future proposals and workshops the SDLC could open the HMI type to 3rd party by creating and defining proper driver distraction and user interface guidelines.
 
-At the time of this proposal being in review, a set of driver distraction rules are being created and proposed to enable 3rd party using the projection mode. The following bullet points list items that will be described further in the ruleset:
+At the time of this proposal being in review, a set of driver distraction rules are being created and proposed to enable 3rd party using the projection mode. The following bullet points are items that will be described further in the ruleset:
 
 -	minimum font size
 -	minimum contrast between font and background
 -	min/max brightness (for day and night mode)
 -	number of buttons
 -	minimum size of a button
-- No customized keyboard
-- No video playback (exceptions in standstill per countries)
+- no customized keyboard
+- no video playback (exceptions in standstill per countries)
 -	NHTSA related guidelines
   o	Amount of text (button and text fields)
   o	number of lines of text
