@@ -71,13 +71,13 @@ Change the VideoStreamingCapability struct in both API's to include the addition
 ```xml
 <struct name="VideoStreamingCapability">
 : 
-<param name="diagonalScreenSize" type="Float" mandatory="false">
+<param name="diagonalScreenSize" type="Float" minvalue="0" mandatory="false">
  <description>The diagonal screen size in inches.</description>
 </param>
-<param name="pixelPerInch" type="Float" mandatory="false">
+<param name="pixelPerInch" type="Float" minvalue="0" mandatory="false">
  <description>PPI is the diagonal resolution in pixels divided by the diagonal screen size in inches.</description>
 </param>
-<param name="scale" type="Float" mandatory="false">
+<param name="scale" type="Float" minvalue="1" maxvalue="10" mandatory="false">
   <description>The scaling factor the app should use to change the size of the projecting view.</description>
 </param>
 </struct>
