@@ -1,8 +1,8 @@
 # SDL Server 3.0.0 (refactor)
 
-* Proposal: [SDL-NNNN](NNNN-sdl-server-3.md)
+* Proposal: [SDL-0247](0247-sdl-server-3.md)
 * Author:  [Russ Johnson](https://github.com/russjohnson09), [Nick Schwab](https://github.com/nickschwab), [Chris Rokita](https://github.com/crokita)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [SDL Server]
 
 ## Introduction
