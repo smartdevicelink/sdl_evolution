@@ -1,8 +1,8 @@
 # HMI Policy Table Update using vehicle modem
 
-* Proposal: [SDL-NNNN](NNNN-hmi-ptu-support.md)
+* Proposal: [SDL-0248](0248-hmi-ptu-support.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
