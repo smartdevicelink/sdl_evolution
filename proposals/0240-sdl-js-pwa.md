@@ -109,65 +109,11 @@ The HMI API extension is mostly a copy of the cloud-app-properties included in t
   1. Alternatively HMI can call `UpdateSDL` after setting app properties to enforce SDL to peform the policy update.
 6. Policy HMI impl. (incl. SYNCP) should have the ability to use embedded modem to send policy snapshot to the policy server.
 
-### Chapter 2: App presentation
----------
+#### 1.5 App presentation with Templates
 
-This chapter describes a feature made possible using a WebEngine and that can extend the foundations of this proposal. A WebEngine can come with a web page rendering component described as a WebView in this proposal. The chapter describes how apps based on a WebEngine can be presented not only using system templates but that can control the WebView using the app's document object.
+The default app presentation approach should be template based. With the web app becoming active on the HMI, the HMI should present the application template. The body of the index.html file of the web app should be empty and should not be modified with scripts as the app won't be visible on the HMI anyway. The HMI should show the system component responsible for SDL templates. This component would receive the `Show` RPCs provided by the app.
 
-There should be two different graphical user interfaces available to WebEngine based apps. The template based user interface and the approach using the app's document object (HTML page).
-
-#### 2.1 Templates
-
-The default app presentation approach should be template based. With the web app becoming active on the HMI, the HMI should not present the app's HTML document object. The body of the index.html file of the web app should be empty and should not be modified with scripts as the app won't be visible on the HMI. The HMI should show the system component responsible for SDL templates. This component would receive the `Show` RPCs provided by the app.
-
-#### 2.2 Open HMI
-
-A new App HMI type called `OPEN_HMI` should be introduced. When apps with this HMI type are activated, the HMI should make the web page of this app visible on the screen. This web page will become the main window of the application. The window capabilities of this open main window will be empty except for the window ID and physical button capabilities. `Show` requests that address the main window won't have any effect on the HMI. If the app sends this request, Core should return an unsuccessful response with the result code `RESOURCE_NOT_AVAILABLE`. The info field should note that the app is registered with an open HMI.
-
-![Screenshot example of a web app](../assets/proposals/0240-sdl-js-pwa/web-app-example.jpg)
-
-> Example of a local web app presenting the user interface with the HTML renderer of the WebEngine.
-
-Widgets are still available and can be controlled using `Show` RPC. Any overlay like Alert, ChoiceSets, Slider etc. are also available to the application.
- 
-##### 2.2.1 Mobile and HMI API
-
-```xml
-<enum name="AppHMIType" since="2.0">
-  :
-  <element name="OPEN_HMI" since="5.x">
-</enum>
-```
-
-##### 2.2.2 Policy control
-
-Using the new HMI type would be policy controlled. On the policy server this new HMI type can be added to the valid HMI type list per app ID. Only apps with permissions to use this new HMI type would be allowed to register.
-
-##### 2.2.3 User interface guidelines (Driver Distraction rules)
-
-With the current depth of this chapter, the new HMI type should be used by 1st party OEM apps only. With future proposals and workshops the SDLC should open the new HMI type to 3rd party by creating and defining proper driver distraction and user interface guidelines.
-
-At the time of this proposal being in review, a set of driver distraction rules are being created and proposed to enable 3rd party using the open HMI. The following bullet points list items that will be described further in the ruleset:
-
--	minimum font size
--	minimum contrast between font and background
--	min/max brightness (for day and night mode)
--	number of buttons
--	minimum size of a button
-- No customized keyboard
-- No video playback (exceptions in standstill per countries)
--	NHTSA related guidelines
-  o	Amount of text (button and text fields)
-  o	number of lines of text
-  o	Complexity of use cases (number of steps to fulfill a use case)
-
-More items may be included in the ruleset as they become Driver Distraction affected.
-
-##### 2.2.4 System context and event change
-
-Independent of the app presentation type, the HMI will continue to provide system context information from the app. An application which uses the open HMI should continue to recieve `OnHMIStatus` notifications and SDL Core will still be notified about event changes.
-
-### Chapter 3: Web application package
+### Chapter 2: Web application package
 ---------
 
 Running apps on an embedded WebEngine defines a new app platform/runtime. With installing an app on the infotainment system there should be a minimum set of requirements on how the app should be packaged.
@@ -204,7 +150,6 @@ The upside of apps running with a WebEngine is that it comes with an extremely f
 1. Core needs a new transport type to support a WebSocket Server.
 2. The JavaScript library needs a new transport type to support WebSocket Client.
 3. App registration on SDL Developer Portal (smartdevicelink.com) needs a new field for local apps.
-4. Policy table and server need to support the new App HMI type `OPEN_HMI`.
 
 ## Alternatives considered
 
@@ -213,7 +158,7 @@ Local Node.js or Java were considered as alternative options for locally running
 2. Limited app availability. App developers would potentially need to reassemble a good portion of existing code and write new code to make locally running applications possible.
 3. Licensing and compatibility. License cost may apply for embedded in-vehicle use. Efforts avoiding license using older versions may cause compatiblity issues leading to code rewrite. Open source variants may cause other license issues.
 
-Many services are available over a web application and modern WebEngines provide a good sandboxing ability. Lastly, the ability of an open HMI is outstanding and not supported by either of the alternatives.
+Many services are available over a web application and modern WebEngines provide a good sandboxing ability.
 
 ## Appendix
 
