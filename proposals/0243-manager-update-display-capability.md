@@ -34,7 +34,7 @@ public enum SystemCapabilityType {
 }
 ```
 
-In order to avoid clashes with the mobile API the enum should not be extended any further without adding the enum values to the mobile API. 
+In order to avoid clashes with the mobile API the enum should only be extended with extreme caution when absolutely necessary or by adding the enum values to the RPC Spec.
 
 ### Convert capability type objects
 
@@ -200,7 +200,7 @@ void updateCachedDisplayCapabilityList(List<DisplayCapability> newCapabilities) 
 
     setCapability(SystemCapabilityType.DISPLAYS, Collections.singletonList(newDefaultDisplayCapabilities));
 
-    WindowCapability defaultMainWindowCapabilities = newDefaultDisplayCapabilities.getWindowCapabilities(PredefinedWindows.DEFAULT_WINDOW); // assume the function exist returning window capability of a specified window
+    WindowCapability defaultMainWindowCapabilities = getDefaultMainWindowCapabilities();
     
     // cover the deprecated capabilities for backward compatibility
     setCapability(SystemCapability.DISPLAY, createDisplayCapabilities(newDefaultDisplayCapabilities.getDisplayName(), defaultMainWindowCapabilities));
@@ -214,6 +214,10 @@ For convenience, the system capability manager should provide a method to fetch 
 ```java
 public WindowCapability getWindowCapability(int windowID) {
     // return the cached WindowCapability object of the window with the specified window ID
+}
+
+public WindowCapability getDefaultMainWindowCapability() {
+    // return the cached WindowCapability object of the default main window (predefined window).
 }
 ```
 
@@ -263,6 +267,9 @@ The `SDLSystemCapabilityManager` should provide the `DisplayCapability` array (e
 
 // returns WindowCapability of the window specified or nil if the window doesn't exist
 - (nullable SDLWindowCapability *)windowWithID:(NSNumber<SDLInt> *)windowID; 
+
+// returns the WindowCapability of the default main window of the application.
+- (nullable SDLWindowCapability *)defaultMainWindowCapability;
 ```
 
 The property name `displays` should be sufficient as it is within the context of the system **capability** manager. Developers should understand that the property returns capabilities of displays.
