@@ -63,6 +63,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0052" status="implemented" primary-platform="protocol" sdl-version="5.0" name="Constructed Payloads" filename="0052-constructed-payloads.md"/>
 <proposal id="0053" status="implemented" primary-platform="core" sdl-version="4.5" name="Connectivity via iAP-BT and Transport Switch" filename="0053-Connectivity-via-iAP-BT-and-Transport-Switch.md"/>
 <proposal id="0054" status="implemented" primary-platform="ios" sdl-version="5.2" name="ChangeRegistration-Manager" filename="0054-change-registration-manager.md"/>
+<proposal id="0054" status="implemented" primary-platform="java-suite" sdl-version="4.10" name="ChangeRegistration-Manager" filename="0054-change-registration-manager.md"/>
 <proposal id="0055" status="implemented" primary-platform="rpc" sdl-version="4.5" name="System Capabilities Query" filename="0055-system_capabilities_query.md"/>
 <proposal id="0056" status="accepted" primary-platform="meta" sdl-version="x.x" name="Hardware Validator App (Android)" filename="0056-hardware-validator-app-android.md"/>
 <proposal id="0057" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add zeroconf capability to WiFi transport" filename="0057-add-zeroconf-capability.md"/>
@@ -148,7 +149,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0135" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Push To Talk key support" filename="0135-PushToTalk-hardkey-support.md"/>
 <proposal id="0136" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
 <proposal id="0137" status="deferred" primary-platform="rpc" sdl-version="x.x" name="TouchCoord outside video screen range" filename="0137-TouchCoord-outside-video-screen-range.md"/>
-<proposal id="0138" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Make 'audioPassThruCapabilities' of HMI an array" filename="0138-hmi-audiopassthru-capability.md"/>
+<proposal id="0138" status="implemented" primary-platform="core" sdl-version="6.0" name="Make 'audioPassThruCapabilities' of HMI an array" filename="0138-hmi-audiopassthru-capability.md"/>
 <proposal id="0139" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Clarification of audio format details of AudioPassThru" filename="0139-apt-clarification.md"/>
 <proposal id="0140" status="implemented" primary-platform="java-suite" sdl-version="4.5" name="Android Manifest Metadata" filename="0140-android_metadata.md"/>
 <proposal id="0141" status="implemented" primary-platform="protocol" sdl-version="5.1" name="Supporting simultaneous multiple transports" filename="0141-multiple-transports.md"/>
@@ -220,7 +221,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0201" status="returned" primary-platform="ios" sdl-version="x.x" name="High level interface: Overlay Controllers" filename="0201-high-level-interface-overlay-controllers.md"/>
 <proposal id="0202" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Supported Character Sets" filename="0202-character-sets.md"/>
 <proposal id="0203" status="implemented" primary-platform="java-suite" sdl-version="4.8" name=" Cloud App Library - Phase 1" filename="0203-cloud_client_library_phase_1.md"/>
-<proposal id="0204" status="accepted" primary-platform="core" sdl-version="x.x" name="Support running the same app from multiple devices at the same time" filename="0204-same-app-from-multiple-devices.md"/>	
+<proposal id="0204" status="implemented" primary-platform="core" sdl-version="6.0" name="Support running the same app from multiple devices at the same time" filename="0204-same-app-from-multiple-devices.md"/>	
 <proposal id="0205" status="accepted" primary-platform="core" sdl-version="x.x" name="Avoid Custom button subscription in case HMI incompatibility" filename="0205-Avoid_custom_button_subscription_when_HMI_does_not_support.md"/>
 <proposal id="0206" status="accepted" primary-platform="atf" sdl-version="x.x" name="Remote Automated testing" filename="0206-remote_atf_testing.md"/>
 <proposal id="0207" status="accepted" primary-platform="rpc" sdl-version="x.x" name="RPC message protection" filename="0207-rpc-message-protection.md"/>
