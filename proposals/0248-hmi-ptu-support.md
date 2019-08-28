@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0248](0248-hmi-ptu-support.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
