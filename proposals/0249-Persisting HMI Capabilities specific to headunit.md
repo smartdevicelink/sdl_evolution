@@ -1,6 +1,6 @@
 # Persisting HMI Capabilities specific to headunit
 
-* Proposal: [SDL_NNNN](NNNN-Persisting HMI Capabilities specific to headunit.md)
+* Proposal: [SDL_0249](0249-Persisting HMI Capabilities specific to headunit.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
 * Status: **In Review**
 * Impacted Platforms: [Core]
