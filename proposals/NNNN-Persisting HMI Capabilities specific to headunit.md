@@ -2,7 +2,7 @@
 
 * Proposal: [SDL_NNNN](NNNN-Persisting HMI Capabilities specific to headunit.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
