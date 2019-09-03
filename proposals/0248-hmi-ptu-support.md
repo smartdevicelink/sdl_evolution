@@ -23,7 +23,7 @@ The solution is to add an additional PTU flow to the HMI documentation and make 
 
 ![Modem based PTU Flow](../assets/proposals/NNNN-hmi-ptu-support/diagram_ptu_external_proprietary_enhanced.png)
 
-SDL should transit to the `UPDATING` status if the HMI responds successfully to the `BasicCommunication.PolicyUpdate` request from SDL. Different to the current flow, HMI does not send an `OnSystemRequest` to SDL Core. Instead the (optionally encrypted) PTS is delivered to the policy server using the the modem. The HMI waits for a response by the policy server and provides the (decrypted if necessary) PTU back to SDL Core using `OnReceivedPolicyUpdate`.
+SDL should transit to the `UPDATING` status if the HMI responds successfully to the `BasicCommunication.PolicyUpdate` request from SDL. The HMI should fetch endpoint URLs using `GetPolicyConfigurationData` instead of using `GetURLs`. Also different to the current flow, HMI does not send an `OnSystemRequest` to SDL Core. Instead the (optionally encrypted) PTS is delivered to the policy server using the the modem. The HMI waits for a response by the policy server and provides the (decrypted if necessary) PTU back to SDL Core using `OnReceivedPolicyUpdate`.
 
 In case the policy backend cannot be reached or isn't reached by the modem, the HMI should still be able to decide using a connected mobile application for the delivery.
 
@@ -45,7 +45,11 @@ For SDL integrators the additional traffic can be an issue which depends on the 
 
 ## Impact on existing code
 
-Existing code should not be affected. Even the proposed status transition to `UPDATING` is as implemented. SDL Core should be able to support this feature. This proposal is to make this flow officially supported. The HMI documentation should be updated to reflect the new flow of this proposal.
+Existing code of Core should not be affected. Even the proposed status transition to `UPDATING` is as implemented. SDL Core should be able to support this feature, otherwise only very minor changes to SDL Core are expected. This proposal is to make this flow officially supported:
+1. The HMI documentation should be updated to reflect the new flow of this proposal.
+2. Add configurations and support for this feature to the SDL_HMI and Generic HMI
+3. Make updates to ATF/ATF test scripts to support and test this feature
+4. Potentially modify Core (if needed) to make this feature work
 
 ## Alternatives considered
 
