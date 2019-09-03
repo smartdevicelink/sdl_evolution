@@ -13,7 +13,7 @@ This proposal describes an enhanced policy table update PTU sequence where the I
 
 According to the HMI documentation on [smartdevicelink.com](https://smartdevicelink.com/en/guides/hmi/sdl/onreceivedpolicyupdate/) SDL Core doesn't expect the system to be capable of a direct policy update using the system (in-vehicle) modem. See the following sequence copied from above documentation
 
-![Current PTU Flow](../assets/proposals/NNNN-hmi-ptu-support/diagram_ptu_external_proprietary.png)
+![Current PTU Flow](../assets/proposals/0248-hmi-ptu-support/diagram_ptu_external_proprietary.png)
 
  As of today SDL Core is waiting for an HMI `OnSystemRequest` notification so that SDL Core can request a connected mobile app to transport the PTS. However, the requirements for how to implement the PTU flow don't specifically say that `OnSystemRequest` is required before HMI sends `OnReceivedPolicyUpdate`. Technically SDL Core should already be able to support the proposed feature. This proposal is meant to officially support the proposed feature.
 
@@ -21,13 +21,13 @@ According to the HMI documentation on [smartdevicelink.com](https://smartdevicel
 
 The solution is to add an additional PTU flow to the HMI documentation and make sure SDL Core can support this new flow. This flow should be optional for SDL integrators if an in-vehicle modem exists. The integration of an in-vehicle modem should look as follows:
 
-![Modem based PTU Flow](../assets/proposals/NNNN-hmi-ptu-support/diagram_ptu_external_proprietary_enhanced.png)
+![Modem based PTU Flow](../assets/proposals/0248-hmi-ptu-support/diagram_ptu_external_proprietary_enhanced.png)
 
 SDL should transit to the `UPDATING` status if the HMI responds successfully to the `BasicCommunication.PolicyUpdate` request from SDL. The HMI should fetch endpoint URLs using `GetPolicyConfigurationData` instead of using `GetURLs`. Also different to the current flow, HMI does not send an `OnSystemRequest` to SDL Core. Instead the (optionally encrypted) PTS is delivered to the policy server using the the modem. The HMI waits for a response by the policy server and provides the (decrypted if necessary) PTU back to SDL Core using `OnReceivedPolicyUpdate`.
 
 In case the policy backend cannot be reached or isn't reached by the modem, the HMI should still be able to decide using a connected mobile application for the delivery.
 
-![Fallback PTU Flow](../assets/proposals/NNNN-hmi-ptu-support/diagram_ptu_external_proprietary_enhanced_fallback.png)
+![Fallback PTU Flow](../assets/proposals/0248-hmi-ptu-support/diagram_ptu_external_proprietary_enhanced_fallback.png)
 
 The flow shows a possible scenario where the policy server response including the PTU wasn't received by the in-vehicle modem. There are many more reasons for a failure:
 - The PTS wasn't successfully sent by the in-vehicle modem
