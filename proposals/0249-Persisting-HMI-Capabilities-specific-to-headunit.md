@@ -62,8 +62,19 @@ SDL Core needs to persist the HMI capabilities in a new file in file system. Bel
    1. Overwrite contents of received responses/notifications in hmi_capabilities_cache.json file.	
    2. Should use this new data set for usages by apps/SDL Core communication until ignition cycle is performed.
 4. SDL Core should delete the `HMICapabilitiesCacheFile` file when a master reset is performed.
-5. SDL Core should regenerate `HMICapabilitiesCacheFile` file when system SW version changes.
+5. SDL Core should regenerate `HMICapabilitiesCacheFile` file when system SW version changes, as per below flow.
 
+###### HMI Capabilities Persistence after HMI SW update:
+* Upon receving `BC.OnReady()` notification from HMI, SDL Core should set `IsHMICooperating` to true (Current flow)
+* SDL Core should then send a request to HMI to get `ccpu_version` (`BR.GetSystemInfo)
+* Upon receiving `ccpu_version` from HMI, SDL Core should check if local `ccpu_version` matches with received `ccpu_version`
+   * If yes, then stop this flow, else continue to next step
+* SDL Core should delete `HMICapabilitiesCacheFile` and then call `UnregisterAllApplications()` in `ApplicationManagerImpl`
+   * This also sets `IsHMICooperating` to false
+* SDL Core should now send all HMI capabilities requests to HMI as defined in Step _1ib_ above and persist the response received from HMI to `HMICapabilitiesCacheFile` as defined in step _2i_ above.
+* When HMI has responded to all the HMI capabilities requests, SDL Core should set `IsHMICooperating` to true.
+
+Please refer to flow diagram below:
 
 ## Potential downsides
 
