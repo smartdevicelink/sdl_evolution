@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0249](0249-Persisting-HMI-Capabilities-specific-to-headunit.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
