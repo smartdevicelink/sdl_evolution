@@ -76,6 +76,8 @@ SDL Core needs to persist the HMI capabilities in a new file in file system. Bel
 
 Please refer to flow diagram below:
 
+![HMI_Cap_Persistence_SW_Update_flow](../assets/proposals/0249-Persisting-HMI-Capabilities-specific-to-headunit/HMI_Cap_Persistence_SW_Update_flow.png)
+
 ## Potential downsides
 
 This change is prone to errors by HMI. If HMI sends incorrect HMI capabilities during first boot up/after master reset, then that cannot be corrected until a master reset is performed. But we do expect HMI to send correct HMI capabilities back at all times. Therefore, this should not be an issue as long as HMI ensures that only correct values are sent to SDL Core. We should still put this as best practices/warning in HMI guidelines.
