@@ -61,22 +61,36 @@ SDL Core needs to persist the HMI capabilities in a new file in file system. Bel
 3. SDL Core, upon receiving HMI response for `UI.OnLanguageChange`, `TTS.OnLanguageChange` and `VR.OnLanguageChange` ([_Dynamic_](#dynamic) APIs), should override point 2 with following requirements
    1. Overwrite contents of received responses/notifications in hmi_capabilities_cache.json file.	
    2. Should use this new data set for usages by apps/SDL Core communication until ignition cycle is performed.
-4. SDL Core should delete the `HMICapabilitiesCacheFile` file when a master reset is performed.
-5. SDL Core should regenerate `HMICapabilitiesCacheFile` file when system SW version changes, as per below flow.
+4. In all cases above, SDL Core should still send `IsReady` requests to HMI for all applicable interfaces.
+5. SDL Core should delete the `HMICapabilitiesCacheFile` file when a master reset is performed.
+6. SDL Core should regenerate `HMICapabilitiesCacheFile` file when system SW version changes, as per below flow.
 
 ###### HMI Capabilities Persistence after HMI SW update:
-* Upon receving `BC.OnReady()` notification from HMI, SDL Core should set `IsHMICooperating` to true (Current flow)
-* SDL Core should then send a request to HMI to get `ccpu_version` (`BR.GetSystemInfo)
-* Upon receiving `ccpu_version` from HMI, SDL Core should check if local `ccpu_version` matches with received `ccpu_version`
-   * If yes, then stop this flow, else continue to next step
-* SDL Core should delete `HMICapabilitiesCacheFile` and then call `UnregisterAllApplications()` in `ApplicationManagerImpl`
-   * This also sets `IsHMICooperating` to false
-* SDL Core should now send all HMI capabilities requests to HMI as defined in Step _1ib_ above and persist the response received from HMI to `HMICapabilitiesCacheFile` as defined in step _2i_ above.
-* When HMI has responded to all the HMI capabilities requests, SDL Core should set `IsHMICooperating` to true.
+* HMI sends `BC.OnReady` to SDL Core.
+* SDL Core should NOT set `IsHMICooperating` to true yet (i.e. hold all `RAI` requests from MOBILE).
+* SDL Core should then send a request to HMI to get `ccpu_version` (`BC.GetSystemInfo).
+* Upon receiving `ccpu_version` from HMI, SDL Core should check if local `ccpu_version` matches with received `ccpu_version`.
+   * If No:
+      * SDL Core should delete `HMICapabilitiesCacheFile` and send `GetCapabilities` requests for each interface (VR, TTS, UI etc) to HMI as defined in Step _1ib_ above and persist the responses received from HMI to `HMICapabilitiesCacheFile` as defined in step _2i_ above.
+	  * When HMI has responded to all the HMI capabilities requests, SDL Core should set `IsHMICooperating` to true.
+	  * In case HMI does not send response for `GetCapabilities` requests or if HMI sends error, SDL Core should fall back to default HMI Capabilities and set `IsHMICooperating` to true. SDL Core should not persist those capabilities in _cache_.
+   * If Yes:
+      * SDL Core should set `IsHMICooperating` to true.
+* SDL Core should respond to all pending `RAI` requests from MOBILE.
 
-Please refer to flow diagram below:
+Please refer to flow diagrams below:
 
-![HMI_Cap_Persistence_SW_Update_flow](../assets/proposals/0249-Persisting-HMI-Capabilities-specific-to-headunit/HMI_Cap_Persistence_SW_Update_flow.png)
+**HMI Software Version Changed - Happy Path:**
+
+![hmi_capabilities_caching_sw_different_happypath](../assets/proposals/0249-Persisting-HMI-Capabilities-specific-to-headunit/hmi_capabilities_caching_sw_different_happypath.png)
+
+**HMI Software Version Changed - HMI response failure:**
+
+![hmi_capabilities_caching_sw_different_requestTimeout](../assets/proposals/0249-Persisting-HMI-Capabilities-specific-to-headunit/hmi_capabilities_caching_sw_different_requestTimeout.png)
+
+**HMI Software Version Same:**
+
+![hmi_capabilities_caching_sw_same](../assets/proposals/0249-Persisting-HMI-Capabilities-specific-to-headunit/hmi_capabilities_caching_sw_same.png)
 
 ## Potential downsides
 
@@ -85,6 +99,11 @@ This change is prone to errors by HMI. If HMI sends incorrect HMI capabilities d
 ## Impact on existing code
 
 There will be changes in boot up initialization sequence around all HMI capabilities. SDL Core waits on certain notifications/responses to send requests for HMI capabilities, all that logic would need to be reworked. This rework should yield a better boot up time for SDL Core and better app resumption behavior.
+
+#### SDL Core code changes:
+   * Remove `hmi_cooperating_ = true;` from `ApplicationManagerImpl::OnHMIStartedCooperation()`
+   * Create new method `ApplicationManagerImpl::SetHMICooperating(bool)`
+   * Create Request Stack to track GetCapabilities requests. Pop from stack on response or request timeout. Call `SetHMICooperating(true)` when request stack is empty
 
 ## Alternatives considered
 
