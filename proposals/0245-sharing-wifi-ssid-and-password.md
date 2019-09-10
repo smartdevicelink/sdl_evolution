@@ -24,7 +24,7 @@ If `MultipleTransportsEnabled` is set as `true` and `Secondary Transport` is `Wi
 
 Android and iOS provide APIs to connect to a WiFi network in case WiFi SSID and password is known. These APIs could be used in Mobile Proxy to connect to the WiFi access point created by HMI. The flow for the proposed solution would be:
 
-`HMI creates WiFi Access Point --> HMI provides WiFi Access point credentials to SDL Core --> SDL Core shares WiFi credentials using Primary Transport --> Mobile Proxy receives WiFi access point credentials and check if it is already connected --> Mobile Proxy automatically connects to the WiFi access point.`
+`HMI creates WiFi Access Point --> HMI provides WiFi Access point credentials to SDL Core --> SDL Core shares WiFi credentials using Primary Transport --> Mobile Proxy receives WiFi access point credentials  --> Mobile Proxy automatically connects to the WiFi access point.`
 
 ### HMI API changes
 
