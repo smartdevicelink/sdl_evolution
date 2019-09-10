@@ -29,10 +29,10 @@ Android and iOS provide APIs to connect to a WiFi network in case WiFi SSID and 
 ### HMI API changes
 
 1. HMI will create a WiFi access point and communicate these using below HMI API.
-2. HMI will notify core using `OnWiFiTransportUpdate`, whenever WiFi state is changed.
+2. HMI will notify core using `OnWiFiTransportStatusUpdate`, whenever WiFi state is changed.
 3. Device Info is changed to provide WiFi auto-connect feature support information to HMI. 
 4. HMI will receive `DeviceInfo.supportWiFiAutoConnect` in `RegisterAppInterface` Request using `primary transport`.
-5. HMI can send `OnSystemRequest` notification with `RequestType` as `CONNECT_WIFI` to inform app to try connecting WiFi. 
+5. HMI can send `OnSystemRequest` notification with `RequestType` as `CONNECT_WIFI` to inform app to try connecting WiFi. This notification will be sent only when user provided consent to share WiFi credentials and connected App supports WiFi auto-connect.
 6. HMI will not send `OnSystemRequest` notification with `RequestType` as `CONNECT_WIFI` if App is already connected using WiFi.
 
 ```
@@ -419,14 +419,14 @@ This case is applicable when the Policy table is updated and the user did not pr
 4. HMI requests `GetListOfPermissions` and determines if `WiFi group` permissions needed.
 5. HMI requests user consent to share WiFi credentials with App and informs the user that credentials can be used by the App to connect WiFi automatically.
 6. The user provides consent to share WiFi credentials with App. 
-7. HMI sends `OnSystemRequest` notification with `CONNECT_WIFI` request type.
-8. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Apps on some devices may need your permissions to connect Car WiFi.` popup with a timeout of 5 seconds.
+7. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Apps on some devices may need your permissions to connect Car WiFi.` popup with a timeout of 5 seconds.
 
 #### Post Conditions 
 
 1. The proxy receives `OnPermissionChange` notification. As soon as this notification is received, the proxy requests WiFi credentials using `GetWiFiStatusInfo` Mobile API. 
-2. WiFi credentials shared with the proxy.
-3. The proxy should try connecting to WiFi as soon as possible on receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type
+2. HMI sends `OnSystemRequest` notification with `CONNECT_WIFI` request type.
+3. WiFi credentials shared with the proxy.
+4. The proxy should try connecting to WiFi as soon as possible on receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type
 
 #### Exceptions
 
