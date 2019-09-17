@@ -493,7 +493,7 @@ This case is applicable when the mobile device does not support WiFi connection 
 1. User tries to launch the App on HMI.
 2. HMI shows `Connect WiFi to use this App` popup with a timeout of 5 seconds.
 
-#### Post Conditions 
+##### Post Conditions 
 
 1. User manually connects WiFi to use App.
 
