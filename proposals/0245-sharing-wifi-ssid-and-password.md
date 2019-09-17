@@ -203,7 +203,7 @@ Possible responses for the above mentioned RPCs.
 3. RPC response will be `DISALLOWED` if RPC is not authorized in the local policy table.
 4. RPC response will be `GENERIC_ERROR` if request cannot be processed due to some internal error.
 5. RPC response will be `USER_DISALLOWED` if user disabled WiFi status info sharing with the app.
-6. RPC response will be `DATA_NOT_AVAILABLE` if WiFi status info is not available with Core. 
+6. RPC response will be `DATA_NOT_AVAILABLE` if WiFi status info is not available with SDL Core. 
 
 ## Potential downsides
 
