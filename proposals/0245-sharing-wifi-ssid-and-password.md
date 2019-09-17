@@ -388,7 +388,7 @@ https://help.apple.com/xcode/mac/current/#/dev88ff319e7
 The use cases defined are applicable only for video streaming apps. These use case recommendations are made considering the following pre-conditions:
 
 1. HMI allows app registration of all apps using `primary transport`.
-2. HMI does not allow video streaming Apps use cases using `primary transport`.
+2. HMI does not allow video streaming apps use cases using `primary transport`.
 3. The mobile device supports WiFi connection APIs and App developer enabled WiFi auto-connect using APIs provided by a proxy. Value received for `DeviceInfo.supportWiFiAutoConnect` is `true`.
 4. `WiFi` is supported secondary transport.
 5. HMI sends `WiFi` credentials to SDL Core using `HMI API` mentioned above.
