@@ -228,7 +228,7 @@ Apps need to include additional permissions to use APIs to connect to WiFi. Howe
 1. The proxy needs to implement Mobile API mentioned above.
 2. The proxy should provide an API to enable/disable WiFi auto-connect feature.
 3. The proxy should be able to check the mobile device OS version. In case platform API support to connect WiFi is not available in a mobile device, the proxy should be able to dynamically configure OFF WiFi auto-connect feature at run time.
-4. The proxy should set `DeviceInfo.supportWiFiAutoConnect` to `true` if WiFi auto-connect is configured ON by App developer and mobile device supports platform API to connect WiFi.
+4. The proxy should set `DeviceInfo.supportWiFiAutoConnect` to `true` if WiFi auto-connect is configured ON by the app developer and mobile device supports platform API to connect WiFi.
 5. The proxy should set `DeviceInfo.supportWiFiAutoConnect` to `false`, either if WiFi auto-connect is configured OFF by developer or mobile device does not support platform API to connect WiFi.
 6. If App developers use this API to enable WiFi auto-connection feature, they should provide below permissions/entitlements:
 >*  Android App will need to include WiFi permissions.
