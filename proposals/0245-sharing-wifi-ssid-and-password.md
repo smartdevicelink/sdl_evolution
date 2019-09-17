@@ -385,7 +385,7 @@ https://help.apple.com/xcode/mac/current/#/dev88ff319e7
 
 ## Recommended use case flow
 
-The use cases defined are applicable only for video streaming Apps. These use case recommendations are made considering the following pre-conditions:
+The use cases defined are applicable only for video streaming apps. These use case recommendations are made considering the following pre-conditions:
 
 1. HMI allows App registration of all apps using `primary transport`.
 2. HMI does not allow video streaming Apps use cases using `primary transport`.
