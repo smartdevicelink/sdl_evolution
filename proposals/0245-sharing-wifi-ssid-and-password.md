@@ -156,7 +156,7 @@ Enum to define WiFi state and WiFi security type.
 </enum>
 
 <function name="GetWiFiStatusInfo" functionID="GetWiFiStatusInfoID" messagetype="request" since="X.X">
-  <description>RPC sent by proxy to request WiFi status info from Core.</description>
+  <description>RPC sent by proxy to request WiFi status info from SDL Core.</description>
 </function>
 
 <function name="GetWiFiStatusInfo" functionID="GetWiFiStatusInfoID" messagetype="response" since="X.X">
