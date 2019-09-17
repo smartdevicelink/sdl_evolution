@@ -106,7 +106,7 @@ Enum to define WiFi state and WiFi security type.
 8. The proxy will receive `Transport Event Update` with an empty IP address when TCP transport is unavailable. The proxy will not try connecting WiF if `Transport Event Update` with an empty IP address is received. 
 9. The proxy should try connecting to WiFi only when Driver Distraction is OFF.
 10. The proxy should try connecting to WiFi as soon as possible upon receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type. 
-11. Policy table should be updated to include below-mentioned RPCs. This RPCs should be updated in separate `function group`, so that the user if required, can specifically disable WiFi credentials and status sharing with App while allowing other RPCs. OEM's, if they require, can enable RPC message protection feature for below-mentioned Mobile API's.
+11. Policy table should be updated to include below-mentioned RPCs. These RPCs should be updated in aseparate `functional group`, so that, if required, the user can specifically disable WiFi credentials and status sharing with their app while allowing other RPCs. OEMs, if they require, can enable the RPC message protection feature for below-mentioned Mobile APIs.
 12. The core should check the policy table and user consent to share WiFi status info before sending a response for below mentioned RPCs. 
 
 ```
