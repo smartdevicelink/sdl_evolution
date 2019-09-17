@@ -221,7 +221,7 @@ Apps need to include additional permissions to use APIs to connect to WiFi. Howe
 ### Policy Changes
 
 1. Policy table needs to be updated for the new Mobile API.
-2. The new function group should be created so that, user if required, can explicitly disable sharing of WiFi status info.
+2. The new functional group should be created so that, if required, the user can explicitly disable sharing of WiFi status info.
 
 ### Proxy Changes
 
