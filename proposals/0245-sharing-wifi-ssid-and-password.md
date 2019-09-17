@@ -389,7 +389,7 @@ The use cases defined are applicable only for video streaming apps. These use ca
 
 1. HMI allows app registration of all apps using `primary transport`.
 2. HMI does not allow video streaming apps use cases using `primary transport`.
-3. The mobile device supports WiFi connection APIs and App developer enabled WiFi auto-connect using APIs provided by a proxy. Value received for `DeviceInfo.supportWiFiAutoConnect` is `true`.
+3. The mobile device supports WiFi connection APIs and app developer enabled WiFi auto-connect using APIs provided by a proxy. The value received for `DeviceInfo.supportWiFiAutoConnect` is `true`.
 4. `WiFi` is supported secondary transport.
 5. HMI sends `WiFi` credentials to SDL Core using `HMI API` mentioned above.
 6. The proxy receives `Start Service Ack` with supported `secondaryTransports` as `WiFi`. 
