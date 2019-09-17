@@ -288,11 +288,140 @@ Hotspot Configuration
 
 #### Steps to enable entitlements for iOS App
 
+The app needs to request entitlements to use iOS APIs to connect to WiFi. The app developers can follow below link to include these entitlements. 
+
 * Apple developer/enterprise account needed to add required entitlement in the provisioning profile.
-* Enable required entitlements for your project in XCode. More info can be found in below links.
-https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_networking_hotspotconfiguration
-https://help.apple.com/xcode/mac/current/#/dev88ff319e7
+* Request required entitlements for your project. More info can be found in below links.
+  https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_networking_hotspotconfiguration
+* Add capability to XCode target    
+  https://help.apple.com/xcode/mac/current/#/dev88ff319e7
   
+  These steps will be added in the SDLC Application Certification Guidelines as well.
+
+### Recommended use case flow
+
+The use cases defined are applicable only for video streaming apps. These use case recommendations are made considering the following pre-conditions:
+
+1. HMI allows app registration of all apps using `primary transport`.
+2. HMI does not allow video streaming apps use cases using `primary transport`.
+3. The mobile device supports WiFi connection APIs and app developer enabled WiFi auto-connect using APIs provided by a proxy. The value received for `DeviceInfo.supportWiFiAutoConnect` is `true`.
+4. `WiFi` is supported secondary transport.
+5. HMI sends `WiFi` credentials to SDL Core using `HMI API` mentioned above.
+6. The proxy receives `Start Service Ack` with supported `secondaryTransports` as `WiFi`. 
+
+#### **A. `WiFi` credentials not shared with App**
+
+This case is applicable when the policy table is not updated or user disallowed it.
+
+#### Scenario Description
+1. The proxy requests `WiFi` status info.
+2. SDL Core responds with `DISALLOWED` if the policy table is not updated.
+3. User tries to launch the app on HMI.
+4. HMI shows "Waiting for Permission updates" pop-up with timeout of 5 seconds.
+
+##### Post Conditions 
+
+WiFi credentials not shared with app.
+
+#### **B. Policy table updated and user consent needed**
+
+This case is applicable when the policy table is updated and the user did not provide consent to share WiFi credentials.
+
+##### Scenario Description
+1. If the proxy requests `WiFi` status info before user consent, SDL Core responds with `DISALLOWED`.
+2. User tries to launch the app on HMI.
+3. HMI determines that WiFi auto-connect is supported using `DeviceInfo.supportWiFiAutoConnect`.
+4. HMI requests `GetListOfPermissions` and determines if `WiFi group` permissions needed.
+5. HMI requests user consent to share WiFi credentials with app and informs the user that credentials can be used by the app to connect WiFi automatically.
+6. The user provides consent to share WiFi credentials with app. 
+7. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Apps on some devices may need your permissions to connect Car WiFi.` pop-up with a timeout of 5 seconds.
+
+##### Post Conditions 
+
+1. The proxy receives `OnPermissionChange` notification. As soon as this notification is received, the proxy requests WiFi credentials using `GetWiFiStatusInfo` Mobile API. 
+2. HMI sends `OnSystemRequest` notification with `CONNECT_WIFI` request type.
+3. WiFi credentials shared with the proxy.
+4. The proxy should try connecting to WiFi as soon as possible on receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type.
+
+##### Exceptions
+
+##### **Exception 1: Consent to share WiFi credentials not provided**
+
+User did not provide consent to share WiFi credentials
+
+1. User tries to launch the app on HMI.
+2. HMI requests `GetListOfPermissions` and determines if `WiFi group` permissions needed.
+3. HMI requests user consent to share WiFi credentials with app and informs the user that credentials can be used by the app to connect WiFi automatically.
+4. User did not provide consent to share WiFi credentials with app.
+5. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
+
+##### **Exception 2: HMI pop-up `Waiting for WiFi Connection` timeouts**
+
+This case would arise if the WiFi connection APIs fail for any reason.
+
+1. User tries to launch the app on HMI.
+2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
+
+#### **C. Policy table updated and user consent provided**
+
+This case is applicable when the policy table is updated and the user has provided consent to share WiFi credentials.
+
+##### Scenario Description
+1. If the proxy requests `WiFi` status info, SDL Core responds with `SUCCESS` and provides WiFi credentials to app.
+2. User tries to launch the app on HMI.
+3. HMI sends `OnSystemRequest` notification with `CONNECT_WIFI` request type.
+4. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Some devices may need your permissions to connect Car WiFi.` pop-up with a timeout of 5 seconds.
+
+##### Post Conditions 
+
+1. WiFi credentials shared with app.
+2. The proxy connects to WiFi using credentials provided by HMI.
+
+##### Exceptions
+
+##### **Exception 1: HMI pop-up `Waiting for WiFi Connection` timeouts**
+
+This case would arise if the WiFi connection APIs fail for any reason.
+
+1. User tries to launch the app on HMI.
+2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
+
+#### **D. Driver distraction is ON**
+
+This case is applicable when driver distraction is ON.
+
+##### Scenario Description
+
+1. User tries to launch the app on HMI.
+2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
+
+##### Post Conditions 
+
+1. User manually connects WiFi to use app.
+
+#### **E. WiFi auto-connect feature not enabled for app**
+
+This case is applicable when the mobile device does not support WiFi connection APIs or the app developer configures it OFF.
+
+##### Scenario Description
+
+1. User tries to launch the app on HMI.
+2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
+
+##### Post Conditions 
+
+1. User manually connects WiFi to use app.
+
+#### Additional Queries
+
+1. Should mobile receive Wifi credentials if it is already connected by Wifi transport?
+- Yes, the proxy will receive WiFi status notifications even when it is connected to WiFi. This would help in cases when WiFi is disabled and enabled again due to some reasons. The proxy can retry connecting using credentials available.
+
+2. If new application request WiFi updates, should it immediately receive cached WiFi credentials?
+- Yes, if allowed by policy, the new app should receive cached WiFi credentials.
+
+3. Should cached Wifi credentials be stored on SDL storage across ignition cycles?
+- No. HMI should always update SDL core about WiFi status changes using `OnWiFiTransportStatusUpdate` HMI API. 
 
 ## Alternatives considered
 
@@ -381,129 +510,3 @@ https://help.apple.com/xcode/mac/current/#/dev88ff319e7
 </function>
 
 ```
-
-
-## Recommended use case flow
-
-The use cases defined are applicable only for video streaming apps. These use case recommendations are made considering the following pre-conditions:
-
-1. HMI allows app registration of all apps using `primary transport`.
-2. HMI does not allow video streaming apps use cases using `primary transport`.
-3. The mobile device supports WiFi connection APIs and app developer enabled WiFi auto-connect using APIs provided by a proxy. The value received for `DeviceInfo.supportWiFiAutoConnect` is `true`.
-4. `WiFi` is supported secondary transport.
-5. HMI sends `WiFi` credentials to SDL Core using `HMI API` mentioned above.
-6. The proxy receives `Start Service Ack` with supported `secondaryTransports` as `WiFi`. 
-
-#### **A. `WiFi` credentials not shared with App**
-
-This case is applicable when the policy table is not updated or user disallowed it.
-
-#### Scenario Description
-1. The proxy requests `WiFi` status info.
-2. SDL Core responds with `DISALLOWED` if the policy table is not updated.
-3. User tries to launch the app on HMI.
-4. HMI shows "Waiting for Permission updates" pop-up with timeout of 5 seconds.
-
-##### Post Conditions 
-
-WiFi credentials not shared with app.
-
-#### **B. Policy table updated and user consent needed**
-
-This case is applicable when the policy table is updated and the user did not provide consent to share WiFi credentials.
-
-##### Scenario Description
-1. If the proxy requests `WiFi` status info before user consent, SDL Core responds with `DISALLOWED`.
-2. User tries to launch the app on HMI.
-3. HMI determines that WiFi auto-connect is supported using `DeviceInfo.supportWiFiAutoConnect`.
-4. HMI requests `GetListOfPermissions` and determines if `WiFi group` permissions needed.
-5. HMI requests user consent to share WiFi credentials with app and informs the user that credentials can be used by the app to connect WiFi automatically.
-6. The user provides consent to share WiFi credentials with app. 
-7. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Apps on some devices may need your permissions to connect Car WiFi.` pop-up with a timeout of 5 seconds.
-
-##### Post Conditions 
-
-1. The proxy receives `OnPermissionChange` notification. As soon as this notification is received, the proxy requests WiFi credentials using `GetWiFiStatusInfo` Mobile API. 
-2. HMI sends `OnSystemRequest` notification with `CONNECT_WIFI` request type.
-3. WiFi credentials shared with the proxy.
-4. The proxy should try connecting to WiFi as soon as possible on receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type.
-
-##### Exceptions
-
-###### Consent to share WiFi credentials not provided
-
-User did not provide consent to share WiFi credentials
-
-1. User tries to launch the app on HMI.
-2. HMI requests `GetListOfPermissions` and determines if `WiFi group` permissions needed.
-3. HMI requests user consent to share WiFi credentials with app and informs the user that credentials can be used by the app to connect WiFi automatically.
-4. User did not provide consent to share WiFi credentials with app.
-5. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
-
-###### HMI pop-up `Waiting for WiFi Connection` timeouts
-
-This case would arise if the WiFi connection APIs fail for any reason.
-
-1. User tries to launch the app on HMI.
-2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
-
-#### **C. Policy table updated and user consent provided**
-
-This case is applicable when the policy table is updated and the user has provided consent to share WiFi credentials.
-
-##### Scenario Description
-1. If the proxy requests `WiFi` status info, SDL Core responds with `SUCCESS` and provides WiFi credentials to app.
-2. User tries to launch the app on HMI.
-3. HMI sends `OnSystemRequest` notification with `CONNECT_WIFI` request type.
-4. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Some devices may need your permissions to connect Car WiFi.` pop-up with a timeout of 5 seconds.
-
-#### Post Conditions 
-
-1. WiFi credentials shared with app.
-2. The proxy connects to WiFi using credentials provided by HMI.
-
-##### Exceptions
-
-###### HMI pop-up `Waiting for WiFi Connection` timeouts
-
-This case would arise if the WiFi connection APIs fail for any reason.
-
-1. User tries to launch the app on HMI.
-2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
-
-#### **D. Driver distraction is ON**
-
-This case is applicable when driver distraction is ON.
-
-##### Scenario Description
-
-1. User tries to launch the app on HMI.
-2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
-
-##### Post Conditions 
-
-1. User manually connects WiFi to use app.
-
-#### **E. WiFi auto-connect feature not enabled for app**
-
-This case is applicable when the mobile device does not support WiFi connection APIs or the app developer configures it OFF.
-
-##### Scenario Description
-
-1. User tries to launch the app on HMI.
-2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
-
-##### Post Conditions 
-
-1. User manually connects WiFi to use app.
-
-#### Additional Queries
-
-1. Should mobile receive Wifi credentials if it is already connected by Wifi transport?
-- Yes, the proxy will receive WiFi status notifications even when it is connected to WiFi. This would help in cases when WiFi is disabled and enabled again due to some reasons. The proxy can retry connecting using credentials available.
-
-2. If new application request WiFi updates, should it immediately receive cached WiFi credentials?
-- Yes, if allowed by policy, the new app should receive cached WiFi credentials.
-
-3. Should cached Wifi credentials be stored on SDL storage across ignition cycles?
-- No. HMI should always update SDL core about WiFi status changes using `OnWiFiTransportStatusUpdate` HMI API. 
