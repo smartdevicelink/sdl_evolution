@@ -402,96 +402,96 @@ This case is applicable when the policy table is not updated or user disallowed 
 1. The proxy requests `WiFi` status info.
 2. SDL Core responds with `DISALLOWED` if the policy table is not updated.
 3. User tries to launch the app on HMI.
-4. HMI shows "Waiting for Permission updates" pop up with timeout of 5 seconds.
+4. HMI shows "Waiting for Permission updates" pop-up with timeout of 5 seconds.
 
 ##### Post Conditions 
 
-WiFi credentials not shared with App.
+WiFi credentials not shared with app.
 
 #### **B. Policy table updated and user consent needed**
 
-This case is applicable when the Policy table is updated and the user did not provide consent to share WiFi credentials.
+This case is applicable when the policy table is updated and the user did not provide consent to share WiFi credentials.
 
-#### Scenario Description
+##### Scenario Description
 1. If the proxy requests `WiFi` status info before user consent, SDL Core responds with `DISALLOWED`.
-2. User tries to launch the App on HMI.
+2. User tries to launch the app on HMI.
 3. HMI determines that WiFi auto-connect is supported using `DeviceInfo.supportWiFiAutoConnect`.
 4. HMI requests `GetListOfPermissions` and determines if `WiFi group` permissions needed.
-5. HMI requests user consent to share WiFi credentials with App and informs the user that credentials can be used by the App to connect WiFi automatically.
-6. The user provides consent to share WiFi credentials with App. 
-7. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Apps on some devices may need your permissions to connect Car WiFi.` popup with a timeout of 5 seconds.
+5. HMI requests user consent to share WiFi credentials with app and informs the user that credentials can be used by the app to connect WiFi automatically.
+6. The user provides consent to share WiFi credentials with app. 
+7. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Apps on some devices may need your permissions to connect Car WiFi.` pop-up with a timeout of 5 seconds.
 
-#### Post Conditions 
+##### Post Conditions 
 
 1. The proxy receives `OnPermissionChange` notification. As soon as this notification is received, the proxy requests WiFi credentials using `GetWiFiStatusInfo` Mobile API. 
 2. HMI sends `OnSystemRequest` notification with `CONNECT_WIFI` request type.
 3. WiFi credentials shared with the proxy.
-4. The proxy should try connecting to WiFi as soon as possible on receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type
+4. The proxy should try connecting to WiFi as soon as possible on receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type.
 
-#### Exceptions
+##### Exceptions
 
-##### Consent to share WiFi credentials not provided
+###### Consent to share WiFi credentials not provided
 
 User did not provide consent to share WiFi credentials
 
-1. User tries to launch the App on HMI.
+1. User tries to launch the app on HMI.
 2. HMI requests `GetListOfPermissions` and determines if `WiFi group` permissions needed.
-3. HMI requests user consent to share WiFi credentials with App and informs the user that credentials can be used by the App to connect WiFi automatically.
-4. User did not provide consent to share WiFi credentials with App.
-5. HMI shows `Connect WiFi to use this App` popup with a timeout of 5 seconds.
+3. HMI requests user consent to share WiFi credentials with app and informs the user that credentials can be used by the app to connect WiFi automatically.
+4. User did not provide consent to share WiFi credentials with app.
+5. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
 
-##### HMI Pop up `Waiting for WiFi Connection` timeouts
+###### HMI pop-up `Waiting for WiFi Connection` timeouts
 
-This case would arise if the WiFi connection API's fails for any reason.
+This case would arise if the WiFi connection APIs fail for any reason.
 
-1. User tries to launch the App on HMI.
-2. HMI shows `Connect WiFi to use this App` popup with a timeout of 5 seconds.
+1. User tries to launch the app on HMI.
+2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
 
-### **C. Policy table updated and user consent provided**
+#### **C. Policy table updated and user consent provided**
 
-This case is applicable when the Policy table is updated and user-provided consent to share WiFi credentials.
+This case is applicable when the policy table is updated and the user has provided consent to share WiFi credentials.
 
-#### Scenario Description
-1. If the proxy requests `WiFi` status info, SDL Core responds with `SUCCESS` and provides WiFi credentials to App.
-2. User tries to launch the App on HMI.
+##### Scenario Description
+1. If the proxy requests `WiFi` status info, SDL Core responds with `SUCCESS` and provides WiFi credentials to app.
+2. User tries to launch the app on HMI.
 3. HMI sends `OnSystemRequest` notification with `CONNECT_WIFI` request type.
-4. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Some devices may need your permissions to connect Car WiFi.` popup with a timeout of 5 seconds.
+4. HMI shows `Waiting for WiFi Connection. Please check your device when it is safe to do so. Some devices may need your permissions to connect Car WiFi.` pop-up with a timeout of 5 seconds.
 
 #### Post Conditions 
 
-1. WiFi credentials shared with App.
+1. WiFi credentials shared with app.
 2. The proxy connects to WiFi using credentials provided by HMI.
 
-#### Exceptions
+##### Exceptions
 
-##### HMI Pop up `Waiting for WiFi Connection` timeouts
+###### HMI pop-up `Waiting for WiFi Connection` timeouts
 
-This case would arise if the WiFi connection API's fails for any reason.
+This case would arise if the WiFi connection APIs fail for any reason.
 
-1. User tries to launch the App on HMI.
-2. HMI shows `Connect WiFi to use this App` popup with a timeout of 5 seconds.
+1. User tries to launch the app on HMI.
+2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
 
-### **D. Driver distraction is ON**
+#### **D. Driver distraction is ON**
 
-This case is applicable when Driver distraction is ON.
+This case is applicable when driver distraction is ON.
 
-#### Scenario Description
+##### Scenario Description
 
-1. User tries to launch the App on HMI.
-2. HMI shows `Connect WiFi to use this App` popup with a timeout of 5 seconds.
+1. User tries to launch the app on HMI.
+2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
 
-#### Post Conditions 
+##### Post Conditions 
 
-1. User manually connects WiFi to use App.
+1. User manually connects WiFi to use app.
 
-### **E. WiFi auto-connect feature not enabled for App**
+#### **E. WiFi auto-connect feature not enabled for app**
 
-This case is applicable when the mobile device does not support WiFi connection API's or App developer configures it OFF.
+This case is applicable when the mobile device does not support WiFi connection APIs or the app developer configures it OFF.
 
-#### Scenario Description
+##### Scenario Description
 
-1. User tries to launch the App on HMI.
-2. HMI shows `Connect WiFi to use this App` popup with a timeout of 5 seconds.
+1. User tries to launch the app on HMI.
+2. HMI shows `Connect WiFi to use this App` pop-up with a timeout of 5 seconds.
 
 ##### Post Conditions 
 
