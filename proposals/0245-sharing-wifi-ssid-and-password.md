@@ -497,7 +497,7 @@ This case is applicable when the mobile device does not support WiFi connection 
 
 1. User manually connects WiFi to use app.
 
-### Additional Queries
+#### Additional Queries
 
 1. Should mobile receive Wifi credentials if it is already connected by Wifi transport?
 - Yes, the proxy will receive WiFi status notifications even when it is connected to WiFi. This would help in cases when WiFi is disabled and enabled again due to some reasons. The proxy can retry connecting using credentials available.
