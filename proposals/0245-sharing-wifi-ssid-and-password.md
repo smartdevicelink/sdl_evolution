@@ -107,7 +107,7 @@ Enum to define WiFi state and WiFi security type.
 9. The proxy should try connecting to WiFi only when Driver Distraction is OFF.
 10. The proxy should try connecting to WiFi as soon as possible upon receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type. 
 11. Policy table should be updated to include below-mentioned RPCs. These RPCs should be updated in aseparate `functional group`, so that, if required, the user can specifically disable WiFi credentials and status sharing with their app while allowing other RPCs. OEMs, if they require, can enable the RPC message protection feature for below-mentioned Mobile APIs.
-12. The core should check the policy table and user consent to share WiFi status info before sending a response for below mentioned RPCs. 
+12. SDL Core should check the policy table and user consent to share WiFi status info before sending a response for below-mentioned RPCs. 
 
 ```
 <enum name="FunctionID" internal_scope="base" since="1.0">
