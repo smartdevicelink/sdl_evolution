@@ -396,7 +396,7 @@ The use cases defined are applicable only for video streaming apps. These use ca
 
 #### **A. `WiFi` credentials not shared with App**
 
-This case is applicable when the Policy table is not updated or user disallowed it.
+This case is applicable when the policy table is not updated or user disallowed it.
 
 #### Scenario Description
 1. The proxy requests `WiFi` status info.
