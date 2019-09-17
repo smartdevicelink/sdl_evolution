@@ -234,7 +234,7 @@ Apps need to include additional permissions to use APIs to connect to WiFi. Howe
 >*  Android App will need to include WiFi permissions.
 >*  iOS App will need to add `Hotspot Configuration` Capability.
 7. The proxy should connect WiFi only if the app developer enabled WiFi auto-connect feature.
-8. The proxy should request WiFi status information using the above-mentioned API only if WiFi auto-connection is enabled by App developer, the mobile device supports platform API to connect WiFi and WiFi is supported as `secondary transport`.
+8. The proxy should request WiFi status information using the above-mentioned API only if WiFi auto-connection is enabled by the app developer, the mobile device supports platform API to connect WiFi, and WiFi is supported as `secondary transport`.
 9. The proxy should rely on error callbacks and return values to know whether WiFi connection using platform APIs was successful or failed. 
 
 
