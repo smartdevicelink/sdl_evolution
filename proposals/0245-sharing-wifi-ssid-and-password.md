@@ -404,7 +404,7 @@ This case is applicable when the policy table is not updated or user disallowed 
 3. User tries to launch the app on HMI.
 4. HMI shows "Waiting for Permission updates" pop up with timeout of 5 seconds.
 
-#### Post Conditions 
+##### Post Conditions 
 
 WiFi credentials not shared with App.
 
