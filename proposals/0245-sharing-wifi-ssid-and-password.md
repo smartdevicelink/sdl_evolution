@@ -98,7 +98,7 @@ Enum to define WiFi state and WiFi security type.
 
 1. The proxy can connect to WiFi using APIs provided by the platform if SSID, password and security type are known. However, these APIs need special permissions or entitlements. 
 2. App developers can choose if they want to provide these permissions or not. Hence, app developers should be able to configure OFF WiFi auto-connection feature using proxy API. 
-3. The proxy will provide an API to App developer to configure ON/OFF WiFi auto-connection. If App developers use this API to configure ON WiFi auto-connection, the proxy should request WiFi status info from SDL Core using below API. 
+3. The proxy will provide an API to app developers to configure ON/OFF WiFi auto-connection. If app developers use this API to configure ON WiFi auto-connection, the proxy should request WiFi status info from SDL Core using below API. 
 4. The proxy should send `DeviceInfo.supportWiFiAutoConnect` information along with `RegisterAppInterface` request.
 5. If the mobile device supports WiFi connection APIs provided by platform and App developer configured ON WiFi auto-connect feature, only then proxy should send `DeviceInfo.supportWiFiAutoConnect` as `true`.
 6. The proxy should request WiFi status info only if supported secondary transport is WiFi. As defined in a proposal [SDL-0141](https://github.com/smartdevicelink/sdl_evolution/blob/13031dfe6d17c20fdbc673b4ac0016992d765fcd/proposals/0141-multiple-transports.md#starting-secondary-transport), this information is provided with `Start Service ACK` during version negotiations. 
