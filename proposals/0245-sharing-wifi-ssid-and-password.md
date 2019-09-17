@@ -96,7 +96,7 @@ Enum to define WiFi state and WiFi security type.
 
 ### Mobile API changes
 
-1. The proxy can connect to WiFi using APIs provided by the platform if SSID, password and security type is known. However, these APIs need special permissions or entitlements. 
+1. The proxy can connect to WiFi using APIs provided by the platform if SSID, password and security type are known. However, these APIs need special permissions or entitlements. 
 2. App developers can choose if they want to provide these permissions or not. Hence, App developers should be able to configure OFF WiFi auto-connection feature using proxy API. 
 3. The proxy will provide an API to App developer to configure ON/OFF WiFi auto-connection. If App developers use this API to configure ON WiFi auto-connection, the proxy should request WiFi status info from SDL Core using below API. 
 4. The proxy should send `DeviceInfo.supportWiFiAutoConnect` information along with `RegisterAppInterface` request.
