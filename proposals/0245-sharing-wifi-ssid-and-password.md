@@ -202,7 +202,7 @@ Possible responses for the above mentioned RPCs.
 2. RPC response will be `UNSUPPORTED_RESOURCE` if HMI does not support WiFi transport for SDL.
 3. RPC response will be `DISALLOWED` if RPC is not authorized in the local policy table.
 4. RPC response will be `GENERIC_ERROR` if request cannot be processed due to some internal error.
-5. RPC response will be `USER_DISALLOWED` if User disabled WiFi status info sharing with the App.
+5. RPC response will be `USER_DISALLOWED` if user disabled WiFi status info sharing with the app.
 6. RPC response will be `DATA_NOT_AVAILABLE` if WiFi status info is not available with Core. 
 
 ## Potential downsides
