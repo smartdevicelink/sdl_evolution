@@ -394,7 +394,7 @@ The use cases defined are applicable only for video streaming apps. These use ca
 5. HMI sends `WiFi` credentials to SDL Core using `HMI API` mentioned above.
 6. The proxy receives `Start Service Ack` with supported `secondaryTransports` as `WiFi`. 
 
-### **A. `WiFi` credentials not shared with App**
+#### **A. `WiFi` credentials not shared with App**
 
 This case is applicable when the Policy table is not updated or user disallowed it.
 
