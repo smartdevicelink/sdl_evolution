@@ -408,7 +408,7 @@ This case is applicable when the policy table is not updated or user disallowed 
 
 WiFi credentials not shared with App.
 
-### **B. Policy table updated and user consent needed**
+#### **B. Policy table updated and user consent needed**
 
 This case is applicable when the Policy table is updated and the user did not provide consent to share WiFi credentials.
 
