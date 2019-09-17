@@ -502,7 +502,7 @@ This case is applicable when the mobile device does not support WiFi connection 
 1. Should mobile receive Wifi credentials if it is already connected by Wifi transport?
 - Yes, the proxy will receive WiFi status notifications even when it is connected to WiFi. This would help in cases when WiFi is disabled and enabled again due to some reasons. The proxy can retry connecting using credentials available.
 
-2. If new application request WIFI updates, should it immediately receive cached WiFi credentials?
+2. If new application request WiFi updates, should it immediately receive cached WiFi credentials?
 - Yes, if allowed by policy, the new app should receive cached WiFi credentials.
 
 3. Should cached Wifi credentials be stored on SDL storage across ignition cycles?
