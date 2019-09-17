@@ -495,7 +495,7 @@ This case is applicable when the mobile device does not support WiFi connection 
 
 ##### Post Conditions 
 
-1. User manually connects WiFi to use App.
+1. User manually connects WiFi to use app.
 
 ### Additional Queries
 
