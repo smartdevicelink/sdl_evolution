@@ -296,7 +296,7 @@ https://help.apple.com/xcode/mac/current/#/dev88ff319e7
 
 ## Alternatives considered
 
-1. The proxy can know the status of the current WiFi connection using APIs provided in Android and iOS SDK. However, these APIs requires additional permissions and entitlements. 
+1. The proxy can know the status of the current WiFi connection using APIs provided in Android and iOS SDK. However, these APIs require additional permissions and entitlements. 
 
 2. Instead of depending on `Transport Event Update` to know WiFi connection state, `subscription` methods could be provided in mobile API, as defined below. However, this would increase the number of available RPC's for WiFi.
 
