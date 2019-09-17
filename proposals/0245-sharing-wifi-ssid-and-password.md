@@ -214,7 +214,7 @@ Apps need to include additional permissions to use APIs to connect to WiFi. Howe
 ### Changes in SDL Core
 
 1. Implementation of HMI API described above in Core. 
-2. Implementation of Mobile API described above in Core.
+2. Implementation of Mobile API described above in SDL Core.
 3. Implementation to handle additional `functional group` for WiFi.
 4. SDL Core will cache `WiFi credentials` received from HMI and will be able to share them with other apps if permitted by policies.
 
