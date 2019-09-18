@@ -35,7 +35,7 @@ Android and iOS provide APIs to connect to a WiFi network in case WiFi SSID and 
 5. HMI can send `OnSystemRequest` notification with `RequestType` as `CONNECT_WIFI` to inform app to try connecting WiFi. This notification will be sent only when a user has provided consent to share WiFi credentials, and the connected app supports WiFi auto-connect and the user attempts to launch that app.
 6. HMI will not send `OnSystemRequest` notification with `RequestType` as `CONNECT_WIFI` if app is already connected using WiFi.
 
-```
+```xml
 <interface name="Common" version="X.X.X" date="2019-XX-XX">
 <struct name="DeviceInfo" since="X.X">
   .
@@ -78,7 +78,7 @@ Android and iOS provide APIs to connect to a WiFi network in case WiFi SSID and 
 
 Enum to define WiFi state and WiFi security type.
 
-```
+```xml
 <enum name="WiFiSecurityType">
   <description>enum to define WiFi security types used for WiFi connection.</description>
   <element name="WIFI_SECURITY_NONE"/>
@@ -106,10 +106,10 @@ Enum to define WiFi state and WiFi security type.
 8. The proxy will receive `Transport Event Update` with an empty IP address when TCP transport is unavailable. The proxy will not try connecting WiF if `Transport Event Update` with an empty IP address is received. 
 9. The proxy should try connecting to WiFi only when Driver Distraction is OFF.
 10. The proxy should try connecting to WiFi as soon as possible upon receiving `OnSystemRequest` notification with `CONNECT_WIFI` request type. 
-11. Policy table should be updated to include below-mentioned RPCs. These RPCs should be updated in aseparate `functional group`, so that, if required, the user can specifically disable WiFi credentials and status sharing with their app while allowing other RPCs. OEMs, if they require, can enable the RPC message protection feature for below-mentioned Mobile APIs.
+11. Policy table should be updated to include below-mentioned RPCs. These RPCs should be updated in a separate `functional group`, so that, if required, the user can specifically disable WiFi credentials and status sharing with their app while allowing other RPCs. OEMs, if they require, can enable the RPC message protection feature for below-mentioned Mobile APIs.
 12. SDL Core should check the policy table and user consent to share WiFi status info before sending a response for below-mentioned RPCs. 
 
-```
+```xml
 <enum name="FunctionID" internal_scope="base" since="1.0">
   .
   .
@@ -242,7 +242,7 @@ Apps need to include additional permissions to use APIs to connect to WiFi. Howe
 
 Below code can be used to connect to WiFi Access point if SSID and password are known.
 
-```
+```Java
     private void connectToWiFi(String ssid,String password){
         WifiConfiguration conf = new WifiConfiguration();
         conf.SSID = "\"" + ssid + "\"";
@@ -262,7 +262,7 @@ Below code can be used to connect to WiFi Access point if SSID and password are 
 ```
 Permissions required to use above mentioned API's are as follows:
 
-```
+```xml
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 ```
@@ -270,7 +270,7 @@ Permissions required to use above mentioned API's are as follows:
 
 Below code can be used to connect to WiFi Access point if SSID and password are known.
 
-```
+```objc
     NEHotspotConfiguration * config = [[NEHotspotConfiguration alloc] initWithSSID:ssid passphrase:password isWEP:NO];
     [config setJoinOnce:NO];
     
@@ -421,7 +421,7 @@ This case is applicable when the mobile device does not support WiFi connection 
 - Yes, if allowed by policy, the new app should receive cached WiFi credentials.
 
 3. Should cached Wifi credentials be stored on SDL storage across ignition cycles?
-- No. HMI should always update SDL core about WiFi status changes using `OnWiFiTransportStatusUpdate` HMI API. 
+- No. HMI should always update SDL Core about WiFi status changes using `OnWiFiTransportStatusUpdate` HMI API. 
 
 ## Alternatives considered
 
@@ -429,7 +429,7 @@ This case is applicable when the mobile device does not support WiFi connection 
 
 2. Instead of depending on `Transport Event Update` to know WiFi connection state, `subscription` methods could be provided in mobile API, as defined below. However, this would increase the number of available RPCs for WiFi.
 
-```
+```xml
 <enum name="FunctionID" internal_scope="base" since="1.0">
   .
   .
