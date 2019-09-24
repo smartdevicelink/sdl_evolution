@@ -57,7 +57,7 @@ Instead of validating vehicle data items against APIs XML, SDL core would rely o
 
 The proposed Policy Table structure assumes that SDL core enums are defined in the RPC Spec and are _not_ defined within the Policy Table. 
 
-Additionally if there is a custom data item in the PTU that uses an enum not defined in a modules max supported RPC Spec version, no validation will be performed on this parameter. The impact of this note means that Core will pass custom enum data types it does not recognize as a string to/from the hmi/mobile device.
+Additionally if there is a custom data item in the PTU that uses an enum that is not defined in a module's local RPC Spec, no validation will be performed on this parameter. The impact of this is that Core will pass enum data types it does not recognize as a raw string between the HMI and mobile device.
 
 
 ### Vehicle Data Schema file location and updates
