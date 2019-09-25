@@ -31,7 +31,7 @@ Android and iOS provide APIs to connect to a WiFi network in case WiFi SSID and 
 1. HMI will create a WiFi access point and communicate these using below HMI API.
 2. HMI will notify SDL Core using `OnWiFiTransportStatusUpdate` whenever WiFi state is changed.
 3. Device Info is changed to provide WiFi auto-connect feature support information to HMI. 
-4. HMI will receive `DeviceInfo.supportWiFiAutoConnect` in `RegisterAppInterface` Request using `primary transport`.
+4. HMI will receive `DeviceInfo.supportWiFiAutoConnect` in `OnAppRegistered` HMI API, when the app is registered using `primary transport`.
 5. HMI can send `OnSystemRequest` notification with `RequestType` as `CONNECT_WIFI` to inform app to try connecting WiFi. This notification will be sent only when a user has provided consent to share WiFi credentials, and the connected app supports WiFi auto-connect and the user attempts to launch that app.
 6. HMI will not send `OnSystemRequest` notification with `RequestType` as `CONNECT_WIFI` if app is already connected using WiFi.
 
