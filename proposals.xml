@@ -247,8 +247,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0225" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Update Published App Services" filename="0225-update-published-app-services.md"/>
 <proposal id="0226" status="implemented" primary-platform="ios" sdl-version="6.3" name="Add iOS SDLManager RPC Subscriptions" filename="0226-ios-manager-rpc-subscriptions.md"/>
 <proposal id="0227" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Supported RGB Colors to Light Capabilities" filename="0227-add-supported-rgb-colors.md"/>
-<proposal id="0228" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Email Notifications" filename="0228-sdl-server-email-notifications.md"/>
-<proposal id="0229" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Version Tracking" filename="0229-sdl-server-version-tracking.md"/>
+<proposal id="0228" status="implemented" primary-platform="policy" sdl-version="2.7" name="SDL Server Email Notifications" filename="0228-sdl-server-email-notifications.md"/>
+<proposal id="0229" status="implemented" primary-platform="policy" sdl-version="2.7" name="SDL Server Version Tracking" filename="0229-sdl-server-version-tracking.md"/>
 <proposal id="0230" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="SPP resource management for Android" filename="0230-spp-resource-management-for-android.md"/>
 <proposal id="0231" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Tiles as an Option for Main Menus" filename="0231-main-menu-tiles.md"/>
 <proposal id="0232" status="implemented" primary-platform="ios" sdl-version="6.3" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
