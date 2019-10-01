@@ -21,7 +21,7 @@ This enables:
 
 Here's an example of current SYNC3 iHeartRadio flow (left) vs potential future (right).
 With this proposal, the HMI would know that after the user picks something like "Radio Genres", another RPC is incoming and can show a special loading screen until the RPC comes in. (Or the loading screen times out, but that behavior would be set by the OEM and not require SDL responses of any sort)
-![App screen and display](assets/NNNN-NextRpcIndication/NextRpcIndication.png)
+![App screen and display](assets/proposals/NNNN-NextRpcIndication/NextRpcIndication.png)
 
 ## Proposed solution
 
