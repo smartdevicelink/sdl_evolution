@@ -8,7 +8,7 @@
 
 ## Introduction
 
-In situations with driver distraction, also with making a good UI, it really hurts the possible UX when the HMI has no idea what's going to happen next after the user taps an in-app menu item, a softbutton or a selection in a perform interaciton. 
+In situations with driver distraction, also with making a good UI, it really hurts the possible UX when the HMI has no idea what's going to happen next after the user taps an in-app menu item, a softbutton or a selection in a perform interaction. 
 This feature would provide Apps a way for the HMI to know what's next when a button or choice is selected.
 
 ## Motivation
