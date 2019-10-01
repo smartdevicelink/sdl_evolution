@@ -1,7 +1,6 @@
 # Font Styles
 
-* Proposal: [NNNN](NNNN-font-styles.md)
-* SDL Proposal: [To be filled later](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/)
+* Proposal: [SDL-NNNN](NNNN-font-styles.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / Web / RPC ]
@@ -17,7 +16,7 @@ As an app partner, I want to be able to customize text on main layouts and popup
 ## Proposed solution
 
 
-When an app wants a more visually appealing UI experience,  it can add a font style cutomization onto each line of text if desired.  If no font style is provided, then it is assumed that the font is normal.  
+When an app wants a more visually appealing UI experience,  it can add a font style customization onto each line of text if desired.  If no font style is provided, then it is assumed that the font is normal.  
 
 ![Example Screen](../assets/proposals/NNNN-font-styles/NNNN-font-styles.png)
 
@@ -26,10 +25,10 @@ Add a new struct `TextStyle`
 ```xml
 <struct name="TextStyle">
   <param name="bold" type="Boolean" mandatory="false">
-	<description>Italisize the line of text. Defaults to false.</description>	
+	<description>Bold the line of text. Defaults to false.</description>	
   </param>
   <param name="italic" type="Boolean" mandatory="false">
-	<description>Bold the line of text. Defaults to false.</description>
+	<description>Italicize the line of text. Defaults to false.</description>
   </param>
   <param name="underline" type="Boolean" mandatory="false">
 	 <description>Underline the line of text. Defaults to false.</description>
@@ -37,7 +36,7 @@ Add a new struct `TextStyle`
 </struct>	
 ```
 
-Add to the TextFieldStruct - this will cover Show, Alert and TBT RPCs. As well as `InitialText` for various RPCs.
+Add to the TextFieldStruct - this will cover Show, Alert and TBT RPCs, as well as `InitialText` for various RPCs.
 
 ```xml
 <struct name="TextFieldStruct">
@@ -89,7 +88,7 @@ Add font styles for `PerformInteraction` `Choice`
 
 With this implementation, the whole line of text has to have the same font style. It's not possible to bold only a part of a line of text. Also this adds some HMI complexity.
 
-Currently not considering these as no current or immediate need:
+Currently not considering these as there is no current or immediate need:
 - SendLocation
 - Media clock
 - Media track
