@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md)
 * Author: [Heather Williams](https://github.com/hwilli88/), [Ankur Tiwari](https://github.com/atiwari9/)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core][HMI]
+* Impacted Platforms: [Core / HMI]
 
 ## Introduction
 
@@ -11,13 +11,13 @@ This proposal is to add param `pcmStreamCapabilities` in `UI.GetCapabilities` re
 
 ## Motivation
 
-`pcmStreamCapabilities` was introduced by PR: https://github.com/smartdevicelink/sdl_core/pull/472 , but this PR missed to add implementation for HMI API. `pcmStreamCapabilities` is present in MOBILE API, but HMI has no way to provide this information to SDL. As a result, SDL always uses default `hmi_capabilities.json` for `pcmStreamCapabilities` in `RAI` response to MOBILE.
+`pcmStreamCapabilities` was introduced by PR: https://github.com/smartdevicelink/sdl_core/pull/472 , but this PR missed adding implementation for HMI API. `pcmStreamCapabilities` is present in MOBILE API, but HMI has no way to provide this information to SDL Core. As a result, SDL Core always uses default `hmi_capabilities.json` for `pcmStreamCapabilities` in `RAI` response to MOBILE.
 
 ## Proposed Solution 
 
 Align HMI API with MOBILE API for `pcmStreamCapabilities` by adding this param to HMI API in `UI.GetCapabilities` response.
 
-```
+```xml
 <function name="GetCapabilities" messagetype="response">
 	<param name="displayCapabilities" type="Common.DisplayCapabilities" mandatory="true">
 		<description>Information about the capabilities of the display: its type, text field supported, etc. See DisplayCapabilities. </description>
@@ -43,7 +43,7 @@ Author is not aware of any downsides to proposed solution.
 
 ## Impact on existing code
 
-* HMI needs to be updated to provide `pcmStreamCapabilities`
+* HMI needs to be updated to provide `pcmStreamCapabilities`.
 * SDL Core needs to be updated to read `pcmStreamCapabilities` from HMI in `UI.GetCapabilities` response.
 
 ## Alternatives considered
