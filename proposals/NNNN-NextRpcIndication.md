@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-NextRPCIndication.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Android / Web / RPC ]
+* Impacted Platforms: [Core / iOS / Java Suite / RPC ]
 
 ## Introduction
 
