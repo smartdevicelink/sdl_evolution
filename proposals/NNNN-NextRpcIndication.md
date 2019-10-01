@@ -9,15 +9,15 @@
 ## Introduction
 
 In situations with driver distraction, also with making a good UI, it really hurts the possible UX when the HMI has no idea what's going to happen next after the user taps an in-app menu item, a softbutton or a selection in a perform interaction. 
-This feature would provide Apps a way for the HMI to know what's next when a button or choice is selected.
+This feature would provide apps with a way for the HMI to know what's next when a button or choice is selected.
 
 ## Motivation
 
 As a system, I want to be able to be smarter and faster with in-app menu systems.
 This enables:
-1. Better HMI possible. Can show forward and backwards arrows for the user so the user knows what to expect when navigating around.
-2. Smart Driver Distraction. If a softbutton or choice would lead to a screen that's normally locked out while driving (like a Scrollable Message), the HMI could show the softbutton as disable while driving.
-3. The HMI can have a much smoother experience with native HMI loading screens - not depending on the mobile app to send a sort of loading screen on it's own.
+1. **Better HMI possibilities:** can show forward and backward arrows for the user so the user knows what to expect when navigating around.
+2. **Smart Driver Distraction:** if a softbutton or choice would lead to a screen that's normally locked out while driving (like a Scrollable Message), the HMI could show the softbutton as disabled while driving.
+3. The HMI can have a much smoother experience with native HMI loading screens - not depending on the mobile app to send a sort of loading screen on its own.
 
 Here's an example of current SYNC3 iHeartRadio flow (left) vs potential future (right).
 With this proposal, the HMI would know that after the user picks something like "Radio Genres", another RPC is incoming and can show a special loading screen until the RPC comes in. (Or the loading screen times out, but that behavior would be set by the OEM and not require SDL responses of any sort)
@@ -34,7 +34,7 @@ Add a new struct `NextFunctionInfo` with all the data needed for the HMI to know
 		Outlines information about the next RPC that will be triggered.		
 	</description>
 	<param name="nextFunctionID" type="FunctionID" mandatory="true"/>
-		<description>The next Function (RPC) that will be triggered by the selecting the current option/command/choice etc.</description>
+		<description>The next function (RPC) that will be triggered by selecting the current option/command/choice etc.</description>
 	</param>
 		<param name="nextInitialText" type="String" maxlength="500"  mandatory="false"/>
 			<description>This lets the HMI know what the initialText of the next RPC is going to be to help the loading user experience.</description>
@@ -50,12 +50,12 @@ Add the struct to `Choice` in the HMI API and the same in the MOBILE API:
   .
   .
   <param name="nextFunctionInfo" type="NextFunctionInfo" mandatory="false" since="x.x">
-    <description>Information about the next RPC that is triggered when this choice is selected </description>
+    <description>Information about the next RPC that is triggered when this choice is selected. </description>
   </param>
 </struct>
 ```
 
-Add the struct to `AddCommand` to the HMI API
+Add the struct to `AddCommand` to the HMI API:
 ```xml
   <function name="AddCommand" functionID="AddCommandID" messagetype="request" since="1.0">
   <description>
@@ -67,7 +67,7 @@ Add the struct to `AddCommand` to the HMI API
   .
   <param name="nextFunctionInfo" type="NextFunctionInfo" mandatory="false" since="x.x">
     <description>
-      Information about the next RPC that is triggered when this choice is selected
+      Information about the next RPC that is triggered when this choice is selected.
     </description>
   </param>
 </function>
@@ -80,7 +80,7 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
   .
   .
   <param name="nextFunctionInfo" type="NextFunctionInfo" mandatory="false" since="x.x">
-    <description>Information about the next RPC that is triggered when this choice is selected </description>
+    <description>Information about the next RPC that is triggered when this choice is selected. </description>
   </param>
 </struct>
  ```
