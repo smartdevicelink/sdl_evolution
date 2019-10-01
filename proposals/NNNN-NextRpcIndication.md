@@ -1,7 +1,6 @@
 # Next RPC Indication for the HMI
 
 * Proposal: [SDL-NNNN](NNNN-NextRPCIndication.md)
-* SDL Proposal: [To be filled later](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Android / Web / RPC ]
