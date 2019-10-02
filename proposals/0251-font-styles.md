@@ -18,7 +18,7 @@ As an app partner, I want to be able to customize text on main layouts and popup
 
 When an app wants a more visually appealing UI experience,  it can add a font style customization onto each line of text if desired.  If no font style is provided, then it is assumed that the font is normal.  
 
-![Example Screen](../assets/proposals/NNNN-font-styles/NNNN-font-styles.png)
+![Example Screen](../assets/proposals/0251-font-styles/0251-font-styles.png)
 
 Add a new struct `TextStyle`
 
