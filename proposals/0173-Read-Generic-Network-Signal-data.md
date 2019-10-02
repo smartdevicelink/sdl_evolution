@@ -55,7 +55,9 @@ Instead of validating vehicle data items against APIs XML, SDL core would rely o
 * _since_, _until_ are String values and are optional per vehicle data item. _removed_, _deprecated_ are Boolean values and are optional per vehicle data item. _minvalue_, _maxvalue_, _minsize_, _maxsize_, _minlength_, _maxlength_ are Integer values and are optional per vehicle data item.
   * _Custom/OEM Specific_ vehicle data parameters that are not a part of the rpc spec should not have any version related tags included (since, until, removed, deprecated), these vehicle data parameters would not be able to have the same versioning system as the rpc spec since any version number supplied would not be the version associated with any known public rpc spec.
 
-The proposed Policy Table structure assumes that SDL core enums are defined in the RPC Spec and are _not_ defined within the Policy Table.
+The proposed Policy Table structure assumes that SDL core enums are defined in the RPC Spec and are _not_ defined within the Policy Table. 
+
+Additionally if there is a custom data item in the PTU that uses an enum that is not defined in a module's local RPC Spec, no validation will be performed on this parameter. The impact of this is that Core will pass enum data types it does not recognize as a raw string between the HMI and mobile device.
 
 
 ### Vehicle Data Schema file location and updates
