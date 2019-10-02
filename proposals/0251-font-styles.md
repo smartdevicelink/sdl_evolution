@@ -1,8 +1,8 @@
 # Font Styles
 
-* Proposal: [SDL-NNNN](NNNN-font-styles.md)
+* Proposal: [SDL-0251](0251-font-styles.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC ]
 
 ## Introduction
