@@ -1,8 +1,8 @@
 # Aligning HMI and MOBILE API for pcmStreamCapabilities
 
-* Proposal: [SDL-NNNN](NNNN-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md)
+* Proposal: [SDL-0252](0252-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md)
 * Author: [Heather Williams](https://github.com/hwilli88/), [Ankur Tiwari](https://github.com/atiwari9/)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
