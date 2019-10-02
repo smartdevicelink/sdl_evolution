@@ -1,8 +1,8 @@
 # Next RPC Indication for the HMI
 
-* Proposal: [SDL-NNNN](NNNN-NextRPCIndication.md)
+* Proposal: [SDL-0250](0250-NextRpcIndication.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC ]
 
 ## Introduction
