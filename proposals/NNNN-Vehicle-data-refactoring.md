@@ -3,15 +3,15 @@
 * Proposal: [SDL_NNNN](NNNN-Vehicle-data-refactoring.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core | HMI | SDL SERVER | PROXY]
+* Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite]
 
 ## Introduction
 
-This proposal is to refactor current vehicle data items to accommodate new vehicle data items and to remove redundancy due to new vehicle data items added in [Vehicle Data Additions proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0253-Vehicle-data-additions.md).
+This proposal is to refactor current vehicle data items to accommodate new vehicle data items and to remove redundancy due to new vehicle data items added in proposals mentioned in [New vehicle data ClimateData](https://github.com/smartdevicelink/sdl_evolution/pull/838) and [New vehicle data GearStatus](https://github.com/smartdevicelink/sdl_evolution/pull/837) PRs. This proposal cannot be brought into review until above proposals are voted upon. (*Author will update the links to above proposals as well before pulling this proposal to in review*)
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional set of vehicle data item through SDL. This goes in line with commitment to enhance SDL with even more rich vehicle data content.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content.
 
 ## Proposed Solution 
 
@@ -19,187 +19,13 @@ We need to refactor existing vehicle data items to enhance and/or remove redunda
 
 #### Updates to existing vehicle data items:
 
-1. Add sub param `hazardLights` to `turnSignal` vehicle data item.
-2. Remove `externalTemperature`.
+1. Remove `externalTemperature`.
    * `externalTemperature` is available in new vehicle data item `ClimateData`.
-3. Remove `PRNDL` vehicle data item.
-   * Add new values to `PRNDL` enum.
-   * Rename `PRNDL` enum to `GearPosition` enum.
+2. Remove `PRNDL` vehicle data item.
+   * `PRNDL` is now available in new vehicle data item `GearStatus` as a parameter `gearDriveMode`.
 
 
-### 1. Add sub param `hazardLights` to `turnSignal` vehicle data item.
-
-#### Updates in MOBILE_API:
-
-##### Add new struct `TurnSignalData`
-
-```xml
-<struct name="TurnSignalData" since="X.x">
-	<param name="turnSignal" type="TurnSignal" mandatory="false" since="5.0">
-		<description>See TurnSignal</description>
-	</param>	
-	<param name="hazardLights" type="VehicleDataStatus" mandatory="false" since="X.x">
-		<description>Status of hazard lights</description>
-	</param>
-</struct>
-```
-
-##### Add to function `SubscribeVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false" since="5.0">
-	<description>See TurnSignalData</description>
-	<history>
-		<description>See TurnSignal</description>
-	</history>
-</param>
-```
-
-##### Add to function `SubscribeVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="VehicleDataResult" mandatory="false" since="5.0">
-	<description>See TurnSignalData</description>
-	<history>
-		<description>See TurnSignal</description>
-	</history>
-</param>
-```
-
-##### Add to function `UnsubscribeVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false" since="5.0">
-	<description>See TurnSignalData</description>
-	<history>
-		<description>See TurnSignal</description>
-	</history>
-</param>
-```
-
-##### Add to function `UnsubscribeVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="VehicleDataResult" mandatory="false" since="5.0">
-	<description>See TurnSignalData</description>
-	<history>
-		<description>See TurnSignal</description>
-	</history>
-</param>
-```
-
-##### Add to function `GetVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false" since="5.0">
-	<description>See TurnSignalData</description>
-	<history>
-		<description>See TurnSignal</description>
-	</history>
-</param>
-```
-
-##### Add to function `GetVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="TurnSignalData" mandatory="false" since="X.x">
-	<description>See TurnSignalData</description>
-	<history>
-		<param name="turnSignal" type="TurnSignal" mandatory="false" since="5.0" until="X.x">
-			<description>See TurnSignal</description>
-		</param>
-	</history>
-</param>
-```
-
-##### Add to function `OnVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="TurnSignalData" mandatory="false" since="X.x">
-	<description>See TurnSignalData</description>
-	<history>
-		<param name="turnSignal" type="TurnSignal" mandatory="false" since="5.0" until="X.x">
-			<description>See TurnSignal</description>
-		</param>
-	</history>
-</param>
-```
-
-#### Updates in HMI_API:
-
-##### Add new struct enum `TurnSignalData` in `Common` interface: 
-
-```xml
-<struct name="TurnSignalData">
-	<param name="turnSignal" type="Common.TurnSignal" mandatory="false" since="5.0">
-		<description>See TurnSignal</description>
-	</param>	
-	<param name="hazardLights" type="Common.VehicleDataStatus" mandatory="false" since="X.x">
-		<description>Status of hazard lights</description>
-	</param>
-</struct>
-
-```
-
-##### Update function `SubscribeVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false">
-	<description>See Common.TurnSignalData</description>	
-</param>
-```
-
-##### Update function `SubscribeVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="Common.VehicleDataResult" mandatory="false">
-	<description>See Common.TurnSignalData</description>	
-</param>
-```
-
-##### Update function `UnsubscribeVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false">
-	<description>See Common.TurnSignalData</description>	
-</param>
-```
-
-##### Update function `UnsubscribeVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="Common.VehicleDataResult" mandatory="false">
-	<description>See Common.TurnSignalData</description>	
-</param>
-```
-
-##### Update function `GetVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false">
-	<description>See Common.TurnSignalData</description>
-</param>
-```
-
-##### Update function `GetVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="Common.TurnSignalData" mandatory="false">
-	<description>See TurnSignalData</description>
-	</history>
-</param>
-```
-
-##### Update function `OnVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="Common.TurnSignalData" mandatory="false">
-	<description>See TurnSignalData</description>
-</param>
-```
-
-
-### 2. Remove `externalTemperature`.
+### 1. Remove `externalTemperature`.
 
 `externalTemperature` is now available in new vehicle data item `ClimateData` as a parameter. 
 
@@ -360,9 +186,9 @@ We need to refactor existing vehicle data items to enhance and/or remove redunda
 -</param>
 ```
 
-### 3. Remove `PRNDL` vehicle data item.
+### 2. Remove `PRNDL` vehicle data item.
 
-`PRNDL` is now available in new vehicle data item `GearStatus` as a parameter. 
+`PRNDL` is now available in new vehicle data item `GearStatus` as a parameter `gearDriveMode`. 
 
 
 #### Updates in MOBILE_API:
@@ -595,4 +421,4 @@ Since this is a breaking change, HMI would need to be updated as well.
 
 ## Alternatives considered
 
-* Instead of adding `hazardLights`  to `TurnSignal`, it can be a new vehicle data items in itself.
+* None
