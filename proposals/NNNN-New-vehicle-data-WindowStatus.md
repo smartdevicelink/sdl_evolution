@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is to add new vehicle data `WindowStatus` to know positon of windows in a vehicle.
+This proposal is to add new vehicle data `WindowStatus` to know position of windows in a vehicle.
 
 ## Motivation
 
