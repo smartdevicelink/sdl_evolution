@@ -1,6 +1,6 @@
 # Vehicle data refactoring
 
-* Proposal: [SDL_NNNN](NNNN-Vehicle-data-refactoring.md)
+* Proposal: [SDL-NNNN](NNNN-Vehicle-data-refactoring.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite]
