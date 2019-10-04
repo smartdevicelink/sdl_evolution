@@ -11,11 +11,11 @@ This proposal is to add new vehicle data `GearStatus` to know drive mode and act
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Adding `gearDriveMode` and `actualGear` information provide more granular information on what drive mode vehicle is in and what physical gear the transmission has selected. Also we need to add more gears to the enum to support new ten speed transmissions.
 
 ## Proposed Solution 
 
-We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in API:
+We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
 
 ### Updates in MOBILE_API:
 
@@ -84,55 +84,37 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 	</element>
 </enum>	
 ```
-#### Add to function `SubscribeVehicleData` request: 
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml	
 <param name="gearStatus" type="Boolean" mandatory="false" since="X.x">
 	<description>See GearStatus</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml	
 <param name="gearStatus" type="VehicleDataResult" mandatory="false" since="X.x">
 	<description>See GearStatus</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
 
-```xml	
-<param name="gearStatus" type="Boolean" mandatory="false" since="X.x">
-	<description>See GearStatus</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml	
-<param name="gearStatus" type="VehicleDataResult" mandatory="false" since="X.x">
-	<description>See GearStatus</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml	
-<param name="gearStatus" type="Boolean" mandatory="false" since="X.x">
-	<description>See GearStatus</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml	
 <param name="gearStatus" type="GearStatus" mandatory="false" since="X.x">
 	<description>See GearStatus</description>
 </param>
 ```
-#### Add to function `OnVehicleData` response: 
 
-```xml	
-<param name="gearStatus" type="GearStatus" mandatory="false" since="X.x">
-	<description>See GearStatus</description>
-</param>
-```
 ### Updates in HMI_API 
 
 #### Add to enum `VehicleDataType` in `Common` interface: 
@@ -144,10 +126,10 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 
 ```xml	
 <struct name="GearStatus">
-	<param name="gearDriveMode" type="GearPosition" mandatory="false">
+	<param name="gearDriveMode" type="Common.GearPosition" mandatory="false">
 		<description>Tells the gear drive mode i.e. PARK, DRIVE, SPORT etc</description>
 	</param>
-	<param name="actualGear" type="GearPosition" mandatory="false">
+	<param name="actualGear" type="Common.GearPosition" mandatory="false">
 		<description>Tells the actual gear selected by transmission</description>
 	</param>
 </struct>
@@ -200,49 +182,30 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 	</element>
 </enum>	
 ```
-#### Add to function `SubscribeVehicleData` request: 
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml	
 <param name="gearStatus" type="Boolean" mandatory="false">
 	<description>See GearStatus</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml	
 <param name="gearStatus" type="Common.VehicleDataResult" mandatory="false">
 	<description>See GearStatus</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
 
-```xml	
-<param name="gearStatus" type="Boolean" mandatory="false">
-	<description>See GearStatus</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml	
-<param name="gearStatus" type="Common.VehicleDataResult" mandatory="false">
-	<description>See GearStatus</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml	
-<param name="gearStatus" type="Boolean" mandatory="false">
-	<description>See GearStatus</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
-
-```xml	
-<param name="gearStatus" type="Common.GearStatus" mandatory="false">
-	<description>See GearStatus</description>
-</param>
-```
-#### Add to function `OnVehicleData` response: 
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml	
 <param name="gearStatus" type="Common.GearStatus" mandatory="false">
