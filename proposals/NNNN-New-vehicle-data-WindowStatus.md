@@ -11,11 +11,11 @@ This proposal is to add new vehicle data `WindowStatus` to know position of wind
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Position of window is a useful information for micro weather apps, it tells the app if window is open and at what postion.
 
 ## Proposed Solution 
 
-We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in API:
+We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
 
 ### Updates in MOBILE_API:
 
@@ -68,55 +68,37 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 </enum>
 ```
 
-#### Add to function `SubscribeVehicleData` request: 
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml
 <param name="windowStatus" type="Boolean" mandatory="false" since="X.x">
 	<description>See WindowStatus</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml
 <param name="windowStatus" type="VehicleDataResult" mandatory="false" since="X.x">
 	<description>See WindowStatus</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
 
-```xml
-<param name="windowStatus" type="Boolean" mandatory="false" since="X.x">
-	<description>See WindowStatus</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml
-<param name="windowStatus" type="VehicleDataResult" mandatory="false" since="X.x">
-	<description>See WindowStatus</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml
-<param name="windowStatus" type="Boolean" mandatory="false" since="X.x">
-	<description>See WindowStatus</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml
 <param name="windowStatus" type="WindowStatus" mandatory="false" since="X.x">
 	<description>See WindowStatus</description>
 </param>
 ```
-#### Add to function `OnVehicleData` response: 
 
-```xml
-<param name="windowStatus" type="WindowStatus" mandatory="false" since="X.x">
-	<description>See WindowStatus</description>
-</param>
-```
 ### Updates in HMI_API:
 
 
@@ -168,49 +150,30 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 </enum>
 ```
 
-#### Add to function `SubscribeVehicleData` request: 
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml
 <param name="windowStatus" type="Boolean" mandatory="false">
 	<description>See WindowStatus</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml
 <param name="windowStatus" type="Common.VehicleDataResult" mandatory="false">
 	<description>See WindowStatus</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
 
-```xml
-<param name="windowStatus" type="Boolean" mandatory="false">
-	<description>See WindowStatus</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml
-<param name="windowStatus" type="Common.VehicleDataResult" mandatory="false">
-	<description>See WindowStatus</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml
-<param name="windowStatus" type="Boolean" mandatory="false">
-	<description>See WindowStatus</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
-
-```xml
-<param name="windowStatus" type="Common.WindowStatus" mandatory="false">
-	<description>See WindowStatus</description>
-</param>
-```
-#### Add to function `OnVehicleData` response: 
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml
 <param name="windowStatus" type="Common.WindowStatus" mandatory="false">
