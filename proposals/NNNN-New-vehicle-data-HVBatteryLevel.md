@@ -11,11 +11,11 @@ This proposal is to add new vehicle data `HVBatteryLevel` to know battery charge
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. We need to provide the battery charge level for Electric and Hybrid vehicles to apps which provide navigation, charge station information etc.
 
 ## Proposed Solution 
 
-We need to add `HVBatteryLevel` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in API:
+We need to add `HVBatteryLevel` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
 
 ### Updates in MOBILE_API:
 
@@ -24,55 +24,38 @@ We need to add `HVBatteryLevel` for `GetVehicleData`, `SubscribeVehicleData`, `U
 ```xml	
 <element name="VEHICLEDATA_HVBATTERYLEVEL" since="X.x"/>
 ```
-#### Add to function `SubscribeVehicleData` request: 
+
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml	
 <param name="hvBatteryLevel" type="Boolean" mandatory="false" since="X.x">
 	<description>Percentage of High Voltage battery charge available</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml	
 <param name="hvBatteryLevel" type="VehicleDataResult" mandatory="false" since="X.x">
 	<description>Percentage of High Voltage battery charge available</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
 
-```xml	
-<param name="hvBatteryLevel" type="Boolean" mandatory="false" since="X.x">
-	<description>Percentage of High Voltage battery charge available</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml	
-<param name="hvBatteryLevel" type="VehicleDataResult" mandatory="false" since="X.x">
-	<description>Percentage of High Voltage battery charge available</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml	
-<param name="hvBatteryLevel" type="Boolean" mandatory="false" since="X.x">
-	<description>Percentage of High Voltage battery charge available</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml	
 <param name="hvBatteryLevel" type="Float" minvalue="0" maxvalue="150" mandatory="false" since="X.x">
 	<description>Percentage of High Voltage battery charge available</description>
 </param>
 ```
-#### Add to function `OnVehicleData` response: 
 
-```xml	
-<param name="hvBatteryLevel" type="Float" minvalue="0" maxvalue="150" mandatory="false" since="X.x">
-	<description>Percentage of High Voltage battery charge available</description>
-</param>
-```
 ### Updates in HMI_API 
 
 #### Add to enum `VehicleDataType` in `Common` interface: 
@@ -80,49 +63,30 @@ We need to add `HVBatteryLevel` for `GetVehicleData`, `SubscribeVehicleData`, `U
 ```xml	
 <element name="VEHICLEDATA_HVBATTERYLEVEL"/>
 ```
-#### Add to function `SubscribeVehicleData` request: 
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml	
 <param name="hvBatteryLevel" type="Boolean" mandatory="false">
 	<description>Percentage of High Voltage battery charge available</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml	
 <param name="hvBatteryLevel" type="Common.VehicleDataResult" mandatory="false">
 	<description>Percentage of High Voltage battery charge available</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
 
-```xml	
-<param name="hvBatteryLevel" type="Boolean" mandatory="false">
-	<description>Percentage of High Voltage battery charge available</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml	
-<param name="hvBatteryLevel" type="Common.VehicleDataResult" mandatory="false">
-	<description>Percentage of High Voltage battery charge available</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml	
-<param name="hvBatteryLevel" type="Boolean" mandatory="false">
-	<description>Percentage of High Voltage battery charge available</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
-
-```xml	
-<param name="hvBatteryLevel" type="Float" minvalue="0" maxvalue="150" mandatory="false">
-	<description>Percentage of High Voltage battery charge available</description>
-</param>
-```
-#### Add to function `OnVehicleData` response: 
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml	
 <param name="hvBatteryLevel" type="Float" minvalue="0" maxvalue="150" mandatory="false">
