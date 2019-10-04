@@ -11,7 +11,7 @@ This proposal is to enhance `BodyInformation` with more params to get access to 
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. We need to provide apps with doors lock status along with if trunk/liftgate or hood/bonut are ajar. This information is handy for all the apps but in particular the apps which provide safety information and insurance apps.
 
 ## Proposed Solution 
 
