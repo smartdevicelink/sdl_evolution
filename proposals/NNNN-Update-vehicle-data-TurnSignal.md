@@ -11,10 +11,10 @@ This proposal is to add additional param `hazardLights` to `TurnSignal`.
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Hazard lights information is useful for Emergency apps and Insurance apps to know if vehicle/driver needs any assistance.
 
 ## Proposed Solution 
-
+We need to add `hazardLights` to `TurnSignal` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
 
 ### Updates in MOBILE_API:
 
@@ -22,7 +22,7 @@ In order to partner with more diverse app partners, we need to provide additiona
 
 ```xml
 <struct name="TurnSignalData" since="X.x">
-	<param name="turnSignal" type="TurnSignal" mandatory="false" since="5.0">
+	<param name="turnSignal" type="TurnSignal" mandatory="false" since="X.x">
 		<description>See TurnSignal</description>
 	</param>	
 	<param name="hazardLights" type="VehicleDataStatus" mandatory="false" since="X.x">
@@ -31,7 +31,10 @@ In order to partner with more diverse app partners, we need to provide additiona
 </struct>
 ```
 
-#### Changes to function `SubscribeVehicleData` request: 
+#### Update the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml
 <param name="turnSignal" type="Boolean" mandatory="false" since="5.0">
@@ -42,7 +45,9 @@ In order to partner with more diverse app partners, we need to provide additiona
 </param>
 ```
 
-#### Changes to function `SubscribeVehicleData` response: 
+#### Update the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml
 <param name="turnSignal" type="VehicleDataResult" mandatory="false" since="5.0">
@@ -53,53 +58,9 @@ In order to partner with more diverse app partners, we need to provide additiona
 </param>
 ```
 
-#### Changes to function `UnsubscribeVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false" since="5.0">
-	<description>See TurnSignalData</description>
-	<history>
-		<description>See TurnSignal</description>
-	</history>
-</param>
-```
-
-#### Changes to function `UnsubscribeVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="VehicleDataResult" mandatory="false" since="5.0">
-	<description>See TurnSignalData</description>
-	<history>
-		<description>See TurnSignal</description>
-	</history>
-</param>
-```
-
-#### Changes to function `GetVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false" since="5.0">
-	<description>See TurnSignalData</description>
-	<history>
-		<description>See TurnSignal</description>
-	</history>
-</param>
-```
-
-#### Changes to function `GetVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="TurnSignalData" mandatory="false" since="X.x">
-	<description>See TurnSignalData</description>
-	<history>
-		<param name="turnSignal" type="TurnSignal" mandatory="false" since="5.0" until="X.x">
-			<description>See TurnSignal</description>
-		</param>
-	</history>
-</param>
-```
-
-#### Changes to function `OnVehicleData` response: 
+#### Update the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml
 <param name="turnSignal" type="TurnSignalData" mandatory="false" since="X.x">
@@ -128,7 +89,10 @@ In order to partner with more diverse app partners, we need to provide additiona
 
 ```
 
-#### Update function `SubscribeVehicleData` request: 
+#### Update the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml
 <param name="turnSignal" type="Boolean" mandatory="false">
@@ -136,7 +100,9 @@ In order to partner with more diverse app partners, we need to provide additiona
 </param>
 ```
 
-#### Update function `SubscribeVehicleData` response: 
+#### Update the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml
 <param name="turnSignal" type="Common.VehicleDataResult" mandatory="false">
@@ -144,44 +110,14 @@ In order to partner with more diverse app partners, we need to provide additiona
 </param>
 ```
 
-#### Update function `UnsubscribeVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false">
-	<description>See Common.TurnSignalData</description>	
-</param>
-```
-
-#### Update function `UnsubscribeVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="Common.VehicleDataResult" mandatory="false">
-	<description>See Common.TurnSignalData</description>	
-</param>
-```
-
-#### Update function `GetVehicleData` request: 
-
-```xml
-<param name="turnSignal" type="Boolean" mandatory="false">
-	<description>See Common.TurnSignalData</description>
-</param>
-```
-
-#### Update function `GetVehicleData` response: 
+#### Update the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml
 <param name="turnSignal" type="Common.TurnSignalData" mandatory="false">
 	<description>See TurnSignalData</description>
 	</history>
-</param>
-```
-
-#### Update function `OnVehicleData` response: 
-
-```xml
-<param name="turnSignal" type="Common.TurnSignalData" mandatory="false">
-	<description>See TurnSignalData</description>
 </param>
 ```
 
