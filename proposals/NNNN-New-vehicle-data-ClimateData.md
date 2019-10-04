@@ -11,11 +11,11 @@ This proposal is to add new vehicle data `ClimateData` to know cabin temperature
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Weather apps need additional information on climate conditions and that can be provided with external/internal temperature and atmospheric pressure.
 
 ## Proposed Solution 
 
-We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in API:
+We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
 
 ### Updates in MOBILE_API:
 
@@ -39,55 +39,38 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 	</param>
 </struct>
 ```
-#### Add to function `SubscribeVehicleData` request: 
+
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml	
 <param name="climateData" type="Boolean" mandatory="false" since="X.x">
 	<description>See ClimateData</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml	
 <param name="climateData" type="VehicleDataResult" mandatory="false" since="X.x">
 	<description>See ClimateData</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
 
-```xml	
-<param name="climateData" type="Boolean" mandatory="false" since="X.x">
-	<description>See ClimateData</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml	
-<param name="climateData" type="VehicleDataResult" mandatory="false" since="X.x">
-	<description>See ClimateData</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml	
-<param name="climateData" type="Boolean" mandatory="false" since="X.x">
-	<description>See ClimateData</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml	
 <param name="climateData" type="ClimateData" mandatory="false" since="X.x">
 	<description>See ClimateData</description>
 </param>
 ```
-#### Add to function `OnVehicleData` response: 
 
-```xml	
-<param name="climateData" type="ClimateData" mandatory="false" since="X.x">
-	<description>See ClimateData</description>
-</param>
-```
 ### Updates in HMI_API 
 
 #### Add to enum `VehicleDataType` in `Common` interface: 
@@ -110,49 +93,31 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 	</param>
 </struct>
 ```
-#### Add to function `SubscribeVehicleData` request: 
+
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml	
 <param name="climateData" type="Boolean" mandatory="false">
 	<description>See ClimateData</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml	
 <param name="climateData" type="Common.VehicleDataResult" mandatory="false">
 	<description>See ClimateData</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
 
-```xml	
-<param name="climateData" type="Boolean" mandatory="false">
-	<description>See ClimateData</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml	
-<param name="climateData" type="Common.VehicleDataResult" mandatory="false">
-	<description>See ClimateData</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml	
-<param name="climateData" type="Boolean" mandatory="false">
-	<description>See ClimateData</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
-
-```xml	
-<param name="climateData" type="Common.ClimateData" mandatory="false">
-	<description>See ClimateData</description>
-</param>
-```
-#### Add to function `OnVehicleData` response: 
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml	
 <param name="climateData" type="Common.ClimateData" mandatory="false">
