@@ -11,11 +11,11 @@ This proposal is to add new vehicle data `HandsOffSteering` to know if driver ha
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Information about whether driver has hands on steering or not is useful for apps that compute driver score and provide insurance.
 
 ## Proposed Solution 
 
-We need to add `HandsOffSteering` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in API:
+We need to add `HandsOffSteering` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
 
 ### Updates in MOBILE_API:
 
@@ -24,55 +24,38 @@ We need to add `HandsOffSteering` for `GetVehicleData`, `SubscribeVehicleData`, 
 ```xml	
 <element name="VEHICLEDATA_HANDSOFFSTEERING" since="X.x"/>
 ```
-#### Add to function `SubscribeVehicleData` request: 
+
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml	
 <param name="handsOffSteering" type="Boolean" mandatory="false" since="X.x">
 	<description>To indicate whether driver hands are off the steering wheel</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml	
 <param name="handsOffSteering" type="VehicleDataResult" mandatory="false" since="X.x">
 	<description>To indicate whether driver hands are off the steering wheel</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
+
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml	
 <param name="handsOffSteering" type="Boolean" mandatory="false" since="X.x">
 	<description>To indicate whether driver hands are off the steering wheel</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` response: 
 
-```xml	
-<param name="handsOffSteering" type="VehicleDataResult" mandatory="false" since="X.x">
-	<description>To indicate whether driver hands are off the steering wheel</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml	
-<param name="handsOffSteering" type="Boolean" mandatory="false" since="X.x">
-	<description>To indicate whether driver hands are off the steering wheel</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
-
-```xml	
-<param name="handsOffSteering" type="Boolean" mandatory="false" since="X.x">
-	<description>true indicates driver hands are off the steering wheel</description>
-</param>
-```
-#### Add to function `OnVehicleData` response: 
-
-```xml	
-<param name="handsOffSteering" type="Boolean" mandatory="false" since="X.x">
-	<description>true indicates driver hands are off the steering wheel</description>
-</param>
-```
 ### Updates in HMI_API 
 
 #### Add to enum `VehicleDataType` in `Common` interface: 
@@ -80,53 +63,35 @@ We need to add `HandsOffSteering` for `GetVehicleData`, `SubscribeVehicleData`, 
 ```xml	
 <element name="VEHICLEDATA_HANDSOFFSTEERING"/>
 ```
-#### Add to function `SubscribeVehicleData` request: 
+
+#### Add the following parameter to these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
 
 ```xml	
 <param name="handsOffSteering" type="Boolean" mandatory="false">
 	<description>To indicate whether driver hands are off the steering wheel</description>
 </param>
 ```
-#### Add to function `SubscribeVehicleData` response: 
+
+#### Add the following parameter to these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
 
 ```xml	
 <param name="handsOffSteering" type="Common.VehicleDataResult" mandatory="false">
 	<description>To indicate whether driver hands are off the steering wheel</description>
 </param>
 ```
-#### Add to function `UnsubscribeVehicleData` request: 
+
+#### Add the following parameter to these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
 
 ```xml	
 <param name="handsOffSteering" type="Boolean" mandatory="false">
 	<description>To indicate whether driver hands are off the steering wheel</description>
-</param>
-```
-#### Add to function `UnsubscribeVehicleData` response: 
-
-```xml	
-<param name="handsOffSteering" type="Common.VehicleDataResult" mandatory="false">
-	<description>To indicate whether driver hands are off the steering wheel</description>
-</param>
-```
-#### Add to function `GetVehicleData` request: 
-
-```xml	
-<param name="handsOffSteering" type="Boolean" mandatory="false">
-	<description>To indicate whether driver hands are off the steering wheel</description>
-</param>
-```
-#### Add to function `GetVehicleData` response: 
-
-```xml	
-<param name="handsOffSteering" type="Boolean" mandatory="false">
-	<description>true indicates driver hands are off the steering wheel</description>
-</param>
-```
-#### Add to function `OnVehicleData` response: 
-
-```xml	
-<param name="handsOffSteering" type="Boolean" mandatory="false">
-	<description>true indicates driver hands are off the steering wheel</description>
 </param>
 ```
 
