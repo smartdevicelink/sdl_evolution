@@ -11,7 +11,7 @@ This proposal is to add new vehicle data `GearStatus` to know drive mode and act
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Adding `gearDriveMode` and `actualGear` information provide more granular information on what drive mode vehicle is in and what physical gear the transmission has selected. Also we need to add more gears to the enum to support new ten speed transmissions.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Adding `gearDriveMode` and `actualGear` information provide more granular information on which drive mode the vehicle is in and what physical gear the transmission has selected. Also we need to add more gears to the enum to support new ten speed transmissions.
 
 ## Proposed Solution 
 
@@ -51,6 +51,7 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 		<description>No gear</description>
 	</element>
 	<element name="DRIVE">
+		<description>Regular Drive mode</description>
 	</element>
 	<element name="SPORT">
 		<description>Drive Sport mode</description>
@@ -149,6 +150,7 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 		<description>No gear</description>
 	</element>
 	<element name="DRIVE">
+		<description>Regular Drive mode</description>
 	</element>
 	<element name="SPORT">
 		<description>Drive Sport mode</description>
@@ -220,7 +222,7 @@ Author is not aware of any downsides to proposed solution. This proposal just en
 ## Impact on existing code
 
 * SDL Core needs to be updated as per new API.
-* iOS/Java Suite needs to be updated to support getters/setters as per new API.
+* iOS/Java Suite need to be updated to support getters/setters as per new API.
 * SDL Server needs to add permissions for new vehicle data items.
 * SHAID needs to add mappings for new vehicle data items as per updated spec.
 * HMI needs to be updated to support new vehicle data items.
