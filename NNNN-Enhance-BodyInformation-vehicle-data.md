@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-Enhance-BodyInformation-vehicle-data.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core | HMI | iOS | Java Suite]
+* Impacted Platforms: [Core | HMI | iOS | Java Suite | RPC]
 
 ## Introduction
 
