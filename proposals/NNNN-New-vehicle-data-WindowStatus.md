@@ -7,11 +7,11 @@
 
 ## Introduction
 
-This proposal is to add new vehicle data `WindowStatus` to know position of windows in a vehicle.
+This proposal is to add new vehicle data `WindowStatus` to know the position of windows in a vehicle.
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Position of window is a useful information for micro weather apps, it tells the app if window is open and at what postion.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. The position of windows is useful information for micro weather apps; it tells the app if a window is open and at what position.
 
 ## Proposed Solution 
 
@@ -188,7 +188,7 @@ Author is not aware of any downsides to proposed solution. This proposal just en
 ## Impact on existing code
 
 * SDL Core needs to be updated as per new API.
-* iOS/Java Suite needs to be updated to support getters/setters as per new API.
+* iOS/Java Suite need to be updated to support getters/setters as per new API.
 * SDL Server needs to add permissions for new vehicle data items.
 * SHAID needs to add mappings for new vehicle data items as per updated spec.
 * HMI needs to be updated to support new vehicle data items.
