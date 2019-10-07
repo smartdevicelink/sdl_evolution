@@ -132,7 +132,7 @@ Author is not aware of any downsides to proposed solution. This proposal just en
 ## Impact on existing code
 
 * SDL Core needs to be updated as per new API.
-* iOS/Java Suite needs to be updated to support getters/setters as per new API.
+* iOS/Java Suite need to be updated to support getters/setters as per new API.
 * SDL Server needs to add permissions for new vehicle data items.
 * SHAID needs to add mappings for new vehicle data items as per updated spec.
 * HMI needs to be updated to support new vehicle data items.
