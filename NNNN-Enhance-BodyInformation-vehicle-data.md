@@ -11,7 +11,7 @@ This proposal is to enhance `BodyInformation` with more params to get access to 
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. We need to provide apps with doors lock status along with if trunk/liftgate or hood/bonut are ajar. This information is handy for all the apps but in particular the apps which provide safety information and insurance.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. We need to provide apps with doors' lock status along with if trunk/liftgate or hood/bonnet are ajar. This information is handy for all the apps but in particular the apps which provide safety information and insurance.
 
 ## Proposed Solution 
 
@@ -52,7 +52,7 @@ Following vehicle data params are added to `BodyInformation` struct:
 		<description>References signal "DrStatRr_B_Actl".</description>
 	</param>
 	<param name="trunkAjar" type="Boolean" mandatory="false" since="X.x">
-		<description>true if vehicle hood is ajar, else false</description>
+		<description>true if vehicle trunk is ajar, else false</description>
 	</param>
 	<param name="hoodAjar" type="Boolean" mandatory="false" since="X.x">
 		<description>true if vehicle hood is ajar, else false</description>
@@ -102,7 +102,7 @@ Following vehicle data params are added to `BodyInformation` struct:
 		<description>References signal "DrStatRr_B_Actl".</description>
 	</param>
 	<param name="trunkAjar" type="Boolean" mandatory="false">
-		<description>true if vehicle hood is ajar, else false</description>
+		<description>true if vehicle trunk is ajar, else false</description>
 	</param>
 	<param name="hoodAjar" type="Boolean" mandatory="false">
 		<description>true if vehicle hood is ajar, else false</description>
@@ -132,7 +132,7 @@ Following vehicle data params are added to `BodyInformation` struct:
 ## Impact on existing code
 
 * SDL Core needs to be updated as per new API.
-* iOS/Java Suite needs to be updated to support getters/setters as per new API.
+* iOS/Java Suite need to be updated to support getters/setters as per new API.
 * HMI needs to be updated to support new vehicle data params.
 
 ## Alternatives considered
