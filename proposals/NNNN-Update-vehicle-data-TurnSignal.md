@@ -11,7 +11,7 @@ This proposal is to add additional param `hazardLights` to `TurnSignal`.
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Hazard lights information is useful for Emergency apps and Insurance apps to know if vehicle/driver needs any assistance.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Hazard lights information is useful for Emergency apps and Insurance apps to know if a vehicle/driver needs any assistance.
 
 ## Proposed Solution 
 We need to add `hazardLights` to `TurnSignal` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
@@ -129,6 +129,7 @@ Since this is a breaking change, HMI would need to be updated as well.
 
 * SDL Core needs to be updated as per new API.
 * HMI needs to be updated to support refactored structures.
+* iOS/Java Suite need to be updated for `TurnSignal` getters/setters as per new API.
 
 ## Alternatives considered
 
