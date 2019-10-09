@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0252](0252-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md)
 * Author: [Heather Williams](https://github.com/hwilli88/), [Ankur Tiwari](https://github.com/atiwari9/)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
