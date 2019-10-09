@@ -92,6 +92,8 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
 </struct>
  ```
 
+
+[add in add submenu]
 ## Potential downsides
 
 Adds core, HMI and app complexity
