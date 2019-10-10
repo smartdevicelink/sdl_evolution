@@ -263,7 +263,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0240" status="returned" primary-platform="rpc" sdl-version="x.x" name="WebEngine support for SDL JavaScript" filename="0240-sdl-js-pwa.md"/>
 <proposal id="0241" status="returned" primary-platform="rpc" sdl-version="x.x" name="Commerce App Service" filename="0241-Commerce-App-Service.md"/>
 <proposal id="0242" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Subtle Alert Style" filename="0242-alert-style-subtle.md"/>
-<proposal id="0243" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
+<proposal id="0243" status="implemented" primary-platform="ios" sdl-version="6.4" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
+<proposal id="0243" status="implemented" primary-platform="java-suite" sdl-version="4.10" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
 <proposal id="0244" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Custom Playback Rates for SetMediaClockTimer" filename="0244-setmediaclocktimer-custom-playback-rates.md"/>
 <proposal id="0245" status="active" primary-platform="rpc" sdl-version="x.x" name="WiFi Transport: Sharing SSID and password with Mobile Proxy" filename="0245-sharing-wifi-ssid-and-password.md"/>
 <proposal id="0246" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add App Services to HMICapabilities" filename="0246-app-services-hmi_capabilities.md"/>
