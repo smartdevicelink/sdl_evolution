@@ -17,19 +17,23 @@ This can be used in tandem with [Template Improvements: Additional SubMenus](htt
 As a system, I want to be able to be smarter and faster with in-app menu systems.
 This enables:
 1. **Better HMI possibilities:** can show forward and backward arrows for the user so the user knows what to expect when navigating around.
-
-[insert pic of list of items from Alexa that lead from menu to scrollable message]
 2. **Smart Driver Distraction:** if a softbutton or choice would lead to a screen that's normally locked out while driving (like a Scrollable Message), the HMI could show the softbutton as disabled while driving.
-(../assets/proposals/0250-NextRpcIndication/0250-NextRpcIndication.png)
-[insert pic of cityseeker and a show more info button]
 3. **Smoother Experience:** The HMI can have a much smoother experience with native HMI loading screens - not depending on the mobile app to send a sort of loading screen on its own.
-[insert a pic of menu going to a keyboard
 
-[just use pic from #1]
-Here's an example of current SYNC3 iHeartRadio flow (left) vs potential future (right).
+Here's an example of an in-app menu for CitySeeker.
 With this proposal, the HMI would know that after the user picks something like "Radio Genres", another RPC is incoming and can show a special loading screen until the RPC comes in. (Or the loading screen times out, but that behavior would be set by the OEM and not require SDL responses of any sort)
-![App screen and display](../assets/proposals/0250-NextRpcIndication/0250-NextRpcIndication.png)
+Here is an example from a portential tourism app with this proposal:
+![App screen and display](../assets/proposals/0250-NextRpcIndication/0250-NextRpcIndicationv2.PNG)
+1. There's nice arrow indicators so the user can see that something is next in the menu even for items that don't go to a submenu
+2. The system knows that one of the in-app menu items leads to a `ScrollableMessage` so it blocks the user ahead of time and never sends the `OnCommand` signal back to the app. The user never has to leave the current system context. The user also can see at a glance what things are and are not allowed while driving, without having to do a trial-and-error system.
+3. If the user chooses "Search Nearby", the HMI can keep the user in the menu context but have a blank loading screen until the `performInteraction` comes from the app. (Or a timeout that the HMI is tracking occurs - at that point the HMI can relay that info back to hte user)
 
+
+VS the same app without this proposal - the app has to create it's own sort of loading screen with `Show` and it's a jarring experience:
+![App screen and display](../assets/proposals/0250-NextRpcIndication/0250-NextRpcIndicationv2-2.PNG)
+1. There's no arrow indicators that something is next in the menu
+2. If the user taps the item that leads to a `ScrollableMessage`, the system has to process the `onCommand` and send it back to the app. Plus the in-app menu has no idea what's going on, so it closes and goes back to the main layout, only to find out that a `ScrollabeMessage` would come up - which is locked out while driving. 
+3. For the search selection, the app has to create it's own Loading screen using mainfield1 of the `show` RPC (or via an alert), user is transitioned away from the menu sctructure until the `performInteraction` finishes loading
 
 
 ## Proposed solution
