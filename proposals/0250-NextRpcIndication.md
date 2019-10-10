@@ -22,18 +22,18 @@ This enables:
 
 Here's an example of an in-app menu for CitySeeker.
 With this proposal, the HMI would know that after the user picks something like "Radio Genres", another RPC is incoming and can show a special loading screen until the RPC comes in. (Or the loading screen times out, but that behavior would be set by the OEM and not require SDL responses of any sort)
-Here is an example from a portential tourism app with this proposal:
+Here is an example from a potential tourism app with this proposal:
 ![App screen and display](../assets/proposals/0250-NextRpcIndication/0250-NextRpcIndicationv2.PNG)
 1. There's nice arrow indicators so the user can see that something is next in the menu even for items that don't go to a submenu
 2. The system knows that one of the in-app menu items leads to a `ScrollableMessage` so it blocks the user ahead of time and never sends the `OnCommand` signal back to the app. The user never has to leave the current system context. The user also can see at a glance what things are and are not allowed while driving, without having to do a trial-and-error system.
-3. If the user chooses "Search Nearby", the HMI can keep the user in the menu context but have a blank loading screen until the `performInteraction` comes from the app. (Or a timeout that the HMI is tracking occurs - at that point the HMI can relay that info back to hte user)
+3. If the user chooses "Search Nearby", the HMI can keep the user in the menu context but have a blank loading screen until the `performInteraction` comes from the app. (Or a timeout that the HMI is tracking occurs - at that point the HMI can relay that info back to the user)
 
 
-VS the same app without this proposal - the app has to create it's own sort of loading screen with `Show` and it's a jarring experience:
+VS the same app without this proposal - the app has to create its own sort of loading screen with `Show` and it's a jarring experience:
 ![App screen and display](../assets/proposals/0250-NextRpcIndication/0250-NextRpcIndicationv2-2.PNG)
 1. There's no arrow indicators that something is next in the menu
 2. If the user taps the item that leads to a `ScrollableMessage`, the system has to process the `onCommand` and send it back to the app. Plus the in-app menu has no idea what's going on, so it closes and goes back to the main layout, only to find out that a `ScrollabeMessage` would come up - which is locked out while driving. 
-3. For the search selection, the app has to create it's own Loading screen using mainfield1 of the `show` RPC (or via an alert), user is transitioned away from the menu sctructure until the `performInteraction` finishes loading
+3. For the search selection, the app has to create its own Loading screen using mainfield1 of the `show` RPC (or via an alert), user is transitioned away from the menu structure until the `performInteraction` finishes loading
 
 
 ## Proposed solution
@@ -97,7 +97,6 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
  ```
 
 
-[add in add submenu]
 ## Potential downsides
 
 Adds core, HMI and app complexity
