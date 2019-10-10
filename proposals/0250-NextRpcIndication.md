@@ -31,9 +31,9 @@ Here is an example from a potential tourism app with this proposal:
 
 VS the same app without this proposal - the app has to create its own sort of loading screen with `Show` and it's a jarring experience:
 ![App screen and display](../assets/proposals/0250-NextRpcIndication/0250-NextRpcIndicationv2-2.PNG)
-1. There's no arrow indicators that something is next in the menu
+1. There's only an arrow indicator for the menu item that leads to a submenu.
 2. If the user taps the item that leads to a `ScrollableMessage`, the system has to process the `onCommand` and send it back to the app. Plus the in-app menu has no idea what's going on, so it closes and goes back to the main layout, only to find out that a `ScrollabeMessage` would come up - which is locked out while driving. 
-3. For the search selection, the app has to create its own Loading screen using mainfield1 of the `show` RPC (or via an alert), user is transitioned away from the menu structure until the `performInteraction` finishes loading
+3. For the search selection, the app has to create its own loading screen using mainfield1 of the `show` RPC (or via an alert), user is transitioned away from the menu structure until the `performInteraction` finishes loading
 
 
 ## Proposed solution
