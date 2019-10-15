@@ -141,10 +141,10 @@ The HMI API extension is mostly a copy of the cloud-app-properties included in t
 2. The OEM store may choose to add not-installed apps to SDL using `enabled` parameter set to `false` (optional)
 3. If an embedded app is installed the `enabled` flag should be set to `true` to appear in UpdateAppsList RPC
 4. For local apps
-  - "cloudTransportType" will be "ws" (WebSocket) or "wss" (WebSocket-Secure)
-  - "endpoint" parameter will be omitted. Instead the HMI is responsible to launch local apps.
+   - "cloudTransportType" will be "ws" (WebSocket) or "wss" (WebSocket-Secure)
+   - "endpoint" parameter will be omitted. Instead the HMI is responsible to launch local apps.
 5. If Core doesn't know the app ID it should ask HMI for a policy update.
-  - Alternatively HMI can call `UpdateSDL` after setting app properties to enforce SDL to perform the policy update.
+   - Alternatively HMI can call `UpdateSDL` after setting app properties to enforce SDL to perform the policy update.
 6. Policy HMI impl. (incl. SYNCP) should have the ability to use embedded modem to send policy snapshot to the policy server.
 
 #### 2.5 App presentation with Templates
