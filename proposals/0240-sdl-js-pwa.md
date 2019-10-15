@@ -27,8 +27,8 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
    2. manifest.json file
    3. An HTML file where the manifest is pointing to
 3. The manifest.json file must be included in the HTML file as a script source
-4. The OEM store's backend should store the compressed app copied from the SDL Developer Platform after the app and version was approved by the SDLC and the OEM. 
-   1. Note: Neither the SDL Developer Platform nor the SDL Server or SHAID are directly involved in distributing the app package to vehicles. 
+4. The OEM store's backend should store the compressed app copied from the SDL Developer Portal (smartdevicelink.com) after the app and version is approved by the SDLC and the OEM. 
+   1. Note: Neither the SDL Developer Portal nor the SDL Server or SHAID are directly involved in distributing the app package to vehicles. 
 5. If a user installs an app, the OEM store should download the app package from the OEM backend and decompress/install the app to the system.
 6. After installation, the OEM store should make the app visible and available on the HMI.
 7. Core should support a WebSocket Server as a transport.
@@ -49,15 +49,15 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
 1. The app package should be a compressed zip file
 2. It should contain a manifest.json and the sdl.js file
 3. The manifest file should contain:
-   1. a relative path to an html file which is the entry point of the app
-   2. a relative path to an app icon in the app bundle
+   1. A relative path to an html file which is the entry point of the app
+   2. A relative path to an app icon in the app bundle
    3. SDL app ID
-   4. app name
-   5. optionally per supporting SDL locale:
-      1. app name (overrides global app name) (must be one of the valid app nicknames)
-      2. optionally relative path to an app icon (overrides global app icon)
-      3. optionally TTS name (an array of tts chunks)
-      4. optionally VR app names (an array of strings)
+   4. App name
+   5. Optional per supporting SDL locale:
+      1. App name (overrides global app name) (must be one of the valid app nicknames)
+      2. Optional relative path to an app icon (overrides global app icon)
+      3. Optional TTS name (an array of tts chunks)
+      4. Optional VR app names (an array of strings)
    6. App version
    7. Min SDL RPC version supported
    8. Min SDL Protocol version supported
@@ -72,7 +72,7 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
 
 The manifest should be used for multiple purposes.
 
-The SDL Developer Platform should allow developers to upload app packages which are candidates for app certification. The platform can read the manifest file and automatically read app assets instead of requesting the developer to input the data manually.
+The SDL Developer Portal should allow developers to upload app packages which are candidates for app certification. The platform can read the manifest file and automatically read app assets instead of requesting the developer to input the data manually.
 
 The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. The OEM store should also read the manifest file to create app assets for the store's database. The assets should be made visible for OEM customers when discovering available apps in the OEM store client. The OEM store client should also use the manifest file to list the app in the app list (see chapter "HMI API using App Properties RPCs"). The SDL library should use the manifest file to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern.
 
@@ -137,7 +137,7 @@ The HMI API should be extended to set app properties to SDL Core. This addition 
 
 The HMI API extension is mostly a copy of the cloud-app-properties included in the mobile API. 
 
-1. The OEM store uses the manifest data to for `SetAppProperties`.
+1. The OEM store uses the manifest data for `SetAppProperties`.
 2. The OEM store may choose to add not-installed apps to SDL using `enabled` parameter set to `false` (optional)
 3. If an embedded app is installed the `enabled` flag should be set to `true` to appear in UpdateAppsList RPC
 4. For local apps
@@ -153,13 +153,13 @@ The default app presentation approach should be template based. With the web app
 
 #### 2.6 App update and certification
 
-As already mentioned, app packages are uploaded to the SDL Developer Platform. App developers may also update the application by uploading new app packages. The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. 
+As already mentioned, app packages are uploaded to the SDL Developer Portal. App developers may also update the application by uploading new app packages. The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. 
 
 As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Platform should not be made available directly to vehicles. No changes are being suggested by this proposal to the SDL Server or SHAID in order to support app updates. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow installing only supported apps, dependent of the vehicle software version, SDL Core version and app's min SDL (RPC or Protocol) version.
 
-An app certification test should be perform to apps provided on the SDL Developer Platform before they are made available to vehicles. App developers can request SDLC app certification performed by the SDLC PM on the initial submission of the application. This app certification should be inspired by the mobile app certification and include tests that are valid for in-vehicle applications. It should not include tests to monitor data traffic with respect to effort and cost to perform such tests.
+An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to vehicles. App developers can request SDLC app certification performed by the SDLC PM on the initial submission of the application. This app certification should be inspired by the mobile app certification and include tests that are valid for in-vehicle applications. It should not include tests to monitor data traffic with respect to effort and cost to perform such tests.
 
-The SDLC app certification tests will not test every detail and aspect of the application. Once the initial submission has passed the certification tests the app should be marked as certified independent of future releases which won't be tested anymore. The test will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
+The SDLC app certification review will not test every detail and aspect of the application. Once the initial submission has passed the certification tests the app should be marked as certified independent of future releases which won't be tested anymore. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
 
 ## Potential downsides
 
