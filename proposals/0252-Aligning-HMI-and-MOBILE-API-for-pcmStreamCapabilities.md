@@ -33,7 +33,7 @@ Align HMI API with MOBILE API for `pcmStreamCapabilities` by adding this param t
 	<param name="systemCapabilities" type="Common.SystemCapabilities" mandatory="false">
 		<description>Specifies system capabilities. See SystemCapabilities</description>
 	</param>
-+	<param name="pcmStreamCapabilities" type="Common.AudioPassThruCapabilities" mandatory="true"/>
++	<param name="pcmStreamCapabilities" type="Common.AudioPassThruCapabilities" mandatory="false"/>
 </function>
 ```
 
