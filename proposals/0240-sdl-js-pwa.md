@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0240](0240-sdl-js-pwa.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [ Core / RPC / JavaScript / Server ]
 
 ## Introduction
