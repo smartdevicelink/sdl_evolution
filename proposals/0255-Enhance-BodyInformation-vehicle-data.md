@@ -1,8 +1,8 @@
 # Enhance BodyInformation vehicle data
 
-* Proposal: [SDL-NNNN](NNNN-Enhance-BodyInformation-vehicle-data.md)
+* Proposal: [SDL-0255](0255-Enhance-BodyInformation-vehicle-data.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core | HMI | iOS | Java Suite | RPC]
 
 ## Introduction
