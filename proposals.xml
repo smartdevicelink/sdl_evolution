@@ -276,7 +276,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0252" status="accepted" primary-platform="core" sdl-version="x.x" name="Aligning HMI and MOBILE API for pcmStreamCapabilities" filename="0252-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md"/>
 <proposal id="0253" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data StabilityControlsStatus" filename="0253-New-vehicle-data-StabilityControlsStatus.md"/>
 <proposal id="0254" status="active" primary-platform="rpc" sdl-version="x.x" name="New vehicle data HVBatteryLevel" filename="0254-New-vehicle-data-HVBatteryLevel.md"/>
-<proposal id="0254" status="active" primary-platform="rpc" sdl-version="x.x" name="New vehicle data HVBatteryLevel" filename="0254-New-vehicle-data-HVBatteryLevel.md"/>
+<proposal id="0255" status="active" primary-platform="rpc" sdl-version="x.x" name="Enhance BodyInformation vehicle data" filename="0255-Enhance-BodyInformation-vehicle-data.md"/>
 
 	<!--
 Recognized values for a proposal's status:
