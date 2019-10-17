@@ -70,7 +70,7 @@ Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set
         .
         .
             <param name="isEnabled" type="Boolean" mandatory="false">
-      <description>If true or missing, subscribed button must appear on screen (if applicable) and usable. If false, softbutton must appear appear on screen (if applicable) and not usable.  Button press events will still be sent to the app.
+      <description>If true or missing, subscribed button must appear on screen (if applicable) and usable. If false, softbutton must appear on screen (if applicable) and not usable.  Button press events will still be sent to the app.
       </description>
     </function>
     
