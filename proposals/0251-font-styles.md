@@ -59,7 +59,7 @@ The manager API of the SDL libraries should recognize the new parameter `hyperTe
 Example:
 The head unit provided information that `mainField1` can support the hyper text elements `b` and `i`. If a developer sets `screenManager.textField1` to a string like `<b>Hello <u>World!</u></b>`, the manager should scan the text field and clean it up to `<b>Hello World!</b>` before setting the string to `Show.mainField1` in the RPC request.
 
-The following managers should need to scan and clean text fields before generating RPCs:
+The following managers from the mobile libraries need to scan and clean text fields before generating RPCs:
 1. ScreenManager
 2. TextAndGraphicManager
 3. SoftButtonManager
