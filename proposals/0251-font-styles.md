@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This feature would let apps style text within `Alert`, `Show`, `ScrollableMessage` or `PerformInteraction` RPC with things like bold, italics or underlining.
+This feature would let apps style text within `Alert`, `Show`, `ScrollableMessage` or `PerformInteraction` RPCs with things like bold, italics or underlining.
 
 ## Motivation
 
@@ -15,13 +15,13 @@ As an app partner, I want to be able to customize text on main layouts and popup
 
 ## Proposed solution
 
-When an app wants a more visually appealing UI experience,  it can add a HTML tags for font style customization onto text if desired.
+When an app wants a more visually appealing UI experience, it can add HTML tags for font style customization onto text if desired.
 
 ![Example Screen](../assets/proposals/0251-font-styles/0251-font-styles.png)
 
 ### Hyper Text Capabilities
 
-The HMI should be able to provide a list of supported hyper text elements to SDL and to  the applications. This allows the HMI to have it's own flexibility to support what it wants:
+The HMI should be able to provide a list of supported hyper text elements to SDL and to the applications. This allows the HMI to have its own flexibility to support what it wants:
 
 ### HMI & Mobile API changes
 
@@ -37,14 +37,14 @@ The HMI API equivalent should exclude the versioning attributes.
 
 Alternative: An enum can be added that lists all the hyper text elements.
 
-With this implementation, technically the html tags take up part of the 500 character count restriction placed in `TextFieldStruct`. So, the character count for `TextFieldStruct` would go from 500 to 1000 in the HMI API. This struct is used for pretty much any text field in RPCs like `Alert`, `ScrollableMessage`, `Show` and so on.
+With this implementation, technically the HTML tags take up part of the 500 character count restriction placed in `TextFieldStruct`. So, the character count for `TextFieldStruct` would go from 500 to 1000 in the HMI API. This struct is used for pretty much any text field in RPCs like `Alert`, `ScrollableMessage`, `Show` and so on.
 ```xml
 <struct name="TextFieldStruct">
   .
   .
   .
   <param name="fieldText" type="String" maxlength="1000" mandatory="true">
-    <description>The  text itself.</description>
+    <description>The text itself.</description>
   </param>
   .
   .
