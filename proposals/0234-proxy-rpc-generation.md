@@ -3,7 +3,7 @@
 * Proposal: [SDL-0234](0234-proxy-rpc-generation.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [iOS / Java Suite]
+* Impacted Platforms: [iOS / Java Suite / JavaScript ]
 
 ## Introduction
 This proposal adds automatic RPC generation for iOS and Java from the XML spec via a python script.
@@ -12,7 +12,7 @@ This proposal adds automatic RPC generation for iOS and Java from the XML spec v
 Adding RPCs is currently difficult. Every RPC to be added requires handwriting each parameter, then review, and then unit testing. This makes large RPC changes very difficult, and at times, error-prone. Beyond that, alterations to the RPC classes require an enormous amount of work due to the number of RPCs that already exist – in addition to the problems of code duplication. This does not happen often, but it does happen.
 
 ## Proposed solution
-The proposed solution is to create python scripts that auto-generate Objective-C and Android code based on a given SDL MOBILE_API XML spec. This allows us to generate new Obj-C and Android classes whenever the XML spec changes, and to update the script whenever the classes themselves need to change.
+The proposed solution is to create python scripts that auto-generate Objective-C, Android and JavaScript code based on a given SDL MOBILE_API XML spec. This allows us to generate new classes whenever the XML spec changes, and to update the script whenever the classes themselves need to change.
 
 The script should take a `MOBILE_API` XML spec as input and a location to output. The script will then output the RPC files at that location.
 
@@ -20,7 +20,10 @@ The script should take a `MOBILE_API` XML spec as input and a location to output
 1. The spec is not currently housed within the library. Therefore the `rpc_spec` repository will be pulled into each library repository as a submodule. The `MOBILE_API` in the `rpc_spec` submodule will be the version used by the script to output the RPC files.
 2. This proposal is left intentionally ambiguous regarding implementation details of the scripts. I wish to leave implementation details up to the author(s) of the scripts. However, the command-line switches should be identical between implementations.
 3. The different platform scripts should be very similar outside of the actual code that's generated (e.g. file system code and XML parsing code should be nearly identical).
-4. The author(s) of these scripts should use the `rpc_spec` markdown generator as a base.
+4. The author(s) of these scripts should use the `sdl_core` InterfaceBuilder as a base.
+5. The generator code that creates the library code should be located in the library repository. 
+6. The parser code that parses the `MOBILE_API` should be located in the `rpc_spec` repository. It will be included into the library repositories due to the submodule reference. This should help maintaining the parser code.
+
 
 ## Potential downsides
 1. Creating the generator scripts may take longer than simply handwriting, reviewing, and unit testing any particular RPC change. However, in the long run, the time savings will be significant.
