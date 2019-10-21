@@ -1,7 +1,7 @@
 
 # Disabled Softbuttons
 
-* Proposal: [SDL-NNNN](NNNN-ButtonIdentifiers.md)
+* Proposal: [SDL-NNNN](NNNN-DisabledSoftbuttons.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Java Suite / Web / RPC ]
@@ -9,7 +9,7 @@
 ## Introduction
 
 This feature would allow apps to send custom softbuttons to display on screen but they would appear disabled.
-Also this allows an app to subscribe to softbuttons that are disabled
+Also this allows an app to subscribe to softbuttons that are disabled.
 
 ## Motivation
 Some apps like iHeartRadio don't provide the same set of custom softbuttons for each home screen.
@@ -17,14 +17,14 @@ This would allow them to display that to the user, just like the native app on t
 
 ## Proposed solution
 
-For custom softbuttons, add a parameter to `SoftButtonCapabilities` to let the app knows that the ability is possible.
+For custom softbuttons, add a parameter to `SoftButtonCapabilities` to let the app know that the ability is possible.
 ```xml
 <struct name="SoftButtonCapabilities">
     .
     .
     .
     <param name="disabledButtonPossible" type="Boolean" mandatory="true">
-        <description>The button supports being disabled. If the button is set to disabled, it will still show on the HMI but appear grayed out
+        <description>The button supports being disabled. If the button is set to disabled, it will still show on the HMI but appear grayed out.
         </description>
     </param>
 </struct>
@@ -43,7 +43,7 @@ Plus add an `isEnabled` flag to `SoftButton`. If the flag is true or missing, th
  </struct>
 ```
 
-For buttons that can be subscribed to, add a parameter to `ButtonCapabilities` to let the app knows that the ability is possible.
+For buttons that can be subscribed to, add a parameter to `ButtonCapabilities` to let the app know that the ability is possible.
 ```xml
 <struct name="ButtonCapabilities">
     .
@@ -78,7 +78,7 @@ Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set
 
 ## Potential downsides
 
-Adds HMI Complexity
+Adds HMI complexity
 
 ## Impact on existing code
 
