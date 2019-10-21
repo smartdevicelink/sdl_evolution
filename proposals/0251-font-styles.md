@@ -68,7 +68,7 @@ The following managers from the mobile libraries need to scan and clean text fie
 
 
 ## Potential downsides
-This adds some HMI complexity and would require SDL to potentially handle translating the 1000 characters in text fields to 500 characters on older headunits.
+This adds some HMI complexity and would require the SDL mobile libraries to handle translating the 1000 characters in text fields to 500 characters on older headunits.
 
 Currently not considering these as there is no current or immediate need:
 - SendLocation
