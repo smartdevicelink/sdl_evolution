@@ -2,12 +2,12 @@
 
 * Proposal: [SDL-NNNN](NNNN-Refactor-Fuel-Information-Related-Vehicle-Data.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Awaiting Review**
 * Impacted Platforms: [Core | HMI | iOS | Java Suite | RPC]
 
 ## Introduction
 
-This proposal is to consolidate Fuel Information related vehicle data so that it supports multiple type of propulsion sources used by vehicle.
+This proposal is to consolidate Fuel Information related vehicle data so that it supports multiple types of propulsion sources used by the vehicle.
 
 ## Motivation
 
@@ -146,12 +146,12 @@ We need to:
 
 ## Potential downsides
 
-This deprecates `FuelLevel` and `FuelLevel_State`, but that is inevitable when we try to consolicate vehicle data items to more meaningful Structs.
+This deprecates `FuelLevel` and `FuelLevel_State`, but that is inevitable when we try to consolidate vehicle data items into more meaningful Structs.
 
 ## Impact on existing code
 
 * SDL Core needs to be updated as per new API.
-* iOS/Java Suite needs to be updated to support getters/setters as per new API.
+* iOS/Java Suite need to be updated to support getters/setters as per new API.
 * HMI needs to be updated to support new vehicle data items.
 
 ## Alternatives considered
