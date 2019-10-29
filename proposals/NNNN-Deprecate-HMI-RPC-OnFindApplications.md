@@ -45,7 +45,7 @@ The author proposes to mark the RPC `OnFindApplications` as deprecated in the HM
 
 ## Potential downsides
 
-An OEM could have implemented this RPC on their own in which case the Author requests that OEM's reviewing this proposal note if they are using this RPC.
+An OEM could have implemented this RPC on their own in which case the Author requests that OEMs reviewing this proposal note if they are using this RPC.
 
 ## Impact on existing code
 
