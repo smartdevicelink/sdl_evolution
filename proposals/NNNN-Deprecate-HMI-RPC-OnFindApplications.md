@@ -1,7 +1,7 @@
 # Deprecate HMI RPC OnFindApplications
 
 * Proposal: [SDL-NNNN](NNNN-Deprecate-HMI-RPC-OnFindApplications.md)
-* Author: [JackLivio](hhttps://github.com/JackLivio)
+* Author: [Jack Byrne](hhttps://github.com/JackLivio)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core]
 
