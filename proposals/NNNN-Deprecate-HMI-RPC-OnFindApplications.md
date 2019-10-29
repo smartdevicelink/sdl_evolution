@@ -1,5 +1,5 @@
 ```
-# Feature name
+# Deprecate HMI RPC OnFindApplications
 
 * Proposal: [SDL-NNNN](NNNN-Deprecate-HMI-RPC-OnFindApplications.md)
 * Author: [JackLivio](hhttps://github.com/JackLivio)
@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This proposal is for deprecating and removing an unusable HMI RPC `OnFindApplications`
+This proposal is for deprecating and removing an unusable HMI RPC `OnFindApplications`.
 
 ## Motivation
 
