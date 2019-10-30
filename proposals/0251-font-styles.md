@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This feature would let apps bold, underline or italicize text within Alert, Show or Perform Interaction RPCS.
+This feature would let apps style text within `Alert`, `Show`, `ScrollableMessage` or `PerformInteraction` RPCs with things like bold, italics or underlining.
 
 ## Motivation
 
@@ -15,84 +15,65 @@ As an app partner, I want to be able to customize text on main layouts and popup
 
 ## Proposed solution
 
-
-When an app wants a more visually appealing UI experience,  it can add a font style customization onto each line of text if desired.  If no font style is provided, then it is assumed that the font is normal.  
+When an app wants a more visually appealing UI experience, it can add HTML tags for font style customization onto text if desired.
 
 ![Example Screen](../assets/proposals/0251-font-styles/0251-font-styles.png)
 
-Add a new struct `TextStyle`
+### Hyper Text Capabilities
+
+The HMI should be able to provide a list of supported hyper text elements to SDL and to the applications. This allows the HMI to have its own flexibility to support what it wants:
+
+### HMI & Mobile API changes
 
 ```xml
-<struct name="TextStyle">
-  <param name="bold" type="Boolean" mandatory="false">
-	<description>Bold the line of text. Defaults to false.</description>	
-  </param>
-  <param name="italic" type="Boolean" mandatory="false">
-	<description>Italicize the line of text. Defaults to false.</description>
-  </param>
-  <param name="underline" type="Boolean" mandatory="false">
-	 <description>Underline the line of text. Defaults to false.</description>
-  </param>
-</struct>	
+<struct name="TextField" since="1.0">
+:
+    <param name="hyperTextSupported" type="String" array="true" mandatory="false" minvalue="1" maxvalue="100" since="6.x">    
+    </param>
+</struct>
 ```
 
-Add to the TextFieldStruct - this will cover Show, Alert and TBT RPCs, as well as `InitialText` for various RPCs.
+The HMI API equivalent should exclude the versioning attributes.
 
+Alternative: An enum can be added that lists all the hyper text elements.
+
+With this implementation, technically the HTML tags take up part of the 500 character count restriction placed in `TextFieldStruct`. So, the character count for `TextFieldStruct` would go from 500 to 1000 in the HMI API. This struct is used for pretty much any text field in RPCs like `Alert`, `ScrollableMessage`, `Show` and so on.
 ```xml
 <struct name="TextFieldStruct">
   .
   .
   .
-  <param name="fieldName" type="Common.TextFieldName" mandatory="true">
-    <description>The name of the field for displaying the text.</description>
+  <param name="fieldText" type="String" maxlength="1000" mandatory="true">
+    <description>The text itself.</description>
   </param>
-  <param name="fieldText" type="String" maxlength="500" mandatory="true">
-    <description>The  text itself.</description>
-  </param>
-  <param name="fieldTypes" type="Common.MetadataType" minsize="0" maxsize="5" array="true" mandatory="false">
-    <description>The type of data contained in the field.</description>
-  </param>
-  <param name="fieldStyle" type="Common.TextStyle" mandatory="false">
-    <description>The style of text for the text field.</description>
-  </param>
+  .
+  .
+  .
 </struct>
 ```
-	
-Add font styles for `PerformInteraction` `Choice` 
 
-```xml
-<struct name="Choice">
-  .
-  .
-  .
-  <param name="textStyle" type "ChoiceTextStyle" mandatory="false">
-	<description>The style of text for each choice field.</description>
-  </param>
-</struct>
+### Automatic Tag Cleanup Using Managers 
 
-<struct name="ChoiceTextStyle">
-  <param name="menuNameStyle" type="Common.TextStyle" mandatory="false">
-	<description>Text style for menuName in a choice.</description>	
-  </param>
-  <param name="secondaryTextStyle" type="Common.TextStyle" mandatory="false">
-	<description>Text style for secondaryText in a choice.</description>	
-  </param>
-  <param name="tertiaryTextStyle" type="Common.TextStyle" mandatory="false">
-	<description>Text style for tertiaryText in a choice.</description>	
-  </param>
-</struct>							  
-```
+The manager API of the SDL libraries should recognize the new parameter `hyperTextSupported` and scan strings to see if unsupported elements are requested by the app. When a manager wants to generate a RPC it should scan the string and send a cleaned up version of the string in the RPC. For instance when the `ScreenManager` generates a new `Show` request it should set the main fields to a cleaned up version of the manager's text fields.
+
+Example:
+The head unit provided information that `mainField1` can support the hyper text elements `b` and `i`. If a developer sets `screenManager.textField1` to a string like `<b>Hello <u>World!</u></b>`, the manager should scan the text field and clean it up to `<b>Hello World!</b>` before setting the string to `Show.mainField1` in the RPC request.
+
+The following managers from the mobile libraries need to scan and clean text fields before generating RPCs:
+1. ScreenManager
+2. TextAndGraphicManager
+3. SoftButtonManager
+4. ChoiceSetManager
+5. MenuManager
 
 
 ## Potential downsides
-
-With this implementation, the whole line of text has to have the same font style. It's not possible to bold only a part of a line of text. Also this adds some HMI complexity.
+This adds some HMI complexity and would require the SDL mobile libraries to handle translating the 1000 characters in text fields to 500 characters on older headunits.
 
 Currently not considering these as there is no current or immediate need:
 - SendLocation
 - Media clock
 - Media track
-- Scrollable message body
 
 ## Impact on existing code
 
@@ -103,8 +84,4 @@ Potentially have pre-defined styles like in Android "Header 1", "Header 2", "Bod
 
 OR
 
-Have the HMI process html tags like:
-- `<b></b>`
-- `<i></i>`
-- `<u></u>`
-But a downside of this is that older headunits would just show the tags. Also when sending a text string in a RPC, they're limited to 500 characters for the most part.  The html tags take up some of the character count.
+Add a `FontStyle` struct to all text fields that defines if bold, italic, or underline.
