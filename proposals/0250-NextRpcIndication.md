@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0250](0250-NextRpcIndication.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC ]
 
 ## Introduction
