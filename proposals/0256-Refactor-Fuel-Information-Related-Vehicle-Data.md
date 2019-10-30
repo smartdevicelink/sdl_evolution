@@ -1,8 +1,8 @@
 # Refactor Fuel Information Related Vehicle Data
 
-* Proposal: [SDL-NNNN](NNNN-Refactor-Fuel-Information-Related-Vehicle-Data.md)
+* Proposal: [SDL-0256](0256-Refactor-Fuel-Information-Related-Vehicle-Data.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core | HMI | iOS | Java Suite | RPC]
 
 ## Introduction
