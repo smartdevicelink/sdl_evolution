@@ -36,7 +36,7 @@ The HMI should be able to provide a list of supported hyper text elements to SDL
 
 The HMI API equivalent should exclude the versioning attributes.
 
-The head unit would just send an array of html tags without the < > characters.
+The head unit would just send an array of html tags without the < > characters. For a list of current html tags see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element#Inline_text_semantics
 For example:
 ```json
 "hyperTextSupported":[ "b", "u", "i" ]
