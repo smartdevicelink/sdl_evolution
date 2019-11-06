@@ -1,8 +1,8 @@
 # Update vehicle data TurnSignal
 
-* Proposal: [SDL-NNNN](NNNN-Update-vehicle-data-TurnSignal.md)
+* Proposal: [SDL-0258](0258-Update-vehicle-data-TurnSignal.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core | HMI | iOS | Java Suite | RPC]
 
 ## Introduction
