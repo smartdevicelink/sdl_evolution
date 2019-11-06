@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0254](0254-New-vehicle-data-HVBatteryLevel.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Rejected**
 * Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite | RPC]
 
 ## Introduction
