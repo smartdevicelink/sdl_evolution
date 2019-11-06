@@ -1,8 +1,8 @@
 # New vehicle data HandsOffSteering
 
-* Proposal: [SDL-NNNN](NNNN-New-vehicle-data-HandsOffSteering.md)
+* Proposal: [SDL-0257](0257-New-vehicle-data-HandsOffSteering.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite | RPC]
 
 ## Introduction
