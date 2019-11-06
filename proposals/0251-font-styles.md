@@ -28,7 +28,8 @@ The HMI should be able to provide a list of supported hyper text elements to SDL
 ```xml
 <struct name="TextField" since="1.0">
 :
-    <param name="hyperTextSupported" type="String" array="true" mandatory="false" minsize="1" maxsize="100" since="6.x">    
+    <param name="hyperTextSupported" type="String" array="true" mandatory="false" minsize="1" maxsize="100" since="6.x">
+        <description>A list of supported html tags without the < > characters.</description>
     </param>
 </struct>
 ```
