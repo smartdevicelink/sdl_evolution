@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0256](0256-Refactor-Fuel-Information-Related-Vehicle-Data.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core | HMI | iOS | Java Suite | RPC]
 
 ## Introduction
