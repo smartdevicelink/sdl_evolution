@@ -28,12 +28,18 @@ The HMI should be able to provide a list of supported hyper text elements to SDL
 ```xml
 <struct name="TextField" since="1.0">
 :
-    <param name="hyperTextSupported" type="String" array="true" mandatory="false" minvalue="1" maxvalue="100" since="6.x">    
+    <param name="hyperTextSupported" type="String" array="true" mandatory="false" minsize="1" maxsize="100" since="6.x">    
     </param>
 </struct>
 ```
 
 The HMI API equivalent should exclude the versioning attributes.
+
+The head unit would just send an array of html tags without the < > characters.
+For example:
+```json
+"hypertTextSupported":[ "b", "u", "i" ]
+```
 
 Alternative: An enum can be added that lists all the hyper text elements.
 
