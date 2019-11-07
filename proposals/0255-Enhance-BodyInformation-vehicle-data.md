@@ -27,10 +27,10 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 
 #### Updates in MOBILE_API:
 
-##### New Struct `DoorsStatus` is needed:
+##### New Struct `DoorStatus` is needed:
 ```xml
 <struct name="DoorStatus" since="X.x">
-	<description>Describes the Status of a parameter of door.</description>
+	<description>Describes the status of a parameter of door.</description>
 	<param name="doorLocation" type="Grid" mandatory="true"/>
 	<param name="doorStatus" type="DoorStatusType" mandatory="true"/>
 </struct>
@@ -44,10 +44,10 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 </enum>
 ```
 
-##### New Struct `GatesStatus` is needed:
+##### New Struct `GateStatus` is needed:
 ```xml
 <struct name="GateStatus" since="X.x">
-	<description>Describes the Status of a parameter of trunk/hood/etc.</description>
+	<description>Describes the status of a parameter of trunk/hood/etc.</description>
 	<param name="gateType" type="GateType" mandatory="true"/>
 	<param name="gateStatus" type="DoorStatusType" mandatory="true"/>
 </struct>
@@ -67,7 +67,7 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 ```xml
 <struct name="BodyInformation" since="2.0">
 	<param name="parkBrakeActive" type="Boolean" mandatory="true">
-		<description>true if mechanical park brake is active, false otherwise.</description>
+		<description>If mechanical park brake is active, true. Otherwise false.</description>
 	</param>
 	<param name="ignitionStableStatus" type="IgnitionStableStatus" mandatory="true">
 		<description>Provides information on status of ignition stable switch. See IgnitionStableStatus.</description>
@@ -76,16 +76,16 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 		<description>Provides information on current ignitiion status. See IgnitionStatus.</description>
 	</param>
 	<param name="driverDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-		<description>References signal "DrStatDrv_B_Actl". Deprecated starting with API X.x.x.</description>
+		<description>References signal "DrStatDrv_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
 	<param name="passengerDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-		<description>References signal "DrStatPsngr_B_Actl". Deprecated starting with API X.x.x.</description>
+		<description>References signal "DrStatPsngr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
 	<param name="rearLeftDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-		<description>References signal "DrStatRl_B_Actl". Deprecated starting with API X.x.x.</description>
+		<description>References signal "DrStatRl_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
 	<param name="rearRightDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-		<description>References signal "DrStatRr_B_Actl". Deprecated starting with API X.x.x.</description>
+		<description>References signal "DrStatRr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
 +	<param name="doorsStatus" type="DoorStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
 +		<description>Provides status for doors if Ajar/Closed/Locked</description>
@@ -99,10 +99,10 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 #### Updates in HMI_API:
 
 
-##### New Struct `DoorsStatus` is needed in `Common` interface:
+##### New Struct `DoorStatus` is needed in `Common` interface:
 ```xml
 <struct name="DoorStatus" since="X.x">
-	<description>Describes the Status of a parameter of door.</description>
+	<description>Describes the status of a parameter of door.</description>
 	<param name="doorLocation" type="Common.Grid" mandatory="true"/>
 	<param name="doorStatus" type="Common.DoorStatusType" mandatory="true"/>
 </struct>
@@ -116,10 +116,10 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 </enum>
 ```
 
-##### New Struct `GatesStatus` is needed in `Common` interface:
+##### New Struct `GateStatus` is needed in `Common` interface:
 ```xml
 <struct name="GateStatus" since="X.x">
-	<description>Describes the Status of a parameter of trunk/hood/etc.</description>
+	<description>Describes the status of a parameter of trunk/hood/etc.</description>
 	<param name="gateType" type="Common.GateType" mandatory="true"/>
 	<param name="gateStatus" type="Common.DoorStatusType" mandatory="true"/>
 </struct>
@@ -139,7 +139,7 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 ```xml
 <struct name="BodyInformation" since="2.0">
 	<param name="parkBrakeActive" type="Boolean" mandatory="true">
-		<description>true if mechanical park brake is active, false otherwise.</description>
+		<description>If mechanical park brake is active, true. Otherwise false.</description>
 	</param>
 	<param name="ignitionStableStatus" type="Common.IgnitionStableStatus" mandatory="true">
 		<description>Provides information on status of ignition stable switch. See IgnitionStableStatus.</description>
@@ -148,16 +148,16 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 		<description>Provides information on current ignitiion status. See IgnitionStatus.</description>
 	</param>
 	<param name="driverDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-		<description>References signal "DrStatDrv_B_Actl". Deprecated starting with API X.x.x.</description>
+		<description>References signal "DrStatDrv_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
 	<param name="passengerDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-		<description>References signal "DrStatPsngr_B_Actl". Deprecated starting with API X.x.x.</description>
+		<description>References signal "DrStatPsngr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
 	<param name="rearLeftDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-		<description>References signal "DrStatRl_B_Actl". Deprecated starting with API X.x.x.</description>
+		<description>References signal "DrStatRl_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
 	<param name="rearRightDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-		<description>References signal "DrStatRr_B_Actl". Deprecated starting with API X.x.x.</description>
+		<description>References signal "DrStatRr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
 +	<param name="doorsStatus" type="Common.DoorStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
 +		<description>Provides status for doors if Ajar/Closed/Locked</description>
