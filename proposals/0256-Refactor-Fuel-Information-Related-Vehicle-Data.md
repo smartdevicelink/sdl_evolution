@@ -76,10 +76,10 @@ We need to:
 
 ```xml	
 <param name="fuelLevel" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level in the tank (percentage). This parameter is deprecated starting API level X.x.x, please see fuelRange.</description>
+	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
 <param name="fuelLevel_State" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level state. This parameter is deprecated starting API level X.x.x, please see fuelRange.</description>
+	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
 <param name="fuelRange" type="Boolean" mandatory="false" since="5.0">
 	<description>
@@ -95,10 +95,10 @@ We need to:
 
 ```xml	
 <param name="fuelLevel" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level in the tank (percentage). This parameter is deprecated starting API level X.x.x, please see fuelRange.</description>
+	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
 <param name="fuelLevel_State" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level state. This parameter is deprecated starting API level X.x.x, please see fuelRange.</description>
+	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
 <param name="fuelRange" type="VehicleDataResult" mandatory="false" since="5.0">
 	<description>
@@ -114,10 +114,10 @@ We need to:
 
 ```xml	
 <param name="fuelLevel" type="Float" minvalue="-6" maxvalue="106" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level in the tank (percentage). This parameter is deprecated starting API level X.x.x, please see fuelRange.</description>
+	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
 <param name="fuelLevel_State" type="ComponentVolumeStatus" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level state. This parameter is deprecated starting API level X.x.x, please see fuelRange.</description>
+	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
 <param name="fuelRange" type="FuelRange" minsize="0" maxsize="100" array="true" mandatory="false" since="5.0">
 	<description>
