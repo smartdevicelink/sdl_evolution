@@ -25,64 +25,26 @@ We need to add `SeatOccupancy` for `GetVehicleData`, `SubscribeVehicleData`, `Un
 ```xml
 <element name="VEHICLEDATA_SEATOCCUPANCY" since="X.x"/>
 ```
+
+#### Add new struct `SeatStatus`:
+```xml
+<struct name="SeatStatus" since="X.x">
+	<description>Describes the Status of a parameter of seat.</description>
+	<param name="seatLocation" type="SeatLocation"  mandatory="true"/>
+	<param name="conditionActive" type="Boolean"  mandatory="true"/>	
+</struct>
+```
+
 #### Add new struct `SeatOccupancy`:
 
 ```xml	
-<struct name="SeatOccupancy" since="x.x">
-	<param name="row1DriverOccupied" type="Boolean" mandatory="false">
-		<description>true if row1 driver side seat is occupied, else false</description>
+<struct name="SeatOccupancy" since="X.x">
+	<param name="seatsOccupied" type="SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
+		<description>true if seat is occupied, false otherwise</description>
 	</param>
-	<param name="row1PassengerOccupied" type="Boolean" mandatory="false">
-		<description>true if row1 passenger side seat is occupied, else false</description>
-	</param>
-	<param name="row1MiddleOccupied" type="Boolean" mandatory="false">
-		<description>true if row1 middle seat is occupied, else false</description>
+	<param name="seatsBelted" type="SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
+		<description>true if seat belt is belted, false otherwise</description>
 	</param>	
-	<param name="row2DriverOccupied" type="Boolean" mandatory="false">
-		<description>true if row2 driver side seat is occupied, else false</description>
-	</param>
-	<param name="row2PassengerOccupied" type="Boolean" mandatory="false">
-		<description>true if row2 passenger side seat is occupied, else false</description>
-	</param>
-	<param name="row2MiddleOccupied" type="Boolean" mandatory="false">
-		<description>true if row2 middle seat is occupied, else false</description>
-	</param>	
-	<param name="row3DriverOccupied" type="Boolean" mandatory="false">
-		<description>true if row3 driver side seat is occupied, else false</description>
-	</param>
-	<param name="row3PassengerOccupied" type="Boolean" mandatory="false">
-		<description>true if row3 passenger side seat is occupied, else false</description>
-	</param>
-	<param name="row3MiddleOccupied" type="Boolean" mandatory="false">
-		<description>true if row3 middle seat is occupied, else false</description>
-	</param>
-	<param name="row1DriverBelted" type="Boolean" mandatory="false">
-		<description>true if row1 driver side seat belt is belted, else false</description>
-	</param>
-	<param name="row1PassengerBelted" type="Boolean" mandatory="false">
-		<description>true if row1 passenger side seat belt is belted, else false</description>
-	</param>
-	<param name="row1MiddleBelted" type="Boolean" mandatory="false">
-		<description>true if row1 middle seat belt is belted, else false</description>
-	</param>	
-	<param name="row2DriverBelted" type="Boolean" mandatory="false">
-		<description>true if row2 driver side seat belt is belted, else false</description>
-	</param>
-	<param name="row2PassengerBelted" type="Boolean" mandatory="false">
-		<description>true if row2 passenger side seat belt is belted, else false</description>
-	</param>
-	<param name="row2MiddleBelted" type="Boolean" mandatory="false">
-		<description>true if row2 middle seat belt is belted, else false</description>
-	</param>	
-	<param name="row3DriverBelted" type="Boolean" mandatory="false">
-		<description>true if row3 driver side seat belt is belted, else false</description>
-	</param>
-	<param name="row3PassengerBelted" type="Boolean" mandatory="false">
-		<description>true if row3 passenger side seat belt is belted, else false</description>
-	</param>
-	<param name="row3MiddleBelted" type="Boolean" mandatory="false">
-		<description>true if row3 middle seat belt is belted, else false</description>
-	</param>		
 </struct>
 ```
 
@@ -124,66 +86,30 @@ We need to add `SeatOccupancy` for `GetVehicleData`, `SubscribeVehicleData`, `Un
 ```xml
 <element name="VEHICLEDATA_SEATOCCUPANCY"/>
 ```
+
+#### Add new struct `SeatStatus` in `Common` interface:
+
+```xml
+<struct name="SeatStatus">
+	<description>Describes the Status of a parameter of seat.</description>
+	<param name="seatLocation" type="Common.SeatLocation"  mandatory="true"/>
+	<param name="conditionActive" type="Boolean"  mandatory="true"/>
+</struct>
+```
+
 #### Add new struct `SeatOccupancy` in `Common` interface:
 
 ```xml	
 <struct name="SeatOccupancy">
-	<param name="row1DriverOccupied" type="Boolean" mandatory="false">
-		<description>true if row1 driver side seat is occupied, else false</description>
+	<param name="seatsOccupied" type="Common.SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
+		<description>true if seat is occupied, false otherwise</description>
 	</param>
-	<param name="row1PassengerOccupied" type="Boolean" mandatory="false">
-		<description>true if row1 passenger side seat is occupied, else false</description>
-	</param>
-	<param name="row1MiddleOccupied" type="Boolean" mandatory="false">
-		<description>true if row1 middle seat is occupied, else false</description>
+	<param name="seatsBelted" type="Common.SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
+		<description>true if seat belt is belted, false otherwise</description>
 	</param>	
-	<param name="row2DriverOccupied" type="Boolean" mandatory="false">
-		<description>true if row2 driver side seat is occupied, else false</description>
-	</param>
-	<param name="row2PassengerOccupied" type="Boolean" mandatory="false">
-		<description>true if row2 passenger side seat is occupied, else false</description>
-	</param>
-	<param name="row2MiddleOccupied" type="Boolean" mandatory="false">
-		<description>true if row2 middle seat is occupied, else false</description>
-	</param>	
-	<param name="row3DriverOccupied" type="Boolean" mandatory="false">
-		<description>true if row3 driver side seat is occupied, else false</description>
-	</param>
-	<param name="row3PassengerOccupied" type="Boolean" mandatory="false">
-		<description>true if row3 passenger side seat is occupied, else false</description>
-	</param>
-	<param name="row3MiddleOccupied" type="Boolean" mandatory="false">
-		<description>true if row3 middle seat is occupied, else false</description>
-	</param>
-	<param name="row1DriverBelted" type="Boolean" mandatory="false">
-		<description>true if row1 driver side seat belt is belted, else false</description>
-	</param>
-	<param name="row1PassengerBelted" type="Boolean" mandatory="false">
-		<description>true if row1 passenger side seat belt is belted, else false</description>
-	</param>
-	<param name="row1MiddleBelted" type="Boolean" mandatory="false">
-		<description>true if row1 middle seat belt is belted, else false</description>
-	</param>	
-	<param name="row2DriverBelted" type="Boolean" mandatory="false">
-		<description>true if row2 driver side seat belt is belted, else false</description>
-	</param>
-	<param name="row2PassengerBelted" type="Boolean" mandatory="false">
-		<description>true if row2 passenger side seat belt is belted, else false</description>
-	</param>
-	<param name="row2MiddleBelted" type="Boolean" mandatory="false">
-		<description>true if row2 middle seat belt is belted, else false</description>
-	</param>	
-	<param name="row3DriverBelted" type="Boolean" mandatory="false">
-		<description>true if row3 driver side seat belt is belted, else false</description>
-	</param>
-	<param name="row3PassengerBelted" type="Boolean" mandatory="false">
-		<description>true if row3 passenger side seat belt is belted, else false</description>
-	</param>
-	<param name="row3MiddleBelted" type="Boolean" mandatory="false">
-		<description>true if row3 middle seat belt is belted, else false</description>
-	</param>		
 </struct>
 ```
+
 #### Add the following parameter to these function requests:
 * `SubscribeVehicleData`
 * `UnsubscribeVehicleData`
