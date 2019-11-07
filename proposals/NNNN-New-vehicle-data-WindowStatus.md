@@ -25,31 +25,41 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 ```xml
 <element name="VEHICLEDATA_WINDOWSTATUS" since="X.x"/>
 ```
-#### Add new struct `WindowStatus`
 
+#### Add new struct `WindowStatus`:
 ```xml	
-<struct name="WindowStatus" since="x.x">
-	<param name="driverSideWindow" type="WindowState" mandatory="false">
-		<description>Status of driver side window position</description>
+<struct name="WindowStatus" since="X.x">
+	<param name="doorsWindowStatus" type="DoorWindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
+		<description>Status of doors window position</description>
 	</param>
-	<param name="passengerSideWindow" type="WindowState" mandatory="false">
-		<description>Status of passenger side window position</description>
-	</param>
-	<param name="rearDriverSideWindow" type="WindowState" mandatory="false">
-		<description>Status of rear driver side window position</description>
-	</param>
-	<param name="rearPassengerSideWindow" type="WindowState" mandatory="false">
-		<description>Status of rear passenger side window position</description>
-	</param>	
-	<param name="trunkWindow" type="WindowState" mandatory="false">
+	<param name="gatesWindowStatus" type="GateWindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
 		<description>Status of trunk/liftgate window position</description>
 	</param>		
 </struct>
 ```
+
+#### Add new struct `DoorWindowStatus`:
+```xml	
+<struct name="DoorWindowStatus" since="X.x">
+	<description>Describes the Status of a window of a door.</description>
+	<param name="doorLocation" type="Grid" mandatory="true"/>
+	<param name="windowState" type="WindowState" mandatory="true"/>	
+</struct>
+```
+
+#### Add new struct `GateWindowStatus`:
+```xml
+<struct name="GateWindowStatus" since="X.x">
+	<description>Describes the Status of a window of trunk/hood/etc.</description>
+	<param name="gateType" type="GateType" mandatory="true"/>
+	<param name="windowState" type="WindowState" mandatory="true"/>	
+</struct>
+```
+
 #### Add new enum `WindowState`:
 
 ```xml    
-<enum name="WindowState" since="x.x">
+<enum name="WindowState" since="X.x">
 	<description>Reflects the postion of window.</description>
 	<element name="UNDEFINED" internal_name="WP_UNDEFINED">
 	</element>
@@ -107,27 +117,37 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 ```xml
 <element name="VEHICLEDATA_WINDOWSTATUS"/>
 ```
-#### Add new struct `WindowStatus` in `Common` interface:
 
+#### Add new struct `WindowStatus` in `Common` interface:
 ```xml	
 <struct name="WindowStatus">
-	<param name="driverSideWindow" type="Common.WindowState" mandatory="false">
-		<description>Status of driver side window position</description>
+	<param name="doorsWindowStatus" type="Common.DoorWindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
+		<description>Status of doors window position</description>
 	</param>
-	<param name="passengerSideWindow" type="Common.WindowState" mandatory="false">
-		<description>Status of passenger side window position</description>
-	</param>
-	<param name="rearDriverSideWindow" type="Common.WindowState" mandatory="false">
-		<description>Status of rear driver side window position</description>
-	</param>
-	<param name="rearPassengerSideWindow" type="Common.WindowState" mandatory="false">
-		<description>Status of rear passenger side window position</description>
-	</param>	
-	<param name="trunkWindow" type="Common.WindowState" mandatory="false">
+	<param name="gatesWindowStatus" type="Common.GateWindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
 		<description>Status of trunk/liftgate window position</description>
 	</param>		
 </struct>
 ```
+
+#### Add new struct `DoorWindowStatus` in `Common` interface
+```xml	
+<struct name="DoorWindowStatus">
+	<description>Describes the Status of a window of a door.</description>
+	<param name="doorLocation" type="Common.Grid" mandatory="true"/>
+	<param name="windowState" type="Common.WindowState" mandatory="true"/>	
+</struct>
+```
+
+#### Add new struct `GateWindowStatus` in `Common` interface
+```xml
+<struct name="GateWindowStatus">
+	<description>Describes the Status of a window of trunk/hood/etc.</description>
+	<param name="gateType" type="Common.GateType" mandatory="true"/>
+	<param name="windowState" type="Common.WindowState" mandatory="true"/>	
+</struct>
+```
+
 #### Add new enum `WindowState` in `Common` interface:
 
 ```xml    
@@ -192,6 +212,7 @@ Author is not aware of any downsides to proposed solution. This proposal just en
 * SDL Server needs to add permissions for new vehicle data items.
 * SHAID needs to add mappings for new vehicle data items as per updated spec.
 * HMI needs to be updated to support new vehicle data items.
+* Proposal [Enhance BodyInformation vehicle data](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0255-Enhance-BodyInformation-vehicle-data.md) needs to be implemented before or along with this proposal.
 
 ## Alternatives considered
 
