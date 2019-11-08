@@ -15,14 +15,15 @@ In order to partner with more diverse app partners, we need to provide additiona
 
 ## Proposed Solution 
 
-We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
+We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Vehicle data item `prndl` would be deprecated as it is now covered in `GearStatus`. Following are the changes needed in MOBILE_API and HMI_API:
 
 ### Updates in MOBILE_API:
 
-#### Add to enum `VehicleDataType`: 
+#### Update enum `VehicleDataType`: 
 
 ```xml	
 <element name="VEHICLEDATA_GEARSTATUS" since="X.x"/>
+<element name="VEHICLEDATA_PRNDL" until="X.x"/>
 ```
 #### Add new struct `GearStatus`:
 
@@ -36,6 +37,7 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 	</param>
 </struct>
 ```
+
 #### Add new enum `GearPosition`:
 
 ```xml	
@@ -85,7 +87,52 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 	</element>
 </enum>	
 ```
-#### Add the following parameter to these function requests:
+
+#### Deprecate enum `PRNDL`:
+```xml
+<enum name="PRNDL" since="2.0" until="X.x">
+	<description>The selected gear.</description>
+	<element name="PARK">
+		<description>Parking</description>
+	</element>
+	<element name="REVERSE">
+		<description>Reverse gear</description>
+	</element>
+	<element name="NEUTRAL">
+		<description>No gear</description>
+	</element>
+	<element name="DRIVE">
+	</element>
+	<element name="SPORT">
+		<description>Drive Sport mode</description>
+	</element>
+	<element name="LOWGEAR">
+		<description>1st gear hold</description>
+	</element>
+	<element name="FIRST">
+	</element>
+	<element name="SECOND">
+	</element>
+	<element name="THIRD">
+	</element>
+	<element name="FOURTH">
+	</element>
+	<element name="FIFTH">
+	</element>
+	<element name="SIXTH">
+	</element>
+	<element name="SEVENTH">
+	</element>
+	<element name="EIGHTH">
+	</element>
+	<element name="UNKNOWN">
+	</element>
+	<element name="FAULT">
+	</element>
+</enum>
+```
+
+#### Update following parameters in these function requests:
 * `SubscribeVehicleData`
 * `UnsubscribeVehicleData`
 * `GetVehicleData`
@@ -94,9 +141,12 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 <param name="gearStatus" type="Boolean" mandatory="false" since="X.x">
 	<description>See GearStatus</description>
 </param>
+<param name="prndl" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+	<description>See PRNDL. This parameter is deprecated starting RPC Spec X.x.x, please see gearStatus.</description>
+</param>
 ```
 
-#### Add the following parameter to these function responses:
+#### Update following parameters in these function responses:
 * `SubscribeVehicleData`
 * `UnsubscribeVehicleData`
 
@@ -104,15 +154,21 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 <param name="gearStatus" type="VehicleDataResult" mandatory="false" since="X.x">
 	<description>See GearStatus</description>
 </param>
+<param name="prndl" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
+	<description>See PRNDL. This parameter is deprecated starting RPC Spec X.x.x, please see gearStatus.</description>
+</param>
 ```
 
-#### Add the following parameter to these function responses:
+#### Update following parameters in these function responses:
 * `GetVehicleData`
 * `OnVehicleData`
 
 ```xml	
 <param name="gearStatus" type="GearStatus" mandatory="false" since="X.x">
 	<description>See GearStatus</description>
+</param>
+<param name="prndl" type="PRNDL" mandatory="false" deprecated="true" since="X.x">
+	<description>See PRNDL. This parameter is deprecated starting RPC Spec X.x.x, please see gearStatus.</description>
 </param>
 ```
 
