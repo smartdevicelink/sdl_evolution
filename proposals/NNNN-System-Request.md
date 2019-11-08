@@ -26,7 +26,7 @@ HMI API changes
     ...
 +   <param name="data" type="String" maxlength="65535" mandatory="false">
 +       <description> 
-+           Base64 encoded data sending from HMI to SDL. If it exists, "fileName" shall be ignored; 
++           Base64 encoded data sending from HMI to SDL Core. If it exists, "fileName" shall be ignored; 
 +           SDL Core shall decode the string and treat the resulting data like it comes from a binary file.
 +           SDL Core shall send decoded data to the mobile app in hybrid part of message
 +        </description>
@@ -48,7 +48,7 @@ HMI API changes
 <function name="SystemRequest" messagetype="response">
     ...
 +   <param name="resultData" type="String" maxlength="65535" mandatory="false">
-+       <description> Base64 encoded result data from the system to SDL. SDL shall send decoded data to the mobile app in hybrid part of message. </description>
++       <description> Base64 encoded result data from the system to SDL Core. SDL Core shall send decoded data to the mobile app in hybrid part of message. </description>
 +   </param>
 </function>
 ```
