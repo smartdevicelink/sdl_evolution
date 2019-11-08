@@ -29,7 +29,7 @@ We need to add `SeatOccupancy` for `GetVehicleData`, `SubscribeVehicleData`, `Un
 #### Add new struct `SeatStatus`:
 ```xml
 <struct name="SeatStatus" since="X.x">
-	<description>Describes the Status of a parameter of seat.</description>
+	<description>Describes the status of a parameter of seat.</description>
 	<param name="seatLocation" type="SeatLocation"  mandatory="true"/>
 	<param name="conditionActive" type="Boolean"  mandatory="true"/>	
 </struct>
@@ -40,10 +40,10 @@ We need to add `SeatOccupancy` for `GetVehicleData`, `SubscribeVehicleData`, `Un
 ```xml	
 <struct name="SeatOccupancy" since="X.x">
 	<param name="seatsOccupied" type="SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>true if seat is occupied, false otherwise</description>
+		<description>If seat is occupied, true. Otherwise false.</description>
 	</param>
 	<param name="seatsBelted" type="SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>true if seat belt is belted, false otherwise</description>
+		<description>If seat belt is belted, true. Otherwise false.</description>
 	</param>	
 </struct>
 ```
@@ -91,7 +91,7 @@ We need to add `SeatOccupancy` for `GetVehicleData`, `SubscribeVehicleData`, `Un
 
 ```xml
 <struct name="SeatStatus">
-	<description>Describes the Status of a parameter of seat.</description>
+	<description>Describes the status of a parameter of seat.</description>
 	<param name="seatLocation" type="Common.SeatLocation"  mandatory="true"/>
 	<param name="conditionActive" type="Boolean"  mandatory="true"/>
 </struct>
@@ -102,11 +102,10 @@ We need to add `SeatOccupancy` for `GetVehicleData`, `SubscribeVehicleData`, `Un
 ```xml	
 <struct name="SeatOccupancy">
 	<param name="seatsOccupied" type="Common.SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>true if seat is occupied, false otherwise</description>
+		<description>If seat is occupied, true. Otherwise false.</description>
 	</param>
 	<param name="seatsBelted" type="Common.SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>true if seat belt is belted, false otherwise</description>
-	</param>	
+		<description>If seat belt is belted, true. Otherwise false.</description>
 </struct>
 ```
 
