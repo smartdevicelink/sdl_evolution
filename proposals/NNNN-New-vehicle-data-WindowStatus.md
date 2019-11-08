@@ -41,7 +41,7 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 #### Add new struct `DoorWindowStatus`:
 ```xml	
 <struct name="DoorWindowStatus" since="X.x">
-	<description>Describes the Status of a window of a door.</description>
+	<description>Describes the status of a window of a door.</description>
 	<param name="doorLocation" type="Grid" mandatory="true"/>
 	<param name="windowState" type="WindowState" mandatory="true"/>	
 </struct>
@@ -50,7 +50,7 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 #### Add new struct `GateWindowStatus`:
 ```xml
 <struct name="GateWindowStatus" since="X.x">
-	<description>Describes the Status of a window of trunk/hood/etc.</description>
+	<description>Describes the status of a window of trunk/hood/etc.</description>
 	<param name="gateType" type="GateType" mandatory="true"/>
 	<param name="windowState" type="WindowState" mandatory="true"/>	
 </struct>
@@ -133,7 +133,7 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 #### Add new struct `DoorWindowStatus` in `Common` interface
 ```xml	
 <struct name="DoorWindowStatus">
-	<description>Describes the Status of a window of a door.</description>
+	<description>Describes the status of a window of a door.</description>
 	<param name="doorLocation" type="Common.Grid" mandatory="true"/>
 	<param name="windowState" type="Common.WindowState" mandatory="true"/>	
 </struct>
@@ -142,7 +142,7 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 #### Add new struct `GateWindowStatus` in `Common` interface
 ```xml
 <struct name="GateWindowStatus">
-	<description>Describes the Status of a window of trunk/hood/etc.</description>
+	<description>Describes the status of a window of trunk/hood/etc.</description>
 	<param name="gateType" type="Common.GateType" mandatory="true"/>
 	<param name="windowState" type="Common.WindowState" mandatory="true"/>	
 </struct>
