@@ -15,7 +15,7 @@ In order to partner with more diverse app partners, we need to provide additiona
 
 ## Proposed Solution 
 
-We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Following are the changes needed in MOBILE_API and HMI_API:
+We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `UnsubscribeVehicleData` & `OnVehicleData` RPCs. Vehicle data item `externalTemperature` would be deprecated as it is now part of `ClimateData`. Following are the changes needed in MOBILE_API and HMI_API:
 
 ### Updates in MOBILE_API:
 
@@ -23,6 +23,7 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 
 ```xml	
 <element name="VEHICLEDATA_CLIMATEDATA" since="X.x"/>
+<element name="VEHICLEDATA_EXTERNTEMP" until="X.x"/>
 ```
 #### Add new struct `ClimateData`:
 
@@ -40,7 +41,7 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 </struct>
 ```
 
-#### Add the following parameter to these function requests:
+#### Update following parameters in these function requests:
 * `SubscribeVehicleData`
 * `UnsubscribeVehicleData`
 * `GetVehicleData`
@@ -49,9 +50,12 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 <param name="climateData" type="Boolean" mandatory="false" since="X.x">
 	<description>See ClimateData</description>
 </param>
+<param name="externalTemperature" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>
+</param>
 ```
 
-#### Add the following parameter to these function responses:
+#### Update following parameters in these function responses:
 * `SubscribeVehicleData`
 * `UnsubscribeVehicleData`
 
@@ -59,15 +63,21 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 <param name="climateData" type="VehicleDataResult" mandatory="false" since="X.x">
 	<description>See ClimateData</description>
 </param>
+<param name="externalTemperature" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
+	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>
+</param>
 ```
 
-#### Add the following parameter to these function responses:
+#### Update following parameters in these function responses:
 * `GetVehicleData`
 * `OnVehicleData`
 
 ```xml	
 <param name="climateData" type="ClimateData" mandatory="false" since="X.x">
 	<description>See ClimateData</description>
+</param>
+<param name="externalTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false" deprecated="true" since="X.x">
+	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>
 </param>
 ```
 
