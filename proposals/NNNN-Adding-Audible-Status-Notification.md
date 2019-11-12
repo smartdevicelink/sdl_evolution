@@ -63,4 +63,4 @@ No Impact. Because, just add new API and enum.
 ## Alternatives considered
 
 There is no alternative. 
-There is idea to add only parameters to the existing API. However, there is no existing API that suits the purpose, and since the merit of being able to handle audio alone is losted, it seems not good.
+I considered only adding parameters to the existing API. However, there is no existing API that suits the purpose, and since the merit of being able to handle audio alone is lost, this does not seem to be a good alternative.
