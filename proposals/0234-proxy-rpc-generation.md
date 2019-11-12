@@ -21,7 +21,7 @@ The script should take a `MOBILE_API` XML spec as input and a location to output
 
     `sdl_core`, `sdl_java_suite`, `sdl_ios`, `sdl_javascript_suite`
 
-2. The command-line switches should be identical between implementations. See "Command-line switches" section for details.
+2. This proposal is left intentionally ambiguous regarding implementation details of the scripts. I wish to leave implementation details up to the author(s) of the scripts. However, the command-line switches should be identical between implementations. See "Command-line switches" section for details.
 3. The different platform scripts should be very similar outside of the actual code that's generated (e.g. file system code and XML parsing code should be nearly identical).
 4. The author(s) of these scripts should use the `sdl_core` [InterfaceGenerator](https://github.com/smartdevicelink/sdl_core/blob/master/tools/InterfaceGenerator) as a base. 
 
@@ -32,7 +32,7 @@ The script should take a `MOBILE_API` XML spec as input and a location to output
 5. The generator code that creates the library code should be located in the library repository. 
 6. The parser code that parses the `MOBILE_API` should be located in the `rpc_spec` repository. It will be included into the library repositories due to the submodule reference. This should help maintaining the parser code.
 7. The `rpc_spec` repository should include generator scripts that can generate the README.md file for the GitHub repository.
-8. the `rpc_spec` repository should include an XSD file that defines the MOBILE_API XML file and relationship of the XML elements. _(Note: A PR already exist for the rpc_spec repository which includes a reverse engineered XSD file. see smartdevicelink/rpc_spec#202)_.
+8. the `rpc_spec` repository should include an XSD file that defines the MOBILE_API XML file and relationship of the XML elements. _(Note: A PR already exists for the rpc_spec repository which includes a reverse engineered XSD file. see https://github.com/smartdevicelink/rpc_spec/pull/202)_.
 9. The parser code that parses the MOBILE_API should use the XSD file to verify the integrity of the XML.
 10. The generator scripts are dependent on the parser scripts, therefore the generator scripts should import the parser scripts and call the parser functions.
 11. Both, the generator and parser scripts should be versioned with only a major version number. The version number should be stored as a number in a variable. Changes to the scripts should match with the major version, especially when the change impacts the interface of the parser scripts. Patch-like changes like a bugfix should not require a version bump.
@@ -42,7 +42,7 @@ The script should take a `MOBILE_API` XML spec as input and a location to output
 
     The submodule reference was updated but the parser scripts are not up-to-date
 
-    The submodule reference was upated with more recent parser scripts but the generator scripts are not updated
+    The submodule reference was updated with more recent parser scripts but the generator scripts are not updated
 
 ### Command-line switches
 
