@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-NNNN](NNNN-Adding-Audible-Status-Notification.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **Create**
+* Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC /HMI]
 
 ## Introduction
