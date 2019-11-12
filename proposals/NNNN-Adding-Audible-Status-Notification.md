@@ -58,7 +58,8 @@ Nothing.
 
 ## Impact on existing code
 
-No Impact. Because, just add new API and enum.
+HMI_API needs to be updated.  
+SDL Core needs to be updated.
 
 ## Alternatives considered
 
