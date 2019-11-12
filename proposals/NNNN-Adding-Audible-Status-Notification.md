@@ -29,7 +29,7 @@ API parameters to be added are `appName` and `audibleState`, so that the target 
 
 
 HMI API  
-```
+```xml
 <function name="OnAudibleStatus" messagetype="notification">	
     <description>	
         It can notify the Audible status independently of the screen status.	
