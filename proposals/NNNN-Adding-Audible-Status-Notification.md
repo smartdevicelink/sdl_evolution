@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Currenlty, there is no way to independently notify the Audible status to applications that output audio such as SDL Media.  
+Currently, there is no way to independently notify the Audible status to applications that output audio such as SDL Media.  
 This proposal suggests adding `OnAudibleStatus` as a new API so that the status of Audible can be notified.
 
 
