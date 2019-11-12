@@ -38,7 +38,7 @@ HMI API
         <description> Application Name </description>	
     </param>	
     <param name="audibleState" type="AudibleState" defvalue="AUDIBLE" mandatory="true">	
-        <description> See AudibleState. If it is NOT_AUDIBLE, the app must stop voice to SDL Core(stop service). </description>	
+        <description> See AudibleState. If it is NOT_AUDIBLE, the app must stop voice to SDL Core (stop service). </description>	
     </param>	
 </function>	
 	
