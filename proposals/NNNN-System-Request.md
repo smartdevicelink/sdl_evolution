@@ -28,7 +28,7 @@ HMI API changes
 +       <description> 
 +           Base64 encoded data sending from HMI to SDL Core. If it exists, "fileName" shall be ignored; 
 +           SDL Core shall decode the string and treat the resulting data like it comes from a binary file.
-+           SDL Core shall send decoded data to the mobile app in hybrid part of message
++           SDL Core shall send decoded data to the mobile app in hybrid part of message.
 +        </description>
 +   </param>
 </function>
@@ -39,7 +39,7 @@ HMI API changes
 +   <param name="requestData" type="String" maxlength="65535" mandatory="false">
 +       <description>
 +         If it exists, "fileName" shall be ignored;
-+         If the length of incoming binary data from hybrid message is less than configured bytes, instead of saving it to a binary file, SDL base64 encoded the data.  
++         If the length of incoming binary data from hybrid message is less than configured bytes, instead of saving it to a binary file, SDL Core base64 encodes the data.  
 +       </description>
 +   </param>
 </function>
@@ -64,9 +64,9 @@ Here are the changes needed by SDL Core.
 MaximumBinaryPayloadSizeToString = 11520
 ```
 
-- When SDL Core receives a SystemRequest request from mobile, if the incoming binary data is less than a certain size specified by smartdevicelink.ini, instead of saving the data to a temporary file, SDL Core shall encode the data using base64 format, and send the encoded string directly within a SystemRequest HMI message. If the size of data is large, SDL Core saves the data to a file and pass the file name to HMI as before.
+- When SDL Core receives a SystemRequest request from mobile, if the incoming binary data is less than a certain size specified by smartdevicelink.ini, instead of saving the data to a temporary file, SDL Core shall encode the data using base64 format, and send the encoded string directly within a SystemRequest HMI message. If the size of data is large, SDL Core saves the data to a file and passes the file name to HMI as before.
 
-- When SDL core revives a SystemRequest response or OnSystemRequest notification from HMI, if the optional `data`/`resultData` parameter exists, SDL Core shall ignore the `fileName` parameter. Instead of reading data from the file, SDL Core shall base64 decode the string, and send the resulting data in hybrid part of the message to mobile. If the optional `data`/`resultData` parameter does not exist, SDL Core reads data from file as before.
+- When SDL Core revives a SystemRequest response or OnSystemRequest notification from HMI, if the optional `data`/`resultData` parameter exists, SDL Core shall ignore the `fileName` parameter. Instead of reading data from the file, SDL Core shall base64 decode the string, and send the resulting data in hybrid part of the message to mobile. If the optional `data`/`resultData` parameter does not exist, SDL Core reads data from file as before.
 
 Potential changes to HMI
 
