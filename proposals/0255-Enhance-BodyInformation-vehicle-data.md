@@ -16,118 +16,161 @@ In order to partner with more diverse app partners, we need to provide additiona
 ## Proposed Solution 
 
 Following vehicle data params are added to `BodyInformation` struct:
-* `trunkAjar`
-* `hoodAjar`
-* `frontLeftDoorLocked`
-* `frontRightDoorLocked`
-* `rearLeftDoorLocked`
-* `rearRightDoorLocked`
-* `trunkLocked`
+* `doorsStatus`
+* `gatesStatus`
+
+Following vehicle data params are deprecated from `BodyInformation` struct:
+* `driverDoorAjar`
+* `passengerDoorAjar`
+* `rearLeftDoorAjar`
+* `rearRightDoorAjar`
 
 #### Updates in MOBILE_API:
 
-##### Update struct `BodyInformation`:
-
-```xml	
-<struct name="BodyInformation" since="2.0">
-	<param name="parkBrakeActive" type="Boolean" mandatory="true">
-		<description>References signal "PrkBrkActv_B_Actl".</description>
-	</param>
-	<param name="ignitionStableStatus" type="IgnitionStableStatus" mandatory="true">
-		<description>References signal "Ignition_Switch_Stable". See IgnitionStableStatus.</description>
-	</param>
-	<param name="ignitionStatus" type="IgnitionStatus" mandatory="true">
-		<description>References signal "Ignition_status". See IgnitionStatus.</description>
-	</param>
-	<param name="driverDoorAjar" type="Boolean" mandatory="false">
-		<description>References signal "DrStatDrv_B_Actl".</description>
-	</param>
-	<param name="passengerDoorAjar" type="Boolean" mandatory="false">
-		<description>References signal "DrStatPsngr_B_Actl".</description>
-	</param>
-	<param name="rearLeftDoorAjar" type="Boolean" mandatory="false">
-		<description>References signal "DrStatRl_B_Actl".</description>
-	</param>
-	<param name="rearRightDoorAjar" type="Boolean" mandatory="false">
-		<description>References signal "DrStatRr_B_Actl".</description>
-	</param>
-	<param name="trunkAjar" type="Boolean" mandatory="false" since="X.x">
-		<description>true if vehicle trunk is ajar, else false</description>
-	</param>
-	<param name="hoodAjar" type="Boolean" mandatory="false" since="X.x">
-		<description>true if vehicle hood is ajar, else false</description>
-	</param>
-	<param name="frontLeftDoorLocked" type="Boolean" mandatory="false" since="X.x">
-		<description>true if front left door is locked, else false</description>
-	</param>
-	<param name="frontRightDoorLocked" type="Boolean" mandatory="false" since="X.x">
-		<description>true if front right door is locked, else false</description>
-	</param>
-	<param name="rearLeftDoorLocked" type="Boolean" mandatory="false" since="X.x">
-		<description>true if rear left door is locked, else false</description>
-	</param>
-	<param name="rearRightDoorLocked" type="Boolean" mandatory="false" since="X.x">
-		<description>true if rear right door is locked, else false</description>
-	</param>
-	<param name="trunkLocked" type="Boolean" mandatory="false" since="X.x">
-		<description>true if trunk is locked, else false</description>
-	</param>			
+##### New Struct `DoorStatus` is needed:
+```xml
+<struct name="DoorStatus" since="X.x">
+	<description>Describes the status of a parameter of door.</description>
+	<param name="doorLocation" type="Grid" mandatory="true"/>
+	<param name="doorStatus" type="DoorStatusType" mandatory="true"/>
 </struct>
 ```
+##### New enum `DoorStatusType` is needed:
+```xml
+<enum name="DoorStatusType" since="X.x">
+	<element name="CLOSED"/>
+	<element name="LOCKED"/>
+	<element name="AJAR"/>
+</enum>
+```
+
+##### New Struct `GateStatus` is needed:
+```xml
+<struct name="GateStatus" since="X.x">
+	<description>Describes the status of a parameter of trunk/hood/etc.</description>
+	<param name="gateType" type="GateType" mandatory="true"/>
+	<param name="gateStatus" type="DoorStatusType" mandatory="true"/>
+</struct>
+```
+
+##### New enum `GateType` is needed:
+```xml
+<enum name="GateType" since="X.x">
+	<element name="FRONT"/>
+	<element name="BACK"/>
+	<element name="RIGHT"/>
+	<element name="LEFT"/>
+</enum>
+```
+
+##### Then `BodyInformation` Struct would be updated as:
+```xml
+<struct name="BodyInformation" since="2.0">
+	<param name="parkBrakeActive" type="Boolean" mandatory="true">
+		<description>If mechanical park brake is active, true. Otherwise false.</description>
+	</param>
+	<param name="ignitionStableStatus" type="IgnitionStableStatus" mandatory="true">
+		<description>Provides information on status of ignition stable switch. See IgnitionStableStatus.</description>
+	</param>
+	<param name="ignitionStatus" type="IgnitionStatus" mandatory="true">
+		<description>Provides information on current ignitiion status. See IgnitionStatus.</description>
+	</param>
+	<param name="driverDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+		<description>References signal "DrStatDrv_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
+	</param>
+	<param name="passengerDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+		<description>References signal "DrStatPsngr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
+	</param>
+	<param name="rearLeftDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+		<description>References signal "DrStatRl_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
+	</param>
+	<param name="rearRightDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+		<description>References signal "DrStatRr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
+	</param>
++	<param name="doorsStatus" type="DoorStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
++		<description>Provides status for doors if Ajar/Closed/Locked</description>
++	</param>	
++	<param name="gatesStatus" type="GateStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
++		<description>Provides status for trunk/hood/etc. if Ajar/Closed/Locked</description>
++	</param>
+</struct>
+```
+
 #### Updates in HMI_API:
 
-##### Update struct `BodyInformation` in `Common` interface:
 
-```xml	
-<struct name="BodyInformation">
+##### New Struct `DoorStatus` is needed in `Common` interface:
+```xml
+<struct name="DoorStatus" since="X.x">
+	<description>Describes the status of a parameter of door.</description>
+	<param name="doorLocation" type="Common.Grid" mandatory="true"/>
+	<param name="doorStatus" type="Common.DoorStatusType" mandatory="true"/>
+</struct>
+```
+##### New enum `DoorStatusType` is needed in `Common` interface:
+```xml
+<enum name="DoorStatusType" since="X.x">
+	<element name="CLOSED"/>
+	<element name="LOCKED"/>
+	<element name="AJAR"/>
+</enum>
+```
+
+##### New Struct `GateStatus` is needed in `Common` interface:
+```xml
+<struct name="GateStatus" since="X.x">
+	<description>Describes the status of a parameter of trunk/hood/etc.</description>
+	<param name="gateType" type="Common.GateType" mandatory="true"/>
+	<param name="gateStatus" type="Common.DoorStatusType" mandatory="true"/>
+</struct>
+```
+
+##### New enum `GateType` is needed in `Common` interface:
+```xml
+<enum name="GateType" since="X.x">
+	<element name="FRONT"/>
+	<element name="BACK"/>
+	<element name="RIGHT"/>
+	<element name="LEFT"/>
+</enum>
+```
+
+##### Then `BodyInformation` Struct in `Common` interface would be updated as:
+```xml
+<struct name="BodyInformation" since="2.0">
 	<param name="parkBrakeActive" type="Boolean" mandatory="true">
-		<description>References signal "PrkBrkActv_B_Actl".</description>
+		<description>If mechanical park brake is active, true. Otherwise false.</description>
 	</param>
 	<param name="ignitionStableStatus" type="Common.IgnitionStableStatus" mandatory="true">
-		<description>References signal "Ignition_Switch_Stable". See IgnitionStableStatus.</description>
+		<description>Provides information on status of ignition stable switch. See IgnitionStableStatus.</description>
 	</param>
 	<param name="ignitionStatus" type="Common.IgnitionStatus" mandatory="true">
-		<description>References signal "Ignition_status". See IgnitionStatus.</description>
+		<description>Provides information on current ignitiion status. See IgnitionStatus.</description>
 	</param>
-	<param name="driverDoorAjar" type="Boolean" mandatory="false">
-		<description>References signal "DrStatDrv_B_Actl".</description>
+	<param name="driverDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+		<description>References signal "DrStatDrv_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
-	<param name="passengerDoorAjar" type="Boolean" mandatory="false">
-		<description>References signal "DrStatPsngr_B_Actl".</description>
+	<param name="passengerDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+		<description>References signal "DrStatPsngr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
-	<param name="rearLeftDoorAjar" type="Boolean" mandatory="false">
-		<description>References signal "DrStatRl_B_Actl".</description>
+	<param name="rearLeftDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+		<description>References signal "DrStatRl_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
-	<param name="rearRightDoorAjar" type="Boolean" mandatory="false">
-		<description>References signal "DrStatRr_B_Actl".</description>
+	<param name="rearRightDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+		<description>References signal "DrStatRr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
-	<param name="trunkAjar" type="Boolean" mandatory="false">
-		<description>true if vehicle trunk is ajar, else false</description>
-	</param>
-	<param name="hoodAjar" type="Boolean" mandatory="false">
-		<description>true if vehicle hood is ajar, else false</description>
-	</param>
-	<param name="frontLeftDoorLocked" type="Boolean" mandatory="false">
-		<description>true if front left door is locked, else false</description>
-	</param>
-	<param name="frontRightDoorLocked" type="Boolean" mandatory="false">
-		<description>true if front right door is locked, else false</description>
-	</param>
-	<param name="rearLeftDoorLocked" type="Boolean" mandatory="false">
-		<description>true if rear left door is locked, else false</description>
-	</param>
-	<param name="rearRightDoorLocked" type="Boolean" mandatory="false">
-		<description>true if rear right door is locked, else false</description>
-	</param>
-	<param name="trunkLocked" type="Boolean" mandatory="false">
-		<description>true if trunk is locked, else false</description>
-	</param>			
++	<param name="doorsStatus" type="Common.DoorStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
++		<description>Provides status for doors if Ajar/Closed/Locked</description>
++	</param>	
++	<param name="gatesStatus" type="Common.GateStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
++		<description>Provides status for trunk/hood/etc. if Ajar/Closed/Locked</description>
++	</param>
 </struct>
 ```
 
 ## Potential downsides
 
-`BodyInformation` struct has twice the params now but this enhancement is very useful in terms of value it provides.
+Some parameters are deprecated.
 
 ## Impact on existing code
 
