@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0260](0260-Deprecate-HMI-RPC-OnFindApplications.md)
 * Author: [Jack Byrne](hhttps://github.com/JackLivio)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
