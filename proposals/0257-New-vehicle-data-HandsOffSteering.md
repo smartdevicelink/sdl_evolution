@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0257](0257-New-vehicle-data-HandsOffSteering.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite | RPC]
 
 ## Introduction
