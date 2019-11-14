@@ -15,7 +15,7 @@ This proposal suggests adding `OnAudibleStatus` as a new API so that the status 
 
 As a means to notify the Audible status to applications that output audio.  
 In the case of Mobile from Core, Audible without changing the HMI Level by using the parameters `audioStreamingState` and hmiLevel in RPC `OnHMIStatus` Can be notified.  
-However, in the case of Core from HMI, there is no appropriate API to notify the Audible status by itself,  
+However, there is currently no notification from HMI to Core to set the Audible status,
 so a new API to notify the audio status can be added to notify the audio status regardless of the screen status Like that.  
 As a specific example, there is a specification that allows a user to display and receive an incoming call with Notification, Overlay or ONS without changing to the telephone screen when an incoming call is received.  
 In this case, since there is no appropriate API to notify the Audible status independently, using `OnEventChanged (PHONE_CALL)` displays Music App on the screen, but the HMI Level becomes Background.  
