@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-Adding-Audible-Status-Notification.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Java Suite / RPC /HMI]
+* Impacted Platforms: [Core / RPC / HMI]
 
 ## Introduction
 
@@ -60,6 +60,7 @@ Nothing.
 
 HMI_API needs to be updated.  
 SDL Core needs to be updated.
+RPC needs to be updated.
 
 ## Alternatives considered
 
