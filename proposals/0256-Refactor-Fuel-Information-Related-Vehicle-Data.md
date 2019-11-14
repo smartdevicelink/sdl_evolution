@@ -54,7 +54,7 @@ We need to:
             The estimate range in KM the vehicle can travel based on fuel level and consumption.
         </description>
     </param>
-+   <param name="level" type="Float" minvalue="-6" maxvalue="10000" mandatory="false" since="X.x">
++   <param name="level" type="Float" minvalue="-6" maxvalue="1000000" mandatory="false" since="X.x">
 +       <description>The relative remaining capacity of this fuel type (percentage).</description>
 +   </param>
 +   <param name="levelState" type="ComponentVolumeStatus" mandatory="false" since="X.x">
@@ -148,7 +148,7 @@ We need to:
             The estimate range in KM the vehicle can travel based on fuel level and consumption.
         </description>
     </param>
-+   <param name="level" type="Float" minvalue="-6" maxvalue="1000" mandatory="false">
++   <param name="level" type="Float" minvalue="-6" maxvalue="1000000" mandatory="false">
 +       <description>The relative remaining capacity of this fuel type (percentage).</description>
 +   </param>
 +   <param name="levelState" type="Common.ComponentVolumeStatus" mandatory="false">
