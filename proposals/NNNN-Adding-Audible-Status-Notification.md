@@ -64,5 +64,4 @@ RPC needs to be updated.
 
 ## Alternatives considered
 
-There is no alternative. 
 I considered only adding parameters to the existing API. However, there is no existing API that suits the purpose, and since the merit of being able to handle audio alone is lost, this does not seem to be a good alternative.
