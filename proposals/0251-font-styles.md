@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0251](0251-font-styles.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC ]
 
 ## Introduction

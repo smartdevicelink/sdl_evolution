@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0256](0256-Refactor-Fuel-Information-Related-Vehicle-Data.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core | HMI | iOS | Java Suite | RPC]
 
 ## Introduction
@@ -19,13 +19,13 @@ We need to:
 * Update `FuelRange` Struct to include:
    * `type` (existing)
    * `range` (existing)
-   * `FuelLevel` (moved)
-   * `FuelLevel_State` (moved)
+   * `fuelLevel` (moved)
+   * `fuelLevel_State` (moved)
    * `capacity` (new)
    * `capacityUnit` (new)
 * Add new enum `CapacityUnit`.
-* Deprecate vehicle data `FuelLevel`.
-* Deprecate vehicle data `FuelLevel_State`.
+* Deprecate vehicle data `fuelLevel`.
+* Deprecate vehicle data `fuelLevel_State`.
 
 ### Updates in MOBILE_API:
 
@@ -41,6 +41,7 @@ We need to:
 +<enum name="CapacityUnit" since="X.x">
 +    <element name="LITERS" />
 +    <element name="KILOWATTHOURS" />
++    <element name="KILOGRAMS" />
 +</enum>
 ```
 
@@ -53,13 +54,13 @@ We need to:
             The estimate range in KM the vehicle can travel based on fuel level and consumption.
         </description>
     </param>
-+   <param name="level" type="Float" minvalue="-6" maxvalue="170" mandatory="false" since="X.x">
++   <param name="level" type="Float" minvalue="-6" maxvalue="1000000" mandatory="false" since="X.x">
 +       <description>The relative remaining capacity of this fuel type (percentage).</description>
 +   </param>
 +   <param name="levelState" type="ComponentVolumeStatus" mandatory="false" since="X.x">
 +        <description>The fuel level state</description>
 +    </param>
-+   <param name="capacity" minvalue="0" maxvalue="1500" mandatory="false" since="X.x">
++   <param name="capacity" minvalue="0" maxvalue="1000000" mandatory="false" since="X.x">
 +       <description>The absolute capacity of this fuel type.</description>
 +   </param>
 +   <param name="capacityUnit" type="CapacityUnit" mandatory="false" since="X.x">
@@ -68,43 +69,61 @@ We need to:
 </struct>
 ```
 
-#### Add the following parameter to these function requests:
+#### Update the following parameters in these function requests:
 * `SubscribeVehicleData`
 * `UnsubscribeVehicleData`
 * `GetVehicleData`
 
 ```xml	
-<param name="FuelLevel" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level in the tank (percentage)</description>
+<param name="fuelLevel" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
-<param name="FuelLevel_State" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level state</description>
+<param name="fuelLevel_State" type="Boolean" mandatory="false" deprecated="true" since="X.x">
+	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+</param>
+<param name="fuelRange" type="Boolean" mandatory="false" since="5.0">
+	<description>
+		The fuel type, estimated range in KM, fuel level/capacity and fuel level state for the vehicle.
+		See struct FuelRange for details.
+	</description>
 </param>
 ```
 
-#### Add the following parameter to these function responses:
+#### Update the following parameters in these function responses:
 * `SubscribeVehicleData`
 * `UnsubscribeVehicleData`
 
 ```xml	
-<param name="FuelLevel" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level in the tank (percentage)</description>
+<param name="fuelLevel" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
+	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
-<param name="FuelLevel_State" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level state</description>
+<param name="fuelLevel_State" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
+	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+</param>
+<param name="fuelRange" type="VehicleDataResult" mandatory="false" since="5.0">
+	<description>
+		The fuel type, estimated range in KM, fuel level/capacity and fuel level state for the vehicle.
+		See struct FuelRange for details.
+	</description>
 </param>
 ```
 
-#### Add the following parameter to these function responses:
+#### Update the following parameters in these function responses:
 * `GetVehicleData`
 * `OnVehicleData`
 
 ```xml	
 <param name="fuelLevel" type="Float" minvalue="-6" maxvalue="106" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level in the tank (percentage)</description>
+	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 </param>
 <param name="fuelLevel_State" type="ComponentVolumeStatus" mandatory="false" deprecated="true" since="X.x">
-	<description>The fuel level state</description>
+	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+</param>
+<param name="fuelRange" type="FuelRange" minsize="0" maxsize="100" array="true" mandatory="false" since="5.0">
+	<description>
+		The fuel type, estimated range in KM, fuel level/capacity and fuel level state for the vehicle.
+		See struct FuelRange for details.
+	</description>
 </param>
 ```
 
@@ -116,6 +135,7 @@ We need to:
 +<enum name="CapacityUnit">
 +    <element name="LITERS" />
 +    <element name="KILOWATTHOURS" />
++    <element name="KILOGRAMS" />
 +</enum>
 ```
 
@@ -128,13 +148,13 @@ We need to:
             The estimate range in KM the vehicle can travel based on fuel level and consumption.
         </description>
     </param>
-+   <param name="level" type="Float" minvalue="-6" maxvalue="170" mandatory="false">
++   <param name="level" type="Float" minvalue="-6" maxvalue="1000000" mandatory="false">
 +       <description>The relative remaining capacity of this fuel type (percentage).</description>
 +   </param>
 +   <param name="levelState" type="Common.ComponentVolumeStatus" mandatory="false">
 +        <description>The fuel level state</description>
 +    </param>
-+   <param name="capacity" minvalue="0" maxvalue="1500" mandatory="false">
++   <param name="capacity" minvalue="0" maxvalue="1000000" mandatory="false">
 +       <description>The absolute capacity of this fuel type.</description>
 +   </param>
 +   <param name="capacityUnit" type="Common.CapacityUnit" mandatory="false">
@@ -143,10 +163,49 @@ We need to:
 </struct>
 ```
 
+#### Update the following parameters in these function requests:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+* `GetVehicleData`
+
+```xml	
+<param name="fuelRange" type="Boolean" mandatory="false">
+	<description>
+		The fuel type, estimated range in KM, fuel level/capacity and fuel level state for the vehicle.
+		See struct FuelRange for details.
+	</description>
+</param>
+```
+
+#### Update the following parameters in these function responses:
+* `SubscribeVehicleData`
+* `UnsubscribeVehicleData`
+
+```xml	
+<param name="fuelRange" type="Common.VehicleDataResult" mandatory="false">
+	<description>
+		The fuel type, estimated range in KM, fuel level/capacity and fuel level state for the vehicle.
+		See struct FuelRange for details.
+	</description>
+</param>
+```
+
+#### Update the following parameters in these function responses:
+* `GetVehicleData`
+* `OnVehicleData`
+
+```xml	
+<param name="fuelRange" type="FuelRange" minsize="0" maxsize="100" array="true" mandatory="false">
+	<description>
+		The fuel type, estimated range in KM, fuel level/capacity and fuel level state for the vehicle.
+		See struct FuelRange for details.
+	</description>
+</param>
+```
 
 ## Potential downsides
 
-This deprecates `FuelLevel` and `FuelLevel_State`, but that is inevitable when we try to consolidate vehicle data items into more meaningful Structs.
+This deprecates `fuelLevel` and `fuelLevel_State`, but that is inevitable when we try to consolidate vehicle data items into more meaningful Structs.
 
 ## Impact on existing code
 
