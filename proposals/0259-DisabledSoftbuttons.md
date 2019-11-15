@@ -107,10 +107,31 @@ The soft button manager will then have to take both the configuration value and 
 
 
 #### Java
-```Java
+1. Add a new soft button configuration to the screen manager:
 
+```Java
+    private SoftButtonConfiguration *softButtonConfiguration;
 ```
 
+2. This will involve creating the soft button configuration something like this:
+
+```Java
+interface SoftButtonConfiguration {
+    boolean enableDisabledButtonFallback;
+}
+```
+
+3. The `disabled` property will have to be added to `SoftButtonState`:
+
+```Java
+    private boolean disabled;
+        
+    public boolean isDisabled(){
+        return disabled;
+    }
+```
+
+The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values.
 ## Potential downsides
 
 Adds HMI complexity
