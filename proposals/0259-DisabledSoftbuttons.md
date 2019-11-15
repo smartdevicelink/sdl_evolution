@@ -76,6 +76,41 @@ Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set
     
 ```
 
+### Manager-Level Additions for the app developer
+
+#### Objective C
+1. Add a new soft button configuration to the screen manager:
+
+```ObjectiveC
+@property (strong, nonatomic, readonly) SDLSoftButtonConfiguration *softButtonConfiguration;
+```
+
+2. This will involve creating the soft button configuration something like this:
+
+```ObjectiveC
+@interface SDLSoftButtonConfiguration: NSObject
+
+/// If true, the soft button manager will not send soft button objects with isEnabled=false if on head units that don't support disabled soft buttons. If false, the soft buttons will be sent anyway but will appear enabled on the head unit. Defaults to true.
+@property (assign, nonatomic) BOOL enableDisabledButtonFallback;
+
+@end
+```
+
+
+3. The `disabled` property will have to be added to `SDLSoftButtonState`:
+
+```ObjectiveC
+@property (assign, nonatomic, getter=isDisabled) BOOL disabled;
+```
+
+The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values.
+
+
+#### Java
+```Java
+
+```
+
 ## Potential downsides
 
 Adds HMI complexity
