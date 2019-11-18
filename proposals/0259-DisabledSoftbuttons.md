@@ -85,7 +85,7 @@ Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set
 @property (strong, nonatomic, readonly) SDLSoftButtonConfiguration *softButtonConfiguration;
 ```
 
-2. This will involve creating the soft button configuration something like this:
+2. This will involve creating the soft button configuration:
 
 ```ObjectiveC
 @interface SDLSoftButtonConfiguration: NSObject
@@ -113,7 +113,7 @@ The soft button manager will then have to take both the configuration value and 
     private SoftButtonConfiguration softButtonConfiguration;
 ```
 
-2. This will involve creating the soft button configuration something like this:
+2. This will involve creating the soft button configuration:
 
 ```Java
 public class SoftButtonConfiguration {
