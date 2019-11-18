@@ -96,6 +96,73 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
 </struct>
  ```
 
+### iOS
+1. We're adding in a public manager-level enum
+(iOS example in Swift that we should translate to ObjC)
+```swift
+enum NextFunction {
+	case Default
+	case PerformChoiceSet
+	case Alert
+	case ScreenUpdate
+	case Speak
+	case AccessMicrophone
+	case ScrollableMessage
+	case Slider
+	case SendLocation
+	case DialNumber
+	case OpenMenu
+}
+```
+2. Add a manager-level class `NextFunctionInfo` with an initializer 
+```swift
+    class NextFunctionInfo {
+		var nextFunction = NextFunction.Default
+		var loadingText : String!
+	}
+	
+	init(nextFunction : NextFunction, loadingText : String) {
+		self.nextFunction = nextFunction
+		self.loadingText = loadingText
+	}
+```
+3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initilaizers. 
+
+
+
+
+### Java
+1.  Add in a public manager-level enum
+```Java
+public enum NextFunction{ 
+        Default, 
+        PerformChoiceSet, 
+        Alert, 
+        ScreenUpdate, 
+        Speak, 
+        AccessMicrophone, 
+        ScrollableMessage, 
+        Slider, 
+        SendLocation, 
+        DialNumber, 
+        OpenMenu 
+}
+```
+
+2. Add a manager-level class `NextFunctionInfo` with an initializer 
+```Java
+    public class NextFunctionInfo {
+		private NextFunction nextFunction = NextFunction.Default;
+		private String loadingText;
+	}
+	
+	public NextFunctionInfo(NextFunction nextFunction, String loadingText) {
+		this.nextFunction = nextFunction;
+		this.loadingText = loadingText;
+	}
+```
+
+3. Add a `nextFunctionInfo` parameter to `ChoiceCell`, `MenuCell`, and `SoftButtonObject` and their respective initializers. 
 
 ## Potential downsides
 
