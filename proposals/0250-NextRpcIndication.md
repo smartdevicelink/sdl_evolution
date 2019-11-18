@@ -116,6 +116,7 @@ typedef NS_ENUM(NSInteger, NextFunction) {
 ```
 
 2. Add a manager-level class `NextFunctionInfo` with an initializer 
+
 NextFunctionInfo.h
 ```ObjectiveC
 @interface NextFunctionInfo: NSObject 
