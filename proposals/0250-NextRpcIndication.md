@@ -47,8 +47,8 @@ Add a new struct `NextFunctionInfo` with all the data needed for the HMI to know
 	<param name="nextFunctionID" type="FunctionID" mandatory="true"/>
 		<description>The next function (RPC) that will be triggered by selecting the current option/command/choice etc.</description>
 	</param>
-		<param name="nextInitialText" type="String" maxlength="500"  mandatory="false"/>
-			<description>This lets the HMI know what the initialText of the next RPC is going to be to help the loading user experience.</description>
+		<param name="loadingText" type="String" maxlength="500"  mandatory="false"/>
+			<description>This lets the HMI know what text to show while waiting for the next RPC.</description>
 		</param>
 </struct>
 ```
@@ -99,36 +99,49 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
 ### iOS
 1. We're adding in a public manager-level enum
 (iOS example in Swift that we should translate to ObjC)
-```swift
-enum NextFunction {
-	case Default
-	case PerformChoiceSet
-	case Alert
-	case ScreenUpdate
-	case Speak
-	case AccessMicrophone
-	case ScrollableMessage
-	case Slider
-	case SendLocation
-	case DialNumber
-	case OpenMenu
-}
+```ObjectiveC
+typedef NS_ENUM(NSInteger, NextFunction) {
+        Default =0, 
+        PerformChoiceSet, 
+        Alert, 
+        ScreenUpdate, 
+        Speak, 
+        AccessMicrophone, 
+        ScrollableMessage, 
+        Slider, 
+        SendLocation, 
+        DialNumber, 
+        OpenMenu 
+};
 ```
+
 2. Add a manager-level class `NextFunctionInfo` with an initializer 
-```swift
-    class NextFunctionInfo {
-		var nextFunction = NextFunction.Default
-		var loadingText : String!
-	}
-	
-	init(nextFunction : NextFunction, loadingText : String) {
-		self.nextFunction = nextFunction
-		self.loadingText = loadingText
-	}
+NextFunctionInfo.h
+```ObjectiveC
+@interface NextFunctionInfo: NSObject 
+	@property (copy, nonatomic, readonly) NextFunction *nextFunction;
+	@property (copy, nonatomic, readonly, nullable) NSString *loadingText;
+@end
 ```
+
+NextFunctionInfo.m
+```ObjectiveC
+	@implementation NextFunctionInfo
+
+		}
+		- (id)init {
+    self = [super init];
+    if (self) {
+			this.nextFunction = nextFunction;
+			this.loadingText = loadingText;
+    }
+    return self;
+}
+	@end
+	
+```
+
 3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initilaizers. 
-
-
 
 
 ### Java
