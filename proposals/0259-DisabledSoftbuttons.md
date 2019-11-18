@@ -9,7 +9,7 @@
 ## Introduction
 
 This feature would allow apps to send custom softbuttons to display on screen but they would appear disabled.
-Also this allows an app to subscribe to softbuttons that are disabled.
+This also allows an app to subscribe to and disable SDL predefined buttons.
 
 ## Motivation
 Some apps like iHeartRadio don't provide the same set of custom softbuttons for each home screen.
@@ -23,14 +23,14 @@ For custom softbuttons, add a parameter to `SoftButtonCapabilities` to let the a
     .
     .
     .
-    <param name="disabledButtonPossible" type="Boolean" mandatory="true">
+    <param name="supportsDisabled" type="Boolean" mandatory="true">
         <description>The button supports being disabled. If the button is set to disabled, it will still show on the HMI but appear grayed out.
         </description>
     </param>
 </struct>
 ```
 
-Plus add an `isEnabled` flag to `SoftButton`. If the flag is true or missing, the softbutton must appear usable. If false, softbutton must appear as not usable. If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events will still be sent to the app.  Button press events would still be sent to the app so the app can enable experiences like "Repeat is for Premium customers only". Alternatively we could have the button not send any button events to match what Android and iOS do when a button is on screen but disabled.
+Plus add an `isEnabled` flag to `SoftButton`. If the flag is true or missing, the softbutton must appear usable. If false, softbutton must appear as not usable. If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events will still be sent to the app.  Button press events would still be sent to the app so the app can enable experiences like "Repeat is for Premium customers only". 
 ```xml
 <struct name="SoftButton">
 .
@@ -103,7 +103,7 @@ Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set
 @property (assign, nonatomic, getter=isDisabled) BOOL enabled;
 ```
 
-The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values.
+The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values. If on an older headunit that doesn't support this feature- the manager would make sure that the button is not sent to the head unit.
 
 
 #### Java
@@ -128,7 +128,8 @@ public class SoftButtonConfiguration {
 	public void setEnabled(boolean enabled){};
 ```
 
-The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values.
+The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values.  If on an older headunit that doesn't support this feature- the manager would make sure that the button is not sent to the head unit.
+
 ## Potential downsides
 
 Adds HMI complexity
@@ -139,4 +140,6 @@ It's a new parameter so this wouldn't block usability on older headunits. Howeve
 
 ## Alternatives considered
 
-For custom softbuttons, an app could send a graphic that appears disabled, but it usually doesn't grant the same effect as having the whole softbutton looking disabled.
+One alternative would be that we could have a disabled  button not send any button events. That matches what Android and iOS do when a button is on screen but disabled.
+
+Another alternative- for custom softbuttons, an app could send a graphic that appears disabled, but it usually doesn't grant the same effect as having the whole softbutton looking disabled.
