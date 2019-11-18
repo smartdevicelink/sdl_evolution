@@ -97,10 +97,10 @@ Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set
 ```
 
 
-3. The `disabled` property will have to be added to `SDLSoftButtonState`:
+3. The `enabled` property will have to be added to `SDLSoftButtonState`:
 
 ```ObjectiveC
-@property (assign, nonatomic, getter=isDisabled) BOOL disabled;
+@property (assign, nonatomic, getter=isDisabled) BOOL enabled;
 ```
 
 The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values.
@@ -110,25 +110,22 @@ The soft button manager will then have to take both the configuration value and 
 1. Add a new soft button configuration to the screen manager:
 
 ```Java
-    private SoftButtonConfiguration *softButtonConfiguration;
+    private SoftButtonConfiguration softButtonConfiguration;
 ```
 
 2. This will involve creating the soft button configuration something like this:
 
 ```Java
-interface SoftButtonConfiguration {
+public class SoftButtonConfiguration {
     boolean enableDisabledButtonFallback;
 }
 ```
 
-3. The `disabled` property will have to be added to `SoftButtonState`:
+3. The `enabled` property will have to be added to `SoftButtonState`:
 
 ```Java
-    private boolean disabled;
-        
-    public boolean isDisabled(){
-        return disabled;
-    }
+	public boolean getEnabled(){};
+	public void setEnabled(boolean enabled){};
 ```
 
 The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values.
