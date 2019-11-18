@@ -15,6 +15,9 @@ This also allows an app to subscribe to and disable SDL predefined buttons.
 Some apps like iHeartRadio don't provide the same set of custom softbuttons for each home screen.
 This would allow them to display that to the user, just like the native app on the phone.  Other apps like Pandora only support Seek Left and Repeat if the user has a premium account. This can let them show the buttons and let the user know it's available just not right now.
 
+<img src="../assets/proposals/0259-Disabled-Softbuttons/iheartRadio1.PNG" alt="iHeartRadio Replay Player" class="inline" height= "50%" width= "50%" /> 
+<img src="../assets/proposals/0259-Disabled-Softbuttons/iheartRadio2.PNG" alt="iHeartRadio Live Radio" class="inline" height= "50%" width= "50%" /> 
+
 ## Proposed solution
 
 For custom softbuttons, add a parameter to `SoftButtonCapabilities` to let the app know that the ability is possible.
