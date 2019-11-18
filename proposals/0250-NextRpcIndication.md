@@ -126,19 +126,20 @@ NextFunctionInfo.h
 
 NextFunctionInfo.m
 ```ObjectiveC
-	@implementation NextFunctionInfo
-
-		}
-		- (id)init {
-    self = [super init];
-    if (self) {
-			this.nextFunction = nextFunction;
-			this.loadingText = loadingText;
-    }
-    return self;
+@implementation NextFunctionInfo
+- (instancetype)initWithNextFunction:(NextFunction *)nextFunction {
+	return [self initWithNextFunction:nextFunction loadingText:nil];
 }
-	@end
+		
+- (instancetype)initWithNextFunction:(NextFunction *)nextFunction loadingText:(nullable NSString *){
+	self = [super init];
+	if (!self) { return nil;}
 	
+	_nextFunction = nextFunction;
+	_loadingText = loadingText;
+	return self;
+}
+@end	
 ```
 
 3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initilaizers. 
