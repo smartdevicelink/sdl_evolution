@@ -100,7 +100,7 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
 1. We're adding in a public manager-level enum
 (iOS example in Swift that we should translate to ObjC)
 ```ObjectiveC
-typedef NS_ENUM(NSInteger, NextFunction) {
+typedef NS_ENUM(NSInteger, SDLNextFunction) {
         Default =0, 
         PerformChoiceSet, 
         Alert, 
