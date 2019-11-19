@@ -118,3 +118,14 @@ As outlined in the Project Maintainer Agreement, the Steering Committee is respo
 - Major Proxy (iOS and Java Suite) Releases
 
 For releases requiring Steering Committee approval, there is typically a 1 month Release Candidate review period.  This includes time for the Steering Committee to review and perform testing, and the Project Maintainer to address any found issues.  This timing is subject to change at the Steering Committee's discretion.
+
+## Hotfix Releases
+By SDLC Member or Project Maintainer request, hotfixes can be released as needed to resolve critical issues within a project.
+
+The process for requesting a hotfix release is as follows:
+
+1. Report the issue on the appropriate GitHub repository.
+2. If possible, submit a PR to resolve the issue on GitHub as well.
+3. Raise the issue (and PR, if applicable) during the `Issue Triage` portion of the Weekly Steering Committee meeting, or work with your Steering Committee representative to do so.
+
+The Steering Committee will then decide on the best course of action, including hotfix release timing, impact on previous releases and/or planned future releases.
