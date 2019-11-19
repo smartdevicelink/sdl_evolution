@@ -98,7 +98,6 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
 
 ### iOS
 1. We're adding in a public manager-level enum
-(iOS example in Swift that we should translate to ObjC)
 ```ObjectiveC
 typedef NS_ENUM(NSInteger, SDLNextFunction) {
         Default =0, 
@@ -120,7 +119,7 @@ typedef NS_ENUM(NSInteger, SDLNextFunction) {
 NextFunctionInfo.h
 ```ObjectiveC
 @interface NextFunctionInfo: NSObject 
-	@property (copy, nonatomic, readonly) NextFunction *nextFunction;
+	@property (copy, nonatomic, readonly) SDLNextFunction *nextFunction;
 	@property (copy, nonatomic, readonly, nullable) NSString *loadingText;
 @end
 ```
@@ -128,11 +127,11 @@ NextFunctionInfo.h
 NextFunctionInfo.m
 ```ObjectiveC
 @implementation NextFunctionInfo
-- (instancetype)initWithNextFunction:(NextFunction *)nextFunction {
+- (instancetype)initWithNextFunction:(SDLNextFunction *)nextFunction {
 	return [self initWithNextFunction:nextFunction loadingText:nil];
 }
 		
-- (instancetype)initWithNextFunction:(NextFunction *)nextFunction loadingText:(nullable NSString *){
+- (instancetype)initWithNextFunction:(SDLNextFunction *)nextFunction loadingText:(nullable NSString *){
 	self = [super init];
 	if (!self) { return nil;}
 	
