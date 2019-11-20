@@ -1,8 +1,8 @@
 # Extend SystemRequest With Optional Data For Proprietary Data Exchange
 
-* Proposal: [SDL-NNNN](NNNN-System-Request.md)
+* Proposal: [SDL-0263](0263-System-Request.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **Waiting for review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
