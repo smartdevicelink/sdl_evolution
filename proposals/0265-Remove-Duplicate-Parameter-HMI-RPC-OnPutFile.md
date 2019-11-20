@@ -1,8 +1,8 @@
 # Remove duplicate parameter FileName from HMI RPC BasicCommunication.OnPutFile
 
-* Proposal: [SDL-NNNN](NNNN-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md)
+* Proposal: [SDL-0265](0265-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md)
 * Author: [Shobhit Adlakha](https://github.com/ShobhitAd)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
