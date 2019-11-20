@@ -1,8 +1,8 @@
 # Adding Audible Status Notification
 
-* Proposal: [SDL-NNNN](NNNN-Adding-Audible-Status-Notification.md)
+* Proposal: [SDL-0264](0264-Adding-Audible-Status-Notification.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / RPC / HMI]
 
 ## Introduction
