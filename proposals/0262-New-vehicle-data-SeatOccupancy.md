@@ -1,8 +1,8 @@
 # New vehicle data SeatOccupancy
 
-* Proposal: [SDL-NNNN](NNNN-New-vehicle-data-SeatOccupancy.md)
+* Proposal: [SDL-0262](0262-New-vehicle-data-SeatOccupancy.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite | RPC]
 
 ## Introduction
