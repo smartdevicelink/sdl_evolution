@@ -1,4 +1,4 @@
-# SDL Main Menu UI Updates
+# Main Menu UI Updates
 
 * Proposal: [SDL-NNNN](NNNN-addcommand-ui-updates.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
