@@ -23,8 +23,7 @@ The proposed solution is to add additional parameters to `AddCommand` and `AddSu
 <function name="AddSubMenu" functionID="AddSubMenuID" messagetype="request" since="1.0">
     <description>Adds a sub menu to the in-application menu.</description>
     
-    ... (Existing params)
-
+    <!-- New Parameters -->
     <param name="secondaryText" maxlength="500" type="String" mandatory="false" since="x.x">
         <description>Optional secondary text to display</description>
     </param>
@@ -45,7 +44,7 @@ The proposed solution is to add additional parameters to `AddCommand` and `AddSu
         Either menuParams or vrCommands must be provided.
     </description>
     
-    ... (Existing params)
+    <!-- New Parameters -->
     <param name="secondaryText" maxlength="500" type="String" mandatory="false" since="x.x">
         <description>Optional secondary text to display</description>
     </param>
@@ -64,8 +63,7 @@ We also need to expand our capabilities so that developers and high-level manage
 ###### Text
 ```xml
 <enum name="TextFieldName" since="1.0">
-    ... (existing params)
-
+    <!-- New Parameters -->
     <element name="menuCommandSecondaryText" since="x.x">
         <description> Secondary text for AddCommand</description>
     </element>
@@ -84,6 +82,7 @@ We also need to expand our capabilities so that developers and high-level manage
 ###### Images
 ```xml
 <enum name="ImageFieldName" since="3.0">
+    <!-- New Parameters -->
     <element name="menuCommandSecondaryImage" since = "x.x">
         <description>The secondary image field for AddCommand</description>
     </element>
@@ -99,7 +98,7 @@ Updates also need to be made to the HMI_API so that Core can communicate with th
 ###### AddSubmenu
 ```xml
 <function name="UI.AddSubMenu" messagetype="request">
-    ... (Existing params)
+    <!-- New Parameters -->
     <param name="secondaryText" maxlength="500" type="String" mandatory="false">
         <description>Optional secondary text to display</description>
     </param>
@@ -115,7 +114,7 @@ Updates also need to be made to the HMI_API so that Core can communicate with th
 ###### AddCommand
 ```xml
 <function name="UI.AddCommand" messagetype="request">
-    ... (Existing params)
+    <!-- New Parameters -->
     <param name="secondaryText" maxlength="500" type="String" mandatory="false">
         <description>Optional secondary text to display</description>
     </param>
