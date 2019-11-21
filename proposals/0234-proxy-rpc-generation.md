@@ -44,6 +44,8 @@ The script should take a `MOBILE_API` XML spec as input and a location to output
 
     The submodule reference was updated with more recent parser scripts but the generator scripts are not updated
 
+13. Python 2 support ends in 2020. Therfore, all python scripts should be developed for Python 3. This includes scripts from the InterfaceBuilder that will be refactored.
+
 ### Command-line switches
 
 The command-line switches of all generator scripts should be identical. Following list of command-line switches is proposed:
