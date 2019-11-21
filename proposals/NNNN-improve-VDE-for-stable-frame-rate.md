@@ -37,7 +37,7 @@ Because the issue comes from the fact where VirtualDisplay's surface emits outpu
 The approach is introduced at http://stackoverflow.com/questions/31527134/controlling-frame-rate-of-virtualdisplay, i.e.
 
 - Create a SurfaceTexture, construct a Surface from it, and give it to VirtualDisplay.
-- When SurfaceTexture fires frameAvailable callback, we can buffer the frame, and render the texture onto the MediaCodec's input surface by using GLES.
+- When SurfaceTexture fires onFrameAvailable callback, we can buffer the frame, and render the texture onto the MediaCodec's input surface by using GLES.
 
 The idea is illustrated as follows:
   
@@ -45,7 +45,53 @@ The idea is illustrated as follows:
 
 **Fig. 2: VirtualDisplay with intermediate Surface**
 
-We can utilize some open source graphic library, like Grafika, to implement this approach.
+### Detailed design
+
+1. Setup intermediate surface and surface texture.
+We need to add following components (mostly come from Grafika) into VirtualDisplayEncoder class.
+
+- EglCore (com.android.grafika.gles.EglCore)
+- OffscreenSurface (com.android.grafika.gles.OffscreenSurface)
+- TextureId, which can be created by FullFrameRect.createTextureObject()
+- SurfaceTexture with above TextureId
+- Surface with above SurfaceTexture (let's call this to IntermediateSurface)
+- WindowSurface (com.android.grafika.gles.WindowSurface)
+
+2. create VirtualDisplay with IntermediateSurface
+Instead of inputSurface, we use IntermediateSurface for VirtualDisplay, so that we can control update timing of the IntermediateSurface.
+
+3. create capture thread
+In capture thread, we periodically update surface texture, so that we can capture the surface in constant rate.
+
+The pseudo code of CaptureThread looks as follows:
+
+```java
+ private final class CaptureThread extends Thread implements SurfaceTexture.OnFrameAvailableListener {
+    long frameInterval; // this is given as the paramter
+    ...
+    public void run() {
+        // we use a Handler for this thread
+        mHandler = new Handler() {
+                public void handleMessage(Message msg) {
+                    // 1. we can draw the image in Surface Texture here.
+                    // 2. here, we can control the loop to get periodically
+                    // we can do that by mHandler.sendMessageDelayed() with respect for the given frameInterval.
+                }
+         }
+    }
+
+    /**
+    * this is where we update the surface
+    * @param surfaceTexture
+    */
+    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        // here, we can do SurfaceTexture.updateTexImage()
+
+        // when the first time this gets called, start the loop
+        // by mHandler.sendMessage()
+    }
+ }
+```
 
 ## Potential downsides
 
@@ -53,7 +99,7 @@ No downside, as it will be implemented in Proxy, and there should be no performa
 
 ## Impact on existing code
 
-Because this approach does not change the API, tehre's no impact to developers who use VirtualDisplayEncoder.
+Because this approach does not change existing API, and changes are inside of VirtualDisplayEncoder class, there's no impact to developers who use VirtualDisplayEncoder.
 
 ## Alternatives considered
 
