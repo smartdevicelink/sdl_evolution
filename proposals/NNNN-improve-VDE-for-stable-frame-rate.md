@@ -103,4 +103,5 @@ Because this approach does not change existing API, and changes are inside of Vi
 
 ## Alternatives considered
 
-This is pure improvement for existing VistualDisplayEncoder. No alternatives considered.
+This is pure improvement for existing VistualDisplayEncoder. So there're no alternatives, but this proposal adds the ability to specify the desired FPS on Proxy end.
+Instead of hard-coding the FPS value in Proxy or specify it per application, it makes more sense to add "preferredFPS", to VideoStreamingCapability, so that HU can specify the preferred FPS.
