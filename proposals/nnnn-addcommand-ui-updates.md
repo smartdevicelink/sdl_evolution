@@ -15,7 +15,7 @@ Due to several deficiencies in the `AddCommand` / `AddSubmenu` UI and UX, some d
 The proposed solution is to add additional parameters to `AddCommand` and `AddSubmenu` to allow main menu UI to display the same information that `PerformInteraction` popup menus do.
 
 ### General HMI Documentation Notes
-* It should be an integration guideline that OEMs that implement these UI elements should place them in the same places as the `Choice` UI. In other words, the `AddCommand` / `AddSubmenu` and `Choice` UI should be close to equivalent.
+* We should add an integration guideline stating that OEMs which implement these UI elements should design them in the same way as the `Choice` UI. In other words, the `AddCommand` / `AddSubmenu` and `Choice` UI should be close to equivalent.
 
 ### RPC_Spec Updates
 ###### AddSubmenu
@@ -155,7 +155,7 @@ public class MenuCell implements Cloneable{
 The manager layer will have to strip any data that cannot be sent (e.g. if the head unit doesn't support `tertiaryText`, then don't send that field).
 
 ## Potential downsides
-The primary potential downside is that this introduces more variability between versions and HMIs. Between versions because older head units won't support these new UI elements. Between HMIs because HMIs may not place these UI elements in the same places, but this downside is shared with all SDL template UIs.
+The primary potential downside is that this introduces more variability between versions and HMIs. Between versions, because older head units won't support these new UI elements. Between HMIs, because HMIs may not place these UI elements in the same places. However, this downside is shared with all SDL template UIs.
 
 ## Impact on existing code
 This is a minor version change to the affected platforms and requires low impact app library screen manager updates.
