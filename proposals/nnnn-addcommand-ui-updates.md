@@ -155,7 +155,7 @@ public class MenuCell implements Cloneable{
 The manager layer will have to strip any data that cannot be sent (e.g. if the head unit doesn't support `tertiaryText`, then don't send that field).
 
 ## Potential downsides
-The primary potential downside is that this introduces more variability between versions and HMIs. Between versions, because older head units won't support these new UI elements. Between HMIs, because HMIs may not place these UI elements in the same places. However, this downside is shared with all SDL template UIs.
+The primary potential downside is that this introduces more variability between versions and HMIs. First, between versions, because older head units won't support these new UI elements. Second, between HMIs, because HMIs may not place these UI elements in the same places. However, this downside is shared with all SDL template UIs.
 
 ## Impact on existing code
 This is a minor version change to the affected platforms and requires low impact app library screen manager updates.
