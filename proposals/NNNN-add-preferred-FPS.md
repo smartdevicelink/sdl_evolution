@@ -49,10 +49,11 @@ So developers must make sure taking account of preferredFPS value for capturing 
 ### Android mobile proxy consideration
 
 Android Java Suite library introduces the combination of VirtualDisplay and MediaEncoder to capture a SdlRemoteDisplay class and encode the video stream.
-When encoding the video frame, a Frame rate can be specified by MediaCodec#configure, but [Android documentation](https://developer.android.com/reference/android/media/MediaFormat.html#KEY_FRAME_RATE) says, "For video encoders this value corresponds to the intended frame rate, although encoders are expected to support variable frame rate based on MediaCodec.BufferInfo#presentationTimeUs",
+When encoding the video frame, a frame rate can be specified by MediaCodec#configure, but [Android documentation](https://developer.android.com/reference/android/media/MediaFormat.html#KEY_FRAME_RATE) says, "For video encoders this value corresponds to the intended frame rate, although encoders are expected to support variable frame rate based on MediaCodec.BufferInfo#presentationTimeUs",
 so situation would be the same as iOS.
 
-The actual frame rate of MediaEncoder depends on the frequency of VirtualDisplay update, and varies on the application's (SdlRemoteDisplay's) content. 
+The actual frame rate of MediaEncoder depends on the frequency of input surface's update in VirtualDisplay, and varies on the application's (SdlRemoteDisplay's) content.
+
 This issue will be addressed by another proposal later.
 
 ## Potential Downsides
