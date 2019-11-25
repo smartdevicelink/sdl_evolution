@@ -45,6 +45,7 @@ For example:
 Alternative: An enum can be added that lists all the hyper text elements.
 
 With this implementation, technically the HTML tags take up part of the 500 character count restriction placed in `TextFieldStruct`. So, the character count for `TextFieldStruct` would go from 500 to 1000 in the HMI API. This struct is used for pretty much any text field in RPCs like `Alert`, `ScrollableMessage`, `Show` and so on. This adds some HMI complexity and would require the SDL mobile libraries to handle translating the 1000 characters in text fields to 500 characters on older headunits.
+
 ```xml
 <struct name="TextFieldStruct">
   .
@@ -92,7 +93,7 @@ The following managers from the mobile libraries need to scan and clean text fie
 
 
 ## Potential downsides
-This adds some HMI complexity and would require the SDL mobile libraries to handle translating the 1000 characters in text fields to 500 characters on older headunits. 
+This adds some HMI complexity and would require the SDL mobile libraries to handle translating the 1000 characters in text fields to 500 characters on older headunits.
 
 Currently not considering these as there is no current or immediate need:
 - SendLocation
