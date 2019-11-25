@@ -61,7 +61,7 @@ For buttons that can be subscribed to, add a parameter to `ButtonCapabilities` t
 
 ```
 
-Plus add an `isDisabled` flag to the `SubscribeButton` RPC.  If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events would still be sent to the app so the app can enable experiences like "Seek Left is for Premium customers only". Alternatively we could have the button not send any button events to match what Android and iOS do when a button is on screen but disabled.
+Plus add an `isDisabled` flag to the `SubscribeButton` RPC.  If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events would still be sent to the app so the app can enable experiences like "Seek Left is for Premium customers only". 
 
 ```xml
     <function name="SubscribeButton" functionID="SubscribeButtonID" messagetype="request" since="1.0">
@@ -143,7 +143,6 @@ Adds HMI complexity
 It's a new parameter so this wouldn't block usability on older headunits. However, apps would have to know that on older headunits the functionality to disable a button isn't possible. Otherwise they would try to request a disabled softbutton but a regular softbutton would show up on screen.
 
 ## Alternatives considered
-
 One alternative would be that we could have a disabled  button not send any button events. That matches what Android and iOS do when a button is on screen but disabled.
 
 Another alternative- for custom softbuttons, an app could send a graphic that appears disabled, but it usually doesn't grant the same effect as having the whole softbutton looking disabled.
