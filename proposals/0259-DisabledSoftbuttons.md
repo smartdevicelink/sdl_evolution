@@ -34,14 +34,14 @@ For custom softbuttons, add a parameter to `SoftButtonCapabilities` to let the a
 </struct>
 ```
 
-Plus add an `isDisabled` flag to `SoftButton`. If the flag is true or missing, the softbutton must appear not usable. If false, softbutton must appear as usable. If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events will still be sent to the app.  Button press events would still be sent to the app so the app can enable experiences like "Repeat is for Premium customers only". If a button is set to disabled and highlighted, it's up to the HMI to depict the best possible experience.
+Plus add an `isDisabled` flag to `SoftButton`. If the flag is false or missing, the softbutton must appear usable. If true, softbutton must appear as not usable. If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events will still be sent to the app.  Button press events would still be sent to the app so the app can enable experiences like "Repeat is for Premium customers only". If a button is set to disabled and highlighted, it's up to the HMI to depict the best possible experience.
 ```xml
 <struct name="SoftButton">
 .
 .
 .
     <param name="isDisabled" type="Boolean" mandatory="false">
-      <description>If true or missing, softbutton must appear usable. If false, softbutton must appear as not usable.
+      <description>If false or missing, softbutton must appear usable. If true, softbutton must appear as not usable.
       </description>
     </param>
  </struct>
@@ -74,7 +74,7 @@ Plus add an `isDisabled` flag to the `SubscribeButton` RPC.  If the button is se
         .
         .
             <param name="isDisabled" type="Boolean" mandatory="false">
-      <description>If true or missing, subscribed button must appear on screen (if applicable) and not usable. If false, softbutton must appear on screen (if applicable) and usable.  Button press events will still be sent to the app regardless.
+      <description>If false or missing, subscribed button must appear on screen (if applicable) and usable. If true, softbutton must appear on screen (if applicable) and usable.  Button press events will still be sent to the app regardless.
       </description>
     </function>
     
