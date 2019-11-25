@@ -1,4 +1,5 @@
 
+
 # Disabled Softbuttons
 
 * Proposal: [SDL-0259](0259-DisabledSoftbuttons.md)
@@ -33,13 +34,13 @@ For custom softbuttons, add a parameter to `SoftButtonCapabilities` to let the a
 </struct>
 ```
 
-Plus add an `isEnabled` flag to `SoftButton`. If the flag is true or missing, the softbutton must appear usable. If false, softbutton must appear as not usable. If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events will still be sent to the app.  Button press events would still be sent to the app so the app can enable experiences like "Repeat is for Premium customers only". 
+Plus add an `isDisabled` flag to `SoftButton`. If the flag is true or missing, the softbutton must appear not usable. If false, softbutton must appear as usable. If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events will still be sent to the app.  Button press events would still be sent to the app so the app can enable experiences like "Repeat is for Premium customers only". If a button is set to disabled and highlighted, it's up to the HMI to depict the best possible experience.
 ```xml
 <struct name="SoftButton">
 .
 .
 .
-    <param name="isEnabled" type="Boolean" mandatory="false">
+    <param name="isDisabled" type="Boolean" mandatory="false">
       <description>If true or missing, softbutton must appear usable. If false, softbutton must appear as not usable.
       </description>
     </param>
@@ -60,7 +61,7 @@ For buttons that can be subscribed to, add a parameter to `ButtonCapabilities` t
 
 ```
 
-Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events would still be sent to the app so the app can enable experiences like "Seek Left is for Premium customers only". Alternatively we could have the button not send any button events to match what Android and iOS do when a button is on screen but disabled.
+Plus add an `isDisabled` flag to the `SubscribeButton` RPC.  If the button is set to disabled, it will still show on the HMI but appear grayed out. Button press events would still be sent to the app so the app can enable experiences like "Seek Left is for Premium customers only". Alternatively we could have the button not send any button events to match what Android and iOS do when a button is on screen but disabled.
 
 ```xml
     <function name="SubscribeButton" functionID="SubscribeButtonID" messagetype="request" since="1.0">
@@ -72,8 +73,8 @@ Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set
         .
         .
         .
-            <param name="isEnabled" type="Boolean" mandatory="false">
-      <description>If true or missing, subscribed button must appear on screen (if applicable) and usable. If false, softbutton must appear on screen (if applicable) and not usable.  Button press events will still be sent to the app.
+            <param name="isDisabled" type="Boolean" mandatory="false">
+      <description>If true or missing, subscribed button must appear on screen (if applicable) and not usable. If false, softbutton must appear on screen (if applicable) and usable.  Button press events will still be sent to the app regardless.
       </description>
     </function>
     
@@ -93,17 +94,17 @@ Plus add an `isEnabled` flag to the `SubscribeButton` RPC.  If the button is set
 ```ObjectiveC
 @interface SDLSoftButtonConfiguration: NSObject
 
-/// If true, the soft button manager will not send soft button objects with isEnabled=false if on head units that don't support disabled soft buttons. If false, the soft buttons will be sent anyway but will appear enabled on the head unit. Defaults to true.
-@property (assign, nonatomic) BOOL enableDisabledButtonFallback;
+/// If true, and connected to a head unit that doesn't support disabled softbuttons, the soft button manager will not send soft button objects with the parameter isDisabled=false. If false, the soft buttons will be sent anyway but will appear enabled on the head unit. Defaults to true.
+@property (assign, nonatomic) BOOL disabledButtonFallback;
 
 @end
 ```
 
 
-3. The `enabled` property will have to be added to `SDLSoftButtonState`:
+3. The `disabled` property will have to be added to `SDLSoftButtonState`:
 
 ```ObjectiveC
-@property (assign, nonatomic, getter=isDisabled) BOOL enabled;
+@property (assign, nonatomic, getter=isDisabled) BOOL disabled;
 ```
 
 The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values. If on an older headunit that doesn't support this feature- the manager would make sure that the button is not sent to the head unit.
@@ -120,15 +121,15 @@ The soft button manager will then have to take both the configuration value and 
 
 ```Java
 public class SoftButtonConfiguration {
-    boolean enableDisabledButtonFallback;
+    boolean disabledButtonFallback;
 }
 ```
 
-3. The `enabled` property will have to be added to `SoftButtonState`:
+3. The `disabled` property will have to be added to `SoftButtonState`:
 
 ```Java
-	public boolean getEnabled(){};
-	public void setEnabled(boolean enabled){};
+	public boolean getDisabled(){};
+	public void setDisabled(boolean disabled){};
 ```
 
 The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values.  If on an older headunit that doesn't support this feature- the manager would make sure that the button is not sent to the head unit.
