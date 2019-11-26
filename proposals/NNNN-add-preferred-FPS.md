@@ -32,7 +32,7 @@ Add preferredFPS to VideoStreamingCapability struct in both APIs.
         ...
         <!-- new param -->
         <param name="preferredFPS" type="Integer" minvalue="0" maxvalue="2147483647" mandatory="false">
-            <description>Preferred frame rate of a video stream per second.</description>
+            <description>Preferred frame rate of a video stream per second. Mobile application should take this value into account for capturing and encoding video frame.</description>
         </param>
     </struct>
 ```
@@ -40,11 +40,16 @@ Add preferredFPS to VideoStreamingCapability struct in both APIs.
 ### iOS mobile proxy consideration
 
 A frame rate of iOS SDL application highly depends on how the application capture the video data.
-If the application uses AVCaptureDevice, the frame rate must fit into AVFrameRateRange in ACCaptureDevice.format.
 
-When encoding the video frame, the frame rate can be specified to kVTCompressionPropertyKey_ExpectedFrameRate in videoEncoderSettings, but [iOS documentation](https://developer.apple.com/documentation/videotoolbox/kvtcompressionpropertykey_expectedframerate) says, “provided as a hint to the video encoder” and “The actual frame rate depends on frame durations and may vary.”
+If an application uses SDLCarWindow, SDLCarWindow internally has videoEncoderSettings property, which is used both in encoder settings (kVTCompressionPropertyKey_ExpectedFrameRate in VideoEncoderSetting) and capture rate (CADisplayLink#preferredFramePerSecond available in iOS10 or higher).
+So SDLCarWindow should take account of preferredFPS value and use the value for videoEncoderSettings property.
 
-So developers must make sure taking account of preferredFPS value for capturing the video frame, as well as configuring videoEncoderSettings.
+If an application uses AVCaptureDevice directly, the frame rate must fit into AVFrameRateRange in ACCaptureDevice.format.
+
+Regarding kVTCompressionPropertyKey_ExpectedFrameRate in videoEncoderSettings, however, [iOS documentation](https://developer.apple.com/documentation/videotoolbox/kvtcompressionpropertykey_expectedframerate) says, “provided as a hint to the video encoder” and “The actual frame rate depends on frame durations and may vary.”
+
+Overall, developers must make sure taking account of preferredFPS value for capturing the video frame (especially if the app does not use SDLCarWindow), as well as configuring videoEncoderSettings.
+
 
 ### Android mobile proxy consideration
 
