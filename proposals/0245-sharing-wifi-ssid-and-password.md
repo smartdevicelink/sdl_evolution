@@ -66,6 +66,9 @@ SecondaryTransportForBluetooth = WiFi_STA_MODE
 SecondaryTransportForUSB =
 SecondaryTransportForWiFi =
 ```
+>* If `SecondaryTransportForBluetooth` has value `WiFi_STA_MODE` then `secondaryTransports` should have `TCP_WIFI_STA_MODE` in protocol message `Start Service Ack`.
+---
+>* If `SecondaryTransportForBluetooth` has value `WiFi_AP_MODE` then `secondaryTransports` should have `TCP_WIFI_AP_MODE` in protocol message `Start Service Ack`.
 
 Here is an example of the Service map after defining supported secondary transport.
 
@@ -331,8 +334,8 @@ Possible responses for the above mentioned RPCs.
 
 1. RPC response will be `SUCCESS` if the request is successful.
 2. RPC response will be `UNSUPPORTED_RESOURCE` if HMI does not support WiFi transport for SDL. The SDL Core will also send this result code in the following scenarios:
-  >* If `JoinWiFiNetwork` RPC is used, when supported secondary transport received in `Start Service Ack` is only `TCP_WiFi_STA_Mode`.
-  >* If `GetWiFiNetworkInfo` RPC is used, when supported secondary transport received in `Start Service Ack`  is only `TCP_WiFi_AP_Mode`.
+  >* If `JoinWiFiNetwork` RPC is used, when supported secondary transport received in `Start Service Ack` is only `TCP_WIFI_STA_MODE`.
+  >* If `GetWiFiNetworkInfo` RPC is used, when supported secondary transport received in `Start Service Ack`  is only `TCP_WIFI_AP_MODE`.
 3. RPC response will be `DISALLOWED` if RPC is not authorized in the local policy table.
 4. RPC response will be `GENERIC_ERROR` if the request cannot be processed due to some internal error.
 5. RPC response will be `USER_DISALLOWED` if user disabled WiFi status info sharing with the app.
@@ -392,9 +395,9 @@ MultiplexTransportConfig.setCanAutoJoinWiFiNetwork(Boolean);
 
 6. The proxy should use the above mentioned mobile APIs for WiFi if corresponding `DeviceInfo.wifiConfigurationInfo` is set.
 
->* If `DeviceInfo.wifiConfigurationInfo.canHostWiFiNetwork = true` and supported secondary transport received in `Start Service Ack` protocol message is `TCP_WiFi_AP_Mode` only then the proxy can use `JoinWiFiNetwork` RPC.
+>* If `DeviceInfo.wifiConfigurationInfo.canHostWiFiNetwork = true` and supported secondary transport received in `Start Service Ack` protocol message is `TCP_WIFI_AP_MODE` only then the proxy can use `JoinWiFiNetwork` RPC.
 ---
->* If `DeviceInfo.wifiConfigurationInfo.canAutoJoinWiFiNetwork = true` and supported secondary transport received in `Start Service Ack` protocol message is `TCP_WiFi_STA_Mode` only then the proxy can use `GetWiFiNetworkInfo` RPC.
+>* If `DeviceInfo.wifiConfigurationInfo.canAutoJoinWiFiNetwork = true` and supported secondary transport received in `Start Service Ack` protocol message is `TCP_WIFI_STA_MODE` only then the proxy can use `GetWiFiNetworkInfo` RPC.
 
 7. If app developers use this API to enable WiFi auto-connection feature, they should provide below permissions/entitlements:
 >*  Android App will need to include WiFi permissions.
