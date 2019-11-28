@@ -56,7 +56,7 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
    4. App name
       1. must be one of the valid policy nicknames
    6. Primary Category / App HMI Type
-      1. A mandatory field that should contain one of the enum elements from "AppHMIType" of the MOBILE_API
+      1. A field that should contain one of the enum elements from "AppHMIType" of the MOBILE_API
    7. Optional Additional Categories / App HMI Types
    8. Optional per supporting SDL locale:
       1. App name (overrides global app name) (must be one of the valid app nicknames)
@@ -183,7 +183,6 @@ SHAID should provide additional information in the `Application` structure. The 
 
 Manifest | Exists in SHAID | SHAID Addition
 ---- | ----- | -----
-Entrypoint | _No_ | `Application.entrypoint`
 App ID | `Application.uuid` | _No_
 App HMI Type | `Application.category` |  _No_
 Additional App HMI Types | _No_ | `Application.additional_categories`
@@ -200,6 +199,11 @@ SDL Min Prot Version | _No_ | `Application.min_protocol_version`
 The application package should be included in the `Application` struct as `Application.package_url`. SHAID should only allow downloading app packages with a valid and authorized key using the existing SHAID security mechanism.
 
 #### 3.3 SDL Server changes
+
+The SDL server should extend the application related database tables to store the 
+- additional categories
+- App info per supported locale (e.g. in an `application_locale` sub-table)
+- App package version and Min Version info (e.g. in an `application.package` sub-table).
 
 ## Potential downsides
 
