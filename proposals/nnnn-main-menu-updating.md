@@ -162,14 +162,14 @@ The HMI will have to support this feature and tell Core when to request menu upd
 ### Manager-Level Updates
 The app library Menu Manager will need updates to work properly with this system. The menu manager will have to know when dynamic menu features are available and send only the appropriate data. 
 
-When `WindowCapability.supportsDynamicMenus` is `true` the menu managers will not send artworks until `UpdateCommand` or `UpdateSubMenu` is called with `UpdateArtwork`. At that point, it will have to upload the artwork and once that's finished, send a new `AddCommand` or `AddSubMenu` with the file name in the `image` parameter. 
+When `WindowCapability.supportsDynamicMenus` is `true` the menu managers will not send artworks until `UpdateCommand` or `UpdateSubMenu` is called with `UpdateArtwork`. At this point, the menu manager with `WindowCapability.supportsDynamicMenus = true` will have to upload the artwork and once that's finished, send a new `AddCommand` or `AddSubMenu` with the file name in the `image` parameter. 
 
-It will also not send sub-menus until `UpdateSubMenu` is called with `UpdateSubCells` as `true`. At that point, it will have to send `AddCommand` for all the submenu cells (while still respecting).
+The menu manager with `WindowCapability.supportsDynamicMenus = true` will also not send sub-menus until `UpdateSubMenu` is called with `UpdateSubCells` as `true`. At that point, it will have to send `AddCommand` for all the submenu cells (while still respecting).
 
 However, I do not believe any new APIs will need to be added to the manager system, and therefore this does not need to be designed in this proposal.
 
 ## Potential downsides
-This adds complexity to the HMI, which will have to keep track of which menu items exist, have artwork available but not on the system, and so forth. It will need to determine when it wants to send the `UpdateXXX` notifications. e.g. Should it send when the cell / sub-menu is on screen, or at some point before? This is a moderate complexity increase. The internal database of which cells need artwork is not too difficult due to the `AddCommand` / `AddSubMenu` not setting an image name until the artwork is actually uploaded.
+This adds complexity to the HMI. The HMI will have to keep track of which menu items exist, have artwork available but not on the system, and so forth. The HMI will need to determine when it wants to send the `UpdateXXX` notifications. For example, should it send when the cell / sub-menu is on screen, or at some point before (this is a moderate complexity increase)? The internal database of which cells need artwork is not too difficult due to the `AddCommand` / `AddSubMenu` not setting an image name until the artwork is actually uploaded.
 
 There is an additional complexity increase to replace, instead of rejecting, `AddCommand`s and `AddSubMenu`s that have the same `cmdID` / `menuID` as an already existing menu cell.
 
@@ -179,4 +179,4 @@ This is a minor spec change to the RPC spec and implementations will be able to 
 ## Alternatives considered
 1. The author attempted to find a solution to the slowdown caused by head units processing VR grammars attached to `AddCommand` and `AddSubmenu` but was unable to find a solution. The VR grammars have to be sent entirely (i.e. they can't be paginated) so that the user can say any of them at any given time.
 2. The author considered separating out `WindowCapability.supportsDynamicMenus` into `.supportsDynamicMenuArtwork` and `.supportsDynamicSubMenus`, but determined it was worth the simplicity to require an HMI to support all dynamic menu features or none.
-3. The author considered adding dynamic menu updating to `PerformInteraction` menus as well, but determined that is less of an issue and would be better suited for a separate proposal.
+3. The author considered adding "dynamic menu updating" to `PerformInteraction` menus as well, but determined that is less of an issue and would be better suited for a separate proposal.
