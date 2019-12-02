@@ -169,7 +169,7 @@ The menu manager with `WindowCapability.supportsDynamicMenus = true` will also n
 However, I do not believe any new APIs will need to be added to the manager system, and therefore this does not need to be designed in this proposal.
 
 ## Potential downsides
-This adds complexity to the HMI. The HMI will have to keep track of which menu items exist, have artwork available but not on the system, and so forth. The HMI will need to determine when it wants to send the `UpdateXXX` notifications. For example, should it send when the cell / sub-menu is on screen, or at some point before (this is a moderate complexity increase)? The internal database of which cells need artwork is not too difficult due to the `AddCommand` / `AddSubMenu` not setting an image name until the artwork is actually uploaded.
+This adds complexity to the HMI. The HMI will have to keep track of which menu items exist, have artwork available but not on the system, and so forth. The HMI will need to determine when it wants to send the `UpdateXXX` notifications. For example, should it send when the cell / sub-menu is on screen, or at some point before? This change is a moderate complexity increase for the HMI to make those determinations. The internal database of which cells need artwork is not too difficult due to the `AddCommand` / `AddSubMenu` not setting an image name until the artwork is actually uploaded.
 
 There is an additional complexity increase to replace, instead of rejecting, `AddCommand`s and `AddSubMenu`s that have the same `cmdID` / `menuID` as an already existing menu cell.
 
