@@ -62,7 +62,7 @@ Updates will need to be made so that the app libraries and developers know if th
 <struct name="WindowCapability" since="6.0">
     <!-- New Parameters -->
     <param name="supportsDynamicMenus" type="Bool" mandatory="false">
-        <description>If true, the head unit will send UpdateCommand and UpdateSubMenu notifications and supports updating menu cells by sending the same cmdID / menuID with new data. If not set, assume false.</description>
+        <description>If true, the head unit will send UpdateCommand and UpdateSubMenu notifications, and it will support updating menu cells by sending the same cmdID / menuID with new data. If not set, assume false.</description>
     </param>
 </struct>
 ```
