@@ -81,7 +81,7 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
 
 The SDL Developer Portal should allow developers to enter all app information that are relevant for the app manifest file in the "App Info" section. The SDL Developer Portal should also allow generating a manifest file based on the entered app information. This generated manifest file should be used by the app developer within the web application.
 
-App developers can upload app packages and mark them as app candidates for app certification and for release. The platform can read the manifest file to verify it matches the app information for the specified app version.
+App developers should be able to upload app packages and mark them as release candidates for app certification. The platform can read the manifest file to verify it matches the app information for the specified app version.
 
 The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read using the SHAID with the additional Application APIs. 
 
@@ -148,9 +148,9 @@ The default app presentation approach should be template based. With the web app
 
 As already mentioned, app packages are uploaded to the SDL Developer Portal. App developers may also update the application by uploading new app packages. The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. 
 
-As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal should not be made available directly to vehicles. Instead OEMs should copy app packages from the SDL servers as referenced by the SHAID API (see additions to SHAID). An OEM will need to implement a file saving feature into their server installation for this behavior to work. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow installing only supported apps, dependent on the vehicle software version, SDL Core version and app's min SDL (RPC or Protocol) version.
+As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal should not be made available directly to vehicles. Instead OEMs should copy app packages from the SDL servers as referenced by the SHAID API (see additions to SHAID). An OEM will need to implement a file saving feature into their server installation for this behavior to work. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow to install supported apps only, dependent on the vehicle software version, SDL Core version and app's min SDL (RPC or Protocol) version.
 
-An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to vehicles. App developers can request SDLC app certification performed by the SDLC PM on the initial submission of the application. The SDLC app certification review will not test every detail and aspect of the application. Once the initial submission has passed the certification tests the app should be marked as certified independent of future releases which won't be tested anymore. New versions of an app aren't required to undergo additional testing, but may be subject to additional certification tests/requirements. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
+An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to OEMs and vehicles. App developers can request SDLC app certification performed by the SDLC PM on the initial submission of the application. Once the initial submission has passed the certification tests the app should be marked as certified independent of future releases which won't be tested anymore. New versions of an app aren't required to undergo additional testing, but may be subject to additional certification tests/requirements. The SDLC app certification review will not test every detail and aspect of the application. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
 
 The current app certification guidelines should be extended to include tests that are valid for in-vehicle web applications. It should not include tests to monitor data traffic with respect to effort and cost to perform such tests. The app certification for in-vehicle web applications cannot take place until the certification guidelines are updated. The app certification guideline update for web applications must be complete before this feature is released.
 
@@ -188,13 +188,25 @@ App HMI Type | `Application.category` |  _No_
 Additional App HMI Types | _No_ | `Application.additional_categories`
 App Name | `Application.display_names[0]` |  _No_
 App Icon | `Application.icon_url` |  _No_
-App Name per locale | _No_ | `Application.locales[].display_name`
-App Icon per locale | _No_ | `Application.locales[].icon_url`
-TTS Name per locale | _No_ | `Application.locales[].tts_name`
-VR Names per locale | _No_ | `Application.locales[].vr_names`
 App Version | _No_ | `Application.package_version_string`
 SDL Min RPC Version | _No_ | `Application.min_rpc_version`
 SDL Min Prot Version | _No_ | `Application.min_protocol_version`
+App locales | _No_ | `Application.locales` for objects of type `Locale`
+App Name per locale | _No_ | `Locale.display_name`
+App Icon per locale | _No_ | `Locale.icon_url`
+TTS Name per locale | _No_ | `Locale.tts_name`
+VR Names per locale | _No_ | `Locale.vr_names`
+
+The paramter `Application.locales` should hold a list of objects for locale information. See below example for an english an german example.
+
+```json
+...
+"locales": {
+    "de_DE": { ... },
+    "en_US": { ... }
+}
+...
+```
 
 The application package should be included in the `Application` struct as `Application.package_url`. SHAID should only allow downloading app packages with a valid and authorized key using the existing SHAID security mechanism.
 
