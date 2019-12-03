@@ -52,9 +52,9 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
    1. A relative path to an html file which is the entrypoint of the app
    2. A relative path to an app icon in the app bundle
    3. SDL app ID
-      1. Note that with this new platform we don't recommend proceeding with a an additional short app ID. Only the full SDL app uuid should be used.
+      1. Note that with this new platform we don't recommend proceeding with an additional short app ID. Only the full SDL app uuid should be used.
    4. App name
-      1. must be one of the valid policy nicknames
+      1. Must be one of the valid policy nicknames
    6. Primary Category / App HMI Type
       1. A field that should contain one of the enum elements from "AppHMIType" of the MOBILE_API
    7. Optional Additional Categories / App HMI Types
@@ -63,7 +63,7 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
       2. Optional relative path to an app icon (overrides global app icon)
       3. Optional TTS name (an array of tts chunks)
       4. Optional VR app names (an array of strings)
-   9.  App version
+   9. App version
       5. Note this version should be human readible and selected by the app developer.
       6. The format should be three numeric values separated by a "." character.
       7. The first value indicates the major app version, followed by the minor version and the optional "patch" version.
@@ -81,9 +81,9 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
 
 The SDL Developer Portal should allow developers to enter all app information that are relevant for the app manifest file in the "App Info" section. The SDL Developer Portal should also allow generating a manifest file based on the entered app information. This generated manifest file should be used by the app developer within the web application.
 
-App developers should be able to upload app packages and mark them as release candidates for app certification. The platform can read the manifest file to verify it matches the app information for the specified app version.
+App developers should be able to upload app packages and mark them as candidates for app certification. The platform can read the manifest file to verify it matches the app information for the specified app version.
 
-The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read using the SHAID with the additional Application APIs. 
+The backend of the OEM store should store copies of a certified app package if the OEM has accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read using SHAID with the additional Application APIs. 
 
 The SDL JavaScript library should use the manifest file to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern.
 
@@ -120,9 +120,9 @@ After the app registers, the HMI will be notified with `OnAppRegistered`, which 
 
 #### 2.3 (No) Changes to Hybrid App Preferences
 
-Due to a new app platform, the complexity of supporting hybrid app preferences will increase. Fortunately no changes to the logic are required for the implementation of this proposal. The hybrid app preferences documentation should be extended for how to use this feature with the also including this additional platform.
+Due to a new app platform, the complexity of supporting hybrid app preferences will increase. Fortunately no changes to the logic are required for the implementation of this proposal. The hybrid app preferences documentation should be extended for how to use this feature and also include this additional platform.
 
-The documentation should mention that the hybrid app preference value `CLOUD` is equivalent to a non-mobile app preference and the value `BOTH` is equivalent to preferring all applications. The hybrid app preference values should match across all app variants and that each non-mobile application can be enabled or disabled individually using the "enabled" flag.
+The documentation should mention that the hybrid app preference value `CLOUD` is equivalent to a non-mobile app preference and the value `BOTH` is equivalent to preferring all applications. The documentation should also state that hybrid app preference values should match across all app variants and that each non-mobile application can be enabled or disabled individually using the "enabled" flag.
 
 ### 2.4 HMI API using App Properties RPCs
 
@@ -148,19 +148,19 @@ The default app presentation approach should be template based. With the web app
 
 As already mentioned, app packages are uploaded to the SDL Developer Portal. App developers may also update the application by uploading new app packages. The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. 
 
-As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal should not be made available directly to vehicles. Instead OEMs should copy app packages from the SDL servers as referenced by the SHAID API (see additions to SHAID). An OEM will need to implement a file saving feature into their server installation for this behavior to work. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow to install supported apps only, dependent on the vehicle software version, SDL Core version and app's min SDL (RPC or Protocol) version.
+As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal should not be made available directly to vehicles. Instead OEMs should copy app packages from the SDL servers as referenced by the SHAID API (see additions to SHAID). An OEM will need to implement a file saving feature into their server installation for this behavior to work. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow installation of supported apps only, dependent on the vehicle software version, SDL Core version, and app's min SDL (RPC or Protocol) version.
 
-An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to OEMs and vehicles. App developers can request SDLC app certification performed by the SDLC PM on the initial submission of the application. Once the initial submission has passed the certification tests the app should be marked as certified independent of future releases which won't be tested anymore. New versions of an app aren't required to undergo additional testing, but may be subject to additional certification tests/requirements. The SDLC app certification review will not test every detail and aspect of the application. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
+An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to OEMs and vehicles. App developers can request SDLC app certification performed by the SDLC on the initial submission of the application. Once the initial submission has passed the certification tests, the app should be marked as certified independent of future releases which won't be tested anymore. New versions of an app aren't required to undergo additional testing, but may be subject to additional certification tests/requirements. The SDLC app certification review will not test every detail and aspect of the application. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
 
 The current app certification guidelines should be extended to include tests that are valid for in-vehicle web applications. It should not include tests to monitor data traffic with respect to effort and cost to perform such tests. The app certification for in-vehicle web applications cannot take place until the certification guidelines are updated. The app certification guideline update for web applications must be complete before this feature is released.
 
 ### Chapter 3: App Info Additions
 
-There are several additions needed for the Developer Profile, SHAID and the SDL Server to deliver the App Info and a url to an app package.
+There are several additions needed for the Developer Portal (smartdevicelink.com), SHAID and the SDL Server to deliver the App Info and a url to an app package.
 
-#### 3.1 Developer Profile
+#### 3.1 Developer Portal
 
-Following additions should be made in the SDL Developer Profile when entering App Info:
+The following additions should be made in the SDL Developer Portal when registering an Application:
 
 - Allow specifying WebEngine or Cloud Transport Adapter when Embedded is selected as the app Platform.
 - Allow entering an HTML filename as the app entrypoint (instead of an endpoint url)
@@ -175,7 +175,7 @@ Following additions should be made in the SDL Developer Profile when entering Ap
 - Allow selecting an SDL RPC Version as the minimum supported RPC version
 - Allow selecting an SDL Protocol Version as the minimum supported Protocol version
 
-The SDL Developer Profile should provide an option to generate an app manifest out of the entered app information. Also the Developer Profile should allow uploading app packages per app version.
+The SDL Developer Portal should provide an option to generate an app manifest out of the entered app information. Also the Developer Portal should allow uploading app packages per app version.
 
 #### 3.2 SHAID changes
 
@@ -190,14 +190,14 @@ App Name | `Application.display_names[0]` |  _No_
 App Icon | `Application.icon_url` |  _No_
 App Version | _No_ | `Application.package_version_string`
 SDL Min RPC Version | _No_ | `Application.min_rpc_version`
-SDL Min Prot Version | _No_ | `Application.min_protocol_version`
+SDL Min Protocol Version | _No_ | `Application.min_protocol_version`
 App locales | _No_ | `Application.locales` for objects of type `Locale`
 App Name per locale | _No_ | `Locale.display_name`
 App Icon per locale | _No_ | `Locale.icon_url`
 TTS Name per locale | _No_ | `Locale.tts_name`
 VR Names per locale | _No_ | `Locale.vr_names`
 
-The paramter `Application.locales` should hold a list of objects for locale information. See below example for an english an german example.
+The parameter `Application.locales` should hold a list of objects for locale information. See below example for an English and German example.
 
 ```json
 ...
@@ -213,7 +213,7 @@ The application package should be included in the `Application` struct as `Appli
 #### 3.3 SDL Server changes
 
 The SDL server should extend the application related database tables to store the 
-- additional categories
+- Additional categories
 - App info per supported locale (e.g. in an `application_locale` sub-table)
 - App package version and Min Version info (e.g. in an `application.package` sub-table).
 
