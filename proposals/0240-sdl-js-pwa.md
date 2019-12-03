@@ -55,21 +55,21 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
       1. Note that with this new platform we don't recommend proceeding with an additional short app ID. Only the full SDL app uuid should be used.
    4. App name
       1. Must be one of the valid policy nicknames
-   6. Primary Category / App HMI Type
+   5. Primary Category / App HMI Type
       1. A field that should contain one of the enum elements from "AppHMIType" of the MOBILE_API
-   7. Optional Additional Categories / App HMI Types
-   8. Optional per supporting SDL locale:
+   6. Optional Additional Categories / App HMI Types
+   7. Optional per supporting SDL locale:
       1. App name (overrides global app name) (must be one of the valid app nicknames)
       2. Optional relative path to an app icon (overrides global app icon)
       3. Optional TTS name (an array of tts chunks)
       4. Optional VR app names (an array of strings)
-   9. App version
-      5. Note this version should be human readible and selected by the app developer.
-      6. The format should be three numeric values separated by a "." character.
-      7. The first value indicates the major app version, followed by the minor version and the optional "patch" version.
-      8. Example: "1.0.0"
-   10. Min SDL RPC version supported
-   11. Min SDL Protocol version supported
+   8. App version
+      1. Note this version should be human readible and selected by the app developer.
+      2. The format should be three numeric values separated by a "." character.
+      3. The first value indicates the major app version, followed by the minor version and the optional "patch" version.
+      4. Example: "1.0.0"
+   9. Min SDL RPC version supported
+   10. Min SDL Protocol version supported
 4. All script files should be included in the package
    1. Any `<script>` element with `src` attribute should point to a script file in the package
    2. No scripts from outside the package should be allowed
