@@ -130,7 +130,7 @@ The HMI API should be extended to set app properties to SDL Core. This addition 
 
 The HMI API extension is mostly a copy of the cloud-app-properties included in the mobile API. 
 
-1. The OEM store uses the SHAID policy data for `SetAppProperties`.
+1. The OEM store uses app data in SDL Server (synchronized from SHAID) for `SetAppProperties`.
 2. The OEM store may choose to add not-installed apps to SDL using `enabled` parameter set to `false` (optional)
 3. If an embedded app is installed the `enabled` flag should be set to `true` to appear in UpdateAppsList RPC
 4. For local apps
@@ -148,7 +148,7 @@ The default app presentation approach should be template based. With the web app
 
 As already mentioned, app packages are uploaded to the SDL Developer Portal. App developers may also update the application by uploading new app packages. The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. 
 
-As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal should not be made available directly to vehicles. Instead OEMs should copy app packages from the SDL servers as referenced by the SHAID API (see additions to SHAID). An OEM will need to implement a file saving feature into their server installation for this behavior to work. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow installation of supported apps only, dependent on the vehicle software version, SDL Core version, and app's min SDL (RPC or Protocol) version.
+As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal must not be made available directly to vehicles. Instead OEMs must download and host a copy app packages to their SDL Servers using the file URL from the SHAID API (see additions to SHAID). An OEM will need to implement a file saving feature into their server installation for this behavior to work. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow installation of supported apps only, dependent on the vehicle software version, SDL Core version, and app's min SDL (RPC or Protocol) version.
 
 An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to OEMs and vehicles. App developers can request SDLC app certification performed by the SDLC on the initial submission of the application. Once the initial submission has passed the certification tests, the app should be marked as certified independent of future releases which won't be tested anymore. New versions of an app aren't required to undergo additional testing, but may be subject to additional certification tests/requirements. The SDLC app certification review will not test every detail and aspect of the application. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
 
