@@ -24,9 +24,9 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
 1. An OEM store should make apps available to the user. The user should be able to install or uninstall apps from the store.
 2. An app should be a compressed bundle of application files, such as HTML, CSS or script files. At minimum it requires the following files:
    1. sdl.js file
-   2. manifest.json file
+   2. manifest.js file
    3. An HTML file where the manifest is pointing to
-3. The manifest.json file must be included in the HTML file as a script source
+3. The manifest.js file must be included in the HTML file as a script source
 4. The OEM store's backend should store the compressed app copied from the SDL Developer Portal (smartdevicelink.com) after the app and version is approved by the SDLC and the OEM. 
    1. Note: Neither the SDL Developer Portal nor the SDL Server or SHAID are directly involved in distributing the app package to vehicles. 
 5. If a user installs an app, the OEM store should download the app package from the OEM backend and decompress/install the app to the system.
@@ -47,7 +47,7 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
 Running apps on an embedded WebEngine defines a new app platform/runtime. With installing an app on the infotainment system there should be a minimum set of requirements on how the app should be packaged.
 
 1. The app package should be a compressed zip file
-2. It should contain a manifest.json and the sdl_javascript library file for web applications (e.g. sdl.js)
+2. It should contain a manifest.js and the sdl_javascript library file for web applications (e.g. sdl.js)
 3. The manifest file should contain:
    1. A relative path to an html file which is the entrypoint of the app
    2. A relative path to an app icon in the app bundle
@@ -73,7 +73,7 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
 4. All script files should be included in the package
    1. Any `<script>` element with `src` attribute should point to a script file in the package
    2. No scripts from outside the package should be allowed
-5. The entrypoint HTML file should refer to the manifest file (`<script src="manifest.json" />`)
+5. The entrypoint HTML file should refer to the manifest file (`<script src="manifest.js" />`)
 
 #### 1.1 Manifest file
 
@@ -85,7 +85,7 @@ App developers should be able to upload app packages and mark them as candidates
 
 The backend of the OEM store should store copies of a certified app package if the OEM has accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read using SHAID with the additional Application APIs. 
 
-The SDL JavaScript library should use the manifest file to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern.
+The SDL JavaScript library should use the manifest file by reading the exported const to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern.
 
 This definition should ensure that apps can be approved and verified by the SDLC and OEMs without possibility of modifications after approval. Also this set of requirements should ensure compatibility throughout integrators. The final approval process will be part of another proposal.
 
@@ -188,7 +188,7 @@ App HMI Type | `Application.category` |  _No_
 Additional App HMI Types | _No_ | `Application.additional_categories`
 App Name | `Application.display_names[0]` |  _No_
 App Icon | `Application.icon_url` |  _No_
-App Version | _No_ | `Application.package_version_string`
+App Version | _No_ | `Application.platform_version_string`
 SDL Min RPC Version | _No_ | `Application.min_rpc_version`
 SDL Min Protocol Version | _No_ | `Application.min_protocol_version`
 App locales | _No_ | `Application.locales` for objects of type `Locale`
@@ -345,12 +345,12 @@ Many services are available over a web application and modern WebEngines provide
   </param>
 </function>
 </interface>
-```
+```f
 
 ### Example manifest file
 
 ```json
-{
+export const sdl_manifest = {
   "entrypoint": "index.html",
   "appIcon": "appIcon.png",
   "sdlAppID": "180eb7aa-6e52-4c01-99c0-375bda718743",
