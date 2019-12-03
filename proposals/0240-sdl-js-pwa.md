@@ -73,7 +73,8 @@ Running apps on an embedded WebEngine defines a new app platform/runtime. With i
 4. All script files should be included in the package
    1. Any `<script>` element with `src` attribute should point to a script file in the package
    2. No scripts from outside the package should be allowed
-5. The entrypoint HTML file should refer to the manifest file (`<script src="manifest.js" />`)
+5. The entrypoint HTML file should refer to the manifest file (`<script type="module" src="manifest.js" />`)
+   1. Note the type set to module may be required to achieve importing the SDL manifest and make it available to the SDL library. This should be an implementation detail.
 
 #### 1.1 Manifest file
 
@@ -85,7 +86,7 @@ App developers should be able to upload app packages and mark them as candidates
 
 The backend of the OEM store should store copies of a certified app package if the OEM has accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read using SHAID with the additional Application APIs. 
 
-The SDL JavaScript library should use the manifest file by reading the exported const to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern.
+The SDL JavaScript library should use the manifest file by reading the exported const to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern. The  SDL library may need a new method to attempt to import and utilize the manifest.js contents. This need should be an implementation detail as it would only affect library internals.
 
 This definition should ensure that apps can be approved and verified by the SDLC and OEMs without possibility of modifications after approval. Also this set of requirements should ensure compatibility throughout integrators. The final approval process will be part of another proposal.
 
@@ -188,7 +189,7 @@ App HMI Type | `Application.category` |  _No_
 Additional App HMI Types | _No_ | `Application.additional_categories`
 App Name | `Application.display_names[0]` |  _No_
 App Icon | `Application.icon_url` |  _No_
-App Version | _No_ | `Application.platform_version_string`
+App Version | _No_ | `Application.platform_app_version`
 SDL Min RPC Version | _No_ | `Application.min_rpc_version`
 SDL Min Protocol Version | _No_ | `Application.min_protocol_version`
 App locales | _No_ | `Application.locales` for objects of type `Locale`
@@ -345,12 +346,14 @@ Many services are available over a web application and modern WebEngines provide
   </param>
 </function>
 </interface>
-```f
+```
 
 ### Example manifest file
 
+> Note: The below format to export the SDL manifest is one of the possible options and only a suggestion. The best method to export the SDL manifest should be considered as an implementation detail.
+
 ```json
-export const sdl_manifest = {
+const sdl_manifest = {
   "entrypoint": "index.html",
   "appIcon": "appIcon.png",
   "sdlAppID": "180eb7aa-6e52-4c01-99c0-375bda718743",
@@ -369,4 +372,6 @@ export const sdl_manifest = {
   "sdlMinRPCVersion": "6.0",
   "sdlMinProtocolVersion": "5.0"
 }
+
+export default { sdl_manifest };
 ```
