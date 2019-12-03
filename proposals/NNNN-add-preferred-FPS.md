@@ -37,6 +37,8 @@ Add preferredFPS to VideoStreamingCapability struct in both APIs.
     </struct>
 ```
 
+Like other parameters in VideoStreamingCapability, preferredFPS should be returned in GetSystemCapability RPC response.
+
 ### iOS mobile proxy consideration
 
 A frame rate of iOS SDL application highly depends on how the application capture the video data.
@@ -48,7 +50,7 @@ If an application uses AVCaptureDevice directly, the frame rate must fit into AV
 
 Regarding kVTCompressionPropertyKey_ExpectedFrameRate in videoEncoderSettings, however, [iOS documentation](https://developer.apple.com/documentation/videotoolbox/kvtcompressionpropertykey_expectedframerate) says, “provided as a hint to the video encoder” and “The actual frame rate depends on frame durations and may vary.”
 
-Overall, developers must make sure taking account of preferredFPS value for capturing the video frame (especially if the app does not use SDLCarWindow), as well as configuring videoEncoderSettings.
+Overall, developers must make sure taking account of preferredFPS value for capturing video frames (especially if the app does not use SDLCarWindow), as well as configuring videoEncoderSettings.
 
 
 ### Android mobile proxy consideration
