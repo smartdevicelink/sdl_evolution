@@ -1,8 +1,8 @@
 # Main Menu Updating and Pagination
 
-* Proposal: [SDL-NNNN](nnnn-main-menu-updating.md)
+* Proposal: [SDL-0267](0267-main-menu-updating.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
