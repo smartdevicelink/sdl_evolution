@@ -1,8 +1,8 @@
 # Main Menu UI Updates
 
-* Proposal: [SDL-NNNN](NNNN-addcommand-ui-updates.md)
+* Proposal: [SDL-0267](0267-addcommand-ui-updates.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
