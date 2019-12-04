@@ -40,10 +40,10 @@ We need to add `SeatOccupancy` for `GetVehicleData`, `SubscribeVehicleData`, `Un
 ```xml	
 <struct name="SeatOccupancy" since="X.x">
 	<param name="seatsOccupied" type="SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>If seat is occupied, true. Otherwise false.</description>
+		<description>Seat status array containing location and whether the seats are occupied.</description>
 	</param>
 	<param name="seatsBelted" type="SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>If seat belt is belted, true. Otherwise false.</description>
+		<description>Seat status array containing location and whether the seats are belted.</description>
 	</param>	
 </struct>
 ```
@@ -102,10 +102,10 @@ We need to add `SeatOccupancy` for `GetVehicleData`, `SubscribeVehicleData`, `Un
 ```xml	
 <struct name="SeatOccupancy">
 	<param name="seatsOccupied" type="Common.SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>If seat is occupied, true. Otherwise false.</description>
+		<description>Seat status array containing location and whether the seats are occupied.</description>
 	</param>
 	<param name="seatsBelted" type="Common.SeatStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>If seat belt is belted, true. Otherwise false.</description>
+		<description>Seat status array containing location and whether the seats are belted.</description>
 </struct>
 ```
 
