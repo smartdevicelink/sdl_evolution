@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0263](0263-System-Request.md)
 * Author: [Zhimin Yang](https://github.com/smartdevicelink/yang1070)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
