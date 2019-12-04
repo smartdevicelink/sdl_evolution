@@ -39,19 +39,65 @@ Add preferredFPS to VideoStreamingCapability struct in both APIs.
 
 Like other parameters in VideoStreamingCapability, preferredFPS should be returned in GetSystemCapability RPC response.
 
+### iOS mobile proxy changes
+
+Extend SDLVideoStreamingCapability class to have preferredFPS property:
+
+SDLVideoStreamingCapability.h:
+
+```objc
+/**
+ *  Preferred frame rate (assuming the case where resolution is the same as preferredResolution)
+ *  Optional
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *preferredFPS;
+
+```
+
+SDLVideoStreamingCapability.m:
+```objc
+- (void)setPreferredFPS:(nullable NSNumber<SDLInt> *)preferredFPS {
+    [store sdl_setObject:preferredFPS forName:SDLRPCParameterNamePreferredFPS];
+}
+
+- (nullable NSNumber<SDLInt> *)preferredFPS {
+    return [store sdl_objectForName:SDLRPCParameterNamePreferredFPS ofClass:NSNumber.class error:nil];
+}
+```
+
+And then, modify SDLStreamingVideoLifecycleManager#didEnterStateVideoStreamStarting, so that preferredFPS value would be taken into account:
+```objc
+static NSUInteger const defaultFrameRate = 15;
+
+- (void)didEnterStateVideoStreamStarting {
+    ...
+    if (capability != nil) {
+        NSUInteger  preferredFPS = (capability.preferredFPS.integerValue == 0) ? defaultFrameRate : capability.preferredFPS.integerValue;
+        weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(preferredFPS);
+        ...
+    } else {
+        ...
+        weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(defaultFrameRate);
+    }
+
+}
+```
+Note that videoEncoderSettings property must be NSMutableDictionary as it now would be mutable.
+
 ### iOS mobile proxy consideration
 
 A frame rate of iOS SDL application highly depends on how the application capture the video data.
 
-If an application uses SDLCarWindow, SDLCarWindow internally has videoEncoderSettings property, which is used both in encoder settings (kVTCompressionPropertyKey_ExpectedFrameRate in VideoEncoderSetting) and capture rate (CADisplayLink#preferredFramePerSecond available in iOS10 or higher).
-So SDLCarWindow should take account of preferredFPS value and use the value for videoEncoderSettings property.
+If an application uses combination of SDLCarWindow and SDLStreamingVideoLifecycleManager, above change should take account of
+1) videoEncoderSettings used in SDLStreamingVideoLifecycleManager,
+2) capture rate of CADisplayLink#preferredFramePerSecond (available in iOS10 or higher)
 
-If an application uses AVCaptureDevice directly, the frame rate must fit into AVFrameRateRange in ACCaptureDevice.format.
+So that should suffice the needs.
+
+If an application uses AVCaptureDevice directly, and does not rely on SDLStreamingVideoLifecycleManager at all, the frame rate must fit into AVFrameRateRange in ACCaptureDevice.format.
 
 Regarding kVTCompressionPropertyKey_ExpectedFrameRate in videoEncoderSettings, however, [iOS documentation](https://developer.apple.com/documentation/videotoolbox/kvtcompressionpropertykey_expectedframerate) says, “provided as a hint to the video encoder” and “The actual frame rate depends on frame durations and may vary.”
-
-Overall, developers must make sure taking account of preferredFPS value for capturing video frames (especially if the app does not use SDLCarWindow), as well as configuring videoEncoderSettings.
-
+Therefore, developers must make sure taking account of preferredFPS value for capturing video frames (especially if the app does not use SDLCarWindow), as well as configuring videoEncoderSettings.
 
 ### Android mobile proxy consideration
 
@@ -60,6 +106,8 @@ When encoding the video frame, a frame rate can be specified by MediaCodec#confi
 so situation would be the same as iOS.
 
 The actual frame rate of MediaEncoder depends on the frequency of input surface's update in VirtualDisplay, and varies on the application's (SdlRemoteDisplay's) content.
+
+For instance, if the VirtualDisplay gets updated aggressively, the frame rate would be larger than 60 fps, while in idle time, the frame rate will be something like 20 fps.
 
 This issue will be addressed by another proposal later.
 
