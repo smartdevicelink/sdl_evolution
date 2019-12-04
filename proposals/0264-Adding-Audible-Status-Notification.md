@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0264](0264-Adding-Audible-Status-Notification.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core / RPC / HMI]
 
 ## Introduction
