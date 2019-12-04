@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0262](0262-New-vehicle-data-SeatOccupancy.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite | RPC]
 
 ## Introduction
