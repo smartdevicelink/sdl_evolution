@@ -131,7 +131,7 @@ Mobile API:
 ## Potential downsides
 
 This proposal makes a major change to add Mandatory TRUE request.  
-It is necessary to coordinate the operation with the old system that is not Madatory TRUE.  
+It is necessary to coordinate the operation with the old system that is not Mandatory TRUE.  
 
 
 ## Impact on existing code
