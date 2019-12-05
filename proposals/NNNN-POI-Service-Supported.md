@@ -58,7 +58,7 @@ So, navigation selection and specified Navigation App launch methods are not def
 
 ## Proposed solution
 
-Add new App Serivice Type for using this POI sharing method.  
+Add new App Service Type for using this POI sharing method.  
   
 Add POI element to AppServiceType enum of both Mobile API and HMI API.
 
