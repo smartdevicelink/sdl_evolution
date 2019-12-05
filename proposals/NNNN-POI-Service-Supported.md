@@ -27,7 +27,7 @@ it is assumed that proposals and extensions will be made each time.
 3. Show POI list  
 4. Choose from POI list  
 5. Set the chosen POI data to struct of `PoiServiceData->LocationDetails`  
-6. Shown popup message that is able to choise following purpose  
+6. Show popup message that is able to choose purpose from the following:  
  (a) Set as destination ( Share the POI to SDL Navigation App )  
  (b) Call to the phone number included in the POI  
 
