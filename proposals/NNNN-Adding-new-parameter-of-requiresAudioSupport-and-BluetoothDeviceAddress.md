@@ -118,7 +118,7 @@ Mobile API:
 <struct name="HMIApplication">
 c
     <param name="deviceInfo" type="Common.DeviceInfo" mandatory="true">
-       <description>The ID, serial number, transport type the named-app's-device is connected over to HU.</description>
+       <description>The ID, serial number, and transport type by which the named app's device is connected to HU.</description>
     </param>
 c
     <param name="cloudConnectionStatus" type="Common.CloudConnectionStatus" mandatory="false"></param>
