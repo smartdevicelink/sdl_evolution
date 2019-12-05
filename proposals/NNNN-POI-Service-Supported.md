@@ -213,7 +213,7 @@ HMI API(struct):
 +	<description> This data is related to what a POI (Point of Interest) service would provide. </description>
 +	
 +	<param name="poiInfoData" type="LocationDetails" mandatory="false">
-+	<description> Information data of searched by POI. See LocationDetails </description>
++	<description> Information data of searched POI. See LocationDetails </description>
 +	</param>
 +</param>	
 ```
