@@ -86,7 +86,7 @@ The POI service is defined as a service that can provide searched information.
 As the information to be provided, the name, coordinates, address, outline of the place, and telephone number of the searched place are assumed.  
 This information matches the parameter of structure `Location Details` defined in the navigation.  
 
-Mobile API(struct):
+Mobile API (struct):
 ```xml
 <struct name="AppServiceManifest" since="5.1">	
 	<description> This manifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it </description>
