@@ -136,7 +136,7 @@ It is necessary to coordinate the operation with the old system that is not Mada
 
 ## Impact on existing code
 
-Since new parameters are added, Core and  iOS, Android, RPC,HMI are affected.  
+Since new parameters are added, Core and  iOS, Android, RPC, HMI are affected.
 
 ## Alternatives considered
 
