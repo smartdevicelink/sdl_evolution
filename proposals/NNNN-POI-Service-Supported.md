@@ -53,7 +53,7 @@ When (b) is selected
  9. Start phone call.  
 ***
 Since this proposal is a proposal for sharing POI data, it is assumed that Navigation App has already been started.  
-So, navi selection and specified Nav iApp launch methods are not defined.  
+So, navigation selection and specified Navigation App launch methods are not defined.  
 
 
 ## Proposed solution
