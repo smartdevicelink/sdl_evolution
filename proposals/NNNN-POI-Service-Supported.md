@@ -42,7 +42,7 @@ When (a) is selected:
    12. Show Native Navigation screen and find route.  
   
   (ii) When the SDL navigation app is selected or there is an app with `HMIStatus` already LIMITED.  
-   10. Activate or change `HMIStatus` to FULL the target SDL Navigation App  
+   10. Activate or change `HMIStatus` to FULL for the target SDL Navigation App  
    11. Subscribe to App Service from Navi App  
    12. Navi App get `PoiServiceData->LocationDetails`.  
    13. Find route with Navi App.  
