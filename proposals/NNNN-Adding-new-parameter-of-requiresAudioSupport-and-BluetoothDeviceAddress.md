@@ -13,7 +13,7 @@ when the device is connected via only USB, HU will connect to the SDL device BT 
 ## Motivation
 
 Since Android recommends not supporting AOA2.0, Android will no longer be able to play audio using only USB, and it will be necessary to use BT A2DP to play audio.  
-In the current Android library (java suite), if requiresAudioSupport is TRUE and BT A2DP is not connected,  
+In the current SDL Java Suite library, if requiresAudioSupport is TRUE and BT A2DP is not connected,  
 SDL activation will be cancelled. Users can't notice why SDL App doesn't start, so UX needs to be improved.  
 To solve this problem, add a BluetoothDeviceAddress and requiresAudioSupport so that a new SDL device can be specified in RegisterAppInterface,  
 and prompt the user to connect device via BT or HU will connect device via BT automatically when connected via USB.  
