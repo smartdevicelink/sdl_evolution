@@ -15,8 +15,7 @@ An SDL app can display and operate according to `appHMIType` by receiving notifi
 
 Currently, in the RPC specification, an SDL app can set multiple `appHMIType`.  
 However, because there is no means to notify which `appHMIType` was started from HMI, it cannot be operated according to the application.  
-For example, if the specification allows you to launch an SDL app with both Navigation / Media `appHMIType` by selecting an audio source,   
-the SDL app can implement a specification that allows the audio function to be used immediately.  
+For example, if the specification allows you to launch an SDL app with both Navigation / Media `appHMIType` by selecting an audio source, the SDL app can implement a specification that allows the audio function to be used immediately.  
 In this way, it can be thought that it can contribute to the improvement of UX.  
 
 
