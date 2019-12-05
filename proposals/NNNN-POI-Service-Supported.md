@@ -45,7 +45,7 @@ When (a) is selected:
    10. Activate or change `HMIStatus` to FULL for the target SDL Navigation App  
    11. Subscribe to App Service from Navigation App  
    12. Navigation App gets `PoiServiceData->LocationDetails`.  
-   13. Find route with Navi App.  
+   13. Find route with Navigation App.  
   
 When (b) is selected  
  7. Set `PoiServiceData->LocationDetails->phoneNumber` to RPC `DialNumber->number`.  
