@@ -152,7 +152,7 @@ Mobile API (struct):
 +</param>	
 ```
 
-HMI API(struct):
+HMI API (struct):
 ```xml
 <struct name="AppServiceManifest" >	
 	<description> This manifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it </description>
