@@ -7,7 +7,7 @@
 
 ## Introduction
 
-In this proposal, by adding the `requiresAudioSupport` in `RegisterAppInterface` and the `BluetooothDeviceAddress` in `DeviceInfo`.  
+In this proposal, by adding the `requiresAudioSupport` in `RegisterAppInterface` and the `BluetooothDeviceAddress` in `DeviceInfo`,
 when the device is connected via only USB, HU will connect to the SDL device's BT automatically or prompt the user requesting BT connection.  
 
 ## Motivation
