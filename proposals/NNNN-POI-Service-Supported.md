@@ -205,7 +205,7 @@ HMI API(struct):
 +	<description> This manifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it </description>
 +	
 +	<param name="poiInfoDataSupported" type="Boolean" mandatory="false">
-+	<description> Informs the subscriber if this service can actually availble. </description>
++	<description> Informs the subscriber if this service is actually available. </description>
 +	</param>
 +</param>	
 	
