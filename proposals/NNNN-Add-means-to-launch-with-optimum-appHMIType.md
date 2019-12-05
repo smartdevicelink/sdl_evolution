@@ -31,7 +31,7 @@ Add `launchAppHMIType` to the RPC below.
 
 ```xml
      <interface name="BasicCommunication" version="2.1.0" date="2019-03-18">
-c
+...
     <function name="OnAppActivated" messagetype="notification">
         <description>Must be sent by HU system when the user clicks on app in the list of registered apps or on soft button with 'STEAL_FOCUS' action.</description>
         <param name="appID" type="Integer" mandatory="true">
@@ -48,9 +48,9 @@ Add `launchAppHMIType` to the RPC below.
 +           </description>
 +       </param>
     </function>
-c
+...
     <interface name="SDL" version="1.2.0" date="2018-09-05">
-c
+...
     <function name="ActivateApp" messagetype="request">
         <param name="appID" type="Integer" mandatory="true">
         </param>
