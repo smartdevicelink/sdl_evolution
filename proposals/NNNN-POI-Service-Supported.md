@@ -14,9 +14,8 @@ This proposal provides the function of sharing POI data between SDL Apps by `App
 
 Recently, IVI has moved from AVN (Audio & Visual Navigation) to DA (Display Audio).  
 Therefore, when there is no Native Navigation, it is necessary to share POIs between SDL apps.  
-The proposal of [SDL-0241 Commerce App Service](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0241-Commerce-App-Service.md) included a function to provide search data to other apps,   
-but there was no specific use case and the function was excessive. In this proposal,   
-only the minimum necessary POI exchange is provided for the App service.  
+The proposal of [SDL-0241 Commerce App Service](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0241-Commerce-App-Service.md) included a function to provide search data to other apps, but there was no specific use case and the function was excessive.  
+In this proposal, only the minimum necessary POI exchange is provided for the App service.  
 In the future, if someone wants to increase the data exchanged between apps,   
 it is assumed that proposals and extensions will be made each time.  
 
