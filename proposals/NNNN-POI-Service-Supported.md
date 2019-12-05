@@ -29,7 +29,7 @@ it is assumed that proposals and extensions will be made each time.
 5. Set the chosen POI data to struct of `PoiServiceData->LocationDetails`  
 6. Show popup message that is able to choose purpose from the following:  
  (a) Set as destination (Share the POI to SDL Navigation App)  
- (b) Call to the phone number included in the POI  
+ (b) Call the phone number included in the POI  
 
 When (a) is selected  
  7. If AppHMIType is "NAVIGATION", or if it is already LIMITED, go to (ii) -10.  
