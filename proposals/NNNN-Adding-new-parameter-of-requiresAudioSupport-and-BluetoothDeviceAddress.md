@@ -56,7 +56,7 @@ Mobile API:
 +           <description>Device BT Address - If cannot get it, set All-F.</description>
 +       </param>
     </struct>
-c
+...
     <function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="request" since="1.0">
         <description>
             Establishes an interface with a mobile application.
@@ -66,7 +66,7 @@ Mobile API:
         <param name="syncMsgVersion" type="SyncMsgVersion" mandatory="true" since="1.0">
             <description>See SyncMsgVersion</description>
         </param>
-c
+...
         <param name="hashID" type="String" maxlength="100" mandatory="false" since="3.0">
             <description>
                 ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).
@@ -87,7 +87,7 @@ Mobile API:
         <param name="appID" type="String" maxlength="100" mandatory="true" since="2.0">
             <description>ID used to validate app with policy table entries</description>
         </param>
-c
+...
         <param name="nightColorScheme" type="TemplateColorScheme" mandatory="false" since="5.0"/>
 +        <param name="requiresAudioSupport" type="Boolean" mandatory="false" since="X.X">
 +            <description>Set whether or not this app requires the use of an audio streaming output device.</description>
@@ -114,13 +114,13 @@ Mobile API:
 +   <description>Device BT Address - If cannot get it, set All-F.</description>
 + </param>
 </struct>
-c
+...
 <struct name="HMIApplication">
-c
+...
     <param name="deviceInfo" type="Common.DeviceInfo" mandatory="true">
        <description>The ID, serial number, and transport type by which the named app's device is connected to HU.</description>
     </param>
-c
+...
     <param name="cloudConnectionStatus" type="Common.CloudConnectionStatus" mandatory="false"></param>
 +    <param name="requiresAudioSupport" type="Boolean" mandatory="false">
 +        <description>Set whether or not this app requires the use of an audio streaming output device.</description>
