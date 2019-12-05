@@ -34,7 +34,7 @@ it is assumed that proposals and extensions will be made each time.
 When (a) is selected:
  7. If AppHMIType is "NAVIGATION", or if it is already LIMITED, go to (ii)10.  
  8. When there are multiple items including Native Navigation, popup is displayed.  
- 9. Choise the Native Navigation or the app.  
+ 9. Choose the Native Navigation or the app.  
   
   (i) When Native Navigation is selected.  
    10. Set POI to RPC `SendLocation->LocationDetails`.  
