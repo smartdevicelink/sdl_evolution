@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This porposal provide the function of sharing POI data between SDL App by `AppService`.  
+This proposal provides the function of sharing POI data between SDL Apps by `AppService`.  
 
 
 ## Motivation
