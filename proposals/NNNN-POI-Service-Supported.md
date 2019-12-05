@@ -24,7 +24,7 @@ it is assumed that proposals and extensions will be made each time.
 [Assumed use case]
 1. Launch POI app  
 2. Search POI  
-3. Shown POI list  
+3. Show POI list  
 4. Choise from POI list  
 5. Set the choised POI data to struct of `PoiServiceData->LoacationDetails`  
 6. Shown popup message that is able to choise following purpose  
