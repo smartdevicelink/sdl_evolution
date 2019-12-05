@@ -594,7 +594,7 @@ This case is applicable when the policy table is updated and the user has provid
 ##### Post Conditions 
 
 1. WiFi credentials shared with the app.
-2. The IVI and the mobile app will try to establish Wi-Fi connection.
+2. The IVI and the mobile app will try to establish a WiFi connection.
 
 ##### Exceptions
 
