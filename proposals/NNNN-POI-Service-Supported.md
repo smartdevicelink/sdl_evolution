@@ -144,7 +144,7 @@ Mobile API (struct):
 +</param>	
 	
 +<struct name="PoiServiceData" since="5.1">	
-+	<description> This data is related to what a POI(Points of Interest) service would provide. </description>
++	<description> This data is related to what a POI (Point of Interest) service would provide. </description>
 +	
 +	<param name="poiInfoData" type="LocationDetails" mandatory="false">
 +	<description> Information data of searched by POI. See LocationDetails </description>
