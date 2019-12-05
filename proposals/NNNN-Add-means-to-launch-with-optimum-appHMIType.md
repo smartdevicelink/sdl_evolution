@@ -8,7 +8,7 @@
 ## Introduction
 
 This proposal provides a mechanism to notify SDL apps with multiple `appHMIType` which types are activated by the HMI.  
-SDLApp can display and operate according to `appHMIType` by receiving notification from HMI.  
+An SDL app can display and operate according to `appHMIType` by receiving notification from HMI.  
 
 
 ## Motivation
@@ -32,7 +32,7 @@ Add `launchAppHMIType` to the RPC below.
 
 ```xml
      <interface name="BasicCommunication" version="2.1.0" date="2019-03-18">
-…
+ﾂ…
     <function name="OnAppActivated" messagetype="notification">
         <description>Must be sent by HU system when the user clicks on app in the list of registered apps or on soft button with 'STEAL_FOCUS' action.</description>
         <param name="appID" type="Integer" mandatory="true">
@@ -49,9 +49,9 @@ Add `launchAppHMIType` to the RPC below.
 +           </description>
 +       </param>
     </function>
-…
+ﾂ…
     <interface name="SDL" version="1.2.0" date="2018-09-05">
-…
+ﾂ…
     <function name="ActivateApp" messagetype="request">
         <param name="appID" type="Integer" mandatory="true">
         </param>
