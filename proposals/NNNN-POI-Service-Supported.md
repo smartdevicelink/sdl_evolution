@@ -38,7 +38,7 @@ When (a) is selected:
   
   (i) When Native Navigation is selected.  
    10. Set POI to RPC `SendLocation->LocationDetails`.  
-   11. Send RPC `SendLication`  
+   11. Send RPC `SendLocation`  
    12. Shown Native Naigation screen and find route.  
   
   (ii) When the SDL navigation app is selected or there is an app with `HMIStatus` already LIMITED.  
