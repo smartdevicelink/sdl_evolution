@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-POI-Service-Supported.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
 * Status: Awaiting review
-* Impacted Platforms: [ Core / iOS / Java Suite / RPC ]
+* Impacted Platforms: [ Core / RPC ]
 
 ## Introduction
 
@@ -223,9 +223,9 @@ Nothing.
 
 ## Impact on existing code
 
-As new application services are added, Core, iOS, Java Suite, and RPC need to be modified.  
+As new application services are added, Core needs new functionality implementation. It is also necessary to add parameters to RPC.
 
 ## Alternatives considered
 
-As new application services are added, Core, iOS, Java Suite, and RPC need to be modified.  
+A method to expand the RPC function to send and receive between App and Native, and to share information between Apps. 
 However, a similar proposal is already rejected in [SDL-0130-SendLocation-for-Mobile-Nav](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0130-SendLocation-for-Mobile-Nav.md).
