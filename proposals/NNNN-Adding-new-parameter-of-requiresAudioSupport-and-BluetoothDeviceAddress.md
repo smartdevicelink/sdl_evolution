@@ -20,7 +20,7 @@ and prompt the user to connect the device via BT, or the HU will connect the dev
 
 ## Proposed solution
 
-Adding the new parameter   `requiresAudioSupport` in `RegisterAppInterface` and `OnAppRegistered`, and `bluetoothDeviceAddress` in `DeviceInfo`.  
+Adding the new parameter `requiresAudioSupport` in `RegisterAppInterface` and `OnAppRegistered`, and `bluetoothDeviceAddress` in `DeviceInfo`.
 If an SDL App such as MediaType requires AudioSupport (such as BT A2DP), sets `requireAudioSupport` to TRUE and sets the BT address of the device in `BluetoothDeviceAddress`.
 HU checks BT connection if `rerequresAudioSupport` is TRUE,If BT is not connected, the user is prompted to connect,  
 or the BT address information is used to connect automatically.  
