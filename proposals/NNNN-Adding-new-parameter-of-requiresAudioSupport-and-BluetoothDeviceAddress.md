@@ -19,14 +19,16 @@ and prompt the user to connect the device via BT, or the HU will connect the dev
 
 ## Proposed solution
 
-Adding the new parameter `requiresAudioSupport` in `RegisterAppInterface` and `OnAppRegistered`, and `bluetoothDeviceAddress` in `DeviceInfo`.
-If an SDL App such as MediaType requires AudioSupport (such as BT A2DP), sets `requireAudioSupport` to TRUE and sets the BT address of the device in `BluetoothDeviceAddress`.
-HU checks BT connection if `rerequresAudioSupport` is TRUE,If BT is not connected, the user is prompted to connect,  
-or the BT address information is used to connect automatically.  
-( If requiresAudioSupport is not set, refer to AppType, and if it is MediaType, operate as TRUE. )  
+Adding the new parameter `requiresAudioSupport` in `RegisterAppInterface` and `OnAppRegistered`, and `bluetoothDeviceAddress` in `DeviceInfo`.  
+If the SDL App needs AudioSupport( it mean, SDL App want to use the BT A2DP for play music ).  
+SDL App sets sets `requireAudioSupport` to TRUE and sets the BT address of the device to `BluetoothDeviceAddress`.  
+If `requireAudioSupport` is TRUE, the HU will check the BT connection status.  
+And if BT is not connected, HU will automatically connect BT using `BluetoothDeviceAddress` or request connection to user.  
+(If requireAudioSupport is not set, HU will refer to AppType.   
+If AppType is MediaType, HU operates with requireAudioSupport set to TRUE.)  
   
-Current Android library (java suite) when setting `requiresAudioSupport` is TRUE, and if the BT A2DP is not connected is to cancel the launch of SDL.  
-However, with this modification, the SDL is always changed without depending on the connection status of BT A2DP.  
+The current SDL Java Suite library cancels SDL launch if the "requiresAudioSupport" setting is TRUE and BT A2DP is not connected.  
+However, with this proposal, the SDL app is always launched without depending on the connection status of BT A2DP.  
 
 
 Mobile API:
