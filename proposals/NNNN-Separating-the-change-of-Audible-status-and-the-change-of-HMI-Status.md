@@ -22,7 +22,7 @@ As a response method, we propose to avoid the problem by clearly separating the 
 
 Change [OnEventChanged (PHONE_CALL, active: true)](https://github.com/smartdevicelink/sdl_hmi_integration_guidelines/blob/master/docs/BasicCommunication/OnEventChanged/index.md#phone_call%7D) behavior as follows:  
   
-**Table1** Behavior of `OnEventChanged (PHONE_CALL, active: true)`  
+**Table 1** Behavior of `OnEventChanged (PHONE_CALL, active: true)`  
 
 |state|result|
 |----|----|
