@@ -40,7 +40,7 @@ However, many HUs display the PHONE_CALL screen in full screen, so there is no p
 
 ## Impact on existing code
 
-SDL Core needs to be updated behavor of `OnEventChanged (PHONE_CALL, active: true)`.  
+SDL Core needs updated behavior of `OnEventChanged (PHONE_CALL, active: true)`.  
 HMI may need to call `BC.OnAppDeactivated (AppID)` for explicit control of HMI State.  
 
 ## Alternatives considered
