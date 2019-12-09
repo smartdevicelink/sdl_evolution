@@ -13,7 +13,7 @@ By changing the behavior of the existing API, the Audible state can be switched 
 ## Motivation
 
 The motivation for this proposal is to allow the ability to set an Audible status to applications that output audio.  
-Currently, the `OnHMIStatus` notification from Core to Mobile can set an Audible state without changing the hmiLevel by using the parameters audioStreamingState and hmiLevel However, there is currently no notification from HMI to Core to set the Audible status, so a new API to notify the audio status can be added regardless of the screen status.  
+Currently, the `OnHMIStatus` notification from Core to Mobile can set an Audible state without changing the hmiLevel by using the parameters audioStreamingState and hmiLevel. However, there is currently no notification from HMI to Core to set the Audible status, so a new API to notify the audio status can be added regardless of the screen status.  
 As a specific example, there is a specification that allows a user to display and receive an incoming call with Notification, Overlay or ONS without changing to the telephone screen when an incoming call is received.  
 In this case, since there is no appropriate API to notify the Audible status independently, using `OnEventChanged (PHONE_CALL)` displays Music App on the screen, but the HMI Level becomes Background.  
 As a response method, we propose to avoid the problem by clearly separating the change of Audible status and the change of HMI Status.  
