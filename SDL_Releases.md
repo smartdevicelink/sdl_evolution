@@ -94,12 +94,12 @@ After the review request has been made, __no changes should be submitted to a pu
 
 While the contribution is being reviewed by the Project Maintainer, there are a few things to keep in mind:
 
-- Once the review process has started, do not push additional changes until the round of review is completed.
-- The Project Maintainer will perform a general code review as well as testing to ensure the pull request works as expected.
+- Once the review process has started, do not push additional changes until the round of review is completed.  The Project Maintainer will provide an estimate of review timing required if available.
+- The Project Maintainer will perform a general code review as well as testing to ensure the pull request works as expected, and inform the author when their review is complete and no new comments are expected in the currrent review iteration.
 - After the Project Maintainer has completed their review, the author should rework the pull request based on the reviewer's comments and concerns and again ensure that the feature/fix still works after the changes.
 - The author then pushes those changes into the remote branch and once again can tag the Project Maintainer reviewer to begin the next round of review.
-- This process continues until the pull request is approved by the Project Maintainer. 
-
+- This process continues until the pull request is approved by the Project Maintainer.
+- It is possible that during the Project Maintainer's review of a feature contribution, it's determined revisions to the original SDL Evolution Proposal for the feature are required.  Please see the [SDL Evolution Process document](https://github.com/smartdevicelink/sdl_evolution/blob/master/process.md) for more information on this process.  The Project Maintainer will work with the author and SDLC to determine any impact this revision may have on upcoming release timing.
 
 ### When do contributions get reviewed?
 
