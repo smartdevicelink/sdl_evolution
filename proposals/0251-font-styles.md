@@ -53,7 +53,7 @@ With this implementation, technically the HTML tags take up part of the 500 char
   <param name="fieldText" type="String" maxlength="1000" mandatory="true">
     <description>The text itself.</description>
     <history>
-      <param name="fieldText" type="String" maxlength="500" mandatory="true">
+      <param name="fieldText" type="String" maxlength="500" mandatory="true" since="1.0" until="X.X">
     </history>
   </param>
   .
@@ -71,7 +71,7 @@ And the "width" parameter in `TextField` needs to be updated to 1000 characters
     <param name="width" type="Integer" minvalue="1" maxvalue="1000" mandatory="true">
       <description>The number of characters in one row of this field.</description>
       <history>
-        <param name="width" type="Integer" minvalue="1" maxvalue="500" mandatory="true">
+        <param name="width" type="Integer" minvalue="1" maxvalue="500" mandatory="true" since="1.0" until="X.X">
       </history>
     </param>
 </struct>
