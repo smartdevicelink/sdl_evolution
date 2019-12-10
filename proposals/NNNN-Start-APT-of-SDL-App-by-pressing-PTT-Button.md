@@ -42,7 +42,7 @@ In addition to the above conditions, if there are multiple SDL apps that subscri
 
 ## Potential downsides
 
-Old apps will not subscribe to `PUSH_TO_TALK` key. So, all behavior in old apps are not affected.  
+Old apps will not subscribe to `PUSH_TO_TALK` key, so all behavior in old apps are not affected.  
 Old head units will not return success to subscribeButton(`PUSH_TO_TALK`). So not affected.  
 Since it is difficult for the user to recognize the long press operation, the operation method needs to be announced.  
 
