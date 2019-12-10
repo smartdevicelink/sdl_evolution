@@ -3,7 +3,7 @@
 * Proposal: [SDL-0240](0240-sdl-js-pwa.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **In Review**
-* Impacted Platforms: [ Core / RPC / JavaScript / Server / SHAID ]
+* Impacted Platforms: [ Core / RPC / JavaScript / Server / SHAID / Manticore ]
 
 ## Introduction
 
@@ -229,6 +229,7 @@ The upside of apps running with a WebEngine is that it comes with a very sandbox
 3. App registration on SDL Developer Portal (smartdevicelink.com) needs a new field for local apps.
 4. SHAID changes to store and return the new data items displayed on the Developer Portal.
 5. SDL Server changes to store copies of newly added SHAID data items and provide a customizable skeleton method for copying app packages from SHAID to an OEM-provided storage solution.
+6. Manticore should expose Core's WebSocket Server port to allow developers to test their WebEngine apps.
 
 ## Alternatives considered
 
