@@ -27,7 +27,7 @@ For custom softbuttons, add a parameter to `SoftButtonCapabilities` to let the a
     .
     .
     .
-    <param name="supportsDisabled" type="Boolean" mandatory="true">
+    <param name="supportsDisabled" type="Boolean" mandatory="false">
         <description>The button supports being disabled. If the button is set to disabled, it will still show on the HMI but appear grayed out.
         </description>
     </param>
