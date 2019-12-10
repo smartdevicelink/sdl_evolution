@@ -84,7 +84,7 @@ The SDL Developer Portal should allow developers to enter all app information th
 
 App developers should be able to upload app packages and mark them as candidates for app certification. The platform can read the manifest file to verify it matches the app information for the specified app version.
 
-The backend of the OEM store should store copies of a certified app package if the OEM has accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read from the OEM policy server (SDL Server) via a supporting API endpoint.
+The backend of the OEM store should store copies of a certified app package if the OEM has accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read from the OEM policy server (SDL Server) via a supporting API endpoint. This need should be an implementation detail as the data offered by the API is already defined in the proposal.
 
 The SDL JavaScript library should use the manifest file by reading the exported const to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern. The  SDL library may need a new method to attempt to import and utilize the manifest.js contents. This need should be an implementation detail as it would only affect library internals.
 
