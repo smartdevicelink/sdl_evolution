@@ -107,7 +107,7 @@ Plus add an `isDisabled` flag to the `SubscribeButton` RPC.  If the button is se
 @property (assign, nonatomic, getter=isDisabled) BOOL disabled;
 ```
 
-The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values. If on an older headunit that doesn't support this feature- the manager would make sure that the button is not sent to the head unit.
+The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values. If the app is connected to an older head unit that doesn't support disabled `SoftButton`s, the manager would make sure that the button is not sent to the head unit if the `SoftButtonConfiguration.disabledButtonFallback = true`.
 
 
 #### Java
