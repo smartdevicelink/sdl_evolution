@@ -52,9 +52,6 @@ With this implementation, technically the HTML tags take up part of the 500 char
   .
   <param name="fieldText" type="String" maxlength="1000" mandatory="true">
     <description>The text itself.</description>
-    <history>
-      <param name="fieldText" type="String" maxlength="500" mandatory="true" since="1.0" until="X.X">
-    </history>
   </param>
   .
   .
