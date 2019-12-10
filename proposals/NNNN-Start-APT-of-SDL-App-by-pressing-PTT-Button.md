@@ -13,7 +13,7 @@ The proposal of [SDL-135](https://github.com/smartdevicelink/sdl_evolution/blob/
 ## Motivation
 
 SDL already supports head unit's native Voice Recognition (VR) via `AddCommand/PerformInteraction` with vrCommands.  
-On the other hands, some voice agent apps such as Alexa and Clova have VR feature by themselves. These apps hope to use some kind of trigger to start their VR, either using AudioPassThru or mobile phone's microphone.  
+On the other hand, some voice agent apps such as Alexa and Clova have their own VR features. These apps hope to use some kind of trigger to start their VR, either using AudioPassThru or mobile phone's microphone.  
 
 ## Proposed solution
 
