@@ -33,7 +33,7 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
 6. After installation, the OEM store should make the app visible and available on the HMI.
 7. Core should support a WebSocket Server as a transport.
 8.  If a user activates a local app through the HMI, the HMI should launch the app by opening the entrypoint HTML file.
-9.  HMI should launch the app including SDL Core's hostname and port as GET parameters (file://somewhere/HelloSDL/index.html?sdl-host=localhost&sdl-port=123456)
+9.  HMI should launch the app including SDL Core's hostname and port as GET parameters (e.g. file://somewhere/HelloSDL/index.html?sdl-host=localhost&sdl-port=123456)
 10. The app should connect to Core using the SDL library using hostname and port specified.
 11. If Core sends UpdateAppList, the HMI should compare matching SDL app IDs and avoid showing an app twice.
 
