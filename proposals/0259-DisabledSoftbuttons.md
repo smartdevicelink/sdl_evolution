@@ -143,6 +143,6 @@ Adds HMI complexity
 It's a new parameter so this wouldn't block usability on older headunits. However, apps would have to know that on older headunits the functionality to disable a button isn't possible. Otherwise they would try to request a disabled softbutton but a regular softbutton would show up on screen.
 
 ## Alternatives considered
-One alternative would be that we could have a disabled  button not send any button events. That matches what Android and iOS do when a button is on screen but disabled.
+1. We could have a disabled button not send any button events. That matches what Android and iOS do when a button is on screen but disabled.
 
 Another alternative- for custom softbuttons, an app could send a graphic that appears disabled, but it usually doesn't grant the same effect as having the whole softbutton looking disabled.
