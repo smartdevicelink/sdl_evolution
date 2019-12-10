@@ -37,7 +37,7 @@ It is recommended to follow the table below for conditions and operations.
 
 In addition to the above conditions, if there are multiple SDL apps that subscribe to the PTT button, the HMI controls the ButtonEvent notification destination according to the HMI level of each SDL app.  
 * When there is an SDL App whose HMILevel is FULL, ButtonEvent is notified only to that SDL App  
-* If there is no SDL App with HMI Level FULL and there are multiple Limited SDL Apps, the HMI determines the destination SDL App by displaying a list of SDL App to the user.  
+* If there is no SDL App with HMI Level FULL and there are multiple Limited SDL Apps, the HMI determines the destination SDL App by displaying a list of SDL Apps to the user.  
 
 
 ## Potential downsides
