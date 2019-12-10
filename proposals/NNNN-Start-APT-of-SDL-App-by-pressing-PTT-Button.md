@@ -22,7 +22,7 @@ Add `PUSH_TO_TALK` as ButtonName.
 When a user presses a push-to-talk (PTT) button, the HMI notifies the SDL App of a PTT button event depending on the condition.  
 
 It is recommended to follow the table below for conditions and operations.  
- ( As a premise, button events are sent only to the HMI LEVEL FULL / LIMITED SDL app. )
+(As a premise, button events are sent only to the HMI LEVEL FULL / LIMITED SDL app. )
 
 |condition1 : PTT button subscription status|Condition2 : HMI Status|Contidion3 : LongPress/ShortPress|Behavior|
 |:-:|:-:|:-:|:-:|
