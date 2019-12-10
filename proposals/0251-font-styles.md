@@ -68,7 +68,7 @@ And the "width" parameter in `TextField` needs to be updated to 1000 characters
     .
     .
     .
-    <param name="width" type="Integer" minvalue="1" maxvalue="1000" mandatory="true">
+    <param name="width" type="Integer" minvalue="1" maxvalue="1000" mandatory="true" since="X.X">
       <description>The number of characters in one row of this field.</description>
       <history>
         <param name="width" type="Integer" minvalue="1" maxvalue="500" mandatory="true" since="1.0" until="X.X">
