@@ -7,12 +7,12 @@
 
 ## Introduction
 
-This proposal extends SDL video streaming feature by adding preferred FPS to VideoStreamingCapability, so that the quality of video projection can be adjusted per OEM.
+This proposal extends SDL video streaming feature by adding preferred FPS to VideoStreamingCapability, so that frame rate of video streaming can be adjusted per OEM.
 
 ## Motivation
 
 Currently, SDL video streaming refers to VideoStreamingCapability, and mobile libraries respect for preferred resolution, maximum bitrate, video format, etc.
-However the frame rate of the video streaming totally depends on mobile applications, and some OEM's head unit may not work for high frame rate, such as 60 fps.
+However frame rate of video streaming totally depends on mobile applications, and some OEM's head unit may not work well for high frame rate, such as 60 fps.
 This proposal allows head units to specify the preferred FPS, so that mobile library can refer to the specified value. 
 
 ## Proposed solution
@@ -32,7 +32,7 @@ Add preferredFPS to VideoStreamingCapability struct in both APIs.
         ...
         <!-- new param -->
         <param name="preferredFPS" type="Integer" minvalue="0" maxvalue="2147483647" mandatory="false">
-            <description>Preferred frame rate of a video stream per second. Mobile application should take this value into account for capturing and encoding video frame.</description>
+            <description>Preferred frame rate per second. Mobile application should take this value into account for capturing and encoding video frame.</description>
         </param>
     </struct>
 ```
@@ -86,7 +86,7 @@ Note that videoEncoderSettings property must be NSMutableDictionary as it now wo
 
 ### iOS mobile proxy consideration
 
-A frame rate of iOS SDL application highly depends on how the application capture the video data.
+A frame rate of iOS SDL application highly depends on how the application captures the video data.
 
 If an application uses combination of SDLCarWindow and SDLStreamingVideoLifecycleManager, above change should take account of
 1) videoEncoderSettings used in SDLStreamingVideoLifecycleManager,
@@ -102,8 +102,11 @@ Therefore, developers must make sure taking account of preferredFPS value for ca
 ### Android mobile proxy consideration
 
 Android Java Suite library introduces the combination of VirtualDisplay and MediaEncoder to capture a SdlRemoteDisplay class and encode the video stream.
-When encoding the video frame, a frame rate can be specified by MediaCodec#configure, but [Android documentation](https://developer.android.com/reference/android/media/MediaFormat.html#KEY_FRAME_RATE) says, "For video encoders this value corresponds to the intended frame rate, although encoders are expected to support variable frame rate based on MediaCodec.BufferInfo#presentationTimeUs",
-so situation would be the same as iOS.
+When encoding the video frame, a frame rate can be specified by MediaCodec#configure, but [Android documentation](https://developer.android.com/reference/android/media/MediaFormat.html#KEY_FRAME_RATE) says,
+
+"For video encoders this value corresponds to the intended frame rate, although encoders are expected to support variable frame rate based on MediaCodec.BufferInfo#presentationTimeUs".
+
+Therefore situation would be the same as iOS; i.e. mobile developer must take care of actual frame rate.
 
 The actual frame rate of MediaEncoder depends on the frequency of input surface's update in VirtualDisplay, and varies on the application's (SdlRemoteDisplay's) content.
 
@@ -122,4 +125,4 @@ This proposal has no breaking change, so there should be no impact on existing c
 ## Alternatives considered
 
 As well as other video streaming parameters, preferredFPS can be added to other RPC, like StartStream, SetVideoConfig, etc.
-But it makes more sense to handle preferred FPS parameter in the same way as bitrate, screen resolution, etc.
+But it makes more sense to handle preferredFPS parameter in the same way as bitrate, screen resolution, etc.
