@@ -94,7 +94,7 @@ Plus add an `isDisabled` flag to the `SubscribeButton` RPC.  If the button is se
 ```ObjectiveC
 @interface SDLSoftButtonConfiguration: NSObject
 
-/// If true, and connected to a head unit that doesn't support disabled softbuttons, the soft button manager will not send soft button objects with the parameter isDisabled=false. If false, the soft buttons will be sent anyway but will appear enabled on the head unit. Defaults to true.
+/// If true and connected to a head unit that doesn't support disabled softbuttons, the soft button manager will not send soft button objects that have the parameter isDisabled=false. If false, the soft buttons will be sent anyway but will appear enabled on the head unit. Defaults to true.
 @property (assign, nonatomic) BOOL disabledButtonFallback;
 
 @end
