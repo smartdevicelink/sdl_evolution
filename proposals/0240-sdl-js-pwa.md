@@ -33,7 +33,7 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
 6. After installation, the OEM store should make the app visible and available on the HMI.
 7. Core should support a WebSocket Server as a transport.
 8.  If a user activates a local app through the HMI, the HMI should launch the app by opening the entrypoint HTML file.
-9.  HMI should launch the app including SDL Core's hostname and port as GET parameters (e.g. file://somewhere/HelloSDL/index.html?sdl-host=localhost&sdl-port=123456)
+9.  HMI should launch the app including SDL Core's hostname and port as GET parameters.
 10. The app should connect to Core using the SDL library using hostname and port specified.
 11. If Core sends UpdateAppList, the HMI should compare matching SDL app IDs and avoid showing an app twice.
 
@@ -108,6 +108,18 @@ The new transport should be available as a build configuration called `BUILD_WEB
 ##### 2.1.2 JavaScript library
 
 On the library side, a new WebSocket client transport should be created using the [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/Websockets_API). This transport should require a hostname or ip address with a port to connect to Core's WebSocket server. The library should also be extended to be exportable to a single .js file that can be easily included in an HTML file. This export could be done per library release using Webpack. This new transport should be specifically for WebEngine purposes and should not be included for the Node.js platform. In order to improve simple "plug-and-play" of the library, the .js file should include only this single transport.
+
+##### 2.1.3 GET parameters
+
+The JavaScript library should read GET parameters to identify how to connect to SDL. The library should listen to these three parameters:
+
+1. `sdl-host` which can be an IP address, hostname or a URL to a host
+2. `sdl-port` which should be the port number of SDL Core
+3. `sdl-transport-role` which defines the transport type and role. Following roles should be valid: `ws-server`, `ws-client`, `wss-server`, `wss-client`, `tcp-server`, `tcp-client`
+
+For the WebSocket transport as suggested in this proposal, the transport role would be `ws-server` or `wss-server` where `sdl-host` points to the host that runs SDL Core (in production that would be the IVI system so local host) and `sdl-port` is the port number that SDL Core bound the WebSocket to.
+
+Example: `file://somewhere/HelloSDL/index.html?sdl-host=localhost&sdl-port=12345&sdl-transport-role=wss-server`
 
 #### 2.2 Activating a web app
 
