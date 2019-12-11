@@ -19,7 +19,6 @@ To solve this problem, add `BluetoothDeviceAddress` and `requiresAudioSupport` s
 
 Adding the new parameter `requiresAudioSupport` in `RegisterAppInterface` and `OnAppRegistered`, and `bluetoothDeviceAddress` in `DeviceInfo`.  
 If the SDL App needs AudioSupport (meaning, the SDL App wants to use the BT A2DP for play music ), the SDL App sets `requireAudioSupport` to TRUE and sets the BT address of the device to `BluetoothDeviceAddress`.
-SDL App sets sets `requireAudioSupport` to TRUE and sets the BT address of the device to `BluetoothDeviceAddress`.  
 If `requireAudioSupport` is TRUE, the HU will check the BT connection status.  
 And if BT is not connected, HU will automatically connect BT using `BluetoothDeviceAddress` or request connection to user.  
 (If requireAudioSupport is not set, HU will refer to AppType.   
