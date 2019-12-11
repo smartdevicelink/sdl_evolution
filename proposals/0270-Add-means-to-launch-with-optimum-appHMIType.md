@@ -1,8 +1,8 @@
 # Add means to launch with optimum appHMIType
 
-* Proposal: [SDL-NNNN](NNNN-Add-means-to-launch-with-optimum-appHMIType.md)
+* Proposal: [SDL-0270](0270-Add-means-to-launch-with-optimum-appHMIType.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: Awaiting review
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
 
 ## Introduction
