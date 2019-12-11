@@ -50,7 +50,7 @@ In order to support this feature, new notifications have to be enabled from the 
 </function>
 ```
 
-#### Capabilities Updates
+#### Capabilities Updates (MOBILE_API + HMI_API)
 Updates will need to be made so that the app libraries and developers know if the head unit supports this feature or if they need to stick to the old-style of sending the entire menu at once.
 
 ```xml
