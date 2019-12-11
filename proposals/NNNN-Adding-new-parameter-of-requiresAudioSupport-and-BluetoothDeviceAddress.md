@@ -21,7 +21,7 @@ Adding the new parameter `requiresAudioSupport` in `RegisterAppInterface` and `O
 If the SDL App needs AudioSupport (meaning, the SDL App wants to use the BT A2DP for play music ), the SDL App sets `requireAudioSupport` to TRUE and sets the BT address of the device to `BluetoothDeviceAddress`.
 If `requireAudioSupport` is TRUE, the HU will check the BT connection status.  
 If BT is not connected, the HU will automatically connect BT using `BluetoothDeviceAddress` or request connection from the user.
-(If requireAudioSupport is not set, HU will refer to AppType.   
+If `requireAudioSupport` is not set, the HU will refer to AppType. If AppType is MediaType, the HU operates with `requireAudioSupport` set to TRUE.
   
 The current SDL Java Suite library cancels SDL launch if the `requiresAudioSupport` setting is TRUE and BT A2DP is not connected.  
 However, with this proposal, the SDL app is always launched without depending on the connection status of BT A2DP.  
