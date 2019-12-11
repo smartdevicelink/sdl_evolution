@@ -134,7 +134,7 @@ It is necessary to coordinate the operation with the old system that is not Mand
 
 ## Impact on existing code
 
-Since new parameters are added, Core and  iOS, Android, RPC, HMI are affected.
+Since new parameters are added, Core, iOS, Java Suite, RPC, and HMI are affected.
 
 ## Alternatives considered
 
