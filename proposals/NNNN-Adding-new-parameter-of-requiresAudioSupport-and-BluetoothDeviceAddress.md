@@ -86,7 +86,7 @@ Mobile API:
         </param>
 ...
         <param name="nightColorScheme" type="TemplateColorScheme" mandatory="false" since="5.0"/>
-+        <param name="requiresAudioSupport" type="Boolean" mandatory="false" since="X.X">
++       <param name="requiresAudioSupport" type="Boolean" mandatory="false" since="X.X">
 +            <description>Set whether or not this app requires the use of an audio streaming output device.</description>
 +        </param>
     </function>
