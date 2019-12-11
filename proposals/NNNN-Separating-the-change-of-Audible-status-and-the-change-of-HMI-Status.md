@@ -29,9 +29,7 @@ Change [OnEventChanged (PHONE_CALL, active: true)](https://github.com/smartdevic
 |Current|Change the HMI state of all applications currently either in FULL or LIMITED to (BACKGROUND, NOT_AUDIBLE)|
 |Changed|Keep the HMI state of all applications but change audible state of all applications to NOT_AUDIBLE|
 
-If HU wants to switch the screen (HMI Status) during PHONE_CALL, they can use API `BC.OnAppDeactivated (AppID)` and `BC.OnAppActivated (AppID)`.
-By using API `BC.OnAppDeactivated (AppID)` and `BC.OnAppActivated (AppID)`.
-
+If HU wants to switch the screen (HMI Status) during PHONE_CALL, they can use API `BC.OnAppDeactivated (AppID)` and `BC.OnAppActivated (AppID)`.  
 
 ## Potential downsides
 
