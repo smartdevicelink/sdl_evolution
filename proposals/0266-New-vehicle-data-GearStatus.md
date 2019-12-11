@@ -28,20 +28,53 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 #### Add new struct `GearStatus`:
 
 ```xml	
-<struct name="GearStatus" since="x.x">
-	<param name="gearDriveMode" type="GearPosition" mandatory="false">
+<struct name="GearStatus" since="X.x">
+	<param name="gearDriveMode" type="PRNDL" mandatory="false">
 		<description>Tells the gear drive mode i.e. PARK, DRIVE, SPORT etc</description>
 	</param>
-	<param name="actualGear" type="GearPosition" mandatory="false">
+	<param name="actualGear" type="PRNDL" mandatory="false">
 		<description>Tells the actual gear selected by transmission</description>
+	</param>
+	<param name="transmissionType" type="TransmissionType" mandatory="false">
+		<description>Tells the transmission type</description>
 	</param>
 </struct>
 ```
 
-#### Add new enum `GearPosition`:
+#### Add enum `TransmissionType`:
+```xml
+<enum name="TransmissionType" since="X.x">
+	<description>Type of transmission used in the vehicle.</description>
+	<element name="MANUAL">
+		<description>Manual transmission.</description>
+	</element>
+	<element name="AUTOMATIC">
+		<description>Automatic transmission.</description>
+	</element>
+	<element name="SEMI_AUTOMATIC">
+		<description>Semi automatic transmission.</description>
+	</element>
+	<element name="DUAL_CLUTCH">
+		<description>Dual clutch transmission.</description>
+	</element>
+	<element name="CONTINUOSLY_VARIABLE">
+		<description>Continuosly variable transmission(CVT).</description>
+	</element>
+	<element name="INFINITELY_VARIABLE">
+		<description>Infinitely variable transmission.</description>
+	</element>
+	<element name="ELECTRIC_VARIABLE">
+		<description>Electric variable transmission.</description>
+	</element>
+	<element name="DIRECT_DRIVE">
+		<description>Direct drive between engine and wheels.</description>
+	</element>
+</enum>	
+```
 
-```xml	
-<enum name="GearPosition" since="x.x">
+#### Update enum `PRNDL`:
+```xml
+<enum name="PRNDL" since="2.0">
 	<description>The selected gear.</description>
 	<element name="PARK">
 		<description>Parking</description>
@@ -77,59 +110,15 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 	</element>
 	<element name="EIGHTH">
 	</element>
-	<element name="NINTH">
-	</element>
-	<element name="TENTH">
-	</element>
++	<element name="NINTH" since="X.x">
++	</element>
++	<element name="TENTH" since="X.x">
++	</element>
 	<element name="UNKNOWN">
 	</element>
 	<element name="FAULT">
 	</element>
 </enum>	
-```
-
-#### Deprecate enum `PRNDL`:
-```xml
-<enum name="PRNDL" since="2.0" until="X.x">
-	<description>The selected gear.</description>
-	<element name="PARK">
-		<description>Parking</description>
-	</element>
-	<element name="REVERSE">
-		<description>Reverse gear</description>
-	</element>
-	<element name="NEUTRAL">
-		<description>No gear</description>
-	</element>
-	<element name="DRIVE">
-	</element>
-	<element name="SPORT">
-		<description>Drive Sport mode</description>
-	</element>
-	<element name="LOWGEAR">
-		<description>1st gear hold</description>
-	</element>
-	<element name="FIRST">
-	</element>
-	<element name="SECOND">
-	</element>
-	<element name="THIRD">
-	</element>
-	<element name="FOURTH">
-	</element>
-	<element name="FIFTH">
-	</element>
-	<element name="SIXTH">
-	</element>
-	<element name="SEVENTH">
-	</element>
-	<element name="EIGHTH">
-	</element>
-	<element name="UNKNOWN">
-	</element>
-	<element name="FAULT">
-	</element>
-</enum>
 ```
 
 #### Update following parameters in these function requests:
@@ -179,22 +168,57 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 ```xml	
 <element name="VEHICLEDATA_GEARSTATUS"/>
 ```
+
 #### Add new struct `GearStatus` in `Common` interface:
 
 ```xml	
 <struct name="GearStatus">
-	<param name="gearDriveMode" type="Common.GearPosition" mandatory="false">
+	<param name="gearDriveMode" type="Common.PRNDL" mandatory="false">
 		<description>Tells the gear drive mode i.e. PARK, DRIVE, SPORT etc</description>
 	</param>
-	<param name="actualGear" type="Common.GearPosition" mandatory="false">
+	<param name="actualGear" type="Common.PRNDL" mandatory="false">
 		<description>Tells the actual gear selected by transmission</description>
+	</param>
+	<param name="transmissionType" type="Common.TransmissionType" mandatory="false">
+		<description>Tells the transmission type</description>
 	</param>
 </struct>
 ```
-#### Add new enum `GearPosition` in `Common` interface:
 
-```xml	
-<enum name="GearPosition">
+#### Add enum `TransmissionType` in `Common` interface:
+```xml
+<enum name="TransmissionType">
+	<description>Type of transmission used in the vehicle.</description>
+	<element name="MANUAL">
+		<description>Manual transmission.</description>
+	</element>
+	<element name="AUTOMATIC">
+		<description>Automatic transmission.</description>
+	</element>
+	<element name="SEMI_AUTOMATIC">
+		<description>Semi automatic transmission.</description>
+	</element>
+	<element name="DUAL_CLUTCH">
+		<description>Dual clutch transmission.</description>
+	</element>
+	<element name="CONTINUOSLY_VARIABLE">
+		<description>Continuosly variable transmission(CVT).</description>
+	</element>
+	<element name="INFINITELY_VARIABLE">
+		<description>Infinitely variable transmission.</description>
+	</element>
+	<element name="ELECTRIC_VARIABLE">
+		<description>Electric variable transmission.</description>
+	</element>
+	<element name="DIRECT_DRIVE">
+		<description>Direct drive between engine and wheels.</description>
+	</element>
+</enum>	
+```
+
+#### Update enum `PRNDL`:
+```xml
+<enum name="PRNDL">
 	<description>The selected gear.</description>
 	<element name="PARK">
 		<description>Parking</description>
@@ -230,16 +254,17 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 	</element>
 	<element name="EIGHTH">
 	</element>
-	<element name="NINTH">
-	</element>
-	<element name="TENTH">
-	</element>
++	<element name="NINTH">
++	</element>
++	<element name="TENTH">
++	</element>
 	<element name="UNKNOWN">
 	</element>
 	<element name="FAULT">
 	</element>
 </enum>	
 ```
+
 #### Add the following parameter to these function requests:
 * `SubscribeVehicleData`
 * `UnsubscribeVehicleData`
