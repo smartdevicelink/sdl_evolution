@@ -15,7 +15,6 @@ Since Android recommends not supporting AOA2.0, Android will no longer be able t
 In the current SDL Java Suite library, if requiresAudioSupport is TRUE and BT A2DP is not connected,  
 SDL activation will be cancelled. Users aren't notified why the SDL App doesn't start, so the UX needs to be improved.  
 To solve this problem, add `BluetoothDeviceAddress` and `requiresAudioSupport` so that a new SDL device can be specified in RegisterAppInterface, and prompt the user to connect the device via BT, or the HU will connect the device via BT automatically when connected via USB. 
-and prompt the user to connect the device via BT, or the HU will connect the device via BT automatically when connected via USB.  
 
 ## Proposed solution
 
