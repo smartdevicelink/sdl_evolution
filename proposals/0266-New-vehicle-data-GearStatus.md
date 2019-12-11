@@ -86,7 +86,7 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 		<description>No gear</description>
 	</element>
 	<element name="DRIVE">
-		<description>Regular Drive mode</description>
++		<description>Regular Drive mode</description>
 	</element>
 	<element name="SPORT">
 		<description>Drive Sport mode</description>
@@ -230,7 +230,7 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 		<description>No gear</description>
 	</element>
 	<element name="DRIVE">
-		<description>Regular Drive mode</description>
++		<description>Regular Drive mode</description>
 	</element>
 	<element name="SPORT">
 		<description>Drive Sport mode</description>
