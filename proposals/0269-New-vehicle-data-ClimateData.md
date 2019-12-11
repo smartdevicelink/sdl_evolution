@@ -1,8 +1,8 @@
 # New vehicle data ClimateData
 
-* Proposal: [SDL-NNNN](NNNN-New-vehicle-data-ClimateData.md)
+* Proposal: [SDL-0269](0269-New-vehicle-data-ClimateData.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite | RPC]
 
 ## Introduction
