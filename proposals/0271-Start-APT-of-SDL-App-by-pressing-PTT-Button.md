@@ -1,8 +1,8 @@
 # Start APT of SDL App by pressing PTT button
 
-* Proposal: [SDL-NNNN](NNNN-Start-APT-of-SDL-App-by-pressing-PTT-Button.md)  
+* Proposal: [SDL-0271](0271-Start-APT-of-SDL-App-by-pressing-PTT-Button.md)  
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)  
-* Status: Awating Review  
+* Status: **In Review**  
 * Impacted Platforms: [ Core / iOS / Java Suite / HMI ]  
 
 ## Introduction
