@@ -96,7 +96,7 @@ Mobile API:
     </function>
 ```
   
-Mobile API:
+HMI API:
 ```xml
 <struct name="DeviceInfo">
   <param name="name" type="String" mandatory="true">
