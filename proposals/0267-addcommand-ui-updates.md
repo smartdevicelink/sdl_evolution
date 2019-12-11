@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0267](0267-addcommand-ui-updates.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
