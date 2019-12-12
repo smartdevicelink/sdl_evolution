@@ -67,7 +67,9 @@ Updates will need to be made so that the app libraries and developers know if th
 
 <struct name="WindowCapability" since="6.0">
     <!-- New Parameters -->
-    <param name="dynamicUpdateCapabilities" type="DynamicUpdateCapabilities" mandatory="false" />
+    <param name="dynamicUpdateCapabilities" type="DynamicUpdateCapabilities" mandatory="false" since="X.X">
+        <description>Contains the head unit's capabilities for dynamic updating features declaring if the module will send dynamic update RPCs.</description>
+    </param>
 </struct>
 ```
 
