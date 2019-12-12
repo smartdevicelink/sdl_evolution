@@ -75,10 +75,10 @@ We also need to expand our capabilities so that developers and high-level manage
         <description>Tertiary text for AddCommand</description>
     </element>
     <element name="menuSubMenuSecondaryText" since="x.x">
-        <description>Secondary text for AddSubmenu</description>
+        <description>Secondary text for AddSubMenu</description>
     </element>
     <element name="menuSubMenuTertiaryText" since="x.x">
-        <description>Tertiary text for AddSubmenu</description>
+        <description>Tertiary text for AddSubMenu</description>
     </element>
 </enum>
 ```
@@ -91,7 +91,7 @@ We also need to expand our capabilities so that developers and high-level manage
         <description>The secondary image field for AddCommand</description>
     </element>
     <element name="menuSubMenuSecondaryImage" since = "x.x">
-        <description>The secondary image field for AddSubmenu</description>
+        <description>The secondary image field for AddSubMenu</description>
     </element>
 </enum>
 ```
