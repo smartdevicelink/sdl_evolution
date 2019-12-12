@@ -107,13 +107,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Manticore: 2.3.0
-**Release Date**: June 4, 2019
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.3.0).
-
----
-
 #### SDL RPC Spec: 6.0.0
 **Release Date**: October 30, 2019
 
@@ -145,6 +138,13 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Release Date**: October 30, 2019
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_server/releases/tag/2.8.0).
+
+---
+
+#### Manticore: 2.5.0
+**Release Date**: December 6, 2019
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.5.0).
 
 ---
 
