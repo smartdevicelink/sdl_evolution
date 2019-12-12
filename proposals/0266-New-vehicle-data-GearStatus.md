@@ -57,8 +57,8 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 	<element name="DUAL_CLUTCH">
 		<description>Dual clutch transmission.</description>
 	</element>
-	<element name="CONTINUOSLY_VARIABLE">
-		<description>Continuosly variable transmission(CVT).</description>
+	<element name="CONTINUOUSLY_VARIABLE">
+		<description>Continuously variable transmission(CVT).</description>
 	</element>
 	<element name="INFINITELY_VARIABLE">
 		<description>Infinitely variable transmission.</description>
@@ -201,8 +201,8 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 	<element name="DUAL_CLUTCH">
 		<description>Dual clutch transmission.</description>
 	</element>
-	<element name="CONTINUOSLY_VARIABLE">
-		<description>Continuosly variable transmission(CVT).</description>
+	<element name="CONTINUOUSLY_VARIABLE">
+		<description>Continuously variable transmission(CVT).</description>
 	</element>
 	<element name="INFINITELY_VARIABLE">
 		<description>Infinitely variable transmission.</description>
