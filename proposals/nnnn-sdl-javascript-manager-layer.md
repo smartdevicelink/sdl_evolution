@@ -1,13 +1,13 @@
 # JavaScript Suite SDL Manager
 
-* Proposal: [SDL-NNNN](NNNN-js-suite-managers.md)
+* Proposal: [SDL-NNNN](NNNN-sdl-javascript-manager-layer.md)
 * Author: [Chris Rokita](https://github.com/crokita)
 * Status: **Awaiting review**
 * Impacted Platforms: JavaScript Suite
 
 ## Introduction
 
-In a similar vein to [this proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0171-android-manager-apis.md), the goal is to introduce a manager layer to the JavaScript suite, closely matching the Android and iOS manager APIs. These manager classes are designed to abstract out complex flows and state for common tasks, such as file handling and displaying information to the screen. 
+In a similar vein to [this proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0171-android-manager-apis.md), the goal is to introduce a manager layer to the JavaScript Suite, closely matching the Java Suite and iOS manager APIs. These manager classes are designed to abstract out complex flows and states for common tasks, such as file handling and displaying information to the screen. 
 
 ## Motivation
 
@@ -15,13 +15,13 @@ Boilerplate code that developers will have to write in order to effectively use 
 
 ## Proposed solution
 
-A set of submanager classes will be created, with each one designated to a particular responsibility to simplify using the library. These submanagers will be controlled by an encompassing class named `SdlManager`, which is for the developer's convenience. These classes will match closely to existing manager layers to allow for easy adoption for those already familiar with the Android or iOS libraries. In addition, unique features of JavaScript can be utilized to further ease the pain of dealing with asynchronous logic, such as using Promises and the yielding async/await syntax. 
+A set of submanager classes will be created, with each one designated to a particular responsibility to simplify using the library. These submanagers will be controlled by an encompassing class named `SdlManager`, which is for the developer's convenience. These classes will match closely to existing manager layers to allow for easy adoption for those already familiar with the Java Suite or iOS libraries. In addition, unique features of JavaScript can be utilized to further ease the pain of dealing with asynchronous logic, such as using Promises and the yielding async/await syntax. 
 
 ### Managers
 
 Specifically, these are the following manager classes that existing libraries already use, and thus will need to be implemented in the JavaScript suite:
 * BaseSubManager (The class that submanagers will extend)
-* SdlManager (Publically-facing manager that allows access to the submanagers below)
+* SdlManager (Publicly-facing manager that allows access to the submanagers below)
     * LockscreenManager (Handles lockscreens and customization)
     * ScreenManager (Handles the process of displaying and managing items on the head unit)
         * MenuManager (Handles menus and submenus)
@@ -92,5 +92,5 @@ The code changes required are additive and will not impact existing code.
 
 ## Alternatives considered
 
-Deviating from the existing manager layers' APIs is an option, but it comes at the cost of being a different set of APIs, and so a developer migrating from the Android or iOS libraries would have to learn and understand the manager layer all over again.
+Deviating from the existing manager layers' APIs is an option, but it comes at the cost of being a different set of APIs, and so a developer migrating from the Java Suite or iOS libraries would have to learn and understand the manager layer all over again.
 
