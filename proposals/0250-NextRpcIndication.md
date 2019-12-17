@@ -115,7 +115,7 @@ typedef NS_ENUM(NSInteger, SDLNextFunction) {
 ```
 
 2. Add an initializer to all RPC classes that take `SDLNextFunction` and converts it into the functionID.
-3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initilaizers. 
+3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initializers. 
 
 
 ### Java
@@ -137,7 +137,7 @@ public enum NextFunction{
 ```
 
 2. Add an initializer to all RPC classes that take `SDLNextFunction` and converts it into the functionID.
-3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initilaizers. 
+3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initializers.
 
 ## Potential downsides
 
