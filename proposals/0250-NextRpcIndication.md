@@ -100,48 +100,21 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
 1. We're adding in a public manager-level enum
 ```ObjectiveC
 typedef NS_ENUM(NSInteger, SDLNextFunction) {
-        Default =0, 
-        PerformChoiceSet, 
-        Alert, 
-        ScreenUpdate, 
-        Speak, 
-        AccessMicrophone, 
-        ScrollableMessage, 
-        Slider, 
-        SendLocation, 
-        DialNumber, 
-        OpenMenu 
+        SDLNextFunctionDefault =0, 
+        SDLNextFunctionPerformChoiceSet, 
+        SDLNextFunctionAlert, 
+        SDLNextFunctionScreenUpdate, 
+        SDLNextFunctionSpeak, 
+        SDLNextFunctionAccessMicrophone, 
+        SDLNextFunctionScrollableMessage, 
+        SDLNextFunctionSlider, 
+        SDLNextFunctionSendLocation, 
+        SDLNextFunctionDialNumber, 
+        SDLNextFunctionOpenMenu 
 };
 ```
 
-2. Add a manager-level class `NextFunctionInfo` with an initializer 
-
-NextFunctionInfo.h
-```ObjectiveC
-@interface NextFunctionInfo: NSObject 
-	@property (copy, nonatomic, readonly) SDLNextFunction *nextFunction;
-	@property (copy, nonatomic, readonly, nullable) NSString *loadingText;
-@end
-```
-
-NextFunctionInfo.m
-```ObjectiveC
-@implementation NextFunctionInfo
-- (instancetype)initWithNextFunction:(SDLNextFunction *)nextFunction {
-	return [self initWithNextFunction:nextFunction loadingText:nil];
-}
-		
-- (instancetype)initWithNextFunction:(SDLNextFunction *)nextFunction loadingText:(nullable NSString *){
-	self = [super init];
-	if (!self) { return nil;}
-	
-	_nextFunction = nextFunction;
-	_loadingText = loadingText;
-	return self;
-}
-@end	
-```
-
+2. Add an initializer to all RPC classes that take `SDLNextFunction` and converts it into the functionID.
 3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initilaizers. 
 
 
@@ -163,20 +136,8 @@ public enum NextFunction{
 }
 ```
 
-2. Add a manager-level class `NextFunctionInfo` with an initializer 
-```Java
-    public class NextFunctionInfo {
-		private NextFunction nextFunction = NextFunction.Default;
-		private String loadingText;
-	}
-	
-	public NextFunctionInfo(NextFunction nextFunction, String loadingText) {
-		this.nextFunction = nextFunction;
-		this.loadingText = loadingText;
-	}
-```
-
-3. Add a `nextFunctionInfo` parameter to `ChoiceCell`, `MenuCell`, and `SoftButtonObject` and their respective initializers. 
+2. Add an initializer to all RPC classes that take `SDLNextFunction` and converts it into the functionID.
+3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initilaizers. 
 
 ## Potential downsides
 
