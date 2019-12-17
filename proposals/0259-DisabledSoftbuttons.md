@@ -22,6 +22,7 @@ This would allow them to display that to the user, just like the native app on t
 ## Proposed solution
 
 For custom softbuttons, add a parameter to `SoftButtonCapabilities` to let the app know that the ability is possible.
+So we would add this to the MOBILE_API and HMI_API:
 ```xml
 <struct name="SoftButtonCapabilities">
     .
