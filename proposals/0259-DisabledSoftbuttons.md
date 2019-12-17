@@ -40,7 +40,7 @@ Plus add an `isDisabled` flag to `SoftButton`. If the flag is false or missing, 
 .
 .
 .
-    <param name="isDisabled" type="Boolean" mandatory="false">
+    <param name="isDisabled" type="Boolean" mandatory="false" since="X.X">
       <description>If false or missing, softbutton must appear usable. If true, softbutton must appear as not usable. Button press events will still be sent to the app regardless.
       </description>
     </param>
