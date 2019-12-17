@@ -210,7 +210,7 @@ App Icon per locale | _No_ | `Locale.icon_url`
 TTS Name per locale | _No_ | `Locale.tts_name`
 VR Names per locale | _No_ | `Locale.vr_names`
 
-The parameter `Application.locales` should hold a list of objects for locale information. See below example for an English and German example.
+The parameter `Application.locales` should hold a list of objects for locale information. The locale key format should be based on [RFC 5646](https://tools.ietf.org/html/rfc5646). If needed, the RFC format is convertible allowing easy comparisons with existing language fields within SDL (e.g. Language enum in the mobile API). See below example for an English and German example.
 
 ```json
 ...
