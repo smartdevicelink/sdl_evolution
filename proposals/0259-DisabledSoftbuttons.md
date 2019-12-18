@@ -4,7 +4,7 @@
 
 * Proposal: [SDL-0259](0259-DisabledSoftbuttons.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC ]
 
 ## Introduction
