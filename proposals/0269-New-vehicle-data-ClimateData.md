@@ -23,19 +23,23 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 
 ```xml	
 <element name="VEHICLEDATA_CLIMATEDATA" since="X.x"/>
-<element name="VEHICLEDATA_EXTERNTEMP" until="X.x"/>
+<element name="VEHICLEDATA_EXTERNTEMP" until="X.x">
+	<history>
+		<element name="VEHICLEDATA_EXTERNTEMP" />
+	</history>
+</element>
 ```
 #### Add new struct `ClimateData`:
 
 ```xml	
 <struct name="ClimateData" since="x.x">
-	<param name="externalTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false">
+	<param name="externalTemperature" type="Temperature" mandatory="false">
 		<description>The external temperature in degrees celsius</description>
 	</param>
-	<param name="cabinTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false">
+	<param name="cabinTemperature" type="Temperature" mandatory="false">
 		<description>Internal ambient cabin temperature in degrees celsius</description>
 	</param>
-	<param name="atmosphericPressure" type="Float" minvalue="500" maxvalue="1100" mandatory="false">
+	<param name="atmosphericPressure" type="Float" minvalue="0" maxvalue="2000" mandatory="false">
 		<description>Current atmospheric pressure in mBar</description>
 	</param>
 </struct>
@@ -51,7 +55,10 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 	<description>See ClimateData</description>
 </param>
 <param name="externalTemperature" type="Boolean" mandatory="false" deprecated="true" since="X.x">
-	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>
+	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>	
+	<history>
+		<param name="externalTemperature" type="Boolean" mandatory="false"/>
+	</history>
 </param>
 ```
 
@@ -64,7 +71,10 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 	<description>See ClimateData</description>
 </param>
 <param name="externalTemperature" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
-	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>
+	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>	
+	<history>
+		<param name="externalTemperature" type="VehicleDataResult" mandatory="false" />
+	</history>
 </param>
 ```
 
@@ -78,6 +88,9 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 </param>
 <param name="externalTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false" deprecated="true" since="X.x">
 	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>
+	<history>
+		<param name="externalTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false" />
+	</history>
 </param>
 ```
 
@@ -92,13 +105,13 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 
 ```xml	
 <struct name="ClimateData">
-	<param name="externalTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false">
+	<param name="externalTemperature" type="Common.Temperature" mandatory="false">
 		<description>The external temperature in degrees celsius</description>
 	</param>
-	<param name="cabinTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false">
+	<param name="cabinTemperature" type="Common.Temperature" mandatory="false">
 		<description>Internal ambient cabin temperature in degrees celsius</description>
 	</param>
-	<param name="atmosphericPressure" type="Float" minvalue="500" maxvalue="1100" mandatory="false">
+	<param name="atmosphericPressure" type="Float" minvalue="0" maxvalue="2000" mandatory="false">
 		<description>Current atmospheric pressure in mBar</description>
 	</param>
 </struct>
