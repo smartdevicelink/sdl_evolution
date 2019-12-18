@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0265](0265-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md)
 * Author: [Shobhit Adlakha](https://github.com/ShobhitAd)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
