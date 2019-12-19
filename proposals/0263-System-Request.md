@@ -13,11 +13,17 @@ RPC `SystemRequest` and `OnSystemRequest` can send bulk binary data between a mo
 
 With the growing popularity of SDL, more components within the head unit would like to exchange their data in a component specific proprietary way with the owner applications. Most of the time, the size of the information is less than a kilobyte. Currently mobile apps can send/receive binary data in SystemRequest and OnSystemRequest RPC messages using hybrid message, a file needs to be passed between SDL Core and HMI to exchange the data. File operations (create, read, write, delete) are slow. It is better to send data (especially a small amount of data) using message directly.
 
+Further more, currently a mobile app can send a SystemRequest to the head unit, only getting a result code back. The resulting vehicle data is not available in the response. We propose to 
+provide a mobile app a way requesting OEM specific data from the head unit depending on the requestType and subRequestType in the OnSystemRequest response.
 
 ## Proposed solution
 
-There is no change to the mobile API. This proposal adds a new optional parameter to the existing `SystemRequest` request/response and `OnSystemRequest` notification.
+This proposal adds a new optional parameter to the existing `SystemRequest` request and `OnSystemRequest` notification in HMI API.
+This proposal also adds a new optional parameter to `SystemRequest` response in HMI API. And the data shall be trasnmitted via hybrid message to mobile.
 
+Mobile API changes
+
+There is no parameter added to mobile API. However, the text description of `SystemRequest` response shall say that binary data can be included in hybrid part of message in the response of a system request.
  
 HMI API changes
 
@@ -64,19 +70,66 @@ Here are the changes needed by SDL Core.
 MaximumBinaryPayloadSizeToString = 11520
 ```
 
-- When SDL Core receives a SystemRequest request from mobile, if the incoming binary data is less than a certain size specified by smartdevicelink.ini, instead of saving the data to a temporary file, SDL Core shall encode the data using base64 format, and send the encoded string directly within a SystemRequest HMI message. If the size of data is large, SDL Core saves the data to a file and passes the file name to HMI as before.
+- When SDL Core receives a SystemRequest request from mobile, if the incoming binary data is less than a certain size specified by smartdevicelink.ini, instead of saving the data to a temporary file, SDL Core shall encode the data using base64 format, and send the encoded string as `requestData` directly within a SystemRequest HMI message. If the size of data is large, SDL Core saves the data to a file and passes the file name to HMI as before.
 
-- When SDL Core revives a SystemRequest response or OnSystemRequest notification from HMI, if the optional `data`/`resultData` parameter exists, SDL Core shall ignore the `fileName` parameter. Instead of reading data from the file, SDL Core shall base64 decode the string, and send the resulting data in hybrid part of the message to mobile. If the optional `data`/`resultData` parameter does not exist, SDL Core reads data from file as before.
+- When SDL Core revives an OnSystemRequest notification from HMI, if the optional `data` parameter exists, SDL Core shall ignore the `fileName` parameter. Instead of reading data from the file, SDL Core shall base64 decode the string, and send the resulting data in hybrid part of the message to mobile. If the optional `data` parameter does not exist, SDL Core reads data from file as before.
+
+- When SDL Core revives a SystemRequest response from HMI, if the optional `resultData` parameter exists, SDL Core shall base64 decode the string, and send the resulting data in hybrid part of the message to mobile. 
 
 Potential changes to HMI
 
-- When HMI receives a SystemRequest request, if optional parameter `requestData` exists, it shall ignore the `fileName` parameter. 
-- When HMI sends a SystemRequest response or a OnSystemRequest notification, it is free to choose either the file transfer (as before) or string transfer (new) regardless of the configurable parameter in smartdevicelink.ini.
+- When HMI receives a SystemRequest request, if optional parameter `requestData` exists, it shall ignore the `fileName` parameter. It shall base64 decode the string and use the data as if it comes from a file.
 
-Potential changes to the mobile proxy lib
+- When HMI sends a OnSystemRequest notification, it is free to choose either the file transfer (as before) or string transfer (new) regardless of the configurable parameter in smartdevicelink.ini.
 
-- Extract hybrid part of the message from SystemRequest RPC response message, if the library did not do that before.
+- When HMI sends a SystemRequest response with `resultData`, it shall choose string transfer.
 
+Since `fileName` is mandatory in the HMI API for SystemRequest request and OnSystemRequest and it will be ignored when `requestData`/`data` exists, `fileName` can be hard coded to any string. This is true for both SDL core and HMI.
+
+
+
+Potential changes to Java Proxy
+
+Since java suite already has the code to extract hybrid part of the protocl message and set the bulk data when create a RPC message (response), the only change is to expose a method for developer to get the result data.
+
+```java
+public class SystemRequestResponse extends RPCResponse {
+    public SystemRequestResponse() {
+        super(FunctionID.SYSTEM_REQUEST.toString());
+    }
+
+    public SystemRequestResponse(Hashtable<String, Object> hash) {
+        super(hash);
+    }
+
+    public SystemRequestResponse(Hashtable<String, Object> hash, byte[] bulkData){
+        super(hash);
+        setBulkData(bulkData);
+    }
+	
+	/**
+	 * Constructs a new SystemRequestResponse object
+	 * @param success whether the request is successfully processed
+	 * @param resultCode whether the request is successfully processed
+	 */
+	public SystemRequestResponse(@NonNull Boolean success, @NonNull Result resultCode) {
+		this();
+		setSuccess(success);
+		setResultCode(resultCode);
+	}
+	
+	public void setResultData(byte[] resultData) {
+        setBulkData(aptData);
+    }
+	
+	public byte[] getResultData() {
+        return getBulkData();
+    }
+}
+```
+Potential changes to  iOS Proxy
+
+Similar to java suite, the change would be parsing the SystemRequestResponse message and extract resultData from bulk data in protocol level message and expose an get method for it. 
 
 
 ## Potential downsides
@@ -85,9 +138,9 @@ Instead of writing/reading from a file, SDL Core needs to do base64 encoding/dec
 
 ## Impact on existing code
 
-- HMI_API needs to be updated.
+- Mobile and HMI_API need to be updated.
 - SDL Core needs to be updated.
-- SDL proxy lib might need updates.
+- SDL proxy libs need updates.
 
 ## Alternatives considered
 
