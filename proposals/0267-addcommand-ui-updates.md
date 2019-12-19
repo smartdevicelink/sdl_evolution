@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0267](0267-addcommand-ui-updates.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
@@ -45,16 +45,20 @@ The proposed solution is to add additional parameters to `AddCommand` and `AddSu
     </description>
     
     <!-- New Parameters -->
+    <param name="secondaryImage" type="Image" mandatory="false" since="x.x">
+        <description>Optional secondary image struct for menu cell</description>
+    </param>
+</function>
+
+<struct name="MenuParams" since="1.0">
+    <!-- New Parameters -->
     <param name="secondaryText" maxlength="500" type="String" mandatory="false" since="x.x">
         <description>Optional secondary text to display</description>
     </param>
     <param name="tertiaryText" maxlength="500" type="String" mandatory="false" since="x.x">
         <description>Optional tertiary text to display</description>
     </param>
-    <param name="secondaryImage" type="Image" mandatory="false" since="x.x">
-        <description>Optional secondary image struct for menu cell</description>
-    </param>
-</function>
+</struct>
 ```
 
 #### Capabilities
@@ -65,16 +69,16 @@ We also need to expand our capabilities so that developers and high-level manage
 <enum name="TextFieldName" since="1.0">
     <!-- New Parameters -->
     <element name="menuCommandSecondaryText" since="x.x">
-        <description> Secondary text for AddCommand</description>
+        <description>Secondary text for AddCommand</description>
     </element>
     <element name="menuCommandTertiaryText" since="x.x">
-        <description> Tertiary text for AddCommand</description>
+        <description>Tertiary text for AddCommand</description>
     </element>
-    <element name="menuSubmenuSecondaryText" since="x.x">
-        <description> Secondary text for AddSubmenu</description>
+    <element name="menuSubMenuSecondaryText" since="x.x">
+        <description>Secondary text for AddSubMenu</description>
     </element>
-    <element name="menuSubmenuTertiaryText" since="x.x">
-        <description> Tertiary text for AddSubmenu</description>
+    <element name="menuSubMenuTertiaryText" since="x.x">
+        <description>Tertiary text for AddSubMenu</description>
     </element>
 </enum>
 ```
@@ -86,8 +90,8 @@ We also need to expand our capabilities so that developers and high-level manage
     <element name="menuCommandSecondaryImage" since = "x.x">
         <description>The secondary image field for AddCommand</description>
     </element>
-    <element name="menuSubmenuSecondaryImage" since = "x.x">
-        <description>The secondary image field for AddSubmenu</description>
+    <element name="menuSubMenuSecondaryImage" since = "x.x">
+        <description>The secondary image field for AddSubMenu</description>
     </element>
 </enum>
 ```
@@ -162,5 +166,3 @@ This is a minor version change to the affected platforms and requires low impact
 
 ## Alternatives considered
 No alternatives were considered for this proposal.
-
-```

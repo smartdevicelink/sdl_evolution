@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0250](0250-NextRpcIndication.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC ]
 
 ## Introduction
@@ -47,8 +47,8 @@ Add a new struct `NextFunctionInfo` with all the data needed for the HMI to know
 	<param name="nextFunctionID" type="FunctionID" mandatory="true"/>
 		<description>The next function (RPC) that will be triggered by selecting the current option/command/choice etc.</description>
 	</param>
-		<param name="nextInitialText" type="String" maxlength="500"  mandatory="false"/>
-			<description>This lets the HMI know what the initialText of the next RPC is going to be to help the loading user experience.</description>
+		<param name="loadingText" type="String" maxlength="500"  mandatory="false"/>
+			<description>This lets the HMI know what text to show while waiting for the next RPC.</description>
 		</param>
 </struct>
 ```
@@ -96,6 +96,48 @@ Add the struct to the `SoftButton` struct. This will cover Show/SetDisplayLayout
 </struct>
  ```
 
+### iOS
+1. We're adding in a public manager-level enum
+```ObjectiveC
+typedef NS_ENUM(NSInteger, SDLNextFunction) {
+        SDLNextFunctionDefault =0, 
+        SDLNextFunctionPerformChoiceSet, 
+        SDLNextFunctionAlert, 
+        SDLNextFunctionScreenUpdate, 
+        SDLNextFunctionSpeak, 
+        SDLNextFunctionAccessMicrophone, 
+        SDLNextFunctionScrollableMessage, 
+        SDLNextFunctionSlider, 
+        SDLNextFunctionSendLocation, 
+        SDLNextFunctionDialNumber, 
+        SDLNextFunctionOpenMenu 
+};
+```
+
+2. Add an initializer to all RPC classes that take `SDLNextFunction` and converts it into the functionID.
+3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initializers. 
+
+
+### Java
+1.  Add in a public manager-level enum
+```Java
+public enum NextFunction{ 
+        Default, 
+        PerformChoiceSet, 
+        Alert, 
+        ScreenUpdate, 
+        Speak, 
+        AccessMicrophone, 
+        ScrollableMessage, 
+        Slider, 
+        SendLocation, 
+        DialNumber, 
+        OpenMenu 
+}
+```
+
+2. Add an initializer to all RPC classes that take `SDLNextFunction` and converts it into the functionID.
+3. Add a `nextFunctionInfo` parameter to `SDLChoiceCell`, `SDLMenuCell`, and `SDLSoftButtonObject` and their respective initializers.
 
 ## Potential downsides
 

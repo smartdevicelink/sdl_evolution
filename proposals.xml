@@ -260,7 +260,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0237" status="implemented" primary-platform="ios" sdl-version="6.4" name="Add Feature to Disable `Video Streaming Backgrounded String` Feature" filename="0237-add-feature-to-disable-video-streaming-backgrounded-string-feature.md"/>
 <proposal id="0238" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Keyboard Enhancements" filename="0238-Keyboard-Enhancements.md"/>
 <proposal id="0239" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Service Data Progress Bar Improvements" filename="0239-media-service-data-progress-bar-improvements.md"/>
-<proposal id="0240" status="active" primary-platform="rpc" sdl-version="x.x" name="WebEngine support for SDL JavaScript" filename="0240-sdl-js-pwa.md"/>
+<proposal id="0240" status="accepted" primary-platform="rpc" sdl-version="x.x" name="WebEngine support for SDL JavaScript" filename="0240-sdl-js-pwa.md"/>
 <proposal id="0241" status="returned" primary-platform="rpc" sdl-version="x.x" name="Commerce App Service" filename="0241-Commerce-App-Service.md"/>
 <proposal id="0242" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Subtle Alert Style" filename="0242-alert-style-subtle.md"/>
 <proposal id="0243" status="implemented" primary-platform="ios" sdl-version="6.4" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
@@ -271,7 +271,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0247" status="returned" primary-platform="policy" sdl-version="x.x" name="SDL Server 3.0.0 (refactor)" filename="0247-sdl-server-3.md"/>
 <proposal id="0248" status="accepted" primary-platform="core" sdl-version="x.x" name="HMI Policy Table Update using vehicle modem" filename="0248-hmi-ptu-support.md"/>
 <proposal id="0249" status="accepted" primary-platform="core" sdl-version="x.x" name="Persisting HMI Capabilities specific to headunit" filename="0249-Persisting-HMI-Capabilities-specific-to-headunit.md"/>
-<proposal id="0250" status="returned" primary-platform="rpc" sdl-version="x.x" name="Next RPC Indication for the HMI" filename="0250-NextRpcIndication.md"/>
+<proposal id="0250" status="active" primary-platform="rpc" sdl-version="x.x" name="Next RPC Indication for the HMI" filename="0250-NextRpcIndication.md"/>
 <proposal id="0251" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Font Styles" filename="0251-font-styles.md"/>
 <proposal id="0252" status="accepted" primary-platform="core" sdl-version="x.x" name="Aligning HMI and MOBILE API for pcmStreamCapabilities" filename="0252-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md"/>
 <proposal id="0253" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data StabilityControlsStatus" filename="0253-New-vehicle-data-StabilityControlsStatus.md"/>
@@ -280,23 +280,27 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0256" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Refactor Fuel Information Related Vehicle Data" filename="0256-Refactor-Fuel-Information-Related-Vehicle-Data.md"/>
 <proposal id="0257" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data HandsOffSteering" filename="0257-New-vehicle-data-HandsOffSteering.md"/>
 <proposal id="0258" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Update vehicle data TurnSignal" filename="0258-Update-vehicle-data-TurnSignal.md"/>
-<proposal id="0259" status="returned" primary-platform="rpc" sdl-version="x.x" name="Disabled Softbuttons" filename="0259-DisabledSoftbuttons.md"/>
+<proposal id="0259" status="active" primary-platform="rpc" sdl-version="x.x" name="Disabled Softbuttons" filename="0259-DisabledSoftbuttons.md"/>
 <proposal id="0260" status="accepted" primary-platform="core" sdl-version="x.x" name="Deprecate HMI RPC OnFindApplications" filename="0260-Deprecate-HMI-RPC-OnFindApplications.md"/>
-<proposal id="0261" status="active" primary-platform="rpc" sdl-version="x.x" name="New vehicle data WindowStatus" filename="0261-New-vehicle-data-WindowStatus.md"/>
+<proposal id="0261" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data WindowStatus" filename="0261-New-vehicle-data-WindowStatus.md"/>
 <proposal id="0262" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data SeatOccupancy" filename="0262-New-vehicle-data-SeatOccupancy.md"/>
 <proposal id="0263" status="returned" primary-platform="rpc" sdl-version="x.x" name="Extend SystemRequest With Optional Data For Proprietary Data Exchange" filename="0263-System-Request.md"/>
 <proposal id="0264" status="returned" primary-platform="rpc" sdl-version="x.x" name="Adding Audible Status Notification" filename="0264-Adding-Audible-Status-Notification.md"/>
 <proposal id="0265" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove duplicate parameter FileName from HMI RPC BasicCommunication.OnPutFile" filename="0265-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md"/>
 <proposal id="0266" status="active" primary-platform="rpc" sdl-version="x.x" name="New vehicle data GearStatus" filename="0266-New-vehicle-data-GearStatus.md"/>
-<proposal id="0267" status="active" primary-platform="rpc" sdl-version="x.x" name="Main Menu UI Updates" filename="0267-addcommand-ui-updates.md"/>
+<proposal id="0267" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Main Menu UI Updates" filename="0267-addcommand-ui-updates.md"/>
 <proposal id="0268" status="active" primary-platform="rpc" sdl-version="x.x" name="Main Menu Updating and Pagination" filename="0268-main-menu-updating.md"/>
+<proposal id="0269" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data ClimateData" filename="0269-New-vehicle-data-ClimateData.md"/>
+<proposal id="0270" status="returned" primary-platform="rpc" sdl-version="x.x" name="Add means to launch with optimum appHMIType" filename="0270-Add-means-to-launch-with-optimum-appHMIType.md"/>
+<proposal id="0271" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Start APT of SDL App by pressing PTT button" filename="0271-Start-APT-of-SDL-App-by-pressing-PTT-Button.md"/>
+<proposal id="0272" status="active" primary-platform="javascript" sdl-version="x.x" name="JavaScript Suite SDL Manager" filename="0272-sdl-javascript-manager-layer.md"/>
 
 	<!--
 Recognized values for a proposal's status:
 	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected, withdrawn
 
 Recognized values for primary-platform:
-	protocol, rpc, core, could, atf, ios, java-suite, dev-portal, policy, mobile, (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
+	protocol, rpc, core, could, atf, ios, java-suite, dev-portal, policy, javascript, mobile, (for changes that affect mobile platforms equally, but not rpcs or protocol changes)
 
 Note: status="implemented" also requires sdl-version="XX".
 -->

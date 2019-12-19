@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0261](0261-New-vehicle-data-WindowStatus.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core | HMI | Policy Server | SHAID | iOS | Java Suite | RPC]
 
 ## Introduction
@@ -19,7 +19,6 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 
 ### Updates in MOBILE_API:
 
-
 #### Add to enum `VehicleDataType`: 
 
 ```xml
@@ -29,53 +28,23 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 #### Add new struct `WindowStatus`:
 ```xml	
 <struct name="WindowStatus" since="X.x">
-	<param name="doorsWindowStatus" type="DoorWindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>Status of doors window position</description>
-	</param>
-	<param name="gatesWindowStatus" type="GateWindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>Status of trunk/liftgate window position</description>
-	</param>		
+	<description>Describes the status of a window of a door/liftgate etc.</description>
+	<param name="location" type="Grid" mandatory="true"/>
+	<param name="state" type="WindowState" mandatory="true"/>			
 </struct>
 ```
 
-#### Add new struct `DoorWindowStatus`:
-```xml	
-<struct name="DoorWindowStatus" since="X.x">
-	<description>Describes the status of a window of a door.</description>
-	<param name="doorLocation" type="Grid" mandatory="true"/>
-	<param name="windowState" type="WindowState" mandatory="true"/>	
-</struct>
-```
-
-#### Add new struct `GateWindowStatus`:
-```xml
-<struct name="GateWindowStatus" since="X.x">
-	<description>Describes the status of a window of trunk/hood/etc.</description>
-	<param name="gateType" type="GateType" mandatory="true"/>
-	<param name="windowState" type="WindowState" mandatory="true"/>	
-</struct>
-```
-
-#### Add new enum `WindowState`:
+#### Add new struct `WindowState`:
 
 ```xml    
-<enum name="WindowState" since="X.x">
-	<description>Reflects the postion of window.</description>
-	<element name="UNDEFINED" internal_name="WP_UNDEFINED">
-	</element>
-	<element name="CLOSED" internal_name="WP_CLOSED">
-	</element>
-	<element name="BARELY_OPEN" internal_name="WP_BARELY_OPEN">
-	</element>
-	<element name="NEARLY_HALF_OPEN" internal_name="WP_NEARLY_HALF_OPEN">
-	</element>
-	<element name="NEARLY_FULL_OPEN" internal_name="WP_NEARLY_FULL_OPEN">
-	</element>
-	<element name="OPEN" internal_name="WP_OPEN">
-	</element>
-	<element name="UNUSED" internal_name="WP_UNUSED">
-	</element>
-</enum>
+<struct name="WindowState" since="X.x">
+  <param name="approximatePosition" type="Integer" minValue="0" maxValue="100">
+    <description>The approximate percentage that the window is open - 0 being fully closed, 100 being fully open</description>
+  </param>
+  <param name="deviation" type="Integer" minValue="0" maxValue="100">
+    <description>The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is 10, then the window's location is somewhere between 40 and 60.</description>
+  </param>
+</struct>
 ```
 
 #### Add the following parameter to these function requests:
@@ -104,13 +73,12 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 * `OnVehicleData`
 
 ```xml
-<param name="windowStatus" type="WindowStatus" mandatory="false" since="X.x">
+<param name="windowStatus" type="WindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
 	<description>See WindowStatus</description>
 </param>
 ```
 
 ### Updates in HMI_API:
-
 
 #### Add to enum `VehicleDataType` in `Common` interface: 
 
@@ -121,53 +89,23 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 #### Add new struct `WindowStatus` in `Common` interface:
 ```xml	
 <struct name="WindowStatus">
-	<param name="doorsWindowStatus" type="Common.DoorWindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>Status of doors window position</description>
-	</param>
-	<param name="gatesWindowStatus" type="Common.GateWindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-		<description>Status of trunk/liftgate window position</description>
-	</param>		
+	<description>Describes the status of a window of a door/liftgate etc.</description>
+	<param name="location" type="Common.Grid" mandatory="true"/>
+	<param name="state" type="Common.WindowState" mandatory="true"/>			
 </struct>
 ```
 
-#### Add new struct `DoorWindowStatus` in `Common` interface
-```xml	
-<struct name="DoorWindowStatus">
-	<description>Describes the status of a window of a door.</description>
-	<param name="doorLocation" type="Common.Grid" mandatory="true"/>
-	<param name="windowState" type="Common.WindowState" mandatory="true"/>	
-</struct>
-```
-
-#### Add new struct `GateWindowStatus` in `Common` interface
-```xml
-<struct name="GateWindowStatus">
-	<description>Describes the status of a window of trunk/hood/etc.</description>
-	<param name="gateType" type="Common.GateType" mandatory="true"/>
-	<param name="windowState" type="Common.WindowState" mandatory="true"/>	
-</struct>
-```
-
-#### Add new enum `WindowState` in `Common` interface:
+#### Add new struct `WindowState` in `Common` interface:
 
 ```xml    
-<enum name="WindowState">
-	<description>Reflects the postion of window.</description>
-	<element name="UNDEFINED" internal_name="WP_UNDEFINED">
-	</element>
-	<element name="CLOSED" internal_name="WP_CLOSED">
-	</element>
-	<element name="BARELY_OPEN" internal_name="WP_BARELY_OPEN">
-	</element>
-	<element name="NEARLY_HALF_OPEN" internal_name="WP_NEARLY_HALF_OPEN">
-	</element>
-	<element name="NEARLY_FULL_OPEN" internal_name="WP_NEARLY_FULL_OPEN">
-	</element>
-	<element name="OPEN" internal_name="WP_OPEN">
-	</element>
-	<element name="UNUSED" internal_name="WP_UNUSED">
-	</element>
-</enum>
+<struct name="WindowState">
+  <param name="approximatePosition" type="Integer" minValue="0" maxValue="100">
+    <description>The approximate percentage that the window is open - 0 being fully closed, 100 being fully open</description>
+  </param>
+  <param name="deviation" type="Integer" minValue="0" maxValue="100">
+    <description>The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is 10, then the window's location is somewhere between 40 and 60.</description>
+  </param>
+</struct>
 ```
 
 #### Add the following parameter to these function requests:
@@ -196,7 +134,7 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 * `OnVehicleData`
 
 ```xml
-<param name="windowStatus" type="Common.WindowStatus" mandatory="false">
+<param name="windowStatus" type="Common.WindowStatus" array="true" minsize="0" maxsize="100" mandatory="false">
 	<description>See WindowStatus</description>
 </param>
 ```
