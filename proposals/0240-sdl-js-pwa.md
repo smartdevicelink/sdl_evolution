@@ -3,7 +3,7 @@
 * Proposal: [SDL-0240](0240-sdl-js-pwa.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [ Core / RPC / JavaScript / Server ]
+* Impacted Platforms: [ Core / RPC / JavaScript / Server / SHAID / Manticore ]
 
 ## Introduction
 
@@ -33,7 +33,7 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
 6. After installation, the OEM store should make the app visible and available on the HMI.
 7. Core should support a WebSocket Server as a transport.
 8.  If a user activates a local app through the HMI, the HMI should launch the app by opening the entrypoint HTML file.
-9.  HMI should launch the app including SDL Core's hostname and port as GET parameters (file://somewhere/HelloSDL/index.html?ws-host=localhost&ws-port=123456)
+9.  HMI should launch the app including SDL Core's hostname and port as GET parameters.
 10. The app should connect to Core using the SDL library using hostname and port specified.
 11. If Core sends UpdateAppList, the HMI should compare matching SDL app IDs and avoid showing an app twice.
 
@@ -84,7 +84,7 @@ The SDL Developer Portal should allow developers to enter all app information th
 
 App developers should be able to upload app packages and mark them as candidates for app certification. The platform can read the manifest file to verify it matches the app information for the specified app version.
 
-The backend of the OEM store should store copies of a certified app package if the OEM has accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read using SHAID with the additional Application APIs. 
+The backend of the OEM store should store copies of a certified app package if the OEM has accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read from the OEM policy server (SDL Server) via a supporting API endpoint. This need should be an implementation detail as the data offered by the API is already defined in the proposal.
 
 The SDL JavaScript library should use the manifest file by reading the exported const to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern. The  SDL library may need a new method to attempt to import and utilize the manifest.js contents. This need should be an implementation detail as it would only affect library internals.
 
@@ -108,6 +108,18 @@ The new transport should be available as a build configuration called `BUILD_WEB
 ##### 2.1.2 JavaScript library
 
 On the library side, a new WebSocket client transport should be created using the [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/Websockets_API). This transport should require a hostname or ip address with a port to connect to Core's WebSocket server. The library should also be extended to be exportable to a single .js file that can be easily included in an HTML file. This export could be done per library release using Webpack. This new transport should be specifically for WebEngine purposes and should not be included for the Node.js platform. In order to improve simple "plug-and-play" of the library, the .js file should include only this single transport.
+
+##### 2.1.3 GET parameters
+
+The JavaScript library should read GET parameters to identify how to connect to SDL. The library should listen to these three parameters:
+
+1. `sdl-host` which can be an IP address, hostname or a URL to a host
+2. `sdl-port` which should be the port number of SDL Core
+3. `sdl-transport-role` which defines the transport type and role. Following roles should be valid: `ws-server`, `ws-client`, `wss-server`, `wss-client`, `tcp-server`, `tcp-client`
+
+For the WebSocket transport as suggested in this proposal, the transport role would be `ws-server` or `wss-server` where `sdl-host` points to the host that runs SDL Core (in production that would be the IVI system so local host) and `sdl-port` is the port number that SDL Core bound the WebSocket to.
+
+Example: `file://somewhere/HelloSDL/index.html?sdl-host=localhost&sdl-port=12345&sdl-transport-role=wss-server`
 
 #### 2.2 Activating a web app
 
@@ -151,7 +163,7 @@ As already mentioned, app packages are uploaded to the SDL Developer Portal. App
 
 As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal must not be made available directly to vehicles. Instead OEMs must download and host a copy app packages to their SDL Servers using the file URL from the SHAID API (see additions to SHAID). An OEM will need to implement a file saving feature into their server installation for this behavior to work. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow installation of supported apps only, dependent on the vehicle software version, SDL Core version, and app's min SDL (RPC or Protocol) version.
 
-An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to OEMs and vehicles. App developers can request SDLC app certification performed by the SDLC on the initial submission of the application. Once the initial submission has passed the certification tests, the app should be marked as certified independent of future releases which won't be tested anymore. New versions of an app aren't required to undergo additional testing, but may be subject to additional certification tests/requirements. The SDLC app certification review will not test every detail and aspect of the application. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
+An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to OEMs and vehicles. The initial submission of a WebEngine application will undergo SDLC app certification testing. Once the initial submission has passed certification, future submissions will not be required to undergo full certification testing but may be subject to additional certification tests/requirements. The SDLC app certification review will not test every detail and aspect of the application. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
 
 The current app certification guidelines should be extended to include tests that are valid for in-vehicle web applications. It should not include tests to monitor data traffic with respect to effort and cost to perform such tests. The app certification for in-vehicle web applications cannot take place until the certification guidelines are updated. The app certification guideline update for web applications must be complete before this feature is released.
 
@@ -198,7 +210,7 @@ App Icon per locale | _No_ | `Locale.icon_url`
 TTS Name per locale | _No_ | `Locale.tts_name`
 VR Names per locale | _No_ | `Locale.vr_names`
 
-The parameter `Application.locales` should hold a list of objects for locale information. See below example for an English and German example.
+The parameter `Application.locales` should hold a list of objects for locale information. The locale key format should be based on [RFC 5646](https://tools.ietf.org/html/rfc5646). If needed, the RFC format is convertible allowing easy comparisons with existing language fields within SDL (e.g. Language enum in the mobile API). See below example for an English and German example.
 
 ```json
 ...
@@ -220,13 +232,16 @@ The SDL server should extend the application related database tables to store th
 
 ## Potential downsides
 
-The upside of apps running with a WebEngine is that it comes with an extremely flexible html based user interface and with a very sandboxed runtime environment. This can also be seen as a downside as the responsibility of following driver distraction rules increases and a sandbox environment is limiting the functionality of apps.
+The upside of apps running with a WebEngine is that it comes with a very sandboxed runtime environment. This can also be seen as a downside as a sandbox environment is limiting the functionality of apps.
 
 ## Impact on existing code
 
 1. Core needs a new transport type to support a WebSocket Server.
 2. The JavaScript library needs a new transport type to support WebSocket Client.
 3. App registration on SDL Developer Portal (smartdevicelink.com) needs a new field for local apps.
+4. SHAID changes to store and return the new data items displayed on the Developer Portal.
+5. SDL Server changes to store copies of newly added SHAID data items and provide a customizable skeleton method for copying app packages from SHAID to an OEM-provided storage solution.
+6. Manticore should expose Core's WebSocket Server port to allow developers to test their WebEngine apps.
 
 ## Alternatives considered
 
@@ -257,7 +272,7 @@ Many services are available over a web application and modern WebEngines provide
   <param name="nicknames" type="String" minlength="0" maxlength="100" array="true" minsize="0" maxsize="100" mandatory="false">
       <description>An array of app names an app is allowed to register with. If included in a SetAppProperties request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.</description>
   </param>
-  <param name="appID" type="String" maxlength="100" mandatory="true"/>
+  <param name="policyAppID" type="String" maxlength="100" minlength="1" mandatory="true" />
   <param name="enabled" type="Boolean" mandatory="false">
       <description>If true, the app will be marked as "available" or "installed" and will be included in HMI RPC UpdateAppList.</description>
   </param>
