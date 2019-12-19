@@ -38,30 +38,30 @@ The following entities are specific types of checks that should be considered on
 - Static Code Analysis
 - Dynamic Analysis on Smoke Tests
 
-**! Note that each of the above checks (except Coding Style Check and Static Code Analysis) should be run for all supported Policies flows (External proprietary, Proprietary, HTTP).**
+**Note that each of the above checks (except Coding Style Check and Static Code Analysis) should be run for all supported Policies flows (External proprietary, Proprietary, HTTP).**
 
-Also, it would be nice to perform project compilation with the different sets of flags: with and without ENABLE_LOG, ENABLE_SECURITY, DEBUG/RELEASE mode etc - since this allows to find hidden problems.
+Also, it would be nice to perform project compilation with the different sets of flags: with and without ENABLE_LOG, ENABLE_SECURITY, DEBUG/RELEASE mode etc - since this allows us to find hidden problems.
 
 #### ATF/smoke tests running
 
-There are smoke tests to check the main life functions of SDL (such as `run`, `shutdown`, etc.) This type of tests should be run for each `pull` and `push` events. Smoke testing, also known as build acceptance testing (BAT), is a critical aspect of quality assurance that delivers quick and decisive answers on the viability of a particular build.
+There are smoke tests to check the main life functions of SDL Core (such as `run`, `shutdown`, etc.) These type of tests should be run for each `pull` and `push` event. Smoke testing, also known as build acceptance testing (BAT), is a critical aspect of quality assurance that delivers quick and decisive answers on the viability of a particular build.
 
 Ideally, each smoke test should meet these criteria:
 
-- Tests core features only
+- Tests SDL Core features only
 - The test should be repeatable indefinitely
 - Very fast execution
 - Should generate few or no false positives
 
-Now SDL includes the following scopes for smoke testing: Registration, API, Heartbeat, Policy, Shutdown, Resumption.
+Now SDL Core includes the following scope for smoke testing: Registration, API, Heartbeat, Policy, Shutdown, Resumption.
 
 #### ATF/regression tests running
 
-Regression Testing is a full or partial selection of already executed test cases which are re-executed to ensure existing functionality works fine. This testing is done to make sure that new code changes should not have side effects on the existing functionality. It ensures that the old code still works once the new code changes are done. When the new feature is accepted and corresponding code is integrated to sdl_core a new corresponding test scope is integrated to the sdl_atf_test_scripts as well as regression tests extended.
+Regression Testing is a full or partial selection of already executed test cases which are re-executed to ensure existing functionality works fine. This testing is done to make sure that new code changes should not have side effects on the existing functionality. It ensures that the old code still works once the new code changes are done. When the new feature is accepted and corresponding code is integrated to sdl_core a new corresponding test scope is integrated to the sdl_atf_test_scripts and regression tests are also extended.
 
 #### Feature Tests
 
-The aim of feature testing is to make sure that new changes for SDL works properly and meet all the intended specifications. All bugs and defects in the features should be found during testing stages otherwise it could cause huge productivity loss. By performing feature testing CI can improve quality of the end product and deliver products with exceptional functionality.
+The aim of feature testing is to make sure that new changes to SDL Core work properly and meet all the intended specifications. All bugs and defects in the features should be found during testing stages otherwise it could cause huge productivity loss. By performing feature testing, CI can improve quality of the end product and deliver products with exceptional functionality.
 
 #### Unit testing and coverage
 
@@ -69,7 +69,7 @@ The unit tests are aware of the project's smallest implementation details and co
 
 #### Coding Style Check
 
-In SDL designing, a certain coding style is accepted that allows us to keep the code consistent. It is important to consider the accepted coding style and check it during delivering of new changes to the codebase. Accordingly, the check style should be executed on:
+In SDL Core designing, a certain coding style is accepted that allows us to keep the code consistent. It is important to consider the accepted coding style and check it during delivering of new changes to the codebase. Accordingly, the check style should be executed on:
 
 - Push to develop/feature
 - PR to develop/feature
@@ -96,7 +96,7 @@ Dynamic testing is most important in the areas where program reliability, respon
 * In most cases, generation of false positives is impossible, as error detection occurs right at the moment of its occurrence, thus, the error detected is not a prediction based on the analysis of the program model, but a statement of the fact of its occurrence;
 * It allows us to test proprietary code.
 
-Dynamic code analysis is the method of analyzing an application right during its execution. The dynamic analysis process can be divided into several steps: preparing input data, running a test program launch and gathering the necessary parameters, and analyzing the output data. When performing the test launch. Dynamic analysis tasks should be executed on the Smoke test sets to check the most vital behavior of SDL.
+Dynamic code analysis is the method of analyzing an application right during its execution. The dynamic analysis process can be divided into several steps: preparing input data, running a test program launch and gathering the necessary parameters, and analyzing the output data. When performing the test launch, dynamic analysis tasks should be executed on the Smoke test sets to check the most vital behavior of SDL Core.
 
 Dynamic analysis tools of Clang sanitizer:
 * Address sanitizer
@@ -107,7 +107,7 @@ Dynamic analysis tools of Clang sanitizer:
 
 Having its own weak and strong points, the dynamic analysis technology can be used most effectively together with the static analysis technology.
 
-### 2. Solving current SDL issues
+### 2. Solving current SDL Core issues
 
 We have conducted a preliminary analysis of the sdl_core source code by potential analyzing tools and have got a set of actual problems that have to be fixed in scope of this proposal.
 
@@ -159,18 +159,18 @@ CI ATF jobs:
 
 ### 1. Optimizing of building process and resources usage
 
-To optimize the CI processes and resources usage it is necessary to separate the third-party libraries building from the SDL building. Further, the third-party libraries as preloaded files should be used for all testing related tasks. This approach saves server time and can allow getting the CI status faster.
+To optimize the CI processes and resources usage it is necessary to separate the third-party libraries building from the SDL Core building. Further, the third-party libraries as preloaded files should be used for all testing related tasks. This approach saves server time and can allow getting the CI status faster.
 
 ### 2. Using cluster for a High Availability and Fault Tolerance of the CI processes
 
-To minimize risks of fails, and to optimize CI processes we need to use the Best Practices of computation, and keep project infrastructure on the top level using **Mesos** cluster and **Docker** container-based services. Containers allow building and testing applications in standard, portable ways.
+To minimize risks of fails and to optimize CI processes, we need to use the Best Practices of computation, and keep project infrastructure on the top level using **Mesos** cluster and **Docker** container-based services. Containers allow building and testing applications in standard, portable ways.
 A server cluster is a centralized fault-tolerant system for managing resources. The use of the cluster is appropriate for distributed computing environments in order to ensure the isolation of resources and convenient management. The cluster allows allocating CPU, memory, and other resources for any tasks like CI jobs.
 
-For example **Mesos** can be used as a cluster core to allocate an environment for working tasks. Such frameworks as: Jenkins, Spark, Marathon, Aurora can be used to implement the logic of launching tasks, monitoring their work, scaling, etc.
+For example **Mesos** can be used as a cluster core to allocate an environment for working tasks. Such frameworks as: Jenkins, Spark, Marathon, and Aurora can be used to implement the logic of launching tasks, monitoring their work, scaling, etc.
 
-When the product is growing up, and count of the same time features is growing up too, wee need to have an ability to **scale our CI system fast and without any downtime**. The key to success here is usage of cluster.
+When the product is growing up, and at the same time, the count of features is growing up too, we need to have an ability to **scale our CI system fast and without any downtime**. The key to success here is the usage of cluster.
 
-Another one point is a **Foult Tolerance**. When you're using a cluster systems you are completely safe from disk failures or even entire server crashes.
+Another point is a **Fault Tolerance**. When you're using a cluster system, you are completely safe from disk failures or even entire server crashes.
 
 Schema of cluster
 ![img][cluster_schema]
@@ -181,7 +181,7 @@ No obvious places can be affected.
 
 ## Impact on existing code
 
-Can be expected a lot of places in scope of fixing existing issues reported by static/dynamic analysis tools.
+It can be expected that there will be a lot of places in scope of fixing existing issues reported by static/dynamic analysis tools.
 
 ## Alternatives considered
 
