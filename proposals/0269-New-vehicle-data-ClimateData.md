@@ -25,7 +25,7 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 <element name="VEHICLEDATA_CLIMATEDATA" since="X.x"/>
 <element name="VEHICLEDATA_EXTERNTEMP" until="X.x">
 	<history>
-		<element name="VEHICLEDATA_EXTERNTEMP" />
+		<element name="VEHICLEDATA_EXTERNTEMP" since="1.0" until="X.x" />
 	</history>
 </element>
 ```
@@ -57,7 +57,7 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 <param name="externalTemperature" type="Boolean" mandatory="false" deprecated="true" since="X.x">
 	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>	
 	<history>
-		<param name="externalTemperature" type="Boolean" mandatory="false"/>
+		<param name="externalTemperature" type="Boolean" mandatory="false" since="1.0" until="X.x" />
 	</history>
 </param>
 ```
@@ -73,7 +73,7 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 <param name="externalTemperature" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
 	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>	
 	<history>
-		<param name="externalTemperature" type="VehicleDataResult" mandatory="false" />
+		<param name="externalTemperature" type="VehicleDataResult" mandatory="false" since="1.0" until="X.x" />
 	</history>
 </param>
 ```
@@ -89,7 +89,7 @@ We need to add `ClimateData` for `GetVehicleData`, `SubscribeVehicleData`, `Unsu
 <param name="externalTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false" deprecated="true" since="X.x">
 	<description>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec X.x.x, please see climateData.</description>
 	<history>
-		<param name="externalTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false" />
+		<param name="externalTemperature" type="Float" minvalue="-40" maxvalue="100" mandatory="false" since="1.0" until="X.x" />
 	</history>
 </param>
 ```
