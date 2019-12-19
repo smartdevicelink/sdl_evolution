@@ -2,7 +2,7 @@
 
 * Proposal: [NNNN](NNNN-Continuous-Integration-And-Testing.md)
 * Author: [Pavel Zhdanov](https://github.com/ZhdanovP), [Mykyta Nikora](https://github.com/MNikora)
-* Status: **Review**
+* Status: **Awaiting Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
