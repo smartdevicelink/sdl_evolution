@@ -326,7 +326,7 @@ Many services are available over a web application and modern WebEngines provide
   <description>
     HMI >SDL. RPC used to get the current properties of an application
   </description>
-  <param name="appID" type="String" maxlength="100" mandatory="false">
+  <param name="policyAppID" type="String" maxlength="100" minlength="1" mandatory="false">
     If specified the response will contain the properties of the specified app ID.
     Otherwise if omitted all app properties will be returned at once.
   </param>
