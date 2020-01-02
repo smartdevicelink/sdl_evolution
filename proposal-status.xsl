@@ -344,7 +344,7 @@ on the gh-pages branch).
         a.number.platform-mobile {
         background-color: #6397cd; // SDL Light Blue
       }
-        a.number.platform-cloud {
+        a.number.platform-javascript {
          background-color: #bac6d2; // SDL Grey
         color: #000;
       }
