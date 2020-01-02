@@ -105,16 +105,16 @@ Please see an example of how to format this type of pull request [here](https://
 If you are requesting to change a proposal in review, and the solution in your proposal needs to be changed so significantly that it does not match the original solution, a new proposal should be submitted, and a request to reject or withdraw your original proposal should be brought to the Steering Committee.
 
 
-###Timing
+### Timing
 In general, actions taken on proposals should be limited to one per week.  Please see example situations below:
 
 - If the Steering Committee votes to return a proposal for revisions, bringing the revised proposal back into review cannot happen until the following week.  This allows for adequate time to ensure the Steering Committee's agreed upon revisions have been made.  
 - A proposal cannot be brought into review and voted upon in the same week, as Steering Committee representatives would not have sufficient time to review the proposal prior to voting.
 
-###For Consideration
+### For Consideration
 The SDL Community is a global community, and so it can be expected that comments will be made on review issues at various times.  For this reason, we do not have a "cutoff" time for leaving comments on review issues.  While this may sometimes result in a proposal needing to be kept in review an additional week to allow the author or commenter time to respond, we appreciate the understanding of the community to allow such global discussions to take place.
 
-##Implementation Responsibility
+## Implementation Responsibility
 
 The general rule of thumb is that the author of an SDL Evolution proposal is the person or company who intends to contribute code for a feature. SDLC Member contributions should encompass all projects impacted by the feature (including documentation).
 
