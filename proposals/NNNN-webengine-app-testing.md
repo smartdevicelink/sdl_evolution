@@ -1,4 +1,4 @@
-# Feature name
+# WebEngine App Testing
 
 * Proposal: [SDL-NNNN](NNNN-webengine-app-testing.md)
 * Author: [Nick Schwab](https://github.com/nickschwab), [Chris Rokita](https://github.com/crokita)
