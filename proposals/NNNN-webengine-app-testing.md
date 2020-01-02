@@ -15,7 +15,7 @@ According to [SDL-0240: WebEngine support for SDL JavaScript](https://github.com
 
 ## Proposed solution
 
-The proposed solution is to add a "Add WebEngine App" option to the Manticore UI under the "Connect Apps" menu. This button would navigate to a sub-section to allow the developer to select their zip file from their computer and submit it for processing by Manticore.
+The proposed solution is to add a "Add WebEngine App" option to the Manticore UI under the "Connect Apps" menu. This button would navigate to a sub-section to allow the developer to select their zip file from their computer and submit it for processing by Manticore. The zip file may be up to 50MB zipped (200MB unzipped).
 
 Once the zip file is submitted, Manticore will unzip the file contents to the Manticore instance's filesystem using a Node.js server and return the fully qualified path of the WebEngine application's HTML entry point. The Manticore front-end will render the returned URL in a hidden iFrame for containerization, which will connect to Core's WebSocket Server and execute the application's logic in accordance to [SDL-0240](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0240-sdl-js-pwa.md).
 
