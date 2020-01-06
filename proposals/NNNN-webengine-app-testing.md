@@ -7,7 +7,7 @@
 
 ## Introduction
 
- To provide true production-like testing of WebEngine apps, this proposal introduces the ability for developers to upload their compressed WebEngine app bundle (zip file) to Manticore and have their application automatically establish a connection to Core's WebSocket Server.
+To provide true production-like testing of WebEngine apps, this proposal introduces the ability for developers to upload their compressed WebEngine app bundle (zip file) to Manticore and have their application automatically establish a connection to SDL Core's WebSocket Server.
 
 ## Motivation
 
