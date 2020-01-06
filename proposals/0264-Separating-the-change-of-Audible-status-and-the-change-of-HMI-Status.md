@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-NNNN](NNNN-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: Awating Review
+* Status: **Awaiting review**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
