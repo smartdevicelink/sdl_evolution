@@ -134,5 +134,5 @@ The addition of a new RPC affects the following platforms:
 
 ## Alternatives considered
 
-Delete route in conjunction with `OnEventChanged(EMBEDDED_NAVI, true)`.  
+An alternative solution would be to delete a route in conjunction with `OnEventChanged(EMBEDDED_NAVI, true)`.  
 However, it is not recommended because unintended route deletion may occur.  
