@@ -21,7 +21,7 @@ However, the active / deactive state of the embedded navigation is not specifica
 |Embedded Navigation|Video : No definition <br> Audio : No definition <br> Route Guidance : No definition <br> * The document does not describe the activation status or operation of embedded navigation.|Video : No definition <br> Audio : No definition <br> Route Guidance : No definition <br> * The document does not describe the deactivation status or operation of embedded navigation.|
 |SDL Navigation|HMI Level : BACKGROUND<br>Audio : NOT_AUDIBLE<br>Route Guidance : No definition|HMI Level : FULL<br>Audio : AUDIBLE<br>Route Guidance : No definition|
 
-Therefore, depending on the inactive operation of the built-in navigation (the handling of the route), the problem shown in the following table "Problems caused by the deactivate navigation operation" may occur.  
+Therefore, depending on the inactive operation of the built-in navigation (the handling of the route), the problem shown in the following table, "Problems caused by the inactive navigation operation," may occur.  
 
 **Table 2** Problems caused by the inactive navigation operation
 
