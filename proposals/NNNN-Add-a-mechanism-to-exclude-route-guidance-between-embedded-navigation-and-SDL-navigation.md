@@ -12,7 +12,7 @@ This proposal is to add an exclusive control mechanism to prevent conflict of ro
 ## Motivation
 
 Currently, there is a rule that sends `OnEventChanged(EMBEDDED_NAVI, true / false)` to SDL when embedded navigation becomes activate / deactivate.  
-However, the activate / deactivate state of the embedded navigation is not specifically defined.  
+However, the active / deactive state of the embedded navigation is not specifically defined.  
 
 **Table 1** Action definition for `OnEventChanged(EMBEDDED_NAVI, true / false)`  
 
