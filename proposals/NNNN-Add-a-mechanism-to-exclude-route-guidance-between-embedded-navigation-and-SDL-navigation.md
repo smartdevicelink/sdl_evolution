@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-NNNN](NNNN-Add-a-mechanism-to-exclude-route-guidance-between-embedded-navigation-and-SDL-navigation.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: Awating Review
+* Status: **Awaiting review** 
 * Impacted Platforms: [Core / HMI / iOS / Java Suite / RPC]
 
 ## Introduction
