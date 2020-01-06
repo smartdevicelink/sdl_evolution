@@ -33,7 +33,7 @@ If HU wants to switch the screen (HMI Status) during PHONE_CALL, they can use AP
 
 ## Potential downsides
 
-It is considered that there is an impact by continuing to display the SDL App screen when calling `OnEventChanged (PHONE_CALL, active: true)`.  
+It is considered that there is an impact by continuing to display the SDL app screen when calling `OnEventChanged (PHONE_CALL, active: true)`.  
 However, many HUs display the PHONE_CALL screen in full screen, so there is no particular impact.  
 
 ## Impact on existing code
