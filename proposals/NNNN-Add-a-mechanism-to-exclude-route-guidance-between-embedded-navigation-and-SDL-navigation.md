@@ -36,7 +36,7 @@ This prevents unintended route deletion and conflicting route guidance by adding
 
 ## Proposed solution
 
-Add RPC `CancelGuideNaviApp` which requests cancellation of route guidance of SDL navigation from embedded navigation to enable exclusion of route guidance.  
+Add RPC `CancelGuideNaviApp`, which requests cancellation of route guidance of SDL navigation from embedded navigation to enable exclusion of route guidance.  
 Also, add RPC `CancelGuideEmbeddedNavi`, requesting cancellation of route guidance of embedded navigation from the SDL navigation.  
 
 ### HMI_API.xml
