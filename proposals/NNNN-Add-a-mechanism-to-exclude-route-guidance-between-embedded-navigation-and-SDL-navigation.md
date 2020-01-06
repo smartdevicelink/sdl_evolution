@@ -62,7 +62,7 @@ Also, add RPC `CancelGuideEmbeddedNavi`, requesting cancellation of route guidan
     </function>
 ```
 
-MOBILE_API.xml
+### MOBILE_API.xml
 ```xml
     <function name="CancelGuideNaviApp" messagetype="request">
       <description>Request route guidance cancellation of SDL navigation</description>
