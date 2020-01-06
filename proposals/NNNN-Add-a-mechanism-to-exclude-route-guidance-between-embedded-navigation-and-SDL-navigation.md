@@ -31,7 +31,7 @@ Therefore, depending on the inactive operation of the built-in navigation (the h
 |Keep Route|Native navigation route guidance overlaps when using SDL navigation.|No problem.|
 
 Simply adding route deletion to the `OnEventChanged` behavior rule will result in behavior that does not meet the user's intention.  
-Prevents unintended route deletion and conflicting route guidance by adding a mechanism to exclude route guidance.  
+This prevents unintended route deletion and conflicting route guidance by adding a mechanism to exclude route guidance.  
 
 
 ## Proposed solution
