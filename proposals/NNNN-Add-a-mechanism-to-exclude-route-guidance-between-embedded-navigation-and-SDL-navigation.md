@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Add exclusive control mechanism to prevent conflict of route guidance between embedded navigation and SDL navigation.  
+This proposal is to add an exclusive control mechanism to prevent conflict of route guidance between embedded navigation and SDL navigation.  
 
 ## Motivation
 
