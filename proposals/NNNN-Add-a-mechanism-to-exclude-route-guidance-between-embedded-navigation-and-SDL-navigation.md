@@ -125,7 +125,7 @@ No potential downsides
 
 ## Impact on existing code
 
-The addition of a new RPC has the following effects:  
+The addition of a new RPC affects the following platforms:  
 - Core
 - HMI
 - iOS
