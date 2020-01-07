@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0255](0255-Enhance-BodyInformation-vehicle-data.md)
 * Author: [Ankur Tiwari](https://github.com/atiwari9)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core | HMI | iOS | Java Suite | RPC]
 
 ## Introduction
@@ -31,8 +31,8 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 ```xml
 <struct name="DoorStatus" since="X.x">
 	<description>Describes the status of a parameter of door.</description>
-	<param name="doorLocation" type="Grid" mandatory="true"/>
-	<param name="doorStatus" type="DoorStatusType" mandatory="true"/>
+	<param name="location" type="Grid" mandatory="true"/>
+	<param name="status" type="DoorStatusType" mandatory="true"/>
 </struct>
 ```
 ##### New enum `DoorStatusType` is needed:
@@ -48,19 +48,9 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 ```xml
 <struct name="GateStatus" since="X.x">
 	<description>Describes the status of a parameter of trunk/hood/etc.</description>
-	<param name="gateType" type="GateType" mandatory="true"/>
-	<param name="gateStatus" type="DoorStatusType" mandatory="true"/>
+	<param name="location" type="Grid" mandatory="true"/>
+	<param name="status" type="DoorStatusType" mandatory="true"/>
 </struct>
-```
-
-##### New enum `GateType` is needed:
-```xml
-<enum name="GateType" since="X.x">
-	<element name="FRONT"/>
-	<element name="BACK"/>
-	<element name="RIGHT"/>
-	<element name="LEFT"/>
-</enum>
 ```
 
 ##### Then `BodyInformation` Struct would be updated as:
@@ -87,10 +77,10 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 	<param name="rearRightDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
 		<description>References signal "DrStatRr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
-+	<param name="doorsStatus" type="DoorStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
++	<param name="doorStatuses" type="DoorStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
 +		<description>Provides status for doors if Ajar/Closed/Locked</description>
 +	</param>	
-+	<param name="gatesStatus" type="GateStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
++	<param name="gateStatuses" type="GateStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
 +		<description>Provides status for trunk/hood/etc. if Ajar/Closed/Locked</description>
 +	</param>
 </struct>
@@ -103,8 +93,8 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 ```xml
 <struct name="DoorStatus" since="X.x">
 	<description>Describes the status of a parameter of door.</description>
-	<param name="doorLocation" type="Common.Grid" mandatory="true"/>
-	<param name="doorStatus" type="Common.DoorStatusType" mandatory="true"/>
+	<param name="location" type="Common.Grid" mandatory="true"/>
+	<param name="status" type="Common.DoorStatusType" mandatory="true"/>
 </struct>
 ```
 ##### New enum `DoorStatusType` is needed in `Common` interface:
@@ -120,19 +110,9 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 ```xml
 <struct name="GateStatus" since="X.x">
 	<description>Describes the status of a parameter of trunk/hood/etc.</description>
-	<param name="gateType" type="Common.GateType" mandatory="true"/>
-	<param name="gateStatus" type="Common.DoorStatusType" mandatory="true"/>
+	<param name="location" type="Common.Grid" mandatory="true"/>
+	<param name="status" type="Common.DoorStatusType" mandatory="true"/>
 </struct>
-```
-
-##### New enum `GateType` is needed in `Common` interface:
-```xml
-<enum name="GateType" since="X.x">
-	<element name="FRONT"/>
-	<element name="BACK"/>
-	<element name="RIGHT"/>
-	<element name="LEFT"/>
-</enum>
 ```
 
 ##### Then `BodyInformation` Struct in `Common` interface would be updated as:
@@ -159,10 +139,10 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 	<param name="rearRightDoorAjar" type="Boolean" mandatory="false" deprecated="true" since="X.x">
 		<description>References signal "DrStatRr_B_Actl". Deprecated starting with RPC Spec X.x.x.</description>
 	</param>
-+	<param name="doorsStatus" type="Common.DoorStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
++	<param name="doorStatuses" type="Common.DoorStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
 +		<description>Provides status for doors if Ajar/Closed/Locked</description>
 +	</param>	
-+	<param name="gatesStatus" type="Common.GateStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
++	<param name="gateStatuses" type="Common.GateStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
 +		<description>Provides status for trunk/hood/etc. if Ajar/Closed/Locked</description>
 +	</param>
 </struct>
