@@ -128,4 +128,4 @@ You can find more information about proposal implementations and release plannin
 [sdl_proposals_xml]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals.xml "SDL Proposals XML"
 [sdl_evolution_proposal_status_page]: https://smartdevicelink.github.io/sdl_evolution/ "SDL Evolution Proposal Status Page"
 [proposals_versus_issues]: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals_versus_issues.md "Proposals versus Issues"
-[sdl_releases]: https://github.com/smartdevicelink/sdl_evolution/blob/master/sdl_releases.md "SDL Releases"
+[sdl_releases]: https://github.com/smartdevicelink/sdl_evolution/blob/master/SDL_Releases.md "SDL Releases"
