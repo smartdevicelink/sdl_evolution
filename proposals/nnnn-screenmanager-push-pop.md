@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-screenmanager-push-pop.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [iOS / Java Suite / Web]
+* Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
 
@@ -125,5 +125,5 @@ This would be a minor version update to all libraries implementing a screen mana
 
 ## Alternatives considered
 
-1. We could only have an API to change the template and remove the push/pop and separation of screens APIs, but the author determined that the change to allow developers to separate their code was a big improvement for developers who can now easily separate their unrelated SDL code into contained classes.
+1. We could only have an API to change the template and remove the push/pop APIs and separation of template screens, but the author determined that the change to allow developers to separate their code was a big improvement for developers who can now easily separate their unrelated SDL code into contained classes.
 2. We could add an API that changes templates without using the `SDLTemplate` protocol (e.g. by simply passing a string), but the author determined that this would create confusion for developers and implementation difficulties to have two different ways to change templates.
