@@ -110,10 +110,10 @@ Additions will be made to the screen manager:
 1. When connected to systems running RPC <6.0, the screen manager should send `SetDisplayLayout` to change the template, and on systems running RPC >6.0, the screen manager should send `Show` to change the template.
 
 ### Java APIs
-This will be set up in a similar way to the Obj-C APIs above. The `SDLTemplate` protocol and screen manager additions above would be translated into appropriate Java APIs. Any necessary changes are at the discretion of the project maintainers. However larger changes that would impact back into the Objective-C code above (such as adding or removing a method) will require proposal revisions.
+This will be set up in a similar way to the Obj-C APIs above. The `SDLTemplate` protocol and screen manager additions above would be translated into appropriate Java APIs. Any necessary changes are at the discretion of the Project Maintainer. However larger changes that would impact the Objective-C code above (such as adding or removing a method) will require proposal revisions.
 
 ### JavaScript APIs
-The JavaScript APIs will be set up in a similar way to the Obj-C APIs above. The `SDLTemplate` protocol and screen manager additions above would be translated into appropriate JavaScript APIs. All changes will be at the discretion of the project maintainers. However larger changes that would impact back into the Objective-C code above (such as adding or removing a method) will require proposal revisions.
+The JavaScript APIs will be set up in a similar way to the Obj-C APIs above. The `SDLTemplate` protocol and screen manager additions above would be translated into appropriate JavaScript APIs. All changes will be at the discretion of the Project Maintainer. However larger changes that would impact the Objective-C code above (such as adding or removing a method) will require proposal revisions.
 
 ## Potential downsides
 
