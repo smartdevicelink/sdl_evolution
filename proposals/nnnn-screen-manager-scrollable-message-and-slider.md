@@ -3,18 +3,18 @@
 * Proposal: [SDL-NNNN](NNNN-screen-manager-scrollable-message-and-slider.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [iOS / Java Suite]
+* Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
 This proposal adds scrollable message and slider management to the screen manager API.
 
 ## Motivation
-The screen manager should be capable of handling all screen related RPCs and features. Text, graphics, soft buttons, menus, and choice interactions are currently handled, but scrollable message and slider are not.
+The screen manager should be capable of handling all screen related RPCs and features. Text, graphics, soft buttons, menus, and choice interactions are currently handled, but scrollable message and slider popups are not.
 
 ## Proposed solution
-This proposal is to add an API to the `SDLScreenManager` for handling the `Slider` and `ScrollableMessage` RPCs.
+This proposal is to add an API to the `SDLScreenManager` for handling `Slider` and `ScrollableMessage` RPCs.
 
-The proposed solution is to add a new private `SDLAlertManager` sub-manager to the screen manager to handle related capabilities, soft button image uploads, text concatination, etc. The `SDLScreenManager` itself will then provide a simple public API for presenting these RPCs to the screen.
+The proposed solution is to add a new private `SDLAlertManager` sub-manager to the screen manager to handle related capabilities, soft button image uploads, text concatenation, etc. The `SDLScreenManager` itself will then provide a simple public API for presenting these RPCs to the screen.
 
 When `present` is called, if the soft buttons contain images, these will be uploaded before the `Slider` or `ScrollableMessage` is presented.
 
