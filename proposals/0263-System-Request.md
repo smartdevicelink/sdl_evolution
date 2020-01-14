@@ -18,7 +18,7 @@ Furthermore, currently a mobile app can send a `SystemRequest` to the head unit,
 ## Proposed solution
 
 This proposal adds a new optional parameter to the existing `SystemRequest` request and `OnSystemRequest` notification in HMI API.
-This proposal also adds a new optional parameter to `SystemRequest` response in HMI API. And the data shall be trasnmitted via hybrid message to mobile.
+This proposal also adds a new optional parameter to the `SystemRequest` response in the HMI API. The data shall be transmitted via hybrid message to mobile.
 
 Mobile API changes
 
