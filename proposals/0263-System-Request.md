@@ -81,7 +81,7 @@ Potential changes to HMI
 
 - When HMI sends a OnSystemRequest notification, it is free to choose either the file transfer (as before) or string transfer (new) regardless of the configurable parameter in smartdevicelink.ini.
 
-- When HMI sends a SystemRequest response with `resultData`, it shall choose string transfer.
+- When HMI sends a `SystemRequest` response with `resultData`, it shall choose string transfer.
 
 Since `fileName` is mandatory in the HMI API for SystemRequest request and OnSystemRequest and it will be ignored when `requestData`/`data` exists, `fileName` can be hard coded to any string. This is true for both SDL core and HMI.
 
