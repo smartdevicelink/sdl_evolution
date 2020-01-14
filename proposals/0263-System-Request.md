@@ -11,7 +11,7 @@ RPC `SystemRequest` and `OnSystemRequest` can send bulk binary data between a mo
 
 ## Motivation
 
-With the growing popularity of SDL, more components within the head unit would like to exchange their data in a component specific proprietary way with the owner applications. Most of the time, the size of the information is less than a kilobyte. Currently mobile apps can send/receive binary data in SystemRequest and OnSystemRequest RPC messages using hybrid message, a file needs to be passed between SDL Core and HMI to exchange the data. File operations (create, read, write, delete) are slow. It is better to send data (especially a small amount of data) using message directly.
+With the growing popularity of SDL, more components within the head unit would like to exchange their data in a component specific proprietary way with the owner applications. Most of the time, the size of the information is less than a kilobyte. Currently mobile apps can send/receive binary data in `SystemRequest` and `OnSystemRequest` RPC messages using hybrid message, and a file needs to be passed between SDL Core and HMI to exchange the data. File operations (create, read, write, delete) are slow. It is better to send data (especially a small amount of data) using message directly.
 
 Furthermore, currently a mobile app can send a `SystemRequest` to the head unit, only getting a result code back. The resulting vehicle data is not available in the response. We propose to provide a mobile app with a way to request OEM specific data from the head unit depending on the `requestType` and `subRequestType` in the `OnSystemRequest` response.
 
