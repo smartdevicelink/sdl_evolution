@@ -69,7 +69,7 @@ Here are the changes needed by SDL Core.
 MaximumBinaryPayloadSizeToString = 11520
 ```
 
-- When SDL Core receives a SystemRequest request from mobile, if the incoming binary data is less than a certain size specified by smartdevicelink.ini, instead of saving the data to a temporary file, SDL Core shall encode the data using base64 format, and send the encoded string as `requestData` directly within a SystemRequest HMI message. If the size of data is large, SDL Core saves the data to a file and passes the file name to HMI as before.
+- When SDL Core receives a `SystemRequest` request from mobile, if the incoming binary data is less than a certain size specified by smartdevicelink.ini, instead of saving the data to a temporary file, SDL Core shall encode the data using base64 format, and send the encoded string as `requestData` directly within a SystemRequest HMI message. If the size of the data is large, SDL Core saves the data to a file and passes the file name to HMI as before.
 
 - When SDL Core revives an OnSystemRequest notification from HMI, if the optional `data` parameter exists, SDL Core shall ignore the `fileName` parameter. Instead of reading data from the file, SDL Core shall base64 decode the string, and send the resulting data in hybrid part of the message to mobile. If the optional `data` parameter does not exist, SDL Core reads data from file as before.
 
