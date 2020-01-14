@@ -79,7 +79,7 @@ Potential changes to HMI
 
 - When HMI receives a `SystemRequest` request, if optional parameter `requestData` exists, it shall ignore the `fileName` parameter. It shall base64 decode the string and use the data as if it comes from a file.
 
-- When HMI sends a OnSystemRequest notification, it is free to choose either the file transfer (as before) or string transfer (new) regardless of the configurable parameter in smartdevicelink.ini.
+- When HMI sends an `OnSystemRequest` notification, it is free to choose either the file transfer (as before) or string transfer (new) regardless of the configurable parameter in smartdevicelink.ini.
 
 - When HMI sends a `SystemRequest` response with `resultData`, it shall choose string transfer.
 
