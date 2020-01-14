@@ -87,7 +87,7 @@ Since `fileName` is mandatory in the HMI API for SystemRequest request and OnSys
 
 
 
-Potential code changes to Java Proxy
+### Potential code changes to Java Proxy
 
 Since java suite already has the code to extract hybrid part of the protocl message and set the bulk data when create a RPC message (response), the only change is to expose a method for developer to get the result data.
 
