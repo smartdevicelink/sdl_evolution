@@ -128,7 +128,7 @@ public class SystemRequestResponse extends RPCResponse {
 ```
 Potential code changes to iOS Proxy
 
-Similar to java suite, the required function would be parsing the SystemRequestResponse message and extract bulk data in protocol level message and expose an get method for it. 
+Similar to Java Suite, the required function would be parsing the `SystemRequestResponse` message, extracting bulk data in protocol level message, and exposing a get method for it. 
 After looking at the code, `bulkData` is already a public property of `SDLRPCMessage`. `SDLSystemRequestResponse`, `SDLOnSystemRequest`, and `SDLSystemRequest` all inherit from `SDLRPCMessage`. `bulkData` is already exposed (can be set/get and is nullable) and `SDLRPCMessage` handles the parsing from core too, therefore, there is no code change need. Developers can use something like the following to access `bulkData`. 
 
 ```
