@@ -83,7 +83,7 @@ Potential changes to HMI
 
 - When HMI sends a `SystemRequest` response with `resultData`, it shall choose string transfer.
 
-Since `fileName` is mandatory in the HMI API for SystemRequest request and OnSystemRequest and it will be ignored when `requestData`/`data` exists, `fileName` can be hard coded to any string. This is true for both SDL core and HMI.
+Since `fileName` is mandatory in the HMI API for `SystemRequest` request and `OnSystemRequest` and it will be ignored when `requestData`/`data` exists, `fileName` can be hard coded to any string. This is true for both SDL Core and HMI.
 
 
 
