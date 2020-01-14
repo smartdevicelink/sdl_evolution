@@ -88,7 +88,7 @@ Since `fileName` is mandatory in the HMI API for SystemRequest request and OnSys
 
 
 
-Potential changes to Java Proxy
+Potential code changes to Java Proxy
 
 Since java suite already has the code to extract hybrid part of the protocl message and set the bulk data when create a RPC message (response), the only change is to expose a method for developer to get the result data.
 
@@ -127,10 +127,15 @@ public class SystemRequestResponse extends RPCResponse {
     }
 }
 ```
-Potential changes to  iOS Proxy
+Potential code changes to iOS Proxy
 
-Similar to java suite, the change would be parsing the SystemRequestResponse message and extract resultData from bulk data in protocol level message and expose an get method for it. 
+Similar to java suite, the required function would be parsing the SystemRequestResponse message and extract bulk data in protocol level message and expose an get method for it. 
+After looking at the code, `bulkData` is already a public property of `SDLRPCMessage`. `SDLSystemRequestResponse`, `SDLOnSystemRequest`, and `SDLSystemRequest` all inherit from `SDLRPCMessage`. `bulkData` is already exposed (can be set/get and is nullable) and `SDLRPCMessage` handles the parsing from core too, therefore, there is no code change need. Developers can use something like the following to access `bulkData`. 
 
+```
+SDLSystemRequestResponse *respsonse = …
+NSLog(response.bulkData)
+```
 
 ## Potential downsides
 
