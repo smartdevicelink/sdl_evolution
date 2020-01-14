@@ -75,7 +75,7 @@ MaximumBinaryPayloadSizeToString = 11520
 
 - When SDL Core receives a `SystemRequest` response from the HMI, if the optional `resultData` parameter exists, SDL Core shall base64 decode the string, and send the resulting data in the hybrid part of the message to mobile. 
 
-Potential changes to HMI
+### Potential changes to HMI
 
 - When HMI receives a `SystemRequest` request, if optional parameter `requestData` exists, it shall ignore the `fileName` parameter. It shall base64 decode the string and use the data as if it comes from a file.
 
