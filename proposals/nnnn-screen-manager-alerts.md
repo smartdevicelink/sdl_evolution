@@ -5,9 +5,6 @@
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
-## TODO
-- [ ] Java Suite / JavaScript Suite APIs
-
 ## Introduction
 This proposal adds alert management and handling to the screen manager API.
 
@@ -20,7 +17,6 @@ The proposed solution is to add a new private `SDLAlertManager` sub-manager to t
 ### Audio Processing
 In order to support complicated `Alert`'s complicated audio processing as well as future support for other RPCs such as `Speak`, we need to add new classes that handle audio to be played in a high-level way. This will be supported by using a "class-cluster" or "facade" design pattern to reduce duplicate implementation code and to present to the developer only the information that is important to that particular API.
 
-#### iOS
 The `SDLAudioData` class is a private class containing the actual data that the facade classes will present. It has all available data on it and each facade will present or hide data as needed. This class can be extended as needed to support RPC parameters such as `muteAudio` for `PerformAudioPassThru` in the future.
 
 ```objc
@@ -103,7 +99,6 @@ The next class is the facade class for alerts. Other facades can be created, suc
 ### Manager Alert API
 The next object is the alert view itself that developers will construct and pass to the Screen Manager.
 
-#### iOS
 ```objc
 @interface SDLAlertView: NSObject
 
@@ -181,6 +176,9 @@ And then the additions to the screen manager public API itself to present the al
 
 @end
 ```
+
+### Java Suite / JavaScript Suite APIs
+Due to the size of the iOS APIs and the similarity between the iOS APIs and the Java Suite and eventual JavaScript Suite APIs, this proposal does not present the public APIs of the Java Suite and JavaScript Suite APIs. The Java Suite and JavaScript Suite APIs should mirror the iOS API appropriately and is up to the maintainers' discretion. However, if any changes needed to be made such that they impacted the iOS API (such as the alteration, addition, or removal of a method or property), then a proposal revision would be needed.
 
 ### Additional Implementation Notes
 - The internal alert manager will observe the screen context to know when the alert has been presented, and then call the `completionHandler`.
