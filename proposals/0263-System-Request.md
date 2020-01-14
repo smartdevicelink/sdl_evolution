@@ -73,7 +73,7 @@ MaximumBinaryPayloadSizeToString = 11520
 
 - When SDL Core receives an `OnSystemRequest` notification from the HMI, if the optional `data` parameter exists, SDL Core shall ignore the `fileName` parameter. Instead of reading data from the file, SDL Core shall base64 decode the string, and send the resulting data in the hybrid part of the message to mobile. If the optional `data` parameter does not exist, SDL Core reads data from the file as before.
 
-- When SDL Core revives a SystemRequest response from HMI, if the optional `resultData` parameter exists, SDL Core shall base64 decode the string, and send the resulting data in hybrid part of the message to mobile. 
+- When SDL Core receives a `SystemRequest` response from the HMI, if the optional `resultData` parameter exists, SDL Core shall base64 decode the string, and send the resulting data in the hybrid part of the message to mobile. 
 
 Potential changes to HMI
 
