@@ -22,7 +22,7 @@ This proposal also adds a new optional parameter to the `SystemRequest` response
 
 Mobile API changes
 
-There is no parameter added to mobile API. However, the text description of `SystemRequest` response shall say that binary data can be included in hybrid part of message in the response of a system request.
+There is no parameter added to mobile API. However, the text description of `SystemRequest` response shall say that binary data can be included in the hybrid part of the message in the response of a system request.
  
 HMI API changes
 
