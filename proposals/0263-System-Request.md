@@ -89,7 +89,7 @@ Since `fileName` is mandatory in the HMI API for `SystemRequest` request and `On
 
 ### Potential code changes to Java Proxy
 
-Since java suite already has the code to extract hybrid part of the protocl message and set the bulk data when create a RPC message (response), the only change is to expose a method for developer to get the result data.
+Since Java Suite already has the code to extract the hybrid part of the protocol message and set the bulk data when creating a RPC message (response), the only change is to expose a method for the developer to get the result data.
 
 ```java
 public class SystemRequestResponse extends RPCResponse {
