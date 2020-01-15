@@ -1,8 +1,8 @@
 # WebEngine Projection mode
 
-* Proposal: [SDL-NNNN](NNNN-webengine-projection-mode.md)
+* Proposal: [SDL-0273](0273-webengine-projection-mode.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / JavaScript ]
 
 ## Introduction
