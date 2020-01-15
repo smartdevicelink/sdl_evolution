@@ -1,8 +1,8 @@
 # Separating the change of Audible status and the change of HMI Status
 
-* Proposal: [SDL-NNNN](NNNN-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md)
+* Proposal: [SDL-0264](0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
