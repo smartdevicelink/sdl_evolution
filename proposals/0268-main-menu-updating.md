@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0268](0268-main-menu-updating.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
 
 ## Introduction
