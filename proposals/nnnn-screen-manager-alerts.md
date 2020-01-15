@@ -149,7 +149,7 @@ The next object is the alert view itself that developers will construct and pass
 
 - (instancetype)initWithText:(NSString *)text buttons:(NSArray<SDLSoftButtonObject *> *)softButtons;
 
-- (instancetype)initWaitingIndicatorAlertWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText teritaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon;
+- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout showWaitIndicator:(BOOL)showWaitIndicator audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon;
 
 /**
  Cancels the alert. If the alert has not yet been sent to Core, it will not be sent. If the alert is already presented on Core, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to Core versions 6.0+. On older versions of Core, the alert will not be dismissed.
@@ -184,6 +184,7 @@ Due to the size of the iOS APIs and the similarity between the iOS APIs and the 
 - The internal alert manager will observe the screen context to know when the alert has been presented, and then call the `completionHandler`.
 - The internal alert manager will always send the alert, even if the system context is not MAIN. If the `AlertResponse` returns an failure to present, it will call the `completionHandler` with the error.
 - The developer will not be notified when the alert appears on the screen, assuming no error occurred.
+- The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to how the `SDLChoiceSetManager` does.
 
 ## Potential downsides
 The creation of the alert sub-manager will be complex because it has to handle the creation of soft buttons and manage their ids alongside the soft button manager. It will also have to upload the icon image, soft button images, and audio files. However, this is all complexity that every SDL developer must currently consider when developing their app. This is especially difficult for them because they don't usually have to deal with uploading images and waiting until it's done.
@@ -197,8 +198,8 @@ This is a minor version change for all proxy libraries.
 ```objc
 @protocol SDLAlertViewDelegate <NSObject>
 
-- (void)alertView:(SDLAlertView *)alertView didFailToAppearWithError:(NSError *)error
-- (void)alertViewDidAppear:(SDLAlertView *)alertView;
+- (void)alertView:(SDLAlertView *)alertView didFailToAppearWithError:(NSError *)error;
+- (void)alertViewDidAppear:(SDLAlertView *)alertView; // The problem is that this is partly a guess based on system context going from X -> ALERT
 - (void)alertViewDidDismiss:(SDLAlertView *)alertView;
 
 @end
