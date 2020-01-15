@@ -1,8 +1,8 @@
 # WebEngine App Testing
 
-* Proposal: [SDL-NNNN](NNNN-webengine-app-testing.md)
+* Proposal: [SDL-0275](0275-webengine-app-testing.md)
 * Author: [Nick Schwab](https://github.com/nickschwab), [Chris Rokita](https://github.com/crokita)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Manticore]
 
 ## Introduction
