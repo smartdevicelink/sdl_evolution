@@ -35,7 +35,7 @@ So we would add this to the MOBILE_API and HMI_API:
 </struct>
 ```
 
-Plus add an `isDisabled` flag to `SoftButton`. If the flag is false or missing, the softbutton must appear usable. If true, the `SoftButton` will still show on the HMI but appear grayed out or otherwise disabled. Button press events will still be sent to the app so the app can enable experiences like "Repeat is for Premium customers only". If a button is set to disabled and highlighted, it's up to the HMI to depict the best possible UI.
+Plus add an `isDisabled` flag to `SoftButton`. If the flag is false or missing, the softbutton must appear usable. If true, the `SoftButton` will still show on the HMI but appear grayed out or otherwise disabled. Button press events will still be sent to the app so the app can enable experiences like "Repeat is for Premium customers only". If the HMI is disabling a softbutton for any reason (like DD) and the app requests that same softbutton to be disabled - the HMI disabling the softbutton would take priority.  If a button is set to disabled and highlighted, it's up to the HMI to depict the best possible UI.
 ```xml
 <struct name="SoftButton">
 .
@@ -54,7 +54,7 @@ For buttons that can be subscribed to, add a parameter to `ButtonCapabilities` t
     .
     .
     .
-    <param name="disabledButtonPossible" type="Boolean" mandatory="true">
+    <param name="disabledSupported" type="Boolean" mandatory="true">
         <description>The button supports being disabled. If the button is set to disabled, it will still show on the HMI but appear grayed out.
         </description>
     </param>
@@ -129,8 +129,8 @@ public class SoftButtonConfiguration {
 3. The `disabled` property will have to be added to `SoftButtonState`:
 
 ```Java
-	public boolean getDisabled(){};
-	public void setDisabled(boolean disabled){};
+	public boolean isDisabled() { ... }
+	public void setDisabled(bool disabled) { ... }
 ```
 
 The soft button manager will then have to take both the configuration value and the `disabled` BOOL on the state into account to determine if the button will be sent or not and with what values. If the app is connected to an older head unit that doesn't support disabled `SoftButton`s, the manager would make sure that the button is not sent to the head unit if the `SoftButtonConfiguration.disabledButtonFallback = true`.
