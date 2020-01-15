@@ -1,8 +1,8 @@
 # Add preferred FPS to VideoStreamingCapability
 
-* Proposal: [SDL-NNNN](NNNN-add-preferred-FPS.md)
+* Proposal: [SDL-0274](0274-add-preferred-FPS.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
