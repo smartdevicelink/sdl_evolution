@@ -93,7 +93,7 @@ The next object is the alert view itself that developers will construct and pass
 @interface SDLAlertView: NSObject
 
 /**
- Set this to change the default timeout for all alerts. If a timeout is not set on an individual alert object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 5 seconds. The minimum is 3 seconds, the max is 10 seconds. If this is set below the minimum, it will be capped at 3 seconds. If this is set above the maximum, it will be capped at 10 seconds.
+ Set this to change the default timeout for all alerts. If a timeout is not set on an individual alert object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 5 seconds. The minimum is 3 seconds, the maximum is 10 seconds. If this is set below the minimum, it will be capped at 3 seconds. If this is set above the maximum, it will be capped at 10 seconds.
  */
 @property (class, assign, nonatomic) NSTimeInterval defaultTimeout;
 
@@ -201,14 +201,14 @@ Due to the size of the iOS APIs and the similarity between the iOS, Java Suite a
 
 ### Additional Implementation Notes
 - The internal alert manager will observe the `AlertResponse` to know when the alert has finished presenting, and then call the `completionHandler`.
-- The internal alert manager will always send the alert, even if the system context is not MAIN. If the `AlertResponse` returns an failure to present, it will call the `completionHandler` with the error.
+- The internal alert manager will always send the alert, even if the system context is not MAIN. If the `AlertResponse` returns a failure to present, it will call the `completionHandler` with the error.
 - The developer will not be notified when the alert appears on the screen, assuming no error occurred – see alternative #1 for possible ways to do that.
 - The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to how the `SDLChoiceSetManager` does.
 - If any images fail to upload, the presentation of the alert should continue without an error.
-- If an audio file is supposed to be played and fails to upload, the presentation of the alert will fail _if_ there is no text attached to the alert. If text is present on the alert and the audio file fails to upload, the presentation of the alert should continue and no error returned.
+- If an audio file is supposed to be played and fails to upload, the presentation of the alert will fail _if_ there is no text attached to the alert. If text is present on the alert and the audio file fails to upload, the presentation of the alert should continue and no error should be returned.
 
 ## Potential downsides
-The creation of the alert sub-manager will be complex because it has to handle the creation of soft buttons and manage their ids alongside the soft button manager. It will also have to upload the icon image, soft button images, and audio files. However, this is all complexity that every SDL developer must currently consider when developing their app. This is especially difficult for them because they don't usually have to deal with uploading images and waiting until it's done.
+The creation of the alert sub-manager will be complex because it has to handle the creation of soft buttons and manage their IDs alongside the soft button manager. It will also have to upload the icon image, soft button images, and audio files. However, this is all complexity that every SDL developer must currently consider when developing their app. This is especially difficult for them because they don't usually have to deal with uploading images and waiting until the upload is done.
 
 ## Impact on existing code
 This is a minor version change for all app libraries.
