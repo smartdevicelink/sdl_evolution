@@ -22,7 +22,7 @@ In order to support complicated `Alert`'s complicated audio processing and to si
 @interface SDLAlertAudioData: NSObject
 
 /**
- Whether the alert tone should be played before the prompt (if any) is spoken. Defaults to NO. Only works on `Alert`s and will be ignored on other alert types.
+ Whether the alert tone should be played before the prompt (if any) is spoken. Defaults to NO.
  */
 @property (assign, nonatomic, readonly) BOOL playTone;
 
