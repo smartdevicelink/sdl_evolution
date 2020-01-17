@@ -172,6 +172,16 @@ public class BaseScreenManager {
 }
 ```
 
+### JavaScript Suite APIs
+Due to the similarity between the iOS, Java Suite and eventual JavaScript Suite APIs, this proposal does not present the public APIs of the JavaScript Suite APIs – especially because the JavaScript Suite APIs do not currently have a screen manager layer. The JavaScript Suite APIs should mirror the iOS and Java Suite API appropriately and is up to the maintainers' discretion. However, if any changes needed to be made such that they impacted the iOS / Java Suite API (such as the alteration, addition, or removal of a method or property), then a proposal revision would be needed.
+
+### Additional Implementation Notes
+- The internal alert manager will observe the `ScrollableMessageResponse` and `SliderResponse` to know when it has finished presenting, and then call the `completionHandler`.
+- The internal alert manager will always send the alert, even if the system context is not MAIN. If the response returns a failure to present, it will call the `completionHandler` with the error.
+- The developer will not be notified when the alert appears on the screen, assuming no error occurred – see alternative #1 for possible ways to do that.
+- The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to how the `SDLChoiceSetManager` does.
+- If any images fail to upload, the presentation of the scrollable message should continue without an error.
+
 ## Potential downsides
 The creation of the alert sub-manager will be complex because it has to handle the creation of soft buttons and manage their IDs alongside the soft button manager. It will also have to upload the soft button images. However, this is all complexity that every SDL developer must currently consider when developing their app. This is especially difficult for them because they don't usually have to deal with uploading images and waiting until the upload is done.
 
