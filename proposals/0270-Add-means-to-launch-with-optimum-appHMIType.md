@@ -1,8 +1,8 @@
 # Add means to launch with optimum appHMIType
 
 * Proposal: [SDL-0270](0270-Add-means-to-launch-with-optimum-appHMIType.md)
-* Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **Returned for Revisions**
+* Author: [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto)
+* Status: Awaiting review
 * Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
 
 ## Introduction
@@ -99,7 +99,18 @@ Add `launchAppHMIType` to the RPC below.
     </function>
 ```
 
-The operation after SDL App receives launchAppHMIType is not specified.  
+### Use Case
+
+For example, a navigation app with music playback function:
+
+1. When touch the app icon from the connectivity function screen to launch it (specify Navigation in launchAppHMIType), the navigation screen using video projection mode is displayed.
+
+2. When touch the app icon from the audio function screen to launch it (specify Media in launchAppHMIType), the music playback screen using the media template is displayed.
+
+3. When touch the app icon from the connectivity function screen to launch it (specify Navigation in launchAppHMIType) while the music playback screen used the media template is displayed on the app, the navigation screen using video projection mode is displayed while playing music.
+
+4. When touch the app icon from the audio function screen to launch it (specify Media in launchAppHMIType) during navigation by the app, the music playback screen using the media template is displayed during navigation.
+
 
 ## Potential downsides
 
