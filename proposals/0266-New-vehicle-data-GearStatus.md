@@ -33,7 +33,7 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 		<description>Gear position selected by the user i.e. Park, Drive, Reverse</description>
 	</param>
 	<param name="actualGear" type="PRNDL" mandatory="false">
-		<description>Tells the actual gear selected by transmission</description>
+		<description>Actual Gear in use by the transmission</description>
 	</param>
 	<param name="transmissionType" type="TransmissionType" mandatory="false">
 		<description>Tells the transmission type</description>
@@ -177,7 +177,7 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 		<description>Gear position selected by the user i.e. Park, Drive, Reverse</description>
 	</param>
 	<param name="actualGear" type="Common.PRNDL" mandatory="false">
-		<description>Tells the actual gear selected by transmission</description>
+		<description>Actual Gear in use by the transmission</description>
 	</param>
 	<param name="transmissionType" type="Common.TransmissionType" mandatory="false">
 		<description>Tells the transmission type</description>
