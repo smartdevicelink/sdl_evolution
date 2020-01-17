@@ -70,41 +70,66 @@ When `present` is called, if the soft buttons contain images, these will be uplo
 @property (copy, nonatomic, readonly) NSString *title;
 
 /**
- The number of values that will be available to the user on the slider. If the slider is created as a 'static' slider, then there will be one "footer" value and the 'ticks' on the slider will not have individual values. Must be a number between 1 and 26 or an exception will be thrown.
+ Maps to Slider.position. The initial location of the slider handle. Must be a value between 1 and 26 and cannot exceed `numPositions` or an exception will be thrown.
 */
-@property (assign, nonatomic, readonly) NSUInteger numValues;
+@property (assign, nonatomic, readonly) NSUInteger initialPosition;
 
 /**
- Maps to Slider.sliderFooter. The values to be displayed on the slider if the slider is a 'dynamic' slider, or a single 'footer' string if the slider is created a 'static' slider.
+ Maps to Slider.numTicks. The number of values that will be available to the user on the slider. If the slider is created as a 'static' slider, then there will be one "footer" value and the 'ticks' on the slider will not have individual values. Must be a number between 2 and 26 or an exception will be thrown.
+*/
+@property (assign, nonatomic, readonly) NSUInteger numPositions;
+
+/**
+ Maps to Slider.sliderFooter. The values to be displayed on the slider if the slider is a 'dynamic' slider, or a single 'footer' string if the slider is created a 'static' slider. If it's a dynamic slider, there must be between 2 and 26 values or an exception will be thrown.
 */
 @property (copy, nonatomic, readonly) NSArray<NSString *> *values;
+
+- (instancetype)initWithStaticSliderTitle:(NSString *)title footerText:(nullable NSString *)footerText timeout:(NSTimeInterval)timeout numPositions:(NSUInteger)positions initialPosition:(NSUInteger)initialPosition;
+
+- (instancetype)initWithDynamicSliderTitle:(NSString *)title values:(NSArray<NSString *> *)values timeout:(NSTimeInterval)timeout initialPosition:(NSUInteger)initialPosition;
 
 /**
  Cancels the slider modal. If the RPC has not yet been sent to Core, it will not be sent. If the slider is already presented on Core, it will be immediately dismissed. Canceling an already presented slider will only work if connected to Core versions 6.0+. On older versions of Core, it will not be dismissed.
 */
 - (void)cancel;
+
 @end
 ```
 
 ##### Java
 ```java
 public class ScrollableMessageView {
-    private Integer defaultTimeout = 30;
+    private class Integer defaultTimeout = 30;
 
     private String text;
     private Integer timeout;
     private List<SoftButtonObject> buttons;
 
-    // Also add getters for each 
+    // Add getters for each, `defaultTimeout` has a setter
 
-    public ScrollableMessageView(String text, Integer timeout, List<SoftButtonObject> buttons)
+    public ScrollableMessageView(@NonNull String text, @Nullable Integer timeout, @Nullable List<SoftButtonObject> buttons)
 
     public void cancel()
 }
 ```
 
 ```java
-public class 
+public class SliderView {
+    private class Integer defaultTimeout = 10;
+
+    private String title;
+    private Integer timeout;
+    private Integer initialPosition;
+    private Integer numPositions;
+    private List<String> values;
+
+    // Add getters for each, `defaultTimeout` has a setter
+    
+    public SliderView(@NonNull String title, @Nullable String footerText, @Nullable Integer timeout, @NonNull Integer initialPosition, @NonNull Integer numPositions)
+    public SliderView(@NonNull String title, @Nullable Integer timeout, @NonNull Integer initialPosition, @NonNull List<String> values)
+
+    public void cancel()
+}
 ```
 
 ### ScreenManager Additions
@@ -124,22 +149,54 @@ typedef void(^SDLScreenManagerSliderCompletionHandler)(NSUInteger selectedPositi
 */
 - (void)presentScrollableMessage:(SDLScrollableMessageView *)scrollableMessage completionHandler:(SDLScreenManagerUpdateCompletionHandler)handler;
 
-- (void)presentStaticSliderWithTitle:(NSString *)title footerText:(NSString *)footerText timeout:(NSTimeInterval)timeout numPositions:(NSUInteger)positions initialPosition:(NSUInteger)initialPosition completionHandler:(SDLScreenManagerSliderCompletionHandler)completionHandler;
-- (void)presentDynamicSliderWithTitle:(NSString *)title values:(NSArray<NSString *> *)values timeout:(NSTimeInterval)timeout initialPosition:(NSUInteger)initialPosition completionHandler:(SDLScreenManagerSliderCompletionHandler)completionHandler;
+/**
+ Present a slider
+*/
+- (void)presentSlider:(SDLSliderView *)sliderView completionHandler:(SDLScreenManagerSliderCompletionHandler)completionHandler;
 
 @end
 ```
 
 ##### Java Suite
 ```java
-// TODO
+public interface SliderCompletionListener {
+    void onComplete(boolean success, Integer selectedPosition);
+	void onError(String info);
+}
+```
+
+```java
+public class BaseScreenManager {
+    public void presentScrollableMessage(ScrollableMessageView scrollableMessage, CompletionListener listener)
+    public void presentSlider(SliderView slider, SliderCompletionListener listener)
+}
 ```
 
 ## Potential downsides
-This proposal provides a manager-level API for alerts. There is a [higher-level accepted proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0201-high-level-interface-overlay-controllers.md) for dealing with overlays as well. We would be providing two separate APIs for alerts. However, (1) they are on different layers (one manager, one high-level), and we do this already for other APIs (like perform interactions). Furthermore, (2) the high-level API is intended to use the managers, and having this API available would make the high-level API easier to implement. Finally, (3) the high-level API requires a complete rewrite from developers for their SDL integration, while this API is purely additive.
+The creation of the alert sub-manager will be complex because it has to handle the creation of soft buttons and manage their IDs alongside the soft button manager. It will also have to upload the soft button images. However, this is all complexity that every SDL developer must currently consider when developing their app. This is especially difficult for them because they don't usually have to deal with uploading images and waiting until the upload is done.
 
 ## Impact on existing code
 This is a minor version change for all proxy libraries.
 
 ## Alternatives considered
-1. Instead of 
+1. Instead of using completion handlers, the iOS library could use a delegate system for the slider and scrollable message. Then the view objects would take a delegate instead of the `SDLScreenManager` methods taking completion handlers.
+
+```objc
+@protocol SDLScrollableMessageViewDelegate <NSObject>
+
+- (void)scrollableMessageView:(SDLScrollableMessageView *)scrollableMessageView didFailToAppearWithError:(NSError *)error;
+- (void)scrollableMessageViewViewDidAppear:(SDLScrollableMessageView *)scrollableMessageView withWarning:(nullable NSError *)warning; // I don't know for certain if OnHMIStatus.context ALERT works for this.
+- (void)scrollableMessageViewDidDismiss:(SDLScrollableMessageView *)scrollableMessageView;
+
+@end
+```
+
+```objc
+@protocol SDLSliderViewDelegate <NSObject>
+
+- (void)sliderView:(SDLSliderView *)sliderView didFailToAppearWithError:(NSError *)error;
+- (void)sliderViewViewDidAppear:(SDLSliderView *)sliderView withWarning:(nullable NSError *)warning; // I don't know for certain if OnHMIStatus.context ALERT works for this.
+- (void)sliderViewDidDismiss:(SDLSliderView *)sliderView;
+
+@end
+```
