@@ -72,7 +72,7 @@ In order to support complicated `Alert`'s complicated audio processing and to si
 ##### Java
 ```java
 public class AlertAudioData {
-    private Bool playTone;
+    private boolean playTone;
     private List<TTSChunk> prompt;
     private SdlFile audioFile;
 
@@ -157,7 +157,7 @@ public class AlertView {
     private String text, secondaryText, tertiaryText;
     private Integer timeout;
     private AlertAudioData audio;
-    private Bool showWaitIndicator;
+    private boolean showWaitIndicator;
     private List<SoftButtonObject> softButtons;
     private SdlArtwork icon;
 
