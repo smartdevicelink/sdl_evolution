@@ -96,7 +96,7 @@ When `present` is called, if the soft buttons contain images, these will be uplo
 @end
 ```
 
-##### Java
+##### Java Suite
 ```java
 public class ScrollableMessageView {
     private class Integer defaultTimeout = 30;
