@@ -806,13 +806,11 @@ class SystemCapabilityManager {
     isCapabilitySupported(type)
     /**
      * @param SystemCapabilityType systemCapabilityType
-    */
-    async getCapability(systemCapabilityType)
-    /**
-     * @param SystemCapabilityType systemCapabilityType
      * @return {Object}
     */
-    getCapability(systemCapabilityType)
+    async getCapability(systemCapabilityType) {
+        
+    }
     /**
      * @param SystemCapabilityType systemCapabilityType
      * @param OnSystemCapabilityListener scListener
