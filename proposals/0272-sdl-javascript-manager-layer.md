@@ -808,9 +808,7 @@ class SystemCapabilityManager {
      * @param SystemCapabilityType systemCapabilityType
      * @return {Object}
     */
-    async getCapability(systemCapabilityType) {
-        
-    }
+    async getCapability(systemCapabilityType)
     /**
      * @param SystemCapabilityType systemCapabilityType
      * @param OnSystemCapabilityListener scListener
