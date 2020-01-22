@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0272](0272-sdl-javascript-manager-layer.md)
 * Author: [Chris Rokita](https://github.com/crokita)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: JavaScript Suite
 
 ## Introduction
