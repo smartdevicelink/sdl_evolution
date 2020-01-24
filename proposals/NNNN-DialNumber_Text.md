@@ -1,8 +1,7 @@
 # DialNumber Text
 
-* Proposal: [F127](F127-DialNumberText.md)
+* Proposal: [NNNN](NNNN-DialNumberText.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* SDL Proposal: [To be filled later](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
