@@ -1,6 +1,7 @@
 # ShowConstantTBT Description Update
 
-* Proposal: [NNNN](NNNN-ShowConstantTBT-Description-Update.md)
+* Proposal: [SDL-NNNN](NNNN-ConstantTBT-Update.md)
+
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
 * Impacted Platforms: [RPC]
