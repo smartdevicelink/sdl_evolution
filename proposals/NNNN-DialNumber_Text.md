@@ -1,6 +1,7 @@
 # DialNumber Text
 
-* Proposal: [NNNN](NNNN-DialNumberText.md)
+* Proposal: [NNNN](NNNN-DialNumber_Text.md)
+
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
