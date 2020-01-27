@@ -48,7 +48,7 @@ Added complexity to the HMI
 
 ## Impact on existing code
 
-It the additional message would be ignored on older headunits
+The additional parameter would be ignored on older headunits, so nothing needs to be done.
 
 ## Alternatives considered
 
