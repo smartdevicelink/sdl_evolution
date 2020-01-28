@@ -37,8 +37,8 @@ VS the same app without this proposal - the app has to create its own sort of lo
 
 
 ## Proposed solution
-
-Add a new struct `NextFunctionInfo` with all the data needed for the HMI to know what's coming next to the HMI API and the same in the MOBILE API:
+Add a parameter to the MOBILE_API that says the next `FunctionID`. Then in the HMI_API, the HMI_API doesn't use function IDs so SDL Core would communicate the next function ID through the existing RPC interface strings in the format of `interfaceName.RPCMessage`.
+Add a new struct `NextFunctionInfo` with all the data needed for the HMI to know what's coming next to the MOBILE_API:
 ```xml
 <struct name="NextFunctionInfo" since="x.x">
 	<description>
@@ -46,6 +46,21 @@ Add a new struct `NextFunctionInfo` with all the data needed for the HMI to know
 	</description>
 	<param name="nextFunctionID" type="FunctionID" mandatory="true"/>
 		<description>The next function (RPC) that will be triggered by selecting the current option/command/choice etc.</description>
+	</param>
+		<param name="loadingText" type="String" maxlength="500"  mandatory="false"/>
+			<description>This lets the HMI know what text to show while waiting for the next RPC.</description>
+		</param>
+</struct>
+```
+
+And basically the same thing to the HMI_API but the `nextFunctionID` parameter would be a String
+```xml
+<struct name="NextFunctionInfo" since="x.x">
+	<description>
+		Outlines information about the next RPC that will be triggered.		
+	</description>
+	<param name="nextFunctionID" type="String" mandatory="true"/>
+		<description>The next function (RPC) that will be triggered by selecting the current option/command/choice etc. In the format of interfaceName.RPCMessage.</description>
 	</param>
 		<param name="loadingText" type="String" maxlength="500"  mandatory="false"/>
 			<description>This lets the HMI know what text to show while waiting for the next RPC.</description>
