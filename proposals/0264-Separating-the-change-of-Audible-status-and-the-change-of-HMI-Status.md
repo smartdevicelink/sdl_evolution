@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0264](0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction

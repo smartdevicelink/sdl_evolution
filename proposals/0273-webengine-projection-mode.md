@@ -18,7 +18,7 @@ This proposal describes a feature made possible using a WebEngine. A WebEngine c
 
 The app HMI type `PROJECTION` should be enabled for in-vehicle apps. When apps with this HMI type are activated, the HMI should make the web page of this app visible on the screen. This web page will become the main window of the application. The window capabilities of this open main window will be empty except for the window ID and physical button capabilities. `Show` requests that address the main window won't have any effect on the HMI. If the app sends this request, Core should return an unsuccessful response with the result code `RESOURCE_NOT_AVAILABLE`. The info field should note that the app is registered with projection mode enabled.
 
-![Screenshot example of a web app](../assets/proposals/NNNN-webengine-projection-mode/web-app-example.jpg)
+![Screenshot example of a web app](../assets/proposals/0273-webengine-projection-mode/web-app-example.jpg)
 
 > Example of a local web app presenting the user interface with the WebView.
 

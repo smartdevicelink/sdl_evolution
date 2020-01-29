@@ -11,7 +11,7 @@ This proposal is to add new vehicle data `GearStatus` to know drive mode and act
 
 ## Motivation
 
-In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Adding `selectedGear`, `actualGear` and `transmissionType` information provide more granular information on which drive mode the vehicle is in and what physical gear the transmission has selected. Also we need to add more gears to the enum to support new ten speed transmissions.
+In order to partner with more diverse app partners, we need to provide additional sets of vehicle data items through SDL. This goes in line with commitment to enhance SDL with even richer vehicle data content. Adding `userSelectedGear`, `actualGear` and `transmissionType` information provide more granular information on which drive mode the vehicle is in and what physical gear the transmission has selected. Also we need to add more gears to the enum to support new ten speed transmissions.
 
 ## Proposed Solution 
 
@@ -29,11 +29,11 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 
 ```xml	
 <struct name="GearStatus" since="X.x">
-	<param name="selectedGear" type="PRNDL" mandatory="false">
-		<description>Tells the gear drive mode i.e. PARK, DRIVE, SPORT etc</description>
+	<param name="userSelectedGear" type="PRNDL" mandatory="false">
+		<description>Gear position selected by the user i.e. Park, Drive, Reverse</description>
 	</param>
 	<param name="actualGear" type="PRNDL" mandatory="false">
-		<description>Tells the actual gear selected by transmission</description>
+		<description>Actual Gear in use by the transmission</description>
 	</param>
 	<param name="transmissionType" type="TransmissionType" mandatory="false">
 		<description>Tells the transmission type</description>
@@ -173,11 +173,11 @@ We need to add `GearStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Unsub
 
 ```xml	
 <struct name="GearStatus">
-	<param name="selectedGear" type="Common.PRNDL" mandatory="false">
-		<description>Tells the gear drive mode i.e. PARK, DRIVE, SPORT etc</description>
+	<param name="userSelectedGear" type="Common.PRNDL" mandatory="false">
+		<description>Gear position selected by the user i.e. Park, Drive, Reverse</description>
 	</param>
 	<param name="actualGear" type="Common.PRNDL" mandatory="false">
-		<description>Tells the actual gear selected by transmission</description>
+		<description>Actual Gear in use by the transmission</description>
 	</param>
 	<param name="transmissionType" type="Common.TransmissionType" mandatory="false">
 		<description>Tells the transmission type</description>
