@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0274](0274-add-preferred-FPS.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
