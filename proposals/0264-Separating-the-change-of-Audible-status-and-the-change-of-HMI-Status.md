@@ -1,7 +1,7 @@
 # Separating the change of Audible status and the change of HMI Status
 
 * Proposal: [SDL-0264](0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md)
-* Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
+* Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto)
 * Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / HMI]
 
@@ -31,6 +31,15 @@ Change [OnEventChanged (PHONE_CALL, active: true)](https://github.com/smartdevic
 
 If HU wants to switch the screen (HMI Status) during PHONE_CALL, they can use API `BC.OnAppDeactivated (AppID)` and `BC.OnAppActivated (AppID)`.  
 
+### Guideline Updates
+
+Revise PHONE_CALL description and sequence in guidelines according to this solution.
+It will be as follows.
+
+[sdl_hmi_integration_guidelines/docs/BasicCommunication/OnEventChanged/index.md](../assets/proposals/0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status/index.md)
+![PHONE_CALL1][PHONE_CALL1]
+![PHONE_CALL2][PHONE_CALL2]
+
 ## Potential downsides
 
 It is considered that there is an impact by continuing to display the SDL app screen when calling `OnEventChanged (PHONE_CALL, active: true)`.  
@@ -45,3 +54,6 @@ HMI may need to call `BC.OnAppDeactivated (AppID)` for explicit control of HMI S
 
 An alternative is to add a new API.  
 However, it should be avoided due to the large amount of change.  
+
+[PHONE_CALL1]: ../assets/proposals/0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status/PHONE_CALL1.png "PHONE_CALL, media app is active"
+[PHONE_CALL2]: ../assets/proposals/0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status/PHONE_CALL2.png "PHONE_CALL, non-media app is active"
