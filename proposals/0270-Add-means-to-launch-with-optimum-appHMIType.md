@@ -1,7 +1,7 @@
 # Add means to launch with optimum appHMIType
 
 * Proposal: [SDL-0270](0270-Add-means-to-launch-with-optimum-appHMIType.md)
-* Author: [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto)
+* Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto)
 * Status: Awaiting review
 * Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
 
@@ -103,13 +103,13 @@ Add `launchAppHMIType` to the RPC below.
 
 For example, a navigation app with music playback function:
 
-1. When touch the app icon from the connectivity function screen to launch it (specify Navigation in launchAppHMIType), the navigation screen using video projection mode is displayed.
+1. When a user touches the app icon from the connectivity function screen to launch it (specify Navigation in launchAppHMIType), the navigation screen using video projection mode is displayed.
 
-2. When touch the app icon from the audio function screen to launch it (specify Media in launchAppHMIType), the music playback screen using the media template is displayed.
+2. When a user touches the app icon from the audio function screen to launch it (specify Media in launchAppHMIType), the music playback screen using the media template is displayed.
 
-3. When touch the app icon from the connectivity function screen to launch it (specify Navigation in launchAppHMIType) while the music playback screen used the media template is displayed on the app, the navigation screen using video projection mode is displayed while playing music.
+3. When a user touches the app icon from the connectivity function screen to launch it (specify Navigation in launchAppHMIType) while the music playback screen used the media template is displayed on the app, the navigation screen using video projection mode is displayed while playing music.
 
-4. When touch the app icon from the audio function screen to launch it (specify Media in launchAppHMIType) during navigation by the app, the music playback screen using the media template is displayed during navigation.
+4. When a user touches the app icon from the audio function screen to launch it (specify Media in launchAppHMIType) during navigation by the app, the music playback screen using the media template is displayed during navigation.
 
 
 ## Potential downsides
@@ -122,4 +122,5 @@ This would be a minor version change to all affected platforms.
 
 ## Alternatives considered
 
-Add a new API to notify AppHMIType to be launched.  
+- One alternative considered was adding a new API to notify AppHMIType to be launched, but the scope of impact is wider than this proposal.
+- Another alternative considered was creating two different SDL implementations, e.g. two services for Android. However, if it is necessary to create an additional mechanism to cooperate, the implementation burden will increase.
