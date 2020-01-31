@@ -34,7 +34,7 @@ If HU wants to switch the screen (HMI Status) during PHONE_CALL, they can use AP
 ### Guideline Updates
 
 Revise PHONE_CALL description and sequence in HMI Integration Guidelines according to this solution.
-It will be as follows.
+It can be as follows:
 
 [sdl_hmi_integration_guidelines/docs/BasicCommunication/OnEventChanged/index.md](../assets/proposals/0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status/index.md)
 ![PHONE_CALL1][PHONE_CALL1]
