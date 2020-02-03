@@ -285,7 +285,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0261" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data WindowStatus" filename="0261-New-vehicle-data-WindowStatus.md"/>
 <proposal id="0262" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data SeatOccupancy" filename="0262-New-vehicle-data-SeatOccupancy.md"/>
 <proposal id="0263" status="active" primary-platform="rpc" sdl-version="x.x" name="Extend SystemRequest With Optional Data For Proprietary Data Exchange" filename="0263-System-Request.md"/>
-<proposal id="0264" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Adding Audible Status Notification" filename="0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md"/>
+<proposal id="0264" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Separating the change of Audible status and the change of HMI Status" filename="0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md"/>
 <proposal id="0265" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove duplicate parameter FileName from HMI RPC BasicCommunication.OnPutFile" filename="0265-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md"/>
 <proposal id="0266" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data GearStatus" filename="0266-New-vehicle-data-GearStatus.md"/>
 <proposal id="0267" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Main Menu UI Updates" filename="0267-addcommand-ui-updates.md"/>
