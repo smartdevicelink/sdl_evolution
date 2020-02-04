@@ -83,13 +83,14 @@ static NSUInteger const defaultFrameRate = 15;
 }
 ```
 
-In `SDLStreamingVideoLifecycleManager#didEnterStateVideoStreamStarting`, current `videoEncoderSettings` are overwritten by `customEncoderSettings`.
-However, for frame rate, we should take lower value approach if customEncoderSettings' frame rate is higher than preferred FPS, like below:
+Later part in the same method (`didEnterStateVideoStreamStarting`), current `videoEncoderSettings` are overwritten by `customEncoderSettings`.
+
+However, for frame rate, we should take lower value approach if frame rate in customEncoderSettings is higher than preferred FPS, like below:
 ```objc
         // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
         for (id key in self.customEncoderSettings.keyEnumerator) {
             if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] == YES) {
-                // do NOT override frame rate if custom setting's frame rate is higher than current setting's one.
+                // do NOT override frame rate if custom setting's frame rate is higher than current setting's one, which now refers to preferredFPS if specified in capability.
                 if ([self.customEncoderSettings valueForKey:key] < self.videoEncoderSettings[key]) {
                     self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
                 }
