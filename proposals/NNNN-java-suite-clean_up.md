@@ -25,11 +25,12 @@ Over the lifetime of the library, some coding standards have been missed or chan
 
 1. Copyright should be at the top of all files in a comment block before all code.
 2. Spaces not tabs. All tabbed indents will be changed to four spaces.
-3. Correct camel-case for code objects. 
+3. All public methods should have JavaDoc 
+4. Correct camel-case for code objects. 
     1. All methods and local variables should be camel-case starting with a lower-case letter (e.g. sdlManager).
     2. All class names should be camel-case starting with an upper-case letter (e.g. SdlSession, ScreenManager).
     3. All class packages should be lower case with no special characters (e.g. com.smartdevicelink.managers).
-4. Proper spacing between arguments and keywords. For example
+5. Proper spacing between arguments and keywords. For example
 
 Wrong:
 ```java
@@ -80,7 +81,12 @@ Where it is possible to use more annotations, they will be added to help create 
 - [@RestrictTo](https://developer.android.com/studio/write/annotations#restrict): defines the visibility of a method/member variable (ie, subclasses, library, etc)
 
 #### Refactor Package and Class Names
+
 As previously described in the "Consistent Formatting" section, some of the packages and class names don't follow the Java standard. These include package names that have capital letters in them. Other classes are in packages that don't align well; these would be moved to packages that fit them better. For example, `SystemCapabilityManager` is in the proxy package, but should be in the manager package. `SdlSession` is in the `SdlConnection` package but can be moved to another package such as `proxy` or `protocol` where that makes more sense. 
+
+##### Refactor Sample Projects and Unit Test Folders
+
+The JavaSE and JavaEE smaple projects should mimic the same folder structure as the Android project, so this cleanup should work match that. Platform specific unit tests will also be moved into more project specific folders to enable platform specific unit test runs. 
 
 ### Implement Accepted Proposals
 
