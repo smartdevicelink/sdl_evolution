@@ -86,7 +86,7 @@ As previously described in the "Consistent Formatting" section, some of the pack
 
 ##### Refactor Sample Projects and Unit Test Folders
 
-The JavaSE and JavaEE sample projects should mimic the same folder structure as the Android project, so this cleanup should work to match that. Platform specific unit tests will also be moved into more project specific folders to enable platform specific unit test runs. 
+The JavaSE and JavaEE sample projects should mimic the same folder structure as the Android project, so this cleanup should work to match that. Platform-specific unit tests will also be moved into more project-specific folders to enable platform-specific unit test runs. 
 
 ### Implement Accepted Proposals
 
