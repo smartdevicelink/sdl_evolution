@@ -53,7 +53,7 @@ if (x == y) {
 ``` 
 
 ### Remove Deprecated Code
-Most or all deprecated code will be removed at the project maintainers discretion. This will include the all the old layers of `SdlConnection`, `SdlSession` (Android version), and `WiProProtocol`. Since the acceptance and integration of proposal [SDL 0194 - Android Transport Layer Overhaul](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0194-android-transport-overhaul.md), these layers are no longer needed and only bloat the library while preventing the use of the `base` source set folder.
+Most or all deprecated code will be removed at the Project Maintainer's discretion. This will include all the old layers of `SdlConnection`, `SdlSession` (Android version), and `WiProProtocol`. Since the acceptance and integration of proposal [SDL 0194 - Android Transport Layer Overhaul](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0194-android-transport-overhaul.md), these layers are no longer needed and only bloat the library while preventing the use of the `base` source set folder.
 
 #### Remove old transports
 Since all transports have moved to the router service, the old versions of those transports should be removed. Once the old `SdlProxyALM` code path is removed, the `SdlConnection` and supporting classes will also be removed resulting in the old transports being unused.
@@ -86,7 +86,7 @@ As previously described in the "Consistent Formatting" section, some of the pack
 
 ##### Refactor Sample Projects and Unit Test Folders
 
-The JavaSE and JavaEE smaple projects should mimic the same folder structure as the Android project, so this cleanup should work match that. Platform specific unit tests will also be moved into more project specific folders to enable platform specific unit test runs. 
+The JavaSE and JavaEE smaple projects should mimic the same folder structure as the Android project, so this cleanup should work to match that. Platform specific unit tests will also be moved into more project specific folders to enable platform specific unit test runs. 
 
 ### Implement Accepted Proposals
 
@@ -109,7 +109,7 @@ This would be an appropriate time to implement this accepted proposal.
 - A lot of code is likely to be refactored to support the usage of the common base source set between the Java SE/EE and Android project. 
 - Code will be formatted correctly which is only a cosmetic change.
 - Deprecated code will be removed.
-- Any usage of the support library will be replaced with the new `AndroidX`  counterpart.
+- Any usage of the support library will be replaced with the new `AndroidX` counterpart.
 - Where possible, we will try to restrict the accessibility of methods using annotations; this allows us to make changes to a wider scope of files in the future that won't be considered breaking.
 
 ## Alternatives considered
