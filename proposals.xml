@@ -63,6 +63,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0052" status="implemented" primary-platform="protocol" sdl-version="5.0" name="Constructed Payloads" filename="0052-constructed-payloads.md"/>
 <proposal id="0053" status="implemented" primary-platform="core" sdl-version="4.5" name="Connectivity via iAP-BT and Transport Switch" filename="0053-Connectivity-via-iAP-BT-and-Transport-Switch.md"/>
 <proposal id="0054" status="implemented" primary-platform="ios" sdl-version="5.2" name="ChangeRegistration-Manager" filename="0054-change-registration-manager.md"/>
+<proposal id="0054" status="implemented" primary-platform="java-suite" sdl-version="4.10" name="ChangeRegistration-Manager" filename="0054-change-registration-manager.md"/>
 <proposal id="0055" status="implemented" primary-platform="rpc" sdl-version="4.5" name="System Capabilities Query" filename="0055-system_capabilities_query.md"/>
 <proposal id="0056" status="accepted" primary-platform="meta" sdl-version="x.x" name="Hardware Validator App (Android)" filename="0056-hardware-validator-app-android.md"/>
 <proposal id="0057" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add zeroconf capability to WiFi transport" filename="0057-add-zeroconf-capability.md"/>
@@ -117,7 +118,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0105" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Remote Control - Seat" filename="0105-remote-control-seat.md"/>
 <proposal id="0106" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Remote Control - OnRCStatus" filename="0106-remote-control-onRcStatus-notification.md"/>
 <proposal id="0107" status="implemented" primary-platform="rpc" sdl-version="5.0" name="New vehicle data - TurnSignal" filename="0107-New-vehicle-data-turnSignal.md"/>
-<proposal id="0108" status="accepted" primary-platform="rpc" sdl-version="x.x" name="AutoCompleteList" filename="0108-AutoCompleteList.md"/>
+<proposal id="0108" status="implemented" primary-platform="rpc" sdl-version="6.0" name="AutoCompleteList" filename="0108-AutoCompleteList.md"/>
 <proposal id="0109" status="implemented" primary-platform="rpc" sdl-version="5.0" name="SetAudioStreamingIndicator RPC" filename="0109-set-audio-streaming-indicator.md"/>
 <proposal id="0110" status="implemented" primary-platform="core" sdl-version="5.0" name="Remove QT HMI from SDL Core" filename="0110-remove-qt-hmi-from-sdl-core.md"/>
 <proposal id="0111" status="implemented" primary-platform="ios" sdl-version="5.1" name="SDLCarWindow" filename="0111-ios-carwindow.md"/>
@@ -125,30 +126,30 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0113" status="implemented" primary-platform="java-suite" sdl-version="4.7" name="SDLAudioStreamManager" filename="0113-audiostreammanager.md"/>
 <proposal id="0113" status="implemented" primary-platform="ios" sdl-version="5.1" name="SDLAudioStreamManager" filename="0113-audiostreammanager.md"/>
 <proposal id="0114" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Default SoftButtonCapabilities" filename="0114-default-softbuttoncapabilities.md"/>
-<proposal id="0115" status="accepted" primary-platform="rpc" sdl-version="x.x" name="CloseApplicationRPC" filename="0115-close-application.md"/>
-<proposal id="0116" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Open Menu RPC" filename="0116-open-menu.md"/>	
+<proposal id="0115" status="implemented" primary-platform="rpc" sdl-version="6.0" name="CloseApplicationRPC" filename="0115-close-application.md"/>
+<proposal id="0116" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Open Menu RPC" filename="0116-open-menu.md"/>	
 <proposal id="0117" status="accepted" primary-platform="core" sdl-version="x.x" name="Configurable time before shutdown" filename="0117-configurable-time-before-shutdown.md"/>	
 <proposal id="0118" status="implemented" primary-platform="ios" sdl-version="6.2" name="Video Streaming Backgrounded String" filename="0118-video-background-string.md"/>	
-<proposal id="0119" status="accepted" primary-platform="rpc" sdl-version="x.x" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
+<proposal id="0119" status="implemented" primary-platform="rpc" sdl-version="6.0" name="SDL Passenger Mode" filename="0119-SDL-passenger-mode.md"/>	
 <proposal id="0120" status="implemented" primary-platform="core" sdl-version="5.0" name="GetSystemTime RPC" filename="0120-GetSystemTime.md"/>	
-<proposal id="0121" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
+<proposal id="0121" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF Facade" filename="0121-atf_facade_proposal.md"/>	
 <proposal id="0122" status="implemented" primary-platform="core" sdl-version="5.0" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
 <proposal id="0123" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
 <proposal id="0124" status="implemented" primary-platform="ios" sdl-version="5.2" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
-<proposal id="0125" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
-<proposal id="0126" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF support of additional transports (BT and USB)" filename="0126-atf-additional-transports.md"/>
-<proposal id="0127" status="accepted" primary-platform="core" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
-<proposal id="0128" status="accepted" primary-platform="core" sdl-version="x.x" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
+<proposal id="0125" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
+<proposal id="0126" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF support of additional transports (BT and USB)" filename="0126-atf-additional-transports.md"/>
+<proposal id="0127" status="accepted" primary-platform="atf" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
+<proposal id="0128" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
 <proposal id="0129" status="implemented" primary-platform="ios" sdl-version="5.2" name="Add Additional AppHMIType Array iOS" filename="0129-ios-additional-apptypes.md"/>
 <proposal id="0130" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendLocation for Mobile Nav" filename="0130-SendLocation-for-Mobile-Nav.md"/>	
-<proposal id="0131" status="accepted" primary-platform="core" sdl-version="x.x" name="Test Scripts - Refactoring of Common modules" filename="0131-test-scripts-common-modules-refactoring.md"/>	
-<proposal id="0132" status="accepted" primary-platform="core" sdl-version="x.x" name="Change ATF test reports folder structure" filename="0132-Change_ATF_test_reports_folder_structure.md"/>
+<proposal id="0131" status="accepted" primary-platform="atf" sdl-version="x.x" name="Test Scripts - Refactoring of Common modules" filename="0131-test-scripts-common-modules-refactoring.md"/>	
+<proposal id="0132" status="accepted" primary-platform="atf" sdl-version="x.x" name="Change ATF test reports folder structure" filename="0132-Change_ATF_test_reports_folder_structure.md"/>
 <proposal id="0133" status="rejected" primary-platform="ios" sdl-version="x.x" name="EnhancediOSProxyInterface" filename="0133-EnhancediOSProxyInterface.md"/>
 <proposal id="0134" status="implemented" primary-platform="ios" sdl-version="5.2" name="Show Manager - iOS" filename="0134-ios-show-manager.md"/>
 <proposal id="0135" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Push To Talk key support" filename="0135-PushToTalk-hardkey-support.md"/>
 <proposal id="0136" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Remote Control - SDL Module" filename="0136-rc-sdl-module.md"/>
 <proposal id="0137" status="deferred" primary-platform="rpc" sdl-version="x.x" name="TouchCoord outside video screen range" filename="0137-TouchCoord-outside-video-screen-range.md"/>
-<proposal id="0138" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Make 'audioPassThruCapabilities' of HMI an array" filename="0138-hmi-audiopassthru-capability.md"/>
+<proposal id="0138" status="implemented" primary-platform="core" sdl-version="6.0" name="Make 'audioPassThruCapabilities' of HMI an array" filename="0138-hmi-audiopassthru-capability.md"/>
 <proposal id="0139" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Clarification of audio format details of AudioPassThru" filename="0139-apt-clarification.md"/>
 <proposal id="0140" status="implemented" primary-platform="java-suite" sdl-version="4.5" name="Android Manifest Metadata" filename="0140-android_metadata.md"/>
 <proposal id="0141" status="implemented" primary-platform="protocol" sdl-version="5.1" name="Supporting simultaneous multiple transports" filename="0141-multiple-transports.md"/>
@@ -186,21 +187,21 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0170" status="implemented" primary-platform="core" sdl-version="5.0" name="SDL behavior in case of LOW_VOLTAGE event" filename="0170-sdl-behavior-in-case-of-Low-Voltage.md"/>
 <proposal id="0171" status="implemented" primary-platform="java-suite" sdl-version="4.7" name="Android Manager APIs" filename="0171-android-manager-apis.md"/>
 <proposal id="0172" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Remote Control - Update OnRCStatus with a new allowed parameter" filename="0172-onRcStatus-allowed.md"/>
-<proposal id="0173" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Read Generic Network Signal data" filename="0173-Read-Generic-Network-Signal-data.md"/>
+<proposal id="0173" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Read Generic Network Signal data" filename="0173-Read-Generic-Network-Signal-data.md"/>
 <proposal id="0174" status="implemented" primary-platform="java-suite" sdl-version="4.6" name="Deprecate RPCRequestFactory" filename="0174-deprecate-rpc-request-factory.md"/>
 <proposal id="0175" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Updating DOP value range for GPS notification" filename="0175-Updating-DOP-value-range-for-GPS-notification.md"/>
 <proposal id="0176" status="accepted" primary-platform="ios" sdl-version="x.x" name="High level interface: Views and Controllers" filename="0176-high-level-interface-views-and-controllers.md"/>
-<proposal id="0177" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Alert Icon" filename="0177-alert-icon.md"/>
+<proposal id="0177" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Alert Icon" filename="0177-alert-icon.md"/>
 <proposal id="0178" status="implemented" primary-platform="core" sdl-version="5.0" name="Interior Vehicle Data Subscription Management and Data Caching in SDL" filename="0178-GetInteriorVehicleData.md"/>
-<proposal id="0179" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Pixel density and Scale" filename="0179-pixel-density-and-scale.md"/>
+<proposal id="0179" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Pixel density and Scale" filename="0179-pixel-density-and-scale.md"/>
 <proposal id="0180" status="accepted" primary-platform="core" sdl-version="x.x" name="Broaden Choice Uniqueness" filename="0180-broaden-choice-uniqueness.md"/>
 <proposal id="0181" status="implemented" primary-platform="core" sdl-version="5.0" name="SDL shall not put RC applications to HMI level NONE when user disables RC in HMI" filename="0181-keep-rc-app-hmi-level-when-disable-rc.md"/>
 <proposal id="0182" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Audio Source AM/FM/XM/DAB" filename="0182-audio-source-am-fm-xm.md"/>
 <proposal id="0183" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Automatic Mobile Resumption Hash Management" filename="0183-mobile-hash-managment.md"/>
-<proposal id="0184" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Dismiss Alert RPC" filename="0184-dismiss-alert.md"/>
+<proposal id="0184" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Dismiss Alert RPC" filename="0184-dismiss-alert.md"/>
 <proposal id="0185" status="implemented" primary-platform="ios" sdl-version="6.1" name="Remove Hello SDL iOS Repository" filename="0185-remove-hello-sdl-ios.md"/>
 <proposal id="0185" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Remove Hello SDL iOS Repository" filename="0185-remove-hello-sdl-ios.md"/>
-<proposal id="0186" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Titles" filename="0186-template-titles.md"/>
+<proposal id="0186" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Template Titles" filename="0186-template-titles.md"/>
 <proposal id="0187" status="implemented" primary-platform="ios" sdl-version="6.4" name="Restructure iOS Threading and Queueing" filename="0187-restructure-ios-threading.md"/>
 <proposal id="0188" status="accepted" primary-platform="core" sdl-version="x.x" name="Interior Vehicle Data resumption" filename="0188-get-interior-data-resumption.md"/>
 <proposal id="0189" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Restructuring OnResetTimeout" filename="0189-Restructuring-OnResetTimeout.md"/>
@@ -215,41 +216,41 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0197" status="implemented" primary-platform="ios" sdl-version="6.2" name="Update SetMediaClockTimer Initializers" filename="0197-setmediaclocktimer-initializers.md"/>
 <proposal id="0197" status="implemented" primary-platform="java-suite" sdl-version="4.8" name="Update SetMediaClockTimer Initializers" filename="0197-setmediaclocktimer-initializers.md"/>
 <proposal id="0198" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Skip Indicators" filename="0198-media-skip-indicators.md"/>
-<proposal id="0199" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
+<proposal id="0199" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
 <proposal id="0200" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Removing URL Parameter Max Length" filename="0200-Removing-URL-Param-Max-Length.md"/>
 <proposal id="0201" status="returned" primary-platform="ios" sdl-version="x.x" name="High level interface: Overlay Controllers" filename="0201-high-level-interface-overlay-controllers.md"/>
 <proposal id="0202" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Supported Character Sets" filename="0202-character-sets.md"/>
 <proposal id="0203" status="implemented" primary-platform="java-suite" sdl-version="4.8" name=" Cloud App Library - Phase 1" filename="0203-cloud_client_library_phase_1.md"/>
-<proposal id="0204" status="accepted" primary-platform="core" sdl-version="x.x" name="Support running the same app from multiple devices at the same time" filename="0204-same-app-from-multiple-devices.md"/>	
+<proposal id="0204" status="implemented" primary-platform="core" sdl-version="6.0" name="Support running the same app from multiple devices at the same time" filename="0204-same-app-from-multiple-devices.md"/>	
 <proposal id="0205" status="accepted" primary-platform="core" sdl-version="x.x" name="Avoid Custom button subscription in case HMI incompatibility" filename="0205-Avoid_custom_button_subscription_when_HMI_does_not_support.md"/>
 <proposal id="0206" status="accepted" primary-platform="atf" sdl-version="x.x" name="Remote Automated testing" filename="0206-remote_atf_testing.md"/>
-<proposal id="0207" status="accepted" primary-platform="rpc" sdl-version="x.x" name="RPC message protection" filename="0207-rpc-message-protection.md"/>
+<proposal id="0207" status="implemented" primary-platform="rpc" sdl-version="6.0" name="RPC message protection" filename="0207-rpc-message-protection.md"/>
 <proposal id="0208" status="implemented" primary-platform="java-suite" sdl-version="4.8" name="Block Old SDL Head Units from Mobile" filename="0208-block-sdl-head-units.md"/>
 <proposal id="0208" status="implemented" primary-platform="ios" sdl-version="6.2" name="Block Old SDL Head Units from Mobile" filename="0208-block-sdl-head-units.md"/>
 <proposal id="0209" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Static Icon Capability" filename="0209-static-icon-capability.md"/>
 <proposal id="0210" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Mobile Manager Dynamic Menu Cell Updating" filename="0210-mobile-dynamic-menu-cell-updating.md"/>
 <proposal id="0210" status="implemented" primary-platform="ios" sdl-version="6.3" name="Mobile Manager Dynamic Menu Cell Updating" filename="0210-mobile-dynamic-menu-cell-updating.md"/>
-<proposal id="0211" status="accepted" primary-platform="core" sdl-version="x.x" name="Service Status Update to HMI" filename="0211-ServiceStatusUpdateToHMI.md"/>
-<proposal id="0212" status="accepted" primary-platform="core" sdl-version="x.x" name="Add Ability to Reuse a SyncFileName for a PutFile" filename="0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md"/>
-<proposal id="0213" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Radio and Climate Parameter Update" filename="0213-rc-radio-climate-parameter-update.md"/>
+<proposal id="0211" status="implemented" primary-platform="core" sdl-version="6.0" name="Service Status Update to HMI" filename="0211-ServiceStatusUpdateToHMI.md"/>
+<proposal id="0212" status="implemented" primary-platform="core" sdl-version="6.0" name="Add Ability to Reuse a SyncFileName for a PutFile" filename="0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md"/>
+<proposal id="0213" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Remote Control - Radio and Climate Parameter Update" filename="0213-rc-radio-climate-parameter-update.md"/>
 <proposal id="0214" status="accepted" primary-platform="core" sdl-version="x.x" name="Secondary Transport Optimization" filename="0214-secondary-transport-optimization.md"/>
 <proposal id="0215" status="deferred" primary-platform="ios" sdl-version="x.x" name="iOS ReplayKit Streaming" filename="0215-ios-replaykit-streaming.md"/>
-<proposal id="0216" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Widget Support" filename="0216-widget-support.md"/>
+<proposal id="0216" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Widget Support" filename="0216-widget-support.md"/>
 <proposal id="0217" status="rejected" primary-platform="java-suite" sdl-version="x.x" name="Android ManagerListener Update" filename="0217-android-manager-listener-update.md"/>
 <proposal id="0218" status="accepted" primary-platform="dev-portal" sdl-version="x.x" name="Facilitating OEM Communication with App Developers" filename="0218-developer-oem-communication.md"/>
 <proposal id="0219" status="implemented" primary-platform="ios" sdl-version="6.2" name="Explicit returned type from NSDictionary(Store) category" filename="0219-ios-check-type.md"/>
-<proposal id="0220" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Support for Android custom RouterService" filename="0220-support-for-android-custom-routerservice.md"/>
-<proposal id="0221" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Remote Control - Allow Multiple Modules per Module Type" filename="0221-multiple-modules.md"/>
+<proposal id="0220" status="implemented" primary-platform="java-suite" sdl-version="4.11" name="Support for Android custom RouterService" filename="0220-support-for-android-custom-routerservice.md"/>
+<proposal id="0221" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Remote Control - Allow Multiple Modules per Module Type" filename="0221-multiple-modules.md"/>
 <proposal id="0222" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add System Software Name parameter to Register App Interface Response" filename="0222-rair-system-software-name.md"/>
-<proposal id="0223" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Currently Playing Media Image to MediaServiceData" filename="0223-media-service-image.md"/>
-<proposal id="0224" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Navigation Subscription Buttons" filename="0224-navigation-subscription-buttons.md"/>
-<proposal id="0225" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Update Published App Services" filename="0225-update-published-app-services.md"/>
+<proposal id="0223" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Add Currently Playing Media Image to MediaServiceData" filename="0223-media-service-image.md"/>
+<proposal id="0224" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Navigation Subscription Buttons" filename="0224-navigation-subscription-buttons.md"/>
+<proposal id="0225" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Update Published App Services" filename="0225-update-published-app-services.md"/>
 <proposal id="0226" status="implemented" primary-platform="ios" sdl-version="6.3" name="Add iOS SDLManager RPC Subscriptions" filename="0226-ios-manager-rpc-subscriptions.md"/>
 <proposal id="0227" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Supported RGB Colors to Light Capabilities" filename="0227-add-supported-rgb-colors.md"/>
-<proposal id="0228" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Email Notifications" filename="0228-sdl-server-email-notifications.md"/>
-<proposal id="0229" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Version Tracking" filename="0229-sdl-server-version-tracking.md"/>
+<proposal id="0228" status="implemented" primary-platform="policy" sdl-version="2.7" name="SDL Server Email Notifications" filename="0228-sdl-server-email-notifications.md"/>
+<proposal id="0229" status="implemented" primary-platform="policy" sdl-version="2.7" name="SDL Server Version Tracking" filename="0229-sdl-server-version-tracking.md"/>
 <proposal id="0230" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="SPP resource management for Android" filename="0230-spp-resource-management-for-android.md"/>
-<proposal id="0231" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Tiles as an Option for Main Menus" filename="0231-main-menu-tiles.md"/>
+<proposal id="0231" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Add Tiles as an Option for Main Menus" filename="0231-main-menu-tiles.md"/>
 <proposal id="0232" status="implemented" primary-platform="ios" sdl-version="6.3" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
 <proposal id="0232" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
 <proposal id="0233" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Statistics Recording and Visualizations" filename="0233-policy-server-statistics-recording-visualizations.md"/>
@@ -259,23 +260,50 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0237" status="implemented" primary-platform="ios" sdl-version="6.4" name="Add Feature to Disable `Video Streaming Backgrounded String` Feature" filename="0237-add-feature-to-disable-video-streaming-backgrounded-string-feature.md"/>
 <proposal id="0238" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Keyboard Enhancements" filename="0238-Keyboard-Enhancements.md"/>
 <proposal id="0239" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Service Data Progress Bar Improvements" filename="0239-media-service-data-progress-bar-improvements.md"/>
-<proposal id="0240" status="active" primary-platform="rpc" sdl-version="x.x" name="WebEngine support for SDL JavaScript" filename="0240-sdl-js-pwa.md"/>
+<proposal id="0240" status="accepted" primary-platform="rpc" sdl-version="x.x" name="WebEngine support for SDL JavaScript" filename="0240-sdl-js-pwa.md"/>
 <proposal id="0241" status="returned" primary-platform="rpc" sdl-version="x.x" name="Commerce App Service" filename="0241-Commerce-App-Service.md"/>
 <proposal id="0242" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Subtle Alert Style" filename="0242-alert-style-subtle.md"/>
-<proposal id="0243" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
+<proposal id="0243" status="implemented" primary-platform="ios" sdl-version="6.4" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
+<proposal id="0243" status="implemented" primary-platform="java-suite" sdl-version="4.10" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
 <proposal id="0244" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Custom Playback Rates for SetMediaClockTimer" filename="0244-setmediaclocktimer-custom-playback-rates.md"/>
-<proposal id="0245" status="returned" primary-platform="rpc" sdl-version="x.x" name="WiFi Transport: Sharing SSID and password with Mobile Proxy" filename="0245-sharing-wifi-ssid-and-password.md"/>
-<proposal id="0246" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add App Services to HMICapabilities" filename="0246-app-services-hmi_capabilities.md"/>
-<proposal id="0247" status="active" primary-platform="policy" sdl-version="x.x" name="SDL Server 3.0.0 (refactor)" filename="0247-sdl-server-3.md"/>
-<proposal id="0248" status="active" primary-platform="core" sdl-version="x.x" name="HMI Policy Table Update using vehicle modem" filename="0248-hmi-ptu-support.md"/>
-
+<proposal id="0245" status="deferred" primary-platform="rpc" sdl-version="x.x" name="WiFi Transport: Sharing SSID and password with Mobile Proxy" filename="0245-sharing-wifi-ssid-and-password.md"/>
+<proposal id="0246" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Add App Services to HMICapabilities" filename="0246-app-services-hmi_capabilities.md"/>
+<proposal id="0247" status="returned" primary-platform="policy" sdl-version="x.x" name="SDL Server 3.0.0 (refactor)" filename="0247-sdl-server-3.md"/>
+<proposal id="0248" status="accepted" primary-platform="core" sdl-version="x.x" name="HMI Policy Table Update using vehicle modem" filename="0248-hmi-ptu-support.md"/>
+<proposal id="0249" status="accepted" primary-platform="core" sdl-version="x.x" name="Persisting HMI Capabilities specific to headunit" filename="0249-Persisting-HMI-Capabilities-specific-to-headunit.md"/>
+<proposal id="0250" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Next RPC Indication for the HMI" filename="0250-NextRpcIndication.md"/>
+<proposal id="0251" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Font Styles" filename="0251-font-styles.md"/>
+<proposal id="0252" status="accepted" primary-platform="core" sdl-version="x.x" name="Aligning HMI and MOBILE API for pcmStreamCapabilities" filename="0252-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md"/>
+<proposal id="0253" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data StabilityControlsStatus" filename="0253-New-vehicle-data-StabilityControlsStatus.md"/>
+<proposal id="0254" status="rejected" primary-platform="rpc" sdl-version="x.x" name="New vehicle data HVBatteryLevel" filename="0254-New-vehicle-data-HVBatteryLevel.md"/>
+<proposal id="0255" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Enhance BodyInformation vehicle data" filename="0255-Enhance-BodyInformation-vehicle-data.md"/>
+<proposal id="0256" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Refactor Fuel Information Related Vehicle Data" filename="0256-Refactor-Fuel-Information-Related-Vehicle-Data.md"/>
+<proposal id="0257" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data HandsOffSteering" filename="0257-New-vehicle-data-HandsOffSteering.md"/>
+<proposal id="0258" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Update vehicle data TurnSignal" filename="0258-Update-vehicle-data-TurnSignal.md"/>
+<proposal id="0259" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Disabled Softbuttons" filename="0259-DisabledSoftbuttons.md"/>
+<proposal id="0260" status="accepted" primary-platform="core" sdl-version="x.x" name="Deprecate HMI RPC OnFindApplications" filename="0260-Deprecate-HMI-RPC-OnFindApplications.md"/>
+<proposal id="0261" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data WindowStatus" filename="0261-New-vehicle-data-WindowStatus.md"/>
+<proposal id="0262" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data SeatOccupancy" filename="0262-New-vehicle-data-SeatOccupancy.md"/>
+<proposal id="0263" status="active" primary-platform="rpc" sdl-version="x.x" name="Extend SystemRequest With Optional Data For Proprietary Data Exchange" filename="0263-System-Request.md"/>
+<proposal id="0264" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Separating the change of Audible status and the change of HMI Status" filename="0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md"/>
+<proposal id="0265" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove duplicate parameter FileName from HMI RPC BasicCommunication.OnPutFile" filename="0265-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md"/>
+<proposal id="0266" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data GearStatus" filename="0266-New-vehicle-data-GearStatus.md"/>
+<proposal id="0267" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Main Menu UI Updates" filename="0267-addcommand-ui-updates.md"/>
+<proposal id="0268" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Main Menu Updating and Pagination" filename="0268-main-menu-updating.md"/>
+<proposal id="0269" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data ClimateData" filename="0269-New-vehicle-data-ClimateData.md"/>
+<proposal id="0270" status="returned" primary-platform="rpc" sdl-version="x.x" name="Add means to launch with optimum appHMIType" filename="0270-Add-means-to-launch-with-optimum-appHMIType.md"/>
+<proposal id="0271" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Start APT of SDL App by pressing PTT button" filename="0271-Start-APT-of-SDL-App-by-pressing-PTT-Button.md"/>
+<proposal id="0272" status="active" primary-platform="javascript" sdl-version="x.x" name="JavaScript Suite SDL Manager" filename="0272-sdl-javascript-manager-layer.md"/>
+<proposal id="0273" status="active" primary-platform="core" sdl-version="x.x" name="WebEngine Projection mode" filename="0273-webengine-projection-mode.md"/>
+<proposal id="0274" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add preferred FPS to VideoStreamingCapability" filename="0274-add-preferred-FPS.md"/>
+<proposal id="0275" status="active" primary-platform="dev-portal" sdl-version="x.x" name="WebEngine App Testing" filename="0275-webengine-app-testing.md"/>
 
 	<!--
 Recognized values for a proposal's status:
 	implemented, accepted, active, scheduled, awaiting, deferred, returned, rejected, withdrawn
 
 Recognized values for primary-platform:
-	protocol, rpc, core, could, atf, ios, java-suite, dev-portal, policy, mobile, (for changes that affect both mobile platforms equally, but not rpcs or protocol changes)
+	protocol, rpc, core, could, atf, ios, java-suite, dev-portal, policy, javascript, mobile, (for changes that affect mobile platforms equally, but not rpcs or protocol changes)
 
 Note: status="implemented" also requires sdl-version="XX".
 -->

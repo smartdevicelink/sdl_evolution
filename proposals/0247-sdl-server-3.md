@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0247](0247-sdl-server-3.md)
 * Author:  [Russ Johnson](https://github.com/russjohnson09), [Nick Schwab](https://github.com/nickschwab), [Chris Rokita](https://github.com/crokita)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [SDL Server]
 
 ## Introduction
