@@ -32,7 +32,7 @@ Add `preferredFPS` to `VideoStreamingCapability` struct in both APIs.
         ...
         <!-- new param -->
         <param name="preferredFPS" type="Integer" minvalue="0" maxvalue="2147483647" mandatory="false">
-            <description>Preferred frame rate per second. Mobile application should take this value into account for capturing and encoding video frame, but mobile application should also take care of the case where mobile device's hardware performance is constrained. It is up to mobile application to determine the actual frame rate.</description>
+            <description>The preferred frame rate per second of the head unit. The mobile application / app library may take other factors into account that constrain the frame rate lower than this value, but it should not perform streaming at a higher frame rate than this value.</description>
         </param>
     </struct>
 ```
