@@ -30,17 +30,17 @@ When `present` is called, if the soft buttons contain images, these will be uplo
 /**
  Maps to ScrollableMessage.scrollableMessageBody. Text to be displayed in the scrollable message. This text string can contain newline and tab characters.
  */
-@property (copy, nonatomic, readonly) NSString *text;
+@property (copy, nonatomic) NSString *text;
 
 /**
  Maps to ScrollableMessage.timeout. Defaults to `defaultTimeout`. If set to 0, it will use `defaultTimeout`. The minimum is 3 seconds; the maximum is 65 seconds. If this is set below the minimum, it will be capped at 1 second. If this is set above the maximum, it will be capped at 65 seconds. Defaults to 0.
  */
-@property (assign, nonatomic, readonly) NSTimeInterval timeout;
+@property (assign, nonatomic) NSTimeInterval timeout;
 
 /**
  Maps to Alert.softButtons. Soft buttons the user may select to perform actions. Only one `SDLSoftButtonState` per object is supported; if any soft button object contains multiple states, an exception will be thrown.
  */
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLSoftButtonObject *> *buttons;
+@property (nullable, copy, nonatomic) NSArray<SDLSoftButtonObject *> *buttons;
 
 - (instancetype)initWithText:(NSString *)text timeout:(NSTimeInterval)timeout buttons:(NSArray<SDLSoftButtonObject *>)buttons;
 
@@ -62,27 +62,27 @@ When `present` is called, if the soft buttons contain images, these will be uplo
 /**
  Maps to Slider.timeout. Defaults to `defaultTimeout`. If set to 0, it will use `defaultTimeout`. The minimum is 3 seconds; the maximum is 65 seconds. If this is set below the minimum, it will be capped at 1 second. If this is set above the maximum, it will be capped at 65 seconds. Defaults to 0.
  */
-@property (assign, nonatomic, readonly) NSTimeInterval timeout;
+@property (assign, nonatomic) NSTimeInterval timeout;
 
 /**
  Maps to Slider.sliderHeader. The text that is displayed as a title describing the modal.
 */
-@property (copy, nonatomic, readonly) NSString *title;
+@property (copy, nonatomic) NSString *title;
 
 /**
  Maps to Slider.position. The initial location of the slider handle. Must be a value between 1 and 26 and cannot exceed `numPositions` or an exception will be thrown.
 */
-@property (assign, nonatomic, readonly) NSUInteger initialPosition;
+@property (assign, nonatomic) NSUInteger initialPosition;
 
 /**
  Maps to Slider.numTicks. The number of values that will be available to the user on the slider. If the slider is created as a 'static' slider, then there will be one "footer" value and the 'ticks' on the slider will not have individual values. Must be a number between 2 and 26 or an exception will be thrown.
 */
-@property (assign, nonatomic, readonly) NSUInteger numPositions;
+@property (assign, nonatomic) NSUInteger numPositions;
 
 /**
  Maps to Slider.sliderFooter. The values to be displayed on the slider if the slider is a 'dynamic' slider, or a single 'footer' string if the slider is created a 'static' slider. If it's a dynamic slider, there must be between 2 and 26 values or an exception will be thrown.
 */
-@property (copy, nonatomic, readonly) NSArray<NSString *> *values;
+@property (copy, nonatomic) NSArray<NSString *> *values;
 
 - (instancetype)initWithStaticSliderTitle:(NSString *)title footerText:(nullable NSString *)footerText timeout:(NSTimeInterval)timeout numPositions:(NSUInteger)positions initialPosition:(NSUInteger)initialPosition;
 
@@ -105,7 +105,7 @@ public class ScrollableMessageView {
     private Integer timeout;
     private List<SoftButtonObject> buttons;
 
-    // Add getters for each, `defaultTimeout` has a setter
+    // Add getters / setters for each
 
     public ScrollableMessageView(@NonNull String text, @Nullable Integer timeout, @Nullable List<SoftButtonObject> buttons)
 
@@ -123,7 +123,7 @@ public class SliderView {
     private Integer numPositions;
     private List<String> values;
 
-    // Add getters for each, `defaultTimeout` has a setter
+    // Add getters / setters for each
     
     public SliderView(@NonNull String title, @Nullable String footerText, @Nullable Integer timeout, @NonNull Integer initialPosition, @NonNull Integer numPositions)
     public SliderView(@NonNull String title, @Nullable Integer timeout, @NonNull Integer initialPosition, @NonNull List<String> values)
@@ -181,6 +181,7 @@ Due to the similarity between the iOS, Java Suite and eventual JavaScript Suite 
 - The developer will not be notified when the alert appears on the screen, assuming no error occurred – see alternative #1 for possible ways to do that.
 - The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to how the `SDLChoiceSetManager` does.
 - If any images fail to upload, the presentation of the scrollable message should continue without an error.
+- The slider and scrollable message views should be copied as soon as they are passed in `presentSlider` and `presentScrollableMessage` to prevent the developer from altering the properties.
 
 ## Potential downsides
 The creation of the alert sub-manager will be complex because it has to handle the creation of soft buttons and manage their IDs alongside the soft button manager. It will also have to upload the soft button images. However, this is all complexity that every SDL developer must currently consider when developing their app. This is especially difficult for them because they don't usually have to deal with uploading images and waiting until the upload is done.
