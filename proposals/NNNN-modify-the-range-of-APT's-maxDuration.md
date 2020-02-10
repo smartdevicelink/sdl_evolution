@@ -10,7 +10,7 @@ This proposal modifies the range of APT's maxDuration.
 
 ## Motivation
 In https://www.smartdevicelink.com/zh-hans/guides/hmi/ui/performaudiopassthru/,
-The value range of `PerformAudioPassThru.maxDuration` is defined as 1Å`1000000ms.
+The value range of `PerformAudioPassThru.maxDuration` is defined as 1-1000000ms.
 
 In practical use, if the `PerformAudioPassThru.maxDuration` is set too small, for instance, 1ms, then it is obviously not enough for the HU to handle APT.
 
@@ -37,8 +37,9 @@ It is a misunderstanding that the specification itself can set the max duration 
 
 
 ## Proposed solution
-Similar to the duration of Alert (3000msÅ`10000ms), we can uniformly spec the range of APT's `maxduration` from 3000ms to 1000000ms.
-Å¶Definition of AlertÅFhttps://www.smartdevicelink.com/zh-hans/guides/hmi/ui/alert/
+Similar to the duration of Alert (3000ms-10000ms), we can uniformly spec the range of APT's `maxduration` from 3000ms to 1000000ms.
+Definition of Alert:
+https://www.smartdevicelink.com/zh-hans/guides/hmi/ui/alert/
 
 ### Detailed design
 #### MOBILE_API Updates
@@ -47,8 +48,8 @@ Change the `minvalue` of `maxDuration` from 1 to 3000.
         <param name="samplingRate" type="SamplingRate" mandatory="true">
             <description> This value shall be allowed at 8 kHz or 16 or 22 or 44 kHz.</description>
         </param>
--        <param name="maxDuration" type="Integer" minvalue="1" maxvalue="1000000" mandatory="true">
-+        <param name="maxDuration" type="Integer" minvalue="3000" maxvalue="1000000" mandatory="true">
+-      <param name="maxDuration" type="Integer" minvalue="1" maxvalue="1000000" mandatory="true">
++     <param name="maxDuration" type="Integer" minvalue="3000" maxvalue="1000000" mandatory="true">
             <description>The maximum duration of audio recording in milliseconds. </description>
         </param>
         <param name="bitsPerSample" type="BitsPerSample" mandatory="true">
@@ -60,8 +61,8 @@ Change the `minvalue` of `maxDuration` from 1 to 3000.
             audioPassThruDisplayText1: First line of text displayed during audio capture.
             audioPassThruDisplayText2: Second line of text displayed during audio capture.</description>
     </param>
--    <param name="maxDuration" type="Integer" minvalue="1" maxvalue="1000000" mandatory="true">
-+    <param name="maxDuration" type="Integer" minvalue="3000" maxvalue="1000000" mandatory="true">
+-  <param name="maxDuration" type="Integer" minvalue="1" maxvalue="1000000" mandatory="true">
++  <param name="maxDuration" type="Integer" minvalue="3000" maxvalue="1000000" mandatory="true">
       <description>The maximum duration of audio recording in milliseconds. If not provided, the recording should be performed until EndAudioPassThru arrives.</description>
     </param>
     <param name="muteAudio" type="Boolean" mandatory="true">
