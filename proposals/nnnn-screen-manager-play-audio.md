@@ -103,17 +103,21 @@ public class BaseScreenManager {
 Due to the size of the iOS APIs and the similarity between the iOS, Java Suite and eventual JavaScript Suite APIs, this proposal does not present the public APIs of the JavaScript Suite APIs – especially because the JavaScript Suite APIs do not currently have a screen manager layer. The JavaScript Suite APIs should mirror the iOS and Java Suite API appropriately and is up to the Project Maintainer's discretion. However, if any changes needed to be made such that they impacted the iOS / Java Suite API (such as the alteration, addition, or removal of a method or property), then a proposal revision would be needed.
 
 ### General Notes
-* There are two general possibilities for how to handle if the developer calls `playAudio` while another piece of audio is playing.
-    1. We could queue the next `playAudio` and wait for the first to finish. We would use a queueing system similar to the `ChoiceSetManager` for this.
-    2. We could send the next `playAudio` `Speak` RPC immediately and allow the head unit to handle playing it after the first, or, more likely, error and then return the error.
-    * Choice #1 should be implemented in this proposal.
 
-## Potential downsides
+#### Handling Multiple playAudio Calls
+There are two general possibilities for how to handle if the developer calls `playAudio` while another piece of audio is playing.
+
+1. We could queue the next `playAudio` and wait for the first to finish. We would use a queueing system similar to the `ChoiceSetManager` for this.
+2. We could send the next `playAudio` `Speak` RPC immediately and allow the head unit to handle playing it after the first, or, more likely, error and then return the error.
+
+Between these two options, this proposal uses option #1 above, option #2 is noted below as "Alternatives Considered" #2.
+
+## Potential Downsides
 This adds some complexity by needing to handle file uploads for possible `TTSChunk` file uploads. However, this is complexity that must currently be handled by the developer.
 
-## Impact on existing code
+## Impact on Existing Code
 This will be a minor version change for all app libraries.
 
-## Alternatives considered
+## Alternatives Considered
 1. We could move `playAudio` to the `SDLManager` instead of the `ScreenManager` because it doesn't _technically_ change the screen. However, the `ScreenManager` is already set up for sub-managers, which this will use. Furthermore, the developer usually looks on the `ScreenManager` for their primary app implementation.
-2. We could implement option #2 of point 1 instead of option #1, but the developer will need to track the responses of their `playAudio` calls manually to ensure there are no conflicts.
+2. We could implement "Handling Multiple playAudio Calls" option #2 instead of option #1, but the developer will need to track the responses of their `playAudio` calls manually to ensure there are no conflicts.
