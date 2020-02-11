@@ -14,7 +14,8 @@ In the [PerformAudioPassThru section](https://smartdevicelink.com/en/guides/hmi/
 
 In practical use, if the `PerformAudioPassThru.maxDuration` is set too small, for instance, 1ms, then it is obviously not enough for the HU to handle APT.
 
-For example, this is a issue if `PerformAudioPassThru.maxDuration` is set to 1ms.
+For example, this is an issue if `PerformAudioPassThru.maxDuration` is set to 1ms.
+
 
 ### Reproduction Steps
 1. Send a TTS (TTS1)
