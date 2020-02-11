@@ -25,7 +25,8 @@ A new SDLManagerDelegate method would need to be added, and the old one should b
 ```objc
 	 * Called when the lifecycle manager detected a language mismatch. In case of a language mismatch the manager should change the apps registration by updating the lifecycle configuration to the specified language. If the app can support the specified language it should return an Object of SDLLifecycleConfigurationUpdate, otherwise it should return nil to indicate that the language is not supported.
 	 *
-	 * @param language The language of the connected head unit the manager is trying to update the configuration.
+	 * @param language The language of the connected head unit for which the manager is trying to update the configuration.
+
 +	 * @param hmiLanguage The language of the connected head unit the manager is trying to update the configuration.
 	 * @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
 	 */
