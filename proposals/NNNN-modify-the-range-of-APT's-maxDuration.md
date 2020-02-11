@@ -9,7 +9,8 @@
 This proposal modifies the range of APT's maxDuration.
 
 ## Motivation
-In https://www.smartdevicelink.com/zh-hans/guides/hmi/ui/performaudiopassthru/,
+In the [PerformAudioPassThru section](https://smartdevicelink.com/en/guides/hmi/ui/performaudiopassthru/) of the HMI Documentation, the value range of `PerformAudioPassThru.maxDuration` is defined as 1-1000000ms.
+
 The value range of `PerformAudioPassThru.maxDuration` is defined as 1-1000000ms.
 
 In practical use, if the `PerformAudioPassThru.maxDuration` is set too small, for instance, 1ms, then it is obviously not enough for the HU to handle APT.
