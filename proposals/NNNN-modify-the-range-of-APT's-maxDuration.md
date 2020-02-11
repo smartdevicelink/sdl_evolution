@@ -44,7 +44,6 @@ Similar to the duration of Alert (3000ms-10000ms), we can uniformly spec the ran
 
 The definition of Alert can be found in the [Alert section](https://smartdevicelink.com/en/guides/hmi/ui/alert/) of the HMI Documentation.
 
-https://www.smartdevicelink.com/zh-hans/guides/hmi/ui/alert/
 
 ### Detailed design
 #### MOBILE_API Updates
