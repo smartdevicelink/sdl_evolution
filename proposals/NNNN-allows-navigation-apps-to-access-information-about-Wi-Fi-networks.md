@@ -24,7 +24,8 @@ https://github.com/smartdevicelink/sdl_java_suite/issues/1236
 
 To fix these issues, navigation apps need to access information about WiFi networks.
 
-It would help SDL greatly improve the user experience on VideoStreaming via BT+Wi-Fi.
+It would help SDL greatly improve the user experience on VideoStreaming via BT+WiFi.
+
 
 
 ## Proposed solution
