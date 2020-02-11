@@ -29,7 +29,8 @@ It would help SDL greatly improve the user experience on VideoStreaming via BT+W
 
 
 ## Proposed solution
-Add manifest permission to navigation apps that allows them to access information about Wi-Fi networks.
+Add manifest permission to navigation apps that allows them to access information about WiFi networks.
+
 ```xml
     <!-- Required to check if WiFi is enabled -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
