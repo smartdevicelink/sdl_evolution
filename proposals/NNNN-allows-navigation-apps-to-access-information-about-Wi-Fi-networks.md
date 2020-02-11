@@ -1,4 +1,5 @@
-# Allows navigation apps to access information about Wi-Fi networks
+# Allow navigation apps to access information about WiFi networks
+
 
 * Proposal: [SDL-NNNN](NNNN-allows-navigation-apps-to-access-information-about-Wi-Fi-networks.md)
 * Author: [zhouxin627](https://github.com/zhouxin627)
