@@ -28,7 +28,8 @@ A new SDLManagerDelegate method would need to be added, and the old one should b
 	 *
 	 * @param language The language of the connected head unit for which the manager is trying to update the configuration.
 
-+	 * @param hmiLanguage The language of the connected head unit the manager is trying to update the configuration.
++	 * @param hmiLanguage The language of the connected head unit for which the manager is trying to update the configuration.
+
 	 * @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
 	 */
 -	- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language;
