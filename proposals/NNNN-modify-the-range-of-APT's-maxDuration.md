@@ -32,7 +32,8 @@ For example, this is an issue if `PerformAudioPassThru.maxDuration` is set to 1m
 2. The APT ONS appears and disappears instantly, but the TTS2 is still playing.
 
 
-SDLCore measures the timeout with the duration set by APT, and SDLCore's processing time is also included in the timeout. When the duration of APT is set too short, SDLCore may be processing the interrupt operation of TTS1. And then, when TTS2 has not stopped, the ONS has disappeared already.
+SDL Core measures the timeout with the duration set by APT, and SDL Core's processing time is also included in the timeout. When the duration of APT is set too short, SDL Core may be processing the interrupt operation of TTS1. And then, when TTS2 has not stopped, the ONS has disappeared already.
+
 
 It is a misunderstanding that the specification itself can set the max duration of APT to 500ms or less. As for the user, the possible consuming time of speaking is usually 3000ms or more.
 
