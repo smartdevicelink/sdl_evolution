@@ -10,7 +10,8 @@ This proposal provides support for updating to two separate languages.
 
 ## Motivation
 According to RPC Spec documents, it seems like when the HU's `hmiDisplayLanguage` or `VR/TTS` language is different from the app's desired language, the app will send `ChangeRegistration` to change the registered language which is supported.
-But at the SDL Proxy sourcecode's side, only the difference of `VR/TTS` language will trigger `ChangeRegistration`.
+But at the SDL Proxy source code's side, only the difference of `VR/TTS` language will trigger `ChangeRegistration`.
+
 The Proxy does not currently support updating to two separate languages.
 In other words, the developer can only be told that the language updated, but not which language type.
 The `hmiDisplayLanguage` and `VR/TTS` language could be set separately in some use cases for OEM.
