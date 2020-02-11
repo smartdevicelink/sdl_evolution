@@ -1,4 +1,4 @@
-# Set language separately
+# Support for Set Language Separately
 
 * Proposal: [SDL-NNNN](NNNN-set-language-separately.md)
 * Author: [zhouxin627](https://github.com/zhouxin627)
