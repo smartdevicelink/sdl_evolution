@@ -40,7 +40,8 @@ A new SDLManagerDelegate method would need to be added, and the old one should b
 ### Java Library
 A new SdlManagerListener method would need to be added, and the old one should be deprecated:
 ```java
-	 * @param language The language of the connected head unit the manager is trying to update the configuration.
+	 * @param language The language of the connected head unit for which the manager is trying to update the configuration.
+
 +	 * @param hmiLanguage The hmiLanguage of the connected head unit the manager is trying to update the configuration.
 	 * @return An object of LifecycleConfigurationUpdate if the head unit language is supported,
 	 * otherwise null to indicate that the language is not supported.
