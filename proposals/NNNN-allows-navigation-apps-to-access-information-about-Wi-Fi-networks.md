@@ -13,7 +13,8 @@ https://github.com/smartdevicelink/sdl_java_suite/pull/1259
 
 
 ## Motivation
-Currently, there is some issues with navigation apps when users enable WiFi after the navigation apps are activated.
+Currently, there are some issues with navigation apps when users enable WiFi after the navigation apps are activated.
+
 For example:
 1. SDL failed to start video streaming if users enable WiFi on the head unit after the NaviAPP is activated.
 https://github.com/smartdevicelink/sdl_java_suite/issues/1235
