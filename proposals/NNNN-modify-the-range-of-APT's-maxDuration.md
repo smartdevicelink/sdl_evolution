@@ -42,7 +42,8 @@ It is a misunderstanding that the specification itself can set the max duration 
 ## Proposed solution
 Similar to the duration of Alert (3000ms-10000ms), we can uniformly spec the range of APT's `maxDuration` from 3000ms to 1000000ms.
 
-Definition of Alert:
+The definition of Alert can be found in the [Alert section](https://smartdevicelink.com/en/guides/hmi/ui/alert/) of the HMI Documentation.
+
 https://www.smartdevicelink.com/zh-hans/guides/hmi/ui/alert/
 
 ### Detailed design
