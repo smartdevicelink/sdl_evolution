@@ -1,8 +1,8 @@
 # POI Service Supported
 
-* Proposal: [SDL-NNNN](NNNN-POI-Service-Supported.md)
+* Proposal: [SDL-0276](0276-POI-Service-Supported.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: Awaiting review
+* Status: **In Review**
 * Impacted Platforms: [ Core / RPC ]
 
 ## Introduction
