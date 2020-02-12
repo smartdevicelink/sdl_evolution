@@ -1,8 +1,8 @@
 # Screen Manager Template Management
 
-* Proposal: [SDL-NNNN](NNNN-screenmanager-push-pop.md)
+* Proposal: [SDL-0278](0278-screenmanager-push-pop.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
