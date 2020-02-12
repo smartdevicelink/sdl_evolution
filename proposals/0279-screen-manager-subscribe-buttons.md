@@ -1,8 +1,8 @@
 # Screen Manager Subscribe Buttons
 
-* Proposal: [SDL-NNNN](NNNN-screen-manager-subscribe-buttons.md)
+* Proposal: [SDL-0279](0279-screen-manager-subscribe-buttons.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
