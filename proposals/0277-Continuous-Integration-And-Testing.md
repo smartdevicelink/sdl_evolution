@@ -187,4 +187,4 @@ It can be expected that there will be a lot of places in scope of fixing existin
 
 Instead of the proposed solutions as Jenkins and Messos the other alternative solutions can be used for CI implementation. Among such alternative solutions for CI: Travis, Github Actions, Drone, GoCD, Bamboo, CircleCI, etc. For cluster technology: Kubernetes, Docker Swarm, Vagrant, and dozens of others.
 
-[cluster_schema]: ./assets/proposals/NNNN-Continuous-Integration-And-Testing/ClusterSchema.png
+[cluster_schema]: ./assets/proposals/0277-Continuous-Integration-And-Testing/ClusterSchema.png
