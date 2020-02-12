@@ -9,6 +9,8 @@
 
 This proposal improve the quality of video projection when using Android `VirtualDisplay` and `MediaEncoder`, as Android `MediaEncoder` does not produce consistent frame rate for rendering `VirtualDisplay's` surface.
 
+[SDL-0274](0274-add-preferred-FPS.md) introduced `preferredFPS` parameter specified in `VideoStreamingCapability`. This proposal helps to implement the `preferredFPS` support in sdl_java_suite platform.
+
 ## Motivation
 
 A part of sdl_java_suite library utilizes `VirtualDisplay` and `MediaEncoder` to produce the video projection stream.
