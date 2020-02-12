@@ -284,19 +284,23 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0260" status="accepted" primary-platform="core" sdl-version="x.x" name="Deprecate HMI RPC OnFindApplications" filename="0260-Deprecate-HMI-RPC-OnFindApplications.md"/>
 <proposal id="0261" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data WindowStatus" filename="0261-New-vehicle-data-WindowStatus.md"/>
 <proposal id="0262" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data SeatOccupancy" filename="0262-New-vehicle-data-SeatOccupancy.md"/>
-<proposal id="0263" status="active" primary-platform="rpc" sdl-version="x.x" name="Extend SystemRequest With Optional Data For Proprietary Data Exchange" filename="0263-System-Request.md"/>
+<proposal id="0263" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Extend SystemRequest With Optional Data For Proprietary Data Exchange" filename="0263-System-Request.md"/>
 <proposal id="0264" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Separating the change of Audible status and the change of HMI Status" filename="0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md"/>
 <proposal id="0265" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove duplicate parameter FileName from HMI RPC BasicCommunication.OnPutFile" filename="0265-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md"/>
 <proposal id="0266" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data GearStatus" filename="0266-New-vehicle-data-GearStatus.md"/>
 <proposal id="0267" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Main Menu UI Updates" filename="0267-addcommand-ui-updates.md"/>
 <proposal id="0268" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Main Menu Updating and Pagination" filename="0268-main-menu-updating.md"/>
 <proposal id="0269" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data ClimateData" filename="0269-New-vehicle-data-ClimateData.md"/>
-<proposal id="0270" status="returned" primary-platform="rpc" sdl-version="x.x" name="Add means to launch with optimum appHMIType" filename="0270-Add-means-to-launch-with-optimum-appHMIType.md"/>
+<proposal id="0270" status="active" primary-platform="rpc" sdl-version="x.x" name="Add means to launch with optimum appHMIType" filename="0270-Add-means-to-launch-with-optimum-appHMIType.md"/>
 <proposal id="0271" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Start APT of SDL App by pressing PTT button" filename="0271-Start-APT-of-SDL-App-by-pressing-PTT-Button.md"/>
-<proposal id="0272" status="active" primary-platform="javascript" sdl-version="x.x" name="JavaScript Suite SDL Manager" filename="0272-sdl-javascript-manager-layer.md"/>
+<proposal id="0272" status="accepted" primary-platform="javascript" sdl-version="x.x" name="JavaScript Suite SDL Manager" filename="0272-sdl-javascript-manager-layer.md"/>
 <proposal id="0273" status="active" primary-platform="core" sdl-version="x.x" name="WebEngine Projection mode" filename="0273-webengine-projection-mode.md"/>
 <proposal id="0274" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add preferred FPS to VideoStreamingCapability" filename="0274-add-preferred-FPS.md"/>
-<proposal id="0275" status="active" primary-platform="dev-portal" sdl-version="x.x" name="WebEngine App Testing" filename="0275-webengine-app-testing.md"/>
+<proposal id="0275" status="accepted" primary-platform="dev-portal" sdl-version="x.x" name="WebEngine App Testing" filename="0275-webengine-app-testing.md"/>
+<proposal id="0276" status="active" primary-platform="rpc" sdl-version="x.x" name="POI Service Supported" filename="0276-POI-Service-Supported.md"/>
+<proposal id="0277" status="active" primary-platform="core" sdl-version="x.x" name="Continuous integration and testing" filename="0277-Continuous-Integration-And-Testing.md"/>
+<proposal id="0278" status="active" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Template Management" filename="0278-screenmanager-push-pop.md"/>
+<proposal id="0279" status="active" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>
 
 	<!--
 Recognized values for a proposal's status:
