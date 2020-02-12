@@ -3,7 +3,7 @@
 * Proposal: [SDL-0274](0274-add-preferred-FPS.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / RPC]
 
 ## Introduction
 
@@ -32,7 +32,7 @@ Add `preferredFPS` to `VideoStreamingCapability` struct in both APIs.
         ...
         <!-- new param -->
         <param name="preferredFPS" type="Integer" minvalue="0" maxvalue="2147483647" mandatory="false">
-            <description>Preferred frame rate per second. Mobile application should take this value into account for capturing and encoding video frame.</description>
+            <description>The preferred frame rate per second of the head unit. The mobile application / app library may take other factors into account that constrain the frame rate lower than this value, but it should not perform streaming at a higher frame rate than this value.</description>
         </param>
     </struct>
 ```
@@ -82,7 +82,23 @@ static NSUInteger const defaultFrameRate = 15;
 
 }
 ```
-Note that `videoEncoderSettings` property must be `NSMutableDictionary` as it now would be mutable.
+
+Later part in the same method (`didEnterStateVideoStreamStarting`), current `videoEncoderSettings` are overwritten by `customEncoderSettings`.
+
+However, for frame rate, we should take lower value approach if frame rate in customEncoderSettings is higher than preferred FPS, like below:
+```objc
+        // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
+        for (id key in self.customEncoderSettings.keyEnumerator) {
+            if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] == YES) {
+                // do NOT override frame rate if custom setting's frame rate is higher than current setting's one, which now refers to preferredFPS if specified in capability.
+                if ([self.customEncoderSettings valueForKey:key] < self.videoEncoderSettings[key]) {
+                    self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+                }
+            } else {
+                self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+            }
+        }
+```
 
 ### iOS mobile proxy consideration
 
