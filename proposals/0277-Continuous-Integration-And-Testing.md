@@ -1,8 +1,8 @@
 # Continuous integration and testing
 
-* Proposal: [SDL-NNNN](NNNN-Continuous-Integration-And-Testing.md)
+* Proposal: [SDL-0277](0277-Continuous-Integration-And-Testing.md)
 * Author: [Pavel Zhdanov](https://github.com/ZhdanovP), [Mykyta Nikora](https://github.com/MNikora)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
