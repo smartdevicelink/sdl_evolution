@@ -20,7 +20,8 @@ For example, this is an issue if `PerformAudioPassThru.maxDuration` is set to 1m
 ### Reproduction Steps
 1. Send a TTS (TTS1)
 2. TTS1 is speaking
-3. Send an APT RPC with TTS (TTS2), and the maxduration is set to 1ms
+3. Send an APT RPC with TTS (TTS2), and the maxDuration is set to 1ms
+
 
 ### Expect Result
 1. TTS1 stops
