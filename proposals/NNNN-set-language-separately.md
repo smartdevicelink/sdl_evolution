@@ -1,7 +1,7 @@
 # Support for Set Language Separately
 
 * Proposal: [SDL-NNNN](NNNN-set-language-separately.md)
-* Author: [zhouxin627](https://github.com/zhouxin627)
+* Author: [Zhou Xin](https://github.com/zhouxin627)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS / Java Suite]
 
@@ -23,32 +23,29 @@ The proposed solution is to add a new method to pass the HMI display language se
 A new SDLManagerDelegate method would need to be added, and the old one should be deprecated:
 
 ```objc
-	 * Called when the lifecycle manager detected a language mismatch. In case of a language mismatch the manager should change the app's registration by updating the lifecycle configuration to the specified language. If the app can support the specified language it should return an Object of SDLLifecycleConfigurationUpdate, otherwise it should return nil to indicate that the language is not supported.
+* Called when the lifecycle manager detected a language mismatch. In case of a language mismatch the manager should change the app's registration by updating the lifecycle configuration to the specified language. If the app can support the specified language it should return an Object of SDLLifecycleConfigurationUpdate, otherwise it should return nil to indicate that the language is not supported.
 
-	 *
-	 * @param language The language of the connected head unit for which the manager is trying to update the configuration.
+*
+* @param language The language of the connected head unit for which the manager is trying to update the configuration.
+* @param hmiLanguage The language of the connected head unit for which the manager is trying to update the configuration.
 
-+	 * @param hmiLanguage The language of the connected head unit for which the manager is trying to update the configuration.
-
-	 * @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
-	 */
--	- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language;
-+	- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage;
+* @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
+*/
+- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage;
 
 ```
 
 ### Java Library
 A new SdlManagerListener method would need to be added, and the old one should be deprecated:
 ```java
-	 * @param language The language of the connected head unit for which the manager is trying to update the configuration.
+* @param language The language of the connected head unit for which the manager is trying to update the configuration.
 
-+	 * @param hmiLanguage The hmiLanguage of the connected head unit for which the manager is trying to update the configuration.
+* @param hmiLanguage The hmiLanguage of the connected head unit for which the manager is trying to update the configuration.
 
-	 * @return An object of LifecycleConfigurationUpdate if the head unit language is supported,
-	 * otherwise null to indicate that the language is not supported.
-	 */
--	LifecycleConfigurationUpdate managerShouldUpdateLifecycle(Language language);
-+	LifecycleConfigurationUpdate managerShouldUpdateLifecycle(Language language, Language hmiLanguage);
+* @return An object of LifecycleConfigurationUpdate if the head unit language is supported,
+* otherwise null to indicate that the language is not supported.
+*/
+LifecycleConfigurationUpdate managerShouldUpdateLifecycle(Language language, Language hmiLanguage);
 ```
 
 ## Potential downsides
