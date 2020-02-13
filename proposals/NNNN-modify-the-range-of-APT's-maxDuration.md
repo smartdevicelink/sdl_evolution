@@ -1,7 +1,7 @@
 # Modify the range of APT's maxDuration
 
 * Proposal: [SDL-NNNN](NNNN-modify-the-range-of-APT's-maxDuration.md)
-* Author: [zhouxin627](https://github.com/zhouxin627)
+* Author: [Zhou Xin](https://github.com/zhouxin627)
 * Status: **Awaiting review**
 * Impacted Platforms: [RPC]
 
@@ -76,7 +76,7 @@ Change the `minvalue` of `maxDuration` from 1 to 3000.
 No downsides were identified.
 
 ## Impact on existing code
-This proposal has no breaking change, so there should be no impact on existing code.
+The RPC Spec needs to be updated.
 
 ## Alternatives considered
 No alternatives were identified.
