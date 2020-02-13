@@ -23,7 +23,8 @@ For example, this is an issue if `PerformAudioPassThru.maxDuration` is set to 1m
 3. Send an APT RPC with TTS (TTS2), and the maxDuration is set to 1ms
 
 
-### Expect Result
+### Expected Result
+
 1. TTS1 stops
 2. APT ONS appears and TTS2 starts
 3. TTS2 stops and APT ONS disappears
