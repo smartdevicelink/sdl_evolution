@@ -19,7 +19,6 @@ For example:
 1. SDL failed to start video streaming if users enable WiFi on the head unit after the NaviAPP is activated.
 https://github.com/smartdevicelink/sdl_java_suite/issues/1235
 2. SDL failed to start video streaming if users enable WiFi on the phone more than 150s after the NaviAPP is activated.
-
 https://github.com/smartdevicelink/sdl_java_suite/issues/1236
 
 To fix these issues, navigation apps need to access information about WiFi networks.
