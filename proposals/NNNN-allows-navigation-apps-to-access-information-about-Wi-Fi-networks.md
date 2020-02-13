@@ -2,7 +2,7 @@
 
 
 * Proposal: [SDL-NNNN](NNNN-allows-navigation-apps-to-access-information-about-Wi-Fi-networks.md)
-* Author: [zhouxin627](https://github.com/zhouxin627)
+* Author: [Zhou Xin](https://github.com/zhouxin627)
 * Status: **Awaiting review**
 * Impacted Platforms: [Java Suite]
 
@@ -42,7 +42,7 @@ Add manifest permission to navigation apps that allows them to access informatio
 No downsides were identified.
 
 ## Impact on existing code
-This proposal has no breaking change, so there should be no impact on existing code.
+This will be a minor version change to the Java Suite Library.
 
 ## Alternatives considered
 No alternatives were identified.
