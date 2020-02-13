@@ -8,7 +8,6 @@
 
 ## Introduction
 This proposal requires all current navigation apps to include a new permission (android.permission.ACCESS_WIFI_STATE) to benefit from the issue fix as follows:
-
 https://github.com/smartdevicelink/sdl_java_suite/pull/1259
 
 
