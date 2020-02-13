@@ -7,9 +7,9 @@
 
 ## Introduction
 
-This proposal improve the quality of video projection when using Android `VirtualDisplay` and `MediaEncoder`, as Android `MediaEncoder` does not produce consistent frame rate for rendering `VirtualDisplay's` surface.
+This proposal improves the quality of video projection when using Android `VirtualDisplay` and `MediaEncoder`, as Android `MediaEncoder` does not produce a consistent frame rate for rendering `VirtualDisplay`'s surface.
 
-[SDL-0274](0274-add-preferred-FPS.md) introduced `preferredFPS` parameter specified in `VideoStreamingCapability`. This proposal helps to implement the `preferredFPS` support in sdl_java_suite platform.
+[SDL-0274](0274-add-preferred-FPS.md) introduced `preferredFPS` parameter specified in `VideoStreamingCapability`. This proposal helps to implement the `preferredFPS` support in the sdl_java_suite platform.
 
 ## Motivation
 
@@ -22,24 +22,24 @@ The component structure is illustrated as follows:
 **Fig. 1: VirtualDisplay's surface produces unstable frame rate**
 
 For instance, 
-- if an app's content in `VirtualDisplay` is updated quite often, the `MediaEncoder` associated with `VirtualDisplay's` surface produces 60 frames per second.
+- if an app's content in `VirtualDisplay` is updated quite often, the `MediaEncoder` associated with `VirtualDisplay`'s surface produces 60 frames per second.
 - if an app's content in `VirtualDisplay` is not updated very frequently, its surface produces rather few frames (e.g. 20 frames) per second.
 
 Most HUs would be designed for consistent video frame rate, so it may cause some negative effect if video frame rate goes up and down.
 
-This proposal addresses this Android specific issue as it tightly related with how Android `VirtualDisplay` works.
+This proposal addresses this Android specific issue as it's closely related to how Android `VirtualDisplay` works.
 
 ## Proposed solution
 
-Because the issue comes from the fact where `VirtualDisplay's` surface emits output buffer in variable rate, the idea is:
+Because the issue comes from the fact where `VirtualDisplay`'s surface emits output buffer in a variable rate, the idea is:
 
 - Give the intermediate surface to `VirtualDisplay`.
-- When `VirtualDisplay` sends frames, the intermediate surface can determine whether or not to forward them into `MediaCodec's` input surface.
+- When `VirtualDisplay` sends frames, the intermediate surface can determine whether or not to forward them into `MediaCodec`'s input surface.
 
 The approach is introduced at http://stackoverflow.com/questions/31527134/controlling-frame-rate-of-virtualdisplay, i.e.
 
 - Create a `SurfaceTexture`, construct a Surface from it, and give it to `VirtualDisplay`.
-- When `SurfaceTexture` fires `onFrameAvailable` callback, we can buffer the frame, and render the texture onto `MediaCodec's` input surface by using GLES.
+- When `SurfaceTexture` fires `onFrameAvailable` callback, we can buffer the frame, and render the texture onto `MediaCodec`'s input surface by using GLES.
 
 The idea is illustrated as follows:
   
@@ -50,7 +50,7 @@ The idea is illustrated as follows:
 ### Detailed design
 
 1. Setup intermediate surface and surface texture.
-We need to add following components, which includes some of [Grafika](https://github.com/google/grafika), into `VirtualDisplayEncoder` class.
+We need to add the following components, which includes some of [Grafika](https://github.com/google/grafika), into `VirtualDisplayEncoder` class.
 
 - `EglCore` (com.android.grafika.gles.EglCore)
 - `OffscreenSurface` (com.android.grafika.gles.OffscreenSurface)
@@ -59,17 +59,17 @@ We need to add following components, which includes some of [Grafika](https://gi
 - Surface with above `SurfaceTexture` (let's call this to IntermediateSurface)
 - `WindowSurface` (com.android.grafika.gles.WindowSurface)
 
-2. create `VirtualDisplay` with IntermediateSurface
+2. Create `VirtualDisplay` with IntermediateSurface
 Instead of inputSurface, we use IntermediateSurface for `VirtualDisplay`, so that we can control update timing of the IntermediateSurface.
 
-3. create capture thread
-In capture thread, we periodically update surface texture, so that we can capture the surface in constant rate.
+3. Create capture thread
+In capture thread, we periodically update surface texture, so that we can capture the surface in a constant rate.
 
 The pseudo code of CaptureThread looks as follows:
 
 ```java
  import android.os.Looper;private final class CaptureThread extends Thread implements SurfaceTexture.OnFrameAvailableListener {
-    long frameInterval; // this is given as the paramter
+    long frameInterval; // this is given as the parameter
     static final int MSG_TICK = 1;
     static final int MSG_UPDATE_SURFACE = 2;
 
@@ -128,7 +128,7 @@ The pseudo code of CaptureThread looks as follows:
     * @param surfaceTexture
     */
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        // here, we can do update surfaceTexture
+        // here, we can update surfaceTexture
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             updateSurface();
         } else {
@@ -138,7 +138,7 @@ The pseudo code of CaptureThread looks as follows:
             handler.sendMessage(handler.obtainMessafge(MSG_UPDATE_SURFACE));
         }
 
-        // when the first time this gets called, start the loop
+        // the first time this gets called, start the loop
         // by mHandler.sendMessage()
         if (nextTime == 0) {
             nextTime = System.nanoTime();
@@ -157,9 +157,10 @@ sdl_java_suite already uses some component under Apache License 2.0 (e.g. `JSON`
 
 ## Impact on existing code
 
-Because this approach does not change existing API, and changes are inside of `VirtualDisplayEncoder` class, there's no impact to developers who use `VirtualDisplayEncoder`.
+Because this approach does not change an existing API, and changes are inside of `VirtualDisplayEncoder` class, there's no impact to developers who use `VirtualDisplayEncoder`.
+
+This proposal should be combined with "Add preferred FPS to VideoStreamingCapability" proposal, so that we can respect the preferred FPS value, which is specified by head unit.
 
 ## Alternatives considered
 
-This is pure improvement for existing `VistualDisplayEncoder`. So there're no alternatives, but this proposal adds the ability to specify the desired FPS on Proxy end.
-This proposal should be combined with "Add preferred FPS to VideoStreamingCapability" proposal, so that we can respect for preferred FPS value, which is specified by HU.
+This is a pure improvement for existing `VistualDisplayEncoder`, so there are no alternatives, but this proposal adds the ability to specify the desired FPS on Proxy end.
