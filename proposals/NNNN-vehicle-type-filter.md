@@ -398,8 +398,6 @@ The below example shows a valid vehicle type filters.
 
 ![Sequence Diagram](../assets/proposals/NNNN-vehicle-type-filter/ios.png)
 
-### Deprecating 
-
 ## Potential downsides
 
 The Android SDL router service after transport connection needs to start RPC service. If the SDL router service does not start RPC service and relies on the client to send the `Get vehicle type` protocol message, the connected client would start another foreground service. This would force the connected app to show two notifications to users while determining vehicle type information and will need to terminate services if the app does not support SDL enabled IVI system. 
