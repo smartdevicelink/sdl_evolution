@@ -1,4 +1,4 @@
-# Enable OEM-exclusive apps support
+# Enable OEM exclusive apps support
 
 * Proposal: [SDL-NNNN](NNNN-vehicle-type-filter.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
