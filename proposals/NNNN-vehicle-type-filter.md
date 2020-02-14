@@ -32,14 +32,14 @@ Please refer below screenshots.
 
 __Note the app name being shown in both notifications. In the below picture, the `SDL App` is using the “SDL Router Service” created by the `OEM App`.__
 
-<img src="../assets/proposals/NNNN-vehicle-type-filter/two_noti.png" alt="App name in notifications" width="500"/>
+<img src="../assets/proposals/0280-vehicle-type-filter/two_noti.png" alt="App name in notifications" width="500"/>
 
 
 The only way to remove notifications from OEM App when it connects to another vehicle is to force stop both the services so, that both notifications are removed. In this case, other apps connected through the `OEM Apps'` router service will also get disconnected. This is not a recommended approach. If the OEM app wants to unregisters itself from the SDL enabled IVI system, it will stop the service created by an app. The `SDL router service` from the OEM app will keep running.
 
 Please refer below screenshot. The `SDL Router Service` is hosted by the OEM app, the `Notification 2` with the app name will be shown to the user, giving the impression that the `OEM App` is still working. If the OEM App starts showing notifications when connected to another OEM's vehicle, this would confuse users. They would probably think that `OEM App` on their mobile device is working with another OEMs SDL enabled IVI system. This proposal will define ways to mitigate this issue.
 
-<img src="../assets/proposals/NNNN-vehicle-type-filter/one_noti.png" alt="App name in SDL router service notifications" width="500"/>
+<img src="../assets/proposals/0280-vehicle-type-filter/one_noti.png" alt="App name in SDL router service notifications" width="500"/>
 
 This proposal tries to address the router service notification issue by defining the vehicle type filter. So, we could have an app that could specifically connect to certain vehicles. For example, an App that is designed only for Mustang vehicles.
 
@@ -281,7 +281,7 @@ The android proxy will need to implement the above protocol changes. In addition
 8. If the `Get vehicle type` message is not supported by the protocol version, the exclusive apps will try deploying the next router service. The exclusive apps will host router service only if there are no SDL app available on the users' device to host router service. The exclusive apps, in this case, will rely on vehicle type info received in the Register App interface response. In such a case, if vehicle type is not supported, the exclusive apps will be allowed to unregister apps from the SDL system and stop SDL router service.
 9. If `Get vehicle type` message response is NACK, the exclusive apps will not register on SDL system.
 
-![Sequence Diagram](../assets/proposals/NNNN-vehicle-type-filter/android.png) 
+![Sequence Diagram](../assets/proposals/0280-vehicle-type-filter/android.png) 
 
 ### iOS Proxy changes
 
@@ -396,7 +396,7 @@ The below example shows a valid vehicle type filters.
 6. If the protocol version does not support the `Get vehicle type` protocol message, the SDL proxy will continue with the app registration and it will rely on vehicle type information received in Register App interface response. If vehicle type is not supported, the exclusive apps will be allowed to unregister from SDL enabled system.
 7. If `Get vehicle type` message response is NACK, the proxy will end RPC session and the app will not be registered on the SDL system.
 
-![Sequence Diagram](../assets/proposals/NNNN-vehicle-type-filter/ios.png)
+![Sequence Diagram](../assets/proposals/0280-vehicle-type-filter/ios.png)
 
 ### Deprecating 
 
