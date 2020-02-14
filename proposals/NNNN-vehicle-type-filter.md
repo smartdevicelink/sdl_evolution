@@ -17,13 +17,13 @@ The proposal tries to mitigate the below issues.
 
 In the current implementation of the SDL, vehicle information is shared with the `Register app interface` response. If there are any apps, that work with specific OEMs, they would need to send the `Register app interface` RPC to know vehicle details. If the vehicle details do not match with the supported vehicle types, they would need to implement some mechanism to unregister the app. This behavior would cause an app to be shown on SDL enabled system for some time until the app unregisters itself from the IVI system. The users would see that apps were shown in the IVI system for a moment and are removed within seconds. By providing vehicle type information before app registration we could solve this issue, the app will not register on IVI if vehicle type is not supported, allowing app partners and SDL adapters to provide exclusive apps experience to their users depending on vehicle type information. 
 
-### App name issue in two notifications shown with Android apps
+### App name shown on notifications in Android
 
 The exclusive apps should not host `SDL Router service` on unsupported SDL systems. The android system requires all apps using foreground services to show a notification. The SDL enabled android app can have two foreground services. The `SDL router service` is started by the android proxy and another foreground service will be started by an SDL enabled app.
 
 The `SDL router service` has no information on what head unit it is connecting with when a transport connection is made. Other SDL apps bind to available router service and use this connection. This behavior could lead to cases where a proprietary app creates an `SDL router service` when connected to an unsupported SDL enabled system. This started service will need to show a foreground notification with the app name, giving the user the impression that the proprietary app is working with an unsupported SDL enabled system.
 
-For example, A proprietary app from an OEM creates Router service and the mobile device is connected to another OEMs' SDL enabled IVI system. The user would perceive that the proprietary app is doing something in the background, when connected to SDL enabled IVI system from another OEM.
+For example, A proprietary app of an OEM creates Router service and the mobile device is connected to another OEMs' SDL enabled IVI system. The user would perceive that the proprietary app is doing something in the background, when connected to SDL enabled IVI system from another OEM.
 
 Please refer below screenshots.
 
