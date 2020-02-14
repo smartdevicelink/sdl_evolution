@@ -1,7 +1,7 @@
 # App Services
 
 * Proposal: [SDL-0167](0167-app-services.md)
-* Author: [Joey Grover](https://github.com/joeygrover)
+* Author: [Joey Grover](https://github.com/joeygrover), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto)
 * Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Android / Core / RPC]
 
@@ -45,8 +45,10 @@ _Same for both MOBILE\_API and HMI\_API._
 	 <element name = "MEDIA"/>
 	 <element name = "WEATHER"/>
 	 <element name = "NAVIGATION"/>
++	 <element name = "VOICE_ASSISTANT"/>
 </enum>
 ```
+Note: A new service type, `VOICE_ASSISTANT` is added. See [Voice Assistant](#Voice Assistant) section.
 
 Each service type will have two structs specifically defined for them.
 
@@ -389,6 +391,118 @@ A navigation service is defined as a service that is currently listed as the nav
  - GetWayPoints
  - SubscribeWayPoints
  - OnWayPointChange
+
+#### Voice Assistant
+
+A voice assistant service is defined as a service that is currently acting as the voice assistant provider. This provider needs to be flushed out with a lot of extra details as its functionality is far reaching.
+
+Considering the scale of development, we think that it is more desirable to expand voice assistant step by step.
+But first, we must implement the basic part for voice assistant of app service.
+
+```xml
+	<struct name="AppServiceManifest" since="5.1">
+		<description> This manifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it </description>
+...
+		<param name="mediaServiceManifest" type="MediaServiceManifest" mandatory="false"/>
+		<param name="weatherServiceManifest" type="WeatherServiceManifest" mandatory="false"/>
+		<param name="navigationServiceManifest" type="NavigationServiceManifest" mandatory="false"/>
++	 	<param name="voiceAssistantServiceManifest" type="VoiceAssistantServiceManifest" mandatory="false"/>
+	</struct>
+
+	<struct name="AppServiceData" since="5.1">
+		<description> Contains all the current data of the app service. The serviceType will link to which of the service data objects are included in this object (e.g. if the service type is MEDIA, the mediaServiceData param should be included).</description>
+...
+		<param name="mediaServiceData" type="MediaServiceData" mandatory="false"/>
+		<param name="weatherServiceData" type="WeatherServiceData" mandatory="false"/>
+		<param name="navigationServiceData" type="NavigationServiceData" mandatory="false"/>
++	 	<param name="voiceAssistantServiceData" type="VoiceAssistantServiceData" mandatory="false"/>
+	</struct>
+
++	<struct name="VoiceAssistantServiceManifest" since="X.X">
++		<description> This manifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it </description>
++		<param name="wakeWords" type="String" minsize="1" array="true" mandatory="false"/>
++	</struct>
++
++	<struct name="VoiceAssistantServiceData" since="X.X">
++		<description> This data is related to what a Voice Assistant service would provide. </description>
++	</struct>
+```
+
+###### RPCs to be handled:
+ - OnVoiceAssistantActivated
+
+###### New RPCs for Voice Assistant
+
+```xml
++	<function name="OnVoiceAssistantActivated" functionID="OnVoiceAssistantActivatedID" messagetype="notification">
++		<description>Activate voice session for VoiceAssistant service.</description>
++		<param name="triggerSource" type="VoiceAssistantTrigger" mandatory="true">
++			<description>Informs the voice assistant of which source triggered the event.</description>
++		</param>
++		<param name="triggerInfo" type="String" mandatory="false">
++			<description>Any extra information about the trigger. This should include the wake word used and any other speech strings recognized.</description>
++		</param>
++	</function>
++
++	<enum name="VoiceAssistantOperatingMode">
++		<element name="PUSH_TO_TALK_BUTTON"/>
++		<element name="WAKE_WORD"/>
++	</enum>
+```
+
+###### Add VoiceAssistantOperationCapabilities
+
+The application that has received `OnVoiceAssistantActivated` must refer to the `VoiceAssistantOperationCapabilities` shown below. Then, the application can start a voice session with a method supported by the HMI.
+
+```xml
++	<enum name="VoiceAssistantOperatingMode">
++		<element name="AUDIO_PASSTHRU"/>
++		<element name="MICROPHONE_DIRECT"/>
++	</enum>
++
++	<struct name="VoiceAssistantOperationCapabilities">
++		<param name="voiceAssistantOperation" type="VoiceAssistantOperatingMode" minsize="1" maxsize="2" array="true" mandatory="false"/>
++	</struct>
+...
+	<interface name="VR" version="1.1.0" date="2017-04-27">
+...
+		<function name="GetCapabilities" messagetype="response">
+			<param name="vrCapabilities" type="Common.VrCapabilities" minsize="1" maxsize="100" array="true" mandatory="false">
+				<description>Types of input recognized by VR module.</description>
+			</param>
++			<param name="voiceAssistantOperationCapabilities" type="Common.VoiceAssistantOperationCapabilities" mandatory="false">
++				<description>See VoiceAssistantOperationCapabilities.</description>
++			</param>
+		</function>
+	</interface>
+```
+
+##### Ways to launch Voice Assistant
+
+Apple CarPlay and Google Android Auto are examples where NativeVR and voice assistant are mixed up. However, there are ways on how to differentiate the use (of NativeVR and voice assistant in Apple CarPlay or Google Android Auto).
+
+- When Apple CarPlay or Google Android Auto is connected, pressing the talk button launches Apple CarPlay or Google Android Auto voice assistant while others launch NativeVR.
+- A short press of talk button launches NativeVR; a long press launches Apple CarPlay or Google Android Auto voice assistant.
+
+In addition, there are also home devices equipped with voice assistant such as Amazon Echo and Google Nest. But, it is unlikely that other voice assistants will get mixed up because those devices use (their own) exclusive voice assistants.
+
+Based from the mentioned above, we have considered that both the identification by long press/short press and the identification by wake word are realistic. In here, we describe the recommended cases for each in-vehicle device system using PTT and wake word.
+
+1. When NativeVR exists but has no registration of wake word or NativeVR does NOT exists, the user uses PTT button with long press/short press.
+Advantage: HMI implementation and process are simple
+Disadvantage: It requires an active service configuration by the user
+
+2. When NativeVR exists but not always detecting/listening, the user speaks SDL wake word after pressing the PTT button.
+Advantage: Users can precisely select the service they want to use
+Disadvantage: The user may feel inconvenient because there are two actions to be performed
+
+3. When NativeVR exists and always detecting/listening (NativeVR wake word only), the user speaks SDL wake word after speaking NativeVR wake word.
+Advantage: The user can launch without button operation
+Disadvantage: The user needs to speak two kinds of wake words; NativeVR and SDL
+
+4. When NativeVR exists and always detecting/listening (both NativeVR and SDL wake words are available), the user speaks SDL wake word that is equivalent to NativeVR wake words.
+Advantage: The user can launch by just speaking one kind of wake words
+Disadvantage: HMI needs to support SDL wake words with NativeVR
 
 ### Flows
 -------
@@ -1073,96 +1187,11 @@ New functional groups should be created based on [this section](#policy-table).
 The following values were removed from `AppServiceType`.
 
 ```xml
-	<element name = "VOICE_ASSISTANT"/>
     <element name = "GENERIC"/>
     <element name = "COMMUNICATION_VOIP"/> <!-- Currently no specific definitions -->
     <element name = "MESSAGING"/>			<!-- Currently no specific definitions -->
     <element name = "TTS"/> 
 ```
-
-The following Voice Assistant section was removed from the proposal.
-
-
-#### Voice Assistant
-
-A voice assistant service is defined as a service that is currently acting as the voice assistant provider. This provider needs to be flushed out with a lot of extra details as its functionality is far reaching.
-	
-```
-	
-		<struct name="VoiceAssistantServiceManifest">
-			<param name="wakeWords" type="String" array="true" minsize="1" mandatory="false"/>
-	
-		</struct>
-	
-		<struct name="VoiceAssistantServiceData">
-			<description> This data is related to what a voice assistant service would provide</description>
-	
-		</struct>
-	
-		<enum name="VoiceAssistantTrigger">
-			<element name="PUSH_TO_TALK_BUTTON"/>
-			<element name="WAKE_WORD"/>
-		</enum>
-```
-	
-##### New RPCs for Voice Assistant
-	
-```xml
-		<function name="OnVoiceAssistantActivated" functionID="OnVoiceAssistantActivatedID" messagetype="notification">
-			<param name="triggerSource" type="VoiceAssistantTrigger" mandatory="true">
-				<description>Informs the voice assistant of which source triggered the event.</description>
-			</param>
-			<param name="triggerInfo" type="String" mandatory="false">
-				<description>Any extra information about the trigger. This should include the wake word used and any other speech strings recognized.</description>
-			</param>
-	
-		</function>
-	
-		<struct name="VRSynonym">
-			<param name="synonym" type="String" mandatory="true"/>
-			<param name="id" type="Integer" mandatory="true"/>
-		</struct>
-	
-		<function name="UpdateVRSynonyms" functionID="UpdateVRSynonymsID" messagetype="request">
-				<param name="vrSynonyms" type="VRSynonym" array="true" mandatory="true"/>
-				<param name="shouldAdd" type="Boolean" mandatory="true">
-					<description>Set to true if the synonyms should be added. Set to false if they should be removed</description>
-				</param>
-		</function>
-	
-	
-		<function name="UpdateVRSynonyms" functionID="UpdateVRSynonymsID" messagetype="response">
-				<param name="success" type="Boolean" platform="documentation" mandatory="true">
-			<description> true, if successful; false, if failed </description>
-		</param>
-	
-		<param name="resultCode" type="Result" platform="documentation" mandatory="true">
-			<description>See Result</description>
-			<element name="SUCCESS"/>
-			<element name="REJECTED"/>
-			<element name="DISALLOWED"/>
-			<element name="INVALID_DATA"/>
-			<element name="OUT_OF_MEMORY"/>
-			<element name="TOO_MANY_PENDING_REQUESTS"/>
-			<element name="APPLICATION_NOT_REGISTERED"/>
-			<element name="GENERIC_ERROR"/>
-		</param>
-	
-		<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-			<description>Provides additional human readable info regarding the result.</description>
-		</param>
-	
-	</function>
-	
-		<function name="OnVRChoiceSelected" functionID="OnVoiceAssistantActivatedID" messagetype="notification">
-				<param name="vrSynonymSelected" type="VRSynonym" mandatory="true"/>
-		</function>
-	
-```
-	
-###### RPCs to be handled:
-- OnVoiceAssistantActivated
-- UpdateVRSynonyms
 
 ###### URI scheme sent in manifest
 - The original proposal sent the URI prefix and scheme in the manifest. It was determined that it was not very useful as the consumer would already have to know how to parse and use the scheme and couldn't do so at run time. If the URI scheme becomes structured this can be resisted.
