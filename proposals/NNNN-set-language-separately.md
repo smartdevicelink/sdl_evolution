@@ -32,7 +32,8 @@ A new SDLManagerDelegate method would need to be added, and the old one should b
 
 * @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
 */
-- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage;
+- (nullable SDLLifecycleConfigurationUpdate *)manager shouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage;
+
 
 ```
 
