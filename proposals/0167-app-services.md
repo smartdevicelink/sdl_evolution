@@ -486,7 +486,7 @@ Apple CarPlay and Google Android Auto are examples where NativeVR and voice assi
 
 In addition, there are also home devices equipped with voice assistant such as Amazon Echo and Google Nest. But, it is unlikely that other voice assistants will get mixed up because those devices use their own exclusive voice assistants.
 
-Based from the mentioned above, we have considered that both the identification by long press/short press and the identification by wake word are realistic. In here, we describe the recommended cases for each in-vehicle device system using PTT and wake word.
+Based on the above, we have considered that both the identification by long press/short press and the identification by wake word are realistic. In this proposal, we describe the recommended cases for each in-vehicle device system using PTT and wake word.
 
 1. When NativeVR exists but has no registration of wake word or NativeVR does NOT exists, the user uses PTT button with long press/short press.
 Advantage: HMI implementation and process are simple
