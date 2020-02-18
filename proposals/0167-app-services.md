@@ -479,7 +479,7 @@ The application that has received `OnVoiceAssistantActivated` must refer to the 
 
 ##### Ways to launch Voice Assistant
 
-Apple CarPlay and Google Android Auto are examples where NativeVR and voice assistant are mixed up. However, there are ways on how to differentiate the use (of NativeVR and voice assistant in Apple CarPlay or Google Android Auto).
+Apple CarPlay and Google Android Auto are examples where NativeVR and voice assistant are mixed up. However, there are ways to differentiate the use (of NativeVR and voice assistant in Apple CarPlay or Google Android Auto).
 
 - When Apple CarPlay or Google Android Auto is connected, pressing the talk button launches Apple CarPlay or Google Android Auto voice assistant while others launch NativeVR.
 - A short press of talk button launches NativeVR; a long press launches Apple CarPlay or Google Android Auto voice assistant.
