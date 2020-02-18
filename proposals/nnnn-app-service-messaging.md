@@ -68,7 +68,7 @@ To enable the `callback` parameter above, we need an extension to `PerformAppSer
 ```
 
 ## Potential downsides
-1. Currently, only one service can be "active" at a time, which means that only one app can display its information on the head unit. However, we want the head unit to display data from multiple services in this case, e.g. if the user has two messaging apps and an email app installed, they may want to see when a message comes in from any of the three. This is currently not a supported case with app services. To properly support this service, we should add a way to subscribe to inactive services. However, the author considers this out of scope of the current proposal.
+1. Currently, only one service can be "active" at a time, which means that only one app can have its data subscribed to. However, for this app service, we want the head unit to display data from multiple apps, e.g. if the user has two messaging apps and an email app installed, they may want to see when a combined count of unread messages. This is currently not a supported case with app services, and to properly support this service, we should add a way to subscribe to inactive services. However, the author considers this out of scope of the current proposal.
 
 ## Impact on existing code
 This would have impact on the RPC spec, which impacts Core and all app libraries. Additionally, changes will need to be made to the Policy Server and Developer Portal for this new app service to add a new request from developers to use this app service.
