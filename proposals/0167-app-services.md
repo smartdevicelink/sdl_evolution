@@ -484,7 +484,7 @@ Apple CarPlay and Google Android Auto are examples where NativeVR and voice assi
 - When Apple CarPlay or Google Android Auto is connected, pressing the talk button launches Apple CarPlay or Google Android Auto voice assistant while others launch NativeVR.
 - A short press of talk button launches NativeVR; a long press launches Apple CarPlay or Google Android Auto voice assistant.
 
-In addition, there are also home devices equipped with voice assistant such as Amazon Echo and Google Nest. But, it is unlikely that other voice assistants will get mixed up because those devices use (their own) exclusive voice assistants.
+In addition, there are also home devices equipped with voice assistant such as Amazon Echo and Google Nest. But, it is unlikely that other voice assistants will get mixed up because those devices use their own exclusive voice assistants.
 
 Based from the mentioned above, we have considered that both the identification by long press/short press and the identification by wake word are realistic. In here, we describe the recommended cases for each in-vehicle device system using PTT and wake word.
 
