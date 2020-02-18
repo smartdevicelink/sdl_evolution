@@ -488,7 +488,7 @@ In addition, there are also home devices equipped with voice assistant such as A
 
 Based on the above, we have considered that both the identification by long press/short press and the identification by wake word are realistic. In this proposal, we describe the recommended cases for each in-vehicle device system using PTT and wake word.
 
-1. When NativeVR exists but has no registration of wake word or NativeVR does NOT exists, the user uses PTT button with long press/short press.
+1. When NativeVR exists but has no registration of wake word or NativeVR does NOT exist, the user uses PTT button with long press/short press.
 Advantage: HMI implementation and process are simple
 Disadvantage: It requires an active service configuration by the user
 
