@@ -1,4 +1,4 @@
-# Feature name
+# App Service - Messaging
 * Proposal: [SDL-NNNN](NNNN-app-service-messaging.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
