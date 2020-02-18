@@ -60,7 +60,7 @@ We need to:
 +   <param name="levelState" type="ComponentVolumeStatus" mandatory="false" since="X.x">
 +        <description>The fuel level state</description>
 +    </param>
-+   <param name="capacity" minvalue="0" maxvalue="1000000" mandatory="false" since="X.x">
++   <param name="capacity" type="Float" minvalue="0" maxvalue="1000000" mandatory="false" since="X.x">
 +       <description>The absolute capacity of this fuel type.</description>
 +   </param>
 +   <param name="capacityUnit" type="CapacityUnit" mandatory="false" since="X.x">
@@ -77,9 +77,15 @@ We need to:
 ```xml	
 <param name="fuelLevel" type="Boolean" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+	<history>
+		<param name="fuelLevel" type="Boolean" mandatory="false" since="X.x" until="X.x"/>
+	</history>
 </param>
 <param name="fuelLevel_State" type="Boolean" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+	<history>
+		<param name="fuelLevel_State" type="Boolean" mandatory="false" since="X.x" until="X.x"/>
+	</history>
 </param>
 <param name="fuelRange" type="Boolean" mandatory="false" since="5.0">
 	<description>
@@ -96,9 +102,15 @@ We need to:
 ```xml	
 <param name="fuelLevel" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+	<history>
+		<param name="fuelLevel" type="VehicleDataResult" mandatory="false" since="X.x" until="X.x"/>
+	</history>
 </param>
 <param name="fuelLevel_State" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+	<history>
+		<param name="fuelLevel_State" type="VehicleDataResult" mandatory="false" since="X.x" until="X.x"/>
+	</history>
 </param>
 <param name="fuelRange" type="VehicleDataResult" mandatory="false" since="5.0">
 	<description>
@@ -115,9 +127,15 @@ We need to:
 ```xml	
 <param name="fuelLevel" type="Float" minvalue="-6" maxvalue="106" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+	<history>
+		<param name="fuelLevel" type="Float" minvalue="-6" maxvalue="106" mandatory="false" since="X.x" until="X.x"/>
+	</history>
 </param>
 <param name="fuelLevel_State" type="ComponentVolumeStatus" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
+	<history>
+		<param name="fuelLevel_State" type="ComponentVolumeStatus" mandatory="false" since="X.x" until="X.x"/>
+	</history>
 </param>
 <param name="fuelRange" type="FuelRange" minsize="0" maxsize="100" array="true" mandatory="false" since="5.0">
 	<description>
@@ -154,7 +172,7 @@ We need to:
 +   <param name="levelState" type="Common.ComponentVolumeStatus" mandatory="false">
 +        <description>The fuel level state</description>
 +    </param>
-+   <param name="capacity" minvalue="0" maxvalue="1000000" mandatory="false">
++   <param name="capacity" type="Float" minvalue="0" maxvalue="1000000" mandatory="false">
 +       <description>The absolute capacity of this fuel type.</description>
 +   </param>
 +   <param name="capacityUnit" type="Common.CapacityUnit" mandatory="false">
