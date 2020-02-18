@@ -34,7 +34,7 @@ We should provide app services for common app types that can integrate with the 
     <param name="numUnreadMessages" type="Integer" minValue="0" maxValue="9999999" mandatory="true">
         <description>If provided, the number of messages that are unread in this group.</description>
     </param>
-    <param name="callbackUri" type="String" mandatory="false">
+    <param name="openInAppCallbackUri" type="String" mandatory="false">
         <description>If provided, this is a URI string that should be sent using PerformAppServiceInteraction serviceUri to open the message group in the providing app. The head unit should make the service active and open the app. If not present, assume no action can be taken.</description>
     </param>
     <param name="isGroup" type="Boolean" mandatory="false">
