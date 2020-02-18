@@ -500,7 +500,7 @@ Disadvantage: The user may feel inconvenient because there are two actions to be
 Advantage: The user can launch without button operation
 Disadvantage: The user needs to speak two kinds of wake words; NativeVR and SDL
 
-4. When NativeVR exists and always detecting/listening (both NativeVR and SDL wake words are available), the user speaks SDL wake word that is equivalent to NativeVR wake words.
+4. When NativeVR exists and is always detecting/listening (both NativeVR and SDL wake words are available), the user speaks SDL wake word that is equivalent to the NativeVR wake word.
 Advantage: The user can launch by just speaking one kind of wake words
 Disadvantage: HMI needs to support SDL wake words with NativeVR
 
