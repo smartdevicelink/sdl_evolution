@@ -23,6 +23,7 @@ The proposed solution is to add a new method to pass the HMI display language se
 A new SDLManagerDelegate method would need to be added, and the old one should be deprecated:
 
 ```objc
+/**
 * Called when the lifecycle manager detected a language mismatch. In case of a language mismatch the manager should change the app's registration by updating the lifecycle configuration to the specified language. If the app can support the specified language it should return an Object of SDLLifecycleConfigurationUpdate, otherwise it should return nil to indicate that the language is not supported.
 
 *
