@@ -48,7 +48,7 @@ _Same for both MOBILE\_API and HMI\_API._
 +	 <element name = "VOICE_ASSISTANT"/>
 </enum>
 ```
-Note: A new service type, `VOICE_ASSISTANT` is added. See [Voice Assistant](#Voice Assistant) section.
+Note: A new service type, `VOICE_ASSISTANT`, is added. See [Voice Assistant](#Voice Assistant) section.
 
 Each service type will have two structs specifically defined for them.
 
