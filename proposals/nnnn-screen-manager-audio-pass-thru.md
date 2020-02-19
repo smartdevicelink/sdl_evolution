@@ -14,6 +14,7 @@ The screen manager should be capable of handling all screen related RPCs and fea
 ## Proposed solution
 The proposed solution is to add a new private `SDLAudioPassThruManager` sub-manager to the screen manager. This manager will handle APT-related capabilities, text, callbacks, etc. The `SDLScreenManager` itself will then provide a simple public API for presenting an APT to the screen.
 
+### Microphone Input View
 ##### iOS
 ```objc
 @interface SDLMicrophoneInputView
@@ -27,6 +28,9 @@ The proposed solution is to add a new private `SDLAudioPassThruManager` sub-mana
 /// Maps to `PerformAudioPassThru.audioPassThruDisplayText2`. The secondary text of the view.
 @property (strong, nonatomic, nullable) NSString *secondaryText;
 
+/// Maps to `PerformAudioPassThru.initialPrompt`. Will play a prompt to the user before microphone input is begun.
+@property (assign, nonatomic) SDLPlayAudioData *audioPrompt;
+
 /// Maps to `PerformAudioPassThru.muteAudio`. If true, the head unit will mute any other audio output while the microphone input is in progress. This defaults to YES if not set.
 @property (assign, nonatomic) BOOL *muteAudio;
 
@@ -39,31 +43,67 @@ The proposed solution is to add a new private `SDLAudioPassThruManager` sub-mana
 - (instancetype)initWithPrimaryText:(nullable NSString *)primaryText secondaryText:(nullable NSString *)secondaryText muteAudio:(BOOL)muteAudio maxDuration:(NSTimeInterval)maxDuration capabilities:(nullable SDLAudioPassThruCapabilities *)capabilities;
 
 @end
+```
 
+##### Java
+```java
+public class MicrophoneInputView {
+    private Integer defaultTimeout = 10;
+
+    private String text, secondaryText;
+    private PlayAudioData audioPrompt;
+    private boolean muteAudio;
+    private Integer timeout;
+    private SDLAudioPassThruCapabilities capabilities;
+    
+    // All vars have getters / setters
+
+    public MicrophoneInputView(@Nullable String text, @Nullable String secondaryText, @Nullable PlayAudioData audioPrompt, @Nullable boolean muteAudio, @Nullable Integer timeout, @Nullable capabilities)
+}
+```
+
+Note that the `PlayAudioData` class comes from another proposal that has not been accepted as of the writing of this proposal, and is [found here](https://github.com/smartdevicelink/sdl_evolution/pull/928/files#diff-05979b405babd4a720b6d0f3ecb98e9dR22).
+
+### Screen Manager Updates
+##### iOS
+```objc
 @interface SDLScreenManager
 // Existing properties and methods
 
-/**
- Called when new audio data arrives. Return YES to continue receiving audio data and NO to cancel the audio input interaction.
- */
+
+/// Called when new audio data arrives. Return YES to continue receiving audio data and NO to cancel the audio input interaction.
 typedef BOOL (^SDLMicrophoneDataHandler)(NSData *__nullable audioData);
 
-// APT-specific properties and methods
-- (void)presentMicrophoneInputView:(SDLMicrophoneInputView *)microphoneInputView withAudioDataHandler:(SDLMicrophoneDataHandler)microphoneDataHandler completionHandler:(nullable SDLScreenManagerUpdateHandler)completionHandler; // TODO: Determine if this is sent before or after the APT disappears.
+/// Create a view to receive raw microphone input information from the head unit. This maps to the SDLAudioPassThru RPC.
+/// @param microphoneInputView The view that will be presented to the screen and various capabilities related to the microphone information that will be retrieved.
+/// @param microphoneDataHandler A handler that will be called with raw audio data
+/// @completionHandler A handler sent when the head unit sends a response and a possible error if one occurs.
+- (void)presentMicrophoneInputView:(SDLMicrophoneInputView *)microphoneInputView withAudioDataHandler:(SDLMicrophoneDataHandler)microphoneDataHandler completionHandler:(nullable SDLScreenManagerUpdateHandler)completionHandler;
+
+/// Dismisses the current microphone input view if there is one.
+/// @param completionHandler A possible error if one occurs
+- (void)dismissMicrophoneInputViewWithCompletionHandler:(nullable SDLScreenManagerUpdateHandler)completionHandler;
+
 @end
 ```
 
 ##### Java
-`// TODO`
+```java
+public interface AudioDataListener {
+    void onAudioData(byte[] audioData)
+}
+
+public class BaseScreenManager {
+    public void presentMicrophoneInputView(@NonNull MicrophoneInputView view, @NonNull AudioDataListener audioDataListener, @Nullable CompletionListener completionListener)
+    public void dismissMicrophoneInputView(@Nullable CompletionListener completionListener)
+}
+```
 
 ## Potential downsides
-
-Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
+The author can not think of any downsides to this proposal.
 
 ## Impact on existing code
-
-Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
+This would be a minor version change for each of the app libraries.
 
 ## Alternatives considered
-
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+1. For iOS, we could add another `presentMicrophoneInputView:` that uses a selector as well.
