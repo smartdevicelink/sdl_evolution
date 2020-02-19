@@ -1,4 +1,4 @@
-# Screen Manager Audio Pass Thru Support
+# Screen Manager Microphone Input Manager
 
 * Proposal: [SDL-NNNN](NNNN-screen-manager-audio-pass-thru.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
