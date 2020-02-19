@@ -2,7 +2,7 @@
 * Proposal: [SDL-NNNN](NNNN-app-service-messaging.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Java Suite / HMI / Policy Server / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / HMI / Policy Server / Developer Portal / RPC]
 
 ## Introduction
 This proposal adds a new "messaging" app service for apps that provide messaging features.
@@ -74,4 +74,4 @@ To enable the `callback` parameter above, we need an extension to `PerformAppSer
 This would have impact on the RPC spec, which impacts Core and all app libraries. Additionally, changes will need to be made to the Policy Server and Developer Portal for this new app service to add a new request from developers to use this app service.
 
 ## Alternatives considered
-The author can think of no alternatives.
+1. We could add subscribing to inactive services to this proposal as well since it would greatly improve this feature, however the author considered it out of scope for this proposal.
