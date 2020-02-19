@@ -498,7 +498,7 @@ Disadvantage: The user may feel inconvenienced because there are two actions to 
 
 3. When NativeVR exists and is always detecting/listening (NativeVR wake word only), the user speaks SDL wake word after speaking NativeVR wake word.
 Advantage: The user can launch without button operation
-Disadvantage: The user needs to say two wake words; NativeVR and SDL
+Disadvantage: The user needs to say two wake words: NativeVR and SDL
 
 4. When NativeVR exists and is always detecting/listening (both NativeVR and SDL wake words are available), the user speaks SDL wake word that is equivalent to the NativeVR wake word.
 Advantage: The user can launch by just saying one of wake word
