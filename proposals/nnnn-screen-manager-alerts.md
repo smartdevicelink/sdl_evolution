@@ -76,7 +76,7 @@ public class AlertAudioData {
     private List<TTSChunk> prompt;
     private SdlFile audioFile;
 
-    // All vars have getters as well but no setters
+    // All vars have getters and setters
 
     AlertAudioData(@NonNull SdlFile audioFile, @NonNull Bool playTone)
     AlertAudioData(@NonNull String spokenString, @NonNull Bool playTone)
