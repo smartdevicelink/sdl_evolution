@@ -492,7 +492,7 @@ Based on the above, we have considered that both the identification by long pres
 Advantage: HMI implementation and process are simple
 Disadvantage: It requires an active service configuration by the user
 
-2. When NativeVR exists but not always detecting/listening, the user speaks SDL wake word after pressing the PTT button.
+2. When NativeVR exists but is not always detecting/listening, the user speaks SDL wake word after pressing the PTT button.
 Advantage: Users can precisely select the service they want to use
 Disadvantage: The user may feel inconvenient because there are two actions to be performed
 
