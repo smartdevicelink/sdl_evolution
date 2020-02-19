@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0277](0277-Continuous-Integration-And-Testing.md)
 * Author: [Pavel Zhdanov](https://github.com/ZhdanovP), [Mykyta Nikora](https://github.com/MNikora)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
