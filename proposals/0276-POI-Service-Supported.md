@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0276](0276-POI-Service-Supported.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / RPC ]
 
 ## Introduction
