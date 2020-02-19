@@ -1,8 +1,8 @@
 # Adding new parameter of requiresAudioSupport and BluetoothDeviceAddress
 
-* Proposal: [SDL-NNNN](NNNN-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md)
+* Proposal: [SDL-0280](0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: Awaiting review
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
 
 ## Introduction
