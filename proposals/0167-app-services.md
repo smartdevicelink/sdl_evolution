@@ -494,7 +494,7 @@ Disadvantage: It requires an active service configuration by the user
 
 2. When NativeVR exists but is not always detecting/listening, the user speaks SDL wake word after pressing the PTT button.
 Advantage: Users can precisely select the service they want to use
-Disadvantage: The user may feel inconvenient because there are two actions to be performed
+Disadvantage: The user may feel inconvenienced because there are two actions to be performed
 
 3. When NativeVR exists and is always detecting/listening (NativeVR wake word only), the user speaks SDL wake word after speaking NativeVR wake word.
 Advantage: The user can launch without button operation
