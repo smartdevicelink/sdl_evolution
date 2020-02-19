@@ -71,8 +71,8 @@ Note that the `PlayAudioData` class comes from another proposal that has not bee
 // Existing properties and methods
 
 
-/// Called when new audio data arrives. Return YES to continue receiving audio data and NO to cancel the audio input interaction.
-typedef BOOL (^SDLMicrophoneDataHandler)(NSData *__nullable audioData);
+/// Called when new audio data arrives.
+typedef void (^SDLMicrophoneDataHandler)(NSData *__nullable audioData);
 
 /// Create a view to receive raw microphone input information from the head unit. This maps to the SDLAudioPassThru RPC.
 /// @param microphoneInputView The view that will be presented to the screen and various capabilities related to the microphone information that will be retrieved.
@@ -80,7 +80,7 @@ typedef BOOL (^SDLMicrophoneDataHandler)(NSData *__nullable audioData);
 /// @completionHandler A handler sent when the head unit sends a response and a possible error if one occurs.
 - (void)presentMicrophoneInputView:(SDLMicrophoneInputView *)microphoneInputView withAudioDataHandler:(SDLMicrophoneDataHandler)microphoneDataHandler completionHandler:(nullable SDLScreenManagerUpdateHandler)completionHandler;
 
-/// Dismisses the current microphone input view if there is one.
+/// Dismisses the current microphone input view if there is one. If you're currently receiving audio data, you may not immediately cease to receive this data.
 /// @param completionHandler A possible error if one occurs
 - (void)dismissMicrophoneInputViewWithCompletionHandler:(nullable SDLScreenManagerUpdateHandler)completionHandler;
 
@@ -98,6 +98,17 @@ public class BaseScreenManager {
     public void dismissMicrophoneInputView(@Nullable CompletionListener completionListener)
 }
 ```
+
+### JavaScript Suite APIs
+Due to the size of the iOS APIs and the similarity between the iOS, Java Suite and eventual JavaScript Suite APIs, this proposal does not present the public APIs of the JavaScript Suite APIs – especially because the JavaScript Suite APIs do not currently have a screen manager layer. The JavaScript Suite APIs should mirror the iOS and Java Suite API appropriately and is up to the maintainers' discretion. However, if any changes needed to be made such that they impacted the iOS / Java Suite API (such as the alteration, addition, or removal of a method or property), then a proposal revision would be needed.
+
+### Additional Implementation Notes
+- The internal alert manager will observe the `PerformAudioPassThru` response to know when the view has finished presenting, and then call the `completionHandler`.
+- The internal manager will always send the RPC, even if the system context is not MAIN. If the `PerformAudioPassThru` returns a failure to present, it will call the `completionHandler` with the error.
+- The developer will not be notified when the view appears on the screen, assuming no error occurred – see alternative #1 for possible ways to do that.
+- The `SDLMicrophoneInputManager` sub-manager will use queues to manage related requests, similar to how the `SDLChoiceSetManager` does.
+- If any files fail to upload, the presentation of the view should continue without an error.
+- The view should be copied as soon as `presentMicrophoneInputView` is called in order to prevent the developer from changing the properties of the view after they call the method.
 
 ## Potential downsides
 The author can not think of any downsides to this proposal.
