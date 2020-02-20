@@ -113,18 +113,16 @@ We have conducted a preliminary analysis of the sdl_core source code by potentia
 
 For instance, **Cppcheck** has shown more than 200 issues. **PVS-studio** shows a few dozens of issues. Address sanitizer is showing problems of SDL during a shutdown. **Address, thread, memory sanitizers** can show a significantly larger number of issues when it will be executed on ATF tests.
 
-### 3. Creating a subfolder for storing infrastructure files
+### 3. Creating a separate repository for storing infrastructure files
 
-During the development of Continuous integration infrastructure, a large number of scripts will be created to automate processes and configure the environment. We propose the creation of the separate subfolder in sdl_core named sdl_infrastructure. sdl_infrastructure should contain two subfolders: sdl_ci for storing stuff related to the CI setting up and sdl_workspace for having environment dependencies and stuff for developers.
+During the development of Continuous integration infrastructure, a large number of scripts will be created to automate processes and configure the environment. We propose the creation of the separate repository **sdl_infrastructure**. sdl_infrastructure repository should contain two subfolders: sdl_ci for storing stuff related to the CI setting up and sdl_workspace for having environment dependencies and stuff for developers.
 
-- sdl_core
-    - sdl_infrastructure
-        - sdl_tools - will migrate from sdl_core/tools
-        - sdl_ci
-            - scripts and other stuff
-        - sdl_workspace
-            - docker containers
-            - config. scripts
+- sdl_infrastructure
+    - sdl_ci
+        - scripts and other stuff
+    - sdl_workspace
+        - docker containers
+        - config. scripts
 
 ## Detailed design
 
@@ -156,6 +154,8 @@ CI ATF jobs:
 - **Smoke** - Run ATF tests from the Smoke test set (basic project checks and happy paths of all main features)
 - **Feature** - Run ATF tests from the Feature test set (such test set is created for each feature, and includes tests for checking functionality of a new feature). It is applicable only for Feature branches.
 - **Regression** - Run ATF tests from all Feature test sets, which are already merged to the develop branch.
+- **noUT** - job which builds SDL without UnitTests.
+- **UT** - job which builds SDL with UnitTests.
 
 ### 1. Optimizing of building process and resources usage
 
