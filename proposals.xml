@@ -233,7 +233,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0211" status="implemented" primary-platform="core" sdl-version="6.0" name="Service Status Update to HMI" filename="0211-ServiceStatusUpdateToHMI.md"/>
 <proposal id="0212" status="implemented" primary-platform="core" sdl-version="6.0" name="Add Ability to Reuse a SyncFileName for a PutFile" filename="0212-add-ability-to-reuse-a-syncfilename-for-a-putfile.md"/>
 <proposal id="0213" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Remote Control - Radio and Climate Parameter Update" filename="0213-rc-radio-climate-parameter-update.md"/>
-<proposal id="0214" status="accepted" primary-platform="core" sdl-version="x.x" name="Secondary Transport Optimization" filename="0214-secondary-transport-optimization.md"/>
+<proposal id="0214" status="implemented" primary-platform="java-suite" sdl-version="4.7" name="Secondary Transport Optimization" filename="0214-secondary-transport-optimization.md"/>
+<proposal id="0214" status="implemented" primary-platform="ios" sdl-version="6.6" name="Secondary Transport Optimization" filename="0214-secondary-transport-optimization.md"/>
 <proposal id="0215" status="deferred" primary-platform="ios" sdl-version="x.x" name="iOS ReplayKit Streaming" filename="0215-ios-replaykit-streaming.md"/>
 <proposal id="0216" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Widget Support" filename="0216-widget-support.md"/>
 <proposal id="0217" status="rejected" primary-platform="java-suite" sdl-version="x.x" name="Android ManagerListener Update" filename="0217-android-manager-listener-update.md"/>
