@@ -278,7 +278,7 @@ The Android proxy will need to implement the above protocol changes. In addition
 5. The proxy determines the appropriate router service to deploy based on vehicle type information received in the `GetVehicleTypeACK` protocol message. The proxy will check the metadata of the supported vehicle type list to determine the next router service to deploy. The deployed router service will also receive vehicle type information.
 6. The next router service deployed will not start the RPC session if vehicle type information is available. It will forward vehicle type info to its clients.
 7. It is necessary to check support for `GetVehicleType` protocol message and vehicle type info before notifying the client with SDL enabled callback. If clients are informed before checking the mentioned info, the exclusive apps could end up registering on an unintended SDL enabled IVI system. 
-8. If the `GetVehicleType` message is not supported by the protocol version, the exclusive apps will try deploying the next router service. The exclusive apps will host the router service only if there are no SDL apps available on the user's device to host a router service. The exclusive apps, in this case, will rely on vehicle type info received in the `RegisterAppInterface` response. In such a case, if vehicle type is not supported, the exclusive apps will be allowed to unregister apps from the SDL system and stop the Android Router Service.
+8. If the `GetVehicleType` message is not supported by the protocol version, the exclusive apps will try deploying the next router service. The exclusive apps will host the router service only if there are no other SDL app available on the user's device to host a router service. The exclusive apps, in this case, will rely on vehicle type info received in the `RegisterAppInterface` response. In such a case, if vehicle type is not supported, the exclusive apps will be allowed to unregister apps from the SDL system and stop the Android Router Service.
 9. If `GetVehicleType` message response is NACK, the exclusive apps will not register on the SDL system.
 
 ![Sequence Diagram](../assets/proposals/NNNN-vehicle-type-filter/android.png) 
@@ -400,7 +400,7 @@ The below example shows valid vehicle type filters.
 
 ## Potential downsides
 
-The Android Android Router Service after transport connection needs to start the RPC service. If the Android Router Service does not start RPC service and relies on the client to send the `GetVehicleType` protocol message, the connected client would start another foreground service. This would force the connected app to show two notifications to users while determining vehicle type information and would need to terminate services if the app does not support the SDL enabled IVI system. 
+The Android Router Service after transport connection needs to start the RPC service. If the Android Router Service does not start RPC service and relies on the client to send the `GetVehicleType` protocol message, the connected client would start another foreground service. This would force the connected app to show two notifications to users while determining vehicle type information and would need to terminate services if the app does not support the SDL enabled IVI system. 
 
 ## Impact on existing code
 
