@@ -19,25 +19,25 @@ In the current implementation of SDL, vehicle information is shared with the `Re
 
 ### App name shown on notifications in Android
 
-The exclusive apps should not host `Android Router Service` on unsupported SDL systems. The Android system requires all apps using foreground services to show a notification. An SDL enabled Android app can have two foreground services. The `Android Router Service` is started by the Android proxy and another foreground service will be started by an SDL enabled app.
+The exclusive apps should not host Android Router Service on unsupported SDL systems. The Android system requires all apps using foreground services to show a notification. An SDL enabled Android app can have two foreground services. The Android Router Service is started by the Android proxy and another foreground service will be started by an SDL enabled app.
 
-The `Android Router Service` has no information on what head unit it is connecting to when a transport connection is made. Other SDL apps bind to available router service and use this connection. This behavior could lead to cases where a proprietary app creates an `Android Router Service` when connected to an unsupported SDL enabled system. This started service will need to show a foreground notification with the app name, giving the user the impression that the proprietary app is working with an unsupported SDL enabled system.
+The Android Router Service has no information on what head unit it is connecting to when a transport connection is made. Other SDL apps bind to available router service and use this connection. This behavior could lead to cases where a proprietary app creates an Android Router Service when connected to an unsupported SDL enabled system. This started service will need to show a foreground notification with the app name, giving the user the impression that the proprietary app is working with an unsupported SDL enabled system.
 
 For example, if a proprietary app of an OEM creates a router service and the mobile device is connected to another OEM's SDL enabled IVI system, the user would perceive that the proprietary app is doing something in the background when connected to an SDL enabled IVI system from another OEM.
 
 Please reference the below screenshots.
 
 - Notification 1: Created by OEM App.
-- Notification 2: Created by SDL Android SDK for `Android Router Service`.
+- Notification 2: Created by SDL Android SDK for Android Router Service.
 
 __Note the app name being shown in both notifications. In the below picture, the `SDL App` is using the “Android Router Service” created by the `OEM App`.__
 
 <img src="../assets/proposals/NNNN-vehicle-type-filter/two_noti.png" alt="App name in notifications" width="500"/>
 
 
-The only way to remove notifications from an OEM App when it connects to another vehicle is to force stop both the services so that both notifications are removed. In this case, other apps connected through the OEM App's router service will also get disconnected. This is not a recommended approach. If the OEM app wants to unregisters itself from the SDL enabled IVI system, it will stop the service created by an app. The `Android Router Service` from the OEM App will keep running.
+The only way to remove notifications from an OEM App when it connects to another vehicle is to force stop both the services so that both notifications are removed. In this case, other apps connected through the OEM App's router service will also get disconnected. This is not a recommended approach. If the OEM app wants to unregisters itself from the SDL enabled IVI system, it will stop the service created by an app. The Android Router Service from the OEM App will keep running.
 
-Please reference the below screenshot. The `Android Router Service` is hosted by the OEM app, the `Notification 2` with the app name will be shown to the user, giving the impression that the `OEM App` is still working. If the OEM App starts showing notifications when connected to another OEM's vehicle, this would confuse users. They would probably think that `OEM App` on their mobile device is working with another OEM's SDL enabled IVI system. This proposal will define ways to mitigate this issue.
+Please reference the below screenshot. The Android Router Service is hosted by the OEM app, the `Notification 2` with the app name will be shown to the user, giving the impression that the `OEM App` is still working. If the OEM App starts showing notifications when connected to another OEM's vehicle, this would confuse users. They would probably think that `OEM App` on their mobile device is working with another OEM's SDL enabled IVI system. This proposal will define ways to mitigate this issue.
 
 <img src="../assets/proposals/NNNN-vehicle-type-filter/one_noti.png" alt="App name in Android Router Service notifications" width="500"/>
 
@@ -261,11 +261,11 @@ The Android proxy will need to implement the above protocol changes. In addition
         make="OEM2"/>
 </resource>
 ```
-4. If the supported vehicle type list is not defined, the proxy can start `Android Router Service` for all SDL enabled IVI system.
+4. If the supported vehicle type list is not defined, the proxy can start Android Router Service for all SDL enabled IVI system.
 
 #### Metadata for Android Router Service
 
-1. This resource file needs to be referenced in the manifest file of the project as `metadata` for `Android Router Service`.
+1. This resource file needs to be referenced in the manifest file of the project as `metadata` for Android Router Service.
 2. When the proxy receives `GetVehicleTypeACK`, it will check if the vehicle type information is defined in the provided supported vehicle type list.
 3. If the vehicle filter is not defined, the proxy can skip the check. In this case, the Android Router Service is supported for all SDL enabled systems.
 
