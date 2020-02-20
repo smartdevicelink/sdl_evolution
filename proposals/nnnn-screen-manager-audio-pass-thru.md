@@ -28,7 +28,7 @@ The proposed solution is to add a new private `SDLAudioPassThruManager` sub-mana
 /// Maps to `PerformAudioPassThru.audioPassThruDisplayText2`. The secondary text of the view.
 @property (strong, nonatomic, nullable) NSString *secondaryText;
 
-/// Maps to `PerformAudioPassThru.initialPrompt`. Will play a prompt to the user before microphone input is begun.
+/// Maps to `PerformAudioPassThru.initialPrompt`. Will play a prompt to the user before microphone input is started.
 @property (assign, nonatomic) SDLPlayAudioData *audioPrompt;
 
 /// Maps to `PerformAudioPassThru.muteAudio`. If true, the head unit will mute any other audio output while the microphone input is in progress. This defaults to YES if not set.
@@ -111,7 +111,7 @@ Due to the size of the iOS APIs and the similarity between the iOS, Java Suite a
 - The view should be copied as soon as `presentMicrophoneInputView` is called in order to prevent the developer from changing the properties of the view after they call the method.
 
 ## Potential downsides
-The author can not think of any downsides to this proposal.
+The author cannot think of any downsides to this proposal.
 
 ## Impact on existing code
 This would be a minor version change for each of the app libraries.
