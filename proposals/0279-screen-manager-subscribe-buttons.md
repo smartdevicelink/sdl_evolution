@@ -18,10 +18,10 @@ The proposed solution is to add new public APIs to `ScreenManager`:
 ```objc
 typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPress,  SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
 
-- (void)subscribeButton:(SDLButtonName)buttonName withBlock:(SDLRPCButtonNotificationHandler)block;
+- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(SDLRPCButtonNotificationHandler)block;
 - (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
 
-- (void)unsubscribeButton:(SDLButtonName)buttonName withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)block;
+- (void)unsubscribeButtonWithObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)block;
 ```
 
 ### Java Suite
@@ -31,17 +31,19 @@ The Java Suite APIs are set up in a similar way to the iOS APIs above. Any neces
 public interface OnButtonListener {
     void onPress(ButtonName buttonName, OnButtonPress buttonPress);
     void onEvent(ButtonName buttonName, OnButtonEvent buttonEvent);
+    void onError(String info);
 }
 
 public void subscribeButton(ButtonName buttonName, OnButtonListener listener);
-public void unsubscribeButton(ButtonName buttonName);
+public void unsubscribeButtonListener(OnButtonListener listener);
 ```
 
 ### JavaScript Suite
 The JavaScript Suite APIs would be set up in a similar way to the iOS and Java Suite APIs above. Any necessary changes are at the discretion of the Project Maintainer. However larger changes that would impact the iOS or Java Suite code above (such as adding or removing a method) will require proposal revisions.
 
 ### Implementation Notes
-There will still need to be storage for the blocks and observers, and this will be handled by a new sub-manager.
+* There will still need to be storage for the blocks and observers, and this will be handled by a new sub-manager.
+* When the first subscription is added for a button, the `SubscribeButton` RPC should be sent, when the last subscription is removed, the `UnsubscribeButton` RPC should be sent.
 
 ## Potential downsides
 This introduces some complexity and using the `SubscribeButton` RPC isn't very difficult. However, the author believes that the `ScreenManager` should handle even "easy" RPCs because the RPC API in general isn't intuitive to app developers.
