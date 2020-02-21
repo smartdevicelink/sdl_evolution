@@ -11,7 +11,7 @@ This proposal is changing the behavior how the streaming video manager should in
 
 ## Motivation
 
-SDL navigation applications stream the UI as a video to the vehicle head unit. In this case it's quite obvious that touch events are key for such applications to operate. However, for nav apps that connect to a head unit for the first time, the app ID is unknown and therefore it's not clear if the app is allowed to video stream or to receive touch events. Starting the video stream only upon `HMI_FULL` can lead to Core to reply `NAK` on the start service request. 
+SDL navigation applications stream the UI as a video to the vehicle head unit. In this case it's quite obvious that touch events are key for such applications to operate. However, for nav apps that connect to a head unit for the first time, the app ID is unknown and therefore it's not clear if the app is allowed to video stream or to receive touch events. Starting the video stream only upon `HMI_FULL` can lead to Core to reply with `NAK` on the start service request.
 
 ## Proposed solution
 
@@ -25,7 +25,7 @@ First of all the manager should be able to store the last known permission statu
 @property (assign, nonatomic) BOOL videoStreamPermissionGranted;
 ```
 
-During initialization of the manager, it should add an observer to permission changes. On every change the permission change should be read to identify if OnTouchEvent is granted for HMI_FULL. In this case the permission related condition is met and the manager should try to start the video service session.
+During initialization of the manager, it should add an observer to permission changes. On every change the permission change should be read to identify if OnTouchEvent is granted for HMI_FULL. In this case the permission condition is met and the manager should try to start the video service session.
 
 ```objc
 - (void)sdl_permissionsChange:(SDLRPCNotificationNotification *)notification {
@@ -74,7 +74,6 @@ With the newly added flag, every other place that starts or stops the video sess
      } else {
          [self sdl_stopVideoSession];
      }
-+    });
 }
 ```
 
