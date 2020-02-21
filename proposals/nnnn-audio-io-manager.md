@@ -82,7 +82,7 @@ A new manager replacing an existing manager instead of extending the existing ma
 
 ## Impact on existing code
 
-The current manager `SDLAudioStreamManager` should be deprecated as the new `SDLAudioIOManager` provides the same functionality in addition to synchronizing with Audio pass thru. The only missing feature is to queue audio files before playing (`playNextWhenReady`).
+The current manager `SDLAudioStreamManager` should be deprecated and the new `SDLAudioIOManager` should be used.
 
 ## Alternatives considered
 
