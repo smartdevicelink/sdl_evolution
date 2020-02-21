@@ -88,4 +88,4 @@ The current manager `SDLAudioStreamManager` should be deprecated as the new `SDL
 
 The Java suite was not considered in this proposal because there does not exist an implementation of the Audio IO manager. This does not mean the author doesn't support other libraries. It is necessary to organize resources to work on the manager in advance if the vote is to add the manager also to the Java Suite.
 
-For non-navigation apps this manager could be extended to use `Speak` with audio files to provide an output stream. This feature already exist. Alternatively a
+For non-navigation apps this manager could be extended to use `Speak` with audio files to provide an output stream.
