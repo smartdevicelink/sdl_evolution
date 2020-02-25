@@ -81,7 +81,7 @@ Note: The example code should not be considered as the only option to implement 
 
 ## Potential downsides
 
-Potentially this code can have an impact on existing head units that don't know if navigation apps start the video stream. Those applications would require OnTouchEvent anyway for the app to operate, so they shouldn't see any impact. Navigation applications could be delayed by that. However as head units may return `NAK` in case of an early start service request this proposal should rather be seen as a stability improvement.
+Potentially this code can have an impact on existing head units that would allow navigation apps to start the video stream without touch permissions. Those applications require OnTouchEvent anyway to operate, so they shouldn't see any impact. Navigation applications' startup time could be delayed, however, as head units may return `NAK` in case of an early start service request this proposal should rather be seen as a stability improvement.
 
 ## Impact on existing code
 
