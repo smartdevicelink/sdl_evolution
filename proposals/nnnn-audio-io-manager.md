@@ -78,7 +78,7 @@ The current manager `SDLAudioStreamManager` should be deprecated as the new `SDL
 
 ## Potential downsides
 
-A new manager replacing an existing manager instead of extending the existing manager is only possible with deprecations. Due to ht
+A new manager replacing an existing manager instead of extending the existing manager is only possible with deprecations. Due to the complexity of the Audio IO manager and the changes to the output stream logic it made sense to separate the code and start a new manager.
 
 ## Impact on existing code
 
