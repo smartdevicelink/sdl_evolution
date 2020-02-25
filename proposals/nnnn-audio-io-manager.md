@@ -58,7 +58,7 @@ There is a race condition when the output stream has finished and the input stre
 
 The manager provides APIs to write audio files to the output stream using the audio service session held by the existing streaming audio manager. Before processing the first audio file, the manager notifies the app that the output stream has started. The API is simplified as the requirement is to play audio files always on demand. Any audio file written to the output stream will first be placed in an operation queue but immediately converted to PCM data and sent to the audio service session. 
 
-The only exception to starting the output stream is to wait for the input stream to finish. As already described in the previous section the input stream must be stopped before starting to send audio.  During this time, the queue remains suspended and will be resumed as soon as the `PerformAudioPassThru` response is received.
+When adding audio to the output stream while the input steam is active the input stream must be paused. Before starting the output stream manager ends the input stream and waits. As already described in the previous section the input stream must be stopped before starting to send audio. During this time, the queue remains suspended and will be resumed as soon as the `PerformAudioPassThru` response is received.
 
 Over time, the app can push additional files that will be added to the queue. As long as the manager's output stream is started it'll dequeue the audio files no matter what. For each file, the manager reads the estimated playback time and dequeues the next file at the end of the current file. At the end of the last file, the manager notifies the app about the output stream being stopped.
 
