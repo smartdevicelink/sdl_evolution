@@ -7,11 +7,11 @@
 
 ## Introduction
 
-This proposal is changing the behavior how the streaming video manager should include `OnTouchEvent` permission into the starting conditions.
+This proposal is changing the behavior for how the streaming video manager should include `OnTouchEvent` permission in the starting conditions.
 
 ## Motivation
 
-SDL navigation applications stream the UI as a video to the vehicle head unit. In this case it's quite obvious that touch events are key for such applications to operate. However, for nav apps that connect to a head unit for the first time, the app ID is unknown and therefore it's not clear if the app is allowed to video stream or to receive touch events. Starting the video stream only upon `HMI_FULL` can lead to Core to reply with `NAK` on the start service request.
+SDL navigation applications stream the UI as a video to the vehicle head unit. In this case it's quite obvious that touch events are key for such applications to operate. However, for nav apps that connect to a head unit for the first time, the app ID is unknown and therefore it's not clear if the app is allowed to video stream or to receive touch events. Starting the video stream only upon `HMI_FULL` can lead to Core to replying with `NAK` on the start service request.
 
 ## Proposed solution
 
@@ -19,7 +19,7 @@ The library should wait to send the start service request until all conditions a
 
 Below code shows an example implementation in the class `SDLStreamingVideoLifecycleManager`. 
 
-First of all the manager should be able to store the last known permission status of OnTouchEvent in case that the permissions were provided before other conditions were met (e.g. permission update during HMI_NONE).
+First of all the manager should be able to store the last known permission status of OnTouchEvent in case the permissions were provided before other conditions were met (e.g. permission update during HMI_NONE).
 
 ```objc
 @property (assign, nonatomic) BOOL videoStreamPermissionGranted;
@@ -81,7 +81,7 @@ Note: The example code should not be considered as the only option to implement 
 
 ## Potential downsides
 
-Potentially this code can have impact to existing head units that don't mind with navigation apps to start the video stream. Those applications would require OnTouchEvent anyways for the app to operate hence they shouldn't see any impact. Navigation applications could be delayed by that. However as head units may return `NAK` in case of an early start service request this proposal should be rather seen as a stability improvement.
+Potentially this code can have an impact on existing head units that don't know if navigation apps start the video stream. Those applications would require OnTouchEvent anyway for the app to operate, so they shouldn't see any impact. Navigation applications could be delayed by that. However as head units may return `NAK` in case of an early start service request this proposal should rather be seen as a stability improvement.
 
 ## Impact on existing code
 
@@ -89,4 +89,4 @@ Only the video streaming manager is in focus. Ideas to allow navigation applicat
 
 ## Alternatives considered
 
-The video streamable status notification should provide a very similar functionality, however it's not available on all nav-app capable head units therefore an alternative was considered listening for touch events. Also listening for the video streamable status could be a valid addition to the proposed solution.
+The video streamable status notification should provide very similar functionality, however it's not available on all nav app-capable head units and therefore an alternative was considered listening for touch events. Also listening for the video streamable status could be a valid addition to the proposed solution.
