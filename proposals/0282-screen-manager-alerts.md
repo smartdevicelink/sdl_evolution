@@ -1,8 +1,8 @@
 # Screen Manager Alert Manager
 
-* Proposal: [SDL-NNNN](NNNN-screen-manager-alerts.md)
+* Proposal: [SDL-0282](0282-screen-manager-alerts.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
