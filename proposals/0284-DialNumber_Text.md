@@ -1,9 +1,8 @@
 # DialNumber Text
 
-* Proposal: [NNNN](NNNN-DialNumber_Text.md)
-
+* Proposal: [SDL-0284](0284-DialNumber_Text.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
