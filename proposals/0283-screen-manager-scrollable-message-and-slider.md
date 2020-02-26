@@ -1,8 +1,8 @@
 # Add Scrollable Message and Slider to Screen Manager
 
-* Proposal: [SDL-NNNN](NNNN-screen-manager-scrollable-message-and-slider.md)
+* Proposal: [SDL-0283](0283-screen-manager-scrollable-message-and-slider.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
