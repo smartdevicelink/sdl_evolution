@@ -8,7 +8,7 @@
 ## Introduction
 
 This proposal is created based on discussion in https://github.com/smartdevicelink/sdl_evolution/issues/767.
-It extends [SDl-0240 - WebEngine support for SDL JavaScript](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0240-sdl-js-pwa.md) with a projection mode (formerly known as OpenHMI) that was introduced with [SDL-0031 Mobile Projection](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0031-mobile-projection.md).
+It extends [SDl-0240 - WebEngine support for SDL JavaScript](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0240-sdl-js-pwa.md) to allow using the WebEngine app's web view for the HMI in addition to the other available SDL templates. 
 
 ## Motivation
 
