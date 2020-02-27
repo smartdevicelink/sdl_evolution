@@ -473,7 +473,6 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
             return;
         }
         
-        //TODO: Delayed Selector. Expectation fulfilled.
         SDLLogV(@"Cancel Delayed Abort call");
         [NSObject cancelPreviousPerformRequestsWithTarget:strongSelf selector:@selector(sdl_abortInputStream) object:nil];
         
