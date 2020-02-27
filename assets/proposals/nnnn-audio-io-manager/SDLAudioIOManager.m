@@ -563,7 +563,7 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
     // reset the retry counter in case previous tries were rejected
     self.inputStreamRetryCounter = 0;
     
-    // notify about the result (except it was rejected and we want to retry
+    // notify about the result (unless it was rejected and we want to retry)
     SDLLogV(@"Notify delegate that input stream is finished");
     __strong id<SDLAudioIOManagerDelegate> d = self.delegate;
     if (d && [d respondsToSelector:@selector(audioManager:didFinishInputStreamWithResult:)]) {

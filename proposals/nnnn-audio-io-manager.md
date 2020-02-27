@@ -58,11 +58,11 @@ There is a race condition when the output stream has finished and the input stre
 
 The manager provides APIs to write audio files to the output stream using the audio service session held by the existing streaming audio manager. Before processing the first audio file, the manager notifies the app that the output stream has started. The API is simplified as the requirement is to play audio files always on demand. Any audio file written to the output stream will first be placed in an operation queue but immediately converted to PCM data and sent to the audio service session. 
 
-When adding audio to the output stream while the input steam is active the input stream must be paused first. Before starting the output stream, the manager ends the input stream and waits. During this time, the operation queue remains suspended and will be resumed as soon as the `PerformAudioPassThru` response is received. The input stream state will then be `Paused`.
+When adding audio to the output stream while the input stream is active, the input stream must be paused first. Before starting the output stream, the manager ends the input stream and waits. During this time, the operation queue remains suspended and will be resumed as soon as the `PerformAudioPassThru` response is received. The input stream state will then be `Paused`.
 
-Over time, the app can push additional files that will be added to the operation queue. As long as the manager's output stream is started it'll dequeue the audio files no matter what. For each file, the manager reads the estimated playback time and dequeues the next file at the end of the current file. At the end of the last file, the manager notifies the app about the output stream being stopped. Once stopped, the manager checks the input stream state if it is `Paused`. In this case the manager will automatically start the input stream.
+Over time, the app can push additional files that will be added to the operation queue. As long as the manager's output stream is started it'll dequeue the audio files no matter what. For each file, the manager reads the estimated playback time and dequeues the next file at the end of the current file. At the end of the last file, the manager notifies the app about the output stream being stopped. Once stopped, the manager checks the input stream state to see if it is `Paused`. In this case, the manager will automatically start the input stream.
 
-Attempts to start the input stream during active an output stream will be held back in state `Starting`. The manager will automatically start the input stream then if the output stream stopped.
+Attempts to start the input stream during an active output stream will be held back in state `Starting`. The manager will automatically start the input stream then if the output stream stopped.
 
 #### Known bugs
 

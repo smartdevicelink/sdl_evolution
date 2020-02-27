@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Input stream delegate methods
 
 /**
- * Informs the delegate that the manager did start the input stream with the specified audio options incuding 
+ * Informs the delegate that the manager did start the input stream with the specified audio options including:
  * - audio format (e.g. PCM)
  * - sampling rate (e.g. 22 khz)
  * - bits per sample (e.g. 16 bits)
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  * SUCCESS if the user or the app confirmed to end the audio input stream.
  * DISALLOWED if the application does not have permission to start the audio input stream.
  * REJECTED if the vehicle rejected to start the audio input stream due to other priority.
- * ABORTED if the user has chosen to abort the audio input requesting the app to dicard any audio data recorded in this active session.
+ * ABORTED if the user has chosen to abort the audio input requesting the app to discard any audio data recorded in this active session.
  * RETRY if the user requests the app to restart the audio input stream.
  */
 - (void)audioManager:(SDLAudioIOManager *)audioManager didFinishInputStreamWithResult:(SDLResult)result;
