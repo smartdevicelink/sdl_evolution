@@ -3,7 +3,7 @@
 * Proposal: [SDL-0273](0273-webengine-projection-mode.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Returned for Revisions**
-* Impacted Platforms: [ Core / JavaScript / RPC ]
+* Impacted Platforms: [ Core / JavaScript Suite / Java Suite / iOS / RPC ]
 
 ## Introduction
 
