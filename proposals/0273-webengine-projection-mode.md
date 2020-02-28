@@ -8,11 +8,13 @@
 ## Introduction
 
 This proposal is created based on discussion in https://github.com/smartdevicelink/sdl_evolution/issues/767.
-It extends [SDl-0240 - WebEngine support for SDL JavaScript](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0240-sdl-js-pwa.md) to allow using the WebEngine app's web view for the HMI in addition to the other available SDL templates. 
+It extends [SDl-0240 - WebEngine support for SDL JavaScript](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0240-sdl-js-pwa.md) to allow using the WebEngine app's web view for the HMI in addition to the other available SDL templates.
 
 ## Motivation
 
 This proposal describes a feature made possible using a WebEngine. A WebEngine can come with a web page rendering component described as a WebView in this proposal. The proposal describes how apps based on a WebEngine can be presented not only using system templates but that can control the WebView using the app's document object.
+
+The author and the SDLC member believe there are plenty of SDL features that are useful for WebEngine applications that use the proposed feature. The most important items are app policy management and app lifecycle. We would like to streamline the implementation to manage activating apps, deactivating or closing apps or run apps in background. Besides the benefits for us implementing web apps, it's also beneficial for the web app developer to use all the SDL features like app services, remote control, vehicle data widgets and many more.
 
 ## Proposed solution
 
@@ -28,6 +30,18 @@ A new template called `WEB_VIEW` should be added. This template should have the 
 If this template is used by WebEngine apps, the HMI of the IVI should present the WebEngine app and show the application's web page. 
 The application can control the web `document` object using JavaScript code to manipulate the document object model of the WebEngine app. 
 The HMI should respect the WebEngine app as the first responder to touch events. This means that touchable elements in the `document` should be accessible through the system's touch screen to the user.
+
+```xml
+<enum name="PredefinedLayout" platform="documentation" since="3.0">
+    <element name="WEB_VIEW" rootscreen="true" since="6.x">
+        <description>
+            Custom root template allowing in-vehicle WebEngine applications with permissions to `WEB_VIEW`
+            show the applications own web view.
+        </description>
+    </element>
+    :
+</enum>
+```
 
 ![Screenshot example of a web app](../assets/proposals/0273-webengine-projection-mode/web-app-example.jpg)
 
@@ -58,6 +72,24 @@ Widget that duplicate content from the main window should still be possible. Des
 
 A new App HMI type `WEB_VIEW` should be added for in-vehicle WebEngine apps. This HMI type specifies that the application's initial template should be set to `WEB_VIEW` instead of `DEFAULT`. 
 When in-vehicle apps with this HMI type are activated, the HMI should make the web page of this app visible on the screen. This web page will become the main window of the application.
+
+**HMI_API**
+
+```xml
+<enum name="AppHMIType">
+    :
+    <element name="WEB_VIEW" />
+</enum>
+```
+
+**MOBILE_API**
+
+```xml
+<enum name="AppHMIType" since="2.0">
+    :
+    <element name="WEB_VIEW" since="6.3" />
+</enum>
+```
 
 #### 2.1. Policy control
 
@@ -90,9 +122,33 @@ At the time of this proposal being in review, a set of driver distraction rules 
 
 More items may be included in the ruleset as they become Driver Distraction affected.
 
+### 4. Application lifecycle (or what happens if the app is closed?)
+
+When an app is deactivated into HMI level NONE, the connection to Core can stay open as long as there is a way for the HMI to be able to unregister and disconnect an app in case of performance issues. Performance issues can be due to high CPU load or memory warnings. This requires a new exit reason that can be used by the HMI and will be forwarded to the app. 
+
+**HMI_API**
+
+```xml
+<enum name="ApplicationExitReason">
+    :
+    <element name="RESOURCE_CONSTRAINT">
+        <description>By getting this value, SDL should unregister the application to allow the HMI to close the application.</description>
+    </element>
+</enum>
+```
+
+**MOBILE_API**
+
+```xml
+<enum name="AppInterfaceUnregisteredReason" since="1.0">
+    :
+    <element name="RESOURCE_CONSTRAINT" since="6.x" />
+</enum>
+```
+
 ## Potential downsides
 
-The same downsides apply as for [SDL 0031 Mobile Projection](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0031-mobile-projection.md) 
+The same downsides apply as for [SDL 0031 Mobile Projection](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0031-mobile-projection.md) because WebEngine applications that use the web view are responsible just as any projection or mobile navigation application.
 
 The proposal states:
 
