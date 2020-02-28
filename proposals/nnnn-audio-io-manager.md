@@ -27,7 +27,7 @@ The manager requires a delegate that the app needs to implement. Delegate calls 
 
 ### State machine
 
-The manager handles the input and the output stream in different states. Both streams can be `Stopped`, `Starting` and `Started`. In addition the input stream can be `Stopping` (as waiting for RPC responses), `Pausing` and `Paused`. The pause state will be described in detail in the next section.
+The manager handles the input and the output stream in different states. Both streams can be `Stopped`, `Starting` and `Started`. In addition the input stream can be `Stopping` (as waiting for RPC responses), `Pausing` and `Paused`. The paused state will be described in detail in the next section.
 
 ### Audio Input Stream
 
