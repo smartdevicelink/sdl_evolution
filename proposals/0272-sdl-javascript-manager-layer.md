@@ -20,7 +20,7 @@ A set of submanager classes will be created, with each one designated to a parti
 ### Managers
 
 Specifically, these are the following manager classes that existing libraries already use, and thus will need to be implemented in the JavaScript suite:
-* BaseSubManager (The class that submanagers will extend)
+* SubManagerBase (The class that submanagers will extend)
 * SdlManager (Publicly-facing manager that allows access to the submanagers below)
     * ScreenManager (Handles the process of displaying and managing items on the head unit)
         * MenuManager (Handles menus and submenus)
@@ -99,734 +99,1348 @@ There is also one replacement for a method with an OnSystemCapabilityListener:
     SystemCapabilityManager.getCapability
 */
 
-class BaseSubManager {
+class SubManagerBase {
     /**
-     * @param ISdl internalInterface
-    */
-    constructor(internalInterface)
-    async start()
-    dispose()
+     * @param {LifecycleManager} lifecycleManager - An instance of a LifecycleManager
+     * @constructor
+     */
+    constructor (lifecycleManager)
+
     /**
+     * Starts up a BaseSubManager, and resolves the returned Promise when BaseSubManager is done setting up or failed setup.
+     * @return {Promise} Resolves true when in READY or LIMITED state, or false when in ERROR state.
+     */
+    async start ()
+
+    /**
+     * Called when manager is being torn down.
+     */
+    dispose ()
+
+    /**
+     * Returns the current state.
      * @return {Number}
-    */
-    getState() 
+     */
+    getState ()
 }
 
-class BaseSdlManager {
+class SdlManagerBase {
     /**
-     * @return {Number}
+    * @param {AppConfig} appConfig - An instance of AppConfig describing the application's metadata and desired transport
+    * @param {ManagerListener} managerListener - An instance of ManagerListener to be used to listen for manager events
+    * @constructor
     */
-    getState()
-    async start()
-    dispose()
+    constructor (appConfig = null, managerListener = null)
 
     /**
-     * @param RPCMessage message
-     * @return {RPCResponse|null} - Returns a response if the message is a request, or null otherwise
+    * Retrieves the stored AppConfig instance
+    * @return {AppConfig|null}
     */
-    async sendRPC(message)
+    getAppConfig ()
 
     /**
-     * @param RPCMessage[] rpcs
-     * @return {(RPCResponse|null)[]} - Returns responses if the message is a request, or null otherwise
+    * Sets the AppConfig instance
+    * @param {AppConfig} appConfig
+    * @return {SdlManagerBase}
     */
-    async sendSequentialRPCs(rpcs)
-    /**
-     * @param RPCMessage[] rpcs
-     * @return {(RPCResponse|null)[]} - Returns responses if the message is a request, or null otherwise
-    */
-    async sendRPCs(rpcs)
-
+    setAppConfig (appConfig)
 
     /**
-     * @return {RegisterAppInterfaceResponse}
+    * Retrieves the stored ManagerListener
+    * @return {SdlManagerListener|null}
     */
-    getRegisterAppInterfaceResponse()
+    getManagerListener ()
+
     /**
-     * @return {OnHMIStatus}
+    * Sets the ManagerListener instance
+    * @param {ManagerListener} managerListener
+    * @return {SdlManagerBase}
     */
-    getCurrentHMIStatus()
+    setManagerListener (managerListener)
+
     /**
-     * @return {String}
+    * Retrieves the state of the manager
+    * @return {Number}
     */
-    getAuthToken()
+    getState ()
+
     /**
-     * @param FunctionID notificationId
-     * @param OnRPCNotificationListener listener
+    * Checks the manager's state and provides a silent log if it's not ready for use
+    * @return {SdlManagerBase}
     */
-    addOnRPCNotificationListener(notificationId, listener)
+    checkSdlManagerState ()
+
     /**
-     * @param FunctionID notificationId
-     * @param OnRPCNotificationListener listener
+    * Set up the notification queue
+    * @return {SdlManagerBase}
     */
-    removeOnRPCNotificationListener(notificationId, listener)
+    initNotificationQueue ()
+
     /**
-     * @param FunctionID requestId
-     * @param OnRPCRequestListener listener
+    * @abstract
+    * @return {SdlManagerBase}
     */
-    addOnRPCRequestListener(requestId, listener)
+    addRpcListener (functionId, listener)
+
     /**
-     * @param FunctionID requestId
-     * @param OnRPCRequestListener listener
+    * @abstract
+    * @return {SdlManagerBase}
     */
-    removeOnRPCRequestListener(requestId, listener)
+    removeRpcListener (functionId, listener)
+
+    /**
+    * @abstract
+    * @return {SdlManagerBase}
+    */
+    checkState ()
+
+    /**
+    * @abstract
+    * @return {Promise}
+    */
+    initialize ()
+
+    /**
+    * @abstract
+    * @return {SdlManagerBase}
+    */
+    start ()
+
+    /**
+    * @abstract
+    * @return {SdlManagerBase}
+    */
+    dispose ()
+
+    /**
+    * Sends a single RPC
+    * @abstract
+    * @param {RpcMessage} message
+    * @return {Promise}
+    */
+    sendRpc (message)
+
+    /**
+    * Sends multiple RPCs asynchronously
+    * @abstract
+    * @param {RpcMessage[]} messages
+    * @return {Promise}
+    */
+    sendRpcs (messages)
+
+    /**
+    * Sends multiple RPCs synchronously
+    * @abstract
+    * @param {RpcMessage[]} messages
+    * @return {Promise}
+    */
+    sendSequentialRpcs (messages)
+
+    /**
+    * Retreives the RAI response from the LifecycleManager
+    * @return {RegisterAppInterfaceResponse|null}
+    * @abstract
+    */
+    getRegisterAppInterfaceResponse ()
+
+    /**
+    * Retrieves the current HMI status from the LifecycleManager
+    * @return {OnHmiStatus|null}
+    * @abstract
+    */
+    getCurrentHmiStatus ()
+
+    /**
+    * Retrieves the Auth Token from the LifecycleManager
+    * @return {string|null}
+    * @abstract
+    */
+    getAuthToken ()
+
+
 }
 
-class SdlManager extends BaseSdlManager {
+class SdlManager extends SdlManagerBase {
     /**
-     * @return {PermissionManager}
+    * @param {AppConfig} appConfig - An instance of AppConfig describing the application's metadata and desired transport
+    * @param {ManagerListener} managerListener - An instance of ManagerListener to be used to listen for manager events
+    * @constructor
     */
-    getPermissionManager() 
+    constructor (appConfig = null, managerListener = null)
+    
     /**
-     * @return {FileManager}
+    * Add a listener for a given FunctionID
+    * @param {Number} functionId - A Function ID from the RPC Spec
+    * @param {function} listener - A callback function(RpcMessage)
     */
-    getFileManager() 
+    addRpcListener (functionId, listener)
+    
     /**
-     * @return {ScreenManager}
+    * Remove a listener for a given FunctionID
+    * @param {Number} functionId - A Function ID from the RPC Spec
+    * @param {function} listener - A callback function(RpcMessage)
     */
-    getScreenManager() 
+    removeRpcListener (functionId, listener)
+    
     /**
-     * @return {SystemCapabilityManager}
+    * Checks the state of sub-managers
+    * @return {SdlManager}
     */
-    getSystemCapabilityManager()
-    startRPCEncryption()
-
-    static class Builder {
-        /**
-         * @param String appId
-         * @param String appName
-         * @param SdlManagerListener listener
-        */
-        constructor(appId, appName, listener)
-        /**
-         * @param String appId
-         * @return {Builder}
-        */
-        setAppId(appId)
-        /**
-         * @param String appName
-         * @return {Builder}
-        */
-        setAppName(appName)
-        /**
-         * @param String shortAppName
-         * @return {Builder}
-        */
-        setShortAppName(shortAppName) 
-        /**
-         * @param Version minimumProtocolVersion
-         * @return {Builder}
-        */
-        setMinimumProtocolVersion(minimumProtocolVersion) 
-        /**
-         * @param Version minimumRPCVersion
-         * @return {Builder}
-        */
-        setMinimumRPCVersion(minimumRPCVersion) 
-        /**
-         * @param Language hmiLanguage
-         * @return {Builder}
-        */
-        setLanguage(hmiLanguage)
-        /**
-         * @param TemplateColorScheme dayColorScheme
-         * @return {Builder}
-        */
-        setDayColorScheme(dayColorScheme)
-        /**
-         * @param TemplateColorScheme nightColorScheme
-         * @return {Builder}
-        */
-        setNightColorScheme(nightColorScheme)
-        /**
-         * @param SdlArtwork sdlArtwork
-         * @return {Builder}
-        */
-        setAppIcon(sdlArtwork)
-        /**
-         * @param AppHMIType[] hmiTypes
-         * @return {Builder}
-        */
-        setAppTypes(hmiTypes)
-        /**
-         * @param String[] vrSynonyms
-         * @return {Builder}
-        */
-        setVrSynonyms(vrSynonyms) 
-        /**
-         * @param TTSChunk[] ttsChunks
-         * @return {Builder}
-        */
-        setTtsName(ttsChunks) 
-        /**
-         * @param BaseTransportConfig transport
-         * @return {Builder}
-        */
-        setTransportType(transport)
-        /**
-         * @param SdlSecurityBase[] secList
-         * @param ServiceEncryptionListener listener
-        */
-        setSdlSecurity(secList, listener) 
-        /**
-         * @param SdlManagerListener listener
-         * @return {Builder}
-        */
-        setManagerListener(listener)
-        /**
-         * @param Map<FunctionID, OnRPCNotificationListener> listeners
-         * @return {Builder}
-        */
-        setRPCNotificationListeners(listeners)
-        /**
-         * @return {SdlManager}
-        */
-        build() 
-    }
+    checkState ()
+    
+    /**
+    * Initializes sub-managers
+    * @return {Promise}
+    */
+    initialize ()
+    
+    /**
+    * Retrieves a reference to the PermissionManager, if ready
+    * @return {PermissionManager|null}
+    */
+    getPermissionManager ()
+    
+    /**
+    * Retrieves a reference to the FileManager, if ready
+    * @return {FileManager|null}
+    */
+    getFileManager ()
+    
+    /**
+    * Retrieves a reference to the ScreenManager, if ready
+    * @return {ScreenManager|null}
+    */
+    getScreenManager ()
+    
+    /**
+    * Retrieves a reference to the SystemCapabilityManager
+    * @return {SystemCapabilityManager}
+    */
+    getSystemCapabilityManager ()
+    
+    /**
+    * Initializes the LifecycleManager using the AppConfig and starts the transport
+    * @return {SdlManager}
+    */
+    start ()
+    
+    /**
+    * Gracefully disposes the managers and alerts and destroys the ManagerListener
+    * @return {SdlManager}
+    */
+    dispose ()
+    
+    /**
+    * Sends a single RPC
+    * @param {RpcMessage} message
+    * @return {Promise} - A Promise which resolves if the RPC response is SUCCESS, otherwise rejects
+    */
+    async sendRpc (message)
+    
+    /**
+    * Sends multiple RPCs asynchronously
+    * @param {RpcMessage[]} messages - An array of RpcMessages
+    * @return {Promise} - A Promise which resolves if all RPCs respond with SUCCESS, otherwise rejects with the first failure
+    */
+    async sendRpcs (messages)
+    
+    /**
+    * Sends multiple RPCs synchronously (in order)
+    * @param {RpcMessage[]} messages
+    * @return {Promise} - A Promise which resolves with the last RPC response if all RPCs respond with SUCCESS, otherwise rejects with the first failure
+    */
+    async sendSequentialRpcs (messages)
+    
+    /**
+    * Retreives the RAI response from the LifecycleManager
+    * @return {RegisterAppInterfaceResponse|null}
+    */
+    getRegisterAppInterfaceResponse ()
+    
+    /**
+    * Retrieves the current HMI status from the LifecycleManager
+    * @return {OnHmiStatus|null}
+    */
+    getCurrentHmiStatus ()
+    
+    /**
+    * Retrieves the Auth Token from the LifecycleManager
+    * @return {string|null}
+    */
+    getAuthToken ()
+    
 }
 
 
-class BaseScreenManager extends BaseSubManager {
+class ScreenManagerBase extends SubManagerBase {
     /**
-     * @param ISdl internalInterface
-     * @param FileManager fileManager
+     * @param {LifecycleManager} lifecycleManager
+     * @param {FileManager} fileManager
     */
-    constructor(internalInterface, fileManager)
-    async start()
-    dispose()
+    constructor (lifecycleManager, fileManager = null)
+
     /**
-     * @param String textField1
+     * @return {Promise}
     */
-    setTextField1(textField1)
+    async start ()
+
     /**
-     * @return {String}
+     * Called when manager is being torn down
     */
-    getTextField1()
+    dispose ()
+
     /**
-     * @param String textField2
-    */
-    setTextField2(textField2)
+     * Set the textField1 on the head unit screen
+     * Sending an empty String "" will clear the field
+     * @param {String} textField1 - value represents the textField1
+     * @return {BaseScreenManager}
+     */
+    setTextField1 (textField1)
+
     /**
-     * @return {String}
-    */
-    getTextField2()
+     * Get the current textField1 value
+     * @return {String} - value represents the current textField1 value
+     */
+    getTextField1 ()
+
     /**
-     * @param String textField3
-    */
-    setTextField3(textField3)
+     * Set the textField2 on the head unit screen
+     * Sending an empty String "" will clear the field
+     * @param {String} textField2 - value represents the textField1
+     * @return {BaseScreenManager}
+     */
+    setTextField2 (textField2)
+
     /**
-     * @return {String}
-    */
-    getTextField3()
+     * Get the current textField2 value
+     * @return {String} - value represents the current textField2 value
+     */
+    getTextField2 ()
+
     /**
-     * @param String textField4
-    */
-    setTextField4(textField4)
+     * Set the textField3 on the head unit screen
+     * Sending an empty String "" will clear the field
+     * @param {String} textField3 - value represents the textField1
+     * @return {BaseScreenManager}
+     */
+    setTextField3 (textField3)
+
     /**
-     * @return {String}
-    */
-    getTextField4()
+     * Get the current textField3 value
+     * @return {String} - value represents the current textField3 value
+     */
+    getTextField3 ()
+
     /**
-     * @param String mediaTrackTextField
-    */
-    setMediaTrackTextField(mediaTrackTextField)
+     * Set the textField4 on the head unit screen
+     * Sending an empty String "" will clear the field
+     * @param {String} textField4 - value represents the textField1
+     * @return {BaseScreenManager}
+     */
+    setTextField4 (textField4)
+
     /**
-     * @return {String}
-    */
-    getMediaTrackTextField() 
+     * Get the current textField4 value
+     * @return {String} - value represents the current textField4 value
+     */
+    getTextField4 ()
+
     /**
-     * @param SdlArtwork primaryGraphic
-    */
-    setPrimaryGraphic(primaryGraphic) 
+     * Set the mediaTrackTextField on the head unit screen
+     * @param {String} mediaTrackTextField - value represents the mediaTrackTextField
+     * @return {BaseScreenManager}
+     */
+    setMediaTrackTextField (mediaTrackTextField)
+
     /**
-     * @return {SdlArtwork}
-    */
-    getPrimaryGraphic() 
+     * Get the current mediaTrackTextField value
+     * @return {String} - value represents the current mediaTrackTextField
+     */
+    getMediaTrackTextField ()
+
     /**
-     * @param SdlArtwork secondaryGraphic
-    */
-    setSecondaryGraphic(secondaryGraphic) 
+     * Set the primaryGraphic on the head unit screen
+     * @param {SdlArtwork} primaryGraphic - an SdlArtwork object represents the primaryGraphic
+     * @return {BaseScreenManager}
+     */
+    setPrimaryGraphic (primaryGraphic)
+
     /**
-     * @return {SdlArtwork}
-    */
-    getSecondaryGraphic() 
+     * Get the current primaryGraphic value
+     * @return {SdlArtwork} - object represents the current primaryGraphic
+     */
+    getPrimaryGraphic ()
+
     /**
-     * @param TextAlignment textAlignment
+     * Set the secondaryGraphic on the head unit screen
+     * @param {SdlArtwork} secondaryGraphic - an SdlArtwork object represents the secondaryGraphic
+     * @return {BaseScreenManager}
+     */
+    setSecondaryGraphic (secondaryGraphic)
+
+    /**
+     * Get the current secondaryGraphic value
+     * @return {SdlArtwork} - object represents the current secondaryGraphic
+     */
+    getSecondaryGraphic ()
+
+    /**
+     * Set the alignment for the text fields
+     * @param {TextAlignment} textAlignment - TextAlignment value represents the alignment for the text fields
+     * @return {BaseScreenManager}
+     */
+    setTextAlignment (textAlignment)
+
+    /**
+     * Get the alignment for the text fields
+     * @return {TextAlignment} - value represents the alignment for the text fields
+     */
+    getTextAlignment ()
+
+    /**
+     * Set the metadata type for the textField1
+     * @param {MetadataType} textField1Type - a MetadataType value represents the metadata for textField1
+     * @return {BaseScreenManager}
+     */
+    setTextField1Type (textField1Type)
+
+    /**
+     * Get the metadata type for textField1
+     * @return {MetadataType} - value represents the metadata for textField1
+     */
+    getTextField1Type ()
+
+    /**
+     * Set the metadata type for the textField2
+     * @param {MetadataType} textField2Type - a MetadataType value represents the metadata for textField2
+     * @return {BaseScreenManager}
+     */
+    setTextField2Type (textField2Type)
+
+    /**
+     * Get the metadata type for textField2
+     * @return {MetadataType} - value represents the metadata for textField2
+     */
+    getTextField2Type ()
+
+    /**
+     * Set the metadata type for the textField3
+     * @param {MetadataType} textField3Type - a MetadataType value represents the metadata for textField3
+     * @return {BaseScreenManager}
+     */
+    setTextField3Type (textField3Type)
+
+    /**
+     * Get the metadata type for textField3
+     * @return {MetadataType} - value represents the metadata for textField3
+     */
+    getTextField3Type ()
+
+    /**
+     * Set the metadata type for the textField4
+     * @param {MetadataType} textField4Type - a MetadataType value represents the metadata for textField4
+     * @return {BaseScreenManager}
+     */
+    setTextField4Type (textField4Type)
+
+    /**
+     * Get the metadata type for textField4
+     * @return {MetadataType} - value represents the metadata for textField4
+     */
+    getTextField4Type ()
+
+    /**
+     * Sets the title of the new template that will be displayed.
+     * Sending an empty String "" will clear the field
+     * @param {String} title - the title of the new template that will be displayed. Maxlength: 100.
+     * @return {BaseScreenManager}
+     */
+    setTitle (title)
+
+    /**
+     * Gets the title of the new template that will be displayed
+     * @return title - String value that represents the title of the new template that will be displayed
+     */
+    getTitle ()
+
+    /**
+     * Set softButtonObjects list and upload the images to the head unit
+     * @param {SoftButtonObject[]} softButtonObjects - the list of the SoftButtonObject values that should be displayed on the head unit
+     * @return {Promise} - returns BaseScreenManager when finished
+     */
+    async setSoftButtonObjects (softButtonObjects)
+
+    /**
+     * Get the soft button objects list
+     * @return {SoftButtonObject[]}
+     */
+    getSoftButtonObjects ()
+
+    /**
+     * Get the SoftButtonObject that has the provided name
+     * @param {String} name - a String value that represents the name
+     * @return {SoftButtonObject}
+     */
+    getSoftButtonObjectByName (name)
+
+    /**
+     * Get the SoftButtonObject that has the provided buttonId
+     * @param {Number} buttonId - a int value that represents the id of the button
+     * @return {SoftButtonObject}
+     */
+    getSoftButtonObjectById (buttonId)
+
+    /**
+     * Get the currently set voice commands
+     * @return {VoiceCommand[]} - a List of Voice Command objects
+     */
+    getVoiceCommands ()
+
+    /**
+     * Set voice commands
+     * @param {VoiceCommand[]} voiceCommands - the voice commands to be sent to the head unit
+     * @return {Promise}
+     */
+    async setVoiceCommands (voiceCommands)
+
+    /**
+     * The list of currently set menu cells
+     * @return {MenuCell[]} - a List of the currently set menu cells
+     */
+    getMenu ()
+
+    /**
+     * Creates and sends all associated Menu RPCs
+     * Note: the manager will store a deep copy the menuCells internally to be able to handle future updates correctly
+     * @param {MenuCell[]} menuCells - the menu cells that are to be sent to the head unit, including their sub-cells.
+     * @return {BaseScreenManager}
+     */
+    setMenu (menuCells)
+
+    /**
+     * Sets the behavior of how menus are updated. For explanations of the differences, see {@link DynamicMenuUpdatesMode}
+     * @param {DynamicMenuUpdatesMode} value - the update mode
+     * @return {BaseScreenManager}
+     */
+    setDynamicMenuUpdatesMode (value)
+
+    /**
+     * @return {DynamicMenuUpdatesMode} - The currently set DynamicMenuUpdatesMode. It defaults to ON_WITH_COMPAT_MODE if not set.
+     */
+    getDynamicMenuUpdatesMode ()
+
+    /**
+     * Requires SDL RPC Version 6.0.0 or greater
+     * Opens the Main Menu.
+     * @return {Boolean} success / failure - whether the request was able to be sent
+     */
+    openMenu ()
+
+    /**
+     * Requires SDL RPC Version 6.0.0 or greater
+     * Opens a subMenu. The cell you pass in must be constructed with {@link MenuCell(String,SdlArtwork,List)}
+     * @param {MenuCell} cell - A <Strong>SubMenu</Strong> cell whose sub menu you wish to open
+     * @return {Boolean} success / failure - whether the request was able to be sent
+     */
+    openSubMenu (cell)
+
+    /**
+     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable.
+     * @param {MenuConfiguration} menuConfiguration - The default menuConfiguration
+     * @return {BaseScreenManager}
+     */
+    setMenuConfiguration (menuConfiguration)
+
+    /**
+     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable.
+     * @return {MenuConfiguration} - the currently set MenuConfiguration
+     */
+    getMenuConfiguration ()
+
+    /**
+     * Deletes choices that were sent previously
+     * @param {ChoiceCell[]} choices - A list of ChoiceCell objects
+     */
+    deleteChoices (choices)
+
+    /**
+     * Preload choices to improve performance while presenting a choice set at a later time
+     * @param {ChoiceCell[]} choices - a list of ChoiceCell objects that will be part of a choice set later
+     * @return {Promise}
+     */
+    async preloadChoices (choices)
+
+    /**
+     * Presents a searchable choice set
+     * @param {ChoiceSet} choiceSet - The choice set to be presented. This can include Choice Cells that were preloaded or not
+     * @param {InteractionMode} mode - The intended interaction mode
+     * @param {KeyboardListener} keyboardListener - A keyboard listener to capture user input
+     */
+    presentSearchableChoiceSet (choiceSet, mode, keyboardListener)
+
+    /**
+     * Presents a choice set
+     * @param {ChoiceSet} choiceSet - The choice set to be presented. This can include Choice Cells that were preloaded or not
+     * @param {InteractionMode} mode - The intended interaction mode
+     */
+    presentChoiceSet (choiceSet, mode)
+
+    /**
+     * Presents a keyboard on the Head unit to capture user input
+     * @param {String} initialText - The initial text that is used as a placeholder text. It might not work on some head units.
+     * @param {KeyboardProperties} customKeyboardProperties - the custom keyboard configuration to be used when the keyboard is displayed
+     * @param {KeyboardListener} keyboardListener - A keyboard listener to capture user input
+     * @return {Number} - A unique cancelID that can be used to cancel this keyboard. If `null`, no keyboard was created.
+     */
+    presentKeyboard (initialText, customKeyboardProperties, keyboardListener)
+
+    /**
+     * Set a custom keyboard configuration for this session. If set to null, it will reset to default keyboard configuration.
+     * @param {KeyboardProperties} keyboardConfiguration - the custom keyboard configuration to be used when the keyboard is displayed
+     * @return {BaseScreenManager}
+     */
+    setKeyboardConfiguration (keyboardConfiguration)
+
+    /**
+     * @return {Set.<ChoiceCell>} - A set of choice cells that have been preloaded to the head unit
+     */
+    getPreloadedChoices ()
+
+    /**
+     * Dismisses a currently presented keyboard with the associated ID. Canceling a keyboard only works when connected to SDL Core v.6.0+. When connected to older versions of SDL Core the keyboard will not be dismissed.
+     * @param {Number} cancelID - The unique ID assigned to the keyboard
+     */
+    dismissKeyboard (cancelID)
+
+    /**
+     * Begin a multiple updates transaction. The updates will be applied when commit() is called<br>
+     * Note: if we don't use beginTransaction & commit, every update will be sent individually.
+     */
+    beginTransaction ()
+
+    /**
+     * Send the updates that were started after beginning the transaction
+     */
+    commit () 
+}
+
+
+class MenuManagerBase extends SubManagerBase {
+    /**
+     * @constructor
+     * @param {LifecycleManager} lifecycleManager
+     * @param {FileManager} fileManager
     */
-    setTextAlignment(textAlignment)
+    constructor (lifecycleManager, fileManager)
+
+    /**
+     * @return {Promise}
+    */
+    async start ()
+
+    /**
+     * @param {DynamicMenuUpdatesMode} value
+    */
+    setDynamicUpdatesMode (value)
+
+    /**
+     * Creates and sends all associated Menu RPCs
+     * @param {MenuCell[]} cells - the menu cells that are to be sent to the head unit, including their sub-cells.
+    */
+    setMenuCells (cells)
+
+    /**
+     * Returns current list of menu cells
+     * @return {MenuCell[]} - a List of Currently set menu cells
+    */
+    getMenuCells ()
+
+    /**
+     * @return {DynamicMenuUpdatesMode} - The currently set DynamicMenuUpdatesMode. It defaults to ON_WITH_COMPAT_MODE
+    */
+    getDynamicMenuUpdatesMode ()
+
+    /**
+     * Opens the Main Menu
+     * @return {Boolean}
+    */
+    openMenu ()
+
+    /**
+     * Opens a subMenu. The cell you pass in must be constructed with {@link MenuCell(String,SdlArtwork,List)}
+     * @param {MenuCell} cell - A <Strong>SubMenu</Strong> cell whose sub menu you wish to open
+     * @return {Boolean}
+    */
+    openSubMenu (cell)
+
+    /**
+     * This method is called via the screen manager to set the menuConfiguration.
+     * This will be used when a menu item with sub-cells has a null value for menuConfiguration
+     * @param {MenuConfiguration} menuConfiguration - The default menuConfiguration
+    */
+    setMenuConfiguration (menuConfiguration)
+
+    /**
+     * @return {MenuConfiguration}
+    */
+    getMenuConfiguration ()
+
+}
+
+
+class VoiceCommandManagerBase extends SubManagerBase {
+    /**
+     * Sets up variables and the listeners
+     * @param {LifecycleManager} lifecycleManager
+    */
+    constructor (lifecycleManager)
+
+    /**
+     * After this method finishes, the manager is ready
+     * @return {Promise}
+    */
+    async start ()
+
+    /**
+     * Stores the voice commands to send later. Will get overwritten by additional invocations of this method
+     * @param {VoiceCommand[]} voiceCommands
+     * @return {Promise} - returns after old commands are deleted and new ones are added
+    */
+    async setVoiceCommands (voiceCommands)
+
+    /**
+     * Gets all the voice commands currently set
+     * @return {VoiceCommand[]}
+    */
+    getVoiceCommands ()
+
+}
+
+
+class ChoiceSetManagerBase extends SubManagerBase {
+    /**
+     * @param {LifecycleManager} lifecycleManager
+     * @param {FileManager} fileManager
+    */
+    constructor (lifecycleManager, fileManager)
+    
+    /**
+     * @return {Promise}
+    */
+    async start ()
+    
+    dispose ()
+    
+    /**
+     * Preload choices to improve performance while presenting a choice set at a later time
+     * @param {ChoiceCell[]} choices - a list of ChoiceCell objects that will be part of a choice set later
+     * @return {Promise}
+    */
+    async preloadChoices (choices)
+    
+    /**
+     * Deletes choices that were sent previously
+     * @param {ChoiceCell[]} choices - A list of ChoiceCell objects
+    */
+    deleteChoices (choices)
+    
+    /**
+     * Presents a choice set
+     * @param {ChoiceSet} choiceSet - The choice set to be presented. This can include Choice Cells that were preloaded or not
+     * @param {InteractionMode} mode - The intended interaction mode
+     * @param {KeyboardListener} keyboardListener - A keyboard listener to capture user input
+    */
+    presentChoiceSet (choiceSet, mode, keyboardListener)
+    
+    /**
+     * Presents a keyboard on the Head unit to capture user input
+     * @param {String} initialText - The initial text that is used as a placeholder text. It might not work on some head units.
+     * @param {KeyboardProperties} customKeyboardConfig - the custom keyboard configuration to be used when the keyboard is displayed
+     * @param {KeyboardListener} listener - A keyboard listener to capture user input
+     * @return {Number} - A unique id that can be used to cancel this keyboard. If `null`, no keyboard was created.
+    */
+    presentKeyboard (initialText, customKeyboardConfig, listener)
+    
+    /**
+     * Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
+     * This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+.
+     * @param {Number} cancelID - The unique ID assigned to the keyboard, passed as the return value from `presentKeyboard`
+    */
+    dismissKeyboard (cancelID)
+    
+    /**
+     * Set a custom keyboard configuration for this session. If set to null, it will reset to default keyboard configuration.
+     * @param {KeyboardProperties} keyboardConfiguration - the custom keyboard configuration to be used when the keyboard is displayed
+    */
+    setKeyboardConfiguration (keyboardConfiguration)
+    
+    /**
+     * @return {Set.<ChoiceCell>} A set of choice cells that have been preloaded to the head unit
+    */
+    getPreloadedChoices ()
+
+}
+
+
+class SoftButtonManagerBase extends SubManagerBase {
+    /**
+     * constructor
+     * @param {LifecycleManager} lifecycleManager
+     * @param {FileManager} fileManager
+    */
+    constructor (lifecycleManager, fileManager)
+
+    /**
+     * After this method finishes, the manager is ready
+     * @return {Promise}
+    */
+    async start ()
+
+    /**
+     * Teardown method
+    */
+    dispose ()
+
+    /**
+     * Get the SoftButtonObject that has the provided name
+     * @param {String} name - a String value that represents the name
+     * @return {SoftButtonObject|null} - a SoftButtonObject, or null if none is found
+    */
+    getSoftButtonObjectByName (name)
+
+    /**
+     * Get the SoftButtonObject that has the provided buttonId
+     * @param {Number} buttonId - a int value that represents the id of the button
+     * @return {SoftButtonObject|null} - a SoftButtonObject, or null if none is found
+    */
+    getSoftButtonObjectById (buttonId)
+
+    /**
+     * Get the soft button objects list
+     * @return {SoftButtonObject[]} - a List<SoftButtonObject>
+    */
+    getSoftButtonObjects ()
+
+    /**
+     * Set softButtonObjects list and upload the images to the head unit
+     * @param {SoftButtonObject[]} list - the list of the SoftButtonObject values that should be displayed on the head unit
+     * @return {Promise} - Resolves to BaseSoftButtonManager when done
+    */
+    async setSoftButtonObjects (list)
+
+    /**
+     * Get the current String associated with MainField1
+     * @return {String} - the string that is currently used for MainField1
+    */
+    getCurrentMainField1 ()
+
+    /**
+     * Sets the String to be associated with MainField1
+     * @param {String} currentMainField1 - the String that will be set to TextField1 on the current template
+     * @return {BaseSoftButtonManager}
+    */
+    setCurrentMainField1 (currentMainField1)
+
+    /**
+     * Sets the batchUpdates flag that represents whether the manager should wait until commit() is called to send the updated show RPC
+     * @param {Boolean} - batchUpdates Set true if the manager should batch updates together, or false if it should send them as soon
+     *                     as they happen
+     * @return {BaseSoftButtonManager}
+    */
+    setBatchUpdates (batchUpdates)
+    
+}
+
+
+class TextAndGraphicManagerBase extends SubManagerBase {
+    /**
+     * @constructor
+     * @param {LifecycleManager} lifecycleManager
+     * @param {FileManager} fileManager
+     * @param {SoftButtonManager} softButtonManager
+    */
+    constructor (lifecycleManager, fileManager = null, softButtonManager = null) 
+
+    /**
+     * After this method finishes, the manager is ready
+     * @return {Promise}
+    */
+    async start () 
+
+    /**
+     * Teardown method
+    */
+    dispose () 
+
+    /**
+     * @param {TextAlignment} textAlignment
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTextAlignment (textAlignment) 
+
     /**
      * @return {TextAlignment}
-    */ 
-    getTextAlignment() 
-    /**
-     * @param MetadataType textField1Type
     */
-    getTextField1Type() 
+    getTextAlignment () 
+
     /**
-     * @param MetadataType textField2Type
+     * @param {String} mediaTrackTextField
+     * @return {BaseTextAndGraphicManager}
     */
-    setTextField2Type(textField2Type) 
-    /**
-     * @return {MetadataType}
-    */
-    getTextField2Type() 
-    /**
-     * @param MetadataType textField3Type
-    */
-    setTextField3Type(textField3Type) 
-    /**
-     * @return {MetadataType}
-    */
-    getTextField3Type() 
-    /**
-     * @param MetadataType textField4Type
-    */
-    setTextField4Type(textField4Type) 
-    /**
-     * @return {MetadataType}
-    */
-    getTextField4Type() 
-    /**
-     * @param String templateTitle
-    */
-    setTemplateTitle(templateTitle)
+    setMediaTrackTextField (mediaTrackTextField) 
+
     /**
      * @return {String}
     */
-    getTemplateTitle()
+    getMediaTrackTextField () 
+
     /**
-     * @param String templateTitle
+     * @param {String} textField1
+     * @return {BaseTextAndGraphicManager}
     */
-    setTitle(templateTitle)
+    setTextField1 (textField1) 
+
     /**
      * @return {String}
     */
-    getTitle()
-    /**
-     * @param SoftButtonObject[] softButtonObjects
-    */
-    setSoftButtonObjects(softButtonObjects) 
-    /**
-     * @return {SoftButtonObject[]}
-    */
-    getSoftButtonObjects() 
-    /**
-     * @param String name
-     * @return {SoftButtonObject}
-    */
-    getSoftButtonObjectByName(name)
-    /**
-     * @param Number buttonId
-     * @return {SoftButtonObject}
-    */
-    getSoftButtonObjectById(buttonId)
-    /**
-     * @return {VoiceCommand[]}
-    */
-    getVoiceCommands()
-    /**
-     * @param VoiceCommand[] voiceCommands
-    */
-    setVoiceCommands(voiceCommands)
-    /**
-     * @return {MenuCell[]}
-    */
-    getMenu()
-    /**
-     * @param MenuCell[] menuCells
-    */
-    setMenu(menuCells)
-    /**
-     * @param DynamicMenuUpdatesMode value
-    */
-    setDynamicMenuUpdatesMode(value)
-    /**
-     * @return {DynamicMenuUpdatesMode}
-    */
-    getDynamicMenuUpdatesMode()
-    /**
-     * @return {Boolean}
-    */
-    openMenu()
-    /**
-     * @param MenuCell cell
-     * @return {Boolean}
-    */
-    openSubMenu(cell)
-    /**
-     * @param MenuConfiguration menuConfiguration
-    */
-    setMenuConfiguration(menuConfiguration) 
-    /**
-     * @return {MenuConfiguration}
-    */
-    getMenuConfiguration()
-    /**
-     * @param ChoiceCell[] choices
-    */
-    deleteChoices(choices)
-    /**
-     * @param ChoiceCell[] choices
-    */
-    async preloadChoices(choices)
-    /**
-     * @param ChoiceSet choices
-     * @param InteractionMode mode
-     * @param KeyboardListener keyboardListener
-    */
-    presentSearchableChoiceSet(choiceSet, mode, keyboardListener)
-    /**
-     * @param ChoiceSet choices
-     * @param InteractionMode mode
-    */
-    presentChoiceSet(choiceSet, mode)
-    /**
-     * @param String initialText
-     * @param KeyboardProperties customKeyboardProperties
-     * @param KeyboardListener keyboardListener
-     * @return {Number}
-    */
-    presentKeyboard(initialText, customKeyboardProperties, keyboardListener)
-    /**
-     * @param KeyboardProperties keyboardConfiguration
-    */
-    setKeyboardConfiguration(keyboardConfiguration)
-    /**
-     * @return {Set<ChoiceCell>}
-    */
-    getPreloadedChoices()
-    /**
-     * @param Number cancelID
-    */
-    dismissKeyboard(cancelID) 
-    beginTransaction()
-    async commit(listener)
-}
+    getTextField1 () 
 
+    /**
+     * @param {String} textField2
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTextField2 (textField2) 
 
-class BaseMenuManager extends BaseSubManager {
     /**
-     * @param ISdl internalInterface
-     * @param FileManager fileManager
-    */
-    constructor(internalInterface, fileManager) 
-    async start() 
-    dispose()
-    /**
-     * @param DynamicMenuUpdatesMode value
-    */
-    setDynamicUpdatesMode(value)
-    /**
-     * @param MenuCell[] cells
-    */
-    setMenuCells(cells)
-    /**
-     * @return {MenuCell[]}
-    */
-    getMenuCells()
-    /**
-     * @return {DynamicMenuUpdatesMode}
-    */
-    getDynamicMenuUpdatesMode() 
-    /**
-     * @return {Boolean}
-    */
-    openMenu()
-    /**
-     * @param MenuCell cell
-     * @return {Boolean}
-    */
-    openSubMenu(cell)
-    /**
-     * @param MenuConfiguration menuConfiguration
-    */
-    setMenuConfiguration(menuConfiguration) 
-    /**
-     * @return {MenuConfiguration}
-    */
-    getMenuConfiguration()
-}
-
-
-class BaseVoiceCommandManager extends BaseSubManager {
-    /**
-     * @param ISdl internalInterface
-    */
-    constructor(internalInterface) 
-    async start() 
-    dispose()
-    /**
-     * @param VoiceCommand[] voiceCommands
-    */
-    setVoiceCommands(voiceCommands)
-    /**
-     * @return {VoiceCommand[]}
-    */
-    getVoiceCommands()
-}
-
-
-class BaseChoiceSetManager extends BaseSubManager {
-    /**
-     * @param ISdl internalInterface
-     * @param FileManager fileManager
-    */
-    constructor(internalInterface, fileManager) 
-    async start()
-    dispose()
-    /**
-     * @param ChoiceCell[] choices
-    */
-    async preloadChoices(choices)
-    /**
-     * @param ChoiceCell[] choices
-    */
-    deleteChoices(choices)
-    /**
-     * @param ChoiceSet choiceSet
-     * @param InteractionMode mode
-     * @param KeyboardListener keyboardListener
-    */
-    presentChoiceSet(choiceSet, mode, keyboardListener)
-    /**
-     * @param String initialText
-     * @param KeyboardProperties customKeyboardConfig
-     * @param KeyboardListener listener
-     * @return {Number}
-    */
-    presentKeyboard(initialText, customKeyboardConfig, listener)
-    /**
-     * @param Number cancelID
-    */
-    dismissKeyboard(cancelID) 
-    /**
-     * @param KeyboardProperties keyboardConfiguration
-    */
-    setKeyboardConfiguration(keyboardConfiguration)
-    /**
-     * @return {Set<ChoiceCell>}
-    */
-    getPreloadedChoices()
-}
-
-
-class BaseSoftButtonManager extends BaseSubManager {
-    /**
-     * @param ISdl internalInterface
-     * @param FileManager fileManager
-    */
-    constructor(internalInterface, fileManager) 
-    async start() 
-    dispose() 
-}
-
-
-class BaseTextAndGraphicManager extends BaseSubManager {
-    /**
-     * @param ISdl internalInterface
-     * @param FileManager fileManager
-     * @param SoftButtonManager softButtonManager
-    */
-    constructor(internalInterface, fileManager, softButtonManager) 
-    async start() 
-    dispose()
-}
-
-
-class BaseFileManager extends BaseSubManager {
-    /**
-     * @param ISdl internalInterface
-    */
-    constructor(internalInterface) 
-    async start() 
-    /**
-     * @return {String[]}
-    */
-    getRemoteFileNames() 
-    /**
-     * @return {Number}
-    */
-    getBytesAvailable()
-    /**
-     * @param String fileName
-    */
-    async deleteRemoteFileWithName(fileName)
-    /**
-     * @param String[] fileNames
-    */
-    async deleteRemoteFilesWithNames(fileNames)
-    /**
-     * @param SdlFile file
-    */
-    async uploadFile(file)
-    /**
-     * @param SdlFile[] files
-    */
-    async uploadFiles(files)
-    /**
-     * @param SdlArtwork file
-    */
-    async uploadArtwork(file)
-    /**
-     * @param SdlArtwork[] files
-    */
-    async uploadArtworks(files)
-    /**
-     * @param SdlFile file
-     * @return {Boolean}
-    */
-    hasUploadedFile(file)
-    /**
-     * @static
-     * @param Result resultCode
-     * @param String info
      * @return {String}
     */
-    static buildErrorString(resultCode, info)
+    getTextField2 () 
+
+    /**
+     * @param {String} textField3
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTextField3 (textField3) 
+
+    /**
+     * @return {String}
+    */
+    getTextField3 () 
+
+    /**
+     * @param {String} textField4
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTextField4 (textField4) 
+
+    /**
+     * @return {String}
+    */
+    getTextField4 () 
+
+    /**
+     * @param {MetadataType} textField1Type
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTextField1Type (textField1Type) 
+
+    /**
+     * @return {MetadataType}
+    */
+    getTextField1Type () 
+
+    /**
+     * @param {MetadataType} textField2Type
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTextField2Type (textField2Type) 
+
+    /**
+     * @return {MetadataType}
+    */
+    getTextField2Type () 
+
+    /**
+     * @param {MetadataType} textField3Type
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTextField3Type (textField3Type) 
+
+    /**
+     * @return {MetadataType}
+    */
+    getTextField3Type () 
+
+    /**
+     * @param {MetadataType} textField4Type
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTextField4Type (textField4Type) 
+
+    /**
+     * @return {MetadataType}
+    */
+    getTextField4Type () 
+
+    /**
+     * @param {String} title
+     * @return {BaseTextAndGraphicManager}
+    */
+    setTitle (title) 
+
+    /**
+     * @return {String}
+    */
+    getTitle () 
+
+    /**
+     * @param {SdlArtwork} primaryGraphic
+     * @return {BaseTextAndGraphicManager}
+    */
+    setPrimaryGraphic (primaryGraphic) 
+
+    /**
+     * @return {SdlArtwork}
+    */
+    getPrimaryGraphic () 
+
+    /**
+     * @param {SdlArtwork} secondaryGraphic
+     * @return {BaseTextAndGraphicManager}
+    */
+    setSecondaryGraphic (secondaryGraphic) 
+
+    /**
+     * @return {SdlArtwork}
+    */
+    getSecondaryGraphic () 
+
+    /**
+     * @param {Boolean} batching
+     * @return {BaseTextAndGraphicManager}
+    */
+    setBatchUpdates (batching) 
+    
 }
 
 
-class BasePermissionManager extends BaseSubManager {
+class FileManagerBase extends SubManagerBase {
     /**
-     * @param ISdl internalInterface
-    */
-    constructor(internalInterface)
-    async start() 
+     * @constructor
+     * @param {LifecycleManager} lifecycleManager
+     */
+    constructor (lifecycleManager) 
+    
     /**
-     * @param FunctionID rpcName
-     * @return {Boolean}
-    */
-    getRPCRequiresEncryption(rpcName)
+     * Returns a list of file names currently residing on core.
+     * @return {Array<String>} - List of remote file names
+     */
+    getRemoteFileNames () 
+    
     /**
-     * @return {Boolean}
-    */
-    getRequiresEncryption()
+     * Get the number of bytes still available for files for this app.
+     * @return {Number} - Number of bytes still available
+     */
+    getBytesAvailable () 
+    
     /**
-     * @param FunctionID rpcName
-     * @return {Boolean}
-    */
-    isRPCAllowed(rpcName)
+     * Attempts to delete the desired file from core
+     * @param {String} fileName - name of file to be deleted
+     * @return {Promise} - Resolves to Boolean - whether the operation was successful
+     */
+    async deleteRemoteFileWithName (fileName) 
+    
     /**
-     * @param FunctionID rpcName
-     * @param String parameter
-     * @return {Boolean}
-    */
-    isPermissionParameterAllowed(rpcName, parameter)
-    dispose()
+     * Attempts to delete a list of files from core
+     * @param {String[]} fileNames - list of file names to be deleted
+     * @return {Promise} - Resolves to Boolean[] - whether the operations were successful
+     */
+    async deleteRemoteFilesWithNames (fileNames) 
+    
     /**
-     * @param PermissionElement[] permissionElements
-     * @return {PermissionGroupStatus} - Number value
-    */
-    getGroupStatusOfPermissions(permissionElements)
+     * Creates and returns a PutFile request that would upload a given SdlFile
+     * @param {SdlFile} sdlFile - SdlFile with fileName and one of A) fileData, B) Uri, or C) resourceID set
+     * @return {Promise} - Resolves to PutFile - a valid PutFile request if SdlFile contained a fileName and sufficient data
+     */
+    async createPutFile (sdlFile) 
+    
     /**
-     * @param PermissionElement[] permissionElements
-     * @return {Map<FunctionID, PermissionStatus>}
-    */
-    getStatusOfPermissions(permissionElements)
+     * @param {SdlFile} sdlFile - SdlFile with file name and one of A) fileData, B) Uri, or C) resourceID set
+     * @return {Promise} - Resolves to Boolean - whether the operation was successful
+     */
+    async uploadFile (sdlFile) 
+    
     /**
-     * @param PermissionElement[] permissionElements
-     * @param PermissionGroupType groupType - Number value
-     * @param OnPermissionChangeListener listener
-     * @return {UUID}
-    */
-    addListener(permissionElements, groupType, listener)
+     * Attempts to upload a list of SdlFiles to core
+     * @param {SdlFile[]} sdlFiles - list of SdlFiles with file name and one of A) fileData, B) Uri, or C) resourceID set
+     * @return {Promise} - Resolves to Boolean[] - whether the operations were successful
+     */
+    async uploadFiles (sdlFiles) 
+    
     /**
-     * @param UUID listenerId
+     * Attempts to upload SdlArtwork to core
+     * @param {SdlArtwork} sdlArtwork - SdlArtwork with file name and one of A) fileData, B) Uri, or C) resourceID set
+     * @return {Promise} - Resolves to Boolean - whether the operation was successful
+     */
+    async uploadArtwork (sdlArtwork) 
+    
+    /**
+     * Attempts to upload a list of SdlArtwork to core
+     * @param {SdlArtwork} sdlArtworks - list of SdlArtworks with file name and one of A) fileData, B) Uri, or C) resourceID set
+     * @return {Promise} - Resolves to Boolean[] - whether the operations were successful
+     */
+    async uploadArtworks (sdlArtworks) 
+    
+    /**
+     * Check if an SdlFile has been uploaded to core
+     * @param {SdlFile} sdlFile - SdlFile with file name and one of A) fileData, B) Uri, or C) resourceID set
+     * @return {Boolean} that tells whether file has been uploaded to core (true) or not (false)
+     */
+    hasUploadedFile (sdlFile) 
+}
+
+
+class PermissionManagerBase extends SubManagerBase {
+    /**
+     * @constructor
     */
-    removeListener(listenerId)
+    constructor (lifecycleManager) 
+    
+    /**
+     * @return {Promise}
+    */
+    async start () 
+    
+    /**
+     * Checks if an RPC requires encryption
+     *
+     * @param {Number} functionId - the RPC's FunctionID to check
+     * @return {Boolean} - true if the given RPC requires encryption; false, otherwise
+     */
+    getRpcRequiresEncryption (functionId) 
+    
+    /**
+     * Gets the encryption requirement
+     * @return {Boolean} - true if encryption is required; false otherwise
+     */
+    getRequiresEncryption () 
+    
+    /**
+     * Determine if an individual RPC is allowed in the context of the current HMI level and permissions
+     * @param {Number} functionId - FunctionID value that represents the ID of the RPC
+     * @return {Boolean} whether the RPC is allowed or not
+     */
+    isRpcAllowed (functionId) 
+    
+    /**
+     * Determine if an individual permission parameter is allowed in the context of the current HMI level and permissions
+     * @param {FunctionID} functionId - The ID of the RPC
+     * @param {String} parameter - A parameter for the RPC. Ex: "rpm" or "speed" for GetVehicleData
+     * @return {Boolean} boolean represents whether the permission parameter is allowed or not
+     */
+    isPermissionParameterAllowed (functionId, parameter) 
+    
+    /**
+     * Clean up everything after the manager is no longer needed
+     * @return {PermissionManagerBase}
+     */
+    dispose () 
+    
+    /**
+     * Determine if a group of permissions is allowed for the current HMI level
+     * @param {PermissionElement[]} permissionElements - An array of PermissionElement that represents the RPC names and their parameters
+     * @return {Number} An integer value that gives an overall view whether the permissions are allowed or not
+     */
+    getGroupStatusOfPermissions (permissionElements) 
+    
+    /**
+     * Determine if a group of permissions is allowed for the current HMI level
+     * @param {PermissionElement[]} permissionElements - An array of PermissionElement that represents the RPC names and their parameters
+     * @return {Object} A key-value map with RPC Ids as keys and a PermissionStatus object (or null) as the value
+     */
+    getStatusOfPermissions (permissionElements) 
+    
+    /**
+     * Add a listener to be called when there is permissions change
+     * @param {PermissionElement[]} permissionElements - An array of PermissionElement that represents the RPC IDs and their parameters
+     * @param {Number} groupType PermissionGroupType int value represents whether we need the listener to be called when there is any permissions change or only when all permission become allowed
+     * @param {function} listener - A function to be invoked upon permission change: function(Object<FunctionID, PermissionStatus>, PermissionGroupStatus)
+     * @return {String} A UUID for the Permission Filter listener. It can be used to remove the listener later.
+     */
+    addListener (permissionElements, groupType, listener) 
+    
+    /**
+     * Removes specific listener
+     * @param {String} filterUuid - The UUID of the listener to be removed
+     * @return {PermissionManagerBase}
+     */
+    removeListener (filterUuid) 
 }
 
 class LifecycleManager {
     /**
-     * @param AppConfig appConfig
-     * @param BaseTransportConfig config
-     * @param LifecycleListener listener
+     * @param {AppConfig} sdlConfig
+     * @param {LifecycleListener} lifecycleListener
+     * @constructor
     */
-    constructor(appConfig, config, listener)
-    async start()
-    startRPCEncryption()
-    stop()
+    constructor (appConfig, lifecycleListener) 
+
     /**
-     * @param SdlManager sdlManager
-     * @return {SystemCapabilityManager}
+     * After this method finishes, the manager is ready
+     * @return {LifecycleManager}
     */
-    getSystemCapabilityManager(sdlManager)
+    start () 
+
     /**
+     * Teardown method
+    */
+    stop () 
+
+    /**
+     * Gets the system capability manager
+     * @param {SdlManager} sdlManager - A reference to an instance of SdlManager
+     * @return {SystemCapabilityManager|null}
+    */
+    getSystemCapabilityManager (sdlManager) 
+
+    /**
+     * Determine whether or not the SDL Session is connected
+     * @return {Boolean} isConnected
+    */
+    isConnected () 
+
+    /**
+     * Add a listener for a specific RPC
+     * @param {Number} functionId
+     * @param {function} callback
+    */
+    addRpcListener (functionId, callback) 
+
+    /**
+     * Remove a listener for a specific RPC
+     * @param {Number} functionId
+     * @param {function} callback
+    */
+    removeRpcListener (functionId, callback) 
+
+    /**
+     * Handles the logic of sending a message and listening for a response for requests
+     * @param {RpcMessage} rpcMessage
+     * @param {function} callback - callback(RpcResponse)
+     * @return {Promise} - Resolves if the RPC response is SUCCESS, otherwise rejects
+    */
+    sendRpcMessage (rpcMessage = null) 
+
+    /**
+     * Gets the register app interface response
      * @return {RegisterAppInterfaceResponse}
     */
-    getRegisterAppInterfaceResponse()
+    getRegisterAppInterfaceResponse () 
+
     /**
-     * @return {OnHMIStatus}
+     * Gets the HMI status
+     * @return {OnHmiStatus}
     */
-    getCurrentHMIStatus() 
+    getCurrentHmiStatus () 
+
     /**
-     * @param SdlManager sdlManager
-     * @return {ISdl}
+     * Gets the auth token
+     * @return {string}
     */
-    getInternalInterface(sdlManager) 
+    getAuthToken () 
+
     /**
-     * @return {String}
+     * Gets the SDL message version
+     * @return {SdlMsgVersion}
     */
-    getAuthToken()
+    getSdlMsgVersion () 
+
     /**
-     * @param SdlSecurityBase[] secList
-     * @param ServiceEncryptionListener listener
+     * Adds a listener for a system capability
+     * @param {SystemCapabilityType} systemCapabilityType
+     * @param {function} listener
     */
-    setSdlSecurity(secList, listener) 
+    addOnSystemCapabilityListener (systemCapabilityType, listener) 
+
+    /**
+     * Removes a listener for a system capability
+     * @param {SystemCapabilityType} systemCapabilityType
+     * @param {function} listener
+     * @return {Boolean}
+    */
+    removeOnSystemCapabilityListener (systemCapabilityType, listener) 
+
 }
 
 
 class SystemCapabilityManager {
     /**
-     * @param ISdl callback
+     * @constructor
+     * @param {LifecycleManager} lifecycleManager
     */
-    constructor(callback)
+    constructor (lifecycleManager = null) 
+
     /**
-     * @param Number windowID
-     * @return {WindowCapability}
+     * Gets the window capability given a window id
+     * @param {Number} windowId
+     * @return {WindowCapability|null}
     */
-    getWindowCapability(windowID)
+    getWindowCapability (windowId) 
+
     /**
-     * @return {WindowCapability}
+     * Returns the default main window capability
+     * @return {WindowCapability|null}
     */
-    getDefaultMainWindowCapability() 
+    getDefaultMainWindowCapability () 
+
     /**
-     * @param RegisterAppInterfaceResponse response
+     * Takes in an RAIR and stores its information
+     * @param {RegisterAppInterfaceResponse} response
     */
-    parseRAIResponse(response)
+    parseRaiResponse (response) 
+
     /**
-     * @param SystemCapabilityType systemCapabilityType
-     * @param Object capability
+     * @param {SystemCapabilityType} systemCapabilityType
+     * @param {Object} capability
     */
-    setCapability(systemCapabilityType, capability)
+    setCapability (systemCapabilityType, capability) 
+
     /**
-     * @param SystemCapabilityType type
+     * Ability to see if the connected module supports the given capability. Useful to check before
+     * attempting to query for capabilities that require asynchronous calls to initialize.
+     * @param {SystemCapabilityType} type - the SystemCapabilityType that is to be checked
+     * @return {Boolean} - if that capability is supported with the current, connected module
+     */
+    isCapabilitySupported (type) 
+
+    /**
+     * Tries to find a capability in the cache
+     * @param {SystemCapabilityType} systemCapabilityType
+     * @return {Object|null} - returns null if a capability can't be returned
+    */
+    getCapability (systemCapabilityType) 
+
+    /**
+     * Sends a request to core for the capability, instead of only checking cached capabilities
+     * @param {SystemCapabilityType} systemCapabilityType
+     * @return {Promise} - Promise returning either the capability Object or null if not found
+    */
+    async queryCapability (systemCapabilityType) 
+
+    /**
+     * @param {SystemCapabilityType} systemCapabilityType
+     * @param {function} listener
+    */
+    addOnSystemCapabilityListener (systemCapabilityType, listener) 
+
+    /**
+     * @param {SystemCapabilityType} systemCapabilityType
+     * @param {function} listener
      * @return {Boolean}
     */
-    isCapabilitySupported(type)
-    /**
-     * @param SystemCapabilityType systemCapabilityType
-     * @return {Object}
-    */
-    async getCapability(systemCapabilityType)
-    /**
-     * @param SystemCapabilityType systemCapabilityType
-     * @param OnSystemCapabilityListener scListener
-    */
-    addOnSystemCapabilityListener(systemCapabilityType, listener)
-    /**
-     * @param SystemCapabilityType systemCapabilityType
-     * @param OnSystemCapabilityListener scListener
-     * @return {Boolean}
-    */
-    removeOnSystemCapabilityListener(systemCapabilityType, listener)
-    /**
-     * @static
-     * @param Object object
-     * @param Function classType - An object of a class
-     * @return {Function[]} - An array of objects of a class
-    */
-    static convertToList(object, classType)
+    removeOnSystemCapabilityListener (systemCapabilityType, listener) 
+
+
 }
 ```
 
