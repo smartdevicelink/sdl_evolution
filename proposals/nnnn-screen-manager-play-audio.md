@@ -38,7 +38,7 @@ If created with an audio file, the audio file that will be uploaded and used.
   @param audioFile The audio file to be played by the system
   @param tone Whether or not to play a system tone before the audio file
 */
-- (instancetype)initWithAudioFile:(SDLFile *)audioFile playSystemTone:(BOOL)tone;
+- (instancetype)initWithAudioFile:(SDLFile *)audioFile;
 
 /**
   Initialize with a string to be spoken by the system speech synthesizer.
