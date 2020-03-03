@@ -1137,7 +1137,7 @@ class FileManagerBase extends SubManagerBase {
     getRemoteFileNames () 
     
     /**
-     * Get the number of bytes still available for files for this app.
+     * Get the number of bytes still available for files for this app
      * @return {Number} - Number of bytes still available
      */
     getBytesAvailable () 
