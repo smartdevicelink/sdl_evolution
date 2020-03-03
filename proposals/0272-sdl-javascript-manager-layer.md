@@ -107,7 +107,7 @@ class SubManagerBase {
     constructor (lifecycleManager)
 
     /**
-     * Starts up a BaseSubManager, and resolves the returned Promise when BaseSubManager is done setting up or failed setup.
+     * Starts up a SubManagerBase, and resolves the returned Promise when SubManagerBase is done setting up or failed setup.
      * @return {Promise} Resolves true when in READY or LIMITED state, or false when in ERROR state.
      */
     async start ()
@@ -1455,4 +1455,3 @@ The code changes required are additive and will not impact existing code.
 ## Alternatives considered
 
 Deviating from the existing manager layers' APIs is an option, but it comes at the cost of being a different set of APIs, and so a developer migrating from the Java Suite or iOS libraries would have to learn and understand the manager layer all over again.
-
