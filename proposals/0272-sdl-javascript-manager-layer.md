@@ -1150,7 +1150,7 @@ class FileManagerBase extends SubManagerBase {
     async deleteRemoteFileWithName (fileName) 
     
     /**
-     * Attempts to delete a list of files from core
+     * Attempts to delete a list of files from Core
      * @param {String[]} fileNames - list of file names to be deleted
      * @return {Promise} - Resolves to Boolean[] - whether the operations were successful
      */
