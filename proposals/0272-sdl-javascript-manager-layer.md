@@ -862,7 +862,7 @@ class ChoiceSetManagerBase extends SubManagerBase {
     presentKeyboard (initialText, customKeyboardConfig, listener)
     
     /**
-     * Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent
+     * Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
      * This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+
      * @param {Number} cancelID - The unique ID assigned to the keyboard, passed as the return value from `presentKeyboard`
     */
