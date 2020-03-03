@@ -869,7 +869,7 @@ class ChoiceSetManagerBase extends SubManagerBase {
     dismissKeyboard (cancelID)
     
     /**
-     * Set a custom keyboard configuration for this session. If set to null, it will reset to default keyboard configuration
+     * Set a custom keyboard configuration for this session. If set to null, it will reset to default keyboard configuration.
      * @param {KeyboardProperties} keyboardConfiguration - the custom keyboard configuration to be used when the keyboard is displayed
     */
     setKeyboardConfiguration (keyboardConfiguration)
