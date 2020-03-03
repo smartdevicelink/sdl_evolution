@@ -16,12 +16,12 @@ To enable some more user friendly experiences with DialNumber, we'd like to add 
 ### Current
 All apps have to use the same message when dialing a phone number:
 
-<img src="../assets/proposals/NNNN-DialNumber_Text/Current Dial Number.png" alt="Current Dial Number" class="inline" height= "50%" width= "50%" /> 
+<img src="../assets/proposals/0284-DialNumber_Text/Current Dial Number.png" alt="Current Dial Number" class="inline" height= "50%" width= "50%" /> 
 
 ### Future
 Apps can use a different message based on the use case:
 
-<img src="../assets/proposals/NNNN-DialNumber_Text/Future Dial Number.png" alt="Future Dial Number" class="inline" height= "50%" width= "50%" /> 
+<img src="../assets/proposals/0284-DialNumber_Text/Future Dial Number.png" alt="Future Dial Number" class="inline" height= "50%" width= "50%" /> 
 
 
 ## Proposed solution
