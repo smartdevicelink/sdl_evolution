@@ -1184,7 +1184,7 @@ class FileManagerBase extends SubManagerBase {
     async uploadArtwork (sdlArtwork) 
     
     /**
-     * Attempts to upload a list of SdlArtwork to core
+     * Attempts to upload a list of SdlArtwork to Core
      * @param {SdlArtwork} sdlArtworks - list of SdlArtworks with file name and one of A) fileData, B) Uri, or C) resourceID set
      * @return {Promise} - Resolves to Boolean[] - whether the operations were successful
      */
