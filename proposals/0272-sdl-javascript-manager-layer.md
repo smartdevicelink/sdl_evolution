@@ -910,7 +910,7 @@ class SoftButtonManagerBase extends SubManagerBase {
 
     /**
      * Get the SoftButtonObject that has the provided buttonId
-     * @param {Number} buttonId - a int value that represents the id of the button
+     * @param {Number} buttonId - an int value that represents the ID of the button
      * @return {SoftButtonObject|null} - a SoftButtonObject, or null if none is found
     */
     getSoftButtonObjectById (buttonId)
