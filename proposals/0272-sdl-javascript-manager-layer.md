@@ -854,7 +854,7 @@ class ChoiceSetManagerBase extends SubManagerBase {
     
     /**
      * Presents a keyboard on the head unit to capture user input
-     * @param {String} initialText - The initial text that is used as placeholder text. It might not work on some head units
+     * @param {String} initialText - The initial text that is used as placeholder text. It might not work on some head units.
      * @param {KeyboardProperties} customKeyboardConfig - the custom keyboard configuration to be used when the keyboard is displayed
      * @param {KeyboardListener} listener - A keyboard listener to capture user input
      * @return {Number} - A unique ID that can be used to cancel this keyboard. If `null`, no keyboard was created.
