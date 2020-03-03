@@ -1214,7 +1214,7 @@ class PermissionManagerBase extends SubManagerBase {
      * Checks if an RPC requires encryption
      *
      * @param {Number} functionId - the RPC's FunctionID to check
-     * @return {Boolean} - true if the given RPC requires encryption; false, otherwise
+     * @return {Boolean} - true if the given RPC requires encryption; false otherwise
      */
     getRpcRequiresEncryption (functionId) 
     
