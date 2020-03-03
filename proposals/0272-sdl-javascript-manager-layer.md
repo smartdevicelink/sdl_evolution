@@ -652,7 +652,7 @@ class ScreenManagerBase extends SubManagerBase {
     setMenuConfiguration (menuConfiguration)
 
     /**
-     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable
+     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable.
      * @return {MenuConfiguration} - the currently set MenuConfiguration
      */
     getMenuConfiguration ()
