@@ -686,7 +686,7 @@ class ScreenManagerBase extends SubManagerBase {
     presentChoiceSet (choiceSet, mode)
 
     /**
-     * Presents a keyboard on the Head unit to capture user input
+     * Presents a keyboard on the head unit to capture user input
      * @param {String} initialText - The initial text that is used as a placeholder text. It might not work on some head units.
      * @param {KeyboardProperties} customKeyboardProperties - the custom keyboard configuration to be used when the keyboard is displayed
      * @param {KeyboardListener} keyboardListener - A keyboard listener to capture user input
