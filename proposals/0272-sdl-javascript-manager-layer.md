@@ -1406,8 +1406,7 @@ class SystemCapabilityManager {
     setCapability (systemCapabilityType, capability) 
 
     /**
-     * Ability to see if the connected module supports the given capability. Useful to check before
-     * attempting to query for capabilities that require asynchronous calls to initialize.
+     * Ability to see if the connected module supports the given capability. Useful to check before attempting to query for capabilities that require asynchronous calls to initialize.
      * @param {SystemCapabilityType} type - the SystemCapabilityType that is to be checked
      * @return {Boolean} - if that capability is supported with the current, connected module
      */
