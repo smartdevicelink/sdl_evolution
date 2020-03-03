@@ -645,7 +645,7 @@ class ScreenManagerBase extends SubManagerBase {
     openSubMenu (cell)
 
     /**
-     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable
+     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable.
      * @param {MenuConfiguration} menuConfiguration - The default menuConfiguration
      * @return {BaseScreenManager}
      */
