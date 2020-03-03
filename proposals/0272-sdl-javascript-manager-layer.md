@@ -1131,7 +1131,7 @@ class FileManagerBase extends SubManagerBase {
     constructor (lifecycleManager) 
     
     /**
-     * Returns a list of file names currently residing on core.
+     * Returns a list of file names currently residing on Core.
      * @return {Array<String>} - List of remote file names
      */
     getRemoteFileNames () 
