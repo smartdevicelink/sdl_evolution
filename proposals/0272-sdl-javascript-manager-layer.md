@@ -1191,7 +1191,7 @@ class FileManagerBase extends SubManagerBase {
     async uploadArtworks (sdlArtworks) 
     
     /**
-     * Check if an SdlFile has been uploaded to core
+     * Check if an SdlFile has been uploaded to Core
      * @param {SdlFile} sdlFile - SdlFile with file name and one of A) fileData, B) Uri, or C) resourceID set
      * @return {Boolean} that tells whether file has been uploaded to core (true) or not (false)
      */
