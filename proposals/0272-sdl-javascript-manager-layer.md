@@ -107,18 +107,18 @@ class SubManagerBase {
     constructor (lifecycleManager)
 
     /**
-     * Starts up a SubManagerBase, and resolves the returned Promise when SubManagerBase is done setting up or failed setup.
-     * @return {Promise} Resolves true when in READY or LIMITED state, or false when in ERROR state.
+     * Starts up a SubManagerBase, and resolves the returned Promise when SubManagerBase is done setting up or failed setup
+     * @return {Promise} Resolves true when in READY or LIMITED state, or false when in ERROR state
      */
     async start ()
 
     /**
-     * Called when manager is being torn down.
+     * Called when manager is being torn down
      */
     dispose ()
 
     /**
-     * Returns the current state.
+     * Returns the current state
      * @return {Number}
      */
     getState ()
@@ -283,13 +283,13 @@ class SdlManager extends SdlManagerBase {
     removeRpcListener (functionId, listener)
     
     /**
-    * Checks the state of sub-managers
+    * Checks the state of submanagers
     * @return {SdlManager}
     */
     checkState ()
     
     /**
-    * Initializes sub-managers
+    * Initializes submanagers
     * @return {Promise}
     */
     initialize ()
@@ -550,9 +550,9 @@ class ScreenManagerBase extends SubManagerBase {
     getTextField4Type ()
 
     /**
-     * Sets the title of the new template that will be displayed.
+     * Sets the title of the new template that will be displayed
      * Sending an empty String "" will clear the field
-     * @param {String} title - the title of the new template that will be displayed. Maxlength: 100.
+     * @param {String} title - the title of the new template that will be displayed. Maxlength: 100
      * @return {BaseScreenManager}
      */
     setTitle (title)
@@ -612,7 +612,7 @@ class ScreenManagerBase extends SubManagerBase {
     /**
      * Creates and sends all associated Menu RPCs
      * Note: the manager will store a deep copy the menuCells internally to be able to handle future updates correctly
-     * @param {MenuCell[]} menuCells - the menu cells that are to be sent to the head unit, including their sub-cells.
+     * @param {MenuCell[]} menuCells - the menu cells that are to be sent to the head unit, including their sub-cells
      * @return {BaseScreenManager}
      */
     setMenu (menuCells)
@@ -625,13 +625,13 @@ class ScreenManagerBase extends SubManagerBase {
     setDynamicMenuUpdatesMode (value)
 
     /**
-     * @return {DynamicMenuUpdatesMode} - The currently set DynamicMenuUpdatesMode. It defaults to ON_WITH_COMPAT_MODE if not set.
+     * @return {DynamicMenuUpdatesMode} - The currently set DynamicMenuUpdatesMode. It defaults to ON_WITH_COMPAT_MODE if not set
      */
     getDynamicMenuUpdatesMode ()
 
     /**
      * Requires SDL RPC Version 6.0.0 or greater
-     * Opens the Main Menu.
+     * Opens the Main Menu
      * @return {Boolean} success / failure - whether the request was able to be sent
      */
     openMenu ()
@@ -645,14 +645,14 @@ class ScreenManagerBase extends SubManagerBase {
     openSubMenu (cell)
 
     /**
-     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable.
+     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable
      * @param {MenuConfiguration} menuConfiguration - The default menuConfiguration
      * @return {BaseScreenManager}
      */
     setMenuConfiguration (menuConfiguration)
 
     /**
-     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable.
+     * The main menu layout. See available menu layouts on WindowCapability.menuLayoutsAvailable
      * @return {MenuConfiguration} - the currently set MenuConfiguration
      */
     getMenuConfiguration ()
@@ -687,15 +687,15 @@ class ScreenManagerBase extends SubManagerBase {
 
     /**
      * Presents a keyboard on the head unit to capture user input
-     * @param {String} initialText - The initial text that is used as a placeholder text. It might not work on some head units.
+     * @param {String} initialText - The initial text that is used as a placeholder text. It might not work on some head units
      * @param {KeyboardProperties} customKeyboardProperties - the custom keyboard configuration to be used when the keyboard is displayed
      * @param {KeyboardListener} keyboardListener - A keyboard listener to capture user input
-     * @return {Number} - A unique cancelID that can be used to cancel this keyboard. If `null`, no keyboard was created.
+     * @return {Number} - A unique cancelID that can be used to cancel this keyboard. If `null`, no keyboard was created
      */
     presentKeyboard (initialText, customKeyboardProperties, keyboardListener)
 
     /**
-     * Set a custom keyboard configuration for this session. If set to null, it will reset to default keyboard configuration.
+     * Set a custom keyboard configuration for this session. If set to null, it will reset to default keyboard configuration
      * @param {KeyboardProperties} keyboardConfiguration - the custom keyboard configuration to be used when the keyboard is displayed
      * @return {BaseScreenManager}
      */
@@ -707,14 +707,14 @@ class ScreenManagerBase extends SubManagerBase {
     getPreloadedChoices ()
 
     /**
-     * Dismisses a currently presented keyboard with the associated ID. Canceling a keyboard only works when connected to SDL Core v.6.0+. When connected to older versions of SDL Core the keyboard will not be dismissed.
+     * Dismisses a currently presented keyboard with the associated ID. Canceling a keyboard only works when connected to SDL Core v.6.0+. When connected to older versions of SDL Core the keyboard will not be dismissed
      * @param {Number} cancelID - The unique ID assigned to the keyboard
      */
     dismissKeyboard (cancelID)
 
     /**
      * Begin a multiple updates transaction. The updates will be applied when commit() is called<br>
-     * Note: if we don't use beginTransaction & commit, every update will be sent individually.
+     * Note: if we don't use beginTransaction & commit, every update will be sent individually
      */
     beginTransaction ()
 
@@ -745,7 +745,7 @@ class MenuManagerBase extends SubManagerBase {
 
     /**
      * Creates and sends all associated Menu RPCs
-     * @param {MenuCell[]} cells - the menu cells that are to be sent to the head unit, including their sub-cells.
+     * @param {MenuCell[]} cells - the menu cells that are to be sent to the head unit, including their sub-cells
     */
     setMenuCells (cells)
 
@@ -774,7 +774,7 @@ class MenuManagerBase extends SubManagerBase {
     openSubMenu (cell)
 
     /**
-     * This method is called via the screen manager to set the menuConfiguration.
+     * This method is called via the screen manager to set the menuConfiguration
      * This will be used when a menu item with sub-cells has a null value for menuConfiguration
      * @param {MenuConfiguration} menuConfiguration - The default menuConfiguration
     */
@@ -854,22 +854,22 @@ class ChoiceSetManagerBase extends SubManagerBase {
     
     /**
      * Presents a keyboard on the head unit to capture user input
-     * @param {String} initialText - The initial text that is used as placeholder text. It might not work on some head units.
+     * @param {String} initialText - The initial text that is used as placeholder text. It might not work on some head units
      * @param {KeyboardProperties} customKeyboardConfig - the custom keyboard configuration to be used when the keyboard is displayed
      * @param {KeyboardListener} listener - A keyboard listener to capture user input
-     * @return {Number} - A unique ID that can be used to cancel this keyboard. If `null`, no keyboard was created.
+     * @return {Number} - A unique ID that can be used to cancel this keyboard. If `null`, no keyboard was created
     */
     presentKeyboard (initialText, customKeyboardConfig, listener)
     
     /**
-     * Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
-     * This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+.
+     * Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent
+     * This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+
      * @param {Number} cancelID - The unique ID assigned to the keyboard, passed as the return value from `presentKeyboard`
     */
     dismissKeyboard (cancelID)
     
     /**
-     * Set a custom keyboard configuration for this session. If set to null, it will reset to default keyboard configuration.
+     * Set a custom keyboard configuration for this session. If set to null, it will reset to default keyboard configuration
      * @param {KeyboardProperties} keyboardConfiguration - the custom keyboard configuration to be used when the keyboard is displayed
     */
     setKeyboardConfiguration (keyboardConfiguration)
@@ -1131,7 +1131,7 @@ class FileManagerBase extends SubManagerBase {
     constructor (lifecycleManager) 
     
     /**
-     * Returns a list of file names currently residing on Core.
+     * Returns a list of file names currently residing on Core
      * @return {Array<String>} - List of remote file names
      */
     getRemoteFileNames () 
@@ -1264,7 +1264,7 @@ class PermissionManagerBase extends SubManagerBase {
      * @param {PermissionElement[]} permissionElements - An array of PermissionElement that represents the RPC IDs and their parameters
      * @param {Number} groupType PermissionGroupType int value represents whether we need the listener to be called when there is any permissions change or only when all permissions become allowed
      * @param {function} listener - A function to be invoked upon permission change: function(Object<FunctionID, PermissionStatus>, PermissionGroupStatus)
-     * @return {String} A UUID for the Permission Filter listener. It can be used to remove the listener later.
+     * @return {String} A UUID for the Permission Filter listener. It can be used to remove the listener later
      */
     addListener (permissionElements, groupType, listener) 
     
@@ -1405,7 +1405,7 @@ class SystemCapabilityManager {
     setCapability (systemCapabilityType, capability) 
 
     /**
-     * Ability to see if the connected module supports the given capability. Useful to check before attempting to query for capabilities that require asynchronous calls to initialize.
+     * Ability to see if the connected module supports the given capability. Useful to check before attempting to query for capabilities that require asynchronous calls to initialize
      * @param {SystemCapabilityType} type - the SystemCapabilityType that is to be checked
      * @return {Boolean} - if that capability is supported with the current, connected module
      */
