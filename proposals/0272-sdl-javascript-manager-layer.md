@@ -690,7 +690,7 @@ class ScreenManagerBase extends SubManagerBase {
      * @param {String} initialText - The initial text that is used as a placeholder text. It might not work on some head units
      * @param {KeyboardProperties} customKeyboardProperties - the custom keyboard configuration to be used when the keyboard is displayed
      * @param {KeyboardListener} keyboardListener - A keyboard listener to capture user input
-     * @return {Number} - A unique cancelID that can be used to cancel this keyboard. If `null`, no keyboard was created
+     * @return {Number} - A unique cancelID that can be used to cancel this keyboard. If `null`, no keyboard was created.
      */
     presentKeyboard (initialText, customKeyboardProperties, keyboardListener)
 
