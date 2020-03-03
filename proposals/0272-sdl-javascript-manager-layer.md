@@ -943,8 +943,7 @@ class SoftButtonManagerBase extends SubManagerBase {
 
     /**
      * Sets the batchUpdates flag that represents whether the manager should wait until commit() is called to send the updated show RPC
-     * @param {Boolean} - batchUpdates Set true if the manager should batch updates together, or false if it should send them as soon
-     *                     as they happen
+     * @param {Boolean} - batchUpdates Set true if the manager should batch updates together, or false if it should send them as soon as they happen
      * @return {BaseSoftButtonManager}
     */
     setBatchUpdates (batchUpdates)
