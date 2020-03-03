@@ -1256,7 +1256,7 @@ class PermissionManagerBase extends SubManagerBase {
     /**
      * Determine if a group of permissions is allowed for the current HMI level
      * @param {PermissionElement[]} permissionElements - An array of PermissionElement that represents the RPC names and their parameters
-     * @return {Object} A key-value map with RPC Ids as keys and a PermissionStatus object (or null) as the value
+     * @return {Object} A key-value map with RPC IDs as keys and a PermissionStatus object (or null) as the value
      */
     getStatusOfPermissions (permissionElements) 
     
