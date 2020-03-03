@@ -1143,7 +1143,7 @@ class FileManagerBase extends SubManagerBase {
     getBytesAvailable () 
     
     /**
-     * Attempts to delete the desired file from core
+     * Attempts to delete the desired file from Core
      * @param {String} fileName - name of file to be deleted
      * @return {Promise} - Resolves to Boolean - whether the operation was successful
      */
