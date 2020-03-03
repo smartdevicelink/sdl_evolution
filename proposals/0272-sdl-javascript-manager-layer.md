@@ -625,7 +625,7 @@ class ScreenManagerBase extends SubManagerBase {
     setDynamicMenuUpdatesMode (value)
 
     /**
-     * @return {DynamicMenuUpdatesMode} - The currently set DynamicMenuUpdatesMode. It defaults to ON_WITH_COMPAT_MODE if not set
+     * @return {DynamicMenuUpdatesMode} - The currently set DynamicMenuUpdatesMode. It defaults to ON_WITH_COMPAT_MODE if not set.
      */
     getDynamicMenuUpdatesMode ()
 
