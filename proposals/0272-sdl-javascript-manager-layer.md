@@ -1263,7 +1263,7 @@ class PermissionManagerBase extends SubManagerBase {
     /**
      * Add a listener to be called when there is permissions change
      * @param {PermissionElement[]} permissionElements - An array of PermissionElement that represents the RPC IDs and their parameters
-     * @param {Number} groupType PermissionGroupType int value represents whether we need the listener to be called when there is any permissions change or only when all permission become allowed
+     * @param {Number} groupType PermissionGroupType int value represents whether we need the listener to be called when there is any permissions change or only when all permissions become allowed
      * @param {function} listener - A function to be invoked upon permission change: function(Object<FunctionID, PermissionStatus>, PermissionGroupStatus)
      * @return {String} A UUID for the Permission Filter listener. It can be used to remove the listener later.
      */
