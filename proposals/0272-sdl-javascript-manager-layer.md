@@ -1381,7 +1381,7 @@ class SystemCapabilityManager {
     constructor (lifecycleManager = null) 
 
     /**
-     * Gets the window capability given a window id
+     * Gets the window capability given a window ID
      * @param {Number} windowId
      * @return {WindowCapability|null}
     */
