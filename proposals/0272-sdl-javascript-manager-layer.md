@@ -707,7 +707,7 @@ class ScreenManagerBase extends SubManagerBase {
     getPreloadedChoices ()
 
     /**
-     * Dismisses a currently presented keyboard with the associated ID. Canceling a keyboard only works when connected to SDL Core v.6.0+. When connected to older versions of SDL Core the keyboard will not be dismissed
+     * Dismisses a currently presented keyboard with the associated ID. Canceling a keyboard only works when connected to SDL Core v.6.0+. When connected to older versions of SDL Core the keyboard will not be dismissed.
      * @param {Number} cancelID - The unique ID assigned to the keyboard
      */
     dismissKeyboard (cancelID)
