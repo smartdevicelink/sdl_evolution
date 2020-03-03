@@ -1394,7 +1394,7 @@ class SystemCapabilityManager {
     getDefaultMainWindowCapability () 
 
     /**
-     * Takes in an RAIR and stores its information
+     * Takes in a RAIR and stores its information
      * @param {RegisterAppInterfaceResponse} response
     */
     parseRaiResponse (response) 
