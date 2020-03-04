@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0282](0282-screen-manager-alerts.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
