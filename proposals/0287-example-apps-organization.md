@@ -1,8 +1,8 @@
 # Add Example Apps Github Organization
 
-* Proposal: [SDL-NNNN](NNNN-example-apps-organization.md)
+* Proposal: [SDL-0287](0287-example-apps-organization.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [none]
 
 ## Introduction
