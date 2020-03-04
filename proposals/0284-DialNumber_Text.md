@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0284](0284-DialNumber_Text.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC]
 
 ## Introduction
