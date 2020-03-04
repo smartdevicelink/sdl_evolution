@@ -1,8 +1,8 @@
 # Java Suite Cleanup
 
-* Proposal: [SDL-NNN](NNN-java-suite-cleanup.md)
+* Proposal: [SDL-0286](0286-java-suite-cleanup.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
