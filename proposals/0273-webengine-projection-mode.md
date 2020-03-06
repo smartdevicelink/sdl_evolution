@@ -3,7 +3,7 @@
 * Proposal: [SDL-0273](0273-webengine-projection-mode.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
 * Status: **Returned for Revisions**
-* Impacted Platforms: [ Core / JavaScript Suite / Java Suite / iOS / RPC ]
+* Impacted Platforms: [ Core / JavaScript Suite / Java Suite / iOS / RPC / SDL Server / SHAID ]
 
 ## Introduction
 
@@ -14,7 +14,7 @@ It extends [SDl-0240 - WebEngine support for SDL JavaScript](https://github.com/
 
 This proposal describes a feature made possible using a WebEngine. A WebEngine can come with a web page rendering component described as a WebView in this proposal. The proposal describes how apps based on a WebEngine can be presented not only using system templates but that can control the WebView using the app's document object.
 
-The author and the SDLC member believe there are plenty of SDL features that are useful for WebEngine applications that use the proposed feature. The most important items are app policy management and app lifecycle. We would like to streamline the implementation to manage activating apps, deactivating or closing apps or run apps in background. Besides the benefits for us implementing web apps, it's also beneficial for the web app developer to use all the SDL features like app services, remote control, vehicle data widgets and many more.
+The author and the SDLC member believe there are plenty of SDL features that are useful for WebEngine applications that use the proposed feature. The most important items are app policy management and app lifecycle. We would like to streamline the implementation to manage activating apps, deactivating apps, closing apps or running apps in background. Besides the benefits for us implementing web apps, it's also beneficial for the web app developer to use all the SDL features like app services, remote control, vehicle data widgets and many more.
 
 ## Proposed solution
 
@@ -35,8 +35,8 @@ The HMI should respect the WebEngine app as the first responder to touch events.
 <enum name="PredefinedLayout" platform="documentation" since="3.0">
     <element name="WEB_VIEW" rootscreen="true" since="6.x">
         <description>
-            Custom root template allowing in-vehicle WebEngine applications with permissions to `WEB_VIEW`
-            show the applications own web view.
+            Custom root template allowing in-vehicle WebEngine applications with
+            appropriate permissions to show the application's own web view.
         </description>
     </element>
     :
@@ -60,13 +60,13 @@ The following text fields `mainField1`, `mainField2`, `mainField3`, `mainField4`
 It is recommended that `WindowCapability.textFields` should not contain these text field names if the OEM has implemented the `WEB_VIEW` template without these text fields. 
 The text fields `menuName` and `templateTitle` should be included in the capabilities if these fields are visible on the HMI.
 
-The parameters `availableTemplates`, `buttonCapabilities`, `imageTypeSupported` are independent of the currently active template and should reflect the general capabilities of the window/system.
+The parameters `availableTemplates`, `buttonCapabilities`, and `imageTypeSupported` are independent of the currently active template and should reflect the general capabilities of the window/system.
 
 #### 1.2. What about widgets?
 
 Widgets are not affected by this proposal. They are still available and can be controlled using `Show` RPC. Any overlay like Alert, ChoiceSets, Slider etc. are also available to the application.
 
-Widget that duplicate content from the main window should still be possible. Despite the window capability, the app should still be able to send `Show` requests with all the desired content. This content should be duplicated to these widgets.
+Widgets that duplicate content from the main window should still be possible. Despite the window capability, the app should still be able to send `Show` requests with all the desired content. This content should be duplicated to these widgets.
 
 ### 2. App HMI Type `WEB_VIEW`
 
@@ -93,7 +93,7 @@ When in-vehicle apps with this HMI type are activated, the HMI should make the w
 
 #### 2.1. Policy control
 
-The HMI type `WEB_VIEW` should policy controlled. On the policy server this HMI type can be added to the valid HMI type list per app ID. 
+The HMI type `WEB_VIEW` should be policy controlled. On the policy server this HMI type can be added to the valid HMI type list per app ID.
 
 Only apps with permissions to use this HMI type would be allowed to register. If a WebEngine application attempts to register with this HMI type but the local policy table doesn't allow, Core should not allow the app to register.
 It is required for applications to register with this App HMI type in order to use the `WEB_VIEW` template. Otherwise the `WEB_VIEW` template should not be available.
@@ -122,7 +122,7 @@ At the time of this proposal being in review, a set of driver distraction rules 
 
 More items may be included in the ruleset as they become Driver Distraction affected.
 
-### 4. Application lifecycle (or what happens if the app is closed?)
+### 4. Application lifecycle (or, what happens if the app is closed?)
 
 When an app is deactivated into HMI level NONE, the connection to Core can stay open as long as there is a way for the HMI to be able to unregister and disconnect an app in case of performance issues. Performance issues can be due to high CPU load or memory warnings. This requires a new exit reason that can be used by the HMI and will be forwarded to the app. 
 
@@ -158,7 +158,7 @@ This can be seen as a downside as it could break with apps being used for the fi
 
 ## Impact on existing code
 
-As a new enum element is added to the `AppHMIType` enum other platforms have impact by this very minor change. 
+As a new enum element is added to the `AppHMIType` enum, other platforms are impacted by this very minor change.
 Core would need to specially treat apps with this HMI type as they are not allowed to register unless permission was granted.
 Possibly SDL Server and SHAID are affected as HMI types are part of the policy system.
 
