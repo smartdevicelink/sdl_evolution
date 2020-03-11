@@ -258,7 +258,7 @@ Get audio streaming information:
 		});
 	}
 ```
-#####Execute when AudioStreamManager is disposed
+Execute when AudioStreamManager is disposed:
 ```java
 	@Override
 	public void dispose() {
