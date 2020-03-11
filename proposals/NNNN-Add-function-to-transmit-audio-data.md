@@ -274,7 +274,7 @@ Execute when AudioStreamManager is disposed:
 		super.dispose();
 	}
 ```
-#####Start audio streaming
+Start audio streaming:
 ```java
 	public void startAudioStream(boolean encrypted, final CompletionListener completionListener) {
 		// audio stream cannot be started without a connected internal interface
