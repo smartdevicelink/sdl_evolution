@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0278](0278-screenmanager-push-pop.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
