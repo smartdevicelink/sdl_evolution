@@ -37,7 +37,7 @@ The code samples for iOS and Android are shown below.
 	// Byte length of voice data per second
 	static const NSInteger PerSecondVoiceData = 32000;
 ```
-#####Number of seconds to stop processing to send sound on HS
+Number of seconds to stop processing to send sound on HS:
 ```objc
 	// How many seconds the handset can precede the head unit
 	static const NSTimeInterval ThresholdPrecedeSec = 3.0f;
