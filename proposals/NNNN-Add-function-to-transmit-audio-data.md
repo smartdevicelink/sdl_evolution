@@ -746,7 +746,7 @@ Get the default audio passthrough function:
         return aptCapabilities;
     }
 ```
-####AudioDecoder.java file
+**AudioDecoder.java file**
 #####Start decoding audio asynchronously
 ```java
 	public void start() {
