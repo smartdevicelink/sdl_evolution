@@ -540,7 +540,7 @@ Decoder entity:
         }
     }
 ```
-#####Audio buffer transmission entity
+Audio buffer transmission entity:
 ```java
     private class SendAudioBuffer {
         private final static int DECODER_NOT_FINISH = 0;
