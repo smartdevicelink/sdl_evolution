@@ -822,7 +822,7 @@ Stop audio decoding asynchronously:
 		super.stop();
 	}
 ```
-#####A thread to start decoding audio asynchronously
+A thread to start decoding audio asynchronously:
 ```java
 	private static class DecoderRunnable implements Runnable {
 		WeakReference<AudioDecoderCompat> weakReference;
