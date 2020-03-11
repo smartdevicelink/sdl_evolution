@@ -373,7 +373,7 @@ If there is no next sound data, adjust the end time for streaming. If `forceInte
 		this.pushAudioSource(uri, completionListener,interrupt);
 	}
 ```
-#####Push audio source
+Push audio source:
 ```java
 	public void pushAudioSource(Uri audioSource, final CompletionListener completionListener,boolean interrupt) {
 		// streaming state must be STARTED (starting the service is ready. starting stream is started)
