@@ -576,7 +576,7 @@ Audio buffer transmission entity:
         }
     }
 ```
-#####Audio streaming data transmission thread
+Audio streaming data transmission thread:
 ```java
     private final class SendAudioStreamThread extends Thread{
         private static final int MSG_TICK = 1;
