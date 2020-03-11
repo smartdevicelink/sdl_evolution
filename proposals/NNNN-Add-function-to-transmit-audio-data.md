@@ -31,7 +31,7 @@ The code samples for iOS and Android are shown below.
 * It is necessary to consider pushBuffer and pushWithData of AudioStreamManager.
 
 ### iOS
-####SDLAudioStreamManager.m file
+**SDLAudioStreamManager.m file**
 #####1 second voice data byte length
 ```objc
 	// Byte length of voice data per second
