@@ -27,7 +27,7 @@ The conceptual diagram is shown below.
 
 ![Image](../assets/proposals/NNNN-Add-function-to-transmit-audio-data/Image.gif)
 
-The code samples for iOS and Android are shown below.
+The code samples for iOS and Java Suite are shown below.
 * It is necessary to consider pushBuffer and pushWithData of AudioStreamManager.
 
 ### iOS
