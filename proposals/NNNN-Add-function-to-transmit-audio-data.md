@@ -810,7 +810,7 @@ Start decoding audio asynchronously:
         }
     }
 ```
-####AudioDecoderCompat.java file
+**AudioDecoderCompat.java file**
 #####Stop audio decoding asynchronously
 ```java
     @Override
