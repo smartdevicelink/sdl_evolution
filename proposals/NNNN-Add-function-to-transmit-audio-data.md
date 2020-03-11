@@ -811,7 +811,7 @@ Start decoding audio asynchronously:
     }
 ```
 **AudioDecoderCompat.java file**
-#####Stop audio decoding asynchronously
+Stop audio decoding asynchronously:
 ```java
     @Override
     public void stop() {
