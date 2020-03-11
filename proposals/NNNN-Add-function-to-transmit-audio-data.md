@@ -237,7 +237,7 @@ private long mEndTimeOfSendData = 0;
 //Lock data transmission thread
 private final Object LOCK_SENDTHREAD = new Object();
 ```
-#####Get audio streaming information
+Get audio streaming information:
 ```java
 	private void getAudioStreamingCapabilities(){
 		internalInterface.getCapability(SystemCapabilityType.PCM_STREAMING, new OnSystemCapabilityListener() {
