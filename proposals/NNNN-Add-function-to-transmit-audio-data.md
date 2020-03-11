@@ -4,7 +4,7 @@
 * Proposal: [SDL-NNNN](NNNN-Add function-to-transmit-audio-data.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
 * Status: Awaiting review
-* Impacted Platforms: [iOS / Android]
+* Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
 This proposal is to add a function that transmit time-divided audio data via AudioStreaming.
