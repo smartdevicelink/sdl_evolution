@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0287](0287-example-apps-organization.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [none]
 
 ## Introduction
@@ -40,5 +40,5 @@ This will introduce additional workload upon the PM, but because the apps have n
 This impacts no code.
 
 ## Alternatives considered
-1. We add example apps to the main `SmartDeviceLink` repository. This could clutter tha main repository.
+1. We add example apps to the main `SmartDeviceLink` organization. This could clutter the main organization.
 2. We change the requirements for the PM to update the example apps. We could require the PM to ensure all example apps to be updated with the latest library at every release or to keep up with issues and PRs on these example apps. However, that would place a burden upon the PM that may require them to slow down development on the libraries and utilities, which should be their main focus.
