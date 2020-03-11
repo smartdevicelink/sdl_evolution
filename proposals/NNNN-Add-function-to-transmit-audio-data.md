@@ -7,7 +7,7 @@
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
-This proposal is to add a function that transmit time-divided audio data via AudioStreaming.
+This proposal is to add a function that transmits time-divided audio data via AudioStreaming.
 
 ## Motivation
 In communication of AudioStreaming, HU expects that it can always get audio data no delay when it want to play.
