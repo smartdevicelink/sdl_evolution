@@ -1,8 +1,8 @@
 # Support for Set Language Separately
 
-* Proposal: [SDL-NNNN](NNNN-set-language-separately.md)
+* Proposal: [SDL-0289](0289-set-language-separately.md)
 * Author: [Zhou Xin](https://github.com/zhouxin627)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
