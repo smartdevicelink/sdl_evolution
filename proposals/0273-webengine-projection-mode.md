@@ -71,7 +71,8 @@ Widgets that duplicate content from the main window should still be possible. De
 ### 2. App HMI Type `WEB_VIEW`
 
 A new App HMI type `WEB_VIEW` should be added for in-vehicle WebEngine apps. This HMI type specifies that the application's initial template should be set to `WEB_VIEW` instead of `DEFAULT`. 
-When in-vehicle apps with this HMI type are activated, the HMI should make the web page of this app visible on the screen. This web page will become the main window of the application.
+As a result, when in-vehicle apps with this HMI type are activated, the HMI should make the web page of this app visible on the screen. This web page will become the main window of the application.
+
 
 **HMI_API**
 
