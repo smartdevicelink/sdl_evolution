@@ -736,7 +736,7 @@ Audio streaming data transmission thread:
         }
 }
 ```
-#####Get the default audio passthrough function
+Get the default audio passthrough function:
 ```java
     private AudioPassThruCapabilities getDefaultAudioPassThruCapabilities(){
         AudioPassThruCapabilities aptCapabilities = new AudioPassThruCapabilities();
