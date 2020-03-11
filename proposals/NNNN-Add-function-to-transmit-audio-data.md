@@ -516,7 +516,7 @@ Push audio source:
         }
     }
 ```
-#####Decoder entity
+Decoder entity:
 ```java
     private class Decoder {
         private BaseAudioDecoder mAudioDecoder;
