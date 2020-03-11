@@ -922,7 +922,7 @@ A thread to start decoding audio asynchronously:
         }
     }
 ```
-####BaseAudioDecoder.java file
+**BaseAudioDecoder.java file**
 #####Output buffer
 ```java
 	protected ArrayList<SampleBuffer> onOutputBufferAvailable(@NonNull 			ByteBuffer outputBuffer) {
