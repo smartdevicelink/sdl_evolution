@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-NNNN](NNNN-Add function-to-transmit-audio-data.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
-* Status: Awaiting review
+* Status: **Awaiting review**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
