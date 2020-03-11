@@ -1,8 +1,8 @@
 # Modify the range of APT's maxDuration
 
-* Proposal: [SDL-NNNN](NNNN-modify-the-range-of-APT's-maxDuration.md)
+* Proposal: [SDL-0290](0290-modify-the-range-of-APT's-maxDuration.md)
 * Author: [Zhou Xin](https://github.com/zhouxin627)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [RPC]
 
 ## Introduction
