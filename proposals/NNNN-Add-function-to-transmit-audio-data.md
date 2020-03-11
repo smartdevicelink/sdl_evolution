@@ -359,7 +359,7 @@ Start audio streaming:
 		}
 	}
 ```
-#####If there is no next sound data, adjust the end time for streaming. If forceInterrupt flag is set, stop audio streaming.
+If there is no next sound data, adjust the end time for streaming. If `forceInterrupt` flag is set, stop audio streaming:
 ```java
 	public void pushResource(int resourceId, final CompletionListener completionListener,boolean interrupt) {
 		Context c = context.get();
