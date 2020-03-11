@@ -747,7 +747,7 @@ Get the default audio passthrough function:
     }
 ```
 **AudioDecoder.java file**
-#####Start decoding audio asynchronously
+Start decoding audio asynchronously:
 ```java
 	public void start() {
 		try {
