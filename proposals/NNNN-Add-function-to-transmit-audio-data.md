@@ -106,7 +106,7 @@ If there is no next sound data, adjust the end time for streaming. If forceInter
 	}
 ```
 
-#####Send audio data in time division
+Send audio data in time division:
 ```objc
 	- (void)sdl_playNextWhenReady {
 		if (self.mutableQueue.count == 0) {
