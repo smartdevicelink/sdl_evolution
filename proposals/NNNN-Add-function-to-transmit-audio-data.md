@@ -49,7 +49,7 @@ Add ForceInterrupt to argument to force data to play:
 		});
 	}
 ```
-#####If there is no next sound data, adjust the end time for streaming. If forceInterrupt flag is set, stop audio streaming.
+If there is no next sound data, adjust the end time for streaming. If forceInterrupt flag is set, stop audio streaming.
 
 ```objc
 	- (void)sdl_pushWithContentsOfURL:(NSURL *)fileURL forceInterrupt:(BOOL)forceInterrupt {
