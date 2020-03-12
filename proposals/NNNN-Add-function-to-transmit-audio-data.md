@@ -19,7 +19,7 @@ Also, if the next navigation guide audio data is sent during a navigation guide 
 ## Proposed solution
 The audio data sending side subdivides (for example, every second calculated from bitsample / freq)
 Use proxy (AudioStreamManager) so that socket stream data is sent at intervals that do not become empty.
-WIthin the proxy(AudioStreamManager), the audio data are split into parts (for example, every second calculated from bitsample/freq) and are sent at intervals so that socket stream data will not have gaps in between.
+Within the proxy (AudioStreamManager), the audio data is split into parts (for example, every second calculated from bitsample/freq) and is sent at intervals so that socket stream data will not have gaps in between.
 
 The process of transmitting audio data to the HU is implemented using a timer thread.
 
