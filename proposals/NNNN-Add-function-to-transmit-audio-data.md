@@ -10,7 +10,7 @@
 This proposal is to add a function that transmits time-divided audio data via AudioStreaming.
 
 ## Motivation
-In communication of AudioStreaming, HU expects that it can always get audio data no delay when it want to play.
+In communication of AudioStreaming, HU expects that it can always get audio data without delay when it wants to play.
 Due to the current implementation, it is not possible to cancel the playback of data, which has been sent to the HU, hence audio interruption function cannot be implemented.
 Therefore, when the navigation points are continuous, the first audio is played as it is, but second/following audio may be delayed because of they are played after the previous one is completed.
 
