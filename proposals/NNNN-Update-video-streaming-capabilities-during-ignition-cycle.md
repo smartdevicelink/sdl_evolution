@@ -7,13 +7,13 @@
 
 ## Introduction
 
-The main purpose of this proposal is make possible to update video streaming capabilities during the ignition cycle.
+The main purpose of this proposal is to make it possible to update video streaming capabilities during the ignition cycle.
 
 ## Motivation
 
-Within the implementation of [Pixel density and Scale](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0179-pixel-density-and-scale.md) proposal new video streaming capabilities parameters `diagonalScreenSize`, `pixelPerInch` and `scale` were introduced.
+Within the implementation of the [Pixel density and Scale](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0179-pixel-density-and-scale.md) proposal, new video streaming capabilities parameters `diagonalScreenSize`, `pixelPerInch` and `scale` were introduced.
 
-Usually, these parameters are passed to SDL Core by the HMI in `UI.GetCapabilities` response during HMI initialization process. That means if parameters are defined in a current ignition cycle they can not be updated till the next cycle.
+Usually, these parameters are passed to SDL Core by the HMI in `UI.GetCapabilities` response during HMI initialization process. That means if parameters are defined in a current ignition cycle they cannot be updated until the next cycle.
 However, the HMI is able to change the values of these parameters dynamically, and currently, there is no way to notify SDL Core and Mobile application about the new values.
 
 ## Proposed solution
@@ -21,8 +21,7 @@ However, the HMI is able to change the values of these parameters dynamically, a
 ### SDL Core changes
 
 In order to make it possible to update the described parameters during a single ignition cycle, existing `OnSystemCapabilityUpdated` notification can be used.
-Currently, `REMOTE_CONTROL` and `APP_SERVICES` capabilities can already be updated through it.
-So the idea is to extend this list by `VIDEO_STREAMING` capabilities.
+Currently, `REMOTE_CONTROL` and `APP_SERVICES` capabilities can already be updated through it, so the idea is to extend this list by `VIDEO_STREAMING` capabilities.
 
 SDL Core gets initial values through `UI.GetCapabilities` request/response.
 After that, these values can be updated by the HMI through `OnSystemCapabilityUpdated` notification.
@@ -59,7 +58,7 @@ In case application sends `GetSystemCapability` with the defined `subscribe` par
 
 ![Sequence diagram](/assets/proposals/NNNN-Update-video-streaming-capabilities-during-ignition-cycle/sequence_diagram.png)
 
-### Mobile libraries changes (Android and iOS)
+### Mobile libraries changes (Java Suite and iOS)
 
 Mobile applications should be able to update the streaming content window to the new video streaming capabilities received in `OnSystemCapabilityUpdated`.
 
