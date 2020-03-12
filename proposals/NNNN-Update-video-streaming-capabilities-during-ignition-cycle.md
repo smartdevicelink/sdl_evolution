@@ -64,12 +64,14 @@ Mobile applications should be able to update the streaming content window to the
 
 ## Potential downsides
 
-N/A
+The author was unable to identify any potential downsides.
 
 ## Impact on existing code
 
-There should be a minimal impact on existing code.
+* SDL core needs to be updated to support described logic and new HMI API.
+* Java Suite and iOS proxy libraries would require minimal updates since most of the related functionality have been implemented under [Pixel density and Scale](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0179-pixel-density-and-scale.md) proposal already.
+* HMI may need to be updated to handle new `OnSystemCapabilitySubscription` message from SDL.
 
 ## Alternatives considered
 
-N/A
+The author was unable to identify any alternative solutions.
