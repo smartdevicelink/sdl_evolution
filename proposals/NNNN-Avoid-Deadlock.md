@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-NNNN](NNNN-Avoid-Deadlock.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
-* Status: Awaiting review
+* Status: **Awaiting review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
