@@ -1,4 +1,4 @@
-# Add a mechanism to avoid Deadlock
+# Add a Mechanism to Avoid Deadlock
 
 * Proposal: [SDL-NNNN](NNNN-Avoid-Deadlock.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
