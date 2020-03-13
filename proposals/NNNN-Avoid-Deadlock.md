@@ -25,7 +25,7 @@ There is only changes in code due to the added function, and does not affect the
 
 ## Alternatives considered
 - Update the modified SDL Core to HU
--> It will be difficult because update to HU is not realistic.
+-> It will be difficult because updating the HU is not realistic.
 
 - Add an API, which sets whether to use AudioStreaming on the app side or not, to the library and supported by each app vendor
 -> Deadlock will still occur in unsupported app because there is no enforcement force.
