@@ -15,7 +15,7 @@ For this reason (#1235), a deadlock may occur.
 To avoid the deadlock, it is desirable to add a mechanism where the protocol version is judged by the proxy and stops Audio Streaming when the app on HS side move to background.
 
 ## Proposed solution
-The protocol version is checked by the proxy, when the app on the HS side moves to background. If the protocol version is 5.0.0 or older, then AudioStreaming is stopped.
+The protocol version is checked by the proxy, when the app on the HS side moves to background. If the protocol version is 5.0.0 or older, then Audio Streaming is stopped.
 
 ## Potential downsides
 None
