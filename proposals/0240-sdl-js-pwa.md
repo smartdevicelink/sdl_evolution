@@ -2,8 +2,8 @@
 
 * Proposal: [SDL-0240](0240-sdl-js-pwa.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **In Review**
-* Impacted Platforms: [ Core / RPC / JavaScript / Server ]
+* Status: **Accepted with Revisions**
+* Impacted Platforms: [ Core / RPC / JavaScript / Server / SHAID / Manticore ]
 
 ## Introduction
 
@@ -24,16 +24,16 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
 1. An OEM store should make apps available to the user. The user should be able to install or uninstall apps from the store.
 2. An app should be a compressed bundle of application files, such as HTML, CSS or script files. At minimum it requires the following files:
    1. sdl.js file
-   2. manifest.json file
+   2. manifest.js file
    3. An HTML file where the manifest is pointing to
-3. The manifest.json file must be included in the HTML file as a script source
+3. The manifest.js file must be included in the HTML file as a script source
 4. The OEM store's backend should store the compressed app copied from the SDL Developer Portal (smartdevicelink.com) after the app and version is approved by the SDLC and the OEM. 
    1. Note: Neither the SDL Developer Portal nor the SDL Server or SHAID are directly involved in distributing the app package to vehicles. 
 5. If a user installs an app, the OEM store should download the app package from the OEM backend and decompress/install the app to the system.
 6. After installation, the OEM store should make the app visible and available on the HMI.
 7. Core should support a WebSocket Server as a transport.
 8.  If a user activates a local app through the HMI, the HMI should launch the app by opening the entrypoint HTML file.
-9.  HMI should launch the app including SDL Core's hostname and port as GET parameters (file://somewhere/HelloSDL/index.html?ws-host=localhost&ws-port=123456)
+9.  HMI should launch the app including SDL Core's hostname and port as GET parameters.
 10. The app should connect to Core using the SDL library using hostname and port specified.
 11. If Core sends UpdateAppList, the HMI should compare matching SDL app IDs and avoid showing an app twice.
 
@@ -47,34 +47,46 @@ The proposed solution is to allow web apps to run in a WebEngine and connect to 
 Running apps on an embedded WebEngine defines a new app platform/runtime. With installing an app on the infotainment system there should be a minimum set of requirements on how the app should be packaged.
 
 1. The app package should be a compressed zip file
-2. It should contain a manifest.json and the sdl.js file
+2. It should contain a manifest.js and the sdl_javascript library file for web applications (e.g. sdl.js)
 3. The manifest file should contain:
-   1. A relative path to an html file which is the entry point of the app
+   1. A relative path to an html file which is the entrypoint of the app
    2. A relative path to an app icon in the app bundle
    3. SDL app ID
+      1. Note that with this new platform we don't recommend proceeding with an additional short app ID. Only the full SDL app uuid should be used.
    4. App name
-   5. Optional per supporting SDL locale:
+      1. Must be one of the valid policy nicknames
+   5. Primary Category / App HMI Type
+      1. A field that should contain one of the enum elements from "AppHMIType" of the MOBILE_API
+   6. Optional Additional Categories / App HMI Types
+   7. Optional per supporting SDL locale:
       1. App name (overrides global app name) (must be one of the valid app nicknames)
       2. Optional relative path to an app icon (overrides global app icon)
       3. Optional TTS name (an array of tts chunks)
       4. Optional VR app names (an array of strings)
-   6. App version
-   7. Min SDL RPC version supported
-   8. Min SDL Protocol version supported
+   8. App version
+      1. Note this version should be human readible and selected by the app developer.
+      2. The format should be three numeric values separated by a "." character.
+      3. The first value indicates the major app version, followed by the minor version and the optional "patch" version.
+      4. Example: "1.0.0"
+   9. Min SDL RPC version supported
+   10. Min SDL Protocol version supported
 4. All script files should be included in the package
    1. Any `<script>` element with `src` attribute should point to a script file in the package
    2. No scripts from outside the package should be allowed
-5. The entry point HTML file should refer to the manifest file (`<script src="manifest.json" />`)
+5. The entrypoint HTML file should refer to the manifest file (`<script type="module" src="manifest.js" />`)
+   1. Note the type set to module may be required to achieve importing the SDL manifest and make it available to the SDL library. This should be an implementation detail.
 
 #### 1.1 Manifest file
 
 > Note: See appendix for an example manifest file
 
-The manifest should be used for multiple purposes.
+The SDL Developer Portal should allow developers to enter all app information that are relevant for the app manifest file in the "App Info" section. The SDL Developer Portal should also allow generating a manifest file based on the entered app information. This generated manifest file should be used by the app developer within the web application.
 
-The SDL Developer Portal should allow developers to upload app packages which are candidates for app certification. The platform can read the manifest file and automatically read app assets instead of requesting the developer to input the data manually.
+App developers should be able to upload app packages and mark them as candidates for app certification. The platform can read the manifest file to verify it matches the app information for the specified app version.
 
-The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. The OEM store should also read the manifest file to create app assets for the store's database. The assets should be made visible for OEM customers when discovering available apps in the OEM store client. The OEM store client should also use the manifest file to list the app in the app list (see chapter "HMI API using App Properties RPCs"). The SDL library should use the manifest file to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern.
+The backend of the OEM store should store copies of a certified app package if the OEM has accepted and approved the app. The OEMs don't need to read the manifest file for the OEM store database. Instead the app information and assets should be read from the OEM policy server (SDL Server) via a supporting API endpoint. This need should be an implementation detail as the data offered by the API is already defined in the proposal.
+
+The SDL JavaScript library should use the manifest file by reading the exported const to automatically send `RegisterAppInterface` and `ChangeRegistration` instead of using a configuration or builder pattern. The  SDL library may need a new method to attempt to import and utilize the manifest.js contents. This need should be an implementation detail as it would only affect library internals.
 
 This definition should ensure that apps can be approved and verified by the SDLC and OEMs without possibility of modifications after approval. Also this set of requirements should ensure compatibility throughout integrators. The final approval process will be part of another proposal.
 
@@ -97,6 +109,18 @@ The new transport should be available as a build configuration called `BUILD_WEB
 
 On the library side, a new WebSocket client transport should be created using the [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/Websockets_API). This transport should require a hostname or ip address with a port to connect to Core's WebSocket server. The library should also be extended to be exportable to a single .js file that can be easily included in an HTML file. This export could be done per library release using Webpack. This new transport should be specifically for WebEngine purposes and should not be included for the Node.js platform. In order to improve simple "plug-and-play" of the library, the .js file should include only this single transport.
 
+##### 2.1.3 GET parameters
+
+The JavaScript library should read GET parameters to identify how to connect to SDL. The library should listen to these three parameters:
+
+1. `sdl-host` which can be an IP address, hostname or a URL to a host
+2. `sdl-port` which should be the port number of SDL Core
+3. `sdl-transport-role` which defines the transport type and role. Following roles should be valid: `ws-server`, `ws-client`, `wss-server`, `wss-client`, `tcp-server`, `tcp-client`
+
+For the WebSocket transport as suggested in this proposal, the transport role would be `ws-server` or `wss-server` where `sdl-host` points to the host that runs SDL Core (in production that would be the IVI system so local host) and `sdl-port` is the port number that SDL Core bound the WebSocket to.
+
+Example: `file://somewhere/HelloSDL/index.html?sdl-host=localhost&sdl-port=12345&sdl-transport-role=wss-server`
+
 #### 2.2 Activating a web app
 
 Activating a local web app by a user will cause the HMI to launch the app's entrypoint HTML file in the WebEngine. Once the engine has loaded the web app, the JavaScript SDL library will initiate a WebSocket connection to SDL Core's WebSocket server port and then establish the RPC/Bulk service session.
@@ -107,29 +131,11 @@ After the app registers, the HMI will be notified with `OnAppRegistered`, which 
 
 > Flow of how a user activates a web app and how it becomes visible on the screen.
 
-#### 2.3 Mobile App properties change
+#### 2.3 (No) Changes to Hybrid App Preferences
 
-Due to a new app platform, the hybrid app preference should be modified to track mobile, cloud and local apps.
+Due to a new app platform, the complexity of supporting hybrid app preferences will increase. Fortunately no changes to the logic are required for the implementation of this proposal. The hybrid app preferences documentation should be extended for how to use this feature and also include this additional platform.
 
-##### 2.3.1 Mobile API
-
-```xml
-<enum name="HybridAppPreference" since="5.1">
-  <description>Enumeration for the user's preference of which app type to use when both are available</description>
-  <element name="MOBILE" />
-  <element name="CLOUD" />
-  <element name="BOTH" deprecated="true" since="5.x">
-    <description>This element is deprecated. Using this element will be equal to "ALL". Please use ALL instead.</description>
-    <history>
-      <element name="BOTH" since="5.1" />
-    </history>
-  </element>
-  <element name="LOCAL" since="5.x" />
-  <element name="ALL" since="5.x" />
-</enum>
-```
-
-App registration on the SDL Developer Portal (smartdevicelink.com) should allow a developer to specify an app as a local web app. As the app platforms increase (2 -> 3) a new way to specify preferences should be introduced. The element `BOTH` should be deprecated and replaced by `ALL` for a next major release. Occurrences of `BOTH` would be treated as `ALL`.
+The documentation should mention that the hybrid app preference value `CLOUD` is equivalent to a non-mobile app preference and the value `BOTH` is equivalent to preferring all applications. The documentation should also state that hybrid app preference values should match across all app variants and that each non-mobile application can be enabled or disabled individually using the "enabled" flag.
 
 ### 2.4 HMI API using App Properties RPCs
 
@@ -137,7 +143,7 @@ The HMI API should be extended to set app properties to SDL Core. This addition 
 
 The HMI API extension is mostly a copy of the cloud-app-properties included in the mobile API. 
 
-1. The OEM store uses the manifest data for `SetAppProperties`.
+1. The OEM store uses app data in SDL Server (synchronized from SHAID) for `SetAppProperties`.
 2. The OEM store may choose to add not-installed apps to SDL using `enabled` parameter set to `false` (optional)
 3. If an embedded app is installed the `enabled` flag should be set to `true` to appear in UpdateAppsList RPC
 4. For local apps
@@ -155,28 +161,93 @@ The default app presentation approach should be template based. With the web app
 
 As already mentioned, app packages are uploaded to the SDL Developer Portal. App developers may also update the application by uploading new app packages. The backend of the OEM store should store copies of a certified app package if the OEM accepted and approved the app. 
 
-As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal should not be made available directly to vehicles. No changes are being suggested by this proposal to the SDL Server or SHAID in order to support app updates. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow installing only supported apps, dependent on the vehicle software version, SDL Core version and app's min SDL (RPC or Protocol) version.
+As a result, managing app updates is the responsibility of the OEMs. App packages hosted on the SDL Developer Portal must not be made available directly to vehicles. Instead OEMs must download and host a copy app packages to their SDL Servers using the file URL from the SHAID API (see additions to SHAID). An OEM will need to implement a file saving feature into their server installation for this behavior to work. If needed by the OEM, the OEM store backend should be able to store app packages of different versions. The OEM store client should list and allow installation of supported apps only, dependent on the vehicle software version, SDL Core version, and app's min SDL (RPC or Protocol) version.
 
-An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to vehicles. App developers can request SDLC app certification performed by the SDLC PM on the initial submission of the application. This app certification should be inspired by the mobile app certification and include tests that are valid for in-vehicle applications. It should not include tests to monitor data traffic with respect to effort and cost to perform such tests.
+An app certification review should be performed on apps provided on the SDL Developer Portal before they are made available to OEMs and vehicles. The initial submission of a WebEngine application will undergo SDLC app certification testing. Once the initial submission has passed certification, future submissions will not be required to undergo full certification testing but may be subject to additional certification tests/requirements. The SDLC app certification review will not test every detail and aspect of the application. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
 
-The SDLC app certification review will not test every detail and aspect of the application. Once the initial submission has passed the certification tests the app should be marked as certified independent of future releases which won't be tested anymore. The review will not guarantee that the app behaves the same in OEM vehicles. Therefore the OEMs should consider functional tests for each release to a depth they feel is necessary to make sure the app is of a desired quality.
+The current app certification guidelines should be extended to include tests that are valid for in-vehicle web applications. It should not include tests to monitor data traffic with respect to effort and cost to perform such tests. The app certification for in-vehicle web applications cannot take place until the certification guidelines are updated. The app certification guideline update for web applications must be complete before this feature is released.
+
+### Chapter 3: App Info Additions
+
+There are several additions needed for the Developer Portal (smartdevicelink.com), SHAID and the SDL Server to deliver the App Info and a url to an app package.
+
+#### 3.1 Developer Portal
+
+The following additions should be made in the SDL Developer Portal when registering an Application:
+
+- Allow specifying WebEngine or Cloud Transport Adapter when Embedded is selected as the app Platform.
+- Allow entering an HTML filename as the app entrypoint (instead of an endpoint url)
+- Allow selecting optional additional categories
+- Allow specifying supporting languages/locales
+- Per supporting locale
+  - Allow selecting an app name from the list of app name aliases
+  - Allow uploading a locale specific app icon
+  - Allow entering an app TTS name (as simple text or in advanced mode as TTS chunks)
+  - Allow entering app VR names (as list of text)
+- Allow specifying an app version as string
+- Allow selecting an SDL RPC Version as the minimum supported RPC version
+- Allow selecting an SDL Protocol Version as the minimum supported Protocol version
+
+The SDL Developer Portal should provide an option to generate an app manifest out of the entered app information. Also the Developer Portal should allow uploading app packages per app version.
+
+#### 3.2 SHAID changes
+
+SHAID should provide additional information in the `Application` structure. The additions are related to the additional app info as well as to the available app packages.
+
+Manifest | Exists in SHAID | SHAID Addition
+---- | ----- | -----
+App ID | `Application.uuid` | _No_
+App HMI Type | `Application.category` |  _No_
+Additional App HMI Types | _No_ | `Application.additional_categories`
+App Name | `Application.display_names[0]` |  _No_
+App Icon | `Application.icon_url` |  _No_
+App Version | _No_ | `Application.platform_app_version`
+SDL Min RPC Version | _No_ | `Application.min_rpc_version`
+SDL Min Protocol Version | _No_ | `Application.min_protocol_version`
+App locales | _No_ | `Application.locales` for objects of type `Locale`
+App Name per locale | _No_ | `Locale.display_name`
+App Icon per locale | _No_ | `Locale.icon_url`
+TTS Name per locale | _No_ | `Locale.tts_name`
+VR Names per locale | _No_ | `Locale.vr_names`
+
+The parameter `Application.locales` should hold a list of objects for locale information. The locale key format should be based on [RFC 5646](https://tools.ietf.org/html/rfc5646). If needed, the RFC format is convertible allowing easy comparisons with existing language fields within SDL (e.g. Language enum in the mobile API). See below example for an English and German example.
+
+```json
+...
+"locales": {
+    "de_DE": { ... },
+    "en_US": { ... }
+}
+...
+```
+
+The application package should be included in the `Application` struct as `Application.package_url`. SHAID should only allow downloading app packages with a valid and authorized key using the existing SHAID security mechanism.
+
+#### 3.3 SDL Server changes
+
+The SDL server should extend the application related database tables to store the 
+- Additional categories
+- App info per supported locale (e.g. in an `application_locale` sub-table)
+- App package version and Min Version info (e.g. in an `application.package` sub-table).
 
 ## Potential downsides
 
-The upside of apps running with a WebEngine is that it comes with an extremely flexible html based user interface and with a very sandboxed runtime environment. This can also be seen as a downside as the responsibility of following driver distraction rules increases and a sandbox environment is limiting the functionality of apps.
+The upside of apps running with a WebEngine is that it comes with a very sandboxed runtime environment. This can also be seen as a downside as a sandbox environment is limiting the functionality of apps.
 
 ## Impact on existing code
 
 1. Core needs a new transport type to support a WebSocket Server.
 2. The JavaScript library needs a new transport type to support WebSocket Client.
 3. App registration on SDL Developer Portal (smartdevicelink.com) needs a new field for local apps.
+4. SHAID changes to store and return the new data items displayed on the Developer Portal.
+5. SDL Server changes to store copies of newly added SHAID data items and provide a customizable skeleton method for copying app packages from SHAID to an OEM-provided storage solution.
+6. Manticore should expose Core's WebSocket Server port to allow developers to test their WebEngine apps.
 
 ## Alternatives considered
 
 Local Node.js or Java were considered as alternative options for locally running applications. However both options have downsides:
-1. Both are difficult to sandbox. Compared to a web engine the effort to sandbox a Node.js or java application and to protect the vehicle system are very high.
-2. Limited app availability. App developers would potentially need to reassemble a good portion of existing code and write new code to make locally running applications possible.
-3. Licensing and compatibility. License cost may apply for embedded in-vehicle use. Efforts avoiding license using older versions may cause compatiblity issues leading to code rewrite. Open source variants may cause other license issues.
+1. Limited app availability. App developers would potentially need to reassemble a good portion of existing code and write new code to make locally running applications possible.
+2. Licensing and compatibility. License cost may apply for embedded in-vehicle use. Efforts avoiding license using older versions may cause compatibility issues leading to code rewrite. Open source variants may cause other license issues.
 
 Many services are available over a web application and modern WebEngines provide a good sandboxing ability.
 
@@ -191,8 +262,7 @@ Many services are available over a web application and modern WebEngines provide
   <description>Enumeration for the user's preference of which app type to use when both are available</description>
   <element name="MOBILE" />
   <element name="CLOUD" />
-  <element name="LOCAL"/>
-  <element name="ALL"/>
+  <element name="BOTH"/>
 </enum>
 </interface>
 
@@ -202,7 +272,7 @@ Many services are available over a web application and modern WebEngines provide
   <param name="nicknames" type="String" minlength="0" maxlength="100" array="true" minsize="0" maxsize="100" mandatory="false">
       <description>An array of app names an app is allowed to register with. If included in a SetAppProperties request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.</description>
   </param>
-  <param name="appID" type="String" maxlength="100" mandatory="true"/>
+  <param name="policyAppID" type="String" maxlength="100" minlength="1" mandatory="true" />
   <param name="enabled" type="Boolean" mandatory="false">
       <description>If true, the app will be marked as "available" or "installed" and will be included in HMI RPC UpdateAppList.</description>
   </param>
@@ -256,7 +326,7 @@ Many services are available over a web application and modern WebEngines provide
   <description>
     HMI >SDL. RPC used to get the current properties of an application
   </description>
-  <param name="appID" type="String" maxlength="100" mandatory="false">
+  <param name="policyAppID" type="String" maxlength="100" minlength="1" mandatory="false">
     If specified the response will contain the properties of the specified app ID.
     Otherwise if omitted all app properties will be returned at once.
   </param>
@@ -295,12 +365,16 @@ Many services are available over a web application and modern WebEngines provide
 
 ### Example manifest file
 
+> Note: The below format to export the SDL manifest is one of the possible options and only a suggestion. The best method to export the SDL manifest should be considered as an implementation detail.
+
 ```json
-{
+const sdl_manifest = {
   "entrypoint": "index.html",
   "appIcon": "appIcon.png",
   "sdlAppID": "180eb7aa-6e52-4c01-99c0-375bda718743",
   "appName": "HelloSDL",
+  "category": "DEFAULT",
+  "additionalCategories": [],
   "locales": {
     "de_DE": {
       "appName": "HalloSDL",
@@ -313,4 +387,6 @@ Many services are available over a web application and modern WebEngines provide
   "sdlMinRPCVersion": "6.0",
   "sdlMinProtocolVersion": "5.0"
 }
+
+export default { sdl_manifest };
 ```

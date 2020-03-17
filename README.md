@@ -107,13 +107,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Manticore: 2.3.0
-**Release Date**: June 4, 2019
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.3.0).
-
----
-
 #### SDL RPC Spec: 6.0.0
 **Release Date**: October 30, 2019
 
@@ -134,13 +127,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL iOS: 6.4.0
-**Release Date**: October 30, 2019
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.4.0).
-
----
-
 #### SDL Policy Server: 2.8.0
 **Release Date**: October 30, 2019
 
@@ -148,6 +134,44 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
+#### Manticore: 2.5.0
+**Release Date**: December 6, 2019
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.5.0).
+
+---
+
+#### SDL iOS: 6.5.0
+**Release Date**: January 9, 2020
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.5.0).
+
+---
+#### SDL Core: 6.1.0
+**Expected Release Date**: April 29, 2020
+
+**Contents**: Contents of this release can be tracked on the [Core 6.1.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/16).
+
+---
+#### SDL Java Suite: 4.11.0
+**Expected Release Date**: April 29, 2020
+
+**Contents**: Contents of this release can be tracked on the [Java Suite 4.11.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/12).
+
+---
+
+#### SDL iOS: 6.6.0
+**Expected Release Date**: April 29, 2020
+
+**Contents**: Contents of this release can be tracked on the [iOS 6.6.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/19).
+
+---
+#### SDL JavaScript Suite: 1.0.0
+**Expected Release Date**: April 29, 2020
+
+**Contents**: This will be the initial release of the library.  Contents of this release can be tracked on the [JavaScript Suite 1.0.0 Project Page](https://github.com/smartdevicelink/sdl_javascript_suite/projects/1).
+
+---
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
 [proposal-status]: https://smartdevicelink.github.io/sdl_evolution/
