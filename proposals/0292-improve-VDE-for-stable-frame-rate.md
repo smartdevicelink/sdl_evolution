@@ -1,8 +1,8 @@
 # Improve VirtualDisplayEncoder for stable frame rate
 
-* Proposal: [SDL-NNNN](NNNN-improve-VDE-for-stable-frame-rate.md)
+* Proposal: [SDL-0292](0292-improve-VDE-for-stable-frame-rate.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
