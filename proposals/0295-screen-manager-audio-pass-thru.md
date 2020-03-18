@@ -1,8 +1,8 @@
 # Screen Manager Microphone Input Manager
 
-* Proposal: [SDL-NNNN](NNNN-screen-manager-audio-pass-thru.md)
+* Proposal: [SDL-0295](0295-screen-manager-audio-pass-thru.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
