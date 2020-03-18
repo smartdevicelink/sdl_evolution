@@ -1,8 +1,8 @@
 # Enable OEM exclusive apps support
 
-* Proposal: [SDL-NNNN](NNNN-vehicle-type-filter.md)
+* Proposal: [SDL-0293](0293-vehicle-type-filter.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / Protocol]
 
 ## Introduction
