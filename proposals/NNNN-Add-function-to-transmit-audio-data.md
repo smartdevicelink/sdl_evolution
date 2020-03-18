@@ -1,7 +1,7 @@
 # Add function to transmit audio data of AudioStream in time division
 
 
-* Proposal: [SDL-NNNN](NNNN-Add function-to-transmit-audio-data.md)
+* Proposal: [SDL-NNNN](NNNN-Add-function-to-transmit-audio-data.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
 * Status: **Awaiting review**
 * Impacted Platforms: [iOS / Java Suite]
@@ -17,8 +17,6 @@ Therefore, when the navigation points are continuous, the first audio is played 
 Also, if the next navigation guide audio data is sent during a navigation guide audio playback that is longer than a Core timeout, the playback may be interrupted before it is complete due to a Core timeout.
 
 ## Proposed solution
-The audio data sending side subdivides (for example, every second calculated from bitsample / freq)
-Use proxy (AudioStreamManager) so that socket stream data is sent at intervals that do not become empty.
 Within the proxy (AudioStreamManager), the audio data is split into parts (for example, every second calculated from bitsample/freq) and is sent at intervals so that socket stream data will not have gaps in between.
 
 The process of transmitting audio data to the HU is implemented using a timer thread.
@@ -964,10 +962,13 @@ Output buffer:
 ```
 
 ## Potential downsides
-None
+Implementation will take a long time due to the large amount of modification.
+It is also necessary to consider pushBuffer and pushWithData of AudioStreamManager.
+
 
 ## Impact on existing code
-There is only changes in code due to the added function, and does not affect the existing code.
+This will be a minor version change to the Java Suite and iOS libraries.
+
 
 ## Alternatives considered
 None
