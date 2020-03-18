@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0280](0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
 
 ## Introduction
