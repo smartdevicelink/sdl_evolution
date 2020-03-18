@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0289](0289-set-language-separately.md)
 * Author: [Zhou Xin](https://github.com/zhouxin627)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
