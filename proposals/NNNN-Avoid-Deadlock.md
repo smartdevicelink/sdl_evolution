@@ -21,7 +21,7 @@ The protocol version is checked by the proxy, when the app on the HS side moves 
 None
 
 ## Impact on existing code
-There is only changes in code due to the added function, and does not affect the existing code.
+This will be a minor version change to the iOS Library.
 
 ## Alternatives considered
 - Update the modified SDL Core to HU
