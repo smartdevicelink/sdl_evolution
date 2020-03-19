@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0285](0285-ConstantTBT-Update.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [RPC]
 
 ## Introduction

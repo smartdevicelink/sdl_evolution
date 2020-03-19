@@ -45,6 +45,7 @@ The script should take a `MOBILE_API` XML spec as input and a location to output
     The submodule reference was updated with more recent parser scripts but the generator scripts are not updated
 
 13. Python 2 support ends in 2020. Therfore, all python scripts should be developed for Python 3. This includes scripts from the InterfaceBuilder that will be refactored.
+14. The generator script should only be used for newly created RPCs. Existing RPC classes should not be overwritten by generated code because the existing code may be slightly different than the generated one.
 
 ### Command-line switches
 
@@ -65,7 +66,6 @@ The command-line switches of all generator scripts should be identical. Followin
 ## Potential downsides
 1. Creating the generator scripts may take longer than simply handwriting, reviewing, and unit testing any particular RPC change. However, in the long run, the time savings will be significant.
 2. We would still need to handwrite unit tests for the generated RPC classes.
-3. The generator could produce bad RPC classes, however, the library authors will ensure that this is not the case and that the first version of the generated code matches what already exists, and the unit tests will continue to pass.
 
 ## Impact on existing code
 There should be no API changes. 

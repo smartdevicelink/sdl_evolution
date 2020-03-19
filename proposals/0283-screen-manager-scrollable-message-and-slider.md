@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0283](0283-screen-manager-scrollable-message-and-slider.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
