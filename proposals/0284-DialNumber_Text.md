@@ -30,41 +30,38 @@ The HMI would still need to display the phone number and a call button so that t
 
 Add to the `MOBILE_API`:
 ```xml
-    <function name="DialNumber" functionID="DialNumberID" messagetype="request" since="3.0">
+<function name="DialNumber" functionID="DialNumberID" messagetype="request" since="3.0">
     .
     .
     .
-        <param name="promptText" type="Common.TextFieldStruct" mandatory="false" since="X.X">
-            <description>
-              Body of text to display to the user.
-            </description>
-        </param>
-    </function>
+    <param name="promptText" type="Common.TextFieldStruct" mandatory="false" since="X.X">
+        <description>Body of text to display to the user.</description>
+    </param>
+</function>
 ```
 
 And `HMI_API`:
-```
-    <function name="DialNumber" messagetype="request">
+```xml
+<function name="DialNumber" messagetype="request">
     .
     .
     .
-      <param name="promptText" type="TextField" mandatory="false" since="X.X">
-        <description>
-          Body of text to display to the user.
-        </description>
-      </param>
-    </function>
+    <param name="promptText" type="TextField" mandatory="false" since="X.X">
+        <description>Body of text to display to the user.</description>
+    </param>
+</function>
 ```
 
 In the `MOBILE_API` and `HMI_API` add to the `TextFieldName` enum 
 ```xml
- <enum name="TextFieldName" since="1.0">
+<enum name="TextFieldName" since="1.0">
      .
      .
      .
-         <element name="dialNumberPromptText" since="X.X">
-            <description> Line of text for DialNumber</description>
-        </element>    
+    <element name="dialNumberPromptText" since="X.X">
+        <description> Line of text for DialNumber</description>
+    </element>    
+
  </enum>
 ```
 
