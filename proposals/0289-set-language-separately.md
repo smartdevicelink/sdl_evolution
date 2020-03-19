@@ -3,7 +3,7 @@
 * Proposal: [SDL-0289](0289-set-language-separately.md)
 * Author: [Zhou Xin](https://github.com/zhouxin627)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [iOS / Java Suite]
+* Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
 This proposal provides support for updating to two separate languages.
