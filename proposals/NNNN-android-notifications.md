@@ -212,7 +212,7 @@ As the app knows that the device supports SDL it can start the router service an
 
 #### Comments
 
-This behavior can exist if another SDL enabled app is in the foreground. It does not necessarily know if the BT device supports SDL.
+This behavior can exist if multiple SDL apps are installed on users device.
 
 ## Potential downsides
 
