@@ -137,12 +137,10 @@ public class SliderView {
 ```objc
 @interface SDLScreenManager: NSObject
 
-extern NSTimeInterval SDLScreenManagerDefaultTimeout; // Is 0 in the implementation, used for `View` class `timeout`s to activate the `defaultTimeout`.
-
 /**
- This completion handler is used to return the user's selected position or an error if the slider fails. 
+ This completion handler is used to return the user's selected position or an error if the slider fails. `selectedPosition` will be -1 if there is an error.
 */
-typedef void(^SDLScreenManagerSliderCompletionHandler)(NSUInteger selectedPosition, NSError *__nullable error);
+typedef void(^SDLScreenManagerSliderCompletionHandler)(NSInteger selectedPosition, NSError *__nullable error);
 
 /**
  Present a scrollable message
