@@ -76,7 +76,7 @@ If the SDL router service is already connected to the SDL enabled vehicle, the d
 The below example shows a static function that can be used by app developers to enable or disable the router service. The implementation within the SDL broadcast receiver to avoid starting the router service is internal, hence it should be considered a development detail.
 
 ```java
-public class SdlRouterService extends com.smartdevicelink.transport.SdlRouterService {
+public class SdlRouterService extends Service {
     private static boolean isRouterServiceEnabled = true;
     
     public static void setRouterServiceEnabled(boolean flag) {
@@ -89,22 +89,20 @@ public class SdlRouterService extends com.smartdevicelink.transport.SdlRouterSer
 
 As seen in user reviews on the play store, many users want a way to stop foreground service notifications. The Android router service notification will provide buttons on foreground notifications, which will stop the router service and hence remove the notifications. All SDL apps connected through this Android Router service will receive `SdlManagerListener.onDestroy` when the user stops Android router service and hence the apps can be notified to stop their own foreground services started for SDL. 
 
-The SDL notification should have two buttons. These buttons will be shown when the user expands the notification on the Android device.
-> Stop Now
-> Settings
+The SDL notification should have two buttons, `Stop Now` and `Settings`. These buttons will be shown when the user expands the notification on the Android device.
 
 ![User button to stop router service](../assets/proposals/NNNN-android-notifications/noti_button.png)
 
 ![User button to stop router service](../assets/proposals/NNNN-android-notifications/noti_button_1.png)
 
-If the user clicks on the `Stop Now` button, the Android router service will be immediately stopped. The second button `Settings` should be shown only when the app hosting router service provides a `PendingIntent` for the app settings page. Below is an example implementation of app developers provide `PendingIntent` to be used with the `Settings` button on Android router service notification. The app settings page can be potentially used to enable-disable SDL for that specific app using the API described above.
+If the user clicks on the `Stop Now` button, the Android router service will be immediately stopped. The second button `Settings` should be shown only when the app hosting router service provides a `PendingIntent` for the app settings page. Below is an example implementation of app developers provide `PendingIntent` to be used with the `Settings` button on Android router service notification. The app settings page can be used to enable-disable SDL for that specific app using the API described above.
 
 ```java
-public class SdlRouterService extends com.smartdevicelink.transport.SdlRouterService {
-   
+public class SdlRouterService extends Service{
+   private static PendingIntent app_settings_intent=null;
     @Override
-    public PendingIntent getAppSDLSettingsIntent() {
-        return app_settings_intent;
+    public static void setAppSDLSettingsIntent(PendingIntent intent) {
+        app_settings_intent = intent;
     }
 }
 ```
