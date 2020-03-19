@@ -62,7 +62,7 @@ In the `MOBILE_API` and `HMI_API` add to the `TextFieldName` enum
         <description> Line of text for DialNumber</description>
     </element>    
 
- </enum>
+</enum>
 ```
 
 ## Potential downsides
