@@ -218,6 +218,7 @@ Send audio data in time division:
 
 ### Java Suite
 **AudioDecoderListener.java file**
+
 Add a flag called MediaCodec information buffer instead of sample buffer argument that holds decoded audio data:
 ```java
 void onAudioDataAvailable(ArrayList<SampleBuffer> sampleBufferList, int flags);
