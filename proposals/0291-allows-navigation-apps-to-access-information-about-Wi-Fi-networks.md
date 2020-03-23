@@ -23,7 +23,8 @@ https://github.com/smartdevicelink/sdl_java_suite/issues/1236
 Basically, the problem is that NaviAPPs start video streaming unsuccessfully in the following use cases:
 
 1. Activate the NaviAPP, then enable WiFi on the head unit within 150 seconds.
-2. Activate the NaviAPP, after more than 150 seconds, then enable WiFi on the head unit.
+2. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the head unit.
+
 3. Activate the NaviAPP, after more than 150 seconds, then enable WiFi on the phone
 
 To fix these issues, navigation apps need to access information about WiFi networks.
