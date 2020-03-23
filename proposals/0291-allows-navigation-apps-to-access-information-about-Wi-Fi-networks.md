@@ -20,6 +20,11 @@ https://github.com/smartdevicelink/sdl_java_suite/issues/1235
 2. SDL failed to start video streaming if users enable WiFi on the phone more than 150s after the NaviAPP is activated.
 https://github.com/smartdevicelink/sdl_java_suite/issues/1236
 
+Basicly, the problem is that NaviAPPs start video streaming unsuccessfully in the following use cases:
+1. Activate the NaviAPP, then enable WiFi on the head unit within 150 seconds.
+2. Activate the NaviAPP, after more than 150 seconds, then enable WiFi on the head unit.
+3. Activate the NaviAPP, after more than 150 seconds, then enable WiFi on the phone
+
 To fix these issues, navigation apps need to access information about WiFi networks.
 
 It would help SDL greatly improve the user experience on VideoStreaming via BT+WiFi.
