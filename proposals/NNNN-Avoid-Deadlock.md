@@ -6,7 +6,7 @@
 * Impacted Platforms: [iOS]
 
 ## Introduction
-This proposal is to avoid deadlock by adding a mechanism that stops Audio Streaming under certain conditions when the app on HS side moves to background.
+This proposal is to avoid deadlock by adding a mechanism that stops Audio Streaming under certain conditions when the app on Handset(HS) side moves to background.
 
 ## Motivation
 When using SDL Core 4.5,  and SDL iOS (v6.3.1 or later), a deadlock may occur when Audio Streaming is played while Video Streaming is stopped.
