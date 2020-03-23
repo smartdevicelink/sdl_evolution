@@ -224,6 +224,7 @@ Add a flag called MediaCodec information buffer instead of sample buffer argumen
 void onAudioDataAvailable(ArrayList<SampleBuffer> sampleBufferList, int flags);
 ```
 **AudioStreamManager.java file**
+
 Add member variable:
 ```java
 //Decoder queue
