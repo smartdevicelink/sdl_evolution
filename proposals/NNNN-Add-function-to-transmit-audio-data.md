@@ -966,7 +966,7 @@ Output buffer:
 
 ## Potential downsides
 Implementation will take a long time due to the large amount of modification.
-It is also necessary to consider pushBuffer and pushWithData of AudioStreamManager.
+It is also necessary to consider `pushBuffer` and `pushWithData` of `AudioStreamManager`.
 
 
 ## Impact on existing code
