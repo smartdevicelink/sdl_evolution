@@ -49,7 +49,7 @@ The HMI should respect the WebEngine app as the first responder to touch events.
 
 #### 1.1. Window Capabilities
 
-As of today, the HMI sends notifications of `OnSystemCapiblityUpdated` to the application to inform about the (main) window capabilities. 
+As of today, the HMI sends notifications of `OnSystemCapabilityUpdated` to the application to inform about the (main) window capabilities. 
 These capabilities are dependent of the currently used template. The application can change to any of the available templates as per current window capabilities. 
 Whenever the application changes the template, the HMI should send a new notification with the current template capabilities. 
 Generally, the window capabilities should refer to available text and image fields and should list the number of possible soft buttons and their capabilities.
