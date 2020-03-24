@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This proposal adds a new "Voice Assistant" app service for apps that provide voice assistant features. This is built on top of the App Services feature accepted in proposal SDL - 0167. 
+This proposal adds a new "Voice Assistant" app service for apps that provide voice assistant features. This is built on top of the App Services feature accepted in proposal SDL - 0167. This proposal is more simplified that previous examples but extends the feature for more than stand alone voice assistant applications.
 
 ## Motivation
 We should provide app services for common app types that can integrate with the head unit or other SDL applications. Voice assistant apps are a big part of any user's life in the vehicle and could include dedicated voice assistants (Google, Amazon Alexa), or apps with a local voice assistant capabilities (like Navigation apps that take destinations via voice). We should provide additional ways for these apps to integrate with the system.
