@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0292](0292-improve-VDE-for-stable-frame-rate.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
