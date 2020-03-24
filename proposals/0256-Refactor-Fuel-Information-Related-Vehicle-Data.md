@@ -78,13 +78,13 @@ We need to:
 <param name="fuelLevel" type="Boolean" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 	<history>
-		<param name="fuelLevel" type="Boolean" mandatory="false" since="1.0" until="X.x"/>
+		<param name="fuelLevel" type="Boolean" mandatory="false" since="2.0" until="X.x"/>
 	</history>
 </param>
 <param name="fuelLevel_State" type="Boolean" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 	<history>
-		<param name="fuelLevel_State" type="Boolean" mandatory="false" since="1.0" until="X.x"/>
+		<param name="fuelLevel_State" type="Boolean" mandatory="false" since="2.0" until="X.x"/>
 	</history>
 </param>
 <param name="fuelRange" type="Boolean" mandatory="false" since="5.0">
@@ -103,13 +103,13 @@ We need to:
 <param name="fuelLevel" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 	<history>
-		<param name="fuelLevel" type="VehicleDataResult" mandatory="false" since="1.0" until="X.x"/>
+		<param name="fuelLevel" type="VehicleDataResult" mandatory="false" since="2.0" until="X.x"/>
 	</history>
 </param>
 <param name="fuelLevel_State" type="VehicleDataResult" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 	<history>
-		<param name="fuelLevel_State" type="VehicleDataResult" mandatory="false" since="1.0" until="X.x"/>
+		<param name="fuelLevel_State" type="VehicleDataResult" mandatory="false" since="2.0" until="X.x"/>
 	</history>
 </param>
 <param name="fuelRange" type="VehicleDataResult" mandatory="false" since="5.0">
@@ -128,13 +128,13 @@ We need to:
 <param name="fuelLevel" type="Float" minvalue="-6" maxvalue="106" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 	<history>
-		<param name="fuelLevel" type="Float" minvalue="-6" maxvalue="106" mandatory="false" since="1.0" until="X.x"/>
+		<param name="fuelLevel" type="Float" minvalue="-6" maxvalue="106" mandatory="false" since="2.0" until="X.x"/>
 	</history>
 </param>
 <param name="fuelLevel_State" type="ComponentVolumeStatus" mandatory="false" deprecated="true" since="X.x">
 	<description>The fuel level state. This parameter is deprecated starting RPC Spec X.x.x, please see fuelRange.</description>
 	<history>
-		<param name="fuelLevel_State" type="ComponentVolumeStatus" mandatory="false" since="1.0" until="X.x"/>
+		<param name="fuelLevel_State" type="ComponentVolumeStatus" mandatory="false" since="2.0" until="X.x"/>
 	</history>
 </param>
 <param name="fuelRange" type="FuelRange" minsize="0" maxsize="100" array="true" mandatory="false" since="5.0">
