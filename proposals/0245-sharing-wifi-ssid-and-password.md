@@ -1,4 +1,4 @@
-# WiFi: Sharing SSID and password with Mobile Proxy. Minimal approach
+# WiFi: Sharing SSID and password with Mobile Proxy
 
 * Proposal: [SDL-0245](0245-sharing-wifi-ssid-and-password.md)
 * Author: [Alexander Kutsan](https://github.com/LuxoftAKutasan)
