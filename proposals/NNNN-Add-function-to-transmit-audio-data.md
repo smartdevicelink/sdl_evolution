@@ -967,7 +967,7 @@ Output buffer:
 ## Potential downsides
 Implementation will take a long time due to the large amount of modification.
 It is also necessary to consider `pushBuffer` and `pushWithData` of `AudioStreamManager`.
-
+We have confirmed that the sample code is effective for the base version, but there is room for adjustment due to the differences in the latest version.
 
 ## Impact on existing code
 This will be a minor version change to the Java Suite and iOS libraries.
