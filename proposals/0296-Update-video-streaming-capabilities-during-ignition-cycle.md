@@ -1,8 +1,8 @@
 # Possibility to update video streaming capabilities during ignition cycle
 
-* Proposal: [SDL-NNNN](NNNN-Update-video-streaming-capabilities-during-ignition-cycle.md)
+* Proposal: [SDL-0296](0296-Update-video-streaming-capabilities-during-ignition-cycle.md)
 * Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite]
 
 ## Introduction
