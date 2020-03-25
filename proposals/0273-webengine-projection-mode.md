@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0273](0273-webengine-projection-mode.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford), [Markos Rapitis](https://github.com/mrapitis) and [Andriy Byzhynar](https://github.com/abyzhynar)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [ Core / JavaScript Suite / Java Suite / iOS / RPC / SDL Server / SHAID ]
 
 ## Introduction
