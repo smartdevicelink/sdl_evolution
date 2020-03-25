@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0295](0295-screen-manager-audio-pass-thru.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
