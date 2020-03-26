@@ -91,7 +91,10 @@ The active service will receive this request if it is sent via normal RPC channe
 </function>
 ```
 
-### PerformAppServiceInteraction Updates
+#### HMI_API
+This will be identical to the above, in the `AppService` interface.
+
+### PerformAppServiceInteraction Updates (MOBILE_API + HMI_API)
 To enable the `callback` parameter above, we need an extension to `PerformAppServiceInteraction` to bring the app to the foreground directly to the place the user wants to be (e.g. to see the message thread that just had a new message).
 
 We are also adding an RPC request parameter to the `PerformAppServiceInteraction` request, and an RPC response parameter to the response. This allows us to send a `SendMessage` RPC request / response pair to a particular app service while telling the app service about the origin app (to verify which app is trying to send a message, for example).
@@ -122,7 +125,7 @@ We are also adding an RPC request parameter to the `PerformAppServiceInteraction
 </function>
 ```
 
-### GetAppServiceData Updates
+### GetAppServiceData Updates (MOBILE_API + HMI_API)
 To enable consumer apps to subscribe to inactive services' app data, we will extend `GetAppServiceData` with a `serviceID` parameter.
 
 ```xml
