@@ -37,10 +37,13 @@ The proposed solution is to add a new private `SDLAudioPassThruManager` sub-mana
 /// Maps to `PerformAudioPassThru.maxDuration`. Defaults to `defaultTimeout`. If set to 0, it will use `defaultTimeout`. If this is set below the minimum, it will be capped at 1 second. Minimum 1 seconds, maximum 1000 seconds. If this is set above the maximum, it will be capped at 1000 seconds. Defaults to 0.
 @property (assign, nonatomic) NSTimeInterval timeout;
 
-// Maps to `PerformAudioPassThru.samplingRate`, `PerformAudioPassThru.bitsPerSample`, and `PerformAudioPassThru.audioType`. If not set, this will default to the primary head unit capability.
+/// Maps to `PerformAudioPassThru.samplingRate`, `PerformAudioPassThru.bitsPerSample`, and `PerformAudioPassThru.audioType`. If not set, this will default to the primary head unit capability.
 @property (nonatomic, nonnull, copy) SDLAudioPassThruCapabilities *capabilities;
 
 - (instancetype)initWithPrimaryText:(nullable NSString *)primaryText secondaryText:(nullable NSString *)secondaryText muteAudio:(BOOL)muteAudio maxDuration:(NSTimeInterval)maxDuration capabilities:(nullable SDLAudioPassThruCapabilities *)capabilities;
+
+/// Cancels the microphone input. If the view has not yet been sent to Core, it will not be sent. If the view is already presented on Core, the view will be immediately dismissed. Canceling an already presented view will only work if connected to Core versions 6.0+. On older versions of Core, the view will not be dismissed.
+- (void)cancel;
 
 @end
 ```
@@ -48,7 +51,7 @@ The proposed solution is to add a new private `SDLAudioPassThruManager` sub-mana
 ##### Java
 ```java
 public class MicrophoneInputView {
-    private Integer defaultTimeout = 10;
+    private static Integer defaultTimeout = 10;
 
     private String text, secondaryText;
     private PlayAudioData audioPrompt;
@@ -59,6 +62,22 @@ public class MicrophoneInputView {
     // All vars have getters / setters
 
     public MicrophoneInputView(@Nullable String text, @Nullable String secondaryText, @Nullable PlayAudioData audioPrompt, @Nullable boolean muteAudio, @Nullable Integer timeout, @Nullable capabilities)
+
+    public static class Builder {
+        MicrophoneInputView microphoneInputView;
+        void Builder() {
+            microphoneInputView = MicrophoneInputView();
+        }
+
+        Builder setText(String text) {}
+        Builder setSecondaryText(String secondaryText) {}
+        Builder setAudioPrompt(PlayAudioData audioPrompt) {}
+        Builder setMuteAudio(boolean muteAudio) {}
+        Builder setTimeout(Integer timeout) {}
+        Builder setCapabilities(SDLAudioPassThruCapabilities capabilities) {}
+    }
+
+    public void cancel();
 }
 ```
 
@@ -79,10 +98,6 @@ typedef void (^SDLMicrophoneDataHandler)(NSData *__nullable audioData);
 /// @param microphoneDataHandler A handler that will be called with raw audio data
 /// @completionHandler A handler sent when the head unit sends a response and a possible error if one occurs.
 - (void)presentMicrophoneInputView:(SDLMicrophoneInputView *)microphoneInputView withAudioDataHandler:(SDLMicrophoneDataHandler)microphoneDataHandler completionHandler:(nullable SDLScreenManagerUpdateHandler)completionHandler;
-
-/// Dismisses the current microphone input view if there is one. If you're currently receiving audio data, you may not immediately cease to receive this data.
-/// @param completionHandler A possible error if one occurs
-- (void)dismissMicrophoneInputViewWithCompletionHandler:(nullable SDLScreenManagerUpdateHandler)completionHandler;
 
 @end
 ```
