@@ -44,8 +44,9 @@ The script should take a `MOBILE_API` XML spec as input and a location to output
 
     The submodule reference was updated with more recent parser scripts but the generator scripts are not updated
 
-13. Python 2 support ends in 2020. Therfore, all python scripts should be developed for Python 3. This includes scripts from the InterfaceBuilder that will be refactored.
+13. Python 2 support ends in 2020. Therefore, all python scripts should be developed for Python 3. This includes scripts from the InterfaceBuilder that will be refactored.
 14. The generator script should only be used for newly created RPCs. Existing RPC classes should not be overwritten by generated code because the existing code may be slightly different than the generated one.
+15. The generator scripts should take in a set of keywords that must be avoided while creating RPC methods. These keywords will be stored a flat text file separated by newlines. If a parameter or its potential method signatures (get/set/etc) collides with a keyword, the parameter, for internal reference only, should be appended with `Param`. For example, the param of `functionID` exists in the `DismissAlert` RPC, but the `getFunctionID()` method signatures already exist in base classes and would be included in the keyword file. Therefore, the generator should create methods for this param as `getFunctionIDParam()` and `setFunctionIDParam(...)`.
 
 ### Command-line switches
 
