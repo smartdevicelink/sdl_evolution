@@ -11,11 +11,11 @@ The main purpose of this proposal is to gracefully handle incompatible enum valu
 
 The current filtering and data validation mechanism used by SDL Core needs be improved upon to avoid application registration issues and other RPC failures that result from differences in RAPI versions between the SDL mobile library and SDL Core.  To maintain backwards compatibility, the mobile libraries also need to be updated to format RPC requests by cutting off or ignoring unknown and unsupported enum values when a difference in RAPI sets have been detected.
 
-To better understand the issue at hand, please take note of following example:
+To better understand the issue at hand, please take note of the following example:
 
 Let us assume that a mobile application with a newer version of the RAPI attempts to connect to an SDL Core instance which is using an older RAPI version. In this example, the SDL Core RAPI version is set to 4.3 whereas the mobile application RAPI version is set to 6.0. Let us also assume that the mobile application has an AppHMIType of DEFAULT and REMOTE_CONTROL set.  The DEFAULT AppHMIType has been present in the RAPI since its inception, however REMOTE_CONTROL was introduced in version 6.0 of the RAPI.
 
-In the case above, the mobile application will try to register itself by sending a RegisterAppInterface (RAI) request to SDL Core with an array of AppHMITypes : appHMIType[DEFAULT, REMOTE_CONTROL]. SDL Core will next try to validate the parameters in the RAI request, it will immediately find an unknown enum value of REMOTE_CONTROL. A failure response will then be sent to the mobile application with the INVALID_DATA result code (this is because the REMOTE_CONTROL AppHMIType has only been available since version RAPI 4.5, however we are communicating with a version of SDL Core that only supports RAPI 4.3). As a result of the scenario above, the mobile application fails to register with SDL Core providing an unacceptable user experience -- in addition the mobile application cannot conclusively determine the cause of failure since INVALID_DATA can be returned for any number of reasons.  Ideally the mobile app would be registered successfully with a warning provided in the result code stating "some AppHMITypes could not be processed".
+In the case above, the mobile application will try to register itself by sending a RegisterAppInterface (RAI) request to SDL Core with an array of AppHMITypes : appHMIType[DEFAULT, REMOTE_CONTROL]. SDL Core will next try to validate the parameters in the RAI request, it will immediately find an unknown enum value of REMOTE_CONTROL. A failure response will then be sent to the mobile application with the INVALID_DATA result code (this is because the REMOTE_CONTROL AppHMIType has only been available since version RAPI 4.5, however we are communicating with a version of SDL Core that only supports RAPI 4.3). As a result of the scenario above, the mobile application fails to register with SDL Core providing an unacceptable user experience. In addition the mobile application cannot conclusively determine the cause of failure since INVALID_DATA can be returned for any number of reasons.  Ideally the mobile app would be registered successfully with a warning provided in the result code stating "some AppHMITypes could not be processed."
 
 To fix the case stated above as well as similar cases originating from the same cause, the validation logic inside of SDL Core should be updated to cutoff / ignore unknown enums present in RPC requests.  These failure cases should instead be replaced with SUCCESS cases with warnings result codes.
 To ensure backward compatibility with earlier versions of SDL Core, mobile libraries should be updated to process, filter and format enums inside of RPC requests when a difference in RAPI sets have been detected.
@@ -24,43 +24,43 @@ To ensure backward compatibility with earlier versions of SDL Core, mobile libra
 
 ### SDL Core changes
 
-When SDL Core receives a request from mobile application it starts validation of all incoming parameters.
-If a parameter includes unknown enum value, SDL Core has to cut off such value from the parameter.
+When SDL Core receives a request from a mobile application, it starts validation of all incoming parameters.
+If a parameter includes an unknown enum value, SDL Core has to cut off such value from the parameter.
 
   This means the following cases are possible:
 
   1. Type of parameter is non-array enum (see example 1).
 
-    SDL Core has to remove this parameter from the request since the value after cutting off becomes empty.
+      SDL Core has to remove this parameter from the request since the value after cutting off becomes empty.
 
   2. Parameter is an array of enum types (see example 2).
 
-    SDL Core has to remove unknown value from the array.
-    A case is possible when all values are unknown and thus get removed.
-    In this case, SDL Core has to proceed the same way as in case 1.
+      SDL Core has to remove an unknown value from the array.
+      A case is possible when all values are unknown and thus get removed.
+      In this case, SDL Core has to proceed the same way as in case 1.
 
   3. Parameter is part of the structure (see example 3).
 
-    SDL Core has to proceed the same way as in case #1 or #2 and remove this parameter from the structure.
-    However, if the parameter is mandatory the structure becomes invalid.
-    In this case, SDL Core has to remove the whole structure from the request.
-    During this process, SDL Core has to proceed recursively from the very bottom level up to the top.
+      SDL Core has to proceed the same way as in case #1 or #2 and remove this parameter from the structure.
+      However, if the parameter is mandatory the structure becomes invalid.
+      In this case, SDL Core has to remove the whole structure from the request.
+      During this process, SDL Core has to proceed recursively from the very bottom level up to the top.
 
   4. Parameter is a part of the structure which is a part of an array (see example 4).
 
-    SDL Core has to process it the same way as in case #3 and remove the structure as an item of the array.
-    Once all the parameters are processed SDL Core has to proceed with the request as usual.
+      SDL Core has to process it the same way as in case #3 and remove the structure as an item of the array.
+      Once all the parameters are processed SDL Core has to proceed with the request as usual.
 
-  If at least one value of at least one parameter was cut off, SDL Core has to update the response to mobile application as follows:
+  If at least one value of at least one parameter was cut off, SDL Core has to update the response to the mobile application as follows:
 
   1. If the response was processed successfully, SDL Core has to provide the `WARNINGS` result code instead of `SUCCESS`.
   2. SDL Core has to provide removed enum items in `info` string of the response.
 
-      Since there could be more than one parameter with cut-off value `info` message can be constructed the following way:
+      Since there could be more than one parameter with cut-off value, `info` message can be constructed the following way:
 
       `Invalid enums were removed: <param_1>:<enum_value_1>,<enum_value_2>;<param_2>:<enum_value_3> ...`
 
-      If `info` parameter contains other value belonging to the original processing result SDL Core has to append information about cut-off enum value(s) to the existing value.
+      If `info` parameter contains other value(s) belonging to the original processing result SDL Core has to append information about cut-off enum value(s) to the existing value.
 
   **Examples:**
   In each example below the mobile application sends a request to SDL Core.
@@ -187,10 +187,15 @@ If a parameter includes unknown enum value, SDL Core has to cut off such value f
   **For example** :
   If the UI app requested unsupported `AppHMIType` and version which are not compatible, then the proxy must filter unsupported HMI types.
 
-      - Before filtering :
-          "AppHMIType" : ["DEFAULT", "MEDIA", "UKNOWN"]
-      - After filtering :
-          AppHMIType" : ["DEFAULT", "MEDIA"]
+   - Before filtering :
+       ```
+       "AppHMIType" : ["DEFAULT", "MEDIA", "UKNOWN"]
+       ```
+
+   - After filtering :
+       ```
+       AppHMIType" : ["DEFAULT", "MEDIA"]
+       ```
 
   ***Note**: In case no HMI types are left after filtering, Mobile library should throw Exception, otherwise RegisterAppInterface RPC will be sent with remaining HMI types.*
 
@@ -207,8 +212,8 @@ If a parameter includes unknown enum value, SDL Core has to cut off such value f
 ## Impact on existing code
   **Android/iOS**
 
-     * Each `RPCStruct` should be extended with the implementation of filtering mechanism
-     * Implement logging for unsupported values
+   * Each `RPCStruct` should be extended with the implementation of filtering mechanism
+   * Implement logging for unsupported values
 
 **SDL Core:**
 
