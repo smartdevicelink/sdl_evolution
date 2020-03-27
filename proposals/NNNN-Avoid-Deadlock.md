@@ -10,7 +10,7 @@ This proposal is to avoid deadlock by adding a mechanism that stops Audio Stream
 
 ## Motivation
 When using SDL Core 4.5, and SDL iOS (v6.3.1 or later), a deadlock may occur when Audio Streaming is played while Video Streaming is stopped.
-Due to this support (https://github.com/smartdevicelink/sdl_ios/pull/1235/) in the current SDL iOS (v6.3.1 or later),  Audio Streaming continues to play when the app on HS side moves to Background.
+Due to this support (https://github.com/smartdevicelink/sdl_ios/pull/1235/) in the current SDL iOS (v6.3.1 or later),  Audio Streaming continues to play when the app on HS side moves to background.
 For this reason (#1235), a deadlock may occur.
 To avoid the deadlock, it is desirable to add a mechanism where the protocol version is judged by the proxy and stops Audio Streaming when the app on HS side moves to background.
 
