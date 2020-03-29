@@ -24,12 +24,11 @@ Basically, the problem is that NaviAPPs start video streaming unsuccessfully in 
 
 1. Activate the NaviAPP, then enable WiFi on the head unit within 150 seconds.
 2. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the head unit.
-
 3. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the phone
 
-
-To fix these issues, navigation apps need to access information about WiFi networks.
-
+There is a complete solution to these problems.
+We add WIFI status listener into Java Suite then reference iOS's design, modify the timing of request TCP connection.
+Because of adding WIFI status listener, navigation apps would require the new permission android.permission.ACCESS_WIFI_STATE.
 It would help SDL greatly improve the user experience on VideoStreaming via BT+WiFi.
 
 
