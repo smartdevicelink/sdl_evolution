@@ -1,4 +1,4 @@
-  # Processing of unknown enum values by SDL and Mobile Libraries
+  # Processing of unknown enum values by SDL Core and Mobile Libraries
   * Proposal: [SDL-NNNN](NNNN-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md)
   * Authors: [Igor Gapchuk](https://github.com/IGapchuk), [Dmitriy Boltovskiy](https://github.com/dboltovskyi/), [Kostiantyn Boskin](https://github.com/kostyaboss), [Yurii Lokhmatov](https://github.com/yoooriii)
   * Status: Awaiting review
@@ -154,22 +154,22 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
   2. The way the mobile application sends requests to SDL Core.
 
 #### Changes related to mobile application connecting to SDL Core
-  To filter out unsupported items we need to know the exact protocol version, not only the major part of it but the minor part as well since certain parameters were added in between the major change. For instance, `AppHMIType` items `PROJECTION` and `REMOTE_CONTROL` were rolled in as early as 4.5. There is a possible case when we know the major is 4 but the information about the minor part of it is unknown before `RegisterAppInterface` request is sent and responded. However, even upon receipt of the response, the minor version of the protocol may still be not confirmed since both `syncMsgVersion` and `sdlVersion` are not mandatory parameters and thus can be absent in the response
+  To filter out unsupported items we need to know the exact protocol version, not only the major part of it but the minor part as well since certain parameters were added in between the major change. For instance, `AppHMIType` items `PROJECTION` and `REMOTE_CONTROL` were rolled in as early as 4.5. There is a possible case when we know the major version is 4 but the information about the minor part of it is unknown before `RegisterAppInterface` request is sent and responded. However, even upon receipt of the response, the minor version of the protocol may still be not confirmed since both `syncMsgVersion` and `sdlVersion` are not mandatory parameters and thus can be absent in the response.
 
-  ***Note** for SDL *PROTOCOL* version less than 4.3 in StartServiceACK response Proxy can get only *MAJOR* version*
+  ***Note** for SDL *PROTOCOL* version less than 4.3 in StartServiceACK response Proxy can get only *MAJOR* version.*
 
-  ***Note** for SDL *PROTOCOL* version higher than or equal 4.4 in in StartServiceACK response Proxy can get *MAJOR*.*MINOR*.*PATCH* versions*
+  ***Note** for SDL *PROTOCOL* version higher than or equal to 4.4 in in StartServiceACK response Proxy can get *MAJOR*.*MINOR*.*PATCH* versions.*
 
-  ***Note** since that moment (StartServiceACK response) and until RegisterAppInterface successful response Proxy should use PROTOCOL version to filter out all unknown enum values*
+  ***Note** since that moment (StartServiceACK response) and until RegisterAppInterface successful response Proxy should use PROTOCOL version to filter out all unknown enum values.*
 
   So the workflow should be implemented as follows:
-  1. The mobile application (Android/IOS) creates a proxy object (proxy) to communicate with SDL Core.
+  1. The mobile application (Android/IOS) creates a proxy object (proxy) to communicate with the SDL Core.
   2. The mobile application passes to the Proxy entity the configurations.
   3. Among other properties the configuration object has the following parameters:
-      * Minimal SDL version
+      * Minimum SDL Core version
       * Application HMI type(s) (`AppHMIType` array)
 
-#### Changes related to sending request from mobile application to SDL
+#### Changes related to sending request(s) from mobile application to SDL Core
   After the connection is established and mobile application is registered with SDL Core, mobile application works as usual but requires the request parameters validation. An issue will occur when the mobile application calls a method and passes an enum values array as a parameter that belongs to the higher SDL version. In this case, the Mobile Proxy should filter out unsupported params before sending the request and provide warning in logs as `unsupported_values`.
 
   The validation sequence:
@@ -179,8 +179,8 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
      * If there are no enum values unknown to SDL, the proxy forwards the request to SDL Core without changes.
 
      * If some of the enum values are unknown to SDL Core the proxy should:
-          * Filter out all RPC’s unsupported enum values including nested RPC’s if those are present, before making a request to make sure it is compliant with the current spec
-          * Log on warning level with «unsupported_values» (enum’s/struct’s names)
+          * Filter out all RPCs' unsupported enum values including nested RPCs if those are present, before making a request to make sure it is compliant with the current spec
+          * Log a warning level with «unsupported_values» (enum’s/struct’s names)
 
   **Note**: For `RegisterAppInterface` to filter we should use version of PROTOCOL, but not the MOBILE_API according to system’s flow. **iOS** should be extended with similar mechanism in order to encapsulate filtering logic.
 
@@ -197,17 +197,17 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
        AppHMIType" : ["DEFAULT", "MEDIA"]
        ```
 
-  ***Note**: In case no HMI types are left after filtering, Mobile library should throw Exception, otherwise RegisterAppInterface RPC will be sent with remaining HMI types.*
+  ***Note**: In case no HMI types are left after filtering, Mobile Library should throw an exception, otherwise RegisterAppInterface RPC will be sent with remaining HMI types.*
 
-  ***Note**: Now system flow is the following: if `RegisterAppInterface` fails with an error then Mobile library should pass the error status to the Mobile Library adding failure reason*
+  ***Note**: Now system flow is the following: if `RegisterAppInterface` fails with an error then Mobile library should pass the error status to the Mobile Library adding failure reason.*
 
-  ***Note**: The protocol version control logic partly implemented in Android and not implemented in iOS though it has its flaws and should be updated following the logic above.*
+  ***Note**: The protocol version control logic is partly implemented in Android and not implemented in iOS. However, what is implemented has its flaws and should be updated following the logic above.*
 
 
 ## Potential downsides
-  There might be certain corner cases with filtering out RPCs appeared since version greater than current.
+  In the case, new RPC's would added, the new structures/enums should be implemented with additional implementation of filtering mechanism for particular objects.
 
-  **Note:** For `RegisterAppInterface` we cannot keep connection if invalid param is present due to the current flow of the older SDL versions. The connection can be dropped (End Session) by SDL Core but not by Mobile Device (SDL library)
+  **Note:** For `RegisterAppInterface` we cannot keep connection if invalid param is present due to the current flow of the older SDL versions. The connection can be dropped (End Session) by SDL Core but not by mobile device (SDL library).
 
 ## Impact on existing code
   **Android/iOS**
