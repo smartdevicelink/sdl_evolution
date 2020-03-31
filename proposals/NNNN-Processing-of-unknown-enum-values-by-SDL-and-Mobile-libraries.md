@@ -1,7 +1,7 @@
   # Processing of unknown enum values by SDL Core and Mobile Libraries
   * Proposal: [SDL-NNNN](NNNN-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md)
   * Authors: [Igor Gapchuk](https://github.com/IGapchuk), [Dmitriy Boltovskiy](https://github.com/dboltovskyi/), [Kostiantyn Boskin](https://github.com/kostyaboss), [Yurii Lokhmatov](https://github.com/yoooriii)
-  * Status: Awaiting review
+  * Status: **Awaiting review**
   * Impacted Platforms: [Core / iOS / JavaSuite]
 
 ## Introduction
@@ -160,7 +160,7 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
 
   ***Note** for SDL *PROTOCOL* version higher than or equal to 4.4 in in StartServiceACK response Proxy can get *MAJOR*.*MINOR*.*PATCH* versions.*
 
-  ***Note** since that moment (StartServiceACK response) and until RegisterAppInterface successful response Proxy should use PROTOCOL version to filter out all unknown enum values.*
+  ***Note** since that moment (StartServiceACK response) and until `RegisterAppInterface` successful response, Proxy should use PROTOCOL version to filter out all unknown enum values.*
 
   So the workflow should be implemented as follows:
   1. The mobile application (Android/IOS) creates a proxy object (proxy) to communicate with the SDL Core.
@@ -197,7 +197,7 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
        AppHMIType" : ["DEFAULT", "MEDIA"]
        ```
 
-  ***Note**: In case no HMI types are left after filtering, Mobile Library should throw an exception, otherwise RegisterAppInterface RPC will be sent with remaining HMI types.*
+  ***Note**: In case no HMI types are left after filtering, Mobile Library should throw an exception, otherwise `RegisterAppInterface` RPC will be sent with remaining HMI types.*
 
   ***Note**: Now system flow is the following: if `RegisterAppInterface` fails with an error then Mobile library should pass the error status to the Mobile Library adding failure reason.*
 
@@ -205,7 +205,7 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
 
 
 ## Potential downsides
-  In the case, new RPC's would added, the new structures/enums should be implemented with additional implementation of filtering mechanism for particular objects.
+  In the case, new RPCs would added, the new structures/enums should be implemented with additional implementation of filtering mechanism for particular objects.
 
   **Note:** For `RegisterAppInterface` we cannot keep connection if invalid param is present due to the current flow of the older SDL versions. The connection can be dropped (End Session) by SDL Core but not by mobile device (SDL library).
 
