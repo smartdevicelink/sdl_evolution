@@ -410,7 +410,7 @@ SDL will not filter `JoinMobileNetwork` if HMI didn't send `ReadyForWifiConnecti
 
 __Note:__ `JoinVehicleNetwork`, `JoinMobileNetwork` should not depend on the default RPC timeout, since WiFi connection may take much more time. So, this RPC has to operate without an active timeout from the sdl_core perspective.
 
-![Sharing SSID minimal approach](assets/proposals/0245-sharing-wifi-ssid-and-password/minimal_approach.png)
+![Sharing SSID minimal approach](../assets/proposals/0245-sharing-wifi-ssid-and-password/minimal_approach.png)
 
 #### Manual Wifi connection
 
