@@ -32,7 +32,7 @@ Add `preferredFPS` to `VideoStreamingCapability` struct in both APIs.
         ...
         <!-- new param -->
         <param name="preferredFPS" type="Integer" minvalue="0" maxvalue="2147483647" mandatory="false">
-            <description>Preferred frame rate per second. Mobile application should take this value into account for capturing and encoding video frame, but mobile application should also take care of the case where mobile device's hardware performance is constrained. It is up to mobile application to determine the actual frame rate.</description>
+            <description>The preferred frame rate per second of the head unit. The mobile application / app library may take other factors into account that constrain the frame rate lower than this value, but it should not perform streaming at a higher frame rate than this value.</description>
         </param>
     </struct>
 ```
@@ -83,13 +83,14 @@ static NSUInteger const defaultFrameRate = 15;
 }
 ```
 
-In `SDLStreamingVideoLifecycleManager#didEnterStateVideoStreamStarting`, current `videoEncoderSettings` are overwritten by `customEncoderSettings`.
-However, for frame rate, we should take lower value approach if customEncoderSettings' frame rate is higher than preferred FPS, like below:
+Later part in the same method (`didEnterStateVideoStreamStarting`), current `videoEncoderSettings` are overwritten by `customEncoderSettings`.
+
+However, for frame rate, we should take lower value approach if frame rate in customEncoderSettings is higher than preferred FPS, like below:
 ```objc
         // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
         for (id key in self.customEncoderSettings.keyEnumerator) {
             if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] == YES) {
-                // do NOT override frame rate if custom setting's frame rate is higher than current setting's one.
+                // do NOT override frame rate if custom setting's frame rate is higher than current setting's one, which now refers to preferredFPS if specified in capability.
                 if ([self.customEncoderSettings valueForKey:key] < self.videoEncoderSettings[key]) {
                     self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
                 }

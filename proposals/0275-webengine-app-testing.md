@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0275](0275-webengine-app-testing.md)
 * Author: [Nick Schwab](https://github.com/nickschwab), [Chris Rokita](https://github.com/crokita)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Manticore]
 
 ## Introduction
