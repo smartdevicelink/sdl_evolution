@@ -55,14 +55,14 @@ The proposed solution heavily depends on Android OpenGL ES components (classes u
 - android.opengl.EGLDisplay
 - android.opengl.EGLSurface
 
-Actually a open source graphic library, called [Grafika](https://github.com/google/grafika) already implemented some useful wrapper classes that internally wraps some GLES classes, and the following wrapper classes in Grafika already did exactly what we want:
+Actually an open source graphic library, called [Grafika](https://github.com/google/grafika) already implemented some useful wrapper classes that internally wrap some GLES classes, and the following wrapper classes in Grafika already did exactly what we want:
 - `EglCore` (com.android.grafika.gles.EglCore)
 - `OffscreenSurface` (com.android.grafika.gles.OffscreenSurface)
 - `WindowSurface` (com.android.grafika.gles.WindowSurface)
 - `FullFrameRect` (com.android.grafika.gles.FullFrameRect)
 
 Instead of having dependency on above Grafika classes, I tried to use those GLES classes directly.
-However, Grafika classes above are just thin wrapper of GLES classes, and because the basic idea is exactly the same as what some part of Grafika does, as a nature of open source policy, we should follow the Grafika's Apache License 2.0.
+However, Grafika classes above are just thin wrappers of GLES classes, and because the basic idea is exactly the same as what some part of Grafika does, as a nature of open source policy, we should follow the Grafika's Apache License 2.0.
 
 It is exactly the philosophy of open source, and re-inventing a wheel does not make sense.
 
@@ -167,9 +167,9 @@ The pseudo code of CaptureThread looks as follows:
  }
 ```
 
-4. Add stableFrameRate to VideoStreamingParameters
+4. Add `stableFrameRate` to `VideoStreamingParameters`
 
-Consistent frame rate should be beneficial for all head units. However, adding stableFrameRate flag to VideoStreamingParameters allows developers to turn on or off the capability.
+Consistent frame rate should be beneficial for all head units. However, adding `stableFrameRate` flag to `VideoStreamingParameters` allows developers to turn on or off the capability.
 
 ```java
 public class VideoStreamingParameters {
@@ -198,9 +198,9 @@ Please note that if head unit specified `preferredFPS` parameter, and if a devel
 
 ## Potential downsides
 
-In previous review session, there were some concerns about the quality of Grafika library. As mentioned in Detailed Design section already, what we need is some GLES wrapper classes, which are already implemented as a part of Grafika library.
+In the previous review session, there were some concerns about the quality of the Grafika library. As mentioned in the "Detailed design" section already, what we need are some GLES wrapper classes, which are already implemented as a part of the Grafika library.
 
-We can add some Unit Test for those wrapper classes to verify the code quality anyway.
+We can add some Unit Tests for those wrapper classes to verify the code quality.
 The other thing to note is that `Grafika` component is under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 sdl_java_suite already uses some component under Apache License 2.0 (e.g. `JSON`), so adding another open source component won't cause any issues.
@@ -209,7 +209,7 @@ sdl_java_suite already uses some component under Apache License 2.0 (e.g. `JSON`
 
 Because this approach does not change an existing API, and changes are inside of `VirtualDisplayEncoder` class, there's no impact to developers who use `VirtualDisplayEncoder`.
 
-Also note that developer can explicitly turn off this feature by setting `VideoStreamingParameters.stableFrameRate` to false.
+Also note that a developer can explicitly turn off this feature by setting `VideoStreamingParameters.stableFrameRate` to false.
 
 This proposal should be combined with "Add preferred FPS to VideoStreamingCapability" proposal, so that we can respect the preferred FPS value, which is specified by head unit.
 
