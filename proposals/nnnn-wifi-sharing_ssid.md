@@ -563,11 +563,11 @@ If the validation process successfully passed, the request should be transferred
 
 __Note:__ `JoinNetwork` should not depend on the default RPC timeout, since WiFi connection may take much more time. So, this RPC has to operate without active timeout from Core perspective.
 
-![Vehicle acess point](assets/proposals/nnnn-wifi-sharing-ssid/vehicle_access_point.png)
+![Vehicle acess point](../assets/proposals/nnnn-wifi-sharing-ssid/vehicle_access_point.png)
 
-![Mobile acess point](assets/proposals/nnnn-wifi-sharing-ssid/mobile_access_point.png)
+![Mobile acess point](../assets/proposals/nnnn-wifi-sharing-ssid/mobile_access_point.png)
 
-![Vehicle acess point multiple apps](assets/proposals/nnnn-wifi-sharing-ssid/vehicle_access_point_multiapps.png)
+![Vehicle acess point multiple apps](../assets/proposals/nnnn-wifi-sharing-ssid/vehicle_access_point_multiapps.png)
 
 
 ### Secondary transport 
@@ -588,7 +588,7 @@ Once network parameters are established with the first device, `OnNetworkConfigu
 
 This mechanism will allow HMI to decide it's own behavior based on all the following incoming connections.
 
-![Vehicle acess point multiple devices](assets/proposals/nnnn-wifi-sharing-ssid/vehicle_access_point_multidev.png)
+![Vehicle acess point multiple devices](../assets/proposals/nnnn-wifi-sharing-ssid/vehicle_access_point_multidev.png)
 
 
 
@@ -604,7 +604,7 @@ In that case, HMI should provide SDL `OnSystemCapabilityUpdate` with appropriate
 
 Once Vehicle is connected to the Mobile hotspot, HMI should send `OnSystemCapabilityUpdate` with `hostingWiFiSupported = true` and `preferedNetworkHost = EXTERNAL`. If the new application is compatible with HMI network capabilities, Core will send `OnNetworkConfiguration` with `networkHost = EXTERNAL` to HMI and new Mobile application. Then HMI should send `JoinNetwork` with the credentials of the external hotspot. After the new application will receive this request it is responsible for its rejection or connection to the external hotspot.
 
-![Vehicle acess point multiple devices](assets/proposals/nnnn-wifi-sharing-ssid/mobile_access_point_multidev_externalhost.png
+![Vehicle acess point multiple devices](../assets/proposals/nnnn-wifi-sharing-ssid/mobile_access_point_multidev_externalhost.png
 )
 
 
@@ -628,7 +628,7 @@ __Note:__ Such rule required because HMI `OnNetworkConfiguration` for HMI can be
  - In case if JoinNetwork is allowed non secure SDL not should postpone `OnNetworkConfiguration` to HMI.
 
 Consider following sequences:
-![SecureService](assets/proposals/nnnn-wifi-sharing-ssid/secure_service.png)
+![SecureService](../assets/proposals/nnnn-wifi-sharing-ssid/secure_service.png)
 
 ### Preloaded policy table
 
@@ -694,9 +694,9 @@ Mobile device is still can be connected to the Vehicle manually (or vice versa).
 
 However, if there are no applications connected via WiFi, Core knows nothing of the established connection, so the first feature enable application will still be able to use the feature.
 
-![WiFi AP created manually. Disconnected](assets/proposals/nnnn-wifi-sharing-ssid/WiFi_AP_created_manually_Disconnected.png)
+![WiFi AP created manually. Disconnected](../assets/proposals/nnnn-wifi-sharing-ssid/WiFi_AP_created_manually_Disconnected.png)
 
-![Negative cases](assets/proposals/nnnn-wifi-sharing-ssid/negative_case.png)
+![Negative cases](../assets/proposals/nnnn-wifi-sharing-ssid/negative_case.png)
 
 ## Potential Downsides
 
