@@ -2,8 +2,8 @@
 
 * Proposal: [SDL-0290](0290-modify-the-range-of-APT's-maxDuration.md)
 * Author: [Zhou Xin](https://github.com/zhouxin627)
-* Status: **In Review**
-* Impacted Platforms: [RPC]
+* Status: **Accepted with Revisions**
+* Impacted Platforms: [RPC / Core]
 
 ## Introduction
 This proposal modifies the range of APT's maxDuration.
@@ -78,7 +78,7 @@ Change the `minvalue` of `maxDuration` from 1 to 3000.
 No downsides were identified.
 
 ## Impact on existing code
-The RPC Spec needs to be updated.
+This will be a major version change for the RPC and Core.
 
 ## Alternatives considered
 No alternatives were identified.

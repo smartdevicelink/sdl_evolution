@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0288](0288-screen-manager-play-audio.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
