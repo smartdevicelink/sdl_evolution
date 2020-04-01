@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0278](0278-screenmanager-layout-management.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
