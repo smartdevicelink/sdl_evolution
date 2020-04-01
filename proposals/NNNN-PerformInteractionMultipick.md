@@ -16,7 +16,7 @@ As a user, I want to be able to pick multiple things from a list of my favorite 
 
 Here's an example from an overall plan
 
-<img src="assets/F111/PerformInteraction Multipick overview.PNG" alt="Login Screen" class="inline" height= "100%" width= "100%" /> 
+<img src="../assets/proposals/NNNN-PerformInteraction-Multipick/PerformInteraction Multipick overview.PNG" alt="Login Screen" class="inline" height= "100%" width= "100%" /> 
 
 ## Proposed solution
 An app can mark that the `performInteraction` is a multipick type by setting the text of the final confirmation button. That is - the button that the user presses after they are done selecting all their choices.
