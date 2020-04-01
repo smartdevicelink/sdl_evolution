@@ -1,7 +1,7 @@
   # Processing of unknown enum values by SDL Core and Mobile Libraries
-  * Proposal: [SDL-NNNN](NNNN-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md)
+  * Proposal: [SDL-0298](0298-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md)
   * Authors: [Igor Gapchuk](https://github.com/IGapchuk), [Dmitriy Boltovskiy](https://github.com/dboltovskyi/), [Kostiantyn Boskin](https://github.com/kostyaboss), [Yurii Lokhmatov](https://github.com/yoooriii)
-  * Status: **Awaiting review**
+  * Status: **In Review**
   * Impacted Platforms: [Core / iOS / JavaSuite]
 
 ## Introduction
