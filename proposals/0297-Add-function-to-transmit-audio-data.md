@@ -1,9 +1,9 @@
 # Add function to transmit audio data of AudioStream in time division
 
 
-* Proposal: [SDL-NNNN](NNNN-Add-function-to-transmit-audio-data.md)
+* Proposal: [SDL-0297](0297-Add-function-to-transmit-audio-data.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
