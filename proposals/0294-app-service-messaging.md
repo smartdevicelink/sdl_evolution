@@ -1,7 +1,7 @@
 # App Service - Messaging
 * Proposal: [SDL-0294](0294-app-service-messaging.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / Policy Server / Developer Portal / RPC]
 
 ## Introduction
