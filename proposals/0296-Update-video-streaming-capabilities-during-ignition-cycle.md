@@ -56,7 +56,7 @@ In case application sends `GetSystemCapability` with the defined `subscribe` par
 
 #### Sequence diagram
 
-![Sequence diagram](/assets/proposals/NNNN-Update-video-streaming-capabilities-during-ignition-cycle/sequence_diagram.png)
+![Sequence diagram](../assets/proposals/0296-Update-video-streaming-capabilities-during-ignition-cycle/sequence_diagram.png)
 
 ### Mobile libraries changes (Java Suite and iOS)
 
