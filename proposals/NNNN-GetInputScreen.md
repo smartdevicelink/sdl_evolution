@@ -14,17 +14,17 @@ With current SDL, apps live on the phone and connect to the car. So, the user ca
 
 Here's an example from an overall plan
 
-<img src=".../assets/proposals/NNNN-GetInput/GetInput Overview.PNG" alt="Login Screen" class="inline" height= "100%" width= "100%" /> 
+<img src="../assets/proposals/NNNN-GetInput/GetInput Overview.PNG" alt="Login Screen" class="inline" height= "100%" width= "100%" /> 
 
 Here's more specific potential screens
 
-<img src=".../assets/proposals/NNNN-GetInput/GetInput-1.PNG" alt="Login Screen" class="inline" height= "50%" width= "50%" /> 
-<img src=".../assets/proposals/NNNN-GetInput/GetInput-1-1.PNG" alt="Login Screen with Error" class="inline" height= "50%" width= "50%" /> 
-<img src=".../assets/proposals/NNNN-GetInput/GetInput-1-2.PNG" alt="Login Screen with Error Template" class="inline" height= "50%" width= "50%" /> 
-<img src=".../assets/proposals/NNNN-GetInput/GetInput-2.PNG" alt="Address Screen" class="inline" height= "50%" width= "50%" /> 
-<img src=".../assets/proposals/NNNN-GetInput/GetInput-3.PNG" alt="Credit Card Screen" class="inline" height= "50%" width= "50%" />
-<img src=".../assets/proposals/NNNN-GetInput/GetInput-3-1.PNG" alt="Credit Card Screen with Error" class="inline" height= "50%" width= "50%" />
-<img src=".../assets/proposals/NNNN-GetInput/GetInput-3-2.PNG" alt="Credit Card Screen with Error Template" class="inline" height= "50%" width= "50%" />
+<img src="../assets/proposals/NNNN-GetInput/GetInput-1.PNG" alt="Login Screen" class="inline" height= "50%" width= "50%" /> 
+<img src="../assets/proposals/NNNN-GetInput/GetInput-1-1.PNG" alt="Login Screen with Error" class="inline" height= "50%" width= "50%" /> 
+<img src="../assets/proposals/NNNN-GetInput/GetInput-1-2.PNG" alt="Login Screen with Error Template" class="inline" height= "50%" width= "50%" /> 
+<img src="../assets/proposals/NNNN-GetInput/GetInput-2.PNG" alt="Address Screen" class="inline" height= "50%" width= "50%" /> 
+<img src="../assets/proposals/NNNN-GetInput/GetInput-3.PNG" alt="Credit Card Screen" class="inline" height= "50%" width= "50%" />
+<img src="../assets/proposals/NNNN-GetInput/GetInput-3-1.PNG" alt="Credit Card Screen with Error" class="inline" height= "50%" width= "50%" />
+<img src="../assets/proposals/NNNN-GetInput/GetInput-3-2.PNG" alt="Credit Card Screen with Error Template" class="inline" height= "50%" width= "50%" />
 
 ## Proposed solution
 Add a new RPC for an input screen. This screen would use RPC encryption which is handled by policies.
