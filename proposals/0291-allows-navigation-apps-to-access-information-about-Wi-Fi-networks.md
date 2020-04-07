@@ -40,7 +40,7 @@ The implementation of WIFI status listener is as follows.
         this.context.get().registerReceiver(wifiBroadcastReceiver,intentFilter);
     }
 ```
-The new permission android.permission.ACCESS_WIFI_STATE required to use above mentioned API.
+The new permission android.permission.ACCESS_WIFI_STATE is required to use the above mentioned API.
 It would help SDL greatly improve the user experience on VideoStreaming via BT+WiFi.
 
 
