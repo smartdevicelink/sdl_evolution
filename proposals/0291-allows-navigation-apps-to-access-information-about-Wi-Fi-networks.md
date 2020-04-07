@@ -28,7 +28,7 @@ Basically, the problem is that NaviAPPs start video streaming unsuccessfully in 
 
 There is a complete solution to these problems.
 We add WIFI status listener into Java Suite for monitoring WIFI's status, then reference iOS's design and modify the timing of request TCP connection.
-For example, requesting TCP connection when the WIFI status listener detects that Java Suite received Mobile's WIFI connected successfully.
+For example, requesting TCP connection when the WIFI status listener detects that Java Suite received Mobile's WIFI connection successfully.
 
 The implementation of WIFI status listener is as follows.
 ```Java
