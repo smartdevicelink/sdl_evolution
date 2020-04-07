@@ -1,0 +1,75 @@
+@startuml
+!pragma teoz true
+
+
+title SDL decide that VEHICLE is an access point
+
+participant HMI
+participant SDL
+participant APP
+
+note over HMI, APP: in ini file : NetworkHost = VEHICLE \n\
+App allowed to use feature by policies
+
+SDL -> HMI : <b>UI.GetCapabilities() request
+HMI -> SDL : <b>UI.GetCapabilities(NetworkingCapabilities) response : \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ",\n\
+"FREQUENCY_BAND_5_0_GHZ" 
+
+
+APP -> SDL : <b>RAI(NetworkingCapabilities): \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+SDL -> HMI : <b>OnAppRegistered 
+SDL -> APP : <b>RAI response 
+
+SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
+SDL decide that **Vehicle should be AP** 
+
+SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
+\t networkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+SDL -> APP:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
+\t networkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+HMI -> HMI : HMI creates WiFi Aceess Point
+
+HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
+\t autoJoinWiFiSupported : \t **false** \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t <b>"FREQUENCY_BAND_2_4_GHZ" 
+
+note over HMI: HMI shows pop-up \n\
+user consent 
+
+HMI -> SDL: <b>JoinNetwork request\n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t accesssPointSupportsInternetAccess : \t true 
+
+SDL -> APP: <b>JoinNetwork request\n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t accesssPointSupportsInternetAccess : \t true 
+
+note over APP: APP shows pop-up \n\
+user consent 
+
+APP -> APP : Establish \n\
+WiFiConnection
+
+APP -> SDL : <b>JoinNetwork response
+SDL -> HMI : <b>JoinNetwork response
+
+@enduml

@@ -1,0 +1,136 @@
+@startuml
+!pragma teoz true
+
+title Multiple apps on different devices, VEHICLE is an access point
+participant HMI
+participant SDL
+box "Device1"
+participant APP1
+end box
+box "Device2"
+participant APP2
+end box
+
+note over HMI, APP2: in ini file : NetworkHost = VEHICLE \n\
+Apps allowed to use feature by policies
+
+SDL -> HMI : <b>UI.GetCapabilities() request
+HMI -> SDL : <b>UI.GetCapabilities(NetworkingCapabilities) response : \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **MOBILE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+APP1 -> SDL : <b>RAI_1(NetworkingCapabilities): \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+SDL -> HMI : <b>OnAppRegistered(App1) 
+SDL -> APP1 : <b>RAI(App1) response 
+
+
+SDL -> SDL : Based on ini file, RAI_1(App1) and HMI NetworkCapabilities\n\
+SDL decide that **VEHICLE should be AP** 
+
+SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
+\t networkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+SDL -> APP1:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
+\t networkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+
+HMI -> HMI : HMI creates WiFi Aceess Point
+
+HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
+\t autoJoinWiFiSupported : \t **false** \n\
+\t canHostWiFiNetwork : \t **true**  \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over HMI: HMI shows pop-up \n\
+user consent 
+
+HMI -> SDL: <b>JoinNetwork request\n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 
+
+SDL -> APP1: <b>JoinNetwork request\n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over APP1: HMI shows pop-up \n\
+user consent 
+
+APP1 -> APP1 : Establish  \n\
+WiFiConnection
+
+APP1 -> SDL : <b>JoinNetwork response
+SDL -> HMI : <b>JoinNetwork response
+
+APP1 -> SDL : <b>Start session via WIFI secondary transport
+
+APP2 -> SDL : <b>RAI_2(NetworkingCapabilities): \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+SDL -> HMI : <b>OnAppRegistered(App2) 
+SDL -> APP2 : <b>RAI_2(App2) response 
+
+SDL -> SDL : Based on ini file, RAI(App2) and latest HMI NetworkCapabilities\n\
+SDL decide that **VEHICLE should be AP** 
+
+SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
+\t networkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over HMI: HMI should not **Recreate** AP \n\
+on OnNetworkConfiguration
+
+SDL -> APP2:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
+\t networkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over SDL: Do not send OnNetworkConfiguration to APP1 \n\
+because APP1 is already initialized
+
+note over HMI: HMI shows pop-up \n\
+user consent 
+
+HMI -> SDL: <b>JoinNetwork  request\n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+
+SDL -> APP2: <b>JoinNetwork  request\n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over APP2: HMI shows pop-up \n\
+user consent 
+
+APP2 -> APP2 : Establish  \n\
+WiFiConnection
+
+
+APP2 -> SDL : <b>JoinNetwork response
+SDL -> HMI : <b>JoinNetwork response
+
+
+note over SDL: Do not proxy JoinNetwork to APP1 \n\
+because APP1 already started session via Wifi
+
+
+@enduml

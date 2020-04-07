@@ -1,0 +1,63 @@
+@startuml
+!pragma teoz true
+title Sharign ssid minimal approach
+participant HMI
+participant SDL
+
+box "Device"
+participant APP1
+participant APP2
+end box
+
+box "Device2"
+participant APP3
+endbox
+
+note over HMI, APP2:  Policy restrictions, encryption_required": true,
+APP1 -> SDL : <b>RAI_1(NetworkingCapabilities)
+SDL -> HMI : <b>OnAppRegistered(App1, NetworkingCapabilities)
+SDL -> APP1 : <b>RAI(App2) response
+APP2 -> SDL : <b>RAI_2(NetworkingCapabilities)
+SDL -> HMI : <b>OnAppRegistered(App2, NetworkingCapabilities)
+SDL -> APP2 : <b>RAI(App2) response
+APP3 -> SDL : <b>RAI_3(NetworkingCapabilities)
+SDL -> HMI : <b>OnAppRegistered(App3, NetworkingCapabilities)
+SDL -> APP3 : <b>RAI(App3) response
+note over HMI : HMI compares own capabilities,\n\
+wifi adpter status, and check if MOBILE or HMI should be AP
+APP2 -> SDL : Init Secure RPC service
+SDL -> HMI : ServiceStatusUppate(app2, rpc, encrypted=true)
+APP3 -> SDL : Init Secure RPC service
+APP3 -> SDL : Init Secure RPC service
+SDL -> HMI : ServiceStatusUppate(app3, rpc, encrypted=true)
+
+alt HMI is an access point
+
+alt Vehicle should be an access point
+HMI -> SDL : JoinVehicleNetwork (app2)
+SDL -> APP2 : JoinVehicleNetwork (app2)
+APP2 -> APP2 : Establish \n\
+WiFiConnection
+APP2 -> SDL : JoinVehicleNetwork response
+SDL -> HMI : JoinVehicleNetwork response
+HMI -> SDL : JoinVehicleNetwork (app3)
+SDL -> APP3 : JoinVehicleNetwork (app3)
+APP3 -> APP3 : Establish \n\
+WiFiConnectionAPP3 -> SDL : JoinVehicleNetwork response
+end
+
+alt Mobile is an access point
+note right HMI :  HMI sends OnSystemRequst to the first app1
+HMI -> SDL : OnSystemRequst (APP1) (WIFI_READY_TO_CONNECT)
+SDL -> APP1 : OnSystemRequst (WIFI_READY_TO_CONNECT)
+APP1 -> SDL : JoinMobileNetwork (app1)
+SDL -> HMI : JoinMobileNetwork (app1)
+HMI -> SDL : JoinMobileNetwork response
+SDL -> APP1 : JoinMobileNetwork response
+note right HMI :  HMI shares  credentials of the APP1
+HMI -> SDL : JoinVehicleNetwork (app3)
+SDL -> APP3 : JoinVehicleNetwork (app3)
+APP3 -> SDL : JoinVehicleNetwork response
+SDL -> HMI : JoinVehicleNetwork response
+end
+@enduml

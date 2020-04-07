@@ -1,0 +1,48 @@
+@startuml
+!pragma teoz true
+
+title Secure service
+
+participant HMI
+participant SDL
+participant APP
+
+note over HMI, APP: APP allowed to use feature by policies
+
+
+HMI -> SDL : <b>OnSystemCapabilityUpdated : \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t MOBILE \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+
+APP -> SDL : <b>RAI(NetworkCapabilities): \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t MOBILE \n\
+\t allowAccessPointToBeShared : \t true
+
+SDL -> HMI : OnAppRegistered (app1)
+SDL -> APP : RAI response 
+
+SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
+SDL decide that Device should be AP
+
+SDL -> APP:  \n <b>OnNetworkConfiguration : \n\
+\t preferredNetworkHost : \t MOBILE \n\
+
+APP -> SDL : Start **secure** RPC service
+
+
+SDL -> HMI:  \n <b>OnNetworkConfiguration : \n\
+\t preferredNetworkHost : \t MOBILE \n\
+
+
+APP -> SDL : JoinNetwork request
+SDL -> HMI : JoinNetwork requset
+HMI -> HMI : Establish WifiConnection
+HMI -> SDL : JoinNetwork response
+SDL -> APP : JoinNetwork response
+
+
+@enduml
