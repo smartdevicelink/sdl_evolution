@@ -27,8 +27,9 @@ Basically, the problem is that NaviAPPs start video streaming unsuccessfully in 
 3. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the phone
 
 There is a complete solution to these problems.
-We add WIFI status listener into Java Suite for monitoring WIFI's status, then reference iOS's design and modify the timing of request TCP connection.
-For example, requesting TCP connection when the WIFI status listener detects that Java Suite received Mobile's WIFI connection successfully.
+We add WIFI status listener into Java Suite for monitoring WIFI's status, then we can use this information to judge whether the WIFI is reconnected.
+If YES, the APP will reestablish secondary transport (TCP) for VideoStreaming.
+It would help SDL greatly improve the user experience on VideoStreaming via BT+WiFi.
 
 The implementation of WIFI status listener is as follows.
 ```Java
@@ -41,7 +42,6 @@ The implementation of WIFI status listener is as follows.
     }
 ```
 The new permission android.permission.ACCESS_WIFI_STATE is required to use the above mentioned API.
-It would help SDL greatly improve the user experience on VideoStreaming via BT+WiFi.
 
 
 ## Proposed solution
