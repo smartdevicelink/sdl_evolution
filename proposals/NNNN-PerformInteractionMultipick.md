@@ -95,7 +95,7 @@ On older head units, the user would only be able to pick one thing from the mult
 
 ## Impact on existing code
 
-This adds complexity to Core and the HMI
+This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI
 
 ## Alternatives considered
 
