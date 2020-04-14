@@ -242,7 +242,8 @@ and `HMI_API`:
 ```xml
   <function name="PerformInteractionMultipick" messagetype="response">
     <param name="choiceID" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false">
-      <description>IDs of the choices that were selected. Allows duplicate choiceIDs so that the HMI can send back the same choice ID multiple times to relay a quantity back to the app.
+      <description>IDs of the choices that were selected. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
+
           Only is valid if general result is "success:true".</description>
     </param>
   </function>
