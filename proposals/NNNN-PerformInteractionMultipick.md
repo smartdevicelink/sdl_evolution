@@ -91,7 +91,7 @@ If a multipick PI times out, then SDL shall send a response of `TIMED_OUT` with 
 ## Potential downsides
 
 Adds complexity to core and HMI. 
-On older headunits, the user would only be able to pick one thing from the multipick perform interaction.
+On older head units, the user would only be able to pick one thing from the multipick perform interaction.
 
 ## Impact on existing code
 
