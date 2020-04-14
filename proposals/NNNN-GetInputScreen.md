@@ -1,8 +1,9 @@
 # Get Input Screen
 
+* Proposal: [SDL-NNNN](NNNN-GetInputScreen.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Java Suite / Web / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / JavaScript / RPC]
 
 ## Introduction
 
@@ -129,7 +130,7 @@ We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements]
 
 ## Potential downsides
 
-Added complexity for Core and HMI
+This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI. It would be a minor version change for affected libraries. 
 
 ## Impact on existing code
 
