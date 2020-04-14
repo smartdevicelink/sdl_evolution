@@ -1,14 +1,14 @@
 
 # Perform Interaction Multipick
 
-* Proposal: [SDL-F111](F111-PerformInteractionMultipick.md)
+* Proposal: [SDL-NNNN](NNNN-PerformInteractionMultipick.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Java Suite / RPC ]
 
 ## Introduction
 
-For when a user wants to order something from an app, the user may want to pick 1 or more of their favorite items from a list.  This would allow that. Currently, perform interaction only accepts 1 input and clears.
+For when a user wants to order something from an app, the user may want to pick 1 or more of their favorite items from a list. This would allow that. Currently, perform interaction only accepts 1 input and clears.
 
 ## Motivation
 
@@ -20,11 +20,11 @@ Here's an example from an overall plan
 
 ## Proposed solution
 An app can mark that the `performInteraction` is a multipick type by setting the text of the final confirmation button. That is - the button that the user presses after they are done selecting all their choices.
-So, add a field `multiPickConfirmationButtonText`, if this has text in it then the `performInteraction` will be multipick. If the InteractionMode is VR_ONLY or the displayLayout is `TILES_WITH_SEARCH`, `LIST_WITH_SEARCH`, or `KEYBOARD_ONLY`, then the response will be INVALID_DATA. If the InteractionMode is BOTH, then the VR portion of the PerformInteraction will be skipped.
+So, add a field `multiPickConfirmationButtonText`, if this has text in it then the `performInteraction` will be multipick. If the `InteractionMode` is `VR_ONLY` or the displayLayout is `TILES_WITH_SEARCH`, `LIST_WITH_SEARCH`, or `KEYBOARD_ONLY`, then the response will be `INVALID_DATA`. If the `InteractionMode` is `BOTH`, then the VR portion of the `PerformInteraction` will be skipped.
 
 
 Add `multiPickConfirmationButtonText` to the request in the `MOBILE_API`.
-Also, add a return parameter `choiceIDArray` to `PerformInteraction` response. This array allows duplicate choice IDs so that the HMI can send back the same choice ID multiple times to relay a quantity back to the app:
+Also, add a return parameter `choiceIDArray` to `PerformInteraction` response. This array allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app:
 ```xml
     <function name="PerformInteraction" functionID="PerformInteractionID" messagetype="request" since="1.0">
       <description>Triggers an interaction (e.g. "Permit GPS?" - Yes, no, Always Allow).</description>
@@ -33,7 +33,7 @@ Also, add a return parameter `choiceIDArray` to `PerformInteraction` response. T
       .
       <param name="multiPickConfirmationButtonText" type="String" maxlength="500" mandatory="false" since="X.X">
         <description>
-          If this parameter is set, then this is a Multipick performInteraction. This text will be in the button that a person uses to finish choosing items.
+          If this parameter is set, then this is a multipick performInteraction. This text will be in the button that a person uses to finish choosing items.
         </description>
       </param>
     </function>
@@ -44,7 +44,7 @@ Also, add a return parameter `choiceIDArray` to `PerformInteraction` response. T
     .
       <param name="choiceIDArray" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false" since="X.X">
        <description>
-          IDs of the choices that were selected in response to a multipick performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choice ID multiple times to relay a quantity back to the app.
+          IDs of the choices that were selected in response to a multipick performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
           Only is valid if general result is "success:true".
        </description>
       </param>	
@@ -63,7 +63,7 @@ Then do the same for the `HMI_API`:
   .
     <param name="multiPickConfirmationButtonText" type="String" maxlength="500" mandatory="false">
       <description>
-        If this parameter is set, then this is a Multipick performInteraction. This text will be the button that a person uses to finish choosing items.
+        If this parameter is set, then this is a multipick performInteraction. This text will be the button that a person uses to finish choosing items.
       </description>
     </param>
   </function>
@@ -74,7 +74,7 @@ Then do the same for the `HMI_API`:
   .
     <param name="choiceIDArray" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false">
       <description>
-        IDs of the choices that were selected in response to a multipick performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choice ID multiple times to relay a quantity back to the app.
+        IDs of the choices that were selected in response to a multipick performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
         Only is valid if general result is "success:true".
       </description>
     </param>	
@@ -83,14 +83,14 @@ Then do the same for the `HMI_API`:
 ```
 
 The SDL Mobile libraries will do some handling of providing the `choiceID` or `choiceIDArray` response back to the app. 
-On older headunits, the app might request a multipick `performInteraction` but the headunit would ignore the parameter of `multiPickConfirmationButtonText` and the response would only end up being a single choice ID.  If the `choiceID` and `choiceIDArray` are both present in the response from the HMI, then Mobile libraries will just send back `choiceIDArray`.
+On older head units, the app might request a multipick `performInteraction` but the head unit would ignore the parameter of `multiPickConfirmationButtonText` and the response would only end up being a single choiceID.  If the `choiceID` and `choiceIDArray` are both present in the response from the HMI, then Mobile libraries will just send back `choiceIDArray`.
 
 If a multipick PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
 
 
 ## Potential downsides
 
-Adds complexity to core and HMI. 
+Adds complexity to Core and HMI. 
 On older head units, the user would only be able to pick one thing from the multipick perform interaction.
 
 ## Impact on existing code
