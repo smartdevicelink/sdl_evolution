@@ -4,7 +4,7 @@
 * Proposal: [SDL-NNNN](NNNN-PerformInteractionMultipick.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Java Suite / RPC ]
+* Impacted Platforms: [Core / iOS / Java Suite / JavaScript / RPC ]
 
 ## Introduction
 
