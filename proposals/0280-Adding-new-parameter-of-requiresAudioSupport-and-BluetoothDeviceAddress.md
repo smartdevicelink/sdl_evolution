@@ -1,8 +1,8 @@
 # Adding new parameter of requiresAudioSupport and BluetoothDeviceAddress
 
 * Proposal: [SDL-0280](0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md)
-* Author: [Shohei Kawano](https://github.com/Shohei-Kawano)
-* Status: **Returned for Revisions**
+* Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto)
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
 
 ## Introduction
@@ -17,15 +17,60 @@ To solve this problem, add `BluetoothDeviceAddress` and `requiresAudioSupport` s
 
 ## Proposed solution
 
-Adding the new parameter `requiresAudioSupport` in `RegisterAppInterface` and `OnAppRegistered`, and `bluetoothDeviceAddress` in `DeviceInfo`.  
-If the SDL App needs AudioSupport (meaning, the SDL App wants to use the BT A2DP for play music ), the SDL App sets `requiresAudioSupport` to TRUE and sets the BT address of the device to `BluetoothDeviceAddress`.
-If `requiresAudioSupport` is TRUE, the HU will check the BT connection status.  
-If BT is not connected, the HU will automatically connect BT using `BluetoothDeviceAddress` or request connection from the user.
-If `requiresAudioSupport` is not set, the HU will refer to AppType. If AppType is MediaType, the HU operates with `requiresAudioSupport` set to TRUE.
-  
-The current SDL Java Suite library cancels SDL launch if the `requiresAudioSupport` setting is TRUE and BT A2DP is not connected.  
-However, with this proposal, the SDL app is always launched without depending on the connection status of BT A2DP.  
+The current SDL Java Suite library cancels the transport connection if the `requiresAudioSupport` setting is TRUE and BT A2DP is not connected.
+However, with this proposal, by adding a new parameter, the SDL app always establishes the transport connection and is registered without depending on the connection status of BT A2DP. If BT A2DP is not connected, the HU will automatically connect BT using `bluetoothDeviceAddress` or request connection from the user.
 
+
+### Change the app registration flow
+
+In order for the app to be always registered, the changes in SDL session establishment to app registration flow is shown below.
+
+![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow.png)
+
+
+#### Preconditions
+
+As demonstrated in the flow, the following conditions are required to use this function.
+If the SDL cannot use this function, it will perform the same operation as before.
+
+
+|conditions|details|
+|---|---|
+|The app/HMI must have the version that supports this function|App side: "requiresAudioSupport" of "RegisterAppInterface" must be set to true in order to use this function.<br>HMI side: "autoBTCapability of "StartServiceACK" must be set to true in order to use this function.|
+|App must request audio|In case of media app, "requestAudioSupport" is set to true as default. However, developers can set "requiresAudioSupport" to true regardless of default settings.|
+|HU must have BT automatic connection function|`autoBTConnect` of` HMICapabilities` must be set to true.|
+
+#### Add parameters
+
+- StartService
+`requiresAudioSupport` is added to the payload of `StartService.`
+Similar to the default in the existing JavaSuite, `requiresAudioSupport` is set to true for media apps and false for other types of app. However, app developers can change this settings if needed.
+
+- StartServiceACK
+`autoBTCapability` is added to the payload of` StartServiceACK`.
+Additionally, a new parameter `autoBTConnection,` which indicates whether the HU has the BT automatic connection function, is added to `HMICapabilities`. The core sets `autoBTCapability` to true, if `autoBTConnection` is true.
+
+HMI API:
+```xml
+<struct name="HMICapabilities">
+  <param name="navigation" type="Boolean" mandatory="false">
+    <description>Availability of build in Nav. True: Available, False: Not Available</description>
+  </param>
+  <param name="phoneCall" type="Boolean" mandatory="false">
+    <description>Availability of build in phone. True: Available, False: Not Available</description>
+  </param>
+  <param name="videoStreaming" type="Boolean" mandatory="false">
+    <description>Availability of built-in video streaming. True: Available, False: Not Available</description>
+  </param>
++  <param name="autoBTConnection" type="Boolean" mandatory="false">
++    <description>Indicates whether the HU has BT automatic connection function</description>
++  </param>
+</struct>
+```
+
+- RegisterAppInterface
+- OnAppRegistered
+Add `bluetoothDeviceAddress` to` DeviceInfo.` Add `requiresAudioSupport` to` HMIApplication.`
 
 Mobile API:
 ```xml
@@ -49,47 +94,10 @@ Mobile API:
         <param name="maxNumberRFCOMMPorts" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
             <description>Omitted if connected not via BT.</description>
         </param>         
-+       <param name="bluetoothDeviceAddress" type="String"  minlength="0" maxlength="500" mandatory="true">
-+           <description>Device BT Address - If cannot get it, set All-F.</description>
++       <param name="bluetoothDeviceAddress" type="String"  minlength="0" maxlength="500" mandatory="false">
++           <description>Device BT Address</description>
 +       </param>
     </struct>
-...
-    <function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="request" since="1.0">
-        <description>
-            Establishes an interface with a mobile application.
-            Before registerAppInterface no other commands will be accepted/executed.
-        </description>
-        
-        <param name="syncMsgVersion" type="SyncMsgVersion" mandatory="true" since="1.0">
-            <description>See SyncMsgVersion</description>
-        </param>
-...
-        <param name="hashID" type="String" maxlength="100" mandatory="false" since="3.0">
-            <description>
-                ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).
-                This registered data (commands, submenus, choice sets, etc.) can be reestablished without needing to explicitly reregister each piece.
-                If omitted, then the previous state of an app's commands, etc. will not be restored.
-                When sending hashID, all RegisterAppInterface parameters should still be provided (e.g. ttsName, etc.).
-            </description>
-        </param>
-+       <param name="deviceInfo" type="DeviceInfo" mandatory="true" since="X.X">
--       <param name="deviceInfo" type="DeviceInfo" mandatory="false" since="3.0">
-            <description>
-                See DeviceInfo.
-            </description>
-+           <history>
-+                <param name="deviceInfo" type="DeviceInfo" mandatory="false" since="3.0" until="X.X"/>
-+           </history>
-        </param>
-        <param name="appID" type="String" maxlength="100" mandatory="true" since="2.0">
-            <description>ID used to validate app with policy table entries</description>
-        </param>
-...
-        <param name="nightColorScheme" type="TemplateColorScheme" mandatory="false" since="5.0"/>
-+       <param name="requiresAudioSupport" type="Boolean" mandatory="false" since="X.X">
-+            <description>Set whether or not this app requires the use of an audio streaming output device.</description>
-+        </param>
-    </function>
 ```
   
 HMI API:
@@ -107,8 +115,8 @@ HMI API:
   <param name="isSDLAllowed" type="Boolean" mandatory="false">
     <description>Sent by SDL in UpdateDeviceList. 'true' - if device is allowed for PolicyTable Exchange; 'false' - if device is NOT allowed for PolicyTable Exchange </description>
   </param>
-+ <param name="bluetoothDeviceAddress" type="String" mandatory="true">
-+   <description>Device BT Address - If cannot get it, set All-F.</description>
++ <param name="bluetoothDeviceAddress" type="String" mandatory="false">
++   <description>Device BT Address</description>
 + </param>
 </struct>
 ...
@@ -125,15 +133,21 @@ HMI API:
 </struct>
 ```
 
+### Launch the app
+
+By using this function, the HU is able to perform  BT automatic connection based on the `bluetoothDeviceAddress` which is notified when the app that requests audio (`requiresAudioSupport` is set to true) is launched. 
+It can also display a message that prompts BT connection to the user.
+
+
 ## Potential downsides
 
-This proposal makes a major change to add Mandatory TRUE request.  
-It is necessary to coordinate the operation with the old system that is not Mandatory TRUE.  
-
+Due to the complexity of the flow, the developer must do the implementation carefully.
 
 ## Impact on existing code
 
+This proposal requires a major version change.
 Since new parameters are added, Core, iOS, Java Suite, RPC, and HMI are affected.
+
 
 ## Alternatives considered
 
