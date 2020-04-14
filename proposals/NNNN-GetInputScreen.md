@@ -7,11 +7,11 @@
 
 ## Introduction
 
-This proposal adds an Input screen for apps. This enables a way for the user to sign in, put in their credit card info, put in their address and more. This is particularly focused at embedded/cloud apps becuase the app lives in the car and the user will still need a way to enter info without having the ability to do so on their phone.
+This proposal adds an Input screen for apps. This enables a way for the user to sign in, put in their credit card information, put in their address and more. This is particularly focused on embedded/cloud apps because the app lives in the car and the user will still need a way to enter information without having the ability to do so on their phone.
 
 ## Motivation
 
-With current SDL, apps live on the phone and connect to the car. So, the user can enter info for things like their login, address and credit card info via their phone and then connect the app to their car. With embedded/cloud apps, the app no longer lives in the phone - it lives in the car.  Users will need a way to do all of this functionality still.
+With current SDL, apps live on the phone and connect to the car. So, the user can enter information for things like their login, address and credit card information via their phone and then connect the app to their car. With embedded/cloud apps, the app no longer lives in the phone - it lives in the car.  Users will need a way to do all of this functionality still.
 
 Here's an example from an overall plan
 
@@ -41,21 +41,21 @@ It contains a title, and an array of `InputLines`
   </param>
   <param name="errorMessage" maxlength="500" type="String" mandatory="false">
     <description>
-      If there's a problem with the input fields, this can be used to display info.
+      If there's a problem with the input fields, this can be used to display information.
     </description>
   </param>
   <param name="fields" type="Common.Field" array="true" minsize="0" maxsize="100" mandatory="true">\
   </param>
     <param name="softButtons" type="Common.SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
     <description>
-      App defined SoftButtons for Cancel, edit, submit, etc.
+      App defined SoftButtons for cancel, edit, submit, etc.
     </description>
   </param>
 </function>
 ```
 
 Add a new struct called `Field` and an enum called `FieldType` to get user input in the GetInput screen.
-This enables text input fields, numeric input fields and combo box input fields.  Text and numberic input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items.  
+This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items.  
 ```xml
 <struct name="Field">
   <description>
@@ -77,12 +77,12 @@ This enables text input fields, numeric input fields and combo box input fields.
   </param>
   <param name="format" maxlength="500" type="String" mandatory="false">
     <description>
-      A text string used to format the input text to a certain style. Any characters except underscore will remain in the field with no way to type over them. The underscore character will represent a space that the user can type in.  E.g. A format string for Phone number would be +_(___)___-____
+      A text string used to format the input text to a certain style. Any characters except underscore will remain in the field with no way to type over them. The underscore character will represent a space that the user can type in.  E.g. A format string for phone number would be +_(___)___-____
     </description>
   </param>
   <param name="additionalInfo" maxlength="500" type="String" mandatory="false">
     <description>
-      More info that is shown by the input field
+      More information that is shown by the input field
     </description>
   </param>
   <param name="error" type="Boolean" mandatory="false">
@@ -114,8 +114,8 @@ This enables text input fields, numeric input fields and combo box input fields.
   </enum>
 ```
 
-And the response which would be sent when the user presses a softbutton - this would use RPC encryption which is handled by policies.
-One string response for each field. If a field was left empty, the associated string would be blank.
+Regarding the response which would be sent when the user presses a softbutton, this would use RPC encryption which is handled by policies.
+There would be one string response for each field. If a field was left empty, the associated string would be blank.
 ```xml
 <function name="GetInput" messagetype="response">
   <param name="fields" type="String" maxlength="500" array="true" minsize="0" maxsize="100" mandatory="true">
