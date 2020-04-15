@@ -3,7 +3,7 @@
 * Proposal: [SDL-0280](0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto)
 * Status: **In Review**
-* Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
+* Impacted Platforms: [ Core / iOS / Java Suite / RPC / Protocol / HMI ]
 
 ## Introduction
 
@@ -31,7 +31,7 @@ In order for the app to be always registered, the changes in SDL session establi
 #### Preconditions
 
 As demonstrated in the flow, the following conditions are required to use this function.
-If the SDL cannot use this function, it will perform the same operation as before.
+If the SDL app or HU cannot use this function, it will perform the same operation as before.
 
 
 |conditions|details|
@@ -146,7 +146,7 @@ Due to the complexity of the flow, the developer must do the implementation care
 ## Impact on existing code
 
 This proposal requires a major version change.
-Since new parameters are added, Core, iOS, Java Suite, RPC, and HMI are affected.
+Since new parameters are added, Core, iOS, Java Suite, RPC, Protocol, and HMI are affected.
 
 
 ## Alternatives considered
