@@ -70,7 +70,7 @@ HMI API:
 
 - RegisterAppInterface
 - OnAppRegistered
-Add `bluetoothDeviceAddress` to` DeviceInfo.` Add `requiresAudioSupport` to` HMIApplication.`
+Add `bluetoothDeviceAddress` to` DeviceInfo`. Add `requiresAudioSupport` to` HMIApplication`.
 
 Mobile API:
 ```xml
