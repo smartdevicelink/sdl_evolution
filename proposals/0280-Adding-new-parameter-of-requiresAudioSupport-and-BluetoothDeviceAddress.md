@@ -44,7 +44,7 @@ If the SDL cannot use this function, it will perform the same operation as befor
 
 - StartService
 `requiresAudioSupport` is added to the payload of `StartService`.
-Similar to the default in the existing JavaSuite, `requiresAudioSupport` is set to true for media apps and false for other types of app. However, app developers can change this settings if needed.
+Similar to the default in the existing Java Suite library, `requiresAudioSupport` is set to true for media apps and false for other types of apps. However, app developers can change these settings if needed.
 
 - StartServiceACK
 `autoBTCapability` is added to the payload of` StartServiceACK`.
