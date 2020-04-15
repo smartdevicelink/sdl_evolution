@@ -47,7 +47,7 @@ If the SDL cannot use this function, it will perform the same operation as befor
 Similar to the default in the existing Java Suite library, `requiresAudioSupport` is set to true for media apps and false for other types of apps. However, app developers can change these settings if needed.
 
 - StartServiceACK
-`autoBTCapability` is added to the payload of` StartServiceACK`.
+`autoBTCapability` is added to the payload of `StartServiceACK`.
 Additionally, a new parameter `autoBTConnection,` which indicates whether the HU has the BT automatic connection function, is added to `HMICapabilities`. The core sets `autoBTCapability` to true, if `autoBTConnection` is true.
 
 HMI API:
