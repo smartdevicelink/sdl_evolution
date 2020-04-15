@@ -90,11 +90,12 @@ If a multipick PI times out, then SDL shall send a response of `TIMED_OUT` with 
 
 ## Potential downsides
 
-This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI. It would be a minor version change for affected libraries.
+This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI. 
 
 ## Impact on existing code
 
 This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI
+It would be a minor version change for affected libraries.
 
 ## Alternatives considered
 
