@@ -63,7 +63,7 @@ HMI API:
     <description>Availability of built-in video streaming. True: Available, False: Not Available</description>
   </param>
 +  <param name="autoBTConnection" type="Boolean" mandatory="false">
-+    <description>Indicates whether the HU has BT automatic connection function</description>
++    <description>Indicates whether the HU has BT automatic connection function. True: Available, False: Not Available</description>
 +  </param>
 </struct>
 ```
