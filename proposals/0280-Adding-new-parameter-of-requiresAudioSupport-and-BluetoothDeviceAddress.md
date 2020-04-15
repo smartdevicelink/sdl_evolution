@@ -23,7 +23,7 @@ However, with this proposal, by adding a new parameter, the SDL app always estab
 
 ### Change the app registration flow
 
-In order for the app to be always registered, the changes in SDL session establishment to app registration flow is shown below.
+In order for the app to be always registered, the changes in SDL session establishment to app registration flow are shown below.
 
 ![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow.png)
 
