@@ -43,7 +43,7 @@ If the SDL cannot use this function, it will perform the same operation as befor
 #### Add parameters
 
 - StartService
-`requiresAudioSupport` is added to the payload of `StartService.`
+`requiresAudioSupport` is added to the payload of `StartService`.
 Similar to the default in the existing JavaSuite, `requiresAudioSupport` is set to true for media apps and false for other types of app. However, app developers can change this settings if needed.
 
 - StartServiceACK
