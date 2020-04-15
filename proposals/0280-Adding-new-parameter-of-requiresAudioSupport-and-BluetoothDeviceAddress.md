@@ -36,7 +36,7 @@ If the SDL cannot use this function, it will perform the same operation as befor
 
 |conditions|details|
 |---|---|
-|The app/HMI must have the version that supports this function|App side: "requiresAudioSupport" of "RegisterAppInterface" must be set to true in order to use this function.<br>HMI side: "autoBTCapability of "StartServiceACK" must be set to true in order to use this function.|
+|The app/HMI must have the version that supports this function|App side: `requiresAudioSupport` of `RegisterAppInterface` must be set to true in order to use this function.<br>HMI side: `autoBTCapability` of `StartServiceACK` must be set to true in order to use this function.|
 |App must request audio|In case of media app, "requestAudioSupport" is set to true as default. However, developers can set "requiresAudioSupport" to true regardless of default settings.|
 |HU must have BT automatic connection function|`autoBTConnect` of` HMICapabilities` must be set to true.|
 
