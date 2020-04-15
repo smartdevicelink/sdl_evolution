@@ -130,11 +130,12 @@ We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements]
 
 ## Potential downsides
 
-This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI. It would be a minor version change for affected libraries. 
+This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
 
 ## Impact on existing code
 
 It's a new parameter so this would not affect older SDL versions.
+It would be a minor version change for affected mobile libraries. 
 
 ## Alternatives considered
 
