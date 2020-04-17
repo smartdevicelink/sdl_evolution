@@ -94,7 +94,8 @@ This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
 
 ## Impact on existing code
 
-This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI
+This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
+
 It would be a minor version change for affected libraries.
 
 ## Alternatives considered
