@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-GetInputScreen.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Java Suite / JavaScript / RPC]
+* Impacted Platforms: [HMI / Core / iOS / Java Suite / JavaScript / RPC]
 
 ## Introduction
 
