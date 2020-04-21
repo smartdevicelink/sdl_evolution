@@ -3,7 +3,7 @@
 * Proposal: [SDL-0284](0284-DialNumber_Text.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / RPC]
 
 ## Introduction
 
@@ -28,17 +28,41 @@ Apps can use a different message based on the use case:
 Add a text field to DialNumber in the MOBILE_API and HMI_API. 
 The HMI would still need to display the phone number and a call button so that the user understands that a call is about to be placed. If the app doesn't send a message, the HMI would just display the standard string that they currently do for `DialNumber`.
 
+Add to the `MOBILE_API`:
 ```xml
-    <function name="DialNumber" functionID="DialNumberID" messagetype="request" since="3.0">
+<function name="DialNumber" functionID="DialNumberID" messagetype="request" since="3.0">
     .
     .
     .
-        <param name="messageText" type="Common.TextFieldStruct" mandatory="false" since="X.X">
-            <description>
-              Body of text to display to the user.
-            </description>
-        </param>
-    </function>
+    <param name="promptText" type="Common.TextFieldStruct" mandatory="false" since="X.X">
+        <description>Body of text to display to the user.</description>
+    </param>
+</function>
+```
+
+And `HMI_API`:
+```xml
+<function name="DialNumber" messagetype="request">
+    .
+    .
+    .
+    <param name="promptText" type="TextField" mandatory="false" since="X.X">
+        <description>Body of text to display to the user.</description>
+    </param>
+</function>
+```
+
+In the `MOBILE_API` and `HMI_API` add to the `TextFieldName` enum 
+```xml
+<enum name="TextFieldName" since="1.0">
+     .
+     .
+     .
+    <element name="dialNumberPromptText" since="X.X">
+        <description> Line of text for DialNumber</description>
+    </element>    
+
+</enum>
 ```
 
 ## Potential downsides

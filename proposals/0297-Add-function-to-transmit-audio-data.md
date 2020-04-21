@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-0297](0297-Add-function-to-transmit-audio-data.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
