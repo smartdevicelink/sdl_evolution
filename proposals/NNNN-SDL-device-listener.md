@@ -1,6 +1,6 @@
-# SDL Listener
+# SDL Device Listener
 
-* Proposal: [SDL-NNNNN](NNNN-SDL-Listener.md)
+* Proposal: [SDL-NNNNN](NNNN-SDL-device-listener.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
 * Status: **Awaiting Review**
 * Impacted Platforms: [ Java Suite ]
@@ -8,7 +8,7 @@
 
 ## Introduction
 
-The SDL Android library relies on a complex multiplexing system that operates through a foreground service. This service is started based on the connection of the Media and Phone bluetooth profiles. Since SDL is set up in a way that the mobile device acts as the listening server of a bluetooth SPP connection, the router service must be started and waits for incoming connections without knowing if anything will connect to it. This leads to the service having to start in the foreground for all bluetooth connections. One possible way to avoid this is introducing a new prerequisite before starting the router service. This is done by adding a new class called `SDLListener` that will be activated in the `SDLBroadcastReceiver` to decide if the router service should be started or not.
+The SDL Android library relies on a complex multiplexing system that operates through a foreground service. This service is started based on the connection of the Media and Phone bluetooth profiles. Since SDL is set up in a way that the mobile device acts as the listening server of a bluetooth SPP connection, the router service must be started and waits for incoming connections without knowing if anything will connect to it. This leads to the service having to start in the foreground for all bluetooth connections. One possible way to avoid this is introducing a new prerequisite before starting the router service. This is done by adding a new class called `SDLDeviceListener` that will be activated in the `SDLBroadcastReceiver` to decide if the router service should be started or not.
 
 ## Motivation
 
@@ -29,15 +29,15 @@ Leaving a small window of time to allow for connections at this stage is very im
 
 ### Flow
 
-<img src="../assets/proposals/NNNN-SDL-listener/flow_chart.png" alt="POI app service example" class="inline" height= "75%" width= "75%" /> 
+<img src="../assets/proposals/NNNN-SDL-device-listener/flow_chart.png" alt="POI app service example" class="inline" height= "75%" width= "75%" /> 
 
-### SdlListener
+### SDLDeviceListener
 
 This class will be a small, scoped class that will be instantiated into the `SdlBroadcastReceiver` code base. See the Appendix for the sample code.
 
-#### Which apps create the SdlListener?
+#### Which apps create the SDLDeviceListener?
 
-One of the main reasons the `SdlRouterService` functionality was created was to avoid the case where an Android device didn't have enough RFCOMM channels to support each app hosting their own. Obviously this proposal doesn't want to run into that same situation. Therefore, each app will use the same logic it does now to start an `SdlRouterService`, but instead of each app starting the service, only the app that has the service to be started will be the one to instantiate an `SdlListener` instance. All other apps will simply return out of that logic block. This will keep the RFCOMM channels used to only 1 per BT connection. There is the caveat that if any older apps are installed, the old logic must be followed, so this feature will be dynamically enabled over time.
+One of the main reasons the `SdlRouterService` functionality was created was to avoid the case where an Android device didn't have enough RFCOMM channels to support each app hosting their own. Obviously this proposal doesn't want to run into that same situation. Therefore, each app will use the same logic it does now to start an `SdlRouterService`, but instead of each app starting the service, only the app that has the service to be started will be the one to instantiate an `SDLDeviceListener ` instance. All other apps will simply return out of that logic block. This will keep the RFCOMM channels used to only 1 per BT connection. There is the caveat that if any older apps are installed, the old logic must be followed, so this feature will be dynamically enabled over time.
 
 ### SdlRouterService instantly stays in the foreground
 
@@ -58,6 +58,7 @@ In order to prevent future cases where the app that spins up an `SDLListener` do
 - There is a chance that the first time a user connects their mobile device to an SDL enabled IVI system the router service will not connect. Subsequent connections, however, should be very likely.
 - Because older apps will still start the router service like normal, the updated flow will be less impactful until all the users apps have updated to the new scheme.
 - Since the `SdlRouterService` operates on a different process, there is no way to transfer the shared preference objects without explicitly doing so with other means such as intents, binding, etc. This means each app will have to learn about the bluetooth devices it encounters over time. However, it should be rather quick since apps will save the MAC address after binding to a trusted router service anyways.
+- If a user swipes away the app from the Recent Apps screen during the listening period after a device connects, the `SDLDeviceListener` will be closed prematurely. The probability that a user will be doing this within 30 seconds of a device connected that is SDL enabled is very low and therefore shouldn't be an issue. On the next connection the process will try again and could succeed. 
 
 
 ## Impact on existing code
@@ -67,14 +68,14 @@ In order to prevent future cases where the app that spins up an `SDLListener` do
 ## Alternatives considered
 - No other solutions considered
 
-## Apendix
+## Appendix
 
-### `SdlListener` Sample Code
+### `SdlDeviceListener` Sample Code
 
 ```java
-ublic class SdlListener {
+ublic class SdlDeviceListener {
 
-    private static final String TAG = "SdlListener";
+    private static final String TAG = "SdlDeviceListener";
     private static final String SDL_DEVICE_STATUS_SHARED_PREFS = "sdl.device.status";
     private static final Object LOCK = new Object();
 
@@ -87,7 +88,7 @@ ublic class SdlListener {
     private Runnable timeoutRunner;
 
 
-    public SdlListener(Context context, BluetoothDevice device, Callback callback){
+    public SdlDeviceListener(Context context, BluetoothDevice device, Callback callback){
         this.contextWeakReference = new WeakReference<>(context);
         this.connectedDevice = device;
         this.callback = callback;
@@ -131,9 +132,9 @@ ublic class SdlListener {
 
     private static class TransportHandler extends Handler{
 
-        final WeakReference<SdlListener> provider;
+        final WeakReference<SdlDeviceListener> provider;
 
-        TransportHandler(SdlListener provider){
+        TransportHandler(SdlDeviceListener provider){
             this.provider = new WeakReference<>(provider);
         }
 
@@ -142,19 +143,19 @@ ublic class SdlListener {
             if(this.provider.get() == null){
                 return;
             }
-            SdlListener sdlListener = this.provider.get();
+            SdlDeviceListener sdlDeviceListener = this.provider.get();
             switch (msg.what) {
 
                 case SdlRouterService.MESSAGE_STATE_CHANGE:
                     TransportRecord transportRecord = (TransportRecord) msg.obj;
                     switch (msg.arg1) {
                         case MultiplexBaseTransport.STATE_CONNECTED:
-                            sdlListener.setSDLConnectedStatus(transportRecord.getAddress(),true);
-                            boolean keepConnectionOpen = sdlListener.callback.onTransportConnected(transportRecord);
+                            sdlDeviceListener.setSDLConnectedStatus(transportRecord.getAddress(),true);
+                            boolean keepConnectionOpen = sdlDeviceListener.callback.onTransportConnected(transportRecord);
                             if( !keepConnectionOpen ) {
-                                sdlListener.bluetoothTransport.stop();
-                                sdlListener.bluetoothTransport = null;
-                                sdlListener.timeoutHandler.removeCallbacks(sdlListener.timeoutRunner);
+                                sdlDeviceListener.bluetoothTransport.stop();
+                                sdlDeviceListener.bluetoothTransport = null;
+                                sdlDeviceListener.timeoutHandler.removeCallbacks(sdlDeviceListener.timeoutRunner);
                             }
                             break;
                         case MultiplexBaseTransport.STATE_CONNECTING:
@@ -164,10 +165,10 @@ ublic class SdlListener {
                             break;
                         case MultiplexBaseTransport.STATE_NONE:
                             // We've just lost the connection
-                            sdlListener.callback.onTransportDisconnected(transportRecord);
+                            sdlDeviceListener.callback.onTransportDisconnected(transportRecord);
                             break;
                         case MultiplexBaseTransport.STATE_ERROR:
-                            sdlListener.callback.onTransportError(transportRecord);
+                            sdlDeviceListener.callback.onTransportError(transportRecord);
                             break;
                     }
                     break;
@@ -182,7 +183,7 @@ ublic class SdlListener {
 
     /**
      * Set the connection establishment status of the particular device
-     * @param address address of the device in quesiton
+     * @param address address of the device in question
      * @param hasSDLConnected true if a connection has been established, false if not
      */
     private void setSDLConnectedStatus(String address, boolean hasSDLConnected){
@@ -200,7 +201,7 @@ ublic class SdlListener {
 
     /**
      * Checks to see if a device address has connected to SDL before.
-     * @param address the mac address of the device in quesiton
+     * @param address the mac address of the device in question
      * @return if this is the first status check of this device
      */
     private boolean isFirstStatusCheck(String address){
