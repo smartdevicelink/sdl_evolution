@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0296](0296-Update-video-streaming-capabilities-during-ignition-cycle.md)
 * Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [Core / iOS / Java Suite]
 
 ## Introduction
