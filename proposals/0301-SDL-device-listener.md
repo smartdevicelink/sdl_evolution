@@ -1,8 +1,8 @@
 # SDL Device Listener
 
-* Proposal: [SDL-NNNNN](NNNN-SDL-device-listener.md)
+* Proposal: [SDL-0301](0301-SDL-device-listener.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [ Java Suite ]
 
 
