@@ -1,8 +1,8 @@
 # Add a Mechanism to Avoid Deadlock
 
-* Proposal: [SDL-NNNN](NNNN-Avoid-Deadlock.md)
+* Proposal: [SDL-0299](0299-Avoid-Deadlock.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
