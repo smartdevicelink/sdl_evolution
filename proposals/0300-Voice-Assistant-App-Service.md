@@ -1,8 +1,8 @@
 # Voice Assistant App Service
 
-* Proposal: [SDL-NNNNN](NNNN-Voice-Assistant-App-Service.md)
+* Proposal: [SDL-0300](0300-Voice-Assistant-App-Service.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / HMI / RPC / iOS / Java Suite / JavaScript Suite ]
 
 
