@@ -1,7 +1,7 @@
 # WiFi Transport: Sharing SSID and password with Mobile Proxy
 
 * Proposal: [SDL-NNNN](0245-sharing-wifi-ssid-and-password.md)
-* Author: [Ashwin Karemore](https://github.com/ashwink11)
+* Author: [Alexander Kutsan](https://github.com/ashwink11)
 * Status: **In Review**
 * Impacted Platforms: [Java Suite / iOS / RPC / Core / HMI]
 
