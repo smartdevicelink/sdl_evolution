@@ -1203,8 +1203,7 @@ It is proposed to introduce a new functional group within the current proposal:
 
 ### Potential Downsides
 
-SDL is not able to check that 2 different transport belongs to the same device.
-The device connected by 2 different types of transport will be considered by SDL as 2 different devices.
+SDL is not able to check that 2 different transport connections belongs to one mobile device. One device connected by 2 different types of transport will be considered by SDL as 2 different devices.
 
 ### Alternative solutions 
 
