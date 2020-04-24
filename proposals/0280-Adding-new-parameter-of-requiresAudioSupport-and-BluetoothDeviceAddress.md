@@ -24,24 +24,25 @@ However, with this proposal, by adding a new parameter, the SDL app always estab
 ### Change the app registration flow
 
 In order for the app to be always registered, the changes in SDL session establishment to app registration flow are shown below.
+Using the current library apps will not register at all without audio support. So it is assumed in this flow the app will only be using a compatible library.
 
 ![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow.png)
 
 1. The developer will set their `requiresAudioSupport` to true.
 2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
 3. Core will receive the `StartService` for the RPC service:
-3-1. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
-3-2. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
-3-3. If there is no Audio support, Core will check if it supports the auto connect BT function. If it does it will continue in flow.
-3-4. If `requiresAudioSupport` is true and there is no supported audio methods and Core does not support the auto connect BT function, it will send a `StartServiceNAK` with the reason `No audio support available`.
+    i. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
+    ii. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
+    iii. If there is no Audio support, Core will check if it supports the auto connect BT function. If it does it will continue in flow.
+    iv. If `requiresAudioSupport` is true and there is no supported audio methods and Core does not support the auto connect BT function, it will send a `StartServiceNAK` with the reason `No audio support available`.
 4. If it supports the auto connect BT function, a new param in the payload, `autoBTCapability` is set to true, otherwise set to false. Then if Core has continued, it will send a `StartServiceACK` with new param `autoBTCapability` set to true.
 5. The app receives the response to its `StartService` for the RPC service:
-5-1. If the response was a `StartServiceNAK`, the app will shut down.
-5-2. If the response was a `StartServiceACK`, it will continue in flow.
-5-3. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
-5-4. The library check it's current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
-5-5. If `autoBTCapability` was set to true, t will continue in flow.
-5-6. If the response was a `StartServiceACK` and `requiresAudioSupport` was set to true and autoBTCapability was set to false, the app will shutdown.
+    i. If the response was a `StartServiceNAK`, the app will shut down.
+    ii. If the response was a `StartServiceACK`, it will continue in flow.
+    iii. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
+    iv. The library check it's current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
+    v. If `autoBTCapability` was set to true, t will continue in flow.
+    vi. If the response was a `StartServiceACK` and `requiresAudioSupport` was set to true and autoBTCapability was set to false, the app will shutdown.
 6. The app will send its RegisterAppInterface which will include `requiresAudioSupport` and `bluetoothDeviceAddress` in `deviceInfo`.
 7. When core receives RegisterAppInterface, it sends response. Then it will send `OnAppRegistered` include `deviceInfo` to HMI.
 
