@@ -31,7 +31,7 @@ In order for the app to be always registered, the changes in SDL session establi
 2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
 3. Core will receive the `StartService` for the RPC service:
 3-1. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
-3-2. Core will check it's current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
+3-2. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
 3-3. If there is no Audio support, core will check if it supports the auto connect BT function. If it does it will continue in flow.
 3-4. If `requiresAudioSupport` is true and there is no supported audio methods and Core does not support the auto connect BT function, it will send a `StartServiceNAK` with the reason `No audio support available`.
 4. If it supports the auto connect BT function, a new param in the payload, autoBTCapability set to true, otherwise set to false. Then if core has continued, it will send a `StartServiceACK`.
