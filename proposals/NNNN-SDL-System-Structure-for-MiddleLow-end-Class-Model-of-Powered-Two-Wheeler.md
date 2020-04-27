@@ -58,7 +58,7 @@ The target of this proposal are the following platforms:
 
 ## Potential downsides
 
-Due to changes, there may be a huge diffenrence with the existing SDL. If the SDL Core specification becomes compatible with both PTW and four-wheeled vehicles, at this point, we assume that we can create an SDL Core for PTW (or four-wheeled vehicles) by selecting this option during the core build. However, this might lead to a high possibility of complexity in the software structure. In some cases, it will be necessary to branch, but in that case it will be necessary to maintain each.
+Due to the changes proposed, there may be a huge difference with the existing SDL. If the SDL Core specification becomes compatible with both PTW and four-wheeled vehicles, at this point, we assume that we can create an SDL Core for PTW (or four-wheeled vehicles) by selecting this option during the Core build. However, this might lead to a high possibility of complexity in the software structure. In some cases, it will be necessary to branch, but in that case it will be necessary to maintain each branch.
 
 ## Alternatives considered
 
