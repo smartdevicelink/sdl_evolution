@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is to construct a lightweight/simple display SDL system for Powered Two Wheeler(PTW) *1 middle/low-end class models.
+This proposal is to construct a lightweight/simple display SDL system for Powered Two Wheeler (PTW) *1 middle/low-end class models.
 
 *1 Powered Two wheeler (PTW) includes motorcycles/scooter/moped.
 
