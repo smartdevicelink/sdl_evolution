@@ -34,7 +34,7 @@ The middle/low-end class can only do a simple display, so functions such as Proj
 <b>Figure2.</b> SDL system for middle/low-end class
 ![Figure2_SDL_System_for_Middle_Low_end_class.PNG](../assets/proposals/NNNN-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure2_SDL_System_for_Middle_Low_end_class.png)
 
-As figure 3, the actual proxy and definition of system structure on the meter side are included SDL SDK in Smartphone.
+As shown in Figure 3, the actual proxy and definition of system structure on the meter side are included SDL SDK in the smartphone.
 
 <b>Figure3.</b> System structure of proxy and meter unit
 ![Figure3_System_structure_of_proxy_and_meter_unit.PNG](../assets/proposals/NNNN-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure3_System_structure_of_proxy_and_meter_unit.png)
