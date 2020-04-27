@@ -27,7 +27,7 @@ Currently, PTW can be classified into the following classes by their meter displ
  - Middle-end class: a TFT liquid-crystal display but has restrictions such as the area assigned to the SDL is small, and ECU performance is low.
  - Low-end class: simple display specifications and low ECU performance.
 
-The implementation of high-end class can be realized, first, by adding the PTWs specification (divided screen diplay of meter and SDL app, PTW information, etc) to the current SDL specification. Therefore, as of now, it is out of the scope of this proposal. A separate proposal will be created when needed.
+The implementation of high-end class can be realized, first, by adding the PTW's specification (divided screen diplay of meter and SDL app, PTW information, etc) to the current SDL specification. Therefore, as of now, it is out of the scope of this proposal. A separate proposal will be created when needed.
 
 The middle/low-end class can only do a simple display, so functions such as Projection are unnecessary. Additionally, since many ECUs do not have an OS, components that depend on the OS are unnecessary as well. By removing such unnecessary functions, the SDL system for lightweight/simple display can be constructed. Then, the current SDL communication format in JSON will be converted to binary format to reduce data such as character strings.
 
