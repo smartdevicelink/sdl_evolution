@@ -45,7 +45,7 @@ Note that this proposal is only a policy proposal. We will provide a separate pr
 
 ## Impact on existing code
 
-This proposal is to create a new implementation of the SDL Specification, thus includes major changes, but it will not affect the existing codes.
+This proposal is to create a new implementation of the SDL Specification, thus includes major changes, but it will not affect the existing code.
 The target of this proposal are the following platforms:
 - iOS
 - Java Suite
