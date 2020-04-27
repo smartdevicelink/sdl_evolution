@@ -31,7 +31,7 @@ The implementation of high-end class can be realized, first, by adding the PTW's
 
 The middle/low-end class can only do a simple display, so functions such as Projection are unnecessary. Additionally, since many ECUs do not have an OS, components that depend on the OS are unnecessary as well. By removing such unnecessary functions, the SDL system for lightweight/simple display can be constructed. Then, the current SDL communication format in JSON will be converted to binary format to reduce data such as character strings.
 
-<b>Figure2.</b> SDL System for Middle/Low end class
+<b>Figure2.</b> SDL system for middle/low-end class
 ![Figure2_SDL_System_for_Middle_Low_end_class.PNG](../assets/proposals/NNNN-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure2_SDL_System_for_Middle_Low_end_class.png)
 
 As figure 3, the actual proxy and definition of system structure on the meter side are included SDL SDK in Smartphone.
