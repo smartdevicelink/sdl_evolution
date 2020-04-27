@@ -50,7 +50,7 @@ The target of this proposal are the following platforms:
 - iOS
 - Java Suite
 - Javascript Suite
-- PolicyTable
+- Policy Table
 - SDL Core
 - HMI
 - Protocol
