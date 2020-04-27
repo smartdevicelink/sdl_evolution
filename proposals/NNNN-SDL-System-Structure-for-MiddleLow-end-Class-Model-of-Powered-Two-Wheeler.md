@@ -25,7 +25,7 @@ The current SDL system is mainly for four-wheeled vehicles and requires a high-p
 Currently, PTW can be classified into the following classes by their meter display specifications.
  - High-end class: display specifications and ECU performance are equivalent to that of a four-wheeled vehicle.
  - Middle-end class: a TFT liquid-crystal display but has restrictions such as the area assigned to the SDL is small, and ECU performance is low.
- - Low-end class: simple display specifications and have low ECU performance
+ - Low-end class: simple display specifications and low ECU performance.
 
 The implementation of high-end class can be realized, first, by adding the PTWs specification (divided screen diplay of meter and SDL app, PTW information, etc) to the current SDL specification. Therefore, as of now, it is out of the scope of this proposal. A separate proposal will be created when needed.
 
