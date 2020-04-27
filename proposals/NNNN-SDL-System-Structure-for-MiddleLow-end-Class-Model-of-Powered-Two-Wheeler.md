@@ -9,7 +9,7 @@
 
 This proposal is to construct a lightweight/simple display SDL system for Powered Two Wheeler (PTW) *1 middle/low-end class models.
 
-*1 Powered Two wheeler (PTW) includes motorcycles/scooter/moped.
+*1 Powered Two Wheeler (PTW) includes motorcycles/scooter/moped.
 
 <b>Figure1.</b> Sample of a simple meter display
 
