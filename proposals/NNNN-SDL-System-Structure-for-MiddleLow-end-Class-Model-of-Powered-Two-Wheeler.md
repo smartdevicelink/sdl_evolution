@@ -41,7 +41,7 @@ As shown in Figure 3, the actual proxy and definition of system structure on the
 
 Regarding the SDL Proxy, a lightweight communication can be performed by incorporating a communication converter module for middle/low-end class. The exchange of information during the initial communication between SDL Core and Proxy will distinguish whether it is for middle/low-end class or not and then develop SDL apps with the same SDL Proxy.
 
-Note that this proposal is only a policy proposal. We will provide a separate proposal for function according to the use case of PTW after this proposal is approved.
+Note that this proposal is only a policy proposal. We will provide a separate proposal for function according to the use case of PTW after this proposal is accepted.
 
 ## Impact on existing code
 
