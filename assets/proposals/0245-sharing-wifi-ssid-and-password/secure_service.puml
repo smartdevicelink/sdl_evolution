@@ -26,7 +26,7 @@ SDL -> HMI : OnAppRegistered (app1)
 SDL -> APP : RAI response 
 
 SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
-SDL decide that Device should be AP
+SDL decides that **MOBILE should be AP**
 
 SDL -> APP:  \n <b>OnNetworkConfiguration : \n\
 \t preferredNetworkHost : \t MOBILE \n\

@@ -1,7 +1,7 @@
 @startuml
 !pragma teoz true
 
-title Multiple apps on different devices,  MOBILE is an access point
+title Multiple apps on different devices, MOBILE is an access point
 participant HMI
 participant SDL
 box "Device1"
@@ -38,12 +38,12 @@ SDL -> HMI : <b>OnAppRegistered(App1)
 SDL -> APP1 : <b>RAI(App1) response 
 
 SDL -> SDL : Based on ini file, **RAI_1** and HMI NetworkCapabilities\n\
-SDL decide that **Mobile should be AP** 
+SDL decides that **MOBILE should be AP** 
 
 SDL -> HMI : <b>OnAppRegistered(App2) 
 SDL -> APP2 : <b>RAI(App2) response 
 
-SDL -> SDL : SDL **postpons** calculation of network configuration for APP2\n\
+SDL -> SDL : SDL **postpones** calculation of network configuration for APP2\n\
 until OnSystemRequestCapabilitiesUpdate notification from HMI
 activate SDL
 
@@ -56,22 +56,22 @@ SDL -> APP1:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
 APP1 -> APP1 : Mobile creates \n\
-WiFi Aceess Point
+WiFi Access Point
 
 
 APP1 -> SDL: <b>JoinNetwork requst \n\
-\t ssid : \t DevicerWiFiAP \n\
+\t ssid : \t DeviceWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t allowAccessPointToBeShared : \t **true** \n\
-\t accesssPointSupportsInternetAccess : \t true
+\t accessPointSupportsInternetAccess : \t true
 
 SDL -> HMI: <b>JoinNetwork request \n\
 \t ssid : \t DeviceWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t allowAccessPointToBeShared : \t **true** \n\
-\t accesssPointSupportsInternetAccess : \t true
+\t accessPointSupportsInternetAccess : \t true
 
 HMI -> HMI : Establish \n\
 WiFiConnection
@@ -109,13 +109,13 @@ HMI -> SDL: <b>JoinNetwork request \n\
 \t ssid : \t DeviceWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
-\t accesssPointSupportsInternetAccess : \t true
+\t accessPointSupportsInternetAccess : \t true
 
 SDL -> APP2: <b>JoinNetwork request\n\
 \t ssid : \t DeviceWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
-\t accesssPointSupportsInternetAccess : \t true
+\t accessPointSupportsInternetAccess : \t true
 
 note over APP2: HMI shows pop-up \n\
 user consent 

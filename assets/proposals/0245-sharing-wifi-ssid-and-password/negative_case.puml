@@ -63,7 +63,7 @@ SDL -> HMI : <b>OnAppRegistered(App2)
 SDL -> APP2 : <b>RAI_2(App2) response 
 
 SDL -> SDL : Based on ini file, RAI(App2) and latest HMI NetworkCapabilities\n\
-SDL decide that **VEHICLE should be AP** 
+SDL decides that **VEHICLE should be AP** 
 
 SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t networkHost : \t **VEHICLE** \n\
@@ -86,7 +86,7 @@ SDL -> APP2 : <b>JoinNetwork response: resultCode = "REJECTED"
 
 end
 
-HMI -> HMI : HMI creates WiFi Aceess Point
+HMI -> HMI : HMI creates WiFi Access Point
 
 alt HMI should send OnSystemCapabilityUpdate even \n\
 if the capabilities are not changed 
@@ -131,7 +131,7 @@ SDL -> APP3 : <b>RAI_3(App3) response
 
 
 SDL -> SDL : Based on ini file, RAI(App3) and latest HMI NetworkCapabilities\n\
-SDL decide that **VEHICLE should be AP** 
+SDL decides that **VEHICLE should be AP** 
 
 
 

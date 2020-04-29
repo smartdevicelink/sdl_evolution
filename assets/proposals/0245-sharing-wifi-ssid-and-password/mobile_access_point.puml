@@ -2,7 +2,7 @@
 !pragma teoz true
 
 
-title SDL decide that MOBILE is an access point
+title SDL decides that MOBILE is an access point
 participant HMI
 participant SDL
 participant APP
@@ -28,7 +28,7 @@ SDL -> HMI : <b>OnAppRegistered
 SDL -> APP : <b>RAI response 
 
 SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
-SDL decide that **Mobile should be AP** 
+SDL decides that **Mobile should be AP** 
 
 
 SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
@@ -40,7 +40,7 @@ SDL -> APP:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"  
 
 APP -> APP : Mobile creates \n\
-WiFi Aceess Point
+WiFi Access Point
 
 
 APP -> SDL: <b>JoinNetwork request\n\
@@ -48,14 +48,14 @@ APP -> SDL: <b>JoinNetwork request\n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t allowAccessPointToBeShared : \t **false** \n\
-\t accesssPointSupportsInternetAccess : \t true
+\t accessPointSupportsInternetAccess : \t true
 
 SDL -> HMI: <b>JoinNetwork request\n\
 \t ssid : \t DeviceWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t allowAccessPointToBeShared : \t **false** \n\
-\t accesssPointSupportsInternetAccess : \t true
+\t accessPointSupportsInternetAccess : \t true
 
 HMI -> HMI : Establish \n\
 WiFiConnection

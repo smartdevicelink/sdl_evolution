@@ -32,7 +32,7 @@ SDL -> APP1 : <b>RAI(App1) response
 
 
 SDL -> SDL : Based on ini file, RAI_1(App1) and HMI NetworkCapabilities\n\
-SDL decide that **VEHICLE should be AP** 
+SDL decides that **VEHICLE should be AP** 
 
 SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t networkHost : \t **VEHICLE** \n\
@@ -43,7 +43,7 @@ SDL -> APP1:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
 
-HMI -> HMI : HMI creates WiFi Aceess Point
+HMI -> HMI : HMI creates WiFi Access Point
 
 HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
@@ -86,7 +86,7 @@ SDL -> HMI : <b>OnAppRegistered(App2)
 SDL -> APP2 : <b>RAI_2(App2) response 
 
 SDL -> SDL : Based on ini file, RAI(App2) and latest HMI NetworkCapabilities\n\
-SDL decide that **VEHICLE should be AP** 
+SDL decides that **VEHICLE should be AP** 
 
 SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t networkHost : \t **VEHICLE** \n\
@@ -130,7 +130,7 @@ SDL -> HMI : <b>JoinNetwork response
 
 
 note over SDL: Do not proxy JoinNetwork to APP1 \n\
-because APP1 already started session via Wifi
+because APP1 already started session via WiFi
 
 
 @enduml

@@ -2,7 +2,7 @@
 !pragma teoz true
 
 
-title SDL decide that VEHICLE is an access point
+title SDL decides that VEHICLE is an access point
 
 participant HMI
 participant SDL
@@ -30,7 +30,7 @@ SDL -> HMI : <b>OnAppRegistered
 SDL -> APP : <b>RAI response 
 
 SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
-SDL decide that **Vehicle should be AP** 
+SDL decides that **VEHICLE should be AP** 
 
 SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t networkHost : \t **VEHICLE** \n\
@@ -40,7 +40,7 @@ SDL -> APP:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t networkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
-HMI -> HMI : HMI creates WiFi Aceess Point
+HMI -> HMI : HMI creates WiFi Access Point
 
 HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
@@ -55,13 +55,13 @@ HMI -> SDL: <b>JoinNetwork request\n\
 \t ssid : \t InCarWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
-\t accesssPointSupportsInternetAccess : \t true 
+\t accessPointSupportsInternetAccess : \t true 
 
 SDL -> APP: <b>JoinNetwork request\n\
 \t ssid : \t InCarWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
-\t accesssPointSupportsInternetAccess : \t true 
+\t accessPointSupportsInternetAccess : \t true 
 
 note over APP: APP shows pop-up \n\
 user consent 

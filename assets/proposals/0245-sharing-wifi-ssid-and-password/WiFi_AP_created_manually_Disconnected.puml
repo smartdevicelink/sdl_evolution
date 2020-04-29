@@ -131,9 +131,9 @@ APP3 -> SDL : <b>RAI_3(NetworkingCapabilities): \n\
 SDL -> HMI : <b>OnAppRegistered(App3) 
 SDL -> APP3 : <b>RAI_3(App3) response 
 
-SDL -> SDL : SDL postpons calculation of network cofiguration for APP3 \n\
+SDL -> SDL : SDL postpones calculation of network configuration for APP3 \n\
 Based on ini file, **RAI_2(App2)** and HMI NetworkCapabilities\n\
-SDL decide that **MOBILE should be AP** 
+SDL decides that **MOBILE should be AP** 
 
 activate SDL
 
@@ -146,21 +146,21 @@ SDL -> APP2:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"
 
 APP2 -> APP2 : Mobile creates \n\
-WiFi Aceess Point
+WiFi Access Point
 
 APP2 -> SDL: <b>JoinNetwork requst \n\
-\t ssid : \t DevicerWiFiAP \n\
+\t ssid : \t DeviceWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t allowAccessPointToBeShared : \t **true** \n\
-\t accesssPointSupportsInternetAccess : \t true
+\t accessPointSupportsInternetAccess : \t true
 
 SDL -> HMI: <b>JoinNetwork request \n\
 \t ssid : \t DeviceWiFiAP \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t allowAccessPointToBeShared : \t **true** \n\
-\t accesssPointSupportsInternetAccess : \t true
+\t accessPointSupportsInternetAccess : \t true
 
 HMI -> HMI : Establish \n\
 WiFiConnection
