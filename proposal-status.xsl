@@ -67,6 +67,11 @@ on the gh-pages branch).
           <xsl:with-param name="title">Implemented for SDL Java Suite v4.11</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.11']"/>
         </xsl:call-template>
+
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL JavaScript Suite v1.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='javascript'][@sdl-version='1.0']"/>
+        </xsl:call-template>
         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Core v5.1</xsl:with-param>
