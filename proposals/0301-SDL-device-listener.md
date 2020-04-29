@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0301](0301-SDL-device-listener.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [ Java Suite ]
 
 
