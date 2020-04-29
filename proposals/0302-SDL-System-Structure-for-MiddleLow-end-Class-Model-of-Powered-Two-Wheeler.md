@@ -1,8 +1,8 @@
 # SDL System Structure for Middle/Low-end Class Model of Powered Two Wheeler
 
-* Proposal: [SDL-NNNN](NNNN-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler.md)
+* Proposal: [SDL-0302](0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Java Suite / Javascript Suite / HMI / Policy Server / RPC / Protocol ]
 
 ## Introduction
