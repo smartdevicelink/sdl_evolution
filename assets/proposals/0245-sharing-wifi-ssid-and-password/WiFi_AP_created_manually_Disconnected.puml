@@ -95,7 +95,7 @@ SDL -> HMI : <b>OnAppRegistered(App2)
 SDL -> APP2 : <b>RAI(App2) response 
 
 note over SDL : Do not recalculate NetworkConfiguration \n\
-because feature enabled application already initialized in Device 
+because feature enabled application already initialized in mobile device 
 
 
 HMI -> HMI: App2 is activated
@@ -103,7 +103,7 @@ HMI -> HMI: App2 is activated
 HMI -> SDL: <b>OnAppActivated(App_2) notification
 
 note over SDL : Do not recalculate NetworkConfiguration \n\
-because feature enabled application already initialized in Device 
+because feature enabled application already initialized in mobile device 
 
 
 SDL -> SDL : Application activation (APP2)\n\
