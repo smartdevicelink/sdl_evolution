@@ -90,7 +90,7 @@ HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
 deactivate SDL
  
 SDL -> SDL : SDL calculate network configuration based on \n\
-lates OnSystemCapabilityUpdate(Networkcapabilities) from HMI, \n\
+latest OnSystemCapabilityUpdate(Networkcapabilities) from HMI, \n\
 RAI_2 (Networkcapabilities) from App2 and ini.file
 
 

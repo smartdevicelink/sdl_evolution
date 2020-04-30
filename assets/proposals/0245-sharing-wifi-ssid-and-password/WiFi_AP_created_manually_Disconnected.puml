@@ -46,7 +46,7 @@ SDL -> HMI : <b>OnAppRegistered(App1)
 SDL -> APP1 : <b>RAI(App1) response 
 
 note over SDL: SDL calculate network configuration based on \n\
-lates OnSystemCapabilitiesUpdate(Networkcapabilities) from HMI, \n\
+latest OnSystemCapabilitiesUpdate(Networkcapabilities) from HMI, \n\
 RAI (Networkcapabilities) from App1 and ini.file
 
 SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
@@ -179,7 +179,7 @@ HMI -> SDL:  <b>OnSystemCapabilitiesUpdate(NetworkConfiguration): \n\
 deactivate SDL
 
 SDL -> SDL : SDL calculate network configuration based on \n\
-lates OnSystemCapabilitiesUpdate(Networkcapabilities) from HMI, \n\
+latest OnSystemCapabilitiesUpdate(Networkcapabilities) from HMI, \n\
 **RAI_3** (Networkcapabilities) from App3 and ini.file
 
 SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\

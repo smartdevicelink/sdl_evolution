@@ -85,6 +85,6 @@ SDL -> HMI : <b>OnAppRegistered(App2)
 SDL -> APP2 : <b>RAI(App2) response 
 
 note over SDL : Do not recalculate NetworkConfiguration \n\
-because feature enabled application already initialized in Device \n\
+because feature enabled application already initialized in Mobile Device \n\
 
 @enduml

@@ -891,7 +891,7 @@ If the vehicle is ready to connect to the mobile access point, it will notify th
 
 If mobile is ready to accept WiFi connection, it will ask vehicle for connection via `JoinMobileNetwork`
 
-The following API changes are required :
+The following API changes are required:
 ##### MOBILE_API
 
 ```xml
