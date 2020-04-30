@@ -128,7 +128,7 @@ Before Policy Table update, SDL Core can make a preliminary decision based on th
 * `wifiFrequencyBandsSupported` - defines supported frequency bands.
 Available values: FREQUENCY_BAND_2_4_GHZ, FREQUENCY_BAND_5_0_GHZ, FREQUENCY_BAND_6_0_GHZ;
 
-If the `wifiFrequencyBandsSupported` of HMI does not intersect with Mobile's: the feature cannot be initialized for the application.
+If the `wifiFrequencyBandsSupported` of HMI does not intersect with mobile's, the feature cannot be initialized for the application.
 
 If the result of the intersection of these parameters is a single value, which is allowed via ini file, the application can initialize the feature and the value should be used for the network.
 
@@ -407,7 +407,7 @@ It is proposed to implement new notification for this purpose.
 
 <function name="OnNetworkConfiguration" messagetype="notification">
   <description>
-    Notification to be sent to mobile application letting it know about agreed network configuration and allow sending of JoinNetwork if needed or prepare to connect
+    Notification to be sent to mobile application letting it know about agreed network configuration and allow sending of JoinNetwork if needed or prepare to connect.
   </description>
   <param name="configuration" type="NetworkConfiguration" mandatory="true">
     <description>Specifies the service which has been updated.</description>
@@ -440,7 +440,7 @@ It is proposed to implement new notification for this purpose.
 
 Once at least one mobile application is ready for the feature initialization, SDL Core has to notify HMI and the application on the agreed network configuration with `OnNetworkConfiguration`.
 
-Finally, to share the credentials of the network, it is proposed to implement the new RPC `JoinNetwrok` to be sent by current netwrokHost.
+Finally, to share the credentials of the network, it is proposed to implement the new RPC `JoinNetwork` to be sent by current networkHost.
 
 #### Mobile API
 
@@ -551,10 +551,10 @@ SDL Core has to perform basic validation for the parameters of the `JoinNetwork`
 * if `wifiState` is set to `WIFI_ENABLED`: `ssid` parameter has to be presented;
 * if `securityType` is set to any value but `NONE`: `password` parameter has to be presented.
 
-SDL will not transfer JoinNetwork to app on the mobile device in any application on the mobile device had already started service via Wifi transport
+SDL will not transfer `JoinNetwork` to app on the mobile device in any application on the mobile device had already started service via WiFi transport.
 
-HMI should not send JoinNetwork in case if there is at least one app from each device which has established service via WiFi.
-In other words, HMI should send JoinNetwork in case if there is at least one device with no apps that established WiFi service.
+HMI should not send `JoinNetwork` in case if there is at least one app from each device which has established service via WiFi.
+In other words, HMI should send `JoinNetwork` in case if there is at least one device with no apps that established WiFi service.
 
 If the validation process successfully passed, the request should be transferred to the network client.
 
@@ -573,7 +573,7 @@ Mobile should start secondary (WiFi) transport right after registration and tran
 
 HMI is not able to check if certain application is connected to the same WiFi network as HMI does without establishing TCP connection and starting service on secondary transport.
 
-Such behavior is required to avoid sending redundant JoinNetwork to mobile and to avoid showing confusing user consent popup. 
+Such behavior is required to avoid sending redundant `JoinNetwork` to mobile and to avoid showing confusing user consent popup.
 
 ### Multiple device connection
 
@@ -594,9 +594,9 @@ This mechanism will allow the HMI to decide its own behavior based on all of the
 
 A precondition for further discussion is that the first device is connected, it hosts the network and HMI successfully connected to its hotspot. SDL Core already received `OnSystemCapabilityUpdate` with updated networking capabilities.
 
-A vehicle should be able to share credentials of the external hotspot only if `allowAccessPointSharing` is set to true in mobile application JoinNetwork request and the ini file.
+A vehicle should be able to share credentials of the external hotspot only if `allowAccessPointSharing` is set to true in mobile application `JoinNetwork` request and the ini file.
 
-If mobile is an access point and `allowAccessPointSharing = false`, vehicle is not able to establish WIfi connection with other devices.
+If mobile is an access point and `allowAccessPointSharing = false`, vehicle is not able to establish Wifi connection with other devices.
 
 In that case, HMI should provide SDL `OnSystemCapabilityUpdate` with appropriate `hostingWiFiSupported`, and `autoJoinWiFiSupported`.
 
@@ -607,8 +607,8 @@ Once vehicle is connected to the mobile hotspot, HMI should send `OnSystemCapabi
 
 ### RPCs Encryption
 
-Wifi credentials considered as sensitive data, and should not be shared without encryption.
-[SDL 0207 - RPC message protection](https://github.com/smartdevicelink/sdl_evolution/issues/634) SDL feature.
+WiFi credentials are considered sensitive data, and should not be shared without encryption.
+[SDL 0207 - RPC message protection](https://github.com/smartdevicelink/sdl_evolution/issues/634) feature.
 
 RPC message protection is controlled completely by Policy Table.
 
@@ -698,7 +698,8 @@ However, if there are no applications connected via WiFi, Core knows nothing of 
 ## Potential Downsides
 
 SDL is not able to check that 2 different transports belong to the same device.
-On device connected by 2 different devices will be 2 devices for SDL. 
+
+The device connected by 2 different types of transport SDL will understand as different 2 devices.
 
 ## Alternative solutions 
 
@@ -709,9 +710,8 @@ Proposition discussed and rejected during SDLC discussion  https://github.com/sm
 
 
 2. Do not postpone sending `OnNetworkConfiguration` to HMI if secure service was not started, but extend `OnServiceStatusUpdate` with `encrypted` flag. 
- 
- - This was rejected because `OnServiceStatusUpdate` is specific for application, but for WiFi functionality sharing HMI does not know particular application for sending `JoinNetwork`.
 
+ - This was rejected because `OnServiceStatusUpdate` is specific for application, but for WiFi functionality sharing HMI does not know particular application for sending `JoinNetwork`.
 
 3. Leave establishing secondary transport on app activation. 
    Consider following drawbacks:
@@ -733,7 +733,7 @@ This decision should be controlled by HMI.
 SDL Core does not have direct access to WiFi hardware, so SDL Core is not able to check the current WiFi state.
 Such an approach gives the OEM the ability to have their own rules and priorities for WiFi interaction.
 
-his approach can be easily integrated into some already existing solution because there is no additional logic on SDL Core, and an OEM may just adopt an existing solution for using new APIs.
+This approach can be easily integrated into some already existing solution because there is no additional logic on SDL Core, and an OEM may just adopt an existing solution for using new APIs.
 
 The proposed approach is designed to avoid bidirectional RPCs because it adds technical complexity that causes additional bugs.
 
@@ -889,7 +889,7 @@ If vehicle is ready to accept WiFi connection, it will ask mobile for connection
 
 If the vehicle is ready to connect to the mobile access point, it will notify the mobile device via `ReadyForWifiConnection`.
 
-If mobile is ready to accept WiFi connection, it will ask vehicle for connection via `JoinMobileNetwork`
+If mobile is ready to accept WiFi connection, it will ask vehicle for connection via `JoinMobileNetwork`.
 
 The following API changes are required:
 ##### MOBILE_API
@@ -1113,7 +1113,7 @@ OEM can decide if this requirement should be sent either on app activation of af
 
 HMI should send `ReadyForWifiConnection` to mobile if the WiFi connection is required but OEM prefers to use mobile device's Wifi. 
 
-Mobile should send `JoinMobileNetwork` to vehicle right after receiving `ReadyForWifiConnection`
+Mobile should send `JoinMobileNetwork` to vehicle right after receiving `ReadyForWifiConnection`.
 
 SDL Core will not filter `JoinMobileNetwork` if HMI didn't send `ReadyForWifiConnection` before. 
 
@@ -1217,4 +1217,4 @@ SDL is not able to check that 2 different transport connections belongs to one m
 5. Send WiFI SSID in `RegisterAppInterface`.
 It is possible for the device to be connected to WiFi before any application is registered (for example, manual connection). In this case it will be useful for IVI to be aware of this connection. So, as an alternative, it is proposed to send SSID of currently connected WiFi network within `RegisterAppInterface` request. However, this approach introduces a number of issues:
 * SSID is not unique enough identifier
-* The access point could be configured in a way not to share SSID. In this case, it's sharing from mobile device could become a security issue.
+* The access point could be configured in a way not to share SSID. In this case, its sharing from mobile device could become a security issue.
