@@ -885,7 +885,7 @@ If `WifiModesSupported` is empty or omitted, SDL Core will not process `JoinVehi
 
 Instead of sharing SSID with a password via `Get` requests, this solution proposes to use *Hollywood Principle*: "Don't call us, we'll call you."
 
-If vehicle is ready to accept WiFi connection, it will ask mobile for connection via `JoinVehicleNetwork`
+If vehicle is ready to accept WiFi connection, it will ask mobile for connection via `JoinVehicleNetwork`.
 
 If the vehicle is ready to connect to the mobile access point, it will notify the mobile device via `ReadyForWifiConnection`.
 
@@ -1202,7 +1202,7 @@ It is proposed to introduce a new functional group within the current proposal:
 
 ### Potential Downsides
 
-SDL is not able to check that 2 different transport connections belongs to one mobile device. One device connected by 2 different types of transport will be considered by SDL as 2 different devices.
+SDL is not able to check that 2 different transport connections belongs to one mobile device. The device connected by two different types of transport will be considered by SDL Core as two different devices.
 
 ### Alternative solutions 
 
