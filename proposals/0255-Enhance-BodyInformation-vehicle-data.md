@@ -29,7 +29,7 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 We are going to use `location` to locate a door, a gate or a roof component. For Door and Gate, `location` would utilize `Grid` to locate/span the actual location of the Door or Gate while `status` provides appropriate status. Roof can be a convertible roof, sunroof/moonroof or simply a removable roof. Based on roof type, parameters `location`, `state` and `status` need to provide appropriate values. For example:
 
 * Convertible roof - `location` grid would span entire rows and columns and roof `status` could be `CLOSED` or `OPEN` with corresponding `state`. 
-* Sunroof/Moonroof - `location` grid would span just actual location of sun/moon roof. `status` could be `CLOSED` or `OPEN` with corresponding `state`.
+* Sunroof/Moonroof - `location` grid would span just actual location of sunroof/moonroof. `status` could be `CLOSED` or `OPEN` with corresponding `state`.
 * Entire roof - `location` grid would span entire rows and columns and roof status would be`REMOVED` or `PRESENT`. `state` can be omitted.
 
 #### Updates in MOBILE_API:
