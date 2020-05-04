@@ -18,6 +18,7 @@ In order to partner with more diverse app partners, we need to provide additiona
 Following vehicle data params are added to `BodyInformation` struct:
 * `doorsStatus`
 * `gatesStatus`
+* `roofStatuses`
 
 Following vehicle data params are deprecated from `BodyInformation` struct:
 * `driverDoorAjar`
