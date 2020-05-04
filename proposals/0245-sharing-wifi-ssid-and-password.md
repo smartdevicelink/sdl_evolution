@@ -699,7 +699,7 @@ However, if there are no applications connected via WiFi, Core knows nothing of 
 
 SDL is not able to check that 2 different transports belong to the same device.
 
-The device connected by 2 different types of transport SDL will understand as different 2 devices.
+For a device connected by two different transport types, SDL will understand this as two different devices.
 
 ## Alternative solutions 
 
