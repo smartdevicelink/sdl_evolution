@@ -11,24 +11,24 @@ This proposal addresses an issue with Android SDL notifications forcing SDL apps
 
 ## Motivation
 
-The SDL Android library uses Android Services for the SDL router service and the app specific SDL manager service. With Android Oreo, Google introduced background restrictions for Android Services. As a result, Services need to start in the foreground with foreground notifications in order to operate while the application is in the background. The SDL Android library creates one foreground notification for the SDL router service upon Bluetooth connection. If the router service established a connection to an SDL enabled device, each SDL application will create a foreground notification for the app specific SDL manager service. 
+The SDL Android library uses Android Services for the SDL router service and the app-specific SDL manager service. With Android Oreo, Google introduced background restrictions for Android Services. As a result, Android Services need to start in the foreground with foreground notifications in order to operate while the application is in the background. The SDL Android library creates one foreground notification for the SDL router service upon Bluetooth connection. If the router service established a connection to an SDL enabled device, each SDL application will create a foreground notification for the app-specific SDL manager service. 
 
 
 Notifications appearing on users' Android devices during SDL connection are shown below.
 
 ![Waiting for Connection...](../assets/proposals/NNNN-android-notifications/waiting_for_connection.png)
 
-This is the first notification shown to the user when the mobile device connects to any Bluetooth device. This "Waiting for connection" notification will be shown for both SDL enabled and the non-SDL Bluetooth devices.
+This is the first notification shown to the user when the mobile device connects to any Bluetooth device. This "Waiting for connection" notification will be shown for both SDL enabled and the non-SDL enabled Bluetooth devices.
 
 ![All notifications](../assets/proposals/NNNN-android-notifications/all_noti.png)
 
-The above two notifications are shown by an SDL app when the mobile device is connected to the SDL enabled system. The app developers cannot influence the described behavior of these notifications. None of the foreground notifications can be dismissed like other notifications, such as push notifications. To remove or avoid showing the foreground notification, the service must be stopped programmatically. Hence, the user cannot remove the notification except by force closing the application from the device settings menu. Another option would be to hide that notification. However, many users do not want any service to run in the background if it is not doing any useful task for them. If the user doesn't have an SDL enabled system, running an SDL service on his device would not make any sense. 
+The above two notifications are shown by an SDL app when the mobile device is connected to the SDL enabled system. The app developers cannot influence the described behavior of these notifications. None of the foreground notifications can be dismissed like other notifications, such as push notifications. To remove or avoid showing the foreground notification, the service must be stopped programmatically. Hence, the user cannot remove the notification except by force closing the application from the device's settings menu. Another option would be to hide that notification. However, many users do not want any service to run in the background if it is not doing any useful task for them. If the user doesn't have an SDL enabled system, running an SDL service on his device would not make any sense. 
 
 Notification details provided on the SDL Developer Portal below.
 
 ![SDL Faqs](../assets/proposals/NNNN-android-notifications/sdl_faq.png)
 
-Over time, many users keep complaining about the notifications shown to the user for no reason. For example, users complained recently that notifications are shown when they connect to non-SDL Bluetooth devices (e.g. Bluetooth headset, Bluetooth speakers, etc.). 
+Over time, many users keep complaining about the notifications shown to the user for no reason. For example, users complained recently that notifications are shown when they connect to non-SDL enabled Bluetooth devices (e.g. Bluetooth headset, Bluetooth speakers, etc.). 
 
 Some users have left complaints in the Google Play Store for apps integrating the latest version of the Android library in the past few months.
 
@@ -46,7 +46,7 @@ Some users have left complaints in the Google Play Store for apps integrating th
 
 **Feedback from App Partners**
 
-Below comments on SDL `Waiting for connection` notifications received from app partners.
+Below are comments on SDL `Waiting for connection` notifications received from app partners.
 
 1.  "...the constant notifications that kept appearing at the top of many users’ screens saying app is searching for connection...but given the amount of negative feedback this has generated from users via the Play store and Twitter, we have made the difficult decision to remove the functionality..."
 
@@ -87,7 +87,7 @@ public class SdlRouterService extends Service {
 
 ### Allow users to stop SDL foreground services
 
-As seen in user reviews on the play store, many users want a way to stop foreground service notifications. The Android Router Service notification will provide buttons on foreground notifications, which will stop the router service and hence remove the notifications. All SDL apps connected through this Android Router Service will receive `SdlManagerListener.onDestroy` when the user stops Android Router Service and hence the apps can be notified to stop their own foreground services started for SDL. 
+As seen in user reviews on the Google Play Store, many users want a way to stop foreground service notifications. The Android Router Service notification will provide buttons on foreground notifications, which will stop the router service and hence remove the notifications. All SDL apps connected through this Android Router Service will receive `SdlManagerListener.onDestroy` when the user stops Android Router Service, and hence the apps can be notified to stop their own foreground services started for SDL. 
 
 The SDL notification should have two buttons, `Stop Now` and `Settings`. These buttons will be shown when the user expands the notification on the Android device.
 
@@ -113,23 +113,23 @@ If the SDL app did not provide `PendingIntent` for the app settings page, the An
 
 ### Router Service changes
 
-This section describes the behavior of how SDL apps prepare the SDL connection to Bluetooth devices. The idea is to create the SDL proxy only while the app is in the foreground on the phone while it never connected to a head unit. It's not allowed to start the router service from the background if it does not know the connected BT device. Once the app has registered on a head unit, the proxy saves a MAC address and it's allowed to start the router service in the background in the future for the connected device.
+This section describes the behavior of how SDL apps prepare the SDL connection to Bluetooth devices. The idea is to create the SDL proxy only while the app is in the foreground on the phone while it never connected to a head unit. It's not allowed to start the router service from the background if it does not know the connected Bluetooth device. Once the app has registered on a head unit, the proxy saves a MAC address and it's allowed to start the router service in the background in the future for the connected device.
 
 As a result, no SDL code will cause any visible elements on the Android phone until the app has established a connection to the SDL enabled vehicle.
 
-The first time use will be different as the phone must be unlocked and the SDL app must be in the foreground. Any subsequent BT connection to that device will make the app start the service from the background using the Android foreground notification. It's expected that the user may accept the existence of this notification, as the notifications will then be shown only when connected to the SDL enabled vehicle.
+The first time use will be different as the phone must be unlocked and the SDL app must be in the foreground. Any subsequent Bluetooth connection to that device will make the app start the service from the background using the Android foreground notification. It's expected that the user may accept the existence of this notification, as the notifications will then be shown only when connected to the SDL enabled vehicle.
 
-The "first-time" guide may look like the following list:
+The "first time" guide may look like the following list:
 
 1. Connect your Android phone over Bluetooth to the infotainment system
 2. Select the Applications Tab on your infotainment system
 3. Start the app "APP_NAME" on your phone
 4. The SDL app registers on IVI
-5. Next time you enter the vehicle, you can leave your phone in the pocket. The app will recognize the vehicle and automatically connect.
+5. Next time you enter the vehicle, you can leave your phone in your pocket. The app will recognize the vehicle and automatically connect.
 
 **Detailed requirements**
 
-#### 1. The app is connected to an unknown BT device, the app is in the background and there is no router service
+#### 1. The app is connected to an unknown Bluetooth device, the app is in the background and there is no router service
 
 #### Conditions
 
@@ -139,13 +139,13 @@ The "first-time" guide may look like the following list:
 
 #### Requirements
 
-When an app is in the background of the phone and the phone is connected to an unknown BT device, then SDL shall not start a new router service until the BT device can be verified as SDL enabled.
+When an app is in the background of the phone and the phone is connected to an unknown Bluetooth device, then SDL shall not start a new router service until the Bluetooth device can be verified as SDL enabled.
 
 #### Comments
 
 This is the case if the app is newly installed or updated with SDL support and no other SDL enabled app is installed or connected.
 
-#### 2. The app is connected to an unknown BT device, the app is in the foreground and there is no router service
+#### 2. The app is connected to an unknown Bluetooth device, the app is in the foreground and there is no router service
 
 #### Conditions
 
@@ -175,13 +175,13 @@ This is required to avoid any SDL foreground notifications showing up when conne
 #### Requirements
 
 1. The app should store that information
-2. The router service shows foreground notifications to the user.
+2. The router service shows foreground notifications to the user
 
 #### Comments
 
-This is the end of the "first time" guide storing the information of the user owning an SDL capable device
+This is the end of the "first time" guide storing the information of the user owning an SDL capable device.
 
-#### 4. Router service with the app in background for known SDL BT devices
+#### 4. Router service with the app in background for known SDL Bluetooth devices
 
 #### Conditions
 
@@ -195,7 +195,7 @@ The app should start the router service as a foreground service including a noti
 
 #### Comments
 
-As the app knows that the device supports SDL, it can start the router service and keep it active/foregrounded
+As the app knows that the device supports SDL, it can start the router service and keep it active/foregrounded.
 
 #### 5. The app connects to router service when in background
 
@@ -208,7 +208,7 @@ As the app knows that the device supports SDL, it can start the router service a
 #### Requirements
 
 1. The app's proxy should connect to the router service
-2. The router service should tell the app if the connected BT device is known to support SDL
+2. The router service should tell the app if the connected Bluetooth device is known to support SDL
 
 #### Comments
 
