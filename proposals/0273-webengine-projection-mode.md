@@ -32,11 +32,11 @@ If this template is used by WebEngine apps, the HMI of the IVI should present th
 The application can control the web `document` object using JavaScript code to manipulate the document object model of the WebEngine app.
 JavaScript is the only language supported within current proposal.
 The HMI should respect the WebEngine app as the first responder to touch events. This means that touchable elements in the `document` should be accessible through the system's touch screen to the user.
-If the app sends RPCs which triggers POP-UP on the HMI screen, so this POP-UP overlays what WEB_VIEW area shows (Alert, PerformInteraction etc.) - in that case, touch events will first go through the POP-UP area.
-After POP-UP is closed - touch events processing returned back to the WEB_VIEW area.
+If the app sends RPCs which trigger a pop-up on the HMI screen, so this pop-up overlays what WEB_VIEW area shows (Alert, PerformInteraction etc.), touch events will first go through the pop-up area.
+After pop-up is closed, touch events processing returns back to the WEB_VIEW area.
 
 The HMI should include a button to access the app list, the add command menu button (or a requirement for the app to implement ShowAppMenu or otherwise implement CloseApplication), and app/template title.
-The template/app title should be visible when the app is activated. The exact location of the template/app title relies on OEM
+The template/app title should be visible when the app is activated. The exact location of the template/app title relies on the OEM.
 
 
 #### 1.1. Application deactivation
@@ -94,8 +94,7 @@ The parameters `availableTemplates`, `buttonCapabilities`, and `imageTypeSupport
 Widgets are not affected by this proposal. They are still available and can be controlled using `Show` RPC. Any overlay like Alert, ChoiceSets, Slider etc. are also available to the application.
 
 Widgets that duplicate content from the main window should still be possible. Despite the window capability, the app should still be able to send `Show` requests with all the desired content. This content should be duplicated to these widgets.
-The behavior of the WEB_VIEW template with widgets that duplicate main window should align with
-the behavior of existing templates(ie switching from NON_MEDIA to a TILES_ONLY template with a duplicate widget).
+The behavior of the WEB_VIEW template with widgets that duplicate main window should align with the behavior of existing templates (ie switching from NON_MEDIA to a TILES_ONLY template with a duplicate widget).
 
 ### 2. App HMI Type `WEB_VIEW`
 
@@ -136,9 +135,7 @@ Independent of the app presentation type, the HMI will continue to provide syste
 
 With the current depth of this proposal, the HMI type should be used by 1st party OEM apps only. With future proposals and workshops the SDLC could open the HMI type to 3rd party by creating and defining proper driver distraction and user interface guidelines.
 
-The acceptance of this proposal means the feature is available for OEM/1st party apps and content ONLY.
-There is an inherent risk that OEMs could use the feature to bring in 3rd party apps and content without additional proposals
-as it will be impossible to enforce. If an OEM takes such an action, the SDLC will be forced to bring the issue up to the Board of Directors for possible consequences.
+The acceptance of this proposal means the feature is available for OEM/1st party apps and content ONLY. There is an inherent risk that OEMs could use the feature to bring in 3rd party apps and content without additional proposals as it will be impossible to enforce. If an OEM takes such an action, the SDLC will be forced to bring the issue up to the Board of Directors for possible consequences.
 
 At the time of this proposal being in review, a set of driver distraction rules are being created and proposed to enable 3rd party using the projection mode. The following bullet points are items that will be described further in the ruleset:
 
