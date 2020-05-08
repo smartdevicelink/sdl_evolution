@@ -533,6 +533,8 @@ Finally, to share the credentials of the network, it is proposed to implement th
         <element name="APPLICATION_NOT_REGISTERED"/>
         <element name="GENERIC_ERROR"/>
         <element name="USER_DISALLOWED"/>
+        <element name="DATA_NOT_AVAILABLE"/>
+
     </param>
     <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
         <description>Provides additional human readable info regarding the result.</description>
@@ -1000,6 +1002,7 @@ The following API changes are required:
         <element name="APPLICATION_NOT_REGISTERED"/>
         <element name="GENERIC_ERROR"/>
         <element name="USER_DISALLOWED"/>
+        <element name="DATA_NOT_AVAILABLE"/>
     </param>
     <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
         <description>Provides additional human readable info regarding the result.</description>
@@ -1043,6 +1046,8 @@ The following API changes are required:
         <element name="APPLICATION_NOT_REGISTERED"/>
         <element name="GENERIC_ERROR"/>
         <element name="USER_DISALLOWED"/>
+        <element name="DATA_NOT_AVAILABLE"/>
+
     </param>
     <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
         <description>Provides additional human readable info regarding the result.</description>
