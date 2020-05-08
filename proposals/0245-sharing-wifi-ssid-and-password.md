@@ -51,6 +51,23 @@ SDL should be able to receive networking capabilities with `UI.GetCapabilities` 
     <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minsize="1" maxsize="100" mandatory="false">
         <description>An array of frequencies supported by the device. Values should be in units of GHz for example 2.4GHz, 5.0GHz, etc.</description>
     </param>
+ 	
+    <param name="dataFallbackSupported" type="Boolean" mandatory="false">
+        <description> This describes the device's ability to support joining multiple networks and using one for internet connectivity if not available on a different, connected network.</description>
+    </param> 	 
+
+    <param name="accessPointSupportsInternetAccess" type="Boolean" mandatory="false">
+        <description> True if the access point created by this device will support internet access to connected clients.</description>
+    </param> 	 
+
+    <param name="allowAccessPointToBeShared" type="Boolean" mandatory="false">
+        <description> True if it is acceptable to share this network's SSID and password with other nearby devices. This is helpful if two mobile devices connected to a head unit, and one of them is selected as the network host.</description>
+    </param> 	
+
+    <param name="wifiSpecsSupported" type="String" array="true" minSize="1" maxSize="100" mandatory="false">
+         <description> An array of WiFi Specifications, aka "Names", supported by the device. Currently expected values should be from the following: 802.11b = 1, 802.11a = 2, 802.11g = 3, 802.11n = 4, 802.11ac = 5, 802.11ax = 6.  </description>
+    </param> 
+
 </struct>
 
 
@@ -99,6 +116,22 @@ SDL Core should receive mobile capabilities within `DeviceInfo` section of `Regi
     <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minSize="1" maxSize="100" mandatory="false">
         <description> An array of frequencies supported by the device. Values should be in units of GHz for example 2.4GHz, 5.0GHz, etc.</description>
     </param>
+        <param name="dataFallbackSupported" type="Boolean" mandatory="false">
+        <description> This describes the device's ability to support joining multiple networks and using one for internet connectivity if not available on a different, connected network.</description>
+    </param> 	 
+
+    <param name="accessPointSupportsInternetAccess" type="Boolean" mandatory="false">
+        <description> True if the access point created by this device will support internet access to connected clients.</description>
+    </param> 	 
+
+    <param name="allowAccessPointToBeShared" type="Boolean" mandatory="false">
+        <description> True if it is acceptable to share this network's SSID and password with other nearby devices. This is helpful if two mobile devices connected to a head unit, and one of them is selected as the network host.</description>
+    </param> 	
+
+    <param name="wifiSpecsSupported" type="String" array="true" minSize="1" maxSize="100" mandatory="false">
+         <description> An array of WiFi Specifications, aka "Names", supported by the device. Currently expected values should be from the following: 802.11b = 1, 802.11a = 2, 802.11g = 3, 802.11n = 4, 802.11ac = 5, 802.11ax = 6.  </description>
+    </param> 
+
 </struct>
 
 <struct name="DeviceInfo" since="3.0">
