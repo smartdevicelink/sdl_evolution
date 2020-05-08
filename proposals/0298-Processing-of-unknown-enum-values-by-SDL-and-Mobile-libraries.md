@@ -1,5 +1,5 @@
   # Processing of unknown enum values by SDL Core
-  * Proposal: [SDL-0298](0298-Processing-of-unknown-enum-values-by-SDLCore.md)
+  * Proposal: [SDL-0298](0298-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md)
   * Authors: [Igor Gapchuk](https://github.com/IGapchuk), [Dmitriy Boltovskiy](https://github.com/dboltovskyi/)
   * Status: **Returned for Revisions**
   * Impacted Platforms: [Core]
@@ -9,12 +9,12 @@ The main purpose of this proposal is to gracefully handle unknown enum values fr
 
 ## Motivation
 
-The current filtering and data validation mechanism used by SDL Core needs be improved upon to issues related to possible differences in API versions between parameters in the request from a mobile application and an SDL Core.
+The current filtering and data validation mechanism used by SDL Core needs be improved upon to issues related to possible differences in Mobile API/RPC spec versions between parameters in the request from a mobile application and an instance of SDL Core.
 
 To better understand what kinds of issues we could face, let's assume the next example:
 
-A mobile device with a newer version of the API (5.0) during connecting to the SDL Core, which has an older API version (4.3), sends a `RegisterAppInterface` request to SDL Core with an array of `AppHMITypes` which has the next values: `[DEFAULT, REMOTE_CONTROL]` (The `AppHMIType::DEFAULT` was introduced in the API since 2.0 version, since the time the `AppHMIType` type was added into the API, and `AppHMIType::REMOTE_CONTROL` was introduced in the 4.5 version of the API). SDL Core tries to validate the parameters in the RAI request, finds an unknown enum value of `AppHMIType::REMOTE_CONTROL`. As a result, the SDL Core sends a failure response to a mobile application with the `INVALID_DATA` result code. Thus, the mobile application fails to register with SDL Core that is an unacceptable user experience. Besides, the mobile application cannot conclusively determine the cause of failure since `INVALID_DATA` can be returned for a line of reasons.
-With the changes provided by this proposal, SDL Core will be able to process all unknown enums in mobile requests in the correct way and respond to mobile applications with informative messages about happed failures.
+A mobile application with a newer version of the Mobile API (5.0) while connecting to SDL Core, which has an older Mobile API version (4.3), sends a `RegisterAppInterface` request to SDL Core with an array of `AppHMITypes` which has the next values: `[DEFAULT, REMOTE_CONTROL]` (The `AppHMIType::DEFAULT` was introduced in the Mobile API since 2.0 version, since the time the `AppHMIType` type was added into the API, and `AppHMIType::REMOTE_CONTROL` was introduced in the 4.5 version of the Mobile API). SDL Core tries to validate the parameters in the RAI request, finds an unknown enum value of `AppHMIType::REMOTE_CONTROL`. As a result, the SDL Core sends a failure response to a mobile application with the `INVALID_DATA` result code. Thus, the mobile application fails to register with SDL Core, which is an unacceptable user experience. Additionally, the mobile application cannot conclusively determine the cause of failure since `INVALID_DATA` can be returned for a number of reasons.
+With the changes provided by this proposal, SDL Core will be able to process all unknown enums in mobile requests in the correct way and respond to mobile applications with informative messages about experienced failures.
 
 ## Proposed solution
 
@@ -62,13 +62,11 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
 
   **NOTE**
 
-  To determine the API version for choosing if a parameter is mandatory should be used the negotiated API version.
+  ```The negotiated RPC spec version is the version that should be used for determining if a parameter is mandatory or not, as mandatory=true/false can change between different RPC spec versions.```
 
-  In the case when Mobile Application has the 7.0 API version and the SDL Core has the 6.0 API version, the negotiated API version will be 6.0 (the version of the SDL Core).
+  In the case when mobile application has the 7.0 Mobile API/RPC spec version and the SDL Core has the 6.0 Mobile API/RPC spec version, the negotiated version will be 6.0 (the version of the SDL Core).
 
-  In the case when Mobile Application has the 6.0 API version and the SDL Core has the 7.0 API version, the negotiated API version will be 6.0 (the version of the Mobile Application).
-
-  Negotiated API version is the version that should be used for determining if a parameter is mandatory or not, as mandatory=true/false can change between different APIs versions
+  In the case when mobile application has the 6.0 Mobile API/RPC spec version and the SDL Core has the 7.0 Mobile API/RPC spec version, the negotiated version will be 6.0 (the version of the mobile application).
 
   1. The request contains a parameter which value is an enum item.
 
@@ -153,9 +151,9 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
 
 ## Potential downsides
 
-There is the case when a Mobile Application has the older API version (for example 6.0) then SDL Core and the SDL Core has the newer API version (for example 7.0).
+There is the case when a mobile application has an older Mobile API version (for example 6.0) than SDL Core and SDL Core has the newer Mobile API version (for example 7.0).
 
-In the Mobile Application, some parameter is not mandatory and in the SDL Core, the same parameter is become as mandatory. Should keep in mind that the implementation of the SDL Core is updated according to the last API version. And in the described case if the Mobile Application will not send the parameter, that could bring the SDL Core to the incorrect behavior.
+In the mobile application, some parameters are not mandatory and in SDL Core, the same parameter has become mandatory. One should keep in mind that the implementation of SDL Core is updated according to the last Mobile API version. And in the described case, if the mobile application will not send the parameter, that could bring SDL Core to the incorrect behavior.
 
 This proposal doesn't cover this case and changes for that should be described in a separate proposal.
 
