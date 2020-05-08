@@ -17,7 +17,7 @@ Note: BT information is related to[SDL-280](https://github.com/smartdevicelink/s
 
 ## Proposed solution
 
-As a means to specify the device, USB information (for example, VID, PID, SERIAL) and BT information (BT device address) are added to deviceInfo notified by `RegisterAppInterface` and `OnAppRegistered`. When multiple transport connections are made, the HU identifies the device based on the notified USB information and BT information. If it is determined that they are the same device, the transport is switched according to the priority of the communication method.
+As a means to specify the device, USB information (for example, VID, PID, SERIAL) and BT information (BT device address) are added to `deviceInfo` notified by `RegisterAppInterface` and `OnAppRegistered`. When multiple transport connections are made, the HU identifies the device based on the notified USB information and BT information. If it is determined that they are the same device, the transport is switched according to the priority of the communication method.
 
 
 Mobile API:
