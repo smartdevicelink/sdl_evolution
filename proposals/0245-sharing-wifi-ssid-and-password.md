@@ -487,9 +487,20 @@ Finally, to share the credentials of the network, it is proposed to implement th
     <element name="WPA3"/>
 </enum>
 
+
+<enum name="WiFiStateInfo">
+  <description>enum to define WiFi state.</description>
+  <element name="WIFI_STATE_DISABLED"/>
+  <element name="WIFI_STATE_ENABLED"/>
+</enum>
+
 <function name="JoinNetwork" functionID="JoinNetworkID" messagetype="request" since="x.x">
     <description>A request for the receiver to join the specified network.</description>
     
+    <param name="wifiState" type="WiFiStateInfo" mandatory="false">
+        <description>wifi state info</description>
+    </param>
+
     <param name="ssid" type="String" minlength="1" maxlength="32" mandatory="true">
         <description>name of the WiFi ssid</description>
     </param>
@@ -544,6 +555,10 @@ Finally, to share the credentials of the network, it is proposed to implement th
 
 <function name="JoinNetwork" messagetype="request">
     <description>A request for the receiver to join the specified network.</description>
+
+    <param name="wifiState" type="WiFiStateInfo" mandatory="false">
+        <description>wifi state info</description>
+    </param>
 
     <param name="ssid" type="String" minlength="1" maxlength="32" mandatory="true">
         <description>name of the WiFi ssid</description>
