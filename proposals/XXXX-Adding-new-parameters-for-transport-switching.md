@@ -3,7 +3,7 @@
 * Proposal: [SDL-XXXX](XXXX-Adding-new-parameters-for-transport-switching.md)
 * Author: [Kazuki Sugimoto(Nexty)](https://github.com/Kazuki-Sugimoto)
 * Status: **Awaiting Review**
-* Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
+* Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / RPC / HMI ]
 
 ## Introduction
 
@@ -13,7 +13,7 @@ This proposal is to add USB information and Bluetooth (BT) information to `devic
 
 Currently, if an Android device makes a USB connection during BT connection, the transport cannot be switched because the Head Unit (HU) cannot specify the device. For the HU to switch transports, it is necessary to determine whether or not they are the same device. Therefore, USB information and BT information are added to the device information to identify the device.
 
-Note: BT information is related to[SDL-280](https://github.com/smartdevicelink/sdl_evolution/issues/941).
+Note: BT information is related to [SDL-280](https://github.com/smartdevicelink/sdl_evolution/issues/941).
 
 ## Proposed solution
 
@@ -114,7 +114,7 @@ There are no downsides because there is only the addition of parameters.
 
 ## Impact on existing code
 
-Core, iOS, Java Suite, RPC, and HMI need to be updated to support the added parameters.
+Core, iOS, Java Suite, JavaScript Suite, RPC, and HMI need to be updated to support the added parameters.
 
 
 ## Alternatives considered
