@@ -621,9 +621,11 @@ __Note:__ `JoinNetwork` should not depend on the default RPC timeout, since WiFi
 
 Mobile should start secondary (WiFi) transport right after registration and transport is available.
 
-HMI is not able to check if certain application is connected to the same WiFi network as HMI does without establishing TCP connection and starting service on secondary transport.
 
+HMI is not able to check if certain application is connected to the same WiFi network as HMI does without establishing TCP connection and starting service on secondary transport.
 Such behavior is required to avoid sending redundant `JoinNetwork` to mobile and to avoid showing confusing user consent popup.
+
+Core then sends the TransportEventUpdate protocol message with IP and port to connect the TCP transport to all appropriate apps. Flow is then as defined in [0141-multiple-transports.md](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0141-multiple-transports.md)
 
 ### Multiple device connection
 
