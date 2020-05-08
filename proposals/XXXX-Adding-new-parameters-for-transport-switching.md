@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is to add USB information and BT information to `deviceInfo` that is notified by `RegisterAppInterface` and `OnAppRegistered`, the purpose is to enable transport switching during a multiple transport connection if it is determined that they are the same device.
+This proposal is to add USB information and Bluetooth (BT) information to `deviceInfo` that is notified by `RegisterAppInterface` and `OnAppRegistered`. The purpose is to enable transport switching during a multiple transport connection if it is determined that they are the same device.
 
 ## Motivation
 
