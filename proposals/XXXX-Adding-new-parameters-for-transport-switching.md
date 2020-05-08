@@ -86,7 +86,7 @@ HMI API:
 +  </param>
 </struct>
 ```
-Note: bluetoothDeviceAddress is related to[SDL-280](https://github.com/smartdevicelink/sdl_evolution/issues/941).
+Note: `bluetoothDeviceAddress` is related to [SDL-280](https://github.com/smartdevicelink/sdl_evolution/issues/941).
 
 
 ### Use cases for identifying the same device
