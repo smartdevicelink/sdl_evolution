@@ -25,7 +25,7 @@ The functionality to be introduced in the current proposal mostly relies on the 
 SDL should be able to receive networking capabilities with `UI.GetCapabilities` request at the very beginning of SDL - HMI communication. If omitted, HMI will be considered as not suitable for the feature initialization.
 
 ```xml
-<enum name="NetworkHost">
+<enum name="Device">
     <element name="MOBILE"/>
     <element name="VEHICLE"/>
     <element name="EXTERNAL"/>
@@ -45,7 +45,7 @@ SDL should be able to receive networking capabilities with `UI.GetCapabilities` 
     <param name="hostingWiFiSupported" type="Boolean" mandatory="false">
         <description>Defines whether HMI is capable of hosting WiFi network.</description>
     </param>
-    <param name="preferredNetworkHost" type="NetworkHost" mandatory="false">
+    <param name="preferredNetworkHost" type="Device" mandatory="false">
         <description>This describes the preference of what device to use for the network host. This could mean the user prefers to use the data of either mobile or the vehicle when one might have unlimited data but a cap on another. When sent from mobile this will simply be a suggestion. When sent from the head unit, the mobile device should take this as a determined host.</description>
     </param>
     <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minsize="1" maxsize="100" mandatory="false">
@@ -79,7 +79,7 @@ SDL Core should receive mobile capabilities within `DeviceInfo` section of `Regi
     <element name="FREQUENCY_BAND_6_0_GHZ"/>
 </enum>
 
-<enum name="NetworkHost" since="x.x">
+<enum name="Device" since="x.x">
     <element name="MOBILE"/>
     <element name="VEHICLE"/>
     <element name="EXTERNAL"/>
@@ -93,7 +93,7 @@ SDL Core should receive mobile capabilities within `DeviceInfo` section of `Regi
     <param name="hostingWiFiSupported" type="Boolean" mandatory="false">
         <description>Defines whether mobile device is capable of hosting WiFi network.</description>
     </param>
-    <param name="preferredNetworkHost" type="NetworkHost" mandatory="false">
+    <param name="preferredNetworkHost" type="Device" mandatory="false">
         <description> This describes the preference of what device to use for the network host. This could mean the user prefers to use the data of either mobile or the vehicle when one might have unlimited data but a cap on another. When sent from mobile this will simply be a suggestion. When sent from the head unit, the mobile device should take this as a determined host.</description>
     </param>
     <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minSize="1" maxSize="100" mandatory="false">
@@ -397,7 +397,7 @@ It is proposed to implement new notification for this purpose.
 ```xml
 <struct name="NetworkConfiguration" since="x.x">
     <description>Describes negotiated network configuration.</description>
-    <param name="networkHost" type="NetworkHost" mandatory="true">
+    <param name="networkHost" type="Device" mandatory="true">
         <description>Host for the network defined by SDL Core based on the capabilities of mobile device, HMI and ini file priorities.</description>
     </param>
     <param name="wifiFrequencyBand" type="FrequencyBand" mandatory="true">
@@ -420,7 +420,7 @@ It is proposed to implement new notification for this purpose.
 ```xml
 <struct name="NetworkConfiguration">
     <description>Describes negotiated network configuration.</description>
-    <param name="networkHost" type="NetworkHost" mandatory="true">
+    <param name="networkHost" type="Device" mandatory="true">
         <description>Host for the network defined by SDL Core based on the capabilities of mobile device, HMI and ini file priorities.</description>
     </param>
     <param name="wifiFrequencyBand" type="FrequencyBand" mandatory="true">
