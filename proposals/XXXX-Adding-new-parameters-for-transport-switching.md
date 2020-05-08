@@ -95,7 +95,7 @@ The following is an example of a use case for identifying the same device:
 Note: The actual operation depends on the HU specifications.
 
 - Identifying the same device using USB information
-1. The HS USB information is notified to HU by SDL connection and app registration via BT.
+1. The Handset (HS) USB information is notified to HU by SDL connection and app registration via BT.
 2. USB connection is made with the same device. Then, the HU checks the newly connected USB information against the USB information acquired during BT connection.
 3. Since it is determined to be the same device, the HU performs the transport switching as SDL connection via USB.
 
