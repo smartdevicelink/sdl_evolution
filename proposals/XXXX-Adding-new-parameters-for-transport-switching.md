@@ -11,7 +11,7 @@ This proposal is to add USB information and Bluetooth (BT) information to `devic
 
 ## Motivation
 
-Currently, if an Android device makes a USB connection during BT connection, the transport cannot be switched because the HU cannot specify the device. For the HU to switch transport, it is necessary to determine whether or not they are the same device. Therefore, USB information and BT information are added to the device information to identify the device.
+Currently, if an Android device makes a USB connection during BT connection, the transport cannot be switched because the Head Unit (HU) cannot specify the device. For the HU to switch transports, it is necessary to determine whether or not they are the same device. Therefore, USB information and BT information are added to the device information to identify the device.
 
 Note: BT information is related to[SDL-280](https://github.com/smartdevicelink/sdl_evolution/issues/941).
 
