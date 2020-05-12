@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](nnnn-protocol-nak-reason.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Java Suite / HMI / Policy Server / SHAID / RPC / Protocol]
+* Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Protocol]
 
 ## Introduction
 This proposal seeks to add a "reason" string parameter to all NAKs in the protocol spec.
