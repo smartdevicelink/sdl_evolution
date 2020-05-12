@@ -62,7 +62,7 @@ If a parameter includes an unknown enum value, SDL Core has to cut off such valu
 
   **NOTE**
 
-  ```The negotiated RPC spec version is the version that should be used for determining if a parameter is mandatory or not, as mandatory=true/false can change between different RPC spec versions.```
+  The negotiated RPC spec version is the version that should be used for determining if a parameter is mandatory or not, as mandatory=true/false can change between different RPC spec versions.
 
   In the case when mobile application has the 7.0 Mobile API/RPC spec version and the SDL Core has the 6.0 Mobile API/RPC spec version, the negotiated version will be 6.0 (the version of the SDL Core).
 
