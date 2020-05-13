@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0273](0273-webengine-projection-mode.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford), [Markos Rapitis](https://github.com/mrapitis) and [Andriy Byzhynar](https://github.com/abyzhynar)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [ Core / JavaScript Suite / Java Suite / iOS / RPC / SDL Server / SHAID ]
 
 ## Introduction
@@ -26,10 +26,34 @@ A new template called `WEB_VIEW` should be added. This template should have the 
 1. It's supported for in-vehicle WebEngine apps only.
 2. It's available only to the main window. It should not be available for widgets.
 3. It is only available to applications that successfully registered with the new App HMI type (see below section regarding new App HMI Type).
+4. The `WEB_VIEW` template is not allowed to to support textfields, softbuttons, graphics (inside or outside of the webview). DuplicateUpdatesFromWindowID=0 is not allowed for widgets.
 
 If this template is used by WebEngine apps, the HMI of the IVI should present the WebEngine app and show the application's web page. 
-The application can control the web `document` object using JavaScript code to manipulate the document object model of the WebEngine app. 
+The application can control the web `document` object using JavaScript code to manipulate the document object model of the WebEngine app.
+JavaScript is the only language supported within current proposal.
 The HMI should respect the WebEngine app as the first responder to touch events. This means that touchable elements in the `document` should be accessible through the system's touch screen to the user.
+If the app sends RPCs which trigger a pop-up on the HMI screen, so this pop-up overlays what WEB_VIEW area shows (Alert, PerformInteraction etc.), touch events will first go through the pop-up area.
+After pop-up is closed, touch events processing returns back to the WEB_VIEW area.
+
+The HMI should include a button to access the app list, the add command menu button (or a requirement for the app to implement ShowAppMenu or otherwise implement CloseApplication), and app/template title.
+The template/app title should be visible when the app is activated. The exact location of the template/app title relies on the OEM.
+
+
+#### 1.1. Application deactivation
+The HMI should always support showing a menu button, but it would only be shown if the app sends at least one AddCommand or AddSubMenu. If the app does not send any AddCommands or AddSubmenus, then the menu button should not be shown, but in that case the app must implement the CloseApplication RPC in an **EXIT** button somewhere in their in-app UI.
+
+![Screenshot example of a web app](../assets/proposals/0273-webengine-projection-mode/web-app-example_with_exit_button_and_template_title.jpg)
+
+> Example of a local web app presenting the user interface with the WebView.
+> App did not send any AddCommands or AddSubmenus so the EXIT button is the only
+> UI way to deactivate the app to NONE HMI Level
+
+
+If the app has sent any AddCommands or AddSubmenus, then the **MENU** button should appear.
+
+![Screenshot example of a web app](../assets/proposals/0273-webengine-projection-mode/web-app-example_with_outside_menu_and_template_title.jpg)
+
+> Example of a local web app presenting the user interface with the MENU button.
 
 ```xml
 <enum name="PredefinedLayout" platform="documentation" since="3.0">
@@ -43,11 +67,13 @@ The HMI should respect the WebEngine app as the first responder to touch events.
 </enum>
 ```
 
-![Screenshot example of a web app](../assets/proposals/0273-webengine-projection-mode/web-app-example.jpg)
+
+
+
 
 > Example of a local web app presenting the user interface with the WebView.
 
-#### 1.1. Window Capabilities
+#### 1.2. Window Capabilities
 
 As of today, the HMI sends notifications of `OnSystemCapabilityUpdated` to the application to inform about the (main) window capabilities. 
 These capabilities are dependent of the currently used template. The application can change to any of the available templates as per current window capabilities. 
@@ -57,16 +83,18 @@ Generally, the window capabilities should refer to available text and image fiel
 If the `WEB_VIEW` template is currently active, the window capabilities change as the application is presenting content using the web document.
 
 The following text fields `mainField1`, `mainField2`, `mainField3`, `mainField4`, `statusBar`, `mediaClock` and `mediaTrack` should be used practically on all the base templates. 
-It is recommended that `WindowCapability.textFields` should not contain these text field names if the OEM has implemented the `WEB_VIEW` template without these text fields. 
+It is required that `WindowCapability.textFields` should not contain these text field names if the OEM has implemented the `WEB_VIEW` template without these text fields.
 The text fields `menuName` and `templateTitle` should be included in the capabilities if these fields are visible on the HMI.
 
 The parameters `availableTemplates`, `buttonCapabilities`, and `imageTypeSupported` are independent of the currently active template and should reflect the general capabilities of the window/system.
 
-#### 1.2. What about widgets?
+
+#### 1.3. What about widgets?
 
 Widgets are not affected by this proposal. They are still available and can be controlled using `Show` RPC. Any overlay like Alert, ChoiceSets, Slider etc. are also available to the application.
 
 Widgets that duplicate content from the main window should still be possible. Despite the window capability, the app should still be able to send `Show` requests with all the desired content. This content should be duplicated to these widgets.
+The behavior of the WEB_VIEW template with widgets that duplicate main window should align with the behavior of existing templates (ie switching from NON_MEDIA to a TILES_ONLY template with a duplicate widget).
 
 ### 2. App HMI Type `WEB_VIEW`
 
@@ -106,6 +134,8 @@ Independent of the app presentation type, the HMI will continue to provide syste
 ### 3. User interface guidelines (Driver Distraction rules)
 
 With the current depth of this proposal, the HMI type should be used by 1st party OEM apps only. With future proposals and workshops the SDLC could open the HMI type to 3rd party by creating and defining proper driver distraction and user interface guidelines.
+
+The acceptance of this proposal means the feature is available for OEM/1st party apps and content ONLY. There is an inherent risk that OEMs could use the feature to bring in 3rd party apps and content without additional proposals as it will be impossible to enforce. If an OEM takes such an action, the SDLC will be forced to bring the issue up to the Board of Directors for possible consequences.
 
 At the time of this proposal being in review, a set of driver distraction rules are being created and proposed to enable 3rd party using the projection mode. The following bullet points are items that will be described further in the ruleset:
 
