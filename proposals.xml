@@ -136,6 +136,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0122" status="implemented" primary-platform="core" sdl-version="5.0" name="Handling VR help requests when application does not send VR help prompt" filename="0122-New_rules_for_providing_VRHelpItems_VRHelpTitle.md"/>	
 <proposal id="0123" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendURI" filename="0123-SendURI.md"/>	
 <proposal id="0124" status="implemented" primary-platform="ios" sdl-version="5.2" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
+<proposal id="0124" status="implemented" primary-platform="java-suite" sdl-version="4.11" name="SDLImageUploadManager" filename="0124-SDLImageUploadManager.md"/>	
 <proposal id="0125" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
 <proposal id="0126" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF support of additional transports (BT and USB)" filename="0126-atf-additional-transports.md"/>
 <proposal id="0127" status="accepted" primary-platform="atf" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
@@ -256,8 +257,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0232" status="implemented" primary-platform="ios" sdl-version="6.3" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
 <proposal id="0232" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
 <proposal id="0233" status="accepted" primary-platform="policy" sdl-version="x.x" name="SDL Server Statistics Recording and Visualizations" filename="0233-policy-server-statistics-recording-visualizations.md"/>
-<proposal id="0234" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Proxy Library RPC Generation" filename="0234-proxy-rpc-generation.md"/>
-<proposal id="0235" status="accepted" primary-platform="meta" sdl-version="x.x" name="SDL JavaScript library" filename="0235-sdl-js-library.md"/>
+<proposal id="0234" status="implemented" primary-platform="core" sdl-version="6.1" name="Proxy Library RPC Generation" filename="0234-proxy-rpc-generation.md"/>
+<proposal id="0234" status="implemented" primary-platform="ios" sdl-version="6.6" name="Proxy Library RPC Generation" filename="0234-proxy-rpc-generation.md"/>
+<proposal id="0234" status="implemented" primary-platform="java-suite" sdl-version="4.11" name="Proxy Library RPC Generation" filename="0234-proxy-rpc-generation.md"/>
+<proposal id="0234" status="implemented" primary-platform="javascript" sdl-version="1.0" name="Proxy Library RPC Generation" filename="0234-proxy-rpc-generation.md"/>
+<proposal id="0235" status="implemented" primary-platform="javascript" sdl-version="1.0" name="SDL JavaScript library" filename="0235-sdl-js-library.md"/>
 <proposal id="0236" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Update mismatch in TireStatus structure" filename="0236-TireStatus-Mismatch.md"/>
 <proposal id="0237" status="implemented" primary-platform="ios" sdl-version="6.4" name="Add Feature to Disable `Video Streaming Backgrounded String` Feature" filename="0237-add-feature-to-disable-video-streaming-backgrounded-string-feature.md"/>
 <proposal id="0238" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Keyboard Enhancements" filename="0238-Keyboard-Enhancements.md"/>
@@ -268,7 +272,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0243" status="implemented" primary-platform="ios" sdl-version="6.4" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
 <proposal id="0243" status="implemented" primary-platform="java-suite" sdl-version="4.10" name="Manager Update for DisplayCapability" filename="0243-manager-update-display-capability.md"/>
 <proposal id="0244" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Custom Playback Rates for SetMediaClockTimer" filename="0244-setmediaclocktimer-custom-playback-rates.md"/>
-<proposal id="0245" status="active" primary-platform="rpc" sdl-version="x.x" name="WiFi Transport: Sharing SSID and password with Mobile Proxy" filename="0245-sharing-wifi-ssid-and-password.md"/>
+<proposal id="0245" status="returned" primary-platform="rpc" sdl-version="x.x" name="WiFi Transport: Sharing SSID and password with Mobile Proxy" filename="0245-sharing-wifi-ssid-and-password.md"/>
 <proposal id="0246" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Add App Services to HMICapabilities" filename="0246-app-services-hmi_capabilities.md"/>
 <proposal id="0247" status="returned" primary-platform="policy" sdl-version="x.x" name="SDL Server 3.0.0 (refactor)" filename="0247-sdl-server-3.md"/>
 <proposal id="0248" status="implemented" primary-platform="core" sdl-version="6.1" name="HMI Policy Table Update using vehicle modem" filename="0248-hmi-ptu-support.md"/>
@@ -296,7 +300,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0270" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add means to launch with optimum appHMIType" filename="0270-Add-means-to-launch-with-optimum-appHMIType.md"/>
 <proposal id="0271" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Start APT of SDL App by pressing PTT button" filename="0271-Start-APT-of-SDL-App-by-pressing-PTT-Button.md"/>
 <proposal id="0272" status="accepted" primary-platform="javascript" sdl-version="x.x" name="JavaScript Suite SDL Manager" filename="0272-sdl-javascript-manager-layer.md"/>
-<proposal id="0273" status="active" primary-platform="core" sdl-version="x.x" name="WebEngine Projection mode" filename="0273-webengine-projection-mode.md"/>
+<proposal id="0273" status="returned" primary-platform="core" sdl-version="x.x" name="WebEngine Projection mode" filename="0273-webengine-projection-mode.md"/>
 <proposal id="0274" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add preferred FPS to VideoStreamingCapability" filename="0274-add-preferred-FPS.md"/>
 <proposal id="0275" status="accepted" primary-platform="dev-portal" sdl-version="x.x" name="WebEngine App Testing" filename="0275-webengine-app-testing.md"/>
 <proposal id="0276" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="POI Service Supported" filename="0276-POI-Service-Supported.md"/>
@@ -315,13 +319,17 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0289" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
 <proposal id="0290" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Modify the range of APT's maxDuration" filename="0290-modify-the-range-of-APT's-maxDuration.md"/>	
 <proposal id="0291" status="returned" primary-platform="java-suite" sdl-version="x.x" name="Allow navigation apps to access information about WiFi networks" filename="0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks.md"/>	
-<proposal id="0292" status="returned" primary-platform="java-suite" sdl-version="x.x" name="Improve VirtualDisplayEncoder for stable frame rate" filename="0292-improve-VDE-for-stable-frame-rate.md"/>	
+<proposal id="0292" status="active" primary-platform="java-suite" sdl-version="x.x" name="Improve VirtualDisplayEncoder for stable frame rate" filename="0292-improve-VDE-for-stable-frame-rate.md"/>	
 <proposal id="0293" status="deferred" primary-platform="protocol" sdl-version="x.x" name="Enable OEM exclusive apps support" filename="0293-vehicle-type-filter.md"/>	
 <proposal id="0294" status="accepted" primary-platform="rpc" sdl-version="x.x" name="App Service - Messaging" filename="0294-app-service-messaging.md"/>	
 <proposal id="0295" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Microphone Input Manager" filename="0295-screen-manager-audio-pass-thru.md"/>	
 <proposal id="0296" status="active" primary-platform="core" sdl-version="x.x" name="Possibility to update video streaming capabilities during ignition cycle" filename="0296-Update-video-streaming-capabilities-during-ignition-cycle.md"/>	
 <proposal id="0297" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Add function to transmit audio data of AudioStream in time division" filename="0297-Add-function-to-transmit-audio-data.md"/>	
-<proposal id="0298" status="active" primary-platform="core" sdl-version="x.x" name="Processing of unknown enum values by SDL Core and Mobile Libraries" filename="0298-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md"/>	
+<proposal id="0298" status="returned" primary-platform="core" sdl-version="x.x" name="Processing of unknown enum values by SDL Core and Mobile Libraries" filename="0298-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md"/>	
+<proposal id="0299" status="active" primary-platform="ios" sdl-version="x.x" name="Add a Mechanism to Avoid Deadlock" filename="0299-Avoid-Deadlock.md"/>	
+<proposal id="0300" status="active" primary-platform="rpc" sdl-version="x.x" name="Voice Assistant App Service" filename="0300-Voice-Assistant-App-Service.md"/>	
+<proposal id="0301" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="SDL Device Listener" filename="0301-SDL-device-listener.md"/>	
+<proposal id="0302" status="active" primary-platform="protocol" sdl-version="x.x" name="SDL System Structure for Middle/Low-end Class Model of Powered Two Wheeler" filename="0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler.md"/>	
 	
 	<!--
 Recognized values for a proposal's status:
