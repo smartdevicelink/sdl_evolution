@@ -300,7 +300,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0270" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add means to launch with optimum appHMIType" filename="0270-Add-means-to-launch-with-optimum-appHMIType.md"/>
 <proposal id="0271" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Start APT of SDL App by pressing PTT button" filename="0271-Start-APT-of-SDL-App-by-pressing-PTT-Button.md"/>
 <proposal id="0272" status="accepted" primary-platform="javascript" sdl-version="x.x" name="JavaScript Suite SDL Manager" filename="0272-sdl-javascript-manager-layer.md"/>
-<proposal id="0273" status="returned" primary-platform="core" sdl-version="x.x" name="WebEngine Projection mode" filename="0273-webengine-projection-mode.md"/>
+<proposal id="0273" status="active" primary-platform="core" sdl-version="x.x" name="WebEngine Projection mode" filename="0273-webengine-projection-mode.md"/>
 <proposal id="0274" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add preferred FPS to VideoStreamingCapability" filename="0274-add-preferred-FPS.md"/>
 <proposal id="0275" status="accepted" primary-platform="dev-portal" sdl-version="x.x" name="WebEngine App Testing" filename="0275-webengine-app-testing.md"/>
 <proposal id="0276" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="POI Service Supported" filename="0276-POI-Service-Supported.md"/>
@@ -325,9 +325,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0295" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Microphone Input Manager" filename="0295-screen-manager-audio-pass-thru.md"/>	
 <proposal id="0296" status="active" primary-platform="core" sdl-version="x.x" name="Possibility to update video streaming capabilities during ignition cycle" filename="0296-Update-video-streaming-capabilities-during-ignition-cycle.md"/>	
 <proposal id="0297" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Add function to transmit audio data of AudioStream in time division" filename="0297-Add-function-to-transmit-audio-data.md"/>	
-<proposal id="0298" status="returned" primary-platform="core" sdl-version="x.x" name="Processing of unknown enum values by SDL Core and Mobile Libraries" filename="0298-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md"/>	
-<proposal id="0299" status="active" primary-platform="ios" sdl-version="x.x" name="Add a Mechanism to Avoid Deadlock" filename="0299-Avoid-Deadlock.md"/>	
-<proposal id="0300" status="active" primary-platform="rpc" sdl-version="x.x" name="Voice Assistant App Service" filename="0300-Voice-Assistant-App-Service.md"/>	
+<proposal id="0298" status="active" primary-platform="core" sdl-version="x.x" name="Processing of unknown enum values by SDL Core and Mobile Libraries" filename="0298-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md"/>	
+<proposal id="0299" status="returned" primary-platform="ios" sdl-version="x.x" name="Add a Mechanism to Avoid Deadlock" filename="0299-Avoid-Deadlock.md"/>	
+<proposal id="0300" status="returned" primary-platform="rpc" sdl-version="x.x" name="Voice Assistant App Service" filename="0300-Voice-Assistant-App-Service.md"/>	
 <proposal id="0301" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="SDL Device Listener" filename="0301-SDL-device-listener.md"/>	
 <proposal id="0302" status="active" primary-platform="protocol" sdl-version="x.x" name="SDL System Structure for Middle/Low-end Class Model of Powered Two Wheeler" filename="0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler.md"/>	
 	
