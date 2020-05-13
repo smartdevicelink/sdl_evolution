@@ -1,7 +1,7 @@
   # Processing of unknown enum values by SDL Core
-  * Proposal: [SDL-0298](0298-Processing-of-unknown-enum-values-by-SDL-and-Mobile-libraries.md)
+  * Proposal: [SDL-0298](0298-Processing-of-unknown-enum-values-by-SDL-Core.md)
   * Authors: [Igor Gapchuk](https://github.com/IGapchuk), [Dmitriy Boltovskiy](https://github.com/dboltovskyi/)
-  * Status: **Returned for Revisions**
+  * Status: **In Review**
   * Impacted Platforms: [Core]
 
 ## Introduction
