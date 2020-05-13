@@ -59,11 +59,12 @@ In order to prevent future cases where the app that spins up an `SDLListener` do
 - Because older apps will still start the router service like normal, the updated flow will be less impactful until all the users apps have updated to the new scheme.
 - Since the `SdlRouterService` operates on a different process, there is no way to transfer the shared preference objects without explicitly doing so with other means such as intents, binding, etc. This means each app will have to learn about the bluetooth devices it encounters over time. However, it should be rather quick since apps will save the MAC address after binding to a trusted router service anyways.
 - If a user swipes away the app from the Recent Apps screen during the listening period after a device connects, the `SDLDeviceListener` will be closed prematurely. The probability that a user will be doing this within 30 seconds of a device connected that is SDL enabled is very low and therefore shouldn't be an issue. On the next connection the process will try again and could succeed. 
+- The use of an RFCOMM channel in the broadcast receiver before the router service is started has the potential to consume, but not release that channel in time. Due to different bluetooth stacks, OS implementations, etc. the exact behavior when the channel gets released might vary between these different variables. If the channel is not released in time for the router service to obtain one, there might not be a channel open, and the router service will fail to start listening. However, this is mostly avoided for two reasons: 1. Because this would only matter in the case that the bluetooth device the mobile device is connecting with is SDL enabled, other apps should not be starting and consuming RFCOMM channels. 2. If this issue does occur, it will only occur on the first successful connection of the `SDLDeviceListener`'s BT transport. After that, the router service will be started without the `SdlDeviceListener` being created and thus avoiding a channel being consumed prior to the RS start.
 
 
 ## Impact on existing code
 
-- The `SdlBroadcastReceiver` will need logic refactored to handle the new class `SdlListener` so that it would move its normal flow into a different method/callback. 
+- The `SdlBroadcastReceiver` will need logic refactored to handle the new class `SdlDeviceListener ` so that it would move its normal flow into a different method/callback. 
 
 ## Alternatives considered
 - No other solutions considered
