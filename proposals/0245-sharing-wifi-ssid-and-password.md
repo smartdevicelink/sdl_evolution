@@ -344,13 +344,6 @@ __Note:__ `JoinNetwork` should not depend on the default RPC timeout, since WiFi
 -->
 ![Vehicle access point multiple apps](../assets/proposals/0245-sharing-wifi-ssid-and-password/vehicle_access_point_multiapps.png)
 
-### Secondary transport
-
-Mobile should start secondary (WiFi) transport right after registration and transport is available.
-
-HMI is not able to check if certain application is connected to the same WiFi network as HMI does without establishing TCP connection and starting service on secondary transport.
-Such behavior is required to avoid sending redundant `JoinNetwork` to mobile and to avoid showing confusing user consent popup.
-
 ### Multiple device connection
 
 #### Vehicle is a network host
@@ -493,6 +486,9 @@ However, if there are no applications connected via WiFi, Core knows nothing of 
 SDL Core is not able to check that two different transports belong to the same device.
 
 For a device connected by two different transport types, SDL will understand this as two different devices.
+
+HMI is not able to check if certain application is connected to the same WiFi network as HMI does without establishing TCP connection and starting service on secondary transport.
+Such behavior is required to avoid sending redundant `JoinNetwork` to mobile and to avoid showing confusing user consent popup.
 
 ## Alternative solutions
 
