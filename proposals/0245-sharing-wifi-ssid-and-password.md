@@ -41,52 +41,47 @@ SDL should be able to receive networking capabilities with `UI.GetCapabilities` 
     <param name="autoJoinWiFiSupported" type="Boolean" mandatory="false">
         <description>Defines whether HMI supports programmatic join to the external network.</description>
     </param>
-    <param name="hostingWiFiSupported" type="Boolean" mandatory="false">
+    <param name="canHostWiFiNetwork" type="Boolean" mandatory="false">
         <description>Defines whether HMI is capable of hosting WiFi network.</description>
+    </param>
+    <param name="dataFallbackSupported" type="Boolean" mandatory="false">
+        <description> This describes the device's ability to support joining multiple networks and using one for internet connectivity if not available on a different, connected network.</description>
+    </param>
+    <param name="accessPointSupportsInternetAccess" type="Boolean" mandatory="false">
+        <description> True if the access point created by this device will support internet access to connected clients.</description>
     </param>
     <param name="preferredNetworkHost" type="Device" mandatory="false">
         <description>This describes the preference of what device to use for the network host. This could mean the user prefers to use the data of either mobile or the vehicle when one might have unlimited data but a cap on another. When sent from mobile this will simply be a suggestion. When sent from the head unit, the mobile device should take this as a determined host.</description>
     </param>
+    <param name="allowAccessPointToBeShared" type="Boolean" mandatory="false">
+        <description> True if it is acceptable to share this network's SSID and password with other nearby devices. This is helpful if two mobile devices connected to a head unit, and one of them is selected as the network host.</description>
+    </param>
     <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minsize="1" maxsize="100" mandatory="false">
         <description>An array of frequencies supported by the device. Values should be in units of GHz for example 2.4GHz, 5.0GHz, etc.</description>
     </param>
- 	
-    <param name="dataFallbackSupported" type="Boolean" mandatory="false">
-        <description> This describes the device's ability to support joining multiple networks and using one for internet connectivity if not available on a different, connected network.</description>
-    </param> 	 
-
-    <param name="accessPointSupportsInternetAccess" type="Boolean" mandatory="false">
-        <description> True if the access point created by this device will support internet access to connected clients.</description>
-    </param> 	 
-
-    <param name="allowAccessPointToBeShared" type="Boolean" mandatory="false">
-        <description> True if it is acceptable to share this network's SSID and password with other nearby devices. This is helpful if two mobile devices connected to a head unit, and one of them is selected as the network host.</description>
-    </param> 	
-
     <param name="wifiSpecsSupported" type="String" array="true" minSize="1" maxSize="100" mandatory="false">
          <description> An array of WiFi Specifications, aka "Names", supported by the device. Currently expected values should be from the following: 802.11b = 1, 802.11a = 2, 802.11g = 3, 802.11n = 4, 802.11ac = 5, 802.11ax = 6.  </description>
-    </param> 
-
+    </param>
 </struct>
 
 
 <enum name="SystemCapabilityType">
-    ...
-    <element name="NETWORKING"/>
+  ...
+  <element name="NETWORKING"/>
 </enum>
 
 <struct name="SystemCapability" since="4.5">
   ...
-    <param name="networkingCapabilities" type="NetworkingCapabilities" mandatory="false" since="X.X">
+  <param name="networkingCapabilities" type="NetworkingCapabilities" mandatory="false" since="X.X">
     <description>Describes capabilities for networking </description>
-        </param>
+  </param>
 </struct>
 
 <struct name="DeviceInfo">
-    ...
-    <param name="networkingCapabilities" type="NetworkingCapabilities" mandatory="false">
-        <description>Describes HMI networking capabilities</description>
-    </param>
+  ...
+  <param name="networkingCapabilities" type="NetworkingCapabilities" mandatory="false">
+    <description>Describes HMI networking capabilities</description>
+  </param>
 </struct>
 ```
 
@@ -111,31 +106,27 @@ SDL Core should receive mobile capabilities within `DeviceInfo` section of `Regi
     <param name="autoJoinWiFiSupported" type="Boolean" mandatory="false">
         <description>Defines whether mobile application supports programmatic join to the external network.</description>
     </param>
-    <param name="hostingWiFiSupported" type="Boolean" mandatory="false">
+    <param name="canHostWiFiNetwork" type="Boolean" mandatory="false">
         <description>Defines whether mobile device is capable of hosting WiFi network.</description>
+    </param>
+    <param name="dataFallbackSupported" type="Boolean" mandatory="false">
+        <description> This describes the device's ability to support joining multiple networks and using one for internet connectivity if not available on a different, connected network.</description>
+    </param>
+    <param name="accessPointSupportsInternetAccess" type="Boolean" mandatory="false">
+        <description> True if the access point created by this device will support internet access to connected clients.</description>
     </param>
     <param name="preferredNetworkHost" type="Device" mandatory="false">
         <description> This describes the preference of what device to use for the network host. This could mean the user prefers to use the data of either mobile or the vehicle when one might have unlimited data but a cap on another. When sent from mobile this will simply be a suggestion. When sent from the head unit, the mobile device should take this as a determined host.</description>
     </param>
-    <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minSize="1" maxSize="100" mandatory="false">
-        <description> An array of frequencies supported by the device. Values should be in units of GHz for example 2.4GHz, 5.0GHz, etc.</description>
-    </param>
-        <param name="dataFallbackSupported" type="Boolean" mandatory="false">
-        <description> This describes the device's ability to support joining multiple networks and using one for internet connectivity if not available on a different, connected network.</description>
-    </param>
-
-    <param name="accessPointSupportsInternetAccess" type="Boolean" mandatory="false">
-        <description> True if the access point created by this device will support internet access to connected clients.</description>
-    </param>
-
     <param name="allowAccessPointToBeShared" type="Boolean" mandatory="false">
         <description> True if it is acceptable to share this network's SSID and password with other nearby devices. This is helpful if two mobile devices connected to a head unit, and one of them is selected as the network host.</description>
     </param>
-
+    <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minSize="1" maxSize="100" mandatory="false">
+        <description> An array of frequencies supported by the device. Values should be in units of GHz for example 2.4GHz, 5.0GHz, etc.</description>
+    </param>
     <param name="wifiSpecsSupported" type="String" array="true" minSize="1" maxSize="100" mandatory="false">
          <description> An array of WiFi Specifications, aka "Names", supported by the device. Currently expected values should be from the following: 802.11b = 1, 802.11a = 2, 802.11g = 3, 802.11n = 4, 802.11ac = 5, 802.11ax = 6.  </description>
     </param>
-
 </struct>
 
 <struct name="DeviceInfo" since="3.0">
@@ -176,15 +167,15 @@ If the result of the intersection of these parameters is more then one value, SD
 
 * `autoJoinWiFiSupported` - defines whether a device can join network programmatically;
 
-* `hostingWiFiSupported` - defines whether a device can create an access point;
+* `canHostWiFiNetwork` - defines whether a device can create an access point;
 
 * `preferedNetworkHost` - defines a preferable host of the network if both HMI and mobile can host network and automatically join the network.
 
-Decision rules for `autoJoinWiFiSupported` and `hostingWiFiSupported`:
+Decision rules for `autoJoinWiFiSupported` and `canHostWiFiNetwork`:
 
-* if `autoJoinWiFiSupported` and `hostingWiFiSupported` are both set to false either for HMI or mobile application, the feature cannot be initialized for the application.
+* if `autoJoinWiFiSupported` and `canHostWiFiNetwork` are both set to false either for HMI or mobile application, the feature cannot be initialized for the application.
 
-* if `hostingWiFiSupported = false` in mobile and vehicle capabilities, feature cannot be initialized for the application.
+* if `canHostWiFiNetwork = false` in mobile and vehicle capabilities, feature cannot be initialized for the application.
 
 * if `autoJoinWiFiSupported = false` in mobile and vehicle capabilities, feature cannot be initialized for the application.
 
@@ -359,7 +350,7 @@ In the case of the following combinations, `preferedNetworkHost` parameter has t
 <td >false</td>
 </tr>
 
-__Note:__ `preferredNetworkHost` parameter will be considered only if `hostingWiFiSupported` and `autoJoinWiFiSupported` is `true` in vehicle and mobile application capabilities.
+__Note:__ `preferredNetworkHost` parameter will be considered only if `canHostWiFiNetwork` and `autoJoinWiFiSupported` is `true` in vehicle and mobile application capabilities.
 
 In any case, from the above table, SDL Core has to check whether the network host is allowed in the ini file.
 
@@ -388,11 +379,11 @@ __Note:__ `preferredNetworkHost` is the array with priority defined by the order
 
 ### Feature initialization
 
-After SDL Core defines suitable network configuration and finds available feature enabled application, it has to notify HMI and mobile application.
+After SDL Core defines suitable network configuration and finds available feature enabled application, it has to notify HMI or mobile application.
 
-If head unit should be network host: sdl_core requests HMI sets up a WiFi network as an `OnSystemCapabilities` notification that includes NetworkingCapabilities and VEHICLE as the `preferredNetworkHost`
+If head unit should be the network host: sdl_core requests HMI sets up a WiFi network as an `OnSystemCapabilities` notification that includes NetworkingCapabilities and VEHICLE as the `preferredNetworkHost`
 
-If the mobile device is selected to be the network host the selected app will receive the `OnSystemCapabilityUpdated` notification with the info that it is to host the network.
+If the mobile device is selected to be the network host the selected app will receive the `OnSystemCapabilityUpdated` notification with the info that it choosed to host the network.
 
 Finally, to share the credentials of the network, it is proposed to implement the new RPC `JoinNetwork` to be sent by current networkHost.
 
@@ -472,11 +463,9 @@ Core then sends the `TransportEventUpdate` protocol message with IP and port to 
 
 <function name="JoinNetwork" messagetype="request">
     <description>A request for the receiver to join the specified network.</description>
-
     <param name="wifiState" type="WiFiStateInfo" mandatory="false">
         <description>wifi state info</description>
     </param>
-
     <param name="ssid" type="String" minlength="1" maxlength="32" mandatory="true">
         <description>name of the WiFi ssid</description>
     </param>
@@ -575,9 +564,9 @@ A vehicle should be able to share credentials of the external hotspot only if `a
 
 If mobile is an access point and `allowAccessPointSharing = false`, vehicle is not able to establish Wifi connection with other devices.
 
-In that case, HMI should provide SDL `OnSystemCapabilityUpdate` with appropriate `hostingWiFiSupported`, and `autoJoinWiFiSupported`.
+In that case, HMI should provide SDL `OnSystemCapabilityUpdate` with appropriate `canHostWiFiNetwork`, and `autoJoinWiFiSupported`.
 
-Once vehicle is connected to the mobile hotspot, HMI should send `OnSystemCapabilityUpdate` with `hostingWiFiSupported = true` and `preferredNetworkHost = VEHICLE`. If the new application is compatible with HMI network capabilities, Core will send `OnSystemCapabilityUpdate` with `networkHost = VEHICLE` to HMI and new mobile application. Then HMI should send `JoinNetwork` with the credentials of the external hotspot.
+Once vehicle is connected to the mobile hotspot, HMI should send `OnSystemCapabilityUpdate` with `canHostWiFiNetwork = true` and `preferredNetworkHost = VEHICLE`. If the new application is compatible with HMI network capabilities, Core will send `OnSystemCapabilityUpdate` with `networkHost = VEHICLE` to HMI and new mobile application. Then HMI should send `JoinNetwork` with the credentials of the external hotspot.
 
 <!--
 @startuml ../assets/proposals/0245-sharing-wifi-ssid-and-password/mobile_access_point_multidev_externalhost
@@ -586,10 +575,9 @@ Once vehicle is connected to the mobile hotspot, HMI should send `OnSystemCapabi
 -->
 ![Vehicle access point multiple devices](../assets/proposals/0245-sharing-wifi-ssid-and-password/mobile_access_point_multidev_externalhost.png)
 
-
 ### RPCs Encryption
 
-WiFi credentials are considered sensitive data, and should not be shared without encryption.
+WiFi credentials are considered as sensitive data, and should not be shared without encryption.
 [SDL 0207 - RPC message protection](https://github.com/smartdevicelink/sdl_evolution/issues/634) feature.
 
 RPC message protection is controlled completely by Policy Table.
@@ -664,11 +652,11 @@ From the Core perspective, registration process is sequential and since it will 
 
 ##### Vehicle is the hotspot
 
-After the application from the device is connected and if the vehicle should be the hotspot, SDL Core will send `OnSystemCapabilityUpdate` notification to the application and to the HMI. Since it is the vehicle's responsibility to start the hotspot, Core should wait for `OnCapabilityUpdate` with the updated capabilities. Only after this notification is Core ready to process feature enabled application from another device.
+After the application from the device is connected and if the vehicle should be the hotspot, SDL Core will send `OnSystemCapabilityUpdate` notification to the HMI. Since it is the vehicle's responsibility to start the hotspot, Core should wait for `OnSystemCapabilityUpdate` with the updated capabilities. Only after this notification is Core ready to process feature enabled application from another device.
 
 #### Mobile device is the hotspot
 
-After SDL Core has decided that the mobile device should be an access point, Core will send `OnSystemCapabilityUpdate` notification to the application and HMI. Since HMI has nothing to do before establishing WiFi connection, the HMI capability will be updated only after connection attempt to the mobile hotspot. Before this point, Core will not be able to process feature enabled applications from other devices.
+After SDL Core has decided that the mobile device should be an access point, Core will send `OnSystemCapabilityUpdate` notification to the application. Since HMI has nothing to do before establishing WiFi connection, the HMI capability will be updated only after connection attempt to the mobile hotspot. Before this step another connected app (on another device) may receive wrong `OnSystemCapabilityUpdate` notification.
 
 ### WiFi disconnection
 
@@ -713,3 +701,510 @@ Consider following drawbacks:
 * HMI will show redundant confusing user consent
 * Application will receive redundant `JoinNetwork` on app on second device registration
 * Applicable if mobile is access point, and there are multiple devices (sharing is allowed)
+
+### Minimal approach solution
+
+#### Proposed solution
+
+Current proposal introduces additional APIs for sharing WiFi credentials between the vehicle and devices.
+
+This solution does not put on SDL Core any logic to determine access point host.
+
+This decision should be controlled by HMI.
+
+SDL Core does not have direct access to WiFi hardware, so SDL Core is not able to check the current WiFi state.
+Such an approach gives the OEM the ability to have their own rules and priorities for WiFi interaction.
+
+This approach can be easily integrated into some already existing solution because there is no additional logic on SDL Core, and an OEM may just adopt an existing solution for using new APIs.
+
+The proposed approach is designed to avoid bidirectional RPCs because it adds technical complexity that causes additional bugs.
+
+The following API extension will provide the mobile device ability to share their networking capabilities.
+
+#### Sharing mobile networking capabilities with the vehicle
+
+**MOBILE_API** :
+
+SDL Core should receive mobile capabilities within `DeviceInfo` section of `RegisterAppInterface` request.
+
+```xml
+<enum name="FrequencyBand" since="x.x">
+    <element name="FREQUENCY_BAND_2_4_GHZ"/>
+    <element name="FREQUENCY_BAND_5_0_GHZ"/>
+    <element name="FREQUENCY_BAND_6_0_GHZ"/>
+</enum>
+
+<enum name="NetworkHost" since="x.x">
+    <element name="MOBILE"/>
+      <description>
+        Use mobile device as WiFi access point
+      </description>
+    </element>
+    <element name="VEHICLE"/>
+      <description>
+        Use vehicle as WiFi access point
+      </description>
+    </element>
+</enum>
+
+<struct name="MobileNetworkingCapabilities" since="x.x">
+  <description>
+    Describes sending device's availability configurations around WiFi networking.
+    This includes the ability to automatically join a network or to host one by itself.
+  </description>
+    <param name="autoJoinWiFiSupported" type="Boolean" mandatory="false">
+      <description>
+        Defines whether mobile application supports programmatic join to the external network.
+      </description>
+    </param>
+    <param name="hostingWiFiSupported" type="Boolean" mandatory="false">
+      <description>Defines whether mobile device is capable of hosting WiFi network.</description>
+    </param>
+    <param name="preferredNetworkHost" type="NetworkHost" mandatory="false">
+      <description>
+        This describes the preference of what device (vehicle or mobile) to use as a WiFi access point.
+      </description>
+    </param>
+    <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minSize="1" maxSize="100" mandatory="false">
+      <description>
+        An array of frequencies supported by the device.
+      </description>
+    </param>
+</struct>
+
+<struct name="DeviceInfo" since="3.0">
+    ...
+    <param name="networkingCapabilities" type="MobileNetworkingCapabilities" mandatory="false" since="x.x">
+        <description>Device's available configurations around networking</description>
+    </param>
+    ...
+</struct>
+```
+
+**HMI_API** :
+
+SDL Core will send mobile networking capabilities in `OnAppRegistered` notification within `DeviceInfo` struct.
+
+```xml
+
+<enum name="NetworkHost">
+    <element name="MOBILE"/>
+      <description>
+        Use mobile device as WiFi access point
+      </description>
+    </element>
+    <element name="VEHICLE"/>
+      <description>
+        Use vehicle as WiFi access point
+      </description>
+    </element>
+</enum>
+
+<enum name="FrequencyBand">
+    <element name="FREQUENCY_BAND_2_4_GHZ"/>
+    <element name="FREQUENCY_BAND_5_0_GHZ"/>
+    <element name="FREQUENCY_BAND_6_0_GHZ"/>
+</enum>
+
+<struct name="MobileNetworkingCapabilities">
+
+  <description>
+    Describes sending device's availability configurations around WiFi networking.
+    This includes the ability to automatically join a network or to host one by itself.
+  </description>
+
+  <param name="autoJoinWiFiSupported" type="Boolean" mandatory="false">
+    <description>
+      Defines whether mobile application supports programmatic join to the external network.
+    </description>
+  </param>
+  <param name="hostingWiFiSupported" type="Boolean" mandatory="false">
+    <description>
+      Defines whether mobile device is capable of hosting WiFi network.
+    </description>
+  </param>
+    <param name="preferredNetworkHost" type="NetworkHost" mandatory="false">
+      <description>
+        This describes the preference of what device (vehicle or mobile) to use as a WiFi access point.
+    </description>
+    </param>
+    <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minsize="1" maxsize="100" mandatory="false">
+      <description>
+        An array of frequencies supported by the device.
+      </description>
+    </param>
+</struct>
+
+<struct name="DeviceInfo">
+  ...
+  <param name="networkingCapabilities" type="MobileNetworkingCapabilities" mandatory="false">
+        <description>Describes device's networking capabilities</description>
+  </param>
+  ...
+</struct>
+
+```
+
+#### INI file update
+
+Ini file will contain supported modes for the vehicle.
+SDL Core should restrict RPCs not supported by the vehicle.
+
+```ini
+[Networking]
+
+; WifiModesSupported provides information to SDL Core regarding if the HMI can join to an external WiFi network, and if it can host a WiFi network. 
+; SDL Core should not allow JoinMobileNetwork requests from mobile if HMI is not able to join a network.
+; SDL should not allow JoinVehicleNetwork requests from HMI if HMI is not able to host network.
+WifiModesSupported = AccessPoint, WifiClient
+
+```
+
+
+If `WifiModesSupported` is empty or omitted, SDL Core will not process `JoinVehicleNetwork` and `JoinMobileNetwork` RPCs and respond with error `UNSUPPORTED_REQUEST` result code.
+
+#### Sharing SSID with Join request
+
+Instead of sharing SSID with a password via `Get` requests, this solution proposes to use *Hollywood Principle*: "Don't call us, we'll call you."
+
+If vehicle is ready to accept WiFi connection, it will ask mobile for connection via `JoinVehicleNetwork`.
+
+If the vehicle is ready to connect to the mobile access point, it will notify the mobile device via `ReadyForWifiConnection`.
+
+If mobile is ready to accept WiFi connection, it will ask vehicle for connection via `JoinMobileNetwork`.
+
+The following API changes are required:
+##### MOBILE_API
+
+```xml
+
+<enum name="WiFiSecurityType">
+    <description>enum to define WiFi security types used for WiFi connection.</description>
+    <element name="NONE"/>
+    <element name="WEP"/>
+    <element name="WPA"/>
+    <element name="WPA2"/>
+    <element name="WPA3"/>
+</enum>
+
+
+<function name="ReadyForWifiConnection" functionID="ReadyForWifiConnectionID" messagetype="notification" since="x.x">
+    <description>
+      Notification from vehicle to mobile to inform that vehicle is ready to be WiFi client and requests WiFi connection with mobile as an access point.
+    </description>
+
+    <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minsize="1" maxsize="100" mandatory="false">
+      <description>
+        An array of frequencies supported by the vehicle.
+      </description>
+    </param>
+</function>
+
+<function name="JoinVehicleNetwork" functionID="JoinVehicleNetworkID" messagetype="request" since="x.x">
+    <description>
+      A request to the mobile device to join the vehicle network.
+    </description>
+
+    <param name="ssid" type="String" minlength="1" maxlength="32" mandatory="true">
+        <description>vehicle access point SSID</description>
+    </param>
+    <param name="password" type="String" minlength="1" maxlength="100" mandatory="false">
+        <description>password to use to connect AP</description>
+    </param>
+    <param name="securityType" type="WiFiSecurityType" mandatory="false">
+        <description>security type of WiFi AP</description>
+    </param>
+    <param name="accesssPointSupportsInternetAccess" type="Boolean" mandatory="false">
+        <description>true if access point provides internet access, otherwise false.</description>
+    </param>
+</function>
+
+<function name="JoinVehicleNetwork" functionID="JoinVehicleNetworkID" messagetype="response" since="6.2">
+    <description>A response and description of requested action.</description>
+    <param name="success" type="Boolean" platform="documentation" mandatory="true">
+        <description> true, if successful; false, if failed </description>
+    </param>
+    <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+        <description>See Result</description>
+        <element name="SUCCESS"/>
+        <element name="UNSUPPORTED_RESOURCE"/>
+        <element name="DISALLOWED"/>
+        <element name="REJECTED"/>
+        <element name="TOO_MANY_PENDING_REQUESTS"/>
+        <element name="APPLICATION_NOT_REGISTERED"/>
+        <element name="GENERIC_ERROR"/>
+        <element name="USER_DISALLOWED"/>
+        <element name="DATA_NOT_AVAILABLE"/>
+    </param>
+    <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+        <description>Provides additional human readable info regarding the result.</description>
+    </param>
+</function>
+
+<function name="JoinMobileNetwork" functionID="JoinMobileNetworkID" messagetype="request" since="x.x">
+    <description>
+      A request to the vehicle to join the mobile network.
+    </description>
+
+    <param name="ssid" type="String" minlength="1" maxlength="32" mandatory="true">
+        <description>mobile access point SSID</description>
+    </param>
+    <param name="password" type="String" minlength="1" maxlength="100" mandatory="false">
+        <description>password to use to connect AP</description>
+    </param>
+    <param name="securityType" type="WiFiSecurityType" mandatory="false">
+        <description>security type of WiFi AP</description>
+    </param>
+    <param name="allowAccessPointSharing" type="Boolean" mandatory="false">
+        <description>true if it is acceptable to share this network's SSID and password with other nearby devices. This is helpful if two mobile devices connected to a head unit, and one of them is selected as the network host.</description>
+    </param>
+    <param name="accesssPointSupportsInternetAccess" type="Boolean" mandatory="false">
+        <description>true if access point provides internet access, otherwise false.</description>
+    </param>
+</function>
+
+<function name="JoinMobileNetwork" functionID="JoinMobileNetworkID" messagetype="response" since="6.2">
+    <description>A response and description of requested action.</description>
+    <param name="success" type="Boolean" platform="documentation" mandatory="true">
+        <description> true, if successful; false, if failed </description>
+    </param>
+    <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+        <description>See Result</description>
+        <element name="SUCCESS"/>
+        <element name="UNSUPPORTED_RESOURCE"/>
+        <element name="DISALLOWED"/>
+        <element name="REJECTED"/>
+        <element name="TOO_MANY_PENDING_REQUESTS"/>
+        <element name="APPLICATION_NOT_REGISTERED"/>
+        <element name="GENERIC_ERROR"/>
+        <element name="USER_DISALLOWED"/>
+        <element name="DATA_NOT_AVAILABLE"/>
+
+    </param>
+    <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+        <description>Provides additional human readable info regarding the result.</description>
+    </param>
+</function>
+
+
+```
+
+##### HMI API
+
+```xml
+<enum name="WiFiSecurityType">
+    <description>enum to define WiFi security types used for WiFi connection.</description>
+    <element name="NONE"/>
+    <element name="WEP"/>
+    <element name="WPA"/>
+    <element name="WPA2"/>
+    <element name="WPA3"/>
+</enum>
+
+<function name="ReadyForWifiConnection" messagetype="notification">
+    <description>
+      Notification from vehicle to mobile to inform that vehicle is ready to be WiFi client and requests WiFi connection with the mobile device as an access point. 
+    </description>
+
+
+    <param name="appID" type="Integer" mandatory="true">
+      <description>Unique (during ignition cycle) ID of the application.</description>
+    </param>
+
+    <param name="wifiFrequencyBandsSupported" type="FrequencyBand" array="true" minsize="1" maxsize="100" mandatory="false">
+      <description>
+        An array of frequencies supported by the vehicle.
+      </description>
+    </param>
+</function>
+
+<function name="JoinVehicleNetwork" messagetype="request">
+    <description>
+      request to the mobile device to join the vehicle network.
+    </description>
+
+    <param name="appID" type="Integer" mandatory="true">
+      <description>Unique (during ignition cycle) ID of the application. </description>
+    </param>
+
+    <param name="ssid" type="String" minlength="1" maxlength="32" mandatory="true">
+        <description>vehicle access point SSID</description>
+    </param>
+    <param name="password" type="String" minlength="1" maxlength="100" mandatory="false">
+        <description>password to use to connect AP</description>
+    </param>
+    <param name="securityType" type="Common.WiFiSecurityType" mandatory="false">
+        <description>security type of WiFi AP</description>
+    </param>
+    <param name="accesssPointSupportsInternetAccess" type="Boolean" mandatory="false">
+        <description>True if access point provides internet access, otherwise false.</description>
+    </param>
+</function>
+
+<function name="JoinVehicleNetwork" messagetype="response">
+    <description>A response and description of requested action.</description>
+    <param name="success" type="Boolean" platform="documentation" mandatory="true">
+        <description> true, if successful; false, if failed </description>
+    </param>
+    <param name="resultCode" type="Common.Result" platform="documentation" mandatory="true">
+    </param>
+    <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+        <description>Provides additional human readable info regarding the result.</description>
+    </param>
+</function>
+
+<function name="JoinMobileNetwork" messagetype="request">
+    <description>
+      A request to the vehicle to join the mobile network.
+    </description>
+
+    <param name="appID" type="Integer" mandatory="true">
+      <description>Unique (during ignition cycle) ID of the application.</description>
+    </param>
+
+    <param name="ssid" type="String" minlength="1" maxlength="32" mandatory="true">
+        <description>mobile access point SSID</description>
+    </param>
+    <param name="password" type="String" minlength="1" maxlength="100" mandatory="false">
+        <description>password to use to connect AP</description>
+    </param>
+    <param name="securityType" type="Common.WiFiSecurityType" mandatory="false">
+        <description>security type of WiFi AP</description>
+    </param>
+    <param name="allowAccessPointSharing" type="Boolean" mandatory="false">
+        <description>true if it is acceptable to share this network's SSID and password with other nearby devices. This is helpful if two mobile devices connected to a head unit, and one of them is selected as the network host.</description>
+    </param>
+    <param name="accesssPointSupportsInternetAccess" type="Boolean" mandatory="false">
+        <description>true if access point provides internet access, otherwise false.</description>
+    </param>
+</function>
+
+<function name="JoinMobileNetwork" messagetype="response">
+    <description>A response and description of requested action.</description>
+    <param name="success" type="Boolean" platform="documentation" mandatory="true">
+        <description> true, if successful; false, if failed </description>
+    </param>
+    <param name="resultCode" type="Common.Result" platform="documentation" mandatory="true">
+    </param>
+    <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+        <description>Provides additional human readable info regarding the result.</description>
+    </param>
+</function>
+```
+
+HMI should send `JoinVehicleNetwork` to mobile if WiFi connection is required. 
+
+OEM can decide if this requirement should be sent either on app activation of after app registration. 
+
+HMI should send `ReadyForWifiConnection` to mobile if the WiFi connection is required but OEM prefers to use mobile device's Wifi. 
+
+Mobile should send `JoinMobileNetwork` to vehicle right after receiving `ReadyForWifiConnection`.
+
+SDL Core will not filter `JoinMobileNetwork` if HMI didn't send `ReadyForWifiConnection` before. 
+
+__Note:__ `JoinVehicleNetwork`, `JoinMobileNetwork` should not depend on the default RPC timeout, since WiFi connection may take much more time. So, this RPC has to operate without an active timeout from the sdl_core perspective.
+
+<!--
+@startuml ../assets/proposals/0245-sharing-wifi-ssid-and-password/minimal_approach
+!include ../assets/proposals/0245-sharing-wifi-ssid-and-password/minimal_approach.puml
+@enduml
+-->
+![Sharing SSID minimal approach](../assets/proposals/0245-sharing-wifi-ssid-and-password/minimal_approach.png)
+
+##### Manual Wifi connection
+
+HMI should not send `JoinVehicleNetwork` to the application if at least one application on the corresponding device started WiFi secondary transport. HMI will take information about device apps and transports from `UpdateAppList` and `UpdateDeviceList` notifications from SDL. 
+
+If the user established WiFi connection manually, the vehicle has no instruments to check that it is connected to the same WiFi network as mobile application until the application doesn't start the secondary transport. 
+
+So HMI may send redundant `JoinVehicleNetwork`/`ReadyForWifiConnection` to the application. `sdl_proxy` should not initiate the connection to vehicle WiFi network if it is already connected. 
+
+#### Multiple device connections
+
+The OEM has full control on multiple device connection policy. 
+
+#### RPCs Encryption
+
+WiFi credentials are considered sensitive data, and should not be shared without encryption.
+
+To protect WiFi credentials [SDL 0207 - RPC message protection](https://github.com/smartdevicelink/sdl_evolution/issues/634) feature is used.
+
+RPC message protection is controlled completely by the Policy Table.
+
+It is advised to restrict `JoinMobileNetwork`, `JoinVehicleNetwork`, to be sent only by encrypted RPC service, but it is up to each OEM upon implementation. SDL Core does not enforce that RPCs should be sent only by encrypted RPC service.
+
+SDL Core will not transfer `JoinVehicleNetwork` to mobile by non-secure RPC service if encryption is required. SDL Core will respond with the `REJECTED` result code.
+
+HMI should know about RPC service encryption status for each application. 
+Therefore, this solution proposes to extend `OnServiceUpdate` notification with the appropriate information: 
+```xml
+
+<function name="OnServiceUpdate" messagetype="notification">
+  <param name="encrypted" type="true" mandatory="false">
+</function>
+
+```
+If `encrypted` parameter is omitted, it means that service is not encrypted.
+
+#### Preloaded policy table
+
+It is proposed to introduce a new functional group within the current proposal:
+
+```json
+"policy_table": {
+    ...
+    "functional_groupings": {
+        ...
+        "NetworkSharing": {
+            "rpcs": {
+                "ReadyForWifiConnection": {
+                    "encryption_required": false,
+                    "hmi_levels": [
+                        "BACKGROUND",
+                        "FULL",
+                        "LIMITED",
+                        "NONE"
+                    ]
+                },
+                "JoinMobileNetwork": {
+                    "encryption_required": true,
+                    "hmi_levels": [
+                        "BACKGROUND",
+                        "FULL",
+                        "LIMITED",
+                        "NONE"
+                    ]
+                },
+                "JoinVehicleNetwork": {
+                    "encryption_required": true,
+                    "hmi_levels": [
+                        "BACKGROUND",
+                        "FULL",
+                        "LIMITED",
+                        "NONE"
+                    ]
+                }
+            }
+        }
+    }
+}
+```
+
+### Potential Downsides
+
+SDL is not able to check that 2 different transport connections belongs to one mobile device. The device connected by two different types of transport will be considered by SDL Core as two different devices.
+
+### Alternative solutions 
+
+1. Use `OnSystemRequest` with subtype `WIFI_READY_TO_CONNECT` instead of `ReadyForWifiConnection`
+
+2. Add DeviceID parameter to RAI request. So sdl_proxy should be responsible for providing a unique device identifier.
+
+3. Add `MobileNetworkCapabilitiesUpdate` RPC from mobile to vehicle to inform vehicle that mobile network capabilities have been updated. For example, the user manually created a hotspot on mobile, and the application is not able to join the WiFi network anymore. 
+
+4. Start secondary transport right after registration, but not on app activation. This prevents sending redundant `JoinVehicleNetwork`/`ReadyForWifiConnection` to the application. 
+
+5. Send WiFI SSID in `RegisterAppInterface`.
+It is possible for the device to be connected to WiFi before any application is registered (for example, manual connection). In this case it will be useful for IVI to be aware of this connection. So, as an alternative, it is proposed to send SSID of currently connected WiFi network within `RegisterAppInterface` request. However, this approach introduces a number of issues:
+* SSID is not unique enough identifier
+* The access point could be configured in a way not to share SSID. In this case, its sharing from mobile device could become a security issue.
