@@ -1,7 +1,6 @@
 @startuml
 !pragma teoz true
 
-
 title SDL decides that MOBILE is an access point
 participant HMI
 participant SDL
@@ -9,7 +8,6 @@ participant APP
 
 note over HMI, APP: in ini file : NetworkHost = MOBILE \n\
 App allowed to use feature by policies
-
 
 SDL -> HMI : <b>UI.GetCapabilities() request
 HMI -> SDL : <b>UI.GetCapabilities(NetworkingCapabilities) response : \n\
@@ -30,18 +28,12 @@ SDL -> APP : <b>RAI response
 SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
 SDL decides that **Mobile should be AP** 
 
-
-SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **MOBILE** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
-
-SDL -> APP:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **MOBILE** \n\
+SDL -> APP:  <b>OnSystemCapabilitiesUpdate(NetworkConfiguration): \n\
+\t preferedNetworkHost : \t **MOBILE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"  
 
 APP -> APP : Mobile creates \n\
 WiFi Access Point
-
 
 APP -> SDL: <b>JoinNetwork request\n\
 \t ssid : \t DeviceWiFiAP \n\
@@ -63,6 +55,7 @@ WiFiConnection
 HMI -> SDL : <b>JoinNetwork response
 SDL -> APP : <b>JoinNetwork response
 
+SDL -> APP: TransportUpdateEvent
 
 HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
 \t autoJoinWiFiSupported : \t **false** \n\

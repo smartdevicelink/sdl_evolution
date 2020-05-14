@@ -49,16 +49,9 @@ note over SDL: SDL calculate network configuration based on \n\
 latest OnSystemCapabilitiesUpdate(Networkcapabilities) from HMI, \n\
 RAI (Networkcapabilities) from App1 and ini.file
 
-SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **VEHICLE** \n\
+SDL -> HMI:  <b>OnSystemCapabilitiesUpdate(NetworkConfiguration): \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
-
-SDL -> APP1:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **VEHICLE** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"
-
-note over HMI: HMI should not **Recreate** AP \n\
-on OnNetworkConfiguration
 
 note over HMI: HMI shows pop-up \n\
 user consent 
@@ -75,14 +68,18 @@ SDL -> APP1: <b>JoinNetwork request \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
-note over APP1, APP2: HMI shows pop-up \n\
+note over APP1, APP2: Mobil shows pop-up \n\
 user consent 
 
 APP1 -> APP1 : Establish  \n\
-WiFiConnectionl
+WiFiConnection
 
 APP1 -> SDL : <b>JoinNetwork response
 SDL -> HMI : <b>JoinNetwork response
+SDL -> APP1 : OnTransportEventUpdate
+
+APP2 <-> SDL : StartService
+SDL -> APP2 : OnTransportEventUpdate
 
 APP2 -> SDL : <b>RAI_2(NetworkingCapabilities): \n\
 \t autoJoinWiFiSupported : \t true \n\
@@ -96,7 +93,6 @@ SDL -> APP2 : <b>RAI(App2) response
 
 note over SDL : Do not recalculate NetworkConfiguration \n\
 because feature enabled application already initialized in mobile device 
-
 
 HMI -> HMI: App2 is activated
 
@@ -137,11 +133,7 @@ SDL decides that **MOBILE should be AP**
 
 activate SDL
 
-SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **MOBILE** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
-
-SDL -> APP2:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
+SDL -> APP2:  <b>OnSystemCapabilitiesUpdate(NetworkConfiguration): \n\
 \t networkHost : \t **MOBILE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"
 
@@ -173,7 +165,7 @@ SDL -> APP2 : <b>JoinNetwork response
 HMI -> SDL:  <b>OnSystemCapabilitiesUpdate(NetworkConfiguration): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
 \t canHostWiFiNetwork : \t **true**  \n\
-\t preferredNetworkHost : \t **EXTERNAL** \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
 deactivate SDL
@@ -182,13 +174,9 @@ SDL -> SDL : SDL calculate network configuration based on \n\
 latest OnSystemCapabilitiesUpdate(Networkcapabilities) from HMI, \n\
 **RAI_3** (Networkcapabilities) from App3 and ini.file
 
-SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **EXTERNAL** \n\
+SDL -> HMI:  <b>OnSystemCapabilitiesUpdate(NetworkConfiguration): \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
-
-SDL -> APP3:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **EXTERNAL** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"
 
 note over HMI: HMI shows pop-up \n\
 user consent 

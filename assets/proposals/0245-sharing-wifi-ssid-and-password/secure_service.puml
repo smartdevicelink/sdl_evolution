@@ -9,7 +9,6 @@ participant APP
 
 note over HMI, APP: APP allowed to use feature by policies
 
-
 HMI -> SDL : <b>OnSystemCapabilityUpdated : \n\
 \t autoJoinWiFiSupported : \t true \n\
 \t canHostWiFiNetwork : \t true \n\
@@ -28,16 +27,12 @@ SDL -> APP : RAI response
 SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
 SDL decides that **MOBILE should be AP**
 
-SDL -> APP: OnPermissionsChange("JoinNetwork")
+SDL -> APP: OnPermissionsChange("JoinNetwork, OnSystemCapabilityUpdated")
 
-SDL -> APP:  \n <b>OnNetworkConfiguration : \n\
+SDL -> APP:  \n <b>OnSystemCapabilityUpdated : \n\
 \t preferredNetworkHost : \t MOBILE \n\
 
 APP -> SDL : Start **secure** RPC service
-
-
-SDL -> HMI:  \n <b>OnNetworkConfiguration : \n\
-\t preferredNetworkHost : \t MOBILE \n\
 
 
 APP -> SDL : JoinNetwork request

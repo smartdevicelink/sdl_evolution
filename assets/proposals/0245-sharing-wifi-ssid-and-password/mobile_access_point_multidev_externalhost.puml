@@ -47,17 +47,12 @@ SDL -> SDL : SDL **postpones** calculation of network configuration for APP2\n\
 until OnSystemRequestCapabilitiesUpdate notification from HMI
 activate SDL
 
-SDL -> HMI:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **MOBILE** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
-
-SDL -> APP1:  <b>OnNetworkConfiguration(NetworkConfiguration): \n\
-\t networkHost : \t **MOBILE**\n\
+SDL -> APP1:  <b>OnSystemRequestCapabilitiesUpdate(NetworkConfiguration): \n\
+\t preferedNetworkHost : \t **MOBILE**\n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
 APP1 -> APP1 : Mobile creates \n\
 WiFi Access Point
-
 
 APP1 -> SDL: <b>JoinNetwork requst \n\
 \t ssid : \t DeviceWiFiAP \n\
@@ -79,12 +74,14 @@ WiFiConnection
 HMI -> SDL : <b>JoinNetwork response
 SDL -> APP1 : <b>JoinNetwork response
 
+SDL-> APP1 : OnTransportEventUpdate
+SDL-> APP2 : OnTransportEventUpdate
 APP1 -> SDL : <b>Start session via WIFI secondary transport
 
 HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
 \t canHostWiFiNetwork : \t **true**  \n\
-\t preferredNetworkHost : \t **EXTERNAL** \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
 deactivate SDL
@@ -94,16 +91,9 @@ latest OnSystemCapabilityUpdate(Networkcapabilities) from HMI, \n\
 RAI_2 (Networkcapabilities) from App2 and ini.file
 
 
-SDL -> APP2:  <b>OnNetworkConfiguration(NetworkCapabilities): \n\
-\t networkHost : \t **EXTERNAL** \n\
+SDL -> HMI:  <b>OnSystemCapabilityUpdate(NetworkCapabilities): \n\
+\t networkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
-
-SDL -> HMI:  <b>OnNetworkConfiguration(NetworkCapabilities): \n\
-\t networkHost : \t **EXTERNAL** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
-
-note over HMI: HMI shows pop-up \n\
-user consent 
 
 HMI -> SDL: <b>JoinNetwork request \n\
 \t ssid : \t DeviceWiFiAP \n\
@@ -117,7 +107,7 @@ SDL -> APP2: <b>JoinNetwork request\n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t accessPointSupportsInternetAccess : \t true
 
-note over APP2: HMI shows pop-up \n\
+note over APP2: Mobile shows pop-up \n\
 user consent 
 
 APP2 -> APP2 : Establish \n\
