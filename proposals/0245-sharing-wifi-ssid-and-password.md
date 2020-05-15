@@ -177,6 +177,20 @@ Once the head unit receives the `RegisterAppInterface` and the `NetworkingCapabi
   - If Core set BOTH and the mobile device sets dataUsagePreference as VEHICLE
   - If any other settings mismatch, this will be the default
 
+##### Additional Information
+
+Can either be a hotspot or a common, known WiFi connection
+* Android
+ - startLocalOnlyHotspot() -  “The network created by this method will not have Internet access.”
+ - When creating a hot spot programmatically, the result will not allow clients to share the internet connection of the mobile device
+ - User could create an access point with internet access and the app could ask IVI to join
+ - User could set preferred WiFi network
+* iOS
+ - Unable to create an access point programmatically
+ - User could create an access point and the app could ask IVI to join
+ - User could set preferred WiFi network
+
+
 #### INI file update
 
 ```ini
@@ -447,6 +461,23 @@ It is proposed to introduce new functional group within current proposal:
 __Note:__ Keep in mind, if `encryption_required` for `OnSystemCapabilityUpdate` is set to `true`, mobile application will not receive notification until secure service is established.
 
 ## Troubleshooting and race conditions
+
+
+### Android Permission Issue
+
+android.permission.WRITE_SETTINGS required for Android SDK 29+
+This permission is a “system” permission. This causes an error message in the manifest.xml editor to appear
+User must specifically grant this permission. This is not the same as a location permission request, it is a distinct permission with its own settings pageWill require a dialog/pop up explaining why the user must grant this permission and then forward the user to the settings page where they can grant it.
+Because this feature can be used by any app (not just a single OEM app), this will require a pop up and user redirect for all apps that are going to use the feature.
+![andoid_permissions](../assets/proposals/0245-sharing-wifi-ssid-and-password/andoid_permissions.png)
+
+### iOS Entitlement Issues
+
+The feature could be difficult to test on iOS. If it's not easily tested, regression issues could easily surface.
+Each app will need to apply to Apple for the entitlement
+Joining the network requires the user to interact with the device each time
+ - “[app] Wants to Join Wi-Fi Network”
+
 
 ### Race condition in case of multiple device connection
 
