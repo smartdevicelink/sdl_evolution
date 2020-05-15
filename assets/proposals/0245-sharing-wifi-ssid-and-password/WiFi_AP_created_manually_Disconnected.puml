@@ -68,7 +68,7 @@ SDL -> APP1: <b>JoinNetwork request \n\
 \t securityType : \t WIFI_SECURITY_WPA2 \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
-note over APP1, APP2: Mobil shows pop-up \n\
+note over APP1, APP2: Mobile shows pop-up \n\
 user consent 
 
 APP1 -> APP1 : Establish  \n\

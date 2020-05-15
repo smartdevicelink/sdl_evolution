@@ -35,7 +35,7 @@ SDL -> SDL : Based on ini file, RAI_1(App1) and HMI NetworkCapabilities\n\
 SDL decides that **VEHICLE should be AP** 
 
 SDL -> HMI:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
-\t preferedNetworkHost : \t **VEHICLE** \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
 HMI -> HMI : HMI creates WiFi Access Point
@@ -90,7 +90,7 @@ SDL -> SDL : Based on ini file, RAI(App2) and latest HMI NetworkCapabilities\n\
 SDL decides that **VEHICLE should be AP** 
 
 SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
-\t preferednetworkHost : \t **VEHICLE** \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
 note over HMI: HMI should not **Recreate** AP \n\

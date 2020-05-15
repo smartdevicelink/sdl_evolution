@@ -48,7 +48,7 @@ until OnSystemRequestCapabilitiesUpdate notification from HMI
 activate SDL
 
 SDL -> APP1:  <b>OnSystemRequestCapabilitiesUpdate(NetworkConfiguration): \n\
-\t preferedNetworkHost : \t **MOBILE**\n\
+\t preferredNetworkHost : \t **MOBILE**\n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
 APP1 -> APP1 : Mobile creates \n\
