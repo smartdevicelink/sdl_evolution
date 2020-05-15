@@ -165,10 +165,10 @@ If the result of the intersection of these parameters is more then one value, SD
 
 #### Determining which device should host the network
 
-Once the head unit receives the RegisterAppInterface and the NetworkingCapabilities it must decide who should host. Each bullet point assumes that the network configurations can be supported by both devices (frequencies, data fallback, etc). These bullet points are just a suggestion, an OEM can determine the situation themselves.
+Once the head unit receives the `RegisterAppInterface` and the `NetworkingCapabilities` it must decide who should host. Each bullet point assumes that the network configurations can be supported by both devices (frequencies, data fallback, etc). These bullet points are just a suggestion, an OEM can determine the situation themselves.
 
-* MOBILE (assuming canHostWiFiNetwork in NetworkingAbilities is set to true from mobile)
-  - Core set MOBILE as the only device in the INI file
+* MOBILE (assuming `canHostWiFiNetwork` in NetworkingAbilities is set to true from mobile)
+  - Core set `MOBILE` as the only device in the INI file
   - If Core set BOTH and the mobile device does NOT support dataFallbackSupported
   - If Core set BOTH and the mobile device set dataUsagePreference to MOBILE value
 * VEHICLE (assuming canJoinNetwork in NetworkingAbilities is set to true from mobile)
@@ -194,9 +194,9 @@ __Note:__ `preferredNetworkHost` is the array with priority defined by the order
 
 After SDL Core defines suitable network configuration and finds available feature enabled application, it has to notify HMI or mobile application.
 
-If head unit should be the network host: sdl_core requests HMI sets up a WiFi network as an `OnSystemCapabilities` notification that includes NetworkingCapabilities and VEHICLE as the `preferredNetworkHost`
+If head unit should be the network host: SDL Core requests HMI sets up a WiFi network as an `OnSystemCapabilities` notification that includes `NetworkingCapabilities` and `VEHICLE` as the `preferredNetworkHost`.
 
-If the mobile device is selected to be the network host the selected app will receive the `OnSystemCapabilityUpdated` notification with the info that it choosed to host the network.
+If the mobile device is selected to be the network host the selected app will receive the `OnSystemCapabilityUpdated` notification with the info that it was chosen to host the network.
 
 Finally, to share the credentials of the network, it is proposed to implement the new RPC `JoinNetwork` to be sent by current networkHost.
 
@@ -390,7 +390,7 @@ RPC message protection is controlled completely by Policy Table.
 
 It is advised to restrict `JoinNetwork` to be sent only by encrypted RPC service, but it is up to particular OEM. SDL does not enforce `JoinNetwork` to be sent only by encrypted RPC service.
 
-If `JoinNetwork` or `OnSystemCapabilityUpdate` should not be protected, there are no additional issues.
+If `JoinNetwork` or `OnSystemCapabilityUpdated` should not be protected, there are no additional issues.
 If `JoinNetwork` or `OnSystemCapabilityUpdate` are allowed only via protected RPC service, the following rules are applied:
 
 * Reject `JoinNetwork` from mobile if it is sent via unprotected service. (guaranteed by SDL 0207)
