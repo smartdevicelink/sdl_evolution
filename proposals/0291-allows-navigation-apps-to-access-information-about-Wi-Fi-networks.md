@@ -31,6 +31,9 @@ We add WIFI status listener into Java Suite for monitoring WIFI's status, then w
 If YES, the APP will reestablish secondary transport (TCP) for VideoStreaming.
 It would help SDL greatly improve the user experience on VideoStreaming via BT+WiFi.
 
+### Sequence diagram
+<img src="../assets/proposals/0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks/sequence_diagram.png" alt="sequence diagram" class="inline" height= "75%" width= "75%" /> 
+
 The implementation of WIFI status listener is as follows.
 ```Java
     public void registerWifiReceiver(Context context){
@@ -62,3 +65,117 @@ This will be a minor version change to the Java Suite Library.
 
 ## Alternatives considered
 No alternatives were identified.
+
+## Appendix
+### Sample Code
+#### VideoStreamManager.java
+```java
+    @Override
+    public void start(CompletionListener listener) {
++       this.listener = listener;
+        isTransportAvailable = internalInterface.isTransportForServiceAvailable(SessionType.NAV);
+        getVideoStreamingParams();
+        checkState();
+        super.start(listener);
+    }
+
++   public void start(CompletionListener listener, Context context){
++       registerWifiReceiver(context);
++       start(listener);
++   }
++
++   public void registerWifiReceiver(Context context){
++       this.context = new WeakReference<>(context);
++       IntentFilter intentFilter = new IntentFilter();
++       intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
++       WifiBroadcastReceiver wifiBroadcastReceiver = new WifiBroadcastReceiver();
++       this.context.get().registerReceiver(wifiBroadcastReceiver,intentFilter);
++   }
+
+    @Override
+    protected void onTransportUpdate(List<TransportRecord> connectedTransports, boolean audioStreamTransportAvail, boolean videoStreamTransportAvail){
+        isTransportAvailable = videoStreamTransportAvail;
+        if(internalInterface.getProtocolVersion().isNewerThan(new Version(5,1,0)) >= 0){
+            if(videoStreamTransportAvail){
+                checkState();
++               if ((!hasStarted && listener != null && this.getState() == SETTING_UP)) {
++                   // Since istransportavailable is false on the first start, try to restart when receiving status updates
++                   start(listener);
++               }
++               else if (hasStarted && listener != null && getState() == READY && stateMachine.getState() == StreamingStateMachine.STOPPED) {
++                   // When the TCP connection is disconnected, the stateMachine will be set to STOPPED.
++                   // When the WiFi is reconnected at the vehicle side, the status will be updated.
++                   // Here, it should be reset to the stateMachine status and restart
++                   transitionToState(SETTING_UP);
++                   stateMachine.transitionToState(StreamingStateMachine.NONE);
++                   hasStarted = false;
++                   start(listener);
++               }
+            }
+        }else{
+            //The protocol version doesn't support simultaneous transports.
+            if(!videoStreamTransportAvail){
+                //If video streaming isn't available on primary transport then it is not possible to
+                //use the video streaming manager until a complete register on a transport that
+                //supports video
+                transitionToState(ERROR);
+            }
+        }
+    }
+    
++   public class WifiBroadcastReceiver extends BroadcastReceiver {
++       @Override
++       public void onReceive(Context context, Intent intent) {
++           if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
++               int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, -1);
++               if (wifiState == WifiManager.WIFI_STATE_ENABLED){
++                   Log.i(TAG,"WifiBroadcastReceiver has receiver state = " + getState() + " machine state = " + currentVideoStreamState() + " hasStarted = " + hasStarted);
++                   if (listener != null) {
++                       if (getState() == READY && currentVideoStreamState() == StreamingStateMachine.READY && hasStarted == false) {
++                           // If you cannot establish a TCP connection with the vehicle because the WiFi on the mobile side is not turned on,
++                           // you should try to restart when the WiFi on the mobile side is turned on.
++                           start(listener);
++                       }
++                   }
++               }
++           }
++       }
++   }
+```
+#### SdlProtocolBase.java
+```java
+...
+                //If the secondary transport isn't connected yet that will have to be performed first
+                List<ISecondaryTransportListener> listenerList = secondaryTransportListeners.get(secondaryTransportType);
+                if(listenerList == null){
+                    listenerList = new ArrayList<>();
+                    secondaryTransportListeners.put(secondaryTransportType, listenerList);
+                }
++               else {
++                   listenerList.clear();
++               }
+
+                //Check to see if the primary transport can also be used as a backup
+                final boolean primaryTransportBackup = transportPriorityForServiceMap.get(serviceType).contains(PRIMARY_TRANSPORT_ID);
+...
+
+        @Override
+        public void onTransportDisconnected(String info, TransportRecord disconnectedTransport, List<TransportRecord> connectedTransports) {
+            if (disconnectedTransport == null) {
+                Log.d(TAG, "onTransportDisconnected");
+                if (transportManager != null) {
+                    transportManager.close(iSdlProtocol.getSessionId());
+                }
+                iSdlProtocol.shutdown("No transports left connected");
+                return;
+            } else {
+                Log.d(TAG, "onTransportDisconnected - " + disconnectedTransport.getType().name());
++               if (disconnectedTransport.getType() == TransportType.TCP && secondaryTransportParams != null){
++                   if (activeTransports.containsValue(disconnectedTransport)) {
++                       //If the established TCP connection is disconnected, the corresponding IP and port are invalid and should be removed from the list.
++                       // Otherwise, istransportforserviceavailable is always true after disconnection
++                       secondaryTransportParams.remove(TransportType.TCP);
++                   }
++               }
+            }
+```
