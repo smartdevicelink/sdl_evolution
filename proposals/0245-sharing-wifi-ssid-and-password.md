@@ -364,7 +364,7 @@ __Note:__ `JoinNetwork` should not depend on the default RPC timeout, since WiFi
 
 For each connected device, SDL Core will select a single feature enabled application.
 
-Once network parameters are established with the first device, `OnNetworkConfiguration` will be sent to this application and HMI. After receiving this notification, HMI should send `OnSystemCapabilityUpdated` in case capabilities have changed. The next application's capabilities will be compared to updated HMI capabilities.
+Once network parameters are established with the first device, `OnSystemCapabilityUpdated` will be sent to this application and HMI. After receiving this notification, HMI should send `OnSystemCapabilityUpdated` in case capabilities have changed. The next application's capabilities will be compared to updated HMI capabilities.
 
 This mechanism will allow the HMI to decide its own behavior based on all of the following incoming connections.
 
