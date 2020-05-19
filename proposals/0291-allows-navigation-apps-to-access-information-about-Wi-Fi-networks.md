@@ -26,13 +26,20 @@ Basically, the problem is that NaviAPPs start video streaming unsuccessfully in 
 2. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the head unit.
 3. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the phone
 
+The root cause of the problems is thatÅCin the above three situations, 
+there is no mechanism to trigger the reestablishment of secondary transport (TCP) for `VideoStreaming` in Java Suite currently.
 There is a complete solution to these problems.
-We add WIFI status listener into Java Suite for monitoring WIFI's status, then we can use this information to judge whether the WIFI is reconnected.
-If YES, the APP will reestablish secondary transport (TCP) for VideoStreaming.
-It would help SDL greatly improve the user experience on VideoStreaming via BT+WiFi.
+It would help SDL greatly improve the user experience on `VideoStreaming` via BT+WiFi.
 
-### Sequence diagram
-<img src="../assets/proposals/0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks/sequence_diagram.png" alt="sequence diagram" class="inline" height= "75%" width= "75%" /> 
+á@ Add WIFI status listener into Proxy
+áA Reference iOS's design, modify the timing of request TCP connection,
+  +  áA-1 Proxy receive Mobile's WIFI connected successfully
+  +  áA-2 Proxy receive valid IP and port from HU
+  +  áA-3 Proxy receive onHmiStatus(FULL) from HU(the Existing process of current proxy)
+
+áB Proxy receive TCP TransportDisconnected, clear IP and port
+
+Please refer to Appendix section for sample code.
 
 The implementation of WIFI status listener is as follows.
 ```Java
@@ -46,6 +53,8 @@ The implementation of WIFI status listener is as follows.
 ```
 The new permission android.permission.ACCESS_WIFI_STATE is required to use the above mentioned API.
 
+### Sequence diagram
+<img src="../assets/proposals/0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks/sequence_diagram.png" alt="sequence diagram" class="inline" height= "75%" width= "75%" /> 
 
 ## Proposed solution
 Add manifest permission to navigation apps that allows them to access information about WiFi networks.
