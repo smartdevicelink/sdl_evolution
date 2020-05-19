@@ -465,11 +465,12 @@ __Note:__ Keep in mind, if `encryption_required` for `OnSystemCapabilityUpdate` 
 
 ### Android Permission Issue
 
-android.permission.WRITE_SETTINGS required for Android SDK 29+
-This permission is a “system” permission. This causes an error message in the manifest.xml editor to appear.
-User must specifically grant this permission. This is not the same as a location permission request, it is a distinct permission with its own settings page
-Will require a dialog/pop up explaining why the user must grant this permission and then forward the user to the settings page where they can grant it.
-Because this feature can be used by any app (not just a single OEM app), this will require a pop up and user redirect for all apps that are going to use the feature.
+* android.permission.WRITE_SETTINGS required for Android SDK 29+
+* This permission is a “system” permission. This causes an error message in the manifest.xml editor to appear.
+* User must specifically grant this permission. This is not the same as a location permission request, it is a distinct permission with its own settings page
+* Will require a dialog/pop up explaining why the user must grant this permission and then forward the user to the settings page where they can grant it.
+* Because this feature can be used by any app (not just a single OEM app), this will require a pop up and user redirect for all apps that are going to use the feature.
+
 ![android_permissions](../assets/proposals/0245-sharing-wifi-ssid-and-password/android_permissions.png)
 
 ### iOS Entitlement Issues
