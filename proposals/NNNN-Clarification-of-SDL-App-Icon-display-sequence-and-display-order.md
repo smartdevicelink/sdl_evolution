@@ -31,7 +31,7 @@ The display order of SDL app icon is performed according to the following proced
 
  1. Set the priority of the SDL app according to the `AppHMIType` priority in Table 1.
  2. When there are multiple `AppHMITypes` set in one SDL app, the `AppHMIType` with the highest priority is used as the priority of that SDL app.
- 3. If multiple SDL apps have the same AppHMIType set, sort them according to the order the SDL apps registered in the policy table.
+ 3. If multiple SDL apps have the same `AppHMIType` set, sort them according to the order the SDL apps registered in the policy table.
 
 <b>Table 1.</b> AppHMIType priority list
 
