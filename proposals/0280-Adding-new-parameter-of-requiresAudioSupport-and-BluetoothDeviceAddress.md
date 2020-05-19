@@ -38,7 +38,7 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
 5. The app receives the response to its `StartService` for the RPC service:
     1. If the response was a `StartServiceNAK` the app will shut down.
     2. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, but the protocol version of the ACK is less than the major version of this feature, the app will shut down.
-    3. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal or greater than the major version of this feature, and the `autoBTCapability` flag is set to false, the app will check if audio support is available using the `MediaStreamingStatus` class. If it is available it will continue, if not it will shutdown.
+    3. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal or greater than the major version of this feature, and the `autoBTCapability` flag is set to false, the app will check if audio support is available using the `MediaStreamingStatus` class. If it is available it will continue, if not it will shut down.
     4. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal or greater than the major version of this feature, and the `autoBTCapability` flag is set to true, the app will continue.
 6. The app will send its `RegisterAppInterface` which will include the `hmiTypes` and `isMediaApplication` flag.
 7. Core will receive the `RegisterAppInterface`: 
