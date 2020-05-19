@@ -16,32 +16,29 @@ HMI -> SDL : <b>UI.GetCapabilities(NetworkingCapabilities) response : \n\
 \t autoJoinWiFiSupported : \t true \n\
 \t canHostWiFiNetwork : \t true \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ",\n\
-"FREQUENCY_BAND_5_0_GHZ" 
-
+\t networkingCapabilities : "initial HMI networkingCapabilities"
 
 APP -> SDL : <b>RAI(NetworkingCapabilities): \n\
 \t autoJoinWiFiSupported : \t true \n\
 \t canHostWiFiNetwork : \t true \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+\t networkingCapabilities : "mobile networkingCapabilities"
 
 SDL -> HMI : <b>OnAppRegistered 
 
 SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
 SDL decides that **VEHICLE should be AP** 
 
-SDL -> HMI:  <b>OnSystemCapabilitiesUpdate(NetworkConfiguration): \n\
+SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
-\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
-
+\t networkingCapabilities: "networkingCapabilities received from APP"
 HMI -> HMI : HMI creates WiFi Access Point
 
 HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
 \t canHostWiFiNetwork : \t true \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
-\t wifiFrequencyBandsSupported : \t <b>"FREQUENCY_BAND_2_4_GHZ" 
+\t networkingCapabilities : "updated networkingCapabilities"
 
 note over HMI: HMI shows pop-up \n\
 user consent 

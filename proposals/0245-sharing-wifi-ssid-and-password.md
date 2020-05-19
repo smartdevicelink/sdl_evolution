@@ -87,7 +87,7 @@ SDL should be able to receive networking capabilities with `UI.GetCapabilities` 
 
 ### MOBILE_API
 
-SDL Core should receive mobile capabilities within `DeviceInfo` section of `RegisterAppInterface` request. If omitted, the application will be considered as not suitable for the feature initialization. Also, mobile application should be able to receive HMI networking capabilities on demand via `GetSystemCapabilities`, `OnSystemCapabilitiesUpdated`.
+SDL Core should receive mobile capabilities within `DeviceInfo` section of `RegisterAppInterface` request. If omitted, the application will be considered as not suitable for the feature initialization. Also, mobile application should be able to receive HMI networking capabilities on demand via `GetSystemCapabilities`, `OnSystemCapabilityUpdated`.
 
 ```xml
 <enum name="FrequencyBand" since="x.x">

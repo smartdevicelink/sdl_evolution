@@ -28,7 +28,7 @@ SDL -> APP : <b>RAI response
 SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
 SDL decides that **Mobile should be AP** 
 
-SDL -> APP:  <b>OnSystemCapabilitiesUpdate(NetworkConfiguration): \n\
+SDL -> APP:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
 \t preferredNetworkHost : \t **MOBILE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"  
 
