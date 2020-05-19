@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is to clarify the SDL App Icon display sequence and the display order of icons. By doing so, we can prevent unnecessary development for the HU developers and improve usabilty by enhancing the visuality for the users.
+This proposal is to clarify the SDL app icon display sequence and the display order of icons. By doing so, we can prevent unnecessary development for the Head Unit (HU) developers and improve usability by enhancing the visuality for users.
 
 ## Motivation
 
