@@ -378,15 +378,15 @@ This mechanism will allow the HMI to decide its own behavior based on all of the
 
 #### Mobile device is a network host
 
-A precondition for further discussion is that the first device is connected, it hosts the network and HMI successfully connected to its hotspot. SDL Core already received `OnSystemCapabilityUpdate` with updated networking capabilities.
+A precondition for further discussion is that the first device is connected, it hosts the network and HMI successfully connected to its hotspot. SDL Core already received `OnSystemCapabilityUpdated` with updated networking capabilities.
 
 A vehicle should be able to share credentials of the external hotspot only if `allowAccessPointSharing` is set to true in mobile application `NetworkCapabilities` and the ini file.
 
 If mobile is an access point and `allowAccessPointSharing = false`, vehicle is not able to establish Wifi connection with other devices.
 
-In that case, HMI should provide SDL `OnSystemCapabilityUpdate` with appropriate `canHostWiFiNetwork`, and `autoJoinWiFiSupported`.
+In that case, HMI should provide SDL `OnSystemCapabilityUpdated` with appropriate `canHostWiFiNetwork`, and `autoJoinWiFiSupported`.
 
-Once vehicle is connected to the mobile hotspot, HMI should send `OnSystemCapabilityUpdate` with `canHostWiFiNetwork = true` and `preferredNetworkHost = VEHICLE`. If the new application is compatible with HMI network capabilities, Core will send `OnSystemCapabilityUpdate` with `networkHost = VEHICLE` to HMI and new mobile application. Then HMI should send `JoinNetwork` with the credentials of the external hotspot.
+Once vehicle is connected to the mobile hotspot, HMI should send `OnSystemCapabilityUpdated` with `canHostWiFiNetwork = true` and `preferredNetworkHost = VEHICLE`. If the new application is compatible with HMI network capabilities, Core will send `OnSystemCapabilityUpdated` with `networkHost = VEHICLE` to HMI and new mobile application. Then HMI should send `JoinNetwork` with the credentials of the external hotspot.
 
 <!--
 @startuml ../assets/proposals/0245-sharing-wifi-ssid-and-password/mobile_access_point_multidev_externalhost
@@ -405,16 +405,16 @@ RPC message protection is controlled completely by Policy Table.
 It is advised to restrict `JoinNetwork` to be sent only by encrypted RPC service, but it is up to particular OEM. SDL does not enforce `JoinNetwork` to be sent only by encrypted RPC service.
 
 If `JoinNetwork` or `OnSystemCapabilityUpdated` should not be protected, there are no additional issues.
-If `JoinNetwork` or `OnSystemCapabilityUpdate` are allowed only via protected RPC service, the following rules are applied:
+If `JoinNetwork` or `OnSystemCapabilityUpdated` are allowed only via protected RPC service, the following rules are applied:
 
 * Reject `JoinNetwork` from mobile if it is sent via unprotected service. (guaranteed by SDL 0207)
 * Reject `JoinNetwork` from HMI if appropriate mobile has not started protected service yet (result code: REJECT)
-* SDL should not send `OnSystemCapabilityUpdate` to HMI until appropriate mobile won't start secure RPC service.<br>
+* SDL should not send `OnSystemCapabilityUpdated` to HMI until appropriate mobile won't start secure RPC service.<br>
 
-__Note:__ Such rule is required because HMI `OnSystemCapabilityUpdate` for HMI can be trigger for sending `JoinNetwork` to mobile.
+__Note:__ Such rule is required because HMI `OnSystemCapabilityUpdated` for HMI can be trigger for sending `JoinNetwork` to mobile.
 
-* Starting secure RPC service should trigger postponed `OnSystemCapabilityUpdate` to HMI.
-* In case if `JoinNetwork` is allowed non secure, SDL not should postpone `OnSystemCapabilityUpdate` to HMI.
+* Starting secure RPC service should trigger postponed `OnSystemCapabilityUpdated` to HMI.
+* In case if `JoinNetwork` is allowed non secure, SDL not should postpone `OnSystemCapabilityUpdated` to HMI.
 
 Consider following sequences:
 <!--
@@ -458,7 +458,7 @@ It is proposed to introduce new functional group within current proposal:
 }
 ```
 
-__Note:__ Keep in mind, if `encryption_required` for `OnSystemCapabilityUpdate` is set to `true`, mobile application will not receive notification until secure service is established.
+__Note:__ Keep in mind, if `encryption_required` for `OnSystemCapabilityUpdated` is set to `true`, mobile application will not receive notification until secure service is established.
 
 ## Troubleshooting and race conditions
 
@@ -491,11 +491,11 @@ From the Core perspective, registration process is sequential and since it will 
 
 ##### Vehicle is the hotspot
 
-After the application from the device is connected and if the vehicle should be the hotspot, SDL Core will send `OnSystemCapabilityUpdate` notification to the HMI. Since it is the vehicle's responsibility to start the hotspot, Core should wait for `OnSystemCapabilityUpdate` with the updated capabilities. Only after this notification is Core ready to process feature enabled application from another device.
+After the application from the device is connected and if the vehicle should be the hotspot, SDL Core will send `OnSystemCapabilityUpdated` notification to the HMI. Since it is the vehicle's responsibility to start the hotspot, Core should wait for `OnSystemCapabilityUpdated` with the updated capabilities. Only after this notification is Core ready to process feature enabled application from another device.
 
 #### Mobile device is the hotspot
 
-After SDL Core has decided that the mobile device should be an access point, Core will send `OnSystemCapabilityUpdate` notification to the application. Since HMI has nothing to do before establishing WiFi connection, the HMI capability will be updated only after connection attempt to the mobile hotspot. Before this step another connected app (on another device) may receive wrong `OnSystemCapabilityUpdate` notification.
+After SDL Core has decided that the mobile device should be an access point, Core will send `OnSystemCapabilityUpdated` notification to the application. Since HMI has nothing to do before establishing WiFi connection, the HMI capability will be updated only after connection attempt to the mobile hotspot. Before this step another connected app (on another device) may receive wrong `OnSystemCapabilityUpdated` notification.
 
 ### WiFi disconnection
 
@@ -503,7 +503,7 @@ SDL Core knows nothing of the WiFi connection state. The application which uses 
 
 ### Manual WiFi connection
 
-Mobile device can still be connected to the vehicle manually (or vice versa). In this case, if an application is connected via other transports, it will receive `TransportEventUpdate` and applications will be able to connect via WiFi, so the feature is not required after this point. Core should not process `OnSystemCapabilityUpdate` and `JoinNetwork` for the application, which is already connected via WiFi.
+Mobile device can still be connected to the vehicle manually (or vice versa). In this case, if an application is connected via other transports, it will receive `TransportEventUpdate` and applications will be able to connect via WiFi, so the feature is not required after this point. Core should not process `OnSystemCapabilityUpdated` and `JoinNetwork` for the application, which is already connected via WiFi.
 
 However, if there are no applications connected via WiFi, Core knows nothing of the established connection, so the first feature enabled application will still be able to use the feature.
 
@@ -531,7 +531,7 @@ Such behavior is required to avoid sending redundant `JoinNetwork` to mobile and
 
 Proposition discussed and rejected during SDLC discussion  https://github.com/smartdevicelink/sdl_evolution/issues/799
 
-2. Do not postpone sending `OnSystemCapabilityUpdate` to HMI if secure service was not started, but extend `OnServiceStatusUpdate` with `encrypted` flag.
+2. Do not postpone sending `OnSystemCapabilityUpdated` to HMI if secure service was not started, but extend `OnServiceStatusUpdate` with `encrypted` flag.
 
 * This was rejected because `OnServiceStatusUpdate` is specific for application, but for WiFi functionality sharing HMI does not know particular application for sending `JoinNetwork`.
 
