@@ -177,7 +177,7 @@ The flow shown in Proposed solution is complicated, so the conditions have been 
 3. Core will receive the `StartService` for the RPC service:
     i. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
     ii. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
-    iii. If there is no Audio support, Core will check if it supports the auto connect BT function. If it does it will continue in flow.
+    iii. If there is no audio support, Core will check if it supports the auto connect BT function. If it does, it will continue in flow.
     iv. If `requiresAudioSupport` is true and there is no supported audio methods and Core does not support the auto connect BT function, it will send a `StartServiceNAK` with the reason `No audio support available`.
 4. If it supports the auto connect BT function, a new param in the payload of `StartServiceACK`, `autoBTCapability` is set to true, otherwise set to false. Then if Core has continued, it will send a `StartServiceACK`.
 5. The app receives the response to its `StartService` for the RPC service:
