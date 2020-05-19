@@ -475,9 +475,9 @@ __Note:__ Keep in mind, if `encryption_required` for `OnSystemCapabilityUpdate` 
 
 ### iOS Entitlement Issues
 
-The feature could be difficult to test on iOS. If it's not easily tested, regression issues could easily surface.
-Each app will need to apply to Apple for the entitlement.
-Joining the network requires the user to interact with the device each time
+* The feature could be difficult to test on iOS. If it's not easily tested, regression issues could easily surface.
+* Each app will need to apply to Apple for the entitlement.
+* Joining the network requires the user to interact with the device each time
  - “[app] Wants to Join Wi-Fi Network”
 
 
