@@ -32,9 +32,9 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
 2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
 3. Core will receive the `StartService` for the RPC service: 
 
-    i. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
-    ii. If there is no audio support, Core will check if it supports the auto connect BT feature. If it does, it will continue in flow.
-    iii. If there is no supported audio methods and Core does not support the auto connect BT feature, it will send a `StartServiceNAK` with the reason `No audio support available`.
+    1. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
+    2. If there is no audio support, Core will check if it supports the auto connect BT feature. If it does, it will continue in flow.
+    3. If there is no supported audio methods and Core does not support the auto connect BT feature, it will send a `StartServiceNAK` with the reason `No audio support available`.
 
 4. If Core has continued, it will send a `StartServiceACK` with a new param `autoBTCapability` set to true.
 5. The app receives the response to its `StartService` for the RPC service:
@@ -47,9 +47,9 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
 6. The app will send its `RegisterAppInterface` which will include the `hmiTypes` and `isMediaApplication` flag.
 7. Core will receive the `RegisterAppInterface`: 
 
-    i. If the `requiresAudioSupport` flag was not included in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is less than the major version of the version that included this feature, it will send a `RegisterAppInterface` response with `success=false` and deny the app's registration.
-    ii. If the `requiresAudioSupport` flag was not included in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is equal to or greater than the major version of the version that included this feature, it will send a `RegisterAppInterface response` with `success=true` but not move forward with this proposal's feature.
-    iii. If the `requiresAudioSupport` flag was set to true in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is equal to or greater than the major version of the version that included this feature, it will send a `RegisterAppInterface` response with `success=true` and move forward with this proposal's feature.
+    1. If the `requiresAudioSupport` flag was not included in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is less than the major version of the version that included this feature, it will send a `RegisterAppInterface` response with `success=false` and deny the app's registration.
+    2. If the `requiresAudioSupport` flag was not included in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is equal to or greater than the major version of the version that included this feature, it will send a `RegisterAppInterface response` with `success=true` but not move forward with this proposal's feature.
+    3. If the `requiresAudioSupport` flag was set to true in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is equal to or greater than the major version of the version that included this feature, it will send a `RegisterAppInterface` response with `success=true` and move forward with this proposal's feature.
 
 
 #### Preconditions
@@ -181,20 +181,20 @@ The flow in the Proposed solution section is complicated, so the author has also
 2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
 3. Core will receive the `StartService` for the RPC service:
 
-    i. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
-    ii. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
-    iii. If there is no audio support, Core will check if it supports the auto connect BT function. If it does, it will continue in flow.
-    iv. If `requiresAudioSupport` is true and there is no supported audio methods and Core does not support the auto connect BT function, it will send a `StartServiceNAK` with the reason `No audio support available`.
+    1. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
+    2. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
+    3. If there is no audio support, Core will check if it supports the auto connect BT function. If it does, it will continue in flow.
+    4. If `requiresAudioSupport` is true and there is no supported audio methods and Core does not support the auto connect BT function, it will send a `StartServiceNAK` with the reason `No audio support available`.
 
 4. If it supports the auto connect BT function, a new param in the payload of `StartServiceACK`, `autoBTCapability` is set to true, otherwise set to false. Then if Core has continued, it will send a `StartServiceACK`.
 5. The app receives the response to its `StartService` for the RPC service:
 
-    i. If the response was a `StartServiceNAK`, the app will shut down.
-    ii. If the response was a `StartServiceACK`, it will continue in flow.
-    iii. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
-    iv. The library checks its current audio connects (BT A2DP), if it has a supported audio connect, it will continue in flow.
-    v. If `autoBTCapability` was set to true, it will continue in flow.
-    vi. If the response was a `StartServiceACK` and `requiresAudioSupport` was set to true and `autoBTCapability` was set to false, the app will shut down.
+    1. If the response was a `StartServiceNAK`, the app will shut down.
+    2. If the response was a `StartServiceACK`, it will continue in flow.
+    3. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
+    4. The library checks its current audio connects (BT A2DP), if it has a supported audio connect, it will continue in flow.
+    5. If `autoBTCapability` was set to true, it will continue in flow.
+    6. If the response was a `StartServiceACK` and `requiresAudioSupport` was set to true and `autoBTCapability` was set to false, the app will shut down.
 
 6. The app will send its `RegisterAppInterface` which will include `requiresAudioSupport` and `bluetoothDeviceAddress` in `deviceInfo`.
 7. When Core receives `RegisterAppInterface`, it sends response. Then it will send `OnAppRegistered` including `deviceInfo` to HMI.
