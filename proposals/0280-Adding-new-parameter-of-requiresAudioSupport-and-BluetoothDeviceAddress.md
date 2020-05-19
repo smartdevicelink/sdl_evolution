@@ -204,7 +204,7 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
 
 #### Add parameters
 
-Only the differences from the proposal are shown below.
+Only the differences from the `Proposed solution` section are shown below.
 
 - StartServiceACK
 Additionally, a new parameter `autoBTConnection`, which indicates whether the HU has the BT automatic connection function, is added to `HMICapabilities`. SDL Core sets `autoBTCapability` to true, **if `autoBTConnection` is true.**
