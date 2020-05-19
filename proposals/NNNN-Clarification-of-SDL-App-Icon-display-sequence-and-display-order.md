@@ -61,7 +61,7 @@ Currently, there is no sequence provided that demonstrates how the icon is displ
 ![Figure1_SDL_App_Icon_display_sequence.PNG](../assets/proposals/NNNN-Clarification-of-SDL-App-Icon-display-sequence-and-display-order/Figure1_SDL_App_Icon_display_sequence.PNG)
 
 The contents suggested by this proposal are as follows:
-- Add SortList() as a process to sort according to the display order of SDL App Icon.
+- Add `SortList()` as a process to sort according to the display order of SDL app icon.
 - Perform the processing of SortList() after processing the normal makelist(Applications_, Applications)
 - Add init() as a process to initialize the AppList used in SortList() every launch, and keep the priority list information of AppHMIType acquired from PolicyTable, etc.
 
