@@ -14,7 +14,7 @@ This proposal is to clarify the SDL app icon display sequence and the display or
 Currently, the SDL app icon is displayed on the SDL app selection (menu) screen, but the sequence to display the icon is not provided. Also, there is no explicit definition of the icon's display order and the rule for example grouping by app type, as a result, the display order of icons changes every launch. Incidentally, it is implemented on the program code of SDL Core by the following rule.
 
  1. Registered apps are sorted by the ascending order of appID *1.
- 2. Unregistered apps are sorted by the ascending order of policyID in the policy table. If there are same policyIDs, they will be sorted by the ascending order of deviceID.
+ 2. Unregistered apps are sorted by the ascending order of policyID in the policy table. If there are duplicate policyIDs, they will be sorted by the ascending order of deviceID.
 
 *1 appID: It is NOT the ID obtained during App Certification. It is the ID that is set when the app establish session and be launched based on the hash algorithm using the sessionID (set from 0 in the app registration order) and deviceHandlerID (set from 0 in the device connection order).
 
