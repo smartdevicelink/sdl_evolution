@@ -43,7 +43,7 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
 6. The app will send its `RegisterAppInterface` which will include the `hmiTypes` and `isMediaApplication` flag.
 7. Core will receive the `RegisterAppInterface`: 
     i. If the `requiresAudioSupport` flag was not included in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is less than the major version of the version that included this feature, it will send a `RegisterAppInterface` response with `success=false` and deny the app's registration.
-    ii. If the `requiresAudioSupport` flag was not included in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is equal to or greater than the major version of the version that included this feature it will send a RegisterAppInterface response with `success=true` but not move forward with this proposals feature.
+    ii. If the `requiresAudioSupport` flag was not included in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is equal to or greater than the major version of the version that included this feature, it will send a `RegisterAppInterface response` with `success=true` but not move forward with this proposal's feature.
     iii. If the `requiresAudioSupport` flag was set to true in the `StartService`, `isMediaApplication` is set to true in the RAI and the protocol version for the session is equal to or greater than the major version of the version that included this feature, it will send a `RegisterAppInterface` response with `success=true` and move forward with this proposal's feature.
 
 
