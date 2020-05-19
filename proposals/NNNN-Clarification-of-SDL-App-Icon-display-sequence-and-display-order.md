@@ -18,7 +18,7 @@ Currently, the SDL app icon is displayed on the SDL app selection (menu) screen,
 
 *1 appID: It is NOT the ID obtained during SDLC App Certification. It is the ID that is set when the app establishes a session and is launched based on the hash algorithm using the sessionID (set from 0 in the app registration order) and deviceHandlerID (set from 0 in the device connection order).
 
-For these reasons, it is difficult for the HU developer to know what specification the icons are sorted. Also, it is difficult to judge whether or not it is necessary to deal with it on the HMI side. Furthermore, it is very poor visualilty and operability (usability) because it takes a long time for the user to find an app that s/he wants to use. In order to solve these problems, it clarify the display order of the SDL App Icon and improve the usability by presenting the sequence and the rules of the SDL App Icon display.
+For these reasons, it is difficult for the HU developer to know by what specification the icons are sorted. Also, it is difficult to judge whether or not it is necessary to deal with it on the HMI side. Furthermore, it is very poor visuality and operability (usability) because it takes a long time for the user to find an app that s/he wants to use. In order to solve these problems, we propose to clarify the display order of the SDL app icon and improve the usability by presenting the sequence and the rules of the SDL app icon display.
 
 ## Proposed solution
 
