@@ -26,18 +26,18 @@ Basically, the problem is that NaviAPPs start video streaming unsuccessfully in 
 2. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the head unit.
 3. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the phone
 
-The root cause of the problems is thatÅCin the above three situations, 
+The root cause of the problems is that,in the above three situations,
 there is no mechanism to trigger the reestablishment of secondary transport (TCP) for `VideoStreaming` in Java Suite currently.
 There is a complete solution to these problems.
 It would help SDL greatly improve the user experience on `VideoStreaming` via BT+WiFi.
 
-á@ Add WIFI status listener into Proxy
-áA Reference iOS's design, modify the timing of request TCP connection,
-  +  áA-1 Proxy receive Mobile's WIFI connected successfully
-  +  áA-2 Proxy receive valid IP and port from HU
-  +  áA-3 Proxy receive onHmiStatus(FULL) from HU(the Existing process of current proxy)
+1. Add WIFI status listener into Proxy
+2. Reference iOS's design, modify the timing of request TCP connection,
+  +  2-1 Proxy receive Mobile's WIFI connected successfully
+  +  2-2 Proxy receive valid IP and port from HU
+  +  2-3 Proxy receive onHmiStatus(FULL) from HU(the Existing process of current proxy)
 
-áB Proxy receive TCP TransportDisconnected, clear IP and port
+3. Proxy receive TCP TransportDisconnected, clear IP and port
 
 Please refer to Appendix section for sample code.
 
