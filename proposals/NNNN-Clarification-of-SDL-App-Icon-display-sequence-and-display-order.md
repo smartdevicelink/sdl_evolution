@@ -16,7 +16,7 @@ Currently, the SDL app icon is displayed on the SDL app selection (menu) screen,
  1. Registered apps are sorted by the ascending order of appID *1.
  2. Unregistered apps are sorted by the ascending order of policyID in the policy table. If there are duplicate policyIDs, they will be sorted by the ascending order of deviceID.
 
-*1 appID: It is NOT the ID obtained during App Certification. It is the ID that is set when the app establish session and be launched based on the hash algorithm using the sessionID (set from 0 in the app registration order) and deviceHandlerID (set from 0 in the device connection order).
+*1 appID: It is NOT the ID obtained during SDLC App Certification. It is the ID that is set when the app establishes a session and is launched based on the hash algorithm using the sessionID (set from 0 in the app registration order) and deviceHandlerID (set from 0 in the device connection order).
 
 For these reasons, it is difficult for the HU developer to know what specification the icons are sorted. Also, it is difficult to judge whether or not it is necessary to deal with it on the HMI side. Furthermore, it is very poor visualilty and operability (usability) because it takes a long time for the user to find an app that s/he wants to use. In order to solve these problems, it clarify the display order of the SDL App Icon and improve the usability by presenting the sequence and the rules of the SDL App Icon display.
 
