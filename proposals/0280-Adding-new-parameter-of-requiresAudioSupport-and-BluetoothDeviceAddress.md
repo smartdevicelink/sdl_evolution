@@ -31,7 +31,7 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
 1. The developer will set their `requiresAudioSupport` to true.
 2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
 3. Core will receive the `StartService` for the RPC service: 
-    i. Core will check it's current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
+    i. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
     ii. If there is no Audio support, core will check if it supports the auto connect BT feature. If it does it will continue in flow.
     iii. If there is no supported audio methods and Core does not support the auto connect BT feature, it will send a `StartServiceNAK` with the reason `No audio support available`.
 4. If Core has continued, it will send a `StartServiceACK` with a new param `autoBTCapability` set to true.
@@ -208,4 +208,3 @@ Only the differences from the proposal are shown below.
 
 - StartServiceACK
 Additionally, a new parameter `autoBTConnection`, which indicates whether the HU has the BT automatic connection function, is added to `HMICapabilities`. SDL Core sets `autoBTCapability` to true, **if `autoBTConnection` is true.**
-
