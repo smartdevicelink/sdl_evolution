@@ -187,7 +187,7 @@ The flow shown in Proposed solution is complicated, so the conditions have been 
     iv. The library checks its current audio connects (BT A2DP), if it has a supported audio connect, it will continue in flow.
     v. If `autoBTCapability` was set to true, it will continue in flow.
     vi. If the response was a `StartServiceACK` and `requiresAudioSupport` was set to true and autoBTCapability was set to false, the app will shutdown.
-6. The app will send its RegisterAppInterface which will include `requiresAudioSupport` and `bluetoothDeviceAddress` in `deviceInfo`.
+6. The app will send its `RegisterAppInterface` which will include `requiresAudioSupport` and `bluetoothDeviceAddress` in `deviceInfo`.
 7. When core receives RegisterAppInterface, it sends response. Then it will send `OnAppRegistered` include `deviceInfo` to HMI.
 
 #### Preconditions
