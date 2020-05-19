@@ -55,7 +55,7 @@ At first, the priority information of `AppHMIType` in Table 1 is stored in the p
 However, since the preferred `AppHMIType` priority may vary for each OEM, the OEMs can create the priority list information of `AppHMIType` and store it in their policy table. By changing the priority list of `AppHMIType` created by each OEM in the policy table, they can display the SDL app icon according to each OEM's intended order.
 
 <b>2. Clarification of icon display sequence</b>
-Currently, there is no sequence provided that demonstrates until the icon is displayed. Figure 1 shows the sequence in which the process of this proposal added to the existing sequence from the program code of SDL Core. The black text indicates the existing order described in the program code. The red text indicates the added process by this proposal.
+Currently, there is no sequence provided that demonstrates how the icon is displayed. Figure 1 shows the sequence in which the process of this proposal is added to the existing sequence from the program code of SDL Core. The black text indicates the existing order described in the program code. The red text indicates the process added by this proposal.
 
 <b>Figure 1.</b> SDL App Icon display sequence
 ![Figure1_SDL_App_Icon_display_sequence.PNG](../assets/proposals/NNNN-Clarification-of-SDL-App-Icon-display-sequence-and-display-order/Figure1_SDL_App_Icon_display_sequence.PNG)
