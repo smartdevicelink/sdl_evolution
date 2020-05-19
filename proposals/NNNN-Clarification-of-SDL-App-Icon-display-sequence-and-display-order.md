@@ -50,7 +50,7 @@ The display order of SDL app icon is performed according to the following proced
 | 11 | BACKGROUND_PROCESS |
 | 12 | TESTING |
 
-At first, The priority information of AppHMIType in Table 1 is stored in the policy table, the SDL Core and default policy table (sdl_preloaded_pt.json). Then, the first searched information is used as the AppHMIType priority list (priority list). During the first launch, there is no policy table, therefore it is searched in the default policy table at first, then be searched in SDL Core to obtain the default appHMIType priority list. After that, the policy table has been created, so it is searched in the order, policy table->default policy table->SDL Core.
+At first, the priority information of `AppHMIType` in Table 1 is stored in the policy table, SDL Core, and default policy table (sdl_preloaded_pt.json). Then, the first searched information is used as the `AppHMIType` priority list (priority list). During the first launch, there is no policy table, therefore it is searched in the default policy table at first, then can be searched in SDL Core to obtain the default `appHMIType` priority list. After that, the policy table has been created, so it is searched in the order: policy table->default policy table->SDL Core.
 
 However, since the preferred AppHMIType priority may vary for each OEM, the OEMs can create the priority list information of AppHMIType and store it in the policy table. By changing the priority list of AppHMIType created by each OEM in the policy table, they can display the SDL app icon according to each OEM's intended order.
 
