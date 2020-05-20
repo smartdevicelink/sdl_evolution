@@ -1,8 +1,8 @@
 # Start Video Stream With OnTouchEvent Permission
 
-* Proposal: [SDL-NNNN](nnnn-stream-ontouchevent.md)
+* Proposal: [SDL-0304](0304-stream-ontouchevent.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction
