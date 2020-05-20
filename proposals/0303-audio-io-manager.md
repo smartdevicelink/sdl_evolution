@@ -1,8 +1,8 @@
 # SDL Audio I/O Manager
 
-* Proposal: [SDL-NNNN](nnnn-audio-io-manager.md)
+* Proposal: [SDL-0303](0303-audio-io-manager.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction
