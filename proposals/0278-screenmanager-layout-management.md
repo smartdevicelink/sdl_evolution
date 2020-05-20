@@ -14,14 +14,11 @@ The manager layer should be able to handle most tasks that used to be handled by
 One big area that it is currently missing is the ability to manage changing templates, currently done with the `SetDisplayLayout` RPC (on RPC spec <6.0) and `Show` RPC (on RPC spec >=6.0). This proposal adds a way to change the layout while taking care of backward compatibility concerns.
 
 ## Proposed solution
-We will add a new screen manager method for changing the current layout to a new layout. This also includes updating the template's night and day color schemes when the feature is available on systems supporting RPC Spec 5.0.0 or newer. 
+We will add a new screen manager method for changing the current layout to a new layout. This also includes updating the template's night and day color schemes when the feature is available on systems supporting RPC spec 5.0.0 or newer. 
 
 ### iOS APIs
 ```objc
 @interface SDLScreenManager : NSObject
-
-/// Change the current layout to a new layout. The layout's night and day color schemes will stay the same.
-- (void)changeLayout:(SDLPredefinedLayout)newLayout withUpdateCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler;
 
 /// Change the current layout to a new layout and update the layout's night and day color schemes.
 - (void)changeLayout:(SDLPredefinedLayout)newLayout dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme withUpdateCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler;
@@ -35,11 +32,6 @@ We will add a new screen manager method for changing the current layout to a new
 ### Java APIs
 ```java
 abstract class BaseScreenManager extends BaseSubManager {
-
-/*
- * Change the current layout to a new layout. The layout's night and day color schemes will stay the same.
- */
-public void changeLayout(PredefinedLayout newLayout, CompletionListener listener);
    
 /*
  * Change the current layout to a new layout and update the layout's night and day color schemes.
