@@ -29,12 +29,12 @@ SDL -> HMI : <b>OnAppRegistered
 SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
 SDL decides that **VEHICLE should be AP** 
 
-SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
 \t networkingCapabilities: "networkingCapabilities received from APP"
 HMI -> HMI : HMI creates WiFi Access Point
 
-HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
+HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkCapabilities): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
 \t canHostWiFiNetwork : \t true \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\

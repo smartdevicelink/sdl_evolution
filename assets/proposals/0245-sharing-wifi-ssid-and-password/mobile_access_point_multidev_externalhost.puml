@@ -47,7 +47,7 @@ SDL -> SDL : SDL **postpones** calculation of network configuration for APP2\n\
 until OnSystemRequestCapabilitiesUpdate notification from HMI
 activate SDL
 
-SDL -> APP1:  <b>OnSystemRequestCapabilitiesUpdate(NetworkConfiguration): \n\
+SDL -> APP1:  <b>OnSystemRequestCapabilitiesUpdate(NetworkCapabilities): \n\
 \t preferredNetworkHost : \t **MOBILE**\n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
@@ -78,7 +78,7 @@ SDL-> APP1 : OnTransportEventUpdate
 SDL-> APP2 : OnTransportEventUpdate
 APP1 -> SDL : <b>Start session via WIFI secondary transport
 
-HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
+HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkCapabilities): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
 \t canHostWiFiNetwork : \t **true**  \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\

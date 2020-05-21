@@ -30,7 +30,7 @@ HMI -> HMI : **WiFi Access Point is created manually:** \n\
 \t password : \t 12345678 \n\
 \t securityType : \t WIFI_SECURITY_WPA2 
 
-HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
 \t canHostWiFiNetwork : \t **true**  \n\
 \t preferredNetworkHost : \t MOBILE \n\
@@ -49,7 +49,7 @@ note over SDL: SDL calculate network configuration based on \n\
 latest OnSystemCapabilityUpdated(Networkcapabilities) from HMI, \n\
 RAI (Networkcapabilities) from App1 and ini.file
 
-SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
@@ -91,14 +91,14 @@ APP2 -> SDL : <b>RAI_2(NetworkingCapabilities): \n\
 SDL -> HMI : <b>OnAppRegistered(App2) 
 SDL -> APP2 : <b>RAI(App2) response 
 
-note over SDL : Do not recalculate NetworkConfiguration \n\
+note over SDL : Do not recalculate NetworkCapabilities \n\
 because feature enabled application already initialized in mobile device 
 
 HMI -> HMI: App2 is activated
 
 HMI -> SDL: <b>OnAppActivated(App_2) notification
 
-note over SDL : Do not recalculate NetworkConfiguration \n\
+note over SDL : Do not recalculate NetworkCapabilities \n\
 because feature enabled application already initialized in mobile device 
 
 
@@ -110,7 +110,7 @@ the active for feature initialization
 HMI -> HMI : WiFi Access Point is **DISCONNECTED**
 
 
-HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t autoJoinWiFiSupported : \t **true** \n\
 \t canHostWiFiNetwork : \t **true**  \n\
 \t preferredNetworkHost : \t MOBILE \n\
@@ -133,7 +133,7 @@ SDL decides that **MOBILE should be AP**
 
 activate SDL
 
-SDL -> APP2:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+SDL -> APP2:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t networkHost : \t **MOBILE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"
 
@@ -162,7 +162,7 @@ SDL -> APP2 : <b>JoinNetwork response
 
 
 
-HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
 \t canHostWiFiNetwork : \t **true**  \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
@@ -174,7 +174,7 @@ SDL -> SDL : SDL calculate network configuration based on \n\
 latest OnSystemCapabilityUpdated(Networkcapabilities) from HMI, \n\
 **RAI_3** (Networkcapabilities) from App3 and ini.file
 
-SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 

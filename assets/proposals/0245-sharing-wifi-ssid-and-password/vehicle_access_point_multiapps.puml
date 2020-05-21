@@ -33,11 +33,11 @@ SDL -> APP1 : <b>RAI(App1) response
 SDL -> SDL : Based on ini file, **RAI_1(App1)** and HMI NetworkCapabilities\n\
 SDL decides that **VEHICLE should be AP** 
 
-SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
 
-SDL -> APP1:  <b>OnSystemCapabilityUpdated(NetworkConfiguration): \n\
+SDL -> APP1:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
 \t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"
 
@@ -46,7 +46,7 @@ HMI -> HMI : HMI creates WiFi Access Point
 note over HMI: HMI shows pop-up \n\
 user consent 
 
-HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkConfiguration): \n\
+HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkCapabilities): \n\
 \t autoJoinWiFiSupported : \t **false** \n\
 \t canHostWiFiNetwork : \t **true**  \n\
 \t preferredNetworkHost : \t **VEHICLE** \n\
@@ -86,7 +86,7 @@ APP2 -> SDL : <b>RAI_2(NetworkingCapabilities): \n\
 SDL -> HMI : <b>OnAppRegistered(App2) 
 SDL -> APP2 : <b>RAI(App2) response 
 
-note over SDL : Do not recalculate NetworkConfiguration \n\
+note over SDL : Do not recalculate NetworkCapabilities \n\
 because feature enabled application already initialized in Mobile Device \n\
 
 @enduml
