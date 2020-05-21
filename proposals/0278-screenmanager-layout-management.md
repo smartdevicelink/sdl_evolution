@@ -62,7 +62,7 @@ abstract class BaseScreenManager extends BaseSubManager {
     /*
      * Change the current layout to a new layout, update the layout's night and day color schemes and update the text, graphics, buttons and template title.
      */   
-    public void changeLayout (PredefinedLayout newLayout, TemplateUpdates templateUpdates, CompletionListener listener);
+    public void changeLayout(TemplateLayout templateUpdates, CompletionListener listener) {}
 }
 
 public class TemplateLayout {
