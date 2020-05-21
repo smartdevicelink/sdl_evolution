@@ -212,9 +212,9 @@ If head unit should be the network host: SDL Core requests HMI sets up a WiFi ne
 
 If the mobile device is selected to be the network host the selected app will receive the `OnSystemCapabilityUpdated` notification with the info that it was chosen to host the network.
 
-Finally, to share the credentials of the network, it is proposed to implement the new RPC `JoinNetwork` to be sent by current networkHost.
+Finally, to share the credentials of the network and request that a device joins the network, it is proposed to implement the new RPC `JoinNetwork`  request to be sent by current networkHost.
 
-Core then sends the `TransportEventUpdate` protocol message with IP and port to connect the TCP transport to all appropriate apps. Flow is then as defined in [0141-multiple-transports.md](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0141-multiple-transports.md)
+The device receiving the `JoinNetwork` request will then attempt to join the supplied network. A response will be sent back to the networkHost for both successful and failure cases. If the device is successful at joining the network, Core will then send a `TransportEventUpdate` protocol message with IP address and port to connect the TCP secondary transport to all appropriate apps on the mobile device. The flow after-which is then as defined in [0141-multiple-transports.md](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0141-multiple-transports.md)
 
 #### Mobile API
 
