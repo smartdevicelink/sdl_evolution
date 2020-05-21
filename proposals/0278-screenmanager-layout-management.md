@@ -20,11 +20,29 @@ We will add a new screen manager method for changing the current layout to a new
 ```objc
 @interface SDLScreenManager : NSObject
 
-/// Change the current layout to a new layout and update the layout's night and day color schemes.
-- (void)changeLayout:(SDLPredefinedLayout)newLayout dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme withUpdateCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler;
-
 /// Change the current layout to a new layout, update the layout's night and day color schemes and update the text, graphics, buttons and template title.
-- (void)changeLayout:(SDLPredefinedLayout)newLayout dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme textField1:(nullable NSString *)textField1 textField2:(nullable NSString *)textField2 textField3:(nullable NSString *)textField3 textField4:(nullable NSString *)textField4 mediaTrackTextField:(nullable NSString *)mediaTrackTextField textField1Type:(nullable SDLMetadataType)textField1Type textField2Type:(nullable SDLMetadataType)textField2Type textField3Type:(nullable SDLMetadataType)textField3Type textField4Type:(nullable SDLMetadataType)textField4Type textAlignment:(nullable SDLTextAlignment)textAlignment title:(nullable NSString *)title primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic softButtonObjects:(nullable NSArray<SDLSoftButtonObject *> *)softButtonObjects withUpdateCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler;
+- (void)changeLayout:(SDLPredefinedLayout)newLayout templateUpdates:(nullable SDLTemplateUpdates *)templateUpdates withUpdateCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler;
+
+@end
+
+@interface SDLTemplateUpdates : NSObject
+
+@property (copy, nonatomic, nullable) SDLTemplateColorScheme *dayColorScheme;
+@property (copy, nonatomic, nullable) SDLTemplateColorScheme *nightColorScheme;
+@property (copy, nonatomic, nullable) NSString *textField1;
+@property (copy, nonatomic, nullable) NSString *textField2;
+@property (copy, nonatomic, nullable) NSString *textField3;
+@property (copy, nonatomic, nullable) NSString *textField4;
+@property (copy, nonatomic, nullable) NSString *mediaTrackTextField;
+@property (strong, nonatomic, nullable) SDLArtwork *primaryGraphic;
+@property (strong, nonatomic, nullable) SDLArtwork *secondaryGraphic;
+@property (copy, nonatomic) SDLTextAlignment textAlignment;
+@property (copy, nonatomic, nullable) SDLMetadataType textField1Type;
+@property (copy, nonatomic, nullable) SDLMetadataType textField2Type;
+@property (copy, nonatomic, nullable) SDLMetadataType textField3Type;
+@property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
+@property (copy, nonatomic, nullable) NSString *title;
+@property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
 @end
 ```
@@ -32,16 +50,29 @@ We will add a new screen manager method for changing the current layout to a new
 ### Java APIs
 ```java
 abstract class BaseScreenManager extends BaseSubManager {
-   
-/*
- * Change the current layout to a new layout and update the layout's night and day color schemes.
- */    
-public void changeLayout(PredefinedLayout newLayout, TemplateColorScheme dayColorScheme, TemplateColorScheme nightColorScheme, CompletionListener listener);
+    /*
+     * Change the current layout to a new layout, update the layout's night and day color schemes and update the text, graphics, buttons and template title.
+     */   
+    public void changeLayout (PredefinedLayout newLayout, TemplateUpdates templateUpdates, CompletionListener listener);
+}
 
-/*
- * Change the current layout to a new layout, update the layout's night and day color schemes and update the text, graphics, buttons and template title.
- */   
-public void changeLayout(PredefinedLayout newLayout, TemplateColorScheme dayColorScheme, TemplateColorScheme nightColorScheme, String textField1, String textField2, String textField3, String textField4, String mediaTrackTextField, MetadataType textField1Type, MetadataType textField2Type, MetadataType textField3Type, MetadataType textField4Type,TextAlignment textAlignment, String title, SdlArtwork primaryGraphic, SdlArtwork secondaryGraphic, List<SoftButtonObject> softButtonObjects, CompletionListener listener);
+public class TemplateUpdates {
+    TemplateColorScheme dayColorScheme;
+    TemplateColorScheme nightColorScheme;
+    String textField1;
+    String textField2;
+    String textField3;
+    String textField4;
+    String mediaTrackTextField;
+    MetadataType textField1Type;
+    MetadataType textField2Type;
+    MetadataType textField3Type;
+    MetadataType textField4Type;
+    TextAlignment textAlignment;
+    String title;
+    SdlArtwork primaryGraphic;
+    SdlArtwork secondaryGraphic;
+    List<SoftButtonObject> softButtonObjects;
 }
 ```
 
