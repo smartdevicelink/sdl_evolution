@@ -11,14 +11,14 @@ This proposal is to clarify the SDL app icon display sequence and the display or
 
 ## Motivation
 
-Currently, the SDL app icon is displayed on the SDL app selection (menu) screen, but the sequence to display the icon is not provided. Also, there is no explicit definition of the icon's display order and the rule for example grouping by app type, as a result, the display order of icons changes every launch. Incidentally, it is implemented on the program code of SDL Core by the following rule.
+Currently, the SDL app icon is displayed on the SDL app selection (menu) screen, but the sequence to display the icon is not provided. Also, there is no explicit definition of the icon's display order and the rule for example grouping by app type. For these reasons, it is difficult for the HU developer to know by what specification the icons are sorted. Also, it is difficult to judge whether or not it is necessary to deal with it on the HMI side. Incidentally, it is implemented on the program code of SDL Core by the following rules:
 
  1. Registered apps are sorted by the ascending order of appID *1.
  2. Unregistered apps are sorted by the ascending order of policyID in the policy table. If there are duplicate policyIDs, they will be sorted by the ascending order of deviceID.
 
 *1 appID: It is NOT the ID obtained during SDLC App Certification. It is the ID that is set when the app establishes a session and is launched based on the hash algorithm using the sessionID (set from 0 in the app registration order) and deviceHandlerID (set from 0 in the device connection order).
 
-For these reasons, it is difficult for the HU developer to know by what specification the icons are sorted. Also, it is difficult to judge whether or not it is necessary to deal with it on the HMI side. Furthermore, it is very poor visuality and operability (usability) because it takes a long time for the user to find an app that s/he wants to use. In order to solve these problems, we propose to clarify the display order of the SDL app icon and improve the usability by presenting the sequence and the rules of the SDL app icon display.
+As a result, the display order of icons changes every launch. Furthermore, it is very poor visuality and operability (usability) because it takes a long time for the user to find an app that s/he wants to use. In order to solve these problems, we propose to clarify the display order of the SDL app icon and improve the usability by presenting the sequence and the rules of the SDL app icon display.
 
 ## Proposed solution
 
@@ -67,7 +67,7 @@ The contents suggested by this proposal are as follows:
 
 ## Potential downsides
 
-There is no potential downside since it is a modification to the current process of the SDL app icon display order.
+The existing sort process is left as it is. Furthermore, as process/ List related to Sort is added, SDL Core is affected. Also, since the priority information of AppHMIType is stored, policy table is affected, too. However, I believe their change are minor version change because there are no changes in RPC and parameters.
 
 ## Impact on existing code
 
