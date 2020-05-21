@@ -14,14 +14,14 @@ The manager layer should be able to handle most tasks that used to be handled by
 One big area that it is currently missing is the ability to manage changing templates, currently done with the `SetDisplayLayout` RPC (on RPC spec <6.0) and `Show` RPC (on RPC spec >=6.0). This proposal adds a way to change the layout while taking care of backward compatibility concerns.
 
 ## Proposed solution
-We will add a new screen manager method for changing the current layout to a new layout. This also includes updating the template's night and day color schemes when the feature is available on systems supporting RPC spec 5.0.0 or newer. 
+We will add a new screen manager method for changing the current layout to a new layout. This also includes updating the template's data immediately on v6.0+ and sequentially on <v6.0, as well as the template's color schemes on RPC v5.0+ systems.
 
 ### iOS APIs
 ```objc
 @interface SDLScreenManager : NSObject
 
 /// Change the current layout to a new layout, update the layout's night and day color schemes and update the text, graphics, buttons and template title.
-- (void)changeLayout:(SDLPredefinedLayout)newLayout templateUpdates:(nullable SDLTemplateUpdates *)templateUpdates withUpdateCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler;
+- (void)changeLayout:(SDLTemplateLayout *)templateUpdates withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler;
 
 @end
 
@@ -80,8 +80,8 @@ public class TemplateUpdates {
 The JavaScript APIs will be set up in a similar way to the Obj-C / Java APIs above. All changes will be at the discretion of the Project Maintainer. However larger changes that would impact the Objective-C code above (such as adding or removing a method) will require proposal revisions.
 
 ### Additional Implementation Notes
-1. When connected to systems running RPC <6.0, the screen manager should send `SetDisplayLayout` to change the template. On receipt of  the `SetDisplayLayout` response, a `Show` will be sent by the existing Text and Graphic Manager and Soft Button Manager to update the text, graphic, and button information. 
-1. When connected to systems running RPC >=6.0, the screen manager will send `Show` to change the template. The existing Text and Graphic Manager and Soft Button Managers will be used to send the updated `Show`. The Text and Graphic Manager will be used to upload the primary and secondary graphics and send the `Show` request. On receipt of the `Show` response, the Soft Button Manager will be used to send the updated soft buttons. 
+1. When connected to systems running RPC <6.0, the screen manager should send `SetDisplayLayout` to change the template. The graphics will be uploaded before sending the `SetDisplayLayout`. On receipt of the `SetDisplayLayout` response, a `Show` will be sent by the `ScreenManager` to update the text, graphic, and button information. The current implementation of the sub-managers will require the soft buttons to be sent after the rest of the template update, but that implementation detail could change in the future.
+1. When connected to systems running RPC >=6.0, the screen manager will send `Show` to change the template. The `ScreenManager` will upload the graphics before sending the `Show`. The current implementation of the sub-managers will require the soft buttons to be sent after the rest of the template update, but that implementation detail could change in the future.
 1. If the system is running RPC >=5.0 but less than 6.0, update the template's day and night color schemes via the  `SetDisplayLayout` request. If the system is running RPC >=6.0, update the template's day and night color schemes via the `Show` request's `templateConfiguration`. 
 
 ## Potential downsides
