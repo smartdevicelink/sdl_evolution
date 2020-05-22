@@ -167,11 +167,11 @@ If the result of the intersection of these parameters is more then one value, SD
 
 Once the head unit receives the `RegisterAppInterface` and the `NetworkingCapabilities` it must decide who should host. Each bullet point assumes that the network configurations can be supported by both devices (frequencies, data fallback, etc). These bullet points are just a suggestion, an OEM can determine the situation themselves.
 
-* MOBILE (assuming `canHostWiFiNetwork` in NetworkingAbilities is set to true from mobile)
+* **MOBILE** (assuming `canHostWiFiNetwork` in NetworkingAbilities is set to true from mobile)
   - Core set `MOBILE` as the only device in the INI file
   - If Core set `BOTH` and the mobile device does NOT support `dataFallbackSupported`
   - If Core set `BOTH` and the mobile device set `dataUsagePreference` to `MOBILE` value
-* VEHICLE (assuming `canJoinNetwork` in NetworkingAbilities is set to true from mobile)
+* **VEHICLE** (assuming `canJoinNetwork` in NetworkingAbilities is set to true from mobile)
   - Core set `VEHICLE` as the only device in the INI file
   - If Core set `BOTH` and the mobile device DOES support `dataFallbackSupported`
   - If Core set `BOTH` and the mobile device sets `dataUsagePreference` as `VEHICLE`
