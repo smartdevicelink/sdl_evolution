@@ -169,12 +169,12 @@ Once the head unit receives the `RegisterAppInterface` and the `NetworkingCapabi
 
 * MOBILE (assuming `canHostWiFiNetwork` in NetworkingAbilities is set to true from mobile)
   - Core set `MOBILE` as the only device in the INI file
-  - If Core set BOTH and the mobile device does NOT support dataFallbackSupported
-  - If Core set BOTH and the mobile device set dataUsagePreference to MOBILE value
-* VEHICLE (assuming canJoinNetwork in NetworkingAbilities is set to true from mobile)
-  - Core set VEHICLE as the only device in the INI file
-  - If Core set BOTH and the mobile device DOES support dataFallbackSupported
-  - If Core set BOTH and the mobile device sets dataUsagePreference as VEHICLE
+  - If Core set `BOTH` and the mobile device does NOT support `dataFallbackSupported`
+  - If Core set `BOTH` and the mobile device set `dataUsagePreference` to `MOBILE` value
+* VEHICLE (assuming `canJoinNetwork` in NetworkingAbilities is set to true from mobile)
+  - Core set `VEHICLE` as the only device in the INI file
+  - If Core set `BOTH` and the mobile device DOES support `dataFallbackSupported`
+  - If Core set `BOTH` and the mobile device sets `dataUsagePreference` as `VEHICLE`
   - If any other settings mismatch, this will be the default
 
 ##### Additional Information
