@@ -67,7 +67,7 @@ The contents suggested by this proposal are as follows:
 
 ## Potential downsides
 
-The existing sort process is left as it is. Furthermore, as process/ List related to Sort is added, SDL Core is affected. Also, since the priority information of AppHMIType is stored, policy table is affected, too. However, I believe their change are minor version change because there are no changes in RPC and parameters.
+The existing sorting process is left as it is. Furthermore, as processes/lists related to sorting are added, SDL Core is affected. Also, since the priority information of `AppHMIType` is stored, the policy server is affected, too. However, I believe their changes are minor version changes because there are no changes in RPC and parameters.
 
 ## Impact on existing code
 
