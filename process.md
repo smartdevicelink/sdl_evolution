@@ -114,6 +114,8 @@ In general, actions taken on proposals should be limited to one per week.  Pleas
 ### For Consideration
 The SDL Community is a global community, and so it can be expected that comments will be made on review issues at various times.  For this reason, we do not have a "cutoff" time for leaving comments on review issues.  While this may sometimes result in a proposal needing to be kept in review an additional week to allow the author or commenter time to respond, we appreciate the understanding of the community to allow such global discussions to take place.
 
+- If a proposal is in review and the author has not responded to the review for the full week, the proposal will be deferred until the author has acknowledged that they have the time to respond to reviews for the next week.
+
 ## Implementation Responsibility
 
 The general rule of thumb is that the author of an SDL Evolution proposal is the person or company who intends to contribute code for a feature. SDLC Member contributions should encompass all projects impacted by the feature (including documentation).
