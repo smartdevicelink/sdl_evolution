@@ -1,8 +1,8 @@
 # Homogenize TextFieldName
 
-* Proposal: [SDL-NNNN](NNNN-homogenize-textfieldname.md)
+* Proposal: [SDL-0305](0305-homogenize-textfieldname.md)
 * Author: [Collin McQueen](https://github.com/iCollin)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: Core, HMI, iOS, Java Suite, JavaScript Suite, RPC
 
 ## Introduction
