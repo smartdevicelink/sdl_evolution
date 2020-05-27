@@ -34,7 +34,7 @@ It would help SDL greatly improve the user experience on `VideoStreaming` via BT
 2. Reference iOS's design, modify the timing of request TCP connection,
   +  2-1 Proxy receive Mobile's WIFI connected successfully
   +  2-2 Proxy receives valid IP and port from HU
-  +  2-3 Proxy receive onHmiStatus(FULL) from HU(the Existing process of current proxy)
+  +  2-3 Proxy receives onHmiStatus (FULL) from HU (the existing process of current proxy)
 
 3. Proxy receive TCP TransportDisconnected, clear IP and port
 
