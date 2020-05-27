@@ -14,7 +14,7 @@ The manager layer should be able to handle most tasks that used to be handled by
 One big area that it is currently missing is the ability to manage changing templates, currently done with the `SetDisplayLayout` RPC (on RPC spec <v6.0) and `Show` RPC (on RPC spec v6.0+). This proposal adds a way to change the layout while taking care of backward compatibility concerns.
 
 ## Proposed solution
-We will add a new screen manager method for changing the current layout to a new layout. This also includes updating the template's night and day color schemes on RPC v5.0+ systems. If the template update is batched with text, graphic updates on v6.0+ then all updates will be sent with one `Show` RPC (if buttons are also batched in the update, it will currently require a another `Show` request - this implementation detail could changein the future). On systems <v6.0, the `Show` request will be sent after  the `SetDisplayLayout`. If the layout update fails while batching, then the text, graphics, buttons or template title will also not be updated.
+We will add a new screen manager method for changing the current layout to a new layout. This also includes updating the template's night and day color schemes on RPC v5.0+ systems. If the template update is batched with text and graphic updates on v6.0+ then all updates will be sent with one `Show` RPC (if buttons are also batched in the update, it will currently require a another `Show` request - this implementation detail could change in the future). On systems <v6.0, the `Show` request with the text and graphic updates will be sent after the `SetDisplayLayout`. If the layout update fails while batching, then the text, graphics, buttons or template title will also not be updated.
 
 ### iOS APIs
 ```objc
