@@ -1,8 +1,8 @@
 # Use Taskmaster To Handle Queuing Operations in Managers
 
-* Proposal: [SDL-NNNN](nnnn-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md)
+* Proposal: [SDL-0305](0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md)
 * Author: [Joey Grover](https://github.com/joeygrover), [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
