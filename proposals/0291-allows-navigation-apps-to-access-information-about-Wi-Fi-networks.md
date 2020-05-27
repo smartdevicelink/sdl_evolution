@@ -36,7 +36,7 @@ It would help SDL greatly improve the user experience on `VideoStreaming` via BT
   +  2-2 Proxy receives valid IP and port from HU
   +  2-3 Proxy receives onHmiStatus (FULL) from HU (the existing process of current proxy)
 
-3. Proxy receive TCP TransportDisconnected, clear IP and port
+3. Proxy receives TCP `TransportDisconnected`, clears IP and port
 
 Please refer to Appendix section for sample code.
 
