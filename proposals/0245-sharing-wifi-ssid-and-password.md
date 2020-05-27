@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0245](0245-sharing-wifi-ssid-and-password.md)
 * Author: [Alexander Kutsan](https://github.com/ashwink11)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [Java Suite / iOS / RPC / Core / HMI]
 
 ## Introduction
