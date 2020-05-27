@@ -15,7 +15,7 @@ For this reason (#1235), a deadlock may occur.
 To avoid the deadlock, it is desirable to add a mechanism where the negotiated RPC spec version is judged by the Proxy and stops Audio Streaming when the app on HS side moves to background.
 
 ## Proposed solution
-The negotiated RPC spec version and the manufacturer name are checked by the proxy, when the app on the HS side moves to background.If the negotiated RPC spec version is 5.0 or older and the manufacturer name is not `Ford`, then Audio Streaming is stopped.
+The negotiated RPC spec version and the manufacturer name are checked by the proxy, when the app on the HS side moves to background. If the negotiated RPC spec version is 5.0 or older and the manufacturer name is not `Ford`, then Audio Streaming is stopped.
 
 ## Potential downsides
 None
