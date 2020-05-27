@@ -50,7 +50,7 @@ The implementation of WIFI status listener is as follows.
         this.context.get().registerReceiver(wifiBroadcastReceiver,intentFilter);
     }
 ```
-The new permission android.permission.ACCESS_WIFI_STATE is required to use the above mentioned API.
+The new permission `android.permission.ACCESS_WIFI_STATE` is required to use the above mentioned API.
 
 ### Sequence diagram
 <img src="../assets/proposals/0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks/sequence_diagram.png" alt="sequence diagram" class="inline" height= "75%" width= "75%" /> 
