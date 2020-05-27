@@ -26,8 +26,7 @@ Basically, the problem is that NaviAPPs start video streaming unsuccessfully in 
 2. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the head unit.
 3. Activate the NaviAPP, wait more than 150 seconds, then enable WiFi on the phone
 
-The root cause of the problems is that,in the above three situations,
-there is no mechanism to trigger the reestablishment of secondary transport (TCP) for `VideoStreaming` in Java Suite currently.
+The root cause of the problem is that, in the above three situations, there is no mechanism to trigger the reestablishment of secondary transport (TCP) for `VideoStreaming` in Java Suite currently.
 There is a complete solution to these problems.
 It would help SDL greatly improve the user experience on `VideoStreaming` via BT+WiFi.
 
