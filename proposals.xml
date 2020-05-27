@@ -333,7 +333,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0303" status="deferred" primary-platform="ios" sdl-version="x.x" name="SDL Audio I/O Manager" filename="0303-audio-io-manager.md"/>	
 <proposal id="0304" status="deferred" primary-platform="ios" sdl-version="x.x" name="Start Video Stream With OnTouchEvent Permission" filename="0304-stream-ontouchevent.md"/>	
 <proposal id="0305" status="active" primary-platform="rpc" sdl-version="x.x" name="Homogenize TextFieldName" filename="0305-homogenize-textfieldname.md"/>	
-<proposal id="0305" status="active" primary-platform="java-suite" sdl-version="x.x" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
+<proposal id="0306" status="active" primary-platform="java-suite" sdl-version="x.x" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
 	
 	<!--
 Recognized values for a proposal's status:
