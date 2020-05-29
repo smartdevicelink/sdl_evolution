@@ -18,10 +18,9 @@ The proposed solution is to add new public APIs to `ScreenManager`:
 ```objc
 typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPress,  SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
 
-- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(SDLRPCButtonNotificationHandler)block;
-- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
-
-- (void)unsubscribeButtonWithObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)block;
+- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonHandler)updateHandler;
+- (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
+- (BOOL)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block;
 ```
 
 ### Java Suite
@@ -34,8 +33,8 @@ public interface OnButtonListener {
     void onError(String info);
 }
 
-public void subscribeButton(ButtonName buttonName, OnButtonListener listener);
-public void unsubscribeButtonListener(OnButtonListener listener);
+public boolean addButtonListener(ButtonName buttonName, OnButtonListener listener);
+public boolean removeButtonListener(OnButtonListener listener);
 ```
 
 ### JavaScript Suite
@@ -43,7 +42,9 @@ The JavaScript Suite APIs would be set up in a similar way to the iOS and Java S
 
 ### Implementation Notes
 * There will still need to be storage for the blocks and observers, and this will be handled by a new sub-manager.
-* When the first subscription is added for a button, the `SubscribeButton` RPC should be sent, when the last subscription is removed, the `UnsubscribeButton` RPC should be sent.
+* When the first subscription is added for a button, the `SubscribeButton` RPC will be sent, when the last subscription is removed, the `UnsubscribeButton` RPC will be sent.
+* When subscribing, the return value will indicate whether or not the manager can attempt the subscription. The value `true` (or an observer `id` in the case of the iOS `subscribeButton:withUpdateHandler` method) will be returned if the manager is attempting the subscription or is already subscribed, or `false` if the manager can't attempt the subscription for some reason (e.g. the app does not have the correct permissions to send the subscribe button).
+* When unsubscribing, the return value will indicate whether or not the manager can attempt the unsubscription. The value `true` will be returned if the manager is attempting the unsubscription, or `false` if the manager is not subscribed to said button or if the manager can not attempt the unsubscription for some reason (i.e. the app does not have the correct permissions to send the unsubscribe request).
 
 ## Potential downsides
 This introduces some complexity and using the `SubscribeButton` RPC isn't very difficult. However, the author believes that the `ScreenManager` should handle even "easy" RPCs because the RPC API in general isn't intuitive to app developers.
