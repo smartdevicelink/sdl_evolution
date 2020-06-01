@@ -32,8 +32,7 @@ The following tables of InterruptManagerConfig are explained.
 - RPC priority table
 - AppHMIType priority table
 
-<b>RPC Priority Table</b>
-
+<b>RPC Priority Table</b><br>
 The RPC priority table describes the priority of each RPC. When multiple RPCs occur at the same time, the RPC with the higher priority is determined according to the RPC priority table. The target RPCs in this proposal are ONS and TTS. ONS RPCs include such as `Alert` and `PerformInteraction`. The RPC priority table can set the priority for each ONS RPC. On the other hand, there are two types of TTS RPCs, TTS with ONS and TTS only. TTS with ONS RPCs shall follow the processed priority of the ONS RPC, while TTS only RPCs can set the priority individually.
 
 Below is the default settings of RPC priority table.
@@ -109,14 +108,13 @@ OEMs can restore the deleted `UI.Slider` and modify its priority. For example, i
 	"UI.PerformAudioPassThru": 2,
 	"UI.PerformInteraction": 3,
 	"UI.ScrollableMessage": 3,
-	"UI.Slider": 2
+	"UI.Slider": 2,
 	"TTS.SPEAK": 3
 }
 ```
 
 
-<b>appHMIType Priority Table</b>
-
+<b>appHMIType Priority Table</b><br>
 AppHMIType priority table describes the priority for each app type (`appHMIType`). When a conflict between RPCs with the same priority in the RPC priority table occurs, the RPC with the higher priority is determined according to AppHMIType priority table. Below is the default settings of AppHMIType priority table.
 
 <b>Table 3.</b> Default settings of AppHMIType priority table
@@ -187,12 +185,10 @@ OEMs can add another app type if needed. For example, if you add an app type suc
 #### RPC Conflict Management Module
 The following functions of InterruptManager are explained.
 
-<b>1.Loading of configuration file</b>
-
+<b>1.Loading of configuration file</b><br>
 InterruptManagerConfig is loaded during the startup of SDL Core.
 
-<b>2.RPC conflict management processing sequence</b>
-
+<b>2.RPC conflict management processing sequence</b><br>
 The processing sequence during ONS RPCs conflict is shown below.
 
 
