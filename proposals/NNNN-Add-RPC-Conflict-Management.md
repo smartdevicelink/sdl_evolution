@@ -26,13 +26,14 @@ To implement the RPC conflict management, we will add a new RPC conflict managem
 
 RPC priority table and AppHMIType priority table are specified in InterruptManagerConfig. RPC priority table and AppHMIType priority table are tables that each set the priority of RPC and app type (`appHMIType`). By modifying InterruptManagerConfig, the OEM can receive the expected request from SDL Core during RPC conflict. On the other hand, InterruptManager reads InterruptManagerConfig during the SDL Core startup and builds the two tables mentioned above based on their settings. When an RPC conflict occurs, the `InterruptManager` first determines the RPC with a high priority according to the RPC priority table. However, if two competing RPCs have the same priority, then the RPC with the higher priority is determined according to the AppHMIType priority table.
 
-####RPC Conflict Management Configuration File
+#### RPC Conflict Management Configuration File
 The following tables of InterruptManagerConfig are explained.
 
 - RPC priority table
 - AppHMIType priority table
 
 <b>RPC Priority Table</b>
+
 The RPC priority table describes the priority of each RPC. When multiple RPCs occur at the same time, the RPC with the higher priority is determined according to the RPC priority table. The target RPCs in this proposal are ONS and TTS. ONS RPCs include such as `Alert` and `PerformInteraction`. The RPC priority table can set the priority for each ONS RPC. On the other hand, there are two types of TTS RPCs, TTS with ONS and TTS only. TTS with ONS RPCs shall follow the processed priority of the ONS RPC, while TTS only RPCs can set the priority individually.
 
 Below is the default settings of RPC priority table.
@@ -67,8 +68,8 @@ Below shows the Json example for the RPC priority table:
     "UI.PerformAudioPassThru": 2,
     "UI.PerformInteraction": 3,
     "UI.ScrollableMessage": 3,
-    "UI.Slider": 3
-    "TTS.SPEAK" : 3
+    "UI.Slider": 3,
+    "TTS.SPEAK": 3
 }
 ```
 
@@ -81,8 +82,8 @@ OEMs can modify any RPC priority. For example, if the priority of UI.PerformInte
     "UI.PerformAudioPassThru": 2,
     "UI.PerformInteraction": 1,
     "UI.ScrollableMessage": 3,
-    "UI.Slider": 3
-    "TTS.SPEAK" : 3
+    "UI.Slider": 3,
+    "TTS.SPEAK": 3
 }
 ```
 
@@ -94,8 +95,8 @@ OEMs can delete any RPC priority. For example, if the priority of `UI.Slider` is
     "UI.Alert": 2,
     "UI.PerformAudioPassThru": 2,
     "UI.PerformInteraction": 3,
-    "UI.ScrollableMessage": 3
-    "TTS.SPEAK" : 3
+    "UI.ScrollableMessage": 3,
+    "TTS.SPEAK": 3
 }
 ```
 
@@ -115,6 +116,7 @@ OEMs can restore the deleted `UI.Slider` and modify its priority. For example, i
 
 
 <b>appHMIType Priority Table</b>
+
 AppHMIType priority table describes the priority for each app type (`appHMIType`). When a conflict between RPCs with the same priority in the RPC priority table occurs, the RPC with the higher priority is determined according to AppHMIType priority table. Below is the default settings of AppHMIType priority table.
 
 <b>Table 3.</b> Default settings of AppHMIType priority table
@@ -131,13 +133,13 @@ OEMs can modify the AppHMIType priority table and adjust the priority of applica
 
 The table below shows how the RPC will be determined by the priority set during RPC conflict, based on the default settings above (table 3).
 
-<b>Table 4.</b>Priority result of Table 3
+<b>Table 4.</b> Priority result of Table 3
 
 
 ![Table4_Priority_result_of_Table3.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Table4_Priority_result_of_Table3.png)
 
 
- (* 2): According to the current SDL regulations, when a certain app has an HMI level of FULL, the HMI level of other similar apps will not be FULL. Therefore, there is a low possibility of RPC conflict with similar apps. Thus, RPC conflict for similar apps is outside the scope of this proposal.
+(* 2): According to the current SDL regulations, when a certain app has an HMI level of FULL, the HMI level of other similar apps will not be FULL. Therefore, there is a low possibility of RPC conflict with similar apps. Thus, RPC conflict for similar apps is outside the scope of this proposal.
 
 (* 3):  For the app types with the same priority, the first RPC will be prioritized.
 
@@ -180,22 +182,23 @@ OEMs can add another app type if needed. For example, if you add an app type suc
     "Navigation:": 1,
     "Projection:": 1,
     "Media": 2,
-    "Communication" 2,
+    "Communication": 2,
     "Other": 3
 }
 ```
 
-####RPC Conflict Management Module
+#### RPC Conflict Management Module
 The following functions of InterruptManager are explained.
 
 <b>1.Loading of configuration file</b>
+
 InterruptManagerConfig is loaded during the startup of SDL Core.
 
 <b>2.RPC conflict management processing sequence</b>
+
 The processing sequence during ONS RPCs conflict is shown below.
 
 <b>Figure 2.</b> ONS RPCs conflict
-
 
 ![Figure2_ONS_RPCs_conflict.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Figure2_ONS_RPCs_conflict.png)
 
@@ -204,7 +207,6 @@ The processing sequence during TTS RPC conflict is shown below.
 <b>Figure 3.</b> TTS RPCs conflict
 
 ![Figure3_TTS_RPCs_conflict.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Figure3_TTS_RPCs_conflict.png)
-
 
 
 ## Potential downsides
@@ -216,7 +218,6 @@ None.
 1. Add InterruptManager to the SDL Core source code to manage RPC conflicts.
 2. Add InterruptManagerConfig that sets RPC priority to the SDL Core configuration file.
 3. Add guidelines for OEMs such as InterruptManagerConfig placement and setting method on SDLC official website.
-
 
 
 ## Alternatives considered
