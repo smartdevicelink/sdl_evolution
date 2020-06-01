@@ -12,7 +12,7 @@ This proposal adds a new "Voice Assistant" app service for apps that provide voi
 
 ## Motivation
 
-We should provide app services for common app types that can integrate with the head unit or other SDL applications. Voice assistant apps are a big part of any user's life in the vehicle and could include dedicated voice assistants (Google, Amazon Alexa), or apps with local voice assistant capabilities (like Navigation apps that take destinations via voice). We should provide additional ways for these apps to integrate with the system while providing intuitive user experiences.
+We should provide app services for common app types that can integrate with the head unit or other SDL applications. Voice assistant apps are a big part of any user's life in the vehicle and could include dedicated voice assistants (Google, Amazon Alexa), or apps with local voice assistant capabilities (like navigation apps that take destinations via voice). We should provide additional ways for these apps to integrate with the system while providing intuitive user experiences.
 
 ## Proposed solution
 
@@ -104,13 +104,13 @@ If the voice assistant service fails to handle the recognized voice audio data a
 One use case for Voice Assistant app services was to allow for different types of apps (navigation, media, etc) to activate a voice recognition session without going through the main VR first. This would allow them to better parse the voice data in the context of their app. This can be accomplished in two ways. The first is that the app can present a soft button on screen that will then allow them to kick off a voice recognition session. Second would be using the new RPC introduced in this proposal alongside some HMI guidelines for the Push-To-Talk (PTT) button.
 
 
-1. When the user performs a **short** press on the PTT button, the HMI should trigger core to send a `` RPC to the active Voice Assistant service.
-2. When the user performs a **long** press on the PTT button, the HMI should trigger core to send a `` RPC to the app that is in the foreground.
+1. When the user performs a **short** press on the PTT button, the HMI should trigger core to send a `OnVoiceSessionStarted` RPC to the active Voice Assistant service.
+2. When the user performs a **long** press on the PTT button, the HMI should trigger core to send a `OnVoiceSessionStarted` RPC to the app that is in the foreground.
  
 ## Potential downsides
 
 1. Adding an ability to be a voice assistant service for apps like navigation complicates the overall flow of the service. However, by limiting this to only `HMI_FULL` status, we can create an expected flow that must be followed.
-2. HMI's will have to follow the flow provided in this proposal for the PTT button in order to make certain use cases viable. If the OEM chooses not to follow these guidelines, those use cases will not be supported.
+2. HMIs will have to follow the flow provided in this proposal for the PTT button in order to make certain use cases viable. If the OEM chooses not to follow these guidelines, those use cases will not be supported.
 
 ## Impact on existing code
 
@@ -121,4 +121,4 @@ This would have impact on the RPC spec, which impacts Core and all app libraries
 1. In the original proposal, a voice assistant app service was much more involved. It would actually be given VR synonyms provided by other SDL apps to build out VR grammars and actions. This version keeps things much simpler and allows more apps to be voice assistants. 
 2. Classifying this service as a Voice Recognition service with a capability of being an assistant in the manifest. That way it becomes a little less cloudy of what the service does. The change would be easy to make if the SDLC decides that is a better option to go.
 3. Adding the ability to have temporary active services for this service type. This would then allow apps that just want to use VR while in the foreground to use services. This introduced a lot of complexity that was not necessary in the end.
-4. During the revisions period, it was found that the `OnVoiceSessionStarted` notification should be changed to a request/response pair instead, named `InitiateVoiceSession`. This will allow any app that receives the request to respond with unhandled voice data. This will be important for the navigation use case where it is the app to start the voice session. this would also remove the param for the `VoiceAssistantServiceData` struct.
+4. During the revisions period, it was found that the `OnVoiceSessionStarted` notification should be changed to a request/response pair instead, named `InitiateVoiceSession`. This will allow any app that receives the request to respond with unhandled voice data. This will be important for the navigation use case where it is up to the app to start the voice session. This would also remove the param for the `VoiceAssistantServiceData` struct.
