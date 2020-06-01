@@ -141,7 +141,7 @@ The table below shows how the RPC will be determined by the priority set during 
 Below shows the Json example for the AppHMIType priority table:
 
 ```json
-"RpcAppTypePriority" :{
+"RpcAppTypePriority":{
     "Navigation:": 1,
     "Projection:": 1,
     "Media": 2,
@@ -152,7 +152,7 @@ Below shows the Json example for the AppHMIType priority table:
 OEMs can modify any app type priority. For example, if the Media priority is modified to "1", its app type priority will be the same as Navigation and Projection.
 
 ```json
-"RpcAppTypePriority" :{
+"RpcAppTypePriority":{
     "Navigation:": 1,
     "Projection:": 1,
     "Media": 1,
@@ -163,7 +163,7 @@ OEMs can modify any app type priority. For example, if the Media priority is mod
 OEMs can delete any app type priority. For example, if you delete the Media priority, its app type priority will be the same as Other.
 
 ```json
-"RpcAppTypePriority" :{
+"RpcAppTypePriority":{
     "Navigation:": 1,
     "Projection:": 1,
     "Other": 3
@@ -173,7 +173,7 @@ OEMs can delete any app type priority. For example, if you delete the Media prio
 OEMs can add another app type if needed. For example, if you add an app type such as Communication and set the priority to "2", its app type priority will be the same as Media.
 
 ```json
-"RpcAppTypePriority" :{
+"RpcAppTypePriority":{
     "Navigation:": 1,
     "Projection:": 1,
     "Media": 2,
