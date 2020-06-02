@@ -183,7 +183,7 @@ OEMs can add another app type if needed. For example, if you add an app type suc
 ```
 
 #### RPC Conflict Management Module
-The following functions of InterruptManager are explained.
+The following explains functions of `InterruptManager`.
 
 <b>1.Loading of configuration file</b><br>
 InterruptManagerConfig is loaded during the startup of SDL Core.
