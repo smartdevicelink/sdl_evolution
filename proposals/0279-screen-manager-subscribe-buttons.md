@@ -45,7 +45,7 @@ The JavaScript Suite APIs would be set up in a similar way to the iOS and Java S
 * When the first subscription is added for a button, the `SubscribeButton` RPC will be sent, when the last subscription is removed, the `UnsubscribeButton` RPC will be sent.
 * The sub-manager will not attempt to check for correct permissions and will just send the request. Any errors returned by core will be passed to the observer via the `error`  parameter on the `handler`/`listener`. 
 *  The iOS selector can have the following arguments:
-    1. A selector with no parameters. The observer will be notified when a button press occurs (they will not know if a short or long press has occured).
+    1. A selector with no parameters. The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
     2. A selector with one parameter, (`SDLButtonName`). The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
     3. A selector with two parameters, (`SDLButtonName`, `NSError`). The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
     4. A selector with three parameters,  (`SDLButtonName`, `NSError`, `SDLOnButtonPress`). The observer will be notified when a long or short button press occurs, but not a button event.
