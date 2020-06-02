@@ -51,7 +51,7 @@ Below are the default settings of RPC priority table.
 
 OEMs can modify the RPC priority table and adjust the RPC priority to their specifications.
 
-The table below shows how the RPC will be determined by the priority set during RPC conflict based on the default settings above (table 1).
+The table below shows how the RPC will be determined by the priority set during RPC conflict based on the default settings above (Table 1).
 
 <b>Table 2.</b> Priority result of Table 1
 
