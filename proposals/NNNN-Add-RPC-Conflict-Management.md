@@ -22,7 +22,7 @@ The example above shows that the latter RPC `PerformAudioPassThru` is displayed 
 To solve these problems, we propose to add a new RPC conflict management function to SDL Core.
 
 ## Proposed solution
-To implement the RPC conflict management, we will add a new RPC conflict management module, InterruptManager, and configuration file, InterruptManagerConfig, to SDL Core.
+To implement the RPC conflict management, we will add a new RPC conflict management module, `InterruptManager`, and configuration file, `InterruptManagerConfig`, to SDL Core.
 
 RPC priority table and AppHMIType priority table are specified in InterruptManagerConfig. RPC priority table and AppHMIType priority table are tables that each set the priority of RPC and app type (`appHMIType`). By modifying InterruptManagerConfig, the OEM can receive the expected request from SDL Core during RPC conflict. On the other hand, InterruptManager reads InterruptManagerConfig during the SDL Core startup and builds the two tables mentioned above based on their settings. When an RPC conflict occurs, the `InterruptManager` first determines the RPC with a high priority according to the RPC priority table. However, if two competing RPCs have the same priority, then the RPC with the higher priority is determined according to the AppHMIType priority table.
 
