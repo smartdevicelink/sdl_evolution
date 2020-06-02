@@ -138,7 +138,7 @@ The table below shows how the RPC will be determined by the priority set during 
 (* 2): According to the current SDL regulations, when a certain app has an HMI level of FULL, the HMI level of other similar apps will not be FULL. Therefore, there is a low possibility of RPC conflict with similar apps. Thus, RPC conflict for similar apps is outside the scope of this proposal.<br>
 (* 3): For the app types with the same priority, the first RPC will be prioritized.
 
-Below shows the Json example for the AppHMIType priority table:
+Below shows the Json example for the `AppHMIType` priority table:
 
 ```json
 "RpcAppTypePriority":{
