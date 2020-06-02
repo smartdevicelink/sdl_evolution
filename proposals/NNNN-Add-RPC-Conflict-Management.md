@@ -119,7 +119,7 @@ OEMs can restore the deleted `UI.Slider` and modify its priority. For example, i
 
 <b>Table 3.</b> Default settings of `AppHMIType` priority table
 
-| appHMIType(String) | Priority(INT) | Note(String)     |
+| `appHMIType` (String) | Priority (INT) | Note (String)     |
 |:-:                 |:-:            |:-:               |
 | Navigation         | 1             | Highest priority |
 | Projection         | 1             |                  |
