@@ -16,11 +16,11 @@ The proposed solution is to add new public APIs to `ScreenManager`:
 
 ### iOS
 ```objc
-typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPress,  SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
+typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
 
 - (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonHandler)updateHandler;
 - (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
-- (BOOL)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block;
+- (BOOL)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)completionHandler;
 ```
 
 ### Java Suite
