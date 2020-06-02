@@ -72,7 +72,7 @@ Below shows the Json example for the RPC priority table:
 }
 ```
 
-OEMs can modify any RPC priority. For example, if the priority of UI.PerformInteraction is modified to "1", its RPC priority will be the same as `BC.DialNumber`.
+OEMs can modify any RPC priority. For example, if the priority of `UI.PerformInteraction` is modified to "1", its RPC priority will be the same as `BC.DialNumber`.
 
 ```json
 "RpcPriority":{
