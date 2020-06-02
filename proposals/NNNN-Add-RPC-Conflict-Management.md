@@ -126,7 +126,7 @@ OEMs can restore the deleted `UI.Slider` and modify its priority. For example, i
 | Media              | 2             |                  |
 | Other              | 3             | Lowest priority  |
 
-Note that the "Other" in table 3 refers to appHMITypes other than Navigation, Projection and Media.
+Note that the "Other" in Table 3 refers to `appHMITypes` other than Navigation, Projection and Media.
 OEMs can modify the AppHMIType priority table and adjust the priority of application types according to their own specifications.
 
 The table below shows how the RPC will be determined by the priority set during RPC conflict, based on the default settings above (table 3).
