@@ -20,7 +20,7 @@ typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPres
 
 - (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler;
 - (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
-- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)completionHandler;
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)completionHandler;
 ```
 
 ### Java Suite
