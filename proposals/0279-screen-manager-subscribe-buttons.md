@@ -34,7 +34,7 @@ public interface OnButtonListener {
 }
 
 public boolean addButtonListener(ButtonName buttonName, OnButtonListener listener);
-public boolean removeButtonListener(OnButtonListener listener);
+public boolean removeButtonListener(ButtonName buttonName, OnButtonListener listener);
 ```
 
 ### JavaScript Suite
