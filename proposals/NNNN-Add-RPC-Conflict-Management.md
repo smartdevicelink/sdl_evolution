@@ -1,6 +1,6 @@
 # Add RPC Conflict Management
 
-* Proposal: [SDL-NNNN](NNNN-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md)
+* Proposal: [SDL-NNNN](NNNN-Add-RPC-Conflict-Management.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
 * Status: **Awaiting review**
 * Impacted Platforms: [ Core / SDL Documents ]
