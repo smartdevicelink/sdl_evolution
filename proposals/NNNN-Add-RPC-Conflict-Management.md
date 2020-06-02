@@ -57,7 +57,7 @@ The table below shows how the RPC will be determined by the priority set during 
 
 ![Table_2_Priority_result_of_Table1.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Table_2_Priority_result_of_Table1.png)
 
-(* 1): For RPCs with the same priority, the AppHMIType priority table, which is described later, will be used to determine the priority.
+(* 1): For RPCs with the same priority, the `AppHMIType` priority table, which is described later, will be used to determine the priority.
 
 Below shows the Json example for the RPC priority table:
 ```json
