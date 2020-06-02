@@ -117,7 +117,7 @@ OEMs can restore the deleted `UI.Slider` and modify its priority. For example, i
 <b>`appHMIType` Priority Table</b><br>
 `AppHMIType` priority table describes the priority for each app type (`appHMIType`). When a conflict between RPCs with the same priority in the RPC priority table occurs, the RPC with the higher priority is determined according to `AppHMIType` priority table. Below are the default settings of `AppHMIType` priority table.
 
-<b>Table 3.</b> Default settings of AppHMIType priority table
+<b>Table 3.</b> Default settings of `AppHMIType` priority table
 
 | appHMIType(String) | Priority(INT) | Note(String)     |
 |:-:                 |:-:            |:-:               |
