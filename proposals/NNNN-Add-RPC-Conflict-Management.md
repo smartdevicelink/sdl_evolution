@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-Add-RPC-Conflict-Management.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
 * Status: **Awaiting review**
-* Impacted Platforms: [ Core / SDL Documents ]
+* Impacted Platforms: [ Core ]
 
 ## Introduction
 This proposal is to add a function to SDL Core that manages concurrent RPC conflicts according to priority. This will allow OEMs to receive the expected request from SDL Core during RPC conflict by modifying the configuration file in which the priority is set.
