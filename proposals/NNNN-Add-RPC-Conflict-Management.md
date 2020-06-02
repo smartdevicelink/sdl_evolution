@@ -10,7 +10,7 @@ This proposal is to add a function to SDL Core that manages concurrent RPC confl
 
 
 ## Motivation
-When multiple apps operate, ON-screen (ONS) messages and text-to-speech (TTS) RPCs are requested together. However, the current SDL Core does not have the function to manage these conflicts. Thus, all requests are notified to the middleware and managed by the OEMs themselves.For instance, ONS and TTS conflicts are managed by prioritizing the latter RPC. The figure below demonstrates the sequence process when `PerformAudioPassThru`occurs during  `ScrollableMessage`
+When multiple apps operate, ON-screen (ONS) messages and text-to-speech (TTS) RPCs are requested together. However, the current SDL Core does not have the function to manage these conflicts. Thus, all requests are notified to the middleware and managed by the OEMs themselves. For instance, ONS and TTS conflicts are managed by prioritizing the latter RPC. The figure below demonstrates the sequence process when `PerformAudioPassThru` occurs during `ScrollableMessage`.
 
 <b>Figure 1.</b> Conflict between `ScrollableMessage` and `PerformAudioPassThru`
 ![Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru.png)
