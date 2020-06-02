@@ -186,7 +186,7 @@ OEMs can add another app type if needed. For example, if you add an app type suc
 The following explains functions of `InterruptManager`.
 
 <b>1.Loading of configuration file</b><br>
-InterruptManagerConfig is loaded during the startup of SDL Core.
+`InterruptManagerConfig` is loaded during the startup of SDL Core.
 
 <b>2.RPC conflict management processing sequence</b><br>
 The processing sequence during ONS RPCs conflict is shown below.
