@@ -39,7 +39,7 @@ Below are the default settings of RPC priority table.
 
 <b>Table 1.</b> Default settings of priority table
 
-| RPC_Name(String)        | Priority(INT) | Note(String)     |
+| RPC_Name (String)        | Priority (INT) | Note (String)     |
 |:-:                      |:-:            |:-:               |
 | BC.DialNumber           | 1             | Highest priority |
 | UI.Alert                | 2             |                  |
