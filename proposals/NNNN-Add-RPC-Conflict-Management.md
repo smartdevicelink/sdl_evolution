@@ -27,7 +27,7 @@ To implement the RPC conflict management, we will add a new RPC conflict managem
 RPC priority table and `AppHMIType` priority table are specified in `InterruptManagerConfig`. RPC priority table and `AppHMIType` priority table are tables that each set the priority of RPC and app type (`appHMIType`). By modifying `InterruptManagerConfig`, an OEM can receive the expected request from SDL Core during RPC conflict. On the other hand, `InterruptManager` reads `InterruptManagerConfig` during the SDL Core startup and builds the two tables mentioned above based on their settings. When an RPC conflict occurs, the `InterruptManager` first determines the RPC with a high priority according to the RPC priority table. However, if two competing RPCs have the same priority, then the RPC with the higher priority is determined according to the `AppHMIType` priority table.
 
 #### RPC Conflict Management Configuration File
-The following tables of InterruptManagerConfig are explained.
+The following tables of explain the `InterruptManagerConfig`.
 
 - RPC priority table
 - AppHMIType priority table
