@@ -30,7 +30,7 @@ RPC priority table and `AppHMIType` priority table are specified in `InterruptMa
 The following tables of explain the `InterruptManagerConfig`.
 
 - RPC priority table
-- AppHMIType priority table
+- `AppHMIType` priority table
 
 <b>RPC Priority Table</b><br>
 The RPC priority table describes the priority of each RPC. When multiple RPCs occur at the same time, the RPC with the higher priority is determined according to the RPC priority table. The target RPCs in this proposal are ONS and TTS. ONS RPCs include such as `Alert` and `PerformInteraction`. The RPC priority table can set the priority for each ONS RPC. On the other hand, there are two types of TTS RPCs, TTS with ONS and TTS only. TTS with ONS RPCs shall follow the processed priority of the ONS RPC, while TTS only RPCs can set the priority individually.
