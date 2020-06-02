@@ -209,7 +209,7 @@ None.
 
 ## Impact on existing code
 
-1. Add InterruptManager to the SDL Core source code to manage RPC conflicts.
+1. Add `InterruptManager` to the SDL Core source code to manage RPC conflicts.
 2. Add InterruptManagerConfig that sets RPC priority to the SDL Core configuration file.
 3. Add guidelines for OEMs such as InterruptManagerConfig placement and setting method on SDLC official website.
 
