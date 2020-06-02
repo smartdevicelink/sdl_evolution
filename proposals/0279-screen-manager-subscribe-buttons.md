@@ -47,7 +47,7 @@ The JavaScript Suite APIs would be set up in a similar way to the iOS and Java S
 *  The iOS selector can have the following arguments:
     1. A selector with no parameters. The observer will be notified when a button press occurs (they will not know if a short or long press has occured).
     2. A selector with one parameter, (`SDLButtonName`). The observer will be notified when a button press occurs (they will not know if a short or long press has occured).
-    3. A selector with two parameters, (`SDLButtonName`, `NSError`). The observer will be notified when a button press occurs (they will not know if a short or long press has occured).
+    3. A selector with two parameters, (`SDLButtonName`, `NSError`). The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
     4. A selector with three parameters,  (`SDLButtonName`, `NSError`, `SDLOnButtonPress`). The observer will be notified when a long or short button press occurs, but not a button event.
     5. A selector with four parameters, (`SDLButtonName`, `NSError`, `SDLOnButtonPress`, `SDLOnButtonEvent`). The observer will be notified when any button press or any button event occurs.
 
