@@ -18,9 +18,9 @@ The proposed solution is to add new public APIs to `ScreenManager`:
 ```objc
 typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
 
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonHandler)updateHandler;
-- (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
-- (BOOL)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)completionHandler;
+- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler;
+- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)completionHandler;
 ```
 
 ### Java Suite
@@ -33,8 +33,8 @@ public interface OnButtonListener {
     void onError(String info);
 }
 
-public boolean addButtonListener(ButtonName buttonName, OnButtonListener listener);
-public boolean removeButtonListener(ButtonName buttonName, OnButtonListener listener);
+public void addButtonListener(ButtonName buttonName, OnButtonListener listener);
+public void removeButtonListener(ButtonName buttonName, OnButtonListener listener);
 ```
 
 ### JavaScript Suite
@@ -43,8 +43,13 @@ The JavaScript Suite APIs would be set up in a similar way to the iOS and Java S
 ### Implementation Notes
 * There will still need to be storage for the blocks and observers, and this will be handled by a new sub-manager.
 * When the first subscription is added for a button, the `SubscribeButton` RPC will be sent, when the last subscription is removed, the `UnsubscribeButton` RPC will be sent.
-* When subscribing, the return value will indicate whether or not the manager can attempt the subscription. The value `true` (or an observer `id` in the case of the iOS `subscribeButton:withUpdateHandler` method) will be returned if the manager is attempting the subscription or is already subscribed, or `false` (or `nil` in the case of the iOS `subscribeButton:withUpdateHandler` method) if the manager can't attempt the subscription for some reason (e.g. the app does not have the correct permissions to send the subscribe button).
-* When unsubscribing, the return value will indicate whether or not the manager can attempt the unsubscription. The value `true` will be returned if the manager is attempting the unsubscription, or `false` if the manager is not subscribed to said button or if the manager can not attempt the unsubscription for some reason (i.e. the app does not have the correct permissions to send the unsubscribe request).
+* The sub-manager will not attempt to check for correct permissions and will just send the request. Any errors returned by core will be passed to the observer via the `error`  parameter on the `handler`/`listener`. 
+*  The iOS selector can have the following arguments:
+    1. A selector with no parameters. The observer will be notified only when a short button press occurs.
+    2. A selector with one parameter, (`SDLButtonName`). The observer will be notified only when a short button press occurs.
+    3. A selector with two parameters, (`SDLButtonName`, `NSError`). The observer will be notified only when a short button press occurs.
+    4. A selector with three parameters,  (`SDLButtonName`, `NSError`, `SDLOnButtonPress`). The observer will be notified when a long or short button press occurs.
+    5. A selector with four parameters, (`SDLButtonName`, `NSError`, `SDLOnButtonPress`, `SDLOnButtonEvent`). The observer will be notified when any button press or any button event occurs.
 
 ## Potential downsides
 This introduces some complexity and using the `SubscribeButton` RPC isn't very difficult. However, the author believes that the `ScreenManager` should handle even "easy" RPCs because the RPC API in general isn't intuitive to app developers.
