@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0305](0305-homogenize-textfieldname.md)
 * Author: [Collin McQueen](https://github.com/iCollin)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: Core, HMI, iOS, Java Suite, JavaScript Suite, RPC
 
 ## Introduction
