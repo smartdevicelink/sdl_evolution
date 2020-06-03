@@ -63,10 +63,10 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
 -    <!-- TO DO to be removed -->
 -   <element name="turnText"/>
 +   <element name="turnText">
-+     <description>Turn text for UpdateTurnList</description>
++     <description>Turn text for turnList parameter of UpdateTurnList</description>
 +   </element>
    <element name="navigationText">
-     <description>Navigation text for UpdateTurnList.</description>
+     <description>Navigation text for turnList parameter of UpdateTurnList</description>
    </element>
 -  <element name="notificationText">
 -    <description>Text of notification to be displayed on screen.</description>
