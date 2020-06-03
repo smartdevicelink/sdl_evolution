@@ -28,21 +28,25 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
             <description> Optional hone number of intended location / establishment (if applicable) for SendLocation.</description>
         </element>
 +
-+       <element name="timeToDestination" since="X.X"/>
++       <element name="timeToDestination" since="X.X">
++           <description>Optional time to destination field for navigationTexts parameter in ShowConstantTBT</description>
++       </element>
 +
 +       <element name="turnText" since="X.X"/>
++           <description>Turn text for turnList parameter of UpdateTurnList</description>
++       </element>
 +
 +       <element name="navigationText" since="X.X">
-+           <description>Navigation text for UpdateTurnList.</description>
++           <description>Navigation text for turnList parameter of UpdateTurnList</description>
 +       </element>
     </enum>
 ```
 
-`timeToDestination` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L627) and is used in the [`ShowConstantTBT` RPC](https://smartdevicelink.com/en/guides/hmi/navigation/showconstanttbt/).
+`timeToDestination` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L627) and can be used in the [`ShowConstantTBT` RPC](https://smartdevicelink.com/en/docs/hmi/master/navigation/showconstanttbt/).
 
-`turnText` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L629) and can be used in the [`UpdateTurnList` RPC](https://smartdevicelink.com/en/guides/hmi/navigation/updateturnlist/).
+`turnText` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L629) and can be used in the [`UpdateTurnList` RPC](https://smartdevicelink.com/en/docs/hmi/master/navigation/updateturnlist/).
 
-`navigationText` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L630) and can be used in the [`UpdateTurnList` RPC](https://smartdevicelink.com/en/guides/hmi/navigation/updateturnlist/).
+`navigationText` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L630) and can be used in the [`UpdateTurnList` RPC](https://smartdevicelink.com/en/docs/hmi/master/navigation/updateturnlist/).
 
 #### HMI_API.xml
 
@@ -52,11 +56,17 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
    <element name="phoneNumber">
      <description> Optional hone number of intended location / establishment (if applicable) for SendLocation.</description>
    </element>
-   <element name="timeToDestination"/>
+-   <element name="timeToDestination"/>
++   <element name="timeToDestination">
++     <description>Optional time to destination field for ShowConstantTBT</description>
++   </element>
 -    <!-- TO DO to be removed -->
-   <element name="turnText"/>
+-   <element name="turnText"/>
++   <element name="turnText">
++     <description>Turn text for turnList parameter of UpdateTurnList</description>
++   </element>
    <element name="navigationText">
-     <description>Navigation text for UpdateTurnList.</description>
+     <description>Navigation text for turnList parameter of UpdateTurnList</description>
    </element>
 -  <element name="notificationText">
 -    <description>Text of notification to be displayed on screen.</description>
@@ -67,6 +77,8 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
 `notificationText` is removed because it does not exist in the `MOBILE_API.xml` and is not used currently.
 
 The comment `<!-- TO DO to be removed -->` is removed because it is no longer relevant.
+
+Descriptions are added to both `timeToDestination` and `turnText`.
 
 ## Potential downsides
 
