@@ -252,7 +252,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0227" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Supported RGB Colors to Light Capabilities" filename="0227-add-supported-rgb-colors.md"/>
 <proposal id="0228" status="implemented" primary-platform="policy" sdl-version="2.7" name="SDL Server Email Notifications" filename="0228-sdl-server-email-notifications.md"/>
 <proposal id="0229" status="implemented" primary-platform="policy" sdl-version="2.7" name="SDL Server Version Tracking" filename="0229-sdl-server-version-tracking.md"/>
-<proposal id="0230" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="SPP resource management for Android" filename="0230-spp-resource-management-for-android.md"/>
+<proposal id="0230" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="SPP resource management for Android" filename="0230-spp-resource-management-for-android.md"/>
 <proposal id="0231" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Add Tiles as an Option for Main Menus" filename="0231-main-menu-tiles.md"/>
 <proposal id="0232" status="implemented" primary-platform="ios" sdl-version="6.3" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
 <proposal id="0232" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Add Pushing Buffer Support to AudioStreamManager" filename="0232-add_pushing_buffer_support_to_audio_stream_manager.md"/>
@@ -300,14 +300,14 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0270" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add means to launch with optimum appHMIType" filename="0270-Add-means-to-launch-with-optimum-appHMIType.md"/>
 <proposal id="0271" status="rejected" primary-platform="rpc" sdl-version="x.x" name="Start APT of SDL App by pressing PTT button" filename="0271-Start-APT-of-SDL-App-by-pressing-PTT-Button.md"/>
 <proposal id="0272" status="accepted" primary-platform="javascript" sdl-version="x.x" name="JavaScript Suite SDL Manager" filename="0272-sdl-javascript-manager-layer.md"/>
-<proposal id="0273" status="active" primary-platform="core" sdl-version="x.x" name="WebEngine Projection mode" filename="0273-webengine-projection-mode.md"/>
+<proposal id="0273" status="accepted" primary-platform="rpc" sdl-version="x.x" name="WebEngine Projection mode" filename="0273-webengine-projection-mode.md"/>
 <proposal id="0274" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add preferred FPS to VideoStreamingCapability" filename="0274-add-preferred-FPS.md"/>
 <proposal id="0275" status="accepted" primary-platform="dev-portal" sdl-version="x.x" name="WebEngine App Testing" filename="0275-webengine-app-testing.md"/>
 <proposal id="0276" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="POI Service Supported" filename="0276-POI-Service-Supported.md"/>
 <proposal id="0277" status="accepted" primary-platform="core" sdl-version="x.x" name="Continuous integration and testing" filename="0277-Continuous-Integration-And-Testing.md"/>
 <proposal id="0278" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Template Management" filename="0278-screenmanager-push-pop.md"/>
 <proposal id="0279" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>
-<proposal id="0280" status="returned" primary-platform="rpc" sdl-version="x.x" name="Adding new parameter of requiresAudioSupport and BluetoothDeviceAddress" filename="0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md"/>
+<proposal id="0280" status="active" primary-platform="rpc" sdl-version="x.x" name="Adding new parameter of requiresAudioSupport and BluetoothDeviceAddress" filename="0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md"/>
 <proposal id="0281" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add a mechanism to exclude route guidance between embedded navigation and SDL navigation" filename="0281-Add-a-mechanism-to-exclude-route-guidance-between-embedded-navigation-and-SDL-navigation.md"/>
 <proposal id="0282" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Alert Manager" filename="0282-screen-manager-alerts.md"/>
 <proposal id="0283" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add Scrollable Message and Slider to Screen Manager" filename="0283-screen-manager-scrollable-message-and-slider.md"/>
@@ -332,8 +332,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0302" status="deferred" primary-platform="protocol" sdl-version="x.x" name="SDL System Structure for Middle/Low-end Class Model of Powered Two Wheeler" filename="0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler.md"/>	
 <proposal id="0303" status="deferred" primary-platform="ios" sdl-version="x.x" name="SDL Audio I/O Manager" filename="0303-audio-io-manager.md"/>	
 <proposal id="0304" status="deferred" primary-platform="ios" sdl-version="x.x" name="Start Video Stream With OnTouchEvent Permission" filename="0304-stream-ontouchevent.md"/>	
-<proposal id="0305" status="active" primary-platform="rpc" sdl-version="x.x" name="Homogenize TextFieldName" filename="0305-homogenize-textfieldname.md"/>	
-<proposal id="0306" status="active" primary-platform="java-suite" sdl-version="x.x" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
+<proposal id="0305" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Homogenize TextFieldName" filename="0305-homogenize-textfieldname.md"/>	
+<proposal id="0306" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
+<proposal id="0307" status="active" primary-platform="rpc" sdl-version="x.x" name="Get Input Screen" filename="0307-GetInputScreen.md"/>	
+<proposal id="0308" status="active" primary-platform="rpc" sdl-version="x.x" name="Add a Reason Parameter to All Protocol NAKs" filename="0308-protocol-nak-reason.md"/>	
 	
 	<!--
 Recognized values for a proposal's status:
