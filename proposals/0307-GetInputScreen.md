@@ -1,8 +1,8 @@
 # Get Input Screen
 
-* Proposal: [SDL-NNNN](NNNN-GetInputScreen.md)
+* Proposal: [SDL-0307](0307-GetInputScreen.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [HMI / Core / iOS / Java Suite / JavaScript / RPC]
 
 ## Introduction
