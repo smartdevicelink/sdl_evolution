@@ -1,8 +1,8 @@
 # Add a Reason Parameter to All Protocol NAKs
 
-* Proposal: [SDL-NNNN](nnnn-protocol-nak-reason.md)
+* Proposal: [SDL-0308](0308-protocol-nak-reason.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Protocol]
 
 ## Introduction
