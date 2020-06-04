@@ -26,7 +26,7 @@ A new template called `WEB_VIEW` should be added. This template should have the 
 1. It's supported for in-vehicle WebEngine apps only.
 2. It's available only to the main window. It should not be available for widgets.
 3. It is only available to applications that successfully registered with the new App HMI type (see below section regarding new App HMI Type).
-4. The `WEB_VIEW` template must not declare support in its WindowCapabilities for any softButtonCapabilities, the TextFields with name: mainField1-4, mediaClock, mediaTrack, nor the ImageFields with name: softButtonImage, menuIcon, graphic, or secondaryGraphic.
+4. The `WEB_VIEW` template must not declare support in its WindowCapabilities for any `softButtonCapabilities`, the `TextFields` with name: `mainField1-4`, `mediaClock`, `mediaTrack`, nor the `ImageFields` with name: `softButtonImage`, `menuIcon`, `graphic`, or `secondaryGraphic`.
 
 If this template is used by WebEngine apps, the HMI of the IVI should present the WebEngine app and show the application's web page. 
 The application can control the web `document` object using JavaScript code to manipulate the document object model of the WebEngine app.
@@ -39,9 +39,9 @@ After pop-up is closed, touch events processing returns back to the WEB_VIEW are
 2. The HMI should include a button to access the app list
 3. The HMI should not show a menu button on the HMI. Instead the app should be required to behave as followed:
 
-    3.1 . If the app uses AddCommand or AddSubMenu the app is required to provide an own menu button on the WEB_VIEW and send ShowAppMenu if this menu button is selected by the user.
+    3.1 . If the app uses `AddCommand` or `AddSubMenu`, the app is required to provide an own menu button on the WEB_VIEW and send `ShowAppMenu` if this menu button is selected by the user.
 
-    3.2. If the app does not use commands or sub menus the app is required to provide a way to the user to exit the application. The app should use CloseApplication RPC for this.
+    3.2. If the app does not use commands or sub menus the app is required to provide a way to the user to exit the application. The app should use `CloseApplication` RPC for this.
 
 
 **MOBILE_API**
