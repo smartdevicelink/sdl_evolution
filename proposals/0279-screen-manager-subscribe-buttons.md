@@ -42,8 +42,8 @@ The JavaScript Suite APIs would be set up in a similar way to the iOS and Java S
 
 ### Implementation Notes
 * There will still need to be storage for the blocks and observers, and this will be handled by a new sub-manager.
-* When the first subscription is added for a button, the `SubscribeButton` RPC will be sent, when the last subscription is removed, the `UnsubscribeButton` RPC will be sent.
-* The sub-manager will not attempt to check for correct permissions and will just send the request. Any errors returned by core will be passed to the observer via the `error`  parameter on the `handler`/`listener`. 
+* When the first subscription is added for a button, the `SubscribeButton` RPC will be sent. When the last subscription is removed, the `UnsubscribeButton` RPC will be sent.
+* The sub-manager will not attempt to check for correct permissions and will just send the request. Any errors returned by SDL Core will be passed to the observer via the `error` parameter on the `handler`/`listener`. 
 *  The iOS selector can have the following arguments:
     1. A selector with no parameters. The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
     2. A selector with one parameter, (`SDLButtonName`). The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
