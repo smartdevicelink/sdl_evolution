@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal adds an Input screen for apps. This enables a way for the user to sign in, put in their credit card information, put in their address and more. This is particularly focused on embedded/cloud apps because the app lives in the car and the user will still need a way to enter information without having the ability to do so on their phone.
+This proposal adds an Form screen for apps. This enables a way for the user to sign in, put in their credit card information, put in their address and more. This is particularly focused on embedded/cloud apps because the app lives in the car and the user will still need a way to enter information without having the ability to do so on their phone.
 
 ## Motivation
 
