@@ -44,7 +44,7 @@ It contains a title, and an array of `InputLines`
       If there's a problem with the input fields, this can be used to display information.
     </description>
   </param>
-  <param name="fields" type="Common.Field" array="true" minsize="0" maxsize="100" mandatory="true">\
+  <param name="fields" type="Field" array="true" minsize="0" maxsize="100" mandatory="true">\
   </param>
     <param name="softButtons" type="Common.SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
     <description>
