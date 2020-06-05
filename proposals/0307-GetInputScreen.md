@@ -33,7 +33,7 @@ It contains a title, and an array of `InputLines`
 
 
 ```xml
-<function name="GetInput" functionID="GetInputID" messagetype="request" since="X.X">
+<function name="DisplayForm" functionID="DisplayFormID" messagetype="request" since="X.X">
   <param name="initialText" type="String" maxlength="500"  mandatory="true">
     <description>
       Text to be displayed first.
@@ -54,7 +54,7 @@ It contains a title, and an array of `InputLines`
 </function>
 ```
 
-Add a new struct called `Field` and an enum called `FieldType` to get user input in the GetInput screen.
+Add a new struct called `Field` and an enum called `FieldType` to get user input in the DisplayForm screen.
 This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items.  
 ```xml
 <struct name="Field">
@@ -117,7 +117,7 @@ This enables text input fields, numeric input fields and combo box input fields.
 Regarding the response which would be sent when the user presses a softbutton, this would use RPC encryption which is handled by policies.
 There would be one string response for each field. If a field was left empty, the associated string would be blank.
 ```xml
-<function name="GetInput" messagetype="response">
+<function name="DisplayForm" messagetype="response">
   <param name="fields" type="String" maxlength="500" array="true" minsize="0" maxsize="100" mandatory="true">
     <description>
       One string response for each field. If a field was left empty, the associated string would be blank. If the field had formatting characters, they are included in the response as well. 
