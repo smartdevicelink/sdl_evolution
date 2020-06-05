@@ -39,7 +39,7 @@ After pop-up is closed, touch events processing returns back to the WEB_VIEW are
 2. The HMI should include a button to access the app list
 3. The HMI should not show a menu button on the HMI. Instead the app should be required to behave as followed:
 
-    3.1 . If the app uses `AddCommand` or `AddSubMenu`, the app is required to provide an own menu button on the WEB_VIEW and send `ShowAppMenu` if this menu button is selected by the user.
+    3.1 . If the app uses `AddCommand` or `AddSubMenu`, the app is required to provide an own menu button on the `WEB_VIEW` and send `ShowAppMenu` if this menu button is selected by the user.
 
     3.2. If the app does not use commands or sub menus the app is required to provide a way to the user to exit the application. The app should use `CloseApplication` RPC for this.
 
