@@ -1,0 +1,68 @@
+@startuml
+!pragma teoz true
+
+
+title SDL decides that VEHICLE is an access point
+
+participant HMI
+participant SDL
+participant APP
+
+note over HMI, APP: in ini file : NetworkHost = VEHICLE \n\
+App allowed to use feature by policies
+
+SDL -> HMI : <b>UI.GetCapabilities() request
+HMI -> SDL : <b>UI.GetCapabilities(NetworkingCapabilities) response : \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t networkingCapabilities : "initial HMI networkingCapabilities"
+
+APP -> SDL : <b>RAI(NetworkingCapabilities): \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t networkingCapabilities : "mobile networkingCapabilities"
+
+SDL -> HMI : <b>OnAppRegistered 
+
+SDL -> SDL : Based on ini file, RAI and HMI NetworkCapabilities\n\
+SDL decides that **VEHICLE should be AP** 
+
+SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t networkingCapabilities: "networkingCapabilities received from APP"
+HMI -> HMI : HMI creates WiFi Access Point
+
+HMI -> SDL:  <b>OnSystemCapabilityUpdate(NetworkCapabilities): \n\
+\t autoJoinWiFiSupported : \t **false** \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t networkingCapabilities : "updated networkingCapabilities"
+
+note over HMI: HMI shows pop-up \n\
+user consent 
+
+HMI -> SDL: <b>JoinNetwork request\n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t accessPointSupportsInternetAccess : \t true 
+
+SDL -> APP: <b>JoinNetwork request\n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t accessPointSupportsInternetAccess : \t true 
+
+note over APP: APP shows pop-up \n\
+user consent 
+
+APP -> APP : Establish \n\
+WiFiConnection
+
+APP -> SDL : <b>JoinNetwork response
+SDL -> HMI : <b>JoinNetwork response
+
+SDL -> APP: TransportUpdateEvent
+@enduml

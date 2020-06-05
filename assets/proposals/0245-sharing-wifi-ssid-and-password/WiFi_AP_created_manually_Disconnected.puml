@@ -1,0 +1,205 @@
+@startuml
+!pragma teoz true
+
+
+title WiFI Access Point created manually, DISCONNECTED
+participant HMI
+participant SDL
+box "Device1"
+participant APP1
+participant APP2
+end box
+
+box "Device2"
+participant APP3
+end box
+
+note over HMI, APP2: in ini file : NetworkHost = VEHICLE \n\
+Apps allowed to use feature by policies
+
+SDL -> HMI : <b>UI.GetCapabilities() request
+HMI -> SDL : <b>UI.GetCapabilities(NetworkingCapabilities) response : \n\
+\t autoJoinWiFiSupported : \t **true** \n\
+\t canHostWiFiNetwork : \t **true**  \n\
+\t preferredNetworkHost : \t **MOBILE** \n\
+\t wifiFrequencyBandsSupported : \t **"FREQUENCY_BAND_2_4_GHZ"** \n\
+**"FREQUENCY_BAND_5_0_GHZ", "FREQUENCY_BAND_6_0_GHZ" **
+
+HMI -> HMI : **WiFi Access Point is created manually:** \n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 
+
+HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
+\t autoJoinWiFiSupported : \t **false** \n\
+\t canHostWiFiNetwork : \t **true**  \n\
+\t preferredNetworkHost : \t MOBILE \n\
+\t wifiFrequencyBandsSupported : \t **"FREQUENCY_BAND_2_4_GHZ"** 
+
+APP1 -> SDL : <b>RAI_1(NetworkingCapabilities): \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t **"FREQUENCY_BAND_2_4_GHZ"** 
+
+SDL -> HMI : <b>OnAppRegistered(App1) 
+SDL -> APP1 : <b>RAI(App1) response 
+
+note over SDL: SDL calculate network configuration based on \n\
+latest OnSystemCapabilityUpdated(Networkcapabilities) from HMI, \n\
+RAI (Networkcapabilities) from App1 and ini.file
+
+SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over HMI: HMI shows pop-up \n\
+user consent 
+
+HMI -> SDL: <b>JoinNetwork request \n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+SDL -> APP1: <b>JoinNetwork request \n\
+\t ssid : \t InCarWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over APP1, APP2: Mobile shows pop-up \n\
+user consent 
+
+APP1 -> APP1 : Establish  \n\
+WiFiConnection
+
+APP1 -> SDL : <b>JoinNetwork response
+SDL -> HMI : <b>JoinNetwork response
+SDL -> APP1 : OnTransportEventUpdate
+
+APP2 <-> SDL : StartService
+SDL -> APP2 : OnTransportEventUpdate
+
+APP2 -> SDL : <b>RAI_2(NetworkingCapabilities): \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **MOBILE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+
+SDL -> HMI : <b>OnAppRegistered(App2) 
+SDL -> APP2 : <b>RAI(App2) response 
+
+note over SDL : Do not recalculate NetworkCapabilities \n\
+because feature enabled application already initialized in mobile device 
+
+HMI -> HMI: App2 is activated
+
+HMI -> SDL: <b>OnAppActivated(App_2) notification
+
+note over SDL : Do not recalculate NetworkCapabilities \n\
+because feature enabled application already initialized in mobile device 
+
+
+SDL -> SDL : Application activation (APP2)\n\
+of feature enabled application \n\
+will make this application (APP2)  \n\
+the active for feature initialization
+
+HMI -> HMI : WiFi Access Point is **DISCONNECTED**
+
+
+HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
+\t autoJoinWiFiSupported : \t **true** \n\
+\t canHostWiFiNetwork : \t **true**  \n\
+\t preferredNetworkHost : \t MOBILE \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" \n\
+"FREQUENCY_BAND_5_0_GHZ", "FREQUENCY_BAND_6_0_GHZ" 
+
+
+APP3 -> SDL : <b>RAI_3(NetworkingCapabilities): \n\
+\t autoJoinWiFiSupported : \t true \n\
+\t canHostWiFiNetwork : \t true \n\
+\t preferredNetworkHost : \t **MOBILE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+SDL -> HMI : <b>OnAppRegistered(App3) 
+SDL -> APP3 : <b>RAI_3(App3) response 
+
+SDL -> SDL : SDL postpones calculation of network configuration for APP3 \n\
+Based on ini file, **RAI_2(App2)** and HMI NetworkCapabilities\n\
+SDL decides that **MOBILE should be AP** 
+
+activate SDL
+
+SDL -> APP2:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
+\t networkHost : \t **MOBILE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ"
+
+APP2 -> APP2 : Mobile creates \n\
+WiFi Access Point
+
+APP2 -> SDL: <b>JoinNetwork requst \n\
+\t ssid : \t DeviceWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t allowAccessPointToBeShared : \t **true** \n\
+\t accessPointSupportsInternetAccess : \t true
+
+SDL -> HMI: <b>JoinNetwork request \n\
+\t ssid : \t DeviceWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t allowAccessPointToBeShared : \t **true** \n\
+\t accessPointSupportsInternetAccess : \t true
+
+HMI -> HMI : Establish \n\
+WiFiConnection
+
+HMI -> SDL : <b>JoinNetwork response
+SDL -> APP2 : <b>JoinNetwork response
+
+
+
+HMI -> SDL:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
+\t autoJoinWiFiSupported : \t **false** \n\
+\t canHostWiFiNetwork : \t **true**  \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+deactivate SDL
+
+SDL -> SDL : SDL calculate network configuration based on \n\
+latest OnSystemCapabilityUpdated(Networkcapabilities) from HMI, \n\
+**RAI_3** (Networkcapabilities) from App3 and ini.file
+
+SDL -> HMI:  <b>OnSystemCapabilityUpdated(NetworkCapabilities): \n\
+\t preferredNetworkHost : \t **VEHICLE** \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over HMI: HMI shows pop-up \n\
+user consent 
+
+HMI -> SDL: <b>JoinNetwork request\n\
+\t ssid : \t DeviceWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+SDL -> APP3: <b>JoinNetwork request\n\
+\t ssid : \t DeviceWiFiAP \n\
+\t password : \t 12345678 \n\
+\t securityType : \t WIFI_SECURITY_WPA2 \n\
+\t wifiFrequencyBandsSupported : \t "FREQUENCY_BAND_2_4_GHZ" 
+
+note over APP3: APP3 shows pop-up \n\
+user consent 
+
+APP3 -> APP3 : WiFiConnection \n\
+is established \n\
+
+APP3 -> SDL: <b>JoinNetwork response
+SDL -> HMI: <b>JoinNetwork response
+
+@enduml
