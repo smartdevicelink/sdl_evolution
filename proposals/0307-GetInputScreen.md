@@ -31,7 +31,7 @@ Here's more specific potential screens
 Add a new RPC for an input screen. This screen would use RPC encryption which is handled by policies.
 It contains a title, and an array of `InputLines`
 
-
+Here's the `MOBILE_API`:
 ```xml
 <function name="DisplayForm" functionID="DisplayFormID" messagetype="request" since="X.X">
   <param name="initialText" type="String" maxlength="500"  mandatory="true">
@@ -53,9 +53,33 @@ It contains a title, and an array of `InputLines`
   </param>
 </function>
 ```
+and the `HMI_API`:
+```xml
+<function name="DisplayForm" functionID="DisplayFormID" messagetype="request">
+  <param name="initialText" type="String" maxlength="500"  mandatory="true">
+    <description>
+      Text to be displayed first.
+    </description>
+  </param>
+  <param name="errorMessage" maxlength="500" type="String" mandatory="false">
+    <description>
+      If there's a problem with the input fields, this can be used to display information.
+    </description>
+  </param>
+  <param name="fields" type="Common.Field" array="true" minsize="0" maxsize="100" mandatory="true">\
+  </param>
+    <param name="softButtons" type="Common.SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
+    <description>
+      App defined SoftButtons for cancel, edit, submit, etc.
+    </description>
+  </param>
+</function>
+```
 
 Add a new struct called `Field` and an enum called `FieldType` to get user input in the DisplayForm screen.
-This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items.  
+This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items.
+
+Here's the MOBILE_API:
 ```xml
 <struct name="Field">
   <description>
@@ -104,6 +128,65 @@ This enables text input fields, numeric input fields and combo box input fields.
 ```
 ```xml
   <enum name="FieldType" since="X.X">
+    <description>The type of input field</description>
+    <element name="COMBO_BOX" />
+    <element name="TEXT" />
+    <element name="NUMBER" />
+      <description>
+        This is a notice for the HMI to bring up a keyboard, however the response for this field will still be a string.
+      </description>
+  </enum>
+```
+
+and the `HMI_API`:
+```xml
+<struct name="Field">
+  <description>
+    A single field for data input
+  </description>
+  <param name="type" type="Common.FieldType" mandatory="true">
+  </param>
+  <param name="label" maxlength="500" type="String" mandatory="true">
+  </param>
+  <param name="image" type="Image" mandatory="false">
+    <description>
+      An image icon for the input field
+    </description>
+  </param>
+  <param name="text" maxlength="500" type="String" mandatory="false">
+    <description>
+      The text that is already present in the input field
+    </description>
+  </param>
+  <param name="format" maxlength="500" type="String" mandatory="false">
+    <description>
+      A text string used to format the input text to a certain style. Any characters except underscore will remain in the field with no way to type over them. The underscore character will represent a space that the user can type in.  E.g. A format string for phone number would be +_(___)___-____
+    </description>
+  </param>
+  <param name="additionalInfo" maxlength="500" type="String" mandatory="false">
+    <description>
+      More information that is shown by the input field
+    </description>
+  </param>
+  <param name="error" type="Boolean" mandatory="false">
+    <description>
+      If set to true, then the field has some problem with it and the HMI should highlight it in red.
+    </description>
+  </param>
+  <param name="comboBoxChoices" type="String" maxlength="500" array="true" minsize="0" maxsize="200" mandatory="false">
+    <description>
+      List of choices if the type is COMBO_BOX. Otherwise ignored.
+    </description>
+  </param>
+  <param name="inputMask" type="Common.KeyboardInputMask" mandatory="false">
+    <description>
+      Used to cover up personal information like credit card number. Defaults to "DISABLE_INPUT_KEY_MASK"
+    </description>
+  </param>
+</struct>
+```
+```xml
+  <enum name="FieldType">
     <description>The type of input field</description>
     <element name="COMBO_BOX" />
     <element name="TEXT" />
