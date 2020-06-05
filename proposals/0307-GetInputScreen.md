@@ -46,7 +46,7 @@ It contains a title, and an array of `InputLines`
   </param>
   <param name="fields" type="Field" array="true" minsize="0" maxsize="100" mandatory="true">\
   </param>
-    <param name="softButtons" type="Common.SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
+    <param name="softButtons" type="SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
     <description>
       App defined SoftButtons for cancel, edit, submit, etc.
     </description>
@@ -61,11 +61,11 @@ This enables text input fields, numeric input fields and combo box input fields.
   <description>
     A single field for data input
   </description>
-  <param name="type" type="Common.FieldType" mandatory="true">
+  <param name="type" type="FieldType" mandatory="true">
   </param>
   <param name="label" maxlength="500" type="String" mandatory="true">
   </param>
-  <param name="image" type="Common.Image" mandatory="false">
+  <param name="image" type="Image" mandatory="false">
     <description>
       An image icon for the input field
     </description>
