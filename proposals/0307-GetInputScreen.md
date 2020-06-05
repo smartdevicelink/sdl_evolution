@@ -130,7 +130,8 @@ We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements]
 
 ## Potential downsides
 
-This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
+1. This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
+2. This form process does not support OAuth logins like Google, Apple, or Facebook).
 
 ## Impact on existing code
 
