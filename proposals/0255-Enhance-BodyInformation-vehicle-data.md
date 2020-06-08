@@ -199,6 +199,33 @@ Some parameters are deprecated.
 * SDL Core needs to be updated as per new API.
 * iOS/Java Suite need to be updated to support getters/setters as per new API.
 * HMI needs to be updated to support new vehicle data params.
+* HMI guidelines need updates.
+
+### HMI guidelines additions:
+
+#### Door `status` selection:
+
+| Door condition  | `status` |
+| ------------- | ------------- |
+| Door is closed and locked  | LOCKED  |
+| Door is closed and unlocked  | CLOSED  |
+| Door is closed and unknown locked state | CLOSED  |
+| Door is open  | AJAR  |
+| Door is physically removed  | REMOVED  |
+
+#### Rood `status` selection:
+* Convertible roof - `location` grid would span entire rows and columns and roof `status` could be `CLOSED` or `AJAR` with corresponding `state`. 
+* Sunroof/Moonroof - `location` grid would span just actual location of sunroof/moonroof. `status` could be `CLOSED` or `AJAR` with corresponding `state`.
+* Entire roof - `location` grid would span entire rows and columns and roof status would be`REMOVED` or `CLOSED/LOCKED`. `state` can be omitted.
+* Other type of roof - `location` grid would span actual location of the roof as per physical location. `status` and `state` would be as per table below:
+
+| Roof condition  | `status` | `state` |
+| ------------- | ------------- | ------------- |
+| Roof is closed and locked  | LOCKED  | `approximatePosition` = 0 & `deviation` = 0 |
+| Roof is closed and unlocked  | CLOSED  | `approximatePosition` = 0 & `deviation` = 0 |
+| Roof is closed and unknown locked state | CLOSED  | `approximatePosition` = 0 & `deviation` = 0 |
+| Roof is open  | AJAR  | actual values of `approximatePosition` & `deviation` |
+| Roof is physically removed  | REMOVED  | can be omitted OR `approximatePosition` = 0 & `deviation` = 0 |
 
 ## Alternatives considered
 
