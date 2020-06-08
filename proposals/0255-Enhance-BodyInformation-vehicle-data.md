@@ -30,7 +30,7 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 
 * Convertible roof - `location` grid would span entire rows and columns and roof `status` could be `CLOSED` or `AJAR` with corresponding `state`. 
 * Sunroof/Moonroof - `location` grid would span just actual location of sunroof/moonroof. `status` could be `CLOSED` or `AJAR` with corresponding `state`.
-* Entire roof - `location` grid would span entire rows and columns and roof status would be`REMOVED` or `CLOSED/LOCKED`. `state` can be omitted.
+* Entire roof - `location` grid would span entire rows and columns and roof status would be `REMOVED` or `CLOSED/LOCKED`. `state` can be omitted.
 
 
 #### Updates in MOBILE_API:
@@ -67,7 +67,7 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 <struct name="RoofStatus" since="X.x">
 	<description>
 		Describes the status of a parameter of roof/convertible roof/sunroof/moonroof etc.
-		If roof is open(AJAR), state will determine percentage of roof open.
+		If roof is open (AJAR), state will determine percentage of roof open.
 	</description>
 	<param name="location" type="Grid" mandatory="true"/>
 	<param name="status" type="DoorStatusType" mandatory="true"/>
@@ -146,7 +146,7 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 <struct name="RoofStatus">
 	<description>
 		Describes the status of a parameter of roof, convertible roof, sunroof/moonroof etc.
-		If roof is open(AJAR), state will determine percentage of roof open.
+		If roof is open (AJAR), state will determine percentage of roof open.
 	</description>
 	<param name="location" type="Common.Grid" mandatory="true"/>
 	<param name="status" type="Common.DoorStatusType" mandatory="true"/>
@@ -199,9 +199,9 @@ Some parameters are deprecated.
 * SDL Core needs to be updated as per new API.
 * iOS/Java Suite need to be updated to support getters/setters as per new API.
 * HMI needs to be updated to support new vehicle data params.
-* HMI guidelines need updates.
+* HMI Integration Guidelines need updates.
 
-### HMI guidelines additions:
+### HMI Integration Guidelines additions:
 
 #### Door `status` selection:
 
@@ -213,10 +213,10 @@ Some parameters are deprecated.
 | Door is open  | AJAR  |
 | Door is physically removed  | REMOVED  |
 
-#### Rood `status` selection:
+#### Roof `status` selection:
 * Convertible roof - `location` grid would span entire rows and columns and roof `status` could be `CLOSED` or `AJAR` with corresponding `state`. 
 * Sunroof/Moonroof - `location` grid would span just actual location of sunroof/moonroof. `status` could be `CLOSED` or `AJAR` with corresponding `state`.
-* Entire roof - `location` grid would span entire rows and columns and roof status would be`REMOVED` or `CLOSED/LOCKED`. `state` can be omitted.
+* Entire roof - `location` grid would span entire rows and columns and roof status would be `REMOVED` or `CLOSED/LOCKED`. `state` can be omitted.
 * Other type of roof - `location` grid would span actual location of the roof as per physical location. `status` and `state` would be as per table below:
 
 | Roof condition  | `status` | `state` |
