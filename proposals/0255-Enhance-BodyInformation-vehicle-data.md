@@ -26,11 +26,12 @@ Following vehicle data params are deprecated from `BodyInformation` struct:
 * `rearLeftDoorAjar`
 * `rearRightDoorAjar`
 
-We are going to use `location` to locate a door, a gate or a roof component. For Door and Gate, `location` would utilize `Grid` to locate/span the actual location of the Door or Gate while `status` provides appropriate status. Roof can be a convertible roof, sunroof/moonroof or simply a removable roof. Based on roof type, parameters `location`, `state` and `status` need to provide appropriate values. For example:
+We are going to use `location` to locate a door, a gate or a roof component. For Door and Gate, `location` would utilize `Grid` to locate/span the actual location of the Door or Gate while `status` provides appropriate status(`CLOSED/LOCKED/AJAR/REMOVED`). Roof can be a convertible roof, sunroof/moonroof or simply a removable roof. Based on roof type, parameters `location`, `state` and `status` need to provide appropriate values. For example:
 
-* Convertible roof - `location` grid would span entire rows and columns and roof `status` could be `CLOSED` or `OPEN` with corresponding `state`. 
-* Sunroof/Moonroof - `location` grid would span just actual location of sunroof/moonroof. `status` could be `CLOSED` or `OPEN` with corresponding `state`.
-* Entire roof - `location` grid would span entire rows and columns and roof status would be`REMOVED` or `PRESENT`. `state` can be omitted.
+* Convertible roof - `location` grid would span entire rows and columns and roof `status` could be `CLOSED` or `AJAR` with corresponding `state`. 
+* Sunroof/Moonroof - `location` grid would span just actual location of sunroof/moonroof. `status` could be `CLOSED` or `AJAR` with corresponding `state`.
+* Entire roof - `location` grid would span entire rows and columns and roof status would be`REMOVED` or `CLOSED/LOCKED`. `state` can be omitted.
+
 
 #### Updates in MOBILE_API:
 
@@ -49,9 +50,6 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 	<element name="LOCKED"/>
 	<element name="AJAR"/>
 +	<element name="REMOVED"/>
-+	<element name="PRESENT"/>
-+	<element name="OPEN"/>
-+	<element name="UNLOCKED"/>
 </enum>
 ```
 
@@ -69,7 +67,7 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 <struct name="RoofStatus" since="X.x">
 	<description>
 		Describes the status of a parameter of roof/convertible roof/sunroof/moonroof etc.
-		If roof is open, state will determine percentage of roof open.
+		If roof is open(AJAR), state will determine percentage of roof open.
 	</description>
 	<param name="location" type="Grid" mandatory="true"/>
 	<param name="status" type="DoorStatusType" mandatory="true"/>
@@ -108,7 +106,7 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 +		<description>Provides status for trunk/hood/etc. if Ajar/Closed/Locked</description>
 +	</param>
 +	<param name="roofStatuses" type="RoofStatus" array="true" minsize="0" maxsize="100" mandatory="false" since="X.x">
-+		<description>Provides status for roof/convertible roof/sunroof/moonroof etc., if Closed/Open/Present/Removed etc.</description>
++		<description>Provides status for roof/convertible roof/sunroof/moonroof etc., if Closed/Ajar/Removed etc.</description>
 +	</param>
 </struct>
 ```
@@ -131,9 +129,6 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 	<element name="LOCKED"/>
 	<element name="AJAR"/>
 +	<element name="REMOVED"/>
-+	<element name="PRESENT"/>
-+	<element name="OPEN"/>
-+	<element name="UNLOCKED"/>
 </enum>
 ```
 
@@ -151,7 +146,7 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 <struct name="RoofStatus">
 	<description>
 		Describes the status of a parameter of roof, convertible roof, sunroof/moonroof etc.
-		If roof is open, state will determine percentage of roof open.
+		If roof is open(AJAR), state will determine percentage of roof open.
 	</description>
 	<param name="location" type="Common.Grid" mandatory="true"/>
 	<param name="status" type="Common.DoorStatusType" mandatory="true"/>
@@ -190,7 +185,7 @@ We are going to use `location` to locate a door, a gate or a roof component. For
 +		<description>Provides status for trunk/hood/etc. if Ajar/Closed/Locked</description>
 +	</param>
 +	<param name="roofStatuses" type="Common.RoofStatus" array="true" minsize="0" maxsize="100" mandatory="false">
-+		<description>Provides status for roof/convertible roof/sunroof/moonroof etc., if Closed/Open/Present/Removed etc.</description>
++		<description>Provides status for roof/convertible roof/sunroof/moonroof etc., if Closed/Ajar/Removed etc.</description>
 +	</param>
 </struct>
 ```
