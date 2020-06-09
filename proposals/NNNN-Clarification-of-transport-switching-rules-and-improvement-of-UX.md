@@ -42,7 +42,7 @@ New RPC: `OnDeviceSwitchStatus`(HMI_API.xml)
 
 ```xml
 <function name="OnDeviceSwitchStatus" messagetype="notification">
-    <description> Notify HMI of the current state of the Transport  switch </description>
+    <description> Notify HMI of the current state of the transport switch </description>
     <param name="status" type="Common.SwitchStatus" mandatory="true"/>
 </function>
 
