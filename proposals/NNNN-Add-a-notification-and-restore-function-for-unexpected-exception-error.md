@@ -3,7 +3,7 @@
 * Proposal: [SDL-NNNN](NNNN-Add-a-notification-and-restore-function-for-unexpected-exception-error.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
 * Status: **Awaiting review**
-* Impacted Platforms: [ Core / iOS / Java Suite / Javascript Suite / HMI / RPC ]
+* Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / HMI / RPC ]
 
 ## Introduction
 This proposal is to add a notification and restore function to SDL Core during unexpected exception/error. This proposal aims to inform users of the cause of unexpected exception/error and allow them to restore the app.
