@@ -10,7 +10,7 @@ This proposal is to add a notification and restore function to SDL Core during u
 
 
 ## Motivation
-With the current SDL Core, the cause of unexpected exception/error cannot be determined. Therefore, users cannot be notified of the cause and there is no function to restore the state before the app was terminated. Also, since the HMI specifications during unexpected exception/error are not defined, OEMs have to define it by themselves. As a result, the function is insuffiecient, such as not be able to return to the state before the error occurred after restarting the app. Therefore, we propose a mechanism to notify users of the cause and provide a restore operation during unexpected exception/error.
+With the current SDL Core, the cause of an unexpected exception/error cannot be determined. Therefore, users cannot be notified of the cause and there is no function to restore the state before the app was terminated. Also, since the HMI specifications during an unexpected exception/error are not defined, OEMs have to define it by themselves. As a result, the function is insufficient, such as not being able to return to the state before the error occurred after restarting the app. Therefore, we propose a mechanism to notify users of the cause and provide a restore operation during an unexpected exception/error.
 
 
 ## Proposed solution
