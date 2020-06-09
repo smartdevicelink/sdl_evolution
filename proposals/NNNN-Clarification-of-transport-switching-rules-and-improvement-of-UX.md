@@ -10,7 +10,7 @@ This proposal is to improve transport switching on the same device.
 
 
 ## Motivation
-The rules for transport switching, such as connection priority, when the same device is connected to the Head Unit (HU) with multiple transport methods are not explicitly defined in the current SDL specifications. Therefore, designing the HU transport switching process takes time, thus inefficient.
+The rules for transport switching, such as connection priority, when the same device is connected to the Head Unit (HU) with multiple transport methods are not explicitly defined in the current SDL specifications. Therefore, designing the HU transport switching process takes time, and thus is inefficient.
 Additionally, the user cannot know that the connection is being switched because the switching status is not notified to HMI during transport switching. Also, the user cannot operate the app screen on the HU. As a result, it causes an extremely inconvenient state for the user.
 
 
@@ -77,4 +77,3 @@ This proposal impacts the following:
 
 ## Alternatives considered
 No alternatives were considered.
-
