@@ -35,7 +35,7 @@ The following transport switching rules and tables should be added to [the SDL C
 *4 : If the HU has recognized that current BT and new USB are connected to same device, SDL transport will switch to USB.
 
 #### 2. Addition of transport switching notification to HMI
-The following RPC, which will notify the HMI that the transport switching process is in progress, is added.
+The following RPC, which will notify the HMI that the transport switching process is in progress, should be added.
 OEMs can implement processes related to transport switching, such as message display and screen transition, according to the HMI specifications. They can also eliminate the inconvenience for the users when using the transport switch.
 
 New RPC: `OnDeviceSwitchStatus`(HMI_API.xml)
