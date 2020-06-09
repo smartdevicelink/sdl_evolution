@@ -72,7 +72,7 @@ This proposal impacts the following:
 - SDL Core
 - SDL Core Documentation
 - HMI
-- HMI Document
+- HMI Documentation
 
 
 ## Alternatives considered
