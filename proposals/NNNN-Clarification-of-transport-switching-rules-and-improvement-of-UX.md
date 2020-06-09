@@ -32,7 +32,7 @@ The following transport switching rules and tables should be added to [the SDL C
 *1 : If the HU recognizes that current BT and new USB are connected to the same device, SDL transport will switch to USB.<br>
 *2 : The SDL app that uses Video Projection Mode (VPM) detects WiFi transport when it is launched. If the WiFi transport, which is connected to same device as the BT connection, is found, the SDL app will start VPM via WiFi.<br>
 *3 : The USB connection is prioritized, even if both transports are connected to the same device.<br>
-*4 : If the HU recognized that current BT and new USB are connected to same device, SDL transport will switch to USB.
+*4 : If the HU has recognized that current BT and new USB are connected to same device, SDL transport will switch to USB.
 
 #### 2. Addition of transport switching notification to HMI
 The following RPC, which will notify the HMI that the transport switching process is in progress, is added.
