@@ -17,7 +17,7 @@ A part of sdl_java_suite library utilizes `VirtualDisplay` and `MediaEncoder` to
 Actually, frame rate of video stream depends on how often `MediaCodec.Callback` gets called.
 The component structure is illustrated as follows:
 
-![virtualdisplay_unstable_rate](../assets/proposals/NNNN-improve-VDE-for-stable-frame-rate/vd_mc_unstable.png)
+![virtualdisplay_unstable_rate](../assets/proposals/0292-improve-VDE-for-stable-frame-rate/vd_mc_unstable.png)
 
 **Fig. 1: VirtualDisplay's surface produces unstable frame rate**
 
@@ -43,7 +43,7 @@ The approach is introduced at http://stackoverflow.com/questions/31527134/contro
 
 The idea is illustrated as follows:
   
-![virtualdisplay_w_intermediate_surface](../assets/proposals/NNNN-improve-VDE-for-stable-frame-rate/vd_w_intermediate_surface.png)
+![virtualdisplay_w_intermediate_surface](../assets/proposals/0292-improve-VDE-for-stable-frame-rate/vd_w_intermediate_surface.png)
 
 **Fig. 2: VirtualDisplay with intermediate Surface**
 

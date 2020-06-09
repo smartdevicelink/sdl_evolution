@@ -13,7 +13,7 @@ This proposal is to construct a lightweight/simple display SDL system for Powere
 
 <b>Figure1.</b> Sample of a simple meter display
 
-![Figure1](../assets/proposals/NNNN-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure1_Sample_of_a_simple_meter_display.png)
+![Figure1](../assets/proposals/0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure1_Sample_of_a_simple_meter_display.png)
 
 
 ## Motivation
@@ -32,12 +32,12 @@ The implementation of high-end class can be realized, first, by adding the PTW's
 The middle/low-end class can only do a simple display, so functions such as Projection are unnecessary. Additionally, since many ECUs do not have an OS, components that depend on the OS are unnecessary as well. By removing such unnecessary functions, the SDL system for lightweight/simple display can be constructed. Then, the current SDL communication format in JSON will be converted to binary format to reduce data such as character strings.
 
 <b>Figure2.</b> SDL system for middle/low-end class
-![Figure2_SDL_System_for_Middle_Low_end_class.PNG](../assets/proposals/NNNN-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure2_SDL_System_for_Middle_Low_end_class.png)
+![Figure2_SDL_System_for_Middle_Low_end_class.PNG](../assets/proposals/0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure2_SDL_System_for_Middle_Low_end_class.png)
 
 As shown in Figure 3, the actual proxy and definition of system structure on the meter side are included SDL SDK in the smartphone.
 
 <b>Figure3.</b> System structure of proxy and meter unit
-![Figure3_System_structure_of_proxy_and_meter_unit.PNG](../assets/proposals/NNNN-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure3_System_structure_of_proxy_and_meter_unit.png)
+![Figure3_System_structure_of_proxy_and_meter_unit.PNG](../assets/proposals/0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler/Figure3_System_structure_of_proxy_and_meter_unit.png)
 
 Regarding the SDL Proxy, a lightweight communication can be performed by incorporating a communication converter module for middle/low-end class. The exchange of information during the initial communication between SDL Core and Proxy will distinguish whether it is for middle/low-end class or not and then develop SDL apps with the same SDL Proxy.
 
