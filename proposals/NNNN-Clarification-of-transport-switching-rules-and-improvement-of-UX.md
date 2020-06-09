@@ -54,7 +54,7 @@ New RPC: `OnDeviceSwitchStatus`(HMI_API.xml)
 
 The below shows the new RPC (in red text) added to the existing logic. It is necessary to add the related information regarding the new RPC, including this sequence diagram, to the "SDL Core Guides" and "HMI Documentation" on SDL Developer Portal (smartdevicelink.com).
 
-*1 The switching from BT to USB logic in the same device transport of iOS is already approved and adopted by SDLC ([PR](https://github.com/smartdevicelink/sdl_evolution/issues/158) and [sequence](https://cloud.githubusercontent.com/assets/11158516/26067529/3f428434-39a3-11e7-910b-6cc4069e0be3.png)).<br>
+*1 The switching from BT to USB logic in the same device transport of iOS is already approved and implemented by the SDLC in SDL 0053 - Connectivity via iAP-BT and Transport Switch. See [PR](https://github.com/smartdevicelink/sdl_evolution/issues/158) and [sequence](https://cloud.githubusercontent.com/assets/11158516/26067529/3f428434-39a3-11e7-910b-6cc4069e0be3.png).<br>
 *2 With the current SDL standard specification, the device cannot be identified whether it is the same device or not. Therefore, device identification by the HU must be a prerequisite.
 
 <b>Figure 1.</b> Sequence with new RPC added to existing logic
