@@ -19,7 +19,7 @@ We propose the following items to improve the problems mentioned above.
 2. Addition of restore process after unexpected exception/error occcured
 
 #### 1. Addition of notification process when unexpected exception/error occurs
-App crash and app kill are the two types of causes for unexpected exception/error. App crash refers to the unexpected exception/error due to design while launching the app. On the other hand, app kill refers to the swipe out operation by user or termination by the system while the app is running.
+App crash and app kill are the two types of causes for an unexpected exception/error. App crash refers to the unexpected exception/error due to design while launching the app. On the other hand, app kill refers to the swipe out operation by the user or termination by the system while the app is running.
 
 <b>a) App Kill</b>
 
