@@ -23,7 +23,7 @@ The following items are proposed to improve the problems mentioned above.
 The following transport switching rules and tables should be added to [the SDL Core Guides](https://smartdevicelink.com/en/guides/core/developer-documentation/transport-manager/) as a specification for multiple transport methods for the same device.
 
 - The priority of transport methods: USB > Bluetooth (BT)<br>Note that WiFi cannot communicate alone by itself, therefore WiFi is excepted from the priority.
-- If the SDL connects multiple terminals (mobiles), then the device that is already connected to the SDL is prioritized.
+- If the HU connects to multiple terminals (mobile devices), then the device that is already connected to the HU is prioritized.
 
 <b>Table 1.</b> Switching of Multiple Transport
 
