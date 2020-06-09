@@ -70,7 +70,7 @@ There are no downsides to this proposal.
 This proposal impacts the following:
 
 - SDL Core
-- SDL Core Document
+- SDL Core Documentation
 - HMI
 - HMI Document
 
