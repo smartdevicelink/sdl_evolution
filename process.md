@@ -111,6 +111,10 @@ In general, actions taken on proposals should be limited to one per week.  Pleas
 - If the Steering Committee votes to return a proposal for revisions, bringing the revised proposal back into review cannot happen until the following week.  This allows for adequate time to ensure the Steering Committee's agreed upon revisions have been made.  
 - A proposal cannot be brought into review and voted upon in the same week, as Steering Committee representatives would not have sufficient time to review the proposal prior to voting.
 
+### Priority
+
+For many different reasons it can be possible that proposals remain in review for a couple of iterations. While it is important to improve the proposals to contain a complete and mature solution before acceptance these proposals occupy slots for other proposals. Therefore older proposals should be treated with a higher priority. The SDLC members, the proposal author and the PM should commit to support proposals of a higher priority and provide feedback in time to help to complete these proposals. The idle time of these proposals should be avoided as much as possible. Everyone should help to complete proposal and allow new proposals to get into review.
+
 ### For Consideration
 The SDL Community is a global community, and so it can be expected that comments will be made on review issues at various times.  For this reason, we do not have a "cutoff" time for leaving comments on review issues.  While this may sometimes result in a proposal needing to be kept in review an additional week to allow the author or commenter time to respond, we appreciate the understanding of the community to allow such global discussions to take place.
 
