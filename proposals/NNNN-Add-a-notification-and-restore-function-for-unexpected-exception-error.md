@@ -96,7 +96,7 @@ i) Add an attribute, `unregisterReason`,  to `UnregisterAppInterface` on Mobile_
             Application then to be removed from application list; all data connected with application has to be cleared up.
         </description>
  +      <param name="unregisterReason" type="Common.ReasonType" mandatory="true">
- +          <description>Specifies reason for unregistering the apllication.</description>
+ +          <description>Specifies reason for unregistering the application.</description>
  +      </param>
     </function>
 
