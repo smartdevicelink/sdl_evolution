@@ -72,7 +72,7 @@ i) Add an attribute, `unregisterReason`,  to `UnregisterAppInterface` on Mobile_
             Will fail, if no registerAppInterface was completed successfully before.
         </description>
  +      <param name="unregisterReason" type="ReasonType" platform="documentation" mandatory="true">
- +          <description>Specifies reason for unregistering the apllication.</description>
+ +          <description>Specifies reason for unregistering the application.</description>
  +      </param>
     </function>
 
