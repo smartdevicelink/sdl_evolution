@@ -1,4 +1,4 @@
-# Feature name
+# SDL Protocol Security Specification
 
 * Proposal: [SDL-NNNN](NNNN-sdl-protocol-security-specification.md)
 * Author: [Kujtim Shala](https://github.com/smartdevicelink/kshala-ford)
