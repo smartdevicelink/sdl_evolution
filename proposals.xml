@@ -166,7 +166,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0151" status="implemented" primary-platform="rpc" sdl-version="5.0" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
 <proposal id="0152" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
 <proposal id="0153" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
-<proposal id="0154" status="accepted" primary-platform="core" sdl-version="x.x" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
+<proposal id="0154" status="implemented" primary-platform="core" sdl-version="6.2" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
 <proposal id="0155" status="implemented" primary-platform="ios" sdl-version="6.0" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0155" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0156" status="accepted" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
@@ -316,9 +316,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0286" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Java Suite Cleanup" filename="0286-java-suite-cleanup.md"/>
 <proposal id="0287" status="accepted" primary-platform="meta" sdl-version="x.x" name="Add Example Apps Github Organization" filename="0287-example-apps-organization.md"/>
 <proposal id="0288" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Play Audio" filename="0288-screen-manager-play-audio.md"/>
-<proposal id="0289" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
+<proposal id="0289" status="implemented" primary-platform="ios" sdl-version="6.7" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
+<proposal id="0289" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
+<proposal id="0289" status="accepted" primary-platform="javascript" sdl-version="x.x" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
 <proposal id="0290" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Modify the range of APT's maxDuration" filename="0290-modify-the-range-of-APT's-maxDuration.md"/>	
-<proposal id="0291" status="returned" primary-platform="java-suite" sdl-version="x.x" name="Allow navigation apps to access information about WiFi networks" filename="0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks.md"/>	
+<proposal id="0291" status="active" primary-platform="java-suite" sdl-version="x.x" name="Allow navigation apps to access information about WiFi networks" filename="0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks.md"/>	
 <proposal id="0292" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Improve VirtualDisplayEncoder for stable frame rate" filename="0292-improve-VDE-for-stable-frame-rate.md"/>	
 <proposal id="0293" status="deferred" primary-platform="protocol" sdl-version="x.x" name="Enable OEM exclusive apps support" filename="0293-vehicle-type-filter.md"/>	
 <proposal id="0294" status="accepted" primary-platform="rpc" sdl-version="x.x" name="App Service - Messaging" filename="0294-app-service-messaging.md"/>	
@@ -335,7 +337,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0305" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Homogenize TextFieldName" filename="0305-homogenize-textfieldname.md"/>	
 <proposal id="0306" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
 <proposal id="0307" status="active" primary-platform="rpc" sdl-version="x.x" name="Get Input Screen" filename="0307-GetInputScreen.md"/>	
-<proposal id="0308" status="active" primary-platform="rpc" sdl-version="x.x" name="Add a Reason Parameter to All Protocol NAKs" filename="0308-protocol-nak-reason.md"/>	
+<proposal id="0308" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add a Reason Parameter to All Protocol NAKs" filename="0308-protocol-nak-reason.md"/>	
 	
 	<!--
 Recognized values for a proposal's status:
