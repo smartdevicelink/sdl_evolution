@@ -1,0 +1,32 @@
+@startuml
+
+title TLS Handshake
+
+participant Client as "SDL Core\n(Client)"
+participant Server as "SDL App\n(Server)"
+
+Client -> Server : ClientHello
+Server -> Client : ServerHello
+Server -> Client : ServerCertificate
+Server -> Client : ServerKeyExchange
+opt With Client authentication
+Server -> Client : CertificateRequest
+end opt
+
+Server -> Client : ServerHelloDone
+opt With Client authentication
+Client -> Server : Certificate
+end opt
+Client -> Server : ClientKeyExchange
+opt With Client authentication
+Client -> Server : CertificateVerify
+end opt
+note over Client, Server
+Compute master secret
+end note
+Client -> Server : ChangeCipherSpec
+Client -> Server : Finished
+Server -> Client : ChangeCipherSpec
+Server -> Client : Finished
+
+@enduml
