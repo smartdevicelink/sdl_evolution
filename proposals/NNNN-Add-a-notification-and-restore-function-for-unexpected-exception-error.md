@@ -39,7 +39,7 @@ App crash and app kill are the two types of causes for an unexpected exception/e
 - Then, the HMI displays a pop-up to notify the user with the cause of the unexpected exception/error of the app.
 - SDL proxy records the flag in preparation for restoring the app.
 
-<b>Figure 1.</b> Notification of Unexpected exception/error
+<b>Figure 1.</b> Notification of Unexpected Exception/Error
 
 ![Figure_1_error_notification_sequence.png](../assets/proposals/NNNN-Add-a-notification-and-restore-function-for-unexpected-exception-error/Figure_1_error_notification_sequence.png)
 
