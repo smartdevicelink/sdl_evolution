@@ -26,7 +26,7 @@ App crash and app kill are the two types of causes for an unexpected exception/e
 - In the case of Android, app kill notifications are monitored with the router service, while it is with the SDL proxy in the case of iOS.
 - SDL proxy sends `UnregisterAppInterface` that includes the cause of the unexpected exception/error to SDL Core.
 - SDL Core notifies onscreen (ONS) message display to HMI after receiving the app kill notification.
-- Then, the HMI display a pop-up to notify the user the cause of unexpected exception/error of the app.
+- Then, the HMI displays a pop-up to notify the user with the cause of the unexpected exception/error of the app.
 - In the case of app kill, the process of restoring the state before the app was terminated will NOT be perfomed.
 
 <b>b) App Crash</b>
