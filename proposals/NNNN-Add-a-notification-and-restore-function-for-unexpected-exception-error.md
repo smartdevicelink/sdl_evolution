@@ -49,7 +49,7 @@ App crash and app kill are the two types of causes for an unexpected exception/e
 - When the app restarts, SDL app library checks whether the template displayed on the HU at the time of the app crash is saved.
 - If the template during the app crash is saved, SDL app library sends `Alert` to SDL Core.
 - After receiving `Alert`, the HMI displays a pop-up and informs the user of the option to restore.
-- If restore is selected, SDL proxy sends the RPC of the template at the time of app crash, and then the HMI displays that template. If restore is NOT selected, SDL proxy discards the restoration information, and then the app launches as is.
+- If restore is selected, SDL app library sends the RPC of the template at the time of app crash, and then the HMI displays that template. If restore is NOT selected, SDL app library discards the restoration information, and then the app launches as is.
 - During the restoration, the HMI displays a "Restoration in Progress" pop-up, while SDL proxy performs the restore process by rejecting all RPCs sent by the app.
 - After the restoration is complete, SDL Proxy sends the restored template to the app.
 - Finally, the app proceeds to the next operation after receiving the restored template.
