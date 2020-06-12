@@ -45,7 +45,7 @@ App crash and app kill are the two types of causes for an unexpected exception/e
 
 #### 2. Addition of restore process after unexpected exception/error occcured
 
-- When SDL proxy (`SdlManager`, `LifeCycleConfigure`) is initialized, it is necessary to set whether or not to restore the app during an unexpected exception/error.
+- When SDL app library (`SdlManager`, `LifeCycleConfigure`) is initialized, it is necessary to set whether or not to restore the app during an unexpected exception/error.
 - When the app restarts, SDL proxy checks whether the template displayed on the HU at the time of the app crash is saved.
 - If the template during the app crash is saved, SDL proxy sends `Alert` to SDL Core.
 - After receiving `Alert`, the HMI displays a pop-up and informs the user of the option to restore.
