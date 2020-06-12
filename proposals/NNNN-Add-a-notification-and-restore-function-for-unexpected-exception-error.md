@@ -124,7 +124,7 @@ None.
 
 - The addition of a new attribute to `UnregisterAppInterface` affects SDL Core and SDL app library.
 - The addition of a new attribute to `OnAppUnregistered` affects SDL Core and HMI.
-- SDL proxy must monitor app kill notifications and provide processing during unexpected exception/error.
+- SDL app library must monitor app kill notifications and provide processing during unexpected exception/error.
 - It is necessary to add an unexpected exception/error display screen to HMI.
 
 
