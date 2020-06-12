@@ -113,7 +113,7 @@ i) Add an attribute, `unregisterReason`,  to `UnregisterAppInterface` on Mobile_
 
 ii) Add an attribute, `isReset`, to `SDLLifecycleConfiguration`, which determines whether to restore the app or not.<br>
 iii) Add a backup process that saves the template at the time of App Crash to `SdlManager` and send `UnregisterAppInterface`.<br>
-iv) SDL proxy checks whether the restore information is saved when `isReset` is set to true. If there is information, SDL proxy sends `Alert` to the HMI. When the user selects to restore on the HMI, SDL proxy sends the template for app crash to the HMI.
+iv) SDL app library checks whether the restore information is saved when `isReset` is set to true. If there is information, SDL app library sends `Alert` to the HMI. When the user selects to restore on the HMI, SDL app library sends the template for app crash to the HMI.
 
 
 ## Potential downsides
