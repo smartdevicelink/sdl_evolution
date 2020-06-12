@@ -25,7 +25,7 @@ The case will be more tedious if the developer wants to set more params. This pr
 
 ## Proposed solution
 
-The proposal suggests enhancing how the current RPC setters work by making each setter return an instance of the object. For example, in the `Alert` RPC setters we can make the following modifications::
+The proposal suggests enhancing how the current RPC setters work by making each setter return an instance of the object. For example, in the `Alert` RPC setters we can make the following modifications:
 
 ```
 public class Alert extends RPCRequest {
