@@ -37,7 +37,7 @@ App crash and app kill are the two types of causes for an unexpected exception/e
 - SDL app library sends `UnregisterAppInterface` that includes the cause of the unexpected exception/error to SDL Core.
 - SDL Core notifies ONS message display to HMI after receiving the app crash notification.
 - Then, the HMI displays a pop-up to notify the user with the cause of the unexpected exception/error of the app.
-- SDL proxy records the flag in preparation for restoring the app.
+- SDL app library records the flag in preparation for restoring the app.
 
 <b>Figure 1.</b> Notification of Unexpected Exception/Error
 
