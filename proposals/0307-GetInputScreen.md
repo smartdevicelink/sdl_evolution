@@ -76,6 +76,8 @@ and the `HMI_API`:
 </function>
 ```
 
+
+
 Add a new struct called `Field` and an enum called `FieldType` to get user input in the DisplayForm screen.
 This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items.
 
@@ -126,6 +128,34 @@ Here's the MOBILE_API:
   </param>
 </struct>
 ```
+
+Plus the headunit can note that it supports form field text and images through `TextFieldName` and `ImageFieldName` in the MOBILE_API
+```xml
+   <enum name="TextFieldName" since="1.0">
+     .
+     .
+     .
+        <element name="formFieldLabel">
+        </element>
+             <element name="formFieldText">
+            <description>The text that is already present in the input field</description>
+        </element>
+             <element name="formFieldFormat">
+            <description>A text string used to format the input text to a certain style. </description>
+        </element>
+             <element name="formFieldAdditionalInfo">
+            <description>More information that is shown by the input field</description>
+        </element>
+</enum>
+```
+```
+<enum name="ImageFieldName" since="3.0">
+        <element name="formFieldImage">
+            <description>An image icon for the input field</description>
+        </element>
+</enum>
+```
+
 ```xml
   <enum name="FieldType" since="X.X">
     <description>The type of input field</description>
