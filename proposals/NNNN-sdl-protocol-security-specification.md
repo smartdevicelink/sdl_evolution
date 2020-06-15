@@ -7,19 +7,19 @@
 
 ## Introduction
 
-This proposal adds the documentation and specification around protected communication, encryption and handshake to the SDL protocol specification. It is a collaborated effort with Ford and Luxoft to protect the implemented SDL security from unexpected changes and to allow evolutionary proposals to improve it.
+This proposal adds the documentation and specification around protected communication, encryption and handshake to the SDL protocol specification. It is a collaborated effort with Ford and Luxoft to protect the implemented SDL security from unexpected changes and to allow SDL Evolution proposals to improve it.
 
 ## Motivation
 
-SDL uses protected services since the start of mobile navigation apps. Unfortunately the protocol specification doesn't contain a section around establishing a protected service with handshake and encryption. This leads to contradictory implementations in SDL Core and the libraries. Recently we have identified a number of bugs in SDL Core and the libraries which break with protected communication. These issues are difficult to address with the SDLC as there is no specification around, that Core and libraries should follow. In order to resolve the issues there must be a proper specification within SDLC around protected communication.
+SDL has used protected services since the start of mobile navigation apps. Unfortunately the protocol specification doesn't contain a section around establishing a protected service with handshake and encryption. This leads to contradictory implementations in SDL Core and the app libraries. Recently we have identified a number of bugs in SDL Core and the app libraries which break with protected communication. These issues are difficult to address with the SDLC as there is no specification around protected communication that Core and the app libraries should follow. In order to resolve the issues there must be a proper specification within SDLC around protected communication.
 
 ## Proposed solution
 
-The solution is to provide a new section into the protocol spec around security and protection. The baseline for this section is reverse engineered from SDL Core and the currently implemented behavior of the security manager but also existing documentation from SDL Core and the libraries. 
+The solution is to provide a new section into the protocol spec around security and protection. The baseline for this section is reverse engineered from SDL Core and the currently implemented behavior of the security manager but also existing documentation from SDL Core and the app libraries.
 
-### Change 1: Update Frame Info fields
+### Change 1: Update Frame Info Fields
 
-Because TLS handshake uses a Frame Info field for Single frames the spec must be changed accordingly
+Because TLS handshake uses a Frame Info field for Single frames the spec must be changed accordingly:
 
 <table width="100%">
   <tr>
@@ -42,7 +42,7 @@ Because TLS handshake uses a Frame Info field for Single frames the spec must be
 
 ### Change 2: Add New Section
 
-Following section should be added to the protocol spec:
+The following section should be added to the protocol spec:
 
 ## 4.7 Secured Communication
 
@@ -50,13 +50,13 @@ It is possible to establish a secured and encrypted communication with the syste
 
 ### 4.7.1 Authentication
 
-Below diagram shows the sequence of how the TLS handshake exchanges certificates to compute the master secret.
+The below diagram shows the sequence of how the TLS handshake exchanges certificates to compute the master secret.
 
 ![TLS Handshake activity diagram](../assets/proposals/NNNN-sdl-protocol-security-specification/tls-handshake.png)
 
 The authentication is done using TLS handshake. The TLS handshake process is defined by TLS and is not part of the SDL protocol. The handshake is designed as a client server communication which is configurable in the system settings. An application can take the role of a server where the system is the client or vice versa. This setting is not dynamic which means an SDL integrator must agree on one setup and avoid Client/Client or Server/Server connections. The client entity will initiate a TLS handshake with the corresponding security manager of the server. The client will do this only if the server was not authenticated before in the current transport connection. According to the TLS handshake process the peer certificate can be omitted for the server but it's required for the client.
 
-The system can be configured to support one encryption method. Following methods are supported:
+The system can be configured to support one encryption method. The following methods are supported:
 
 - SSLv3
 - TLSv1
@@ -68,7 +68,7 @@ Dependent of the role the system has to initiate with the corresponding server m
 
 ### 4.7.1 Security Query
 
-The TLS Payload is send in a binary header. The size is 12 bytes which matches the size of the RPC Payload Binary Header.
+The TLS Payload is sent in a binary header. The size is 12 bytes which matches the size of the RPC Payload Binary Header.
 
 #### 4.7.1.1 Binary Query Header
 
@@ -139,7 +139,7 @@ The TLS Payload is send in a binary header. The size is 12 bytes which matches t
 
 #### 4.7.1.3 Hybrid Query Payload
 
-The security query is able to contain JSON data as well as binary data. During the handshake the TLS handshake data is send as binary data. In case of an error a notification is send with an error code and error message as JSON data. See Error Handling for details.
+The security query is able to contain JSON data as well as binary data. During the handshake the TLS handshake data is sent as binary data. In case of an error, a notification is sent with an error code and error message as JSON data. See "Error handling" section for details.
 
 <table width="100%">
   <tr><td align="center">Binary Query Header</td></tr>
@@ -149,11 +149,11 @@ The security query is able to contain JSON data as well as binary data. During t
 
 ### 4.7.2 Start Service 
 
-The issuer sends a control frame as already described in section 3 with encryption flag set to `1`.
+The issuer sends a control frame as already described in Section 3 with encryption flag set to `1`.
 
 ### 4.7.3 Handshake frames
 
-The system will initiate a TLS handshake to authenticate the application where the system's role will be the client while the application's role is the server. The system will do this only once if the application was not authenticated before in the current transport connection. The TLS handshake data is always send in single frames. The service type for TLS handshake is the control service. 
+The system will initiate a TLS handshake to authenticate the application where the system's role will be the client while the application's role will be the server. The system will do this only once if the application was not authenticated before in the current transport connection. The TLS handshake data is always sent in single frames. The service type for TLS handshake is the control service. 
 
 #### 4.7.3.1 SDL Protocol Frame Header
 
@@ -232,11 +232,11 @@ The following query header is used by the system and the application to send TLS
 
 ### 4.7.4 Start Service ACK
 
-Once the handshake is completed and the system verified the application, the system returns a `StartService ACK` frame with the encryption flag set to `1`.
+Once the handshake is completed and the system has verified the application, the system returns a `StartService ACK` frame with the encryption flag set to `1`.
 
 ### 4.7.5 Error handling
 
-If an error occurs during the TLS handshake a notification is send with an error code and error text as JSON data. Additionally the error code is added as a single byte binary data.
+If an error occurs during the TLS handshake a notification is sent with an error code and error text as JSON data. Additionally the error code is added as a single byte binary data.
 
 #### 4.7.5.1 Query Header
 
@@ -301,12 +301,12 @@ The following query header is used by the system and the application to send err
   <tr>
     <td>ERROR_SUCCESS</td>
     <td>0x00</td><td>0</td>
-    <td>Internal SecurityManger value</td>
+    <td>Internal Security Manager value</td>
   </tr>
   <tr>
     <td>ERROR_INVALID_QUERY_SIZE</td>
     <td>0x01</td><td>1</td>
-    <td>wrong size of query data</td>
+    <td>Wrong size of query data</td>
   </tr>
   <tr>
     <td>ERROR_INVALID_QUERY_ID</td>
@@ -321,22 +321,22 @@ The following query header is used by the system and the application to send err
   <tr>
     <td>ERROR_SERVICE_ALREADY_PROTECTED</td>
     <td>0x04</td><td>4</td>
-    <td>got request to protect a service that was protected before</td>
+    <td>Received request to protect a service that was protected before</td>
   </tr>
   <tr>
     <td>ERROR_SERVICE_NOT_PROTECTED</td>
     <td>0x05</td><td>5</td>
-    <td>got handshake or encrypted data for not protected service</td>
+    <td>Received handshake or encrypted data for not protected service</td>
   </tr>
   <tr>
     <td>ERROR_DECRYPTION_FAILED</td>
     <td>0x06</td><td>6</td>
-    <td>decryption failed</td>
+    <td>Decryption failed</td>
   </tr>
   <tr>
     <td>ERROR_ENCRYPTION_FAILED</td>
     <td>0x07</td><td>7</td>
-    <td>encryption failed</td>
+    <td>Encryption failed</td>
   </tr>
   <tr>
     <td>ERROR_SSL_INVALID_DATA</td>
@@ -351,17 +351,17 @@ The following query header is used by the system and the application to send err
   <tr>
     <td>INVALID_CERT</td>
     <td>0x0A</td><td>10</td>
-    <td>handshake failed because certificate is invalid</td>
+    <td>Handshake failed because certificate is invalid</td>
   </tr>
   <tr>
     <td>EXPIRED_CERT</td>
     <td>0x0B</td><td>11</td>
-    <td>handshake failed because certificate is expired</td>
+    <td>Handshake failed because certificate is expired</td>
   </tr>
   <tr>
     <td>ERROR_INTERNAL</td>
     <td>0xFF</td><td>255</td>
-    <td>internal error</td>
+    <td>Internal error</td>
   </tr>
   <tr>
     <td>ERROR_UNKNOWN_INTERNAL_ERROR</td>
@@ -376,18 +376,18 @@ In case of an error, the system and the application should reset the active SSL 
 
 ## Potential downsides
 
-Identifying potential downsides are difficult as this proposal adds specifications and documentation to existing implementation. The downside of accepting this proposal is the effort that's required to review and audit the implementations of every SDL platform.
+Identifying potential downsides is difficult as this proposal adds specifications and documentation to the existing implementation. The downside of accepting this proposal is the effort that's required to review and audit the implementations of every SDL platform.
 
 ## Impact on existing code
 
-SDL Core impact is very low as most of the specification is reverse engineered from it. Still following items impact SDL Core:
+SDL Core impact is very low as most of the specification is reverse engineered from it. Still the following items impact SDL Core:
 1. A further review is required to improve error handling.
 2. Error codes around handshake failed or invalid/expired cert are new and should be used by SDL Core if these errors occur.
 3. A known issue should be resolved in that SDL Core doesn't respond with NAK if the application sends an error frame.
 
-Compared to Core, more effort is required on the SDL libraries. Their implementation is incomplete and contradicting to SDL Core and the protocol. For instance the sdl_ios library uses the RPC Payload header instead of a Query Header to send TLS handshake data. The structure of these headers don't align in the first byte (RPC Payload 4 bit, Query Header 8 bit).
+Compared to Core, more effort is required on the SDL app libraries. Their implementation is incomplete and contradicting to SDL Core and the protocol. For instance the sdl_ios library uses the RPC Payload header instead of a Query Header to send TLS handshake data. The structure of these headers don't align in the first byte (RPC Payload 4 bit, Query Header 8 bit).
 
-The mobile libraries need to add the Security Query and the Binary Query Header and serialize SDL protocol frames using this query. It is recommended to add a new class called SDLProtocolSecurity to all libraries which implements this security specification. This is only a recommendation and decisions to implementation details are to be made by the code donator and the project maintainer.
+The mobile libraries need to add the Security Query and the Binary Query Header and serialize SDL protocol frames using this query. It is recommended to add a new class called `SDLProtocolSecurity` to all libraries which implement this security specification. This is only a recommendation and decisions to implementation details are to be made by the code donator and the SDLC Project Maintainer.
 
 ## Alternatives considered
 
