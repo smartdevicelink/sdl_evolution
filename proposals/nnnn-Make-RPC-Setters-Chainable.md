@@ -7,11 +7,11 @@
 
 ## Introduction
 
-This proposal is to enhance how the params' setters for the RPC classes work to make creating new RPCs easier. This can be done by making each setter return an instance of the RPC object. By doing that, creating an RPC and setting its params can all be done in a one-liner. This reduces the amount of boilerplate code that developers need to write to create RPCs.
+This proposal is to enhance how the params' setters for the RPC classes work to make creating new RPCs easier. This can be done by making each setter return an instance of the RPC object. By doing that, creating an RPC and setting its params can all be done in one line of code. This reduces the amount of boilerplate code that developers need to write to create RPCs.
 
 ## Motivation
 
-The SDL Java Suite library currently has a default constructor for every RPC that takes no params. It also has a constructor that takes all mandatory params. If developers want to create an RPC and set some of the none mandatory params, they will have to write a line of code to set every param. This is not ideal if the RPC has multiple params. Let's take creating an `Alert` RPC as a simple example:
+The SDL Java Suite library currently has a default constructor for every RPC that takes no params. It also has a constructor that takes all mandatory params. If developers want to create an RPC and set some of the non-mandatory params, they will have to write a line of code to set every param. This is not ideal if the RPC has multiple params. Let's take creating an `Alert` RPC as a simple example:
 
 ```
 Alert alert = new Alert();
@@ -21,7 +21,7 @@ alert.setPlayTone(true);
 ...
 ```
 
-The case will be more tedious if the developer wants to set more params. This proposal intends to solve the aforementioned issue by allowing developers to chain RPC setter calls to be able to create the RPC and set all params in a one-liner.
+The case will be more tedious if the developer wants to set more params. This proposal intends to solve the aforementioned issue by allowing developers to chain RPC setter calls to be able to create the RPC and set all params in one-line of code.
 
 ## Proposed solution
 
@@ -49,7 +49,7 @@ public class Alert extends RPCRequest {
 }
 ```
 
-By making that change, developers will be able to chain RPC setters calls together to able to create and set the params in one line of code like the following:
+By making that change, developers will be able to chain RPC setters calls together to be able to create and set the params in one line of code like the following:
 
 ```
 Alert alert = new Alert().setAlertText1("text1").setDuration(5000).setPlayTone(true);
@@ -61,7 +61,7 @@ This proposal will modify every RPC setter in the library. However, the change i
 
 ## Impact on existing code
 
-Update the setters for all RPCs in the SDL Java Suite library to return an instance of the RPC object. Those changes should not cause issues with the existing code written by developers because the RPC setters currently are not returning any value. Making them return an instance of the object will modify the return type for the public setters. However, it will keep the current usages of the setters working with no change needed from the developer's side.
+We'll need to update the setters for all RPCs in the SDL Java Suite library to return an instance of the RPC object. Those changes should not cause issues with the existing code written by developers because the RPC setters currently are not returning any value. Making them return an instance of the object will modify the return type for the public setters. However, it will keep the current usages of the setters working with no change needed from the developer's side.
 
 ## Alternatives considered
 
