@@ -163,7 +163,7 @@ Plus the headunit can note that it supports form field text and images through `
     <element name="TEXT" />
     <element name="NUMBER" />
       <description>
-        This is a notice for the HMI to bring up a keyboard, however the response for this field will still be a string.
+        This is a notice for the HMI to bring up a keypad
       </description>
   </enum>
 ```
@@ -222,7 +222,7 @@ and the `HMI_API`:
     <element name="TEXT" />
     <element name="NUMBER" />
       <description>
-        This is a notice for the HMI to bring up a keyboard, however the response for this field will still be a string.
+        This is a notice for the HMI to bring up a keypad.
       </description>
   </enum>
 ```
@@ -231,9 +231,9 @@ Regarding the response which would be sent when the user presses a softbutton, t
 There would be one string response for each field. If a field was left empty, the associated string would be blank.
 ```xml
 <function name="DisplayForm" messagetype="response">
-  <param name="fields" type="String" maxlength="500" array="true" minsize="0" maxsize="100" mandatory="true">
+  <param name="fields" type="Field" maxlength="500" array="true" minsize="0" maxsize="100" mandatory="true">
     <description>
-      One string response for each field. If a field was left empty, the associated string would be blank. If the field had formatting characters, they are included in the response as well. 
+      This will return an array of Fields that have the same type and label as requested, but with the text field populated.
     </description>
   </param>
 </function>
