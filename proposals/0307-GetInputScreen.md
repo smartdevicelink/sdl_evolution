@@ -272,6 +272,7 @@ Here's the Objective-C version. This would be translated to Java and JavaScript 
 
 It's a new parameter so this would not affect older SDL versions.
 It would be a minor version change for affected mobile libraries. 
+This is dependent on [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md)
 
 ## Alternatives considered
 
