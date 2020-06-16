@@ -263,6 +263,12 @@ Here's the Objective-C version. This would be translated to Java and JavaScript 
 - (void)cancel;
 ```
 
+### Error Flow
+To clarify the error flow a bit, heres a sequence diagram
+
+<img src="../assets/proposals/NNNN-GetInput/GetInput-ErrorFlow.PNG" alt="Login Screen" class="inline" /> 
+
+
 ## Potential downsides
 
 1. This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
