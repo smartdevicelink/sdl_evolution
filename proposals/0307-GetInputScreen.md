@@ -241,6 +241,28 @@ There would be one string response for each field. If a field was left empty, th
 
 We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md) for password or other sensitive data input.
 
+
+
+```objc
+/// Maps to `DisplayForm.initialText`. The text in the title bar of the form.
+@property (strong, nonatomic, nonnull) NSString *title;
+
+/// Maps to `DisplayForm.softButtons`. App defined SoftButtons for cancel, edit, submit, etc.
+@property (strong, nonatomic, nonnull) SoftButtonObjects *softButtons;
+
+/// Maps to `DisplayForm.fields`.
+@property (strong, nonatomic, nullable) Field *fields 
+
+/// Maps to `DisplayForm.errorMessage` If there's a problem with the input fields, this can be used to display information.
+@property (strong, nonatomic, nullable) NSString errorMessage
+
+- (instancetype)initWithPrimaryText:(nonnull NSString *)title fields:(nonnull Field *)fields softButtons:(nullable SoftButton *)softButtons errorMessage:(nullable errorMessage *)errorMessage;
+
+/// Cancels the RPC. If the view has not yet been sent to Core, it will not be sent. If the view is already presented on Core, the view will be immediately dismissed. Canceling an already presented view will only work if connected to Core versions 6.0+. On older versions of Core, the view will not be dismissed.
+
+- (void)cancel;
+```
+
 ## Potential downsides
 
 1. This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
