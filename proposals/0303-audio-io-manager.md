@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0303](0303-audio-io-manager.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Deferred**
+* Status: **In Review**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction
