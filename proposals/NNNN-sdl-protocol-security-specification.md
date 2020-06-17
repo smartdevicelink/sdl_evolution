@@ -64,7 +64,7 @@ The system can be configured to support one encryption method. The following met
 - TLSv1.2
 - DTLSv1
 
-Dependent of the role the system has to initiate with the corresponding server method or client method.
+Depending on the role, the system has to initiate with the corresponding server method or client method.  For instance, if the system is configured to use DTLSv1 and its role is set to client, the system has to use the method DTLSv1_client. The application role has to be server and must use DTLSv1_server.
 
 ### 4.7.1 Security Query
 
