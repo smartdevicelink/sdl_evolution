@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0299](0299-Avoid-Deadlock.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [iOS]
 
 ## Introduction
