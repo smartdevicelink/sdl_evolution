@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0293](0293-vehicle-type-filter.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
-* Status: **Deferred**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / Protocol]
 
 ## Introduction
