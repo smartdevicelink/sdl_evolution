@@ -61,7 +61,7 @@ Here are some links from forum discussions in the past years. Similar to the abo
 [Forum discussions 3](https://www.android-hilfe.de/forum/huawei-p20-pro.3297/smartdevicelink-meldung-deaktivieren.885217.html)
 
 
-This proposal describes a way in which app developers can control SDL behavior by using APIs to enable or disable it. It also proposes changes in the Android Router Service to mitigate notifications issues.
+This proposal describes a way in which app developers can control SDL behavior by using APIs to enable or disable it.
 
 ## Proposed solution
 
@@ -111,117 +111,18 @@ If the SDL app did not provide `PendingIntent` for the app settings page, the An
 
 ![User button to stop router service](../assets/proposals/NNNN-android-notifications/noti_button_2.png)
 
-### Router Service changes
-
-This section describes the behavior of how SDL apps prepare the SDL connection to Bluetooth devices. The idea is to create the SDL proxy only while the app is in the foreground on the phone while it never connected to a head unit. It's not allowed to start the router service from the background if it does not know the connected Bluetooth device. Once the app has registered on a head unit, the proxy saves a MAC address and it's allowed to start the router service in the background in the future for the connected device.
-
-As a result, no SDL code will cause any visible elements on the Android phone until the app has established a connection to the SDL enabled vehicle.
-
-The first time use will be different as the phone must be unlocked and the SDL app must be in the foreground. Any subsequent Bluetooth connection to that device will make the app start the service from the background using the Android foreground notification. It's expected that the user may accept the existence of this notification, as the notifications will then be shown only when connected to the SDL enabled vehicle.
-
-The "first time" guide may look like the following list:
-
-1. Connect your Android phone over Bluetooth to the infotainment system
-2. Select the Applications Tab on your infotainment system
-3. Start the app "APP_NAME" on your phone
-4. The SDL app registers on IVI
-5. Next time you enter the vehicle, you can leave your phone in your pocket. The app will recognize the vehicle and automatically connect.
-
-**Detailed requirements**
-
-#### 1. The app is connected to an unknown Bluetooth device, the app is in the background and there is no router service
-
-#### Conditions
-
-- An SDL enabled app is not in the foreground on the phone
-- The app never established to register to the connected Bluetooth device
-- On the phone, there is no router service provided by another app 
-
-#### Requirements
-
-When an app is in the background of the phone and the phone is connected to an unknown Bluetooth device, then SDL shall not start a new router service until the Bluetooth device can be verified as SDL enabled.
-
-#### Comments
-
-This is the case if the app is newly installed or updated with SDL support and no other SDL enabled app is installed or connected.
-
-#### 2. The app is connected to an unknown Bluetooth device, the app is in the foreground and there is no router service
-
-#### Conditions
-
-- An SDL enabled app is in the foreground on the phone
-- The app never established to register to the connected Bluetooth device
-- On the phone, there is no router service provided by another app 
-
-#### Requirements
-
-1. The app should start the SDL related services as a regular service, without any foreground notification.
-2. The app should keep the services up and running for the time the app is in the foreground.
-3. The app should stop the services when entering the background.
-
-#### Comments
-
-This is required to avoid any SDL foreground notifications showing up when connected to the non-SDL enabled system.
-
-#### 3. The app is in the foreground and has established an SDL session with a connected system
-
-#### Conditions
-
-- An SDL enabled app is in the foreground on the phone
-- The app never established to register to the connected Bluetooth device
-- On the phone, there is no router service provided by another app 
-- The app has been connected and registered to the head unit
-
-#### Requirements
-
-1. The app should store that information
-2. The router service shows foreground notifications to the user
-
-#### Comments
-
-This is the end of the "first time" guide storing the information of the user owning an SDL capable device.
-
-#### 4. Router service with the app in background for known SDL Bluetooth devices
-
-#### Conditions
-
-- An SDL enabled app is not in the foreground on the phone
-- The app established to register to the connected Bluetooth device
-- On the phone, there is no router service provided by another app 
-
-#### Requirements
-
-The app should start the router service as a foreground service including a notification.
-
-#### Comments
-
-As the app knows that the device supports SDL, it can start the router service and keep it active/foregrounded.
-
-#### 5. The app connects to router service when in background
-
-#### Conditions
-
-- An SDL enabled app is in the foreground on the phone
-- The app never established to register to the connected Bluetooth device
-- On the phone, another app has created the router service
-
-#### Requirements
-
-1. The app's proxy should connect to the router service
-2. The router service should tell the app if the connected Bluetooth device is known to support SDL
-
-#### Comments
-
-This behavior can exist if multiple SDL apps are installed on a user's device.
-
 ## Potential downsides
 
-The downside is the reduced experience for the first time use as the phone must be unlocked and the app must be started. However, this proposal reduces the intrusion of SDL foreground services.
+The user might disable SDL using the app settings page or stop SDL services using notification Button. However, SDL App should respect users choices.
 
 ## Impact on existing code
 
-Changes to the library can be high. It's likely that this will require a major version change as it could change critical areas of multiplexing.
+Changes only in Android SDK
+
+* Provide APIs to enable disable SDL services.
+* Add button in Service notifications to Stop SDL Router services.
+* Allow App to set Pending intent to launch apps settings page from SDL notifications.
 
 ## Alternatives considered
 
-When the user stops the Android Router Service, the Android proxy can remember the MAC address of the device. It can maintain the list of MAC addresses for which the user stopped the Android Router Service. This would be a list of blocked devices. On subsequent Bluetooth connections, the Android Router Service would not be started for devices available on the blocked list. The SDL router service could provide the list of blocked devices to SDL app. The app could request this device list and re-enable SDL for the specified device. The downside of this alternative is that SDL would have to provide a standard settings screen. This settings screen could be used to see the list of blocked devices and provide the necessary user interface so that the user could enable SDL for blocked devices. Since the Android Router Service maintains the blocked device list, the settings would be shared between all SDL apps.
+None.
