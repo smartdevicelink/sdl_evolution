@@ -121,7 +121,7 @@ Changes only in Android SDK
 
 * Provide APIs to enable/disable SDL services.
 * Add button in service notifications to stop SDL router services.
-* Allow App to set Pending intent to launch apps settings page from SDL notifications.
+* Allow App to set `Pending intent` to launch apps settings page from SDL notifications.
 
 ## Alternatives considered
 
