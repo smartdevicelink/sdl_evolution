@@ -113,14 +113,14 @@ If the SDL app did not provide `PendingIntent` for the app settings page, the An
 
 ## Potential downsides
 
-The user might disable SDL using the app settings page or stop SDL services using notification Button. However, SDL App should respect users choices.
+The user might disable SDL using the app settings page or stop SDL services using the notification button. However, the SDL app should respect the user's choices.
 
 ## Impact on existing code
 
 Changes only in Android SDK
 
-* Provide APIs to enable disable SDL services.
-* Add button in Service notifications to Stop SDL Router services.
+* Provide APIs to enable/disable SDL services.
+* Add button in service notifications to stop SDL router services.
 * Allow App to set Pending intent to launch apps settings page from SDL notifications.
 
 ## Alternatives considered
