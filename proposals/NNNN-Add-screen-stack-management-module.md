@@ -10,10 +10,10 @@ The purpose of this proposal is to reduce the burden on screen development for a
 
 
 ## Motivation
-Currently, the screens displayed by `setDisplayLayout` and `PerformInteraction` are independent, and there is no relation between each screen. However, in many cases of the App development process, each screen has a relationship with each other. Therefore, the screen transition specifications expected by the app developers may not be realized. By adding a screen management module and managing transitions, this problem can be solved and reduce the burden to screen development. For example, pressing the back button to enable screen transitions such as return to the previous screen. As a result, it is possible to build a better UX by reducing the inconvenience of use as much as possible for the users.
+Currently, the screens displayed by `Show` and `PerformInteraction` are independent, and there is no relation between each screen. However, in many cases of the App development process, each screen has a relationship with each other. Therefore, the screen transition specifications expected by the app developers may not be realized. By adding a screen management module and managing transitions, this problem can be solved and reduce the burden to screen development. For example, pressing the back button to enable screen transitions such as return to the previous screen. As a result, it is possible to build a better UX by reducing the inconvenience of use as much as possible for the users.
 
 <b>Current behavior</b>
- - `PerformInteraction` and `setDisplayLayout (template)` are independent screens.
+ - `PerformInteraction` and `Show (template)` are independent screens.
  - HMI controls menu/submenu displays and screen transitions.
  - Contents displayed in menu/submenu are provided by `AddCommand`, `DeleteCommand`, `AddSubMenu`, `DeleteSubMenu` of the app.
  - When pushing the menu item, the HMI sends an `onCommand` notification to the mobile, and then the mobile determines the operation.
@@ -68,7 +68,7 @@ The sequence is as follows.
 1. Subscribe to `BACK` on the Back button.
 2. Subscribe to `MENU` on the menu button.
 3. The app displays MEDIA screen with `setDisplayLayout`. ScreenTaskManager detects `newScreen` and stacks MEDIA screen.
-4. The app displays the GRAPHIC_WITH_TILES screen with setDisplayLayout. ScreenTaskManager detects `keepLevel`, deletes the top layer screen of the screen stack, and stacks GRAPHIC_WITH_TILES screen.
+4. The app displays the GRAPHIC_WITH_TILES screen with `setDisplayLayout`. ScreenTaskManager detects `keepLevel`, deletes the top layer screen of the screen stack, and stacks GRAPHIC_WITH_TILES screen.
 5. The user pushes the menu button. Then, head unit (HU) sends `OnButtonPress (MENU)` to the app.
 6. The app displays the Menu screen with `showAppMenu`. ScreenTaskManager detects `newScreen` and stacks the menu screen.
 7. The user pushes the submenu button. Then, the HU sends the `OnCommand` to the app.
