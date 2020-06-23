@@ -66,7 +66,7 @@ The sequence is as follows.
 
 1. Subscribe to `BACK` on the back button.
 2. Subscribe to `MENU` on the menu button.
-3. The app displays MEDIA screen with `setDisplayLayout`. ScreenTaskManager detects `newScreen` and stacks MEDIA screen.
+3. The app displays MEDIA screen with `setDisplayLayout`. `ScreenTaskManager` detects `newScreen` and stacks MEDIA screen.
 4. The app displays the GRAPHIC_WITH_TILES screen with `setDisplayLayout`. ScreenTaskManager detects `keepLevel`, deletes the top layer screen of the screen stack, and stacks GRAPHIC_WITH_TILES screen.
 5. The user pushes the menu button. Then, head unit (HU) sends `OnButtonPress (MENU)` to the app.
 6. The app displays the Menu screen with `showAppMenu`. ScreenTaskManager detects `newScreen` and stacks the menu screen.
