@@ -85,7 +85,7 @@ None.
 ## Impact on existing code
 
 - A new module is added to each app library, therefore, those are affected.
-- Since there are new enum elements added, it affects SDL Core.
+- Since there are new enum elements added, the proposal also affects SDL Core.
 - It is necessary to modify the following documentation.
 1. [the iOS Guides](https://smartdevicelink.com/en/guides/iOS/displaying-a-user-interface/template-images/)
 2. [the Android Guides](https://smartdevicelink.com/en/guides/android/displaying-a-user-interface/main-screen-templates/)
