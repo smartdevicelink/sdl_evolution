@@ -15,7 +15,7 @@ Currently, the screens displayed by `Show` and `PerformInteraction` are independ
  - `PerformInteraction` and `Show (template)` are independent screens.
  - HMI controls menu/submenu displays and screen transitions.
  - Contents displayed in menu/submenu are provided by `AddCommand`, `DeleteCommand`, `AddSubMenu`, `DeleteSubMenu` of the app.
- - When pushing the menu item, the HMI sends an `onCommand` notification to the SDL application, and then the SDL application determines the operation.
+ - When pushing the menu item, the HMI sends an `onCommand` notification to the app, and then the app determines the operation.
    After that, you cannot return to the menu screen, but you will return to the first template screen.
  - Even if the `DeleteSubMenu` is notified from the SDL app library while the submenu is displayed, it is rejected.
 
