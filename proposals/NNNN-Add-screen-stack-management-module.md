@@ -89,7 +89,7 @@ None.
 - It is necessary to modify the following documentation.
 1. [the iOS Guides](https://smartdevicelink.com/en/guides/iOS/displaying-a-user-interface/template-images/)
 2. [the Android Guides](https://smartdevicelink.com/en/guides/android/displaying-a-user-interface/main-screen-templates/)
-3. [the JavaScript Guides](https://smartdevicelink.com/en/guides/javascript/displaying-a-user-interface/main-screen-templates/)
+3. [the JavaScript Suite Guides](https://smartdevicelink.com/en/guides/javascript/displaying-a-user-interface/main-screen-templates/)
 
 ## Alternatives considered
 None.
