@@ -19,7 +19,7 @@ Currently, the screens displayed by `Show` and `PerformInteraction` are independ
    After that, you cannot return to the menu screen, but you will return to the first template screen.
  - Even if the `DeleteSubMenu` is notified from mobile while the submenu is displayed, it is rejected.
 
-<b>Current Screen transition process</b>
+<b>Current screen transition process</b>
 
 - RPCs related to menu/submenu are sent after the successful registration of app.
 ```
