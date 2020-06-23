@@ -51,7 +51,7 @@ To solve this problem, build the following screen management mechanism.
 - Add the screen management module to [the iOS Guides](https://smartdevicelink.com/en/guides/iOS/displaying-a-user-interface/template-images/), [the Android Guides](https://smartdevicelink.com/en/guides/android/displaying-a-user-interface/main-screen-templates/) and [the JavaScript Guides](https://smartdevicelink.com/en/guides/javascript/displaying-a-user-interface/main-screen-templates/).
 
 Below is the `Button Name` for subscribe.
-Add element to enum value ButtonName. (HMI_API.xml, MOBILE_API.xml)
+Add element to enum value `ButtonName`. (HMI_API.xml, MOBILE_API.xml)
 
 ```xml
  <enum name="ButtonName" since="1.0">
