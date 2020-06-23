@@ -21,7 +21,7 @@ Currently, the screens displayed by `Show` and `PerformInteraction` are independ
 
 <b>Current Screen transition process</b>
 
-- RPC related to menu/submenu are sent after the successful registration of app.
+- RPCs related to menu/submenu are sent after the successful registration of app.
 ```
 AddCommand(commandID = 1，"command1")
 AddSubMenu(menuID = 100, "submenu1")
