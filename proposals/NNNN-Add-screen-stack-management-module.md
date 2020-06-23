@@ -74,7 +74,7 @@ The sequence is as follows.
 8. The app displays submenu screen with `showAppMenu`. `ScreenTaskManager` detects `newScreen` and stacks the submenu screen.
 9. The user pushes the back button. Then, the HU sends `OnButtonPress (BACK_KEY)` to the app.
 10. The app returns to menu screen with `showAppMenu`.
-11. The app displays PerformInteraction screen with `setPerformInteraction`. ScreenTaskManager  stacks PerformInteraction screen.
+11. The app displays PerformInteraction screen with `setPerformInteraction`. `ScreenTaskManager` stacks PerformInteraction screen.
 12. The app hides PerformInteraction screen with `setPerformInteraction`, and displays menu svreen. ScreenTaskManager deletes PerformInteraction screen of the screen stack.
 
 ![new_sequence.png](../assets/proposals/NNNN-Add-screen-stack-management-module/new_sequence.png)
