@@ -45,7 +45,7 @@ CreateInteractionChoiceSet[
 ## Proposed solution
 To solve this problem, build the following screen management mechanism.
 
-- Add a screen management module, screenTaskManager, to SDL app library to manage screen transition stacks such as menu, submenu, `PerformInteraction` displays, popo-ups, etc.
+- Add a screen management module, `screenTaskManager`, to the SDL app libraries to manage screen transition stacks such as menu, submenu, `PerformInteraction` displays, pop-ups, etc.
 - Add `button Name` for subscribe.
 - Add screen change notification process `notifyScreenChanged` to SDL app library.
 - Add the screen management module to [the iOS Guides](https://smartdevicelink.com/en/guides/iOS/displaying-a-user-interface/template-images/), [the Android Guides](https://smartdevicelink.com/en/guides/android/displaying-a-user-interface/main-screen-templates/) and [the JavaScript Guides](https://smartdevicelink.com/en/guides/javascript/displaying-a-user-interface/main-screen-templates/).
