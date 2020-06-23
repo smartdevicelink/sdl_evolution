@@ -64,7 +64,7 @@ Add element to enum value `ButtonName`. (HMI_API.xml, MOBILE_API.xml)
 
 The sequence is as follows.
 
-1. Subscribe to `BACK` on the Back button.
+1. Subscribe to `BACK` on the back button.
 2. Subscribe to `MENU` on the menu button.
 3. The app displays MEDIA screen with `setDisplayLayout`. ScreenTaskManager detects `newScreen` and stacks MEDIA screen.
 4. The app displays the GRAPHIC_WITH_TILES screen with `setDisplayLayout`. ScreenTaskManager detects `keepLevel`, deletes the top layer screen of the screen stack, and stacks GRAPHIC_WITH_TILES screen.
