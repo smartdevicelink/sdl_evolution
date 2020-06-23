@@ -15,9 +15,9 @@ Currently, the screens displayed by `Show` and `PerformInteraction` are independ
  - `PerformInteraction` and `Show (template)` are independent screens.
  - HMI controls menu/submenu displays and screen transitions.
  - Contents displayed in menu/submenu are provided by `AddCommand`, `DeleteCommand`, `AddSubMenu`, `DeleteSubMenu` of the app.
- - When pushing the menu item, the HMI sends an `onCommand` notification to the mobile, and then the mobile determines the operation.
+ - When pushing the menu item, the HMI sends an `onCommand` notification to the SDL application, and then the SDL application determines the operation.
    After that, you cannot return to the menu screen, but you will return to the first template screen.
- - Even if the `DeleteSubMenu` is notified from mobile while the submenu is displayed, it is rejected.
+ - Even if the `DeleteSubMenu` is notified from the SDL app library while the submenu is displayed, it is rejected.
 
 <b>Current screen transition process</b>
 
@@ -48,7 +48,7 @@ To solve this problem, build the following screen management mechanism.
 - Add a screen management module, `screenTaskManager`, to the SDL app libraries to manage screen transition stacks such as menu, submenu, `PerformInteraction` displays, pop-ups, etc.
 - Add `button Name` for subscribe.
 - Add screen change notification process `notifyScreenChanged` to each SDL app library.
-- Add the screen management module to [the iOS Guides](https://smartdevicelink.com/en/guides/iOS/displaying-a-user-interface/template-images/), [the Android Guides](https://smartdevicelink.com/en/guides/android/displaying-a-user-interface/main-screen-templates/) and [the JavaScript Guides](https://smartdevicelink.com/en/guides/javascript/displaying-a-user-interface/main-screen-templates/).
+- Add the screen management module to the SDL app library's documentations.
 
 Below is the `Button Name` for subscribe.
 Add element to enum value `ButtonName`. (HMI_API.xml, MOBILE_API.xml)
@@ -86,10 +86,7 @@ None.
 
 - A new module is added to each app library, therefore, those are affected.
 - Since there are new enum elements added, the proposal also affects SDL Core.
-- It is necessary to modify the following documentation.
-1. [the iOS Guides](https://smartdevicelink.com/en/guides/iOS/displaying-a-user-interface/template-images/)
-2. [the Android Guides](https://smartdevicelink.com/en/guides/android/displaying-a-user-interface/main-screen-templates/)
-3. [the JavaScript Suite Guides](https://smartdevicelink.com/en/guides/javascript/displaying-a-user-interface/main-screen-templates/)
+- It is necessary to modify the SDL app library's documentations.
 
 ## Alternatives considered
 None.
