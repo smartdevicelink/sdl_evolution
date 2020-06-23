@@ -64,6 +64,13 @@ Within this request mobile application (SDL library) can also subscribe to recei
     </param>
 </struct>
 
+<struct name="AppVideoStreamingCapability" since="x.x">
+    <description>Contains information about this app's video streaming capabilities.</description>
+    <param name="supportedResolutions" type="ImageResolution" mandatory="false" array="true">
+        <description>Supported streaming resolutions</description>
+    </param>
+</struct>
+
 <enum name="AppCapabilityType" since="x.x">
     <description>Enumerations of all available app capability types</description>
     <element name="VIDEO_STREAMING"/>
