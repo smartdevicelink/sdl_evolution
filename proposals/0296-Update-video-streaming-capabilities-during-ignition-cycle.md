@@ -11,7 +11,7 @@ The main purpose of this proposal is to make it possible to update video streami
 
 ## Motivation
 
-Currently there are numerous VSC parameters which may be provided by the HMI through SDL Core to Mobile applications.
+Currently there are numerous VSC parameters which may be provided by the HMI through SDL Core to mobile applications.
 These may also include the parameters described in the [Pixel density and Scale](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0179-pixel-density-and-scale.md) proposal.
 These parameters may be used by projection or navigation mobile applications to properly adjust video streaming data.
 Unfortunately, once these parameters are defined during the HMI initialization process, they can't be updated until the next ignition cycle.
@@ -76,7 +76,7 @@ Within this request mobile application (SDL library) can also subscribe to recei
 </struct>
 ```
 
-Details on how a mobile application selects supported VSCs is described in the [Mobile libraries changes](0296-Update-video-streaming-capabilities-during-ignition-cycle.md#mobile-libraries-changes-ios-and-android) section.
+Details on how a mobile application selects supported VSCs are described in the [Mobile libraries changes](0296-Update-video-streaming-capabilities-during-ignition-cycle.md#mobile-libraries-changes-ios-and-android) section.
 
 4. These VSCs are transferred by SDL Core to the HMI within the same new notification.
 
