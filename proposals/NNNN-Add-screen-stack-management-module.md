@@ -9,7 +9,7 @@
 The purpose of this proposal is to reduce the burden on screen development for app developers by adding a screen management module.
 
 ## Motivation
-Currently, the screens displayed by `Show` and `PerformInteraction` are independent, and there is no relation between each screen. However, in many cases of the App development process, each screen has a relationship with each other. Therefore, the screen transition specifications expected by the app developers may not be realized. By adding a screen management module and managing transitions, this problem can be solved and reduce the burden to screen development. For example, pressing the back button to enable screen transitions such as return to the previous screen. As a result, it is possible to build a better UX by reducing the inconvenience of use as much as possible for the users.
+Currently, the screens displayed by `Show` and `PerformInteraction` are independent, and there is no relationship between each screen. However, in many cases of the app development process, screens have relationships with each other. Therefore, the screen transition specifications expected by the app developers may not be realized. By adding a screen management module and managing transitions, this problem can be solved and we can reduce the burden of screen development. For example, we can allow pressing the back button to enable screen transitions such as returning to the previous screen. As a result, it will be possible to build a better UX by reducing the inconvenience of use as much as possible for the users.
 
 <b>Current behavior</b>
  - `PerformInteraction` and `Show (template)` are independent screens.
