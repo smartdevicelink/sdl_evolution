@@ -86,7 +86,7 @@ None.
 
 - A new module is added to each app library, therefore, those are affected.
 - Since there are new enum elements added, the proposal also affects SDL Core.
-- It is necessary to modify the SDL app library's documentations.
+- It is necessary to modify the documentation for each SDL app library (iOS, Java Suite, and JavaScript Suite).
 
 ## Alternatives considered
 None.
