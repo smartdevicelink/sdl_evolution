@@ -48,7 +48,7 @@ To solve this problem, build the following screen management mechanism.
 - Add a screen management module, `screenTaskManager`, to the SDL app libraries to manage screen transition stacks such as menu, submenu, `PerformInteraction` displays, pop-ups, etc.
 - Add `button Name` for subscribe.
 - Add screen change notification process `notifyScreenChanged` to each SDL app library.
-- Add the screen management module to the SDL app library's documentations.
+- Add the screen management module to the documentation for each SDL app library (iOS, Java Suite, and JavaScript Suite).
 
 Below is the `Button Name` for subscribe.
 Add element to enum value `ButtonName`. (HMI_API.xml, MOBILE_API.xml)
