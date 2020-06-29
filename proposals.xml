@@ -166,7 +166,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0151" status="implemented" primary-platform="rpc" sdl-version="5.0" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
 <proposal id="0152" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
 <proposal id="0153" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
-<proposal id="0154" status="implemented" primary-platform="core" sdl-version="6.2" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
+<proposal id="0154" status="implemented" primary-platform="core" sdl-version="7.0" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
 <proposal id="0155" status="implemented" primary-platform="ios" sdl-version="6.0" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0155" status="implemented" primary-platform="java-suite" sdl-version="4.9" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
 <proposal id="0156" status="accepted" primary-platform="ios" sdl-version="x.x" name="High level interface: Foundation" filename="0156-high-level-interface-foundation.md"/>
@@ -327,15 +327,15 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0295" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Microphone Input Manager" filename="0295-screen-manager-audio-pass-thru.md"/>	
 <proposal id="0296" status="active" primary-platform="core" sdl-version="x.x" name="Possibility to update video streaming capabilities during ignition cycle" filename="0296-Update-video-streaming-capabilities-during-ignition-cycle.md"/>	
 <proposal id="0297" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Add function to transmit audio data of AudioStream in time division" filename="0297-Add-function-to-transmit-audio-data.md"/>	
-<proposal id="0298" status="accepted" primary-platform="core" sdl-version="x.x" name="Processing of unknown enum values by SDL Core" filename="0298-Processing-of-unknown-enum-values-by-SDL-Core.md"/>	
+<proposal id="0298" status="implemented" primary-platform="core" sdl-version="7.0" name="Processing of unknown enum values by SDL Core" filename="0298-Processing-of-unknown-enum-values-by-SDL-Core.md"/>	
 <proposal id="0299" status="returned" primary-platform="ios" sdl-version="x.x" name="Add a Mechanism to Avoid Deadlock" filename="0299-Avoid-Deadlock.md"/>	
 <proposal id="0300" status="active" primary-platform="rpc" sdl-version="x.x" name="Voice Assistant App Service" filename="0300-Voice-Assistant-App-Service.md"/>	
-<proposal id="0301" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="SDL Device Listener" filename="0301-SDL-device-listener.md"/>	
+<proposal id="0301" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="SDL Device Listener" filename="0301-SDL-device-listener.md"/>	
 <proposal id="0302" status="deferred" primary-platform="protocol" sdl-version="x.x" name="SDL System Structure for Middle/Low-end Class Model of Powered Two Wheeler" filename="0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler.md"/>	
 <proposal id="0303" status="active" primary-platform="ios" sdl-version="x.x" name="SDL Audio I/O Manager" filename="0303-audio-io-manager.md"/>	
 <proposal id="0304" status="active" primary-platform="ios" sdl-version="x.x" name="Start Video Stream With OnTouchEvent Permission" filename="0304-stream-ontouchevent.md"/>	
 <proposal id="0305" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Homogenize TextFieldName" filename="0305-homogenize-textfieldname.md"/>	
-<proposal id="0306" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
+<proposal id="0306" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
 <proposal id="0307" status="deferred" primary-platform="rpc" sdl-version="x.x" name="Get Input Screen" filename="0307-GetInputScreen.md"/>	
 <proposal id="0308" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add a Reason Parameter to All Protocol NAKs" filename="0308-protocol-nak-reason.md"/>	
 	
