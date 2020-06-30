@@ -11,7 +11,7 @@ The aim of this proposal is to add a function to SDL Core. The function allows O
 
 ## Motivation
 
-Switching apps is common SDL behavior. However, the app status transition rule is defined by the SDL Core, and OEMs can not customize the priority of audio and video when switching apps. Therefore, in some cases, it is difficult for OEMs to meet the specifications that they want to implement. For this reason, we propose adding a function which OEMs can set the priority control of audio and video according to the rules of status transition.
+Switching apps is common SDL behavior. However, the app status transition rule is defined by SDL Core, and OEMs cannot customize the priority of audio and video when switching apps. Therefore, in some cases, it is difficult for OEMs to meet the specifications that they want to implement. For this reason, we propose to add a function in which OEMs can set the priority control of audio and video according to the rules of status transition.
 
 ## Proposed solution
 
