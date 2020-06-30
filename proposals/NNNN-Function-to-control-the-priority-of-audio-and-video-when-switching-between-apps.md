@@ -7,7 +7,7 @@
 
 ## Introduction
 
-The aim of this proposal is to add a function to SDL Core. It allows OEMs to customize the status transition of audio and video when apps are switched. OEMs can control the status transition of apps when those are switched by customized app status transition rule that is in additional configuration file.
+The aim of this proposal is to add a function to SDL Core. The function allows OEMs to customize the status transition of audio and video when apps are switched. OEMs can control the status transition of apps when those are switched using a customized app status transition rule that is in an additional configuration file.
 
 ## Motivation
 
