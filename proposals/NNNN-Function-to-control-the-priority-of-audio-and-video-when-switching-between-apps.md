@@ -15,7 +15,7 @@ Switching apps is common SDL behavior. However, the app status transition rule i
 
 ## Proposed solution
 
-We propose adding new configuration file to the SDL Core that for defining customized the rule of status transition for audio and video by OEMs. Also we propose management rule of the file. OEMs can meet the specifications they want to implement by customizing and maintaining the configuration file.
+We propose adding a new configuration file to SDL Core for defining an OEM's customized rule for status transition for audio and video. Also we propose a management rule of the new configuration file. OEMs can meet the specifications they want to implement by customizing and maintaining the configuration file.
 
 Setting rules of configuration files are below.
 
