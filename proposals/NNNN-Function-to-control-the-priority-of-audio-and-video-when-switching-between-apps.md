@@ -19,10 +19,10 @@ We propose adding a new configuration file to SDL Core for defining an OEM's cus
 
 Setting rules of configuration files are below.
 
-- When the SDL is launched, SDL Core loads two configuration files, the default configuration and the customized one by the OEM. Then, SDL Core selects one of the status transition rules with each situation.
+- When the SDL app is launched, SDL Core loads two configuration files, the default configuration and the customized one by the OEM. Then, SDL Core selects one of the status transition rules with each situation.
 - When the user switches from one app to another app, each status is changed to the appropriate other status by referencing those `appType`s and the status transition table.
-- If the OEM's configuration file meets the specification of status transition as the SDL, SDL Core uses the values in OEM's configuration file.
-- If the OEM's configuration file does NOT meet the specification of status transition as the SDL, SDL Core uses the values in the default configuration file.
+- If the OEM's configuration file meets the status transition specification of the SDL Core, SDL Core uses the values in OEM's configuration file.
+- If the OEM's configuration file does NOT meet the status transition specification of the SDL Core, SDL Core uses the values in the default configuration file.
 
 The structure of status transition table is below. Table 1 shows the information in the configuration file used to decide the transition status of audio and video when the apps are switched.
 
@@ -86,7 +86,7 @@ HU screen display switched to App2 and basic audio is ready to be played from Ap
 
 #### Error processing
 
-When the SDL is launched, SDL Core loads two configuration files, the default configuration and the customized one by the OEM. Basically, SDL Core uses the OEM's configuration file, but if it does not meet the status transition specification of the SDL app, SDL Core discards the OEM's configuration file and uses the setting in the default configuration file. Table 4 is example of the invalid errors in the OEM's customized status transition (in this transition rule, 2 apps can be set with STREAMABLE status at the same time). In this case, SDL Core discards only the non-conforming part of the setting provided by the OEM's configuration file and uses the value of default one.
+When the SDL app is launched, SDL Core loads two configuration files, the default configuration and the customized one by the OEM. Basically, SDL Core uses the OEM's configuration file, but if it does not meet the status transition specification of the SDL Core, SDL Core discards the OEM's configuration file and uses the setting in the default configuration file. Table 4 is example of the invalid errors in the OEM's customized status transition (in this transition rule, 2 apps can be set with STREAMABLE status at the same time). In this case, SDL Core discards only the non-conforming part of the setting provided by the OEM's configuration file and uses the value of default one.
 
 <b>Table 4.</b> OEM's specification of Status Transition (the case of error)
 
