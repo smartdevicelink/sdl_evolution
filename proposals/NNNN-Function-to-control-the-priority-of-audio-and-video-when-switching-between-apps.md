@@ -24,7 +24,7 @@ Setting rules of configuration files are below.
 - If the OEM's configuration file meets the specification of status transition as the SDL, SDL Core uses the values in OEM's configuration file.
 - If the OEM's configuration file does NOT meet the specification of status transition as the SDL, SDL Core uses the values in the default configuration file.
 
-The structure of status transition table is below. Table 1 shows the information in the configuration file to decide the transiton status of audio and video when the apps are swithed.
+The structure of status transition table is below. Table 1 shows the information in the configuration file used to decide the transition status of audio and video when the apps are switched.
 
 <b>Table 1.</b> Information of Status Transition Table
 
