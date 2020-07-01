@@ -20,7 +20,7 @@ We propose adding a new configuration file to SDL Core for defining an OEM's cus
 Setting rules of configuration files are below.
 
 - When the SDL is launched, SDL Core loads two configuration files, the default configuration and the customized one by the OEM. Then, SDL Core selects one of the status transition rules with each situation.
-- When an app is switched to other app, each status are changed into appropriate other status by referring those Apptypes and the status transition table.
+- When the user switches from one app to another app, each status is changed to the appropriate other status by referencing those `appType`s and the status transition table.
 - If the OEM's configuration file meets the specification of status transition as the SDL, the SDL Core uses the values in OEM's configuration file.
 - If the OEM's configuration file does NOT meet the specification of status transition as the SDL, the SDL Core uses values in default configuration file.
 
