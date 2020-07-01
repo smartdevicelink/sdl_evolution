@@ -63,7 +63,7 @@ Setting samples are below.
 | App2 AUDIBLE | 1<br>(AUDIBLE) |
 | App2 STREAMABLE | 1<br>(STREAMABLE) |
 
-In this case, the status of App1 becomes BACKGROUND, NOT_AUDIBLE and NOT_STREAMABLE after the App2 is launched.
+In this case, the status of App1 becomes BACKGROUND, NOT_AUDIBLE and NOT_STREAMABLE after App2 is launched.
 At the same time, the status of App2 becomes FULL, AUDIBLE and STREAMABLE.
 Head unit (HU) screen display switched to App2 and audio is played from App2.
 
