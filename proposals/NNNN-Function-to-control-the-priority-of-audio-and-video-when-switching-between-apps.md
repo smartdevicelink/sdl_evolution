@@ -45,7 +45,7 @@ There are a total of 25 patterns of app combinations (App1 with 5 types x App2 w
 The SDL specifications for the status transition are below. If OEMs define customized status transition rule, it is necessary to follow the rules below.
 
 - Only one app can be FULL at a time.
-- Only one app can be STREAMABLE at the same time.
+- Only one app can be STREAMABLE at a time.
 - In case two apps are same AppType, only one app can be AUDIBLE.
 
 Setting samples are below.
