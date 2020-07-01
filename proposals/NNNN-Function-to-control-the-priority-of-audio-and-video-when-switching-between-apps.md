@@ -34,7 +34,7 @@ The structure of status transition table is below. Table 1 shows the information
 | App2 | Second launched app | MEDIA;<br>NAVIGATION;<br>PROJECTION(isMedia = True);<br>PROJECTION(isMedia = False);<br>OTHER; |
 | App1 HMI_LEVEL | HMI Status of App1 after App2 is launched | BACKGROUND=0;<br>FULL=1;<br>LIMITED=2;<br>NONE=3; |
 | App1 AUDIBLE | AUDIBLE Status of App1 after App2 is launched | NOT_AUDIBLE=0;<br>AUDIBLE=1; |
-| App1 STREAMABLE | STREAMABLE Status of App1  after App2 is launched | NOT_STREAMABLE=0;<br>STREAMABLE=1; |
+| App1 STREAMABLE | STREAMABLE Status of App1 after App2 is launched | NOT_STREAMABLE=0;<br>STREAMABLE=1; |
 | App2 HMI_LEVEL | HMI Status of App2 after it is launched | BACKGROUND=0;<br>FULL=1;<br>LIMITED=2;<br>NONE=3; |
 | App2 AUDIBLE | AUDIBLE Status of App2 it is launched | NOT_AUDIBLE=0;<br>AUDIBLE=1; |
 | App2 STREAMABLE | STREAMABLE Status of App2 it is launched | NOT_STREAMABLE=0;<br>STREAMABLE=1; |
