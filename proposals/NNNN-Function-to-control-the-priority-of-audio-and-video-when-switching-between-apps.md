@@ -118,7 +118,7 @@ Figure 1 shows the switching sequence of apps controlled by the status transitio
 
 1. When the SDL app is launched, SDL Core loads default values of status transition from the default configuration file.
 2. SDL Core loads the configuration file customized by the OEM, and initializes the status transition table by following the rule.
-3. When an app is switched to other app, these apps behavior after switching are applied by the status transition table.
+3. When the user switches from one app to another app, the apps' behaviors after switching are applied by the status transition table.
 
 <b>Figure 1.</b> Switching apps sequence
 
