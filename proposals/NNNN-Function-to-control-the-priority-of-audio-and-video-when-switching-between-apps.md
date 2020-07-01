@@ -40,7 +40,7 @@ The structure of status transition table is below. Table 1 shows the information
 | App2 STREAMABLE | STREAMABLE Status of App2 it is launched | NOT_STREAMABLE=0;<br>STREAMABLE=1; |
 
 Note:
-There are a total of 25 patterns of app combinations (App1 with 5 types x App2 with 5 types) by types.
+There are a total of 25 patterns of app combinations (App1 with 5 types x App2 with 5 types) by type.
 
 The SDL specifications for the status transition are below. If OEMs define customized status transition rule, it is necessary to follow the rules below.
 
