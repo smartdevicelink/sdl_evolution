@@ -130,7 +130,7 @@ None.
 
 ## Impact on existing code
 
-- These changes affect only the status transition of the SDL Core when apps are swithced.
+- These changes affect only the status transition of SDL Core when apps are switched.
 
 ## Alternatives considered
 
