@@ -22,7 +22,7 @@ Setting rules of configuration files are below.
 - When the SDL is launched, SDL Core loads two configuration files, the default configuration and the customized one by the OEM. Then, SDL Core selects one of the status transition rules with each situation.
 - When the user switches from one app to another app, each status is changed to the appropriate other status by referencing those `appType`s and the status transition table.
 - If the OEM's configuration file meets the specification of status transition as the SDL, SDL Core uses the values in OEM's configuration file.
-- If the OEM's configuration file does NOT meet the specification of status transition as the SDL, the SDL Core uses values in default configuration file.
+- If the OEM's configuration file does NOT meet the specification of status transition as the SDL, SDL Core uses the values in the default configuration file.
 
 The structure of status transition table is below. Table 1 shows the information in the configuration file to decide the transiton status of audio and video when the apps are swithed.
 
