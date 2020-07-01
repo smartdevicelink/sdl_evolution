@@ -46,7 +46,7 @@ The SDL specifications for the status transition are below. If OEMs define custo
 
 - Only one app can be FULL at a time.
 - Only one app can be STREAMABLE at a time.
-- In case two apps are same AppType, only one app can be AUDIBLE.
+- In case two apps are same `AppType`, only one app can be AUDIBLE.
 
 Setting samples are below.
 
