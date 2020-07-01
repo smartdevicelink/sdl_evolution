@@ -114,7 +114,7 @@ When the SDL is launched, SDL Core loads two configuration files, the default co
 | App2 AUDIBLE | 1<br>(AUDIBLE) |
 | App2 STREAMABLE | 0<br>(NOT_STREAMABLE) |
 
-The Figure 1 shows the switching sequence of apps controlled by the status transition. The following rules are described in this sequence.
+Figure 1 shows the switching sequence of apps controlled by the status transition. The following rules are described in this sequence.
 
 1. When the SDL is launched, the SDL Core loads default values of status transition from the default configuration file.
 2. The SDL Core loads the configuration file customized by the OEM, and initializes the status transition table by following the rule.
