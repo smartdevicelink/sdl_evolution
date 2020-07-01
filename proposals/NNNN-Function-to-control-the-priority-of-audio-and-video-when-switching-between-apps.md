@@ -80,7 +80,7 @@ Head unit (HU) screen display switched to App2 and audio is played from App2.
 | App2 AUDIBLE | 1<br>(AUDIBLE) |
 | App2 STREAMABLE | 0<br>(NOT_STREAMABLE) |
 
-In this case, the status of App1 becomes LIMITED, NOT_AUDIBLE after the App2 is launched, but STREAMABLE status is kept as STREAMABLE.
+In this case, the status of App1 becomes LIMITED, NOT_AUDIBLE after App2 is launched, but STREAMABLE status is kept as STREAMABLE.
 At the same time, the status of App2 becomes FULL, AUDIBLE and NOT_STREAMABLE.
 HU screen display switched to App2 and basic audio is ready to be played from App2. App1 is not displayed on the screen, but playback of the video continues in background.
 
