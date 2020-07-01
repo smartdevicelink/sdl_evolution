@@ -175,6 +175,20 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
+#### SDL Core: 7.0.0
+**Expected Release Date**: November 4, 2020
+
+**Contents**: Contents of this release can be tracked on the [Core 7.0.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/17).
+
+---
+
+#### SDL RPC Spec: 7.0.0
+**Expected Release Date**: November 4, 2020
+
+**Contents**: Contents of this release can be tracked on the [RPC Spec 7.0.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/5).
+
+---
+
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
 [proposal-status]: https://smartdevicelink.github.io/sdl_evolution/
