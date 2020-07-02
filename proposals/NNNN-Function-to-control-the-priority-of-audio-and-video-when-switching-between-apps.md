@@ -86,7 +86,7 @@ HU screen display switched to App2 and basic audio is ready to be played from Ap
 
 #### Error processing
 
-When the SDL app is launched, SDL Core loads two configuration files, the default configuration and the customized one by the OEM. Basically, SDL Core uses the OEM's configuration file, but if it does not meet the status transition specification of the SDL Core, SDL Core discards the OEM's configuration file and uses the setting in the default configuration file. Table 4 is example of the invalid errors in the OEM's customized status transition (in this transition rule, 2 apps can be set with STREAMABLE status at the same time). In this case, SDL Core discards only the non-conforming part of the setting provided by the OEM's configuration file and uses the value of default one.
+When the SDL app is launched, SDL Core loads two configuration files, the default configuration and the customized one by the OEM. Basically, SDL Core uses the OEM's configuration file, but if it does not meet the status transition specification of the SDL Core implementation, SDL Core discards the OEM's configuration file and uses the setting in the default configuration file. Table 4 is example of the invalid errors in the OEM's customized status transition (in this transition rule, 2 apps can be set with STREAMABLE status at the same time). In this case, SDL Core discards only the non-conforming part of the setting provided by the OEM's configuration file and uses the value of the default one.
 
 <b>Table 4.</b> OEM's specification of Status Transition (the case of error)
 
