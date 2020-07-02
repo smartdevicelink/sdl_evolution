@@ -15,7 +15,7 @@ For this reason (#1235), a deadlock may occur.
 To avoid the deadlock, it is desirable to add a mechanism where the negotiated RPC spec version is judged by the iOS library and stops Audio Streaming when the app on the mobile device side moves to BACKGROUND.
 
 ## Proposed solution
-The negotiated RPC spec version and the manufacturer name are checked by the iOS library, when the app on the mobile device side moves to BACKGROUND. If the negotiated RPC spec version is 4.5.2 (Mobile API v4.5.1)  or older and the manufacturer name is not `Ford`, then Audio Streaming is stopped.
+The negotiated RPC spec version and the manufacturer name are checked by the iOS library, when the app on the mobile device side moves to BACKGROUND. If the negotiated RPC spec version is 4.5.1 (used in SDL Core v4.5.2)  or older and the manufacturer name is not `Ford`, then Audio Streaming is stopped.
 
 ## Potential downsides
 None
