@@ -177,3 +177,4 @@ Since new parameters are added, Core, iOS, Java Suite, RPC, Protocol, and HMI ar
 ## Alternatives considered
 
 There is still room for consideration, but I recommend this proposed solution.
+
