@@ -163,7 +163,7 @@ With the changes of the flow, it is necessary to do refactoring of the Java Suit
 By using this function, the HU is able to perform  BT automatic connection based on the `bluetoothDeviceAddress` which is notified when the app that requests audio (`requiresAudioSupport` is set to true) is launched.
 It can also display a message that prompts BT connection to the user.
 
-Note: While the HMI is connecting with the Bluetooth mobile device of the app that is set up `requiresAudioSupport=true`, preventions from activations of the app are needed.
+Note: The HMI will be responsible for preventing app activation while the HMI is in the process of connecting to the mobile device's BT for an app that has `requiresAudioSupport=true`. For example, the HMI could show a loading icon for that app, or display an error message to the user upon activation.
 
 ## Potential downsides
 
