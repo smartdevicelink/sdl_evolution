@@ -155,7 +155,7 @@ HMI API:
 
 ### MediaStreamingStatus class
 
-The library supports the new version of the protocol specification. However the app needs to use `MediaStreamingStatus` class before registering if the IVI system uses the earlier version.
+If the Java Suite library supports the newer version of the protocol specification, but the IVI system is using a lower version, the app will still need to use the `MediaStreamingStatus` class before attempting to register.
 With the changes of the flow, it is necessary to do refactoring the library to move the logic of `MediaStreamingStatus` class.
 
 ### Launch the app
@@ -177,4 +177,3 @@ Since new parameters are added, Core, iOS, Java Suite, RPC, Protocol, and HMI ar
 ## Alternatives considered
 
 There is still room for consideration, but I recommend this proposed solution.
-
