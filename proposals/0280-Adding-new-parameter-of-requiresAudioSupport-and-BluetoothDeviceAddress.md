@@ -175,5 +175,3 @@ This proposal requires a major version change.
 Since new parameters are added, Core, iOS, Java Suite, RPC, Protocol, and HMI are affected.
 
 ## Alternatives considered
-
-There is still room for consideration, but I recommend this proposed solution.
