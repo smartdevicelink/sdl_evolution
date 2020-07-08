@@ -156,7 +156,12 @@ HMI API:
 ### MediaStreamingStatus class
 
 If the Java Suite library supports the newer version of the protocol specification, but the IVI system is using a lower version, the app will still need to use the `MediaStreamingStatus` class before attempting to register.
-With the changes of the flow, it is necessary to do refactoring of the Java Suite library to move the logic of the `MediaStreamingStatus` class.
+By using the value of isAudioOutputAvailable() method on MediaStreamingStatus class, the Java Suite library can make a decision whether BT A2DP is connected like below:
+
+- True : BT A2DP is connected.
+- False : BT A2DP is NOT connected.
+
+With the changes of the flow, it is necessary to do refactoring of the Java Suite library to move the logic of the `MediaStreamingStatus` class from before the `StartService` to before the `RegisterAppInterface`.
 
 ### Launch the app
 
@@ -175,3 +180,50 @@ This proposal requires a major version change.
 Since new parameters are added, Core, iOS, Java Suite, RPC, Protocol, and HMI are affected.
 
 ## Alternatives considered
+
+While this alternative was considered, the Steering Committee determined this flow does not account for previous versions of the protocol, and therefore is not viable as the primary solution.
+
+### Change the app registration flow
+
+![registeringApp_flow1](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow1.png)
+
+1. The developer will set their `requiresAudioSupport` to true.
+2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
+3. Core will receive the `StartService` for the RPC service:
+
+    1. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
+    2. Core will check its current audio connects (BT A2DP), if it has a supported audio connect it will continue in flow.
+    3. If there is no audio support, Core will check if it supports the auto connect BT function. If it does, it will continue in flow.
+    4. If `requiresAudioSupport` is true and there is no supported audio methods and Core does not support the auto connect BT function, it will send a `StartServiceNAK` with the reason `No audio support available`.
+
+4. If it supports the auto connect BT function, a new param in the payload of `StartServiceACK`, `autoBTCapability` is set to true, otherwise set to false. Then if Core has continued, it will send a `StartServiceACK`.
+5. The app receives the response to its `StartService` for the RPC service:
+
+    1. If the response was a `StartServiceNAK`, the app will shut down.
+    2. If the response was a `StartServiceACK`, it will continue in flow.
+    3. If `requiresAudioSupport` was set to false or not set, it will continue in flow.
+    4. The library checks its current audio connects (BT A2DP), if it has a supported audio connect, it will continue in flow.
+    5. If `autoBTCapability` was set to true, it will continue in flow.
+    6. If the response was a `StartServiceACK` and `requiresAudioSupport` was set to true and `autoBTCapability` was set to false, the app will shut down.
+
+6. The app will send its `RegisterAppInterface` which will include `requiresAudioSupport` and `bluetoothDeviceAddress` in `deviceInfo`.
+7. When Core receives `RegisterAppInterface`, it sends response. Then it will send `OnAppRegistered` including `deviceInfo` to HMI.
+
+#### Preconditions
+
+As demonstrated in the flow, the following conditions are required to use this function.
+If the SDL app or HU cannot use this function, it will perform the same operation as before.
+
+
+|conditions|details|
+|---|---|
+|The app/HMI must have the version that supports this function|App side: `requiresAudioSupport` of `RegisterAppInterface` must be set to true in order to use this function.<br>HMI side: `autoBTCapability` of `StartServiceACK` must be set to true in order to use this function.|
+|App must request audio|In case of media app, `requestAudioSupport` is set to true as default. However, developers can set `requiresAudioSupport` to true regardless of default settings.|
+|HU must have BT automatic connection function|`autoBTConnect` of` HMICapabilities` must be set to true.|
+
+#### Add parameters
+
+Only the differences from the `Proposed solution` section are shown below.
+
+- StartServiceACK
+Additionally, a new parameter `autoBTConnection`, which indicates whether the HU has the BT automatic connection function, is added to `HMICapabilities`. SDL Core sets `autoBTCapability` to true, **if `autoBTConnection` is true.**
