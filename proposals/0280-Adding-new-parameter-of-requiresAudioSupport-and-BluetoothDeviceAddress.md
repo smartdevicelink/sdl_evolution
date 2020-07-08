@@ -161,7 +161,7 @@ By using the value of isAudioOutputAvailable() method on MediaStreamingStatus cl
 - True : BT A2DP is connected.
 - False : BT A2DP is NOT connected.
 
-With the changes of the flow, it is necessary to do refactoring of the Java Suite library to move the logic of the `MediaStreamingStatus` class from before the `StartService` to before the `RegisterAppInterface`.
+With the changes of the flow, it is necessary to do refactoring of the Java Suite library to move the logic of the `MediaStreamingStatus` class from the preprocessing of the `StartService` to the preprocessing of the `RegisterAppInterface`.
 
 ### Launch the app
 
