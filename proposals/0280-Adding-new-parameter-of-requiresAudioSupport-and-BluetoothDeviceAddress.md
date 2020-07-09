@@ -156,7 +156,7 @@ HMI API:
 ### MediaStreamingStatus class
 
 If the Java Suite library supports the newer version of the protocol specification, but the IVI system is using a lower version, the app will still need to use the `MediaStreamingStatus` class before attempting to register.
-By using the value of isAudioOutputAvailable() method on MediaStreamingStatus class, the Java Suite library can make a decision whether BT A2DP is connected like below:
+By using the value of `isAudioOutputAvailable()` method on `MediaStreamingStatus` class, the Java Suite library can make a decision whether BT A2DP is connected like below:
 
 - True : BT A2DP is connected.
 - False : BT A2DP is NOT connected.
