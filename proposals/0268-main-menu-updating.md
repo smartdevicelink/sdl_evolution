@@ -92,6 +92,10 @@ The HMI will have to support this feature and tell Core when to request menu upd
 <function name="UI.OnUpdateFile" messagetype="request">
     <description>For the HMI to tell Core that a file needs to be retrieved from the app.</description>
 
+    <param name="appID" type="Integer" mandatory="true">
+       <description>ID of application related to this RPC.</description>
+     </param>
+
     <param name="fileName" type="String" maxlength="255" mandatory="true">
         <description>File reference name.</description>
     </param>
@@ -99,6 +103,10 @@ The HMI will have to support this feature and tell Core when to request menu upd
 
 <function name="UI.OnUpdateSubMenu" messagetype="request">
     <description>For the HMI to tell Core that a submenu needs updating</description>
+
+    <param name="appID" type="Integer" mandatory="true">
+       <description>ID of application related to this RPC.</description>
+    </param>
 
     <param name="menuID" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="true">
         <description>This menuID must match a menuID in the current menu structure</description>
