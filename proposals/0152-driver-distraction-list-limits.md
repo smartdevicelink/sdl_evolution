@@ -52,6 +52,15 @@ We would add a new `SystemCapabilityType` and additions to `SystemCapability` to
 </struct>
 ```
 
+```xml
+<struct name="HMICapabilities" since="3.0">
+...
++    <param name="driverDistraction" type="Boolean" mandatory="false" since="7.0">
++        <description>Availability of driver distraction capability. True: Available, False: Not Available</description>
++    </param>
+</struct>
+```
+
 ## Potential downsides
 
 This would require some work on Core and / or HMI to provide configuration options and interface work for list length and menu depth when the driver is distracted. Alternately, this could be purely an HMI-level decision and configuration.
