@@ -124,6 +124,16 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SHAID v2.6</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='shaid'][@sdl-version='2.6']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for Manticore v2.6</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='manticore'][@sdl-version='2.6']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
           <xsl:with-param name="title">Deferred for future discussion</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='deferred']"/>
         </xsl:call-template>
@@ -354,8 +364,12 @@ on the gh-pages branch).
          background-color: #bac6d2; // SDL Grey
         color: #000;
       }
-        a.number.platform-dev-portal {
+        a.number.platform-manticore {
          background-color: #7ebc79; // SDL Lime
+      }
+        a.number.platform-shaid {
+         background-color: #58bcb9; // SDL Teal
+        color: #000;
       }
     </style>
   </xsl:template>
