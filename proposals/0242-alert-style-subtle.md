@@ -116,14 +116,14 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
     <param name="alertStrings" type="Common.TextFieldStruct" mandatory="true" array="true" minsize="0" maxsize="2">
         <description>Array of lines of alert text fields. See TextFieldStruct. Uses subtleAlertText1, subtleAlertText2.</description>
     </param>
-    <param name="alertIcon" type="Common.Image" mandatory="false" >
+    <param name="alertIcon" type="Common.Image" mandatory="false">
         <description>
             Image to be displayed for the corresponding alert. See Image. 
             If omitted, no (or the default if applicable) icon should be displayed.
         </description>
     </param>
-    <param name="duration" type="Integer" mandatory="true" minvalue="3000" maxvalue="10000">
-        <description>Timeout in milliseconds.</description>
+    <param name="duration" type="Integer" mandatory="false" minvalue="3000" maxvalue="10000">
+        <description>Timeout in milliseconds. Omitted if SoftButtons are included.</description>
     </param>
     <param name="softButtons" type="Common.SoftButton" mandatory="false" minsize="0" maxsize="2" array="true">
         <description>App defined SoftButtons</description>
