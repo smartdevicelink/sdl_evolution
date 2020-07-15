@@ -25,7 +25,7 @@ However, with this proposal, by adding a new parameter, the SDL app always estab
 In order for the app to be always registered, the changes in SDL session establishment to app registration flow are shown below.
 If the SDL app or HU cannot use this function, it will perform the same operation as before.
 
-![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow.png)
+![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow1.png)
 
 1. The developer will set their `requiresAudioSupport` to true.
 2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
