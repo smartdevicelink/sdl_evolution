@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0300](0300-Voice-Assistant-App-Service.md)
 * Author: [Joey Grover](https://github.com/joeygrover)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [ Core / HMI / RPC / iOS / Java Suite / JavaScript Suite ]
 
 
