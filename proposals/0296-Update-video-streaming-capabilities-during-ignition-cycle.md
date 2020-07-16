@@ -154,10 +154,11 @@ where `VideoStreamingRange`:
 
 ```java
 public class VideoStreamingRange {
-    private Resolution minSupportedResolution;
-    private Resolution maxSupportedResolution;
-    private Double maxScreenDiagonal;
-    private AspectRatio aspectRatio;
+    private Resolution minResolution;
+    private Resolution maxResolution;
+    private Double minAspectRatio;
+    private Double maxAspectRatio;
+    private Double minScreenDiagonal;
 }
 ```
 In `SdlRemoteDisplay` implementation by mobile application developers:
@@ -168,8 +169,9 @@ Later, when alternative supported resolutions are retrieved from `HMI`, `VideoSt
 private List<VideoStreamingCapability> getSupportedCapabilities(
     Resolution minResolution,
     Resolution maxResolution,
-    Double constraintDiagonalMax,
-    AspectRatio ratioRange
+    Double minAspectRatio,
+    Double maxAspectRatio,
+    Double minScreenDiagonal
 )
 ```
 
