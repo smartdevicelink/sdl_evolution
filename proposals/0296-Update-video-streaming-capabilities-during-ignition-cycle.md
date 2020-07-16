@@ -3,7 +3,7 @@
 * Proposal: [SDL-0296](0296-Update-video-streaming-capabilities-during-ignition-cycle.md)
 * Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite]
+* Impacted Platforms: [Core / iOS / Java Suite / HMI]
 
 ## Introduction
 
@@ -64,13 +64,6 @@ Within this request mobile application (SDL library) can also subscribe to recei
     </param>
 </struct>
 
-<struct name="AppVideoStreamingCapability" since="x.x">
-    <description>Contains information about this app's video streaming capabilities.</description>
-    <param name="supportedResolutions" type="ImageResolution" mandatory="false" array="true">
-        <description>Supported streaming resolutions</description>
-    </param>
-</struct>
-
 <enum name="AppCapabilityType" since="x.x">
     <description>Enumerations of all available app capability types</description>
     <element name="VIDEO_STREAMING"/>
@@ -78,7 +71,7 @@ Within this request mobile application (SDL library) can also subscribe to recei
 
 <struct name="VideoStreamingCapability" since="4.5">
     <!-- Existing params -->
-    <param name="additionalVideoStreamingCapabilities" type="VideoStreamingCapability" array="true" minvalue="1" maxvalue="100" mandatory="false" since="X.X">
+    <param name="additionalVideoStreamingCapabilities" type="VideoStreamingCapability" array="true" minsize="1" maxsize="100" mandatory="false" since="X.X">
     </param>
 </struct>
 ```
@@ -125,10 +118,10 @@ While `diagonalScreenSize` is mandatory, `aspectRatio` and `resolution` are opti
 In `SDLStreamingMediaConfiguration`:
 
 ```objectivec
-@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedLandscapeStreamingRange;
-@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedPortraitStreamingRange;
+@property (strong, nonatomic, nullable) VideoStreamingRange *supportedLandscapeStreamingRange;
+@property (strong, nonatomic, nullable) VideoStreamingRange *supportedPortraitStreamingRange;
 
-@interface SDLSupportedStreamingRange : NSObject
+@interface VideoStreamingRange : NSObject
 // The minimum supported normalized aspect ratio, Min value is 1. (0 matches any ratio)
 @property (nonatomic, assign) float minimumAspectRatio;
 // The maximum supported normalized aspect ratio, Min value is 1. (0 matches any ratio)
@@ -153,14 +146,14 @@ In `VideoStreamManager` add new `startRemoteDisplayStream`:
 
 ```java
 public void startRemoteDisplayStream(Context context, Class<? extends SdlRemoteDisplay> remoteDisplayClass,
-    VideoStreamingParameters parameters, final boolean encrypted, SupportedStreamingRange streamingRange)
+    VideoStreamingParameters parameters, final boolean encrypted, VideoStreamingRange streamingRange)
 ```
 
 In this way, developers will be able to pass constraints related to specific application directly into `SDLManager`
-where `SupportedStreamingRange`:
+where `VideoStreamingRange`:
 
 ```java
-public class SupportedStreamingRange {
+public class VideoStreamingRange {
     private Resolution minSupportedResolution;
     private Resolution maxSupportedResolution;
     private Double maxScreenDiagonal;
@@ -169,7 +162,7 @@ public class SupportedStreamingRange {
 ```
 In `SdlRemoteDisplay` implementation by mobile application developers:
 
-Later, when alternative supported resolutions are retrieved from `HMI`, `SupportedStreamingRange` will be used to unpack data:
+Later, when alternative supported resolutions are retrieved from `HMI`, `VideoStreamingRange` will be used to unpack data:
 
 ```java
 private List<VideoStreamingCapability> getSupportedCapabilities(
@@ -199,6 +192,8 @@ If the change is a split-screen type change (and cannot be handled by scaling th
  * The window must have a width of at least 3" and a height of at least 3".
 
  * The touches must be offset for the developer so that 0,0 continues to be in the top-left corner of the app window. If these requirements are not met, either a system menu / buttons should be displayed when selected, or the selection should bring the user immediately back to the full-screen app.
+
+The HMI should stop displaying video to the user after resizing the window instead of waiting for the `StopStream` request from Core. Video would resume after the video service is restarted. See the following example state flow: "User attempts to resize" -> "HMI stops displaying video" -> "Head Unit sends OnAppCapabilityUpdated" -> "HMI resizes/waits for stop and start of video stream" -> "HMI displays new video stream".
 
 ### Old applications behavior
 
