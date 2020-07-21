@@ -29,8 +29,7 @@ The proposal is to move the minimum required deployment version to iOS 10.0. I c
 1. I was able to find one iOS partner app that currently supports iOS 9 (Sygic).
 
 ## Impact on existing code
-
-Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
+This will require a major version change to the iOS library because we are dropping support for some iOS devices.
 
 ## Alternatives considered
 1. We could update our minimum version to iOS 9.0 instead. We would be unable to remove as much code as if we move to iOS 10.0, and we will be more likely to have to do another major version change to bump the minimum required version again.
