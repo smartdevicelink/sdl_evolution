@@ -118,10 +118,10 @@ While `diagonalScreenSize` is mandatory, `aspectRatio` and `resolution` are opti
 In `SDLStreamingMediaConfiguration`:
 
 ```objectivec
-@property (strong, nonatomic, nullable) VideoStreamingRange *supportedLandscapeStreamingRange;
-@property (strong, nonatomic, nullable) VideoStreamingRange *supportedPortraitStreamingRange;
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
 
-@interface VideoStreamingRange : NSObject
+@interface SDLVideoStreamingRange : NSObject
 // The minimum supported normalized aspect ratio, Min value is 1. (0 matches any ratio)
 @property (nonatomic, assign) float minimumAspectRatio;
 // The maximum supported normalized aspect ratio, Min value is 1. (0 matches any ratio)
