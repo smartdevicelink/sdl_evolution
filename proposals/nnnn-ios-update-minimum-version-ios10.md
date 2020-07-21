@@ -2,7 +2,7 @@
 * Proposal: [SDL-NNNN](nnnn-ios-update-minimum-version-ios10.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
-* Impacted Platforms: [Core / iOS / Java Suite / HMI / Policy Server / SHAID / RPC / Protocol]
+* Impacted Platforms: [iOS]
 
 ## Introduction
 This proposal is to update the minimum supported iOS deployment version from iOS 8.0 to iOS 10.0.
