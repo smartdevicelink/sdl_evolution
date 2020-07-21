@@ -8,7 +8,7 @@
 This proposal is to update the minimum supported iOS deployment version from iOS 8.0 to iOS 10.0.
 
 ## Motivation
-In September, Xcode 12 will be released. In the current beta release notes, it's noted that Xcode 12 drops support for creating apps below iOS 9.0. We currently support down to iOS 8.0. Therefore, we will need to update our minimum supported version to at least iOS 9.0.
+In September 2020, Xcode 12 will be released. In the current beta release notes, it's noted that Xcode 12 drops support for creating apps below iOS 9.0. We currently support down to iOS 8.0. Therefore, we will need to update our minimum supported version to at least iOS 9.0.
 
 ## Proposed solution
 The proposal is to move the minimum required deployment version to iOS 10.0. I chose this in order to be able to remove additional version checked code and to give us a larger buffer before another major version change is necessary to do this again.
