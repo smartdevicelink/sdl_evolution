@@ -120,16 +120,15 @@ In `SDLStreamingMediaConfiguration`:
 ```objectivec
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
-@property (weak, nonatomic, nullable) id<SDLStreamingMediaDelegate> delegate;
+@property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
 ```
 
-Where an object conforming to `SDLStreamingMediaDelegate` should implement the following methods:
+Where an object conforming to `SDLStreamingVideoDelegate` should implement the following methods:
 
 ```objectivec
-@protocol SDLStreamingMediaDelegate <NSObject>
+@protocol SDLStreamingVideoDelegate <NSObject>
 
 - (void)videoStreamingSizeDidUpdate:(CGSize)displaySize;
-- (void)videoStreamingSizeDoesNotMatch;
 
 @end
 ```
