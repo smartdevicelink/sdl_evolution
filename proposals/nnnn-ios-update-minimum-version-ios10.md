@@ -1,4 +1,4 @@
-# Feature name
+# Update the Minimum Required iOS Version to 10.0
 * Proposal: [SDL-NNNN](nnnn-ios-update-minimum-version-ios10.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Awaiting review**
