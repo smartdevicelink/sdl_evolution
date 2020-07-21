@@ -120,7 +120,29 @@ In `SDLStreamingMediaConfiguration`:
 ```objectivec
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
+@property (weak, nonatomic, nullable) id<SDLStreamingMediaDelegate> delegate;
+```
 
+Where an object conforming to `SDLStreamingMediaDelegate` should implement the following methods:
+
+```objectivec
+@protocol SDLStreamingMediaDelegate <NSObject>
+
+- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize;
+- (void)videoStreamingSizeDoesNotMatch;
+
+@end
+```
+
+Whenever the video streaming capability changes `SDLStreamingVideoLifecycleManager` should call on the delegate:
+```objectivec
+[weakSelf.delegate videoStreamingSizeDidUpdate:displaySize];
+```
+In this case the client application will have a chance to update its view accordingly once it implements the delegate method.
+
+`SDLVideoStreamingRange` class should have the following properties:
+
+```objectivec
 @interface SDLVideoStreamingRange : NSObject
 // The minimum supported normalized aspect ratio, Min value is 1. (0 matches any ratio)
 @property (nonatomic, assign) float minimumAspectRatio;
