@@ -1,8 +1,8 @@
 # Make RPC Setters Chainable
 
-* Proposal: [SDL-NNNN](nnnn-Make-RPC-Setters-Chainable.md)
+* Proposal: [SDL-0311](0311-Make-RPC-Setters-Chainable.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
