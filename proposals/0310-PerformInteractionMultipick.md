@@ -1,9 +1,9 @@
 
 # Perform Interaction Multipick
 
-* Proposal: [SDL-NNNN](NNNN-PerformInteractionMultipick.md)
+* Proposal: [SDL-0310](0310-PerformInteractionMultipick.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [HMI / Core / iOS / Java Suite / JavaScript / RPC ]
 
 ## Introduction
