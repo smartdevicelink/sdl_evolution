@@ -16,17 +16,17 @@ The SDL Android library uses Android Services for the SDL router service and the
 
 Notifications appearing on users' Android devices during SDL connection are shown below.
 
-![Waiting for Connection...](../assets/proposals/NNNN-android-notifications/waiting_for_connection.png)
+![Waiting for Connection...](../assets/proposals/0309-android-notifications/waiting_for_connection.png)
 
 This is the first notification shown to the user when the mobile device connects to any Bluetooth device. This "Waiting for connection" notification will be shown for both SDL enabled and the non-SDL enabled Bluetooth devices.
 
-![All notifications](../assets/proposals/NNNN-android-notifications/all_noti.png)
+![All notifications](../assets/proposals/0309-android-notifications/all_noti.png)
 
 The above two notifications are shown by an SDL app when the mobile device is connected to the SDL enabled system. The app developers cannot influence the described behavior of these notifications. None of the foreground notifications can be dismissed like other notifications, such as push notifications. To remove or avoid showing the foreground notification, the service must be stopped programmatically. Hence, the user cannot remove the notification except by force closing the application from the device's settings menu. Another option would be to hide that notification. However, many users do not want any service to run in the background if it is not doing any useful task for them. If the user doesn't have an SDL enabled system, running an SDL service on his device would not make any sense. 
 
 Notification details provided on the SDL Developer Portal below.
 
-![SDL Faqs](../assets/proposals/NNNN-android-notifications/sdl_faq.png)
+![SDL Faqs](../assets/proposals/0309-android-notifications/sdl_faq.png)
 
 Over time, many users keep complaining about the notifications shown to the user for no reason. For example, users complained recently that notifications are shown when they connect to non-SDL enabled Bluetooth devices (e.g. Bluetooth headset, Bluetooth speakers, etc.). 
 
@@ -34,15 +34,15 @@ Some users have left complaints in the Google Play Store for apps integrating th
 
 1. **"...option to turn off SmartDeviceLink...App constantly popping up notifications...dont want this app doing anything in the background."**
 
-    ![Google Playstore review](../assets/proposals/NNNN-android-notifications/review_1.png)
+    ![Google Playstore review](../assets/proposals/0309-android-notifications/review_1.png)
 
 2. **"...quite good app but I've had to uninstall...I cann't even find any info about how to disable it..."**
 
-    ![Google Playstore review](../assets/proposals/NNNN-android-notifications/review_2.png)
+    ![Google Playstore review](../assets/proposals/0309-android-notifications/review_2.png)
 
 3. Translated: **"Privacy issue...It connects or analyzes my Polar M400 sports-watch without consent..."**
 
-    ![Google Playstore review](../assets/proposals/NNNN-android-notifications/review_3.png)
+    ![Google Playstore review](../assets/proposals/0309-android-notifications/review_3.png)
 
 **Feedback from App Partners**
 
@@ -91,9 +91,9 @@ As seen in user reviews on the Google Play Store, many users want a way to stop 
 
 The SDL notification should have two buttons, `Stop Now` and `Settings`. These buttons will be shown when the user expands the notification on the Android device.
 
-![User button to stop router service](../assets/proposals/NNNN-android-notifications/noti_button.png)
+![User button to stop router service](../assets/proposals/0309-android-notifications/noti_button.png)
 
-![User button to stop router service](../assets/proposals/NNNN-android-notifications/noti_button_1.png)
+![User button to stop router service](../assets/proposals/0309-android-notifications/noti_button_1.png)
 
 If the user clicks on the `Stop Now` button, the Android Router Service will be immediately stopped. The second button `Settings` should be shown only when the app hosting a router service provides a `PendingIntent` for the app settings page. Below is an example implementation of how an app developer can provide `PendingIntent` to be used with the `Settings` button on an Android Router Service notification. The app settings page can be used to enable/disable SDL for that specific app using the API described above.
 
@@ -109,7 +109,7 @@ public class SdlRouterService extends Service{
 
 If the SDL app did not provide `PendingIntent` for the app settings page, the Android Router Service will show only the `Stop Now` button.
 
-![User button to stop router service](../assets/proposals/NNNN-android-notifications/noti_button_2.png)
+![User button to stop router service](../assets/proposals/0309-android-notifications/noti_button_2.png)
 
 ## Potential downsides
 
