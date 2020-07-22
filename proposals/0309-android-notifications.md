@@ -1,8 +1,8 @@
 # Mitigating Android SDL service notifications issues
 
-* Proposal: [SDL-NNNN](NNNN-android-notifications.md)
+* Proposal: [SDL-0309](0309-android-notifications.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford), [Ashwin Karemore](https://github.com/ashwink11)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
