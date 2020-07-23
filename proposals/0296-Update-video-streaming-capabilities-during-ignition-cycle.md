@@ -123,22 +123,6 @@ In `SDLStreamingMediaConfiguration`:
 @property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
 ```
 
-Where an object conforming to `SDLStreamingVideoDelegate` should implement the following methods:
-
-```objectivec
-@protocol SDLStreamingVideoDelegate <NSObject>
-
-- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize;
-
-@end
-```
-
-Whenever the video streaming capability changes `SDLStreamingVideoLifecycleManager` should call on the delegate:
-```objectivec
-[weakSelf.delegate videoStreamingSizeDidUpdate:displaySize];
-```
-In this case the client application will have a chance to update its view accordingly once it implements the delegate method.
-
 `SDLVideoStreamingRange` class should have the following properties:
 
 ```objectivec
