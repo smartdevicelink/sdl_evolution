@@ -24,7 +24,7 @@ So, add a field `multiPickConfirmationButtonText`, if this has text in it then t
 
 
 Add `multiPickConfirmationButtonText` to the request in the `MOBILE_API`.
-Also, add a return parameter `choiceIDArray` to `PerformInteraction` response. This array allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app:
+Also, add a return parameter `multipickChoiceIDs` to `PerformInteraction` response. This array allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app:
 ```xml
     <function name="PerformInteraction" functionID="PerformInteractionID" messagetype="request" since="1.0">
       <description>Triggers an interaction (e.g. "Permit GPS?" - Yes, no, Always Allow).</description>
@@ -42,7 +42,7 @@ Also, add a return parameter `choiceIDArray` to `PerformInteraction` response. T
     .
     .
     .
-      <param name="choiceIDArray" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false" since="X.X">
+      <param name="multipickChoiceIDs" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false" since="X.X">
        <description>
           IDs of the choices that were selected in response to a multipick performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
           Only is valid if general result is "success:true".
@@ -72,7 +72,7 @@ Then do the same for the `HMI_API`:
   .
   .
   .
-    <param name="choiceIDArray" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false">
+    <param name="multipickChoiceIDs" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false">
       <description>
         IDs of the choices that were selected in response to a multipick performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
         Only is valid if general result is "success:true".
@@ -82,8 +82,8 @@ Then do the same for the `HMI_API`:
 </interface>
 ```
 
-The SDL Mobile libraries will do some handling of providing the `choiceID` or `choiceIDArray` response back to the app. 
-On older head units, the app might request a multipick `performInteraction` but the head unit would ignore the parameter of `multiPickConfirmationButtonText` and the response would only end up being a single choiceID.  If the `choiceID` and `choiceIDArray` are both present in the response from the HMI, then Mobile libraries will just send back `choiceIDArray`.
+The SDL Mobile libraries will do some handling of providing the `choiceID` or `multipickChoiceIDs` response back to the app. 
+On older head units, the app might request a multipick `performInteraction` but the head unit would ignore the parameter of `multiPickConfirmationButtonText` and the response would only end up being a single choiceID.  If the `choiceID` and `multipickChoiceIDs` are both present in the response from the HMI, then Mobile libraries will just send back `multipickChoiceIDs`.
 
 If a multipick PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
 
