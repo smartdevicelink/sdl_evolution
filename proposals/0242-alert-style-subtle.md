@@ -3,7 +3,7 @@
 * Proposal: [SDL-0242](0242-alert-style-subtle.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / HMI / RPC]
 
 ## Introduction
 This feature adds the `SubtleAlert` RPC, which presents a style of alert: the "subtle" alert. This is a "notification style" alert that does not take over the entire screen.
