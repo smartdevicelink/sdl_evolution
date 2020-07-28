@@ -87,6 +87,19 @@ On older head units, the app might request a multipick `performInteraction` but 
 
 If a multipick PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
 
+Plus the headunit can note that it supports form field text and images through `TextFieldName` in the MOBILE_API
+```xml
+   <enum name="TextFieldName" since="1.0">
+     .
+     .
+     .
+        </element>
+             <element name="multiPickConfirmationButtonText">
+            <description>If this parameter is set, then this is a multipick performInteraction. This text will be the button that a person uses to finish choosing items.</description>
+        </element>
+
+</enum>
+```
 
 ## Potential downsides
 
