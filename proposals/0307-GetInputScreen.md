@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0307](0307-GetInputScreen.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Deferred**
+* Status: **In Review**
 * Impacted Platforms: [HMI / Core / iOS / Java Suite / JavaScript / RPC]
 
 ## Introduction
