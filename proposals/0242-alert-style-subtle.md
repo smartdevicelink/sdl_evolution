@@ -43,7 +43,7 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
 
 #### Subtle Alert
 ```xml
-<function name="SubtleAlert" functionID="SubtleAlertID" messagetype="request">
+<function name="SubtleAlert" functionID="SubtleAlertID" messagetype="request" since="X.X">
     <description>Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.</description>
         
      <param name="alertText1" type="String" maxlength="500" mandatory="false">
@@ -90,7 +90,41 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
     </param>
 </function>
 
-<function name="OnSubtleAlertPressed" functionID="OnSubtleAlertPressedID" messagetype="notification">
+<function name="SubtleAlert" messagetype="response" since="X.X">
+    <param name="success" type="Boolean" platform="documentation" mandatory="true">
+        <description> true if successful; false, if failed </description>
+    </param>
+
+    <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+        <description>See Result</description>
+        <element name="SUCCESS"/>
+        <element name="INVALID_DATA"/>
+        <element name="OUT_OF_MEMORY"/>
+        <element name="TOO_MANY_PENDING_REQUESTS"/>
+        <element name="APPLICATION_NOT_REGISTERED"/>
+        <element name="GENERIC_ERROR"/>
+        <element name="REJECTED"/>
+        <element name="ABORTED"/>
+        <element name="DISALLOWED"/>
+        <element name="USER_DISALLOWED"/>
+        <element name="UNSUPPORTED_RESOURCE"/>
+        <element name="WARNINGS"/>
+    </param>
+
+    <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+        <description>Provides additional human readable info regarding the result.</description>
+    </param>
+
+    <param name="tryAgainTime" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="false">
+        <description>
+            Amount of time (in seconds) that an app must wait before resending an alert.
+            If provided, another system event or overlay currently has a higher priority than this alert.
+            An app must not send an alert without waiting at least the amount of time dictated.
+        </description>
+    </param>
+</function>
+
+<function name="OnSubtleAlertPressed" functionID="OnSubtleAlertPressedID" messagetype="notification" since="X.X">
     <description>
         Sent when the alert itself is touched (outside of a soft button). Touching (or otherwise selecting) the alert should open the app before sending this notification.
     </description>
