@@ -3,7 +3,7 @@
 * Proposal: [SDL-0296](0296-Update-video-streaming-capabilities-during-ignition-cycle.md)
 * Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC / JavaScript Suite]
 
 ## Introduction
 
@@ -179,6 +179,10 @@ private List<VideoStreamingCapability> getSupportedCapabilities(
     Double minScreenDiagonal
 )
 ```
+
+### JavaScript APIs
+
+The JavaScript APIs will be set up in a similar way to the Obj-C / Java APIs above. All changes will be at the discretion of the Project Maintainer. However larger changes that would impact the Objective-C code above (such as adding or removing a method) will require proposal revisions.
 
 #### Resolution Switching
 
