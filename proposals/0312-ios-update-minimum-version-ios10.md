@@ -1,7 +1,7 @@
 # Update the Minimum Required iOS Version to 10.0
 * Proposal: [SDL-0312](0312-ios-update-minimum-version-ios10.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS]
 
 ## Introduction
