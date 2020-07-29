@@ -1,8 +1,8 @@
 # Adding new parameters for transport switching
 
-* Proposal: [SDL-XXXX](XXXX-Adding-new-parameters-for-transport-switching.md)
+* Proposal: [SDL-0313](0313-Adding-new-parameters-for-transport-switching.md)
 * Author: [Kazuki Sugimoto(Nexty)](https://github.com/Kazuki-Sugimoto)
-* Status: **Awaiting Review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / RPC / HMI ]
 
 ## Introduction
