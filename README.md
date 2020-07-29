@@ -126,26 +126,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_core/releases/tag/6.1.0).
 
 ---
-#### SDL Java Suite: 4.11.0
-**Release Date**: April 29, 2020
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/4.11.0).
-
----
-
-#### SDL iOS: 6.6.0
-**Release Date**: April 29, 2020
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.6.0).
-
----
-
-#### SDL JavaScript Suite: 1.0.0
-**Release Date**: April 29, 2020
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_javascript_suite/releases/tag/1.0.0).
-
----
 
 #### SDL Policy Server: 2.9.0
 **Release Date**: April 30, 2019
@@ -155,23 +135,23 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 ---
 
 #### SDL iOS: 6.7.0
-**Expected Release Date**: July 29, 2020
+**Release Date**: July 29, 2020
 
-**Contents**: Contents of this release can be tracked on the [iOS 6.7.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/21).
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/6.7.0).
 
 ---
 
 #### SDL Java Suite: 4.12.0
-**Expected Release Date**: July 29, 2020
+**Release Date**: July 29, 2020
 
-**Contents**: Contents of this release can be tracked on the [Java Suite 4.12.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/13).
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/4.12.0).
 
 ---
 
 #### SDL JavaScript Suite: 1.1.0
-**Expected Release Date**: July 29, 2020
+**Release Date**: July 29, 2020
 
-**Contents**: Contents of this release can be tracked on the [JavaScript Suite 1.1.0 Project Page](https://github.com/smartdevicelink/sdl_javascript_suite/projects/2).
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_javascript_suite/releases/tag/1.1.0).
 
 ---
 
@@ -186,6 +166,41 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Expected Release Date**: November 4, 2020
 
 **Contents**: Contents of this release can be tracked on the [RPC Spec 7.0.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/5).
+
+---
+
+#### SDL iOS: 6.8.0
+**Expected Release Date**: November 4, 2020
+
+**Contents**: Contents of this release can be tracked on the [iOS 6.8.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/22).
+
+---
+
+#### SDL Java Suite: 5.0.0
+**Expected Release Date**: November 4, 2020
+
+**Contents**: Contents of this release can be tracked on the [Java Suite 5.0.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/14).
+
+---
+
+#### SDL JavaScript Suite: 1.2.0
+**Expected Release Date**: November 4, 2020
+
+**Contents**: Contents of this release can be tracked on the [JavaScript Suite 1.2.0 Project Page](https://github.com/smartdevicelink/sdl_javascript_suite/projects/3).
+
+---
+
+#### SDL Policy Server: 2.10.0
+**Expected Release Date**: November 4, 2020
+
+**Contents**: Contents of this release can be tracked on the [Policy Server 2.10.0 Project Page](https://github.com/smartdevicelink/sdl_server/projects/3).
+
+---
+
+#### SDL Protocol Spec: 5.3.0
+**Expected Release Date**: November 4, 2020
+
+**Contents**: Contents of this release can be tracked on the [Protocol Spec 5.3.0 Project Page](https://github.com/smartdevicelink/protocol_spec/projects/4).
 
 ---
 
