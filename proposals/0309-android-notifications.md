@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0309](0309-android-notifications.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford), [Ashwin Karemore](https://github.com/ashwink11)
-* Status: **In Review**
+* Status: **Rejected**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
