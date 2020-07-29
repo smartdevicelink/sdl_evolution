@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0311](0311-Make-RPC-Setters-Chainable.md)
 * Author: [Bilal Alsharifi](https://github.com/bilal-alsharifi)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
