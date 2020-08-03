@@ -79,7 +79,7 @@ and the `HMI_API`:
 
 
 Add a new struct called `Field` and an enum called `FieldType` to get user input in the DisplayForm screen.
-This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items. If a combo box is requested, the user is required to pick something besides the default value.
+This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items. If a combo box is requested, and the user doesn't pick anything, the HMI will send back the field.text and then it's up to the app on what to do.
 
 Here's the MOBILE_API:
 ```xml
