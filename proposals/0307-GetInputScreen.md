@@ -138,13 +138,7 @@ Plus the headunit can note that it supports form field text and images through `
         <element name="formFieldLabel">
         </element>
              <element name="formFieldText">
-            <description>The text that is already present in the input field</description>
-        </element>
-             <element name="formFieldFormat">
-            <description>A text string used to format the input text to a certain style. </description>
-        </element>
-             <element name="formFieldAdditionalInfo">
-            <description>More information that is shown by the input field</description>
+            <description>If this is not present, the app may assume that `DisplayForm` is unsupported. If it is present, it is assumed that all features other than `image` are supported.
         </element>
 </enum>
 ```
