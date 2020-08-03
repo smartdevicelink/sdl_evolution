@@ -1,4 +1,4 @@
-# Feature name
+# App Library: Vehicle Data Manager
 
 * Proposal: [SDL-NNNN](nnnn-app-lib-vehicle-data-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
