@@ -44,7 +44,7 @@ Here's the `MOBILE_API`:
       If there's a problem with the input fields, this can be used to display information.
     </description>
   </param>
-  <param name="fields" type="Field" array="true" minsize="0" maxsize="100" mandatory="true">\
+  <param name="fields" type="Field" array="true" minsize="1" maxsize="100" mandatory="true">\
   </param>
     <param name="softButtons" type="SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
     <description>
@@ -66,7 +66,7 @@ and the `HMI_API`:
       If there's a problem with the input fields, this can be used to display information.
     </description>
   </param>
-  <param name="fields" type="Common.Field" array="true" minsize="0" maxsize="100" mandatory="true">\
+  <param name="fields" type="Common.Field" array="true" minsize="1" maxsize="100" mandatory="true">\
   </param>
     <param name="softButtons" type="Common.SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
     <description>
@@ -225,7 +225,7 @@ Regarding the response which would be sent when the user presses a softbutton, t
 There would be one string response for each field. If a field was left empty, the associated string would be blank.
 ```xml
 <function name="DisplayForm" messagetype="response">
-  <param name="fields" type="Field" maxlength="500" array="true" minsize="0" maxsize="100" mandatory="true">
+  <param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
     <description>
       This will return an array of Fields that have the same type and label as requested, but with the text field populated.
     </description>
