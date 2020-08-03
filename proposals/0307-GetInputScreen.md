@@ -233,7 +233,7 @@ There would be one string response for each field. If a field was left empty, th
 </function>
 ```
 
-We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md) for password or other sensitive data input.
+We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md) for password or other sensitive data input. The main goal of this is to leverage an existing enum to help us out. `maskInputCharacters` mask will override `KeyboardProperties.maskInputCharacters` in `SetGlobalProperties`.
 
 Also we would add a new private `SDLFormManager` sub-manager to the screen manager. This manager will handle Form-related capabilities, text, callbacks, etc. The `SDLScreenManager` itself will then provide a simple public API for presenting a Form to the screen.
 Here's the Objective-C version. This would be translated to Java and JavaScript as well
