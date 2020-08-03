@@ -5,7 +5,7 @@
 The SDLC Steering Committee meets toward the end of each year to plan the Roadmap for the following year.  Typically, the release schedule looks like this:
 
 - End of Q1: Mostly bug fixing with minimal RPC and Protocol Spec, all affected projects (see below)
-- End of Q2: Proxy (Java Suite and iOS) Libraries
+- End of Q2: App Libraries (iOS, Java Suite, and JavaScript Suite)
 - End of Q3/Beginning of Q4 (largest release): RPC and Protocol Spec, all affected projects (see below)
 
 ### Which projects need to be updated?<a id="which-projects-need-to-be-updated?"></a>
@@ -18,8 +18,9 @@ Changes to RPC and Protocol Specs impact the following projects:
 - Generic HMI
 - SDL HMI
 - ATF and scripts
-- Java Suite (Android, JavaSE, and JavaEE; including hello world samples)
 - iOS (including hello world sample)
+- Java Suite (Android, JavaSE, and JavaEE; including hello world samples)
+- JavaScript Suite (including hello world sample)
 - RPC Spec (if RPC modification)
 - Protocol Spec (if Protocol Spec modification)
 - SDL Server
@@ -43,17 +44,22 @@ Changes to Core impact the following projects:
    - HMI Integration Guidelines
    - Core Documentation
    - Core Guides
-    
+
+Changes to the iOS project impact the following projects:
+
+- iOS (including hello world sample)
+- Documentation
+   - App Library Guides
+   
 Changes to the Java Suite project impact the following projects:
 
 - Java Suite (Android, JavaSE, and JavaEE; including hello world samples)
 - Documentation
    - App Library Guides
+   
+Changes to the JavaScript Suite project impact the following projects:
 
-
-Changes to the iOS project impact the following projects:
-
-- iOS (including hello world sample)
+- JavaScript Suite (including hello world sample)
 - Documentation
    - App Library Guides
 
@@ -115,7 +121,7 @@ As outlined in the Project Maintainer Agreement, the Steering Committee is respo
 
 - Major Core Releases
 - Minor Core Releases
-- Major Proxy (iOS and Java Suite) Releases
+- Major App Library (iOS, Java Suite, JavaScript Suite) Releases
 
 For releases requiring Steering Committee approval, there is typically a 1 month Release Candidate review period.  This includes time for the Steering Committee to review and perform testing, and the Project Maintainer to address any found issues.  This timing is subject to change at the Steering Committee's discretion.
 

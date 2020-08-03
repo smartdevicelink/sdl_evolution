@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0270](0270-Add-means-to-launch-with-optimum-appHMIType.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / iOS / Java Suite / RPC / HMI ]
 
 ## Introduction
