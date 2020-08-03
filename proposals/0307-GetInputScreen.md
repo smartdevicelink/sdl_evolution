@@ -46,7 +46,7 @@ Here's the `MOBILE_API`:
   </param>
   <param name="fields" type="Field" array="true" minsize="1" maxsize="100" mandatory="true">\
   </param>
-    <param name="softButtons" type="SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
+    <param name="softButtons" type="SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
     <description>
       App defined SoftButtons for cancel, edit, submit, etc.
     </description>
@@ -68,7 +68,7 @@ and the `HMI_API`:
   </param>
   <param name="fields" type="Common.Field" array="true" minsize="1" maxsize="100" mandatory="true">\
   </param>
-    <param name="softButtons" type="Common.SoftButton" minsize="0" maxsize="8" array="true" mandatory="false">
+    <param name="softButtons" type="Common.SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
     <description>
       App defined SoftButtons for cancel, edit, submit, etc.
     </description>
@@ -116,7 +116,7 @@ Here's the MOBILE_API:
       If set to true, then the field has some problem with it and the HMI should highlight it in red.
     </description>
   </param>
-  <param name="comboBoxChoices" type="String" maxlength="500" array="true" minsize="0" maxsize="200" mandatory="false">
+  <param name="comboBoxChoices" type="String" maxlength="500" array="true" minsize="1" maxsize="200" mandatory="false">
     <description>
       List of choices if the type is COMBO_BOX. Otherwise ignored.
     </description>
@@ -197,7 +197,7 @@ and the `HMI_API`:
       If set to true, then the field has some problem with it and the HMI should highlight it in red.
     </description>
   </param>
-  <param name="comboBoxChoices" type="String" maxlength="500" array="true" minsize="0" maxsize="200" mandatory="false">
+  <param name="comboBoxChoices" type="String" maxlength="500" array="true" minsize="1" maxsize="200" mandatory="false">
     <description>
       List of choices if the type is COMBO_BOX. Otherwise ignored.
     </description>
