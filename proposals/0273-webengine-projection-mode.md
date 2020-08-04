@@ -135,7 +135,7 @@ Example app policy entry with `AppHMIType` parameter:
 }
 ```
 
-Note: If the AppHMIType parameter is omitted from app policy, then that app is permitted to use all AppHMITypes. This is an existing behavior in Core and should not be changed for the enforcement of the `WEB_VIEW` `AppHMIType`.
+Note: If the AppHMIType parameter is omitted from the app's policy, then that app is permitted to use all AppHMITypes. This is an existing behavior in Core and should not be changed for the enforcement of the `WEB_VIEW` `AppHMIType`.
 
 Only apps with permissions to use this HMI type would be allowed to register. If a WebEngine application attempts to register with this HMI type but the local policy table doesn't allow, Core should not allow the app to register.
 It is required for applications to register with this App HMI type in order to use the `WEB_VIEW` template. Otherwise the `WEB_VIEW` template should not be available.
