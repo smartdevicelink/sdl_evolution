@@ -117,7 +117,25 @@ As a result, when in-vehicle apps with this HMI type are activated, the HMI shou
 
 #### 2.1. Policy control
 
-The HMI type `WEB_VIEW` should be policy controlled. On the policy server this HMI type can be added to the valid HMI type list per app ID.
+The HMI type `WEB_VIEW` should be policy controlled. On the policy server this HMI type can be added to the `AppHMIType` array in the app specific policy.
+
+Example app policy entry with `AppHMIType` parameter:
+
+```
+"webengine-appID-123": {
+    "AppHMIType": [ "WEB_VIEW" ],
+    "keep_context": false,
+    "steal_focus": false,
+    "priority": "NONE",
+    "default_hmi": "NONE",
+    "groups": ["Base-4", "WidgetSupport"],
+     "hybrid_app_preference": "CLOUD",
+     "enabled": false,
+     "transport_type ": "WS"
+}
+```
+
+Note: If the AppHMIType parameter is omitted from app policy, then that app is permitted to use all AppHMITypes. This is an existing behavior in Core and should not be changed for the enforcement of the `WEB_VIEW` `AppHMIType`.
 
 Only apps with permissions to use this HMI type would be allowed to register. If a WebEngine application attempts to register with this HMI type but the local policy table doesn't allow, Core should not allow the app to register.
 It is required for applications to register with this App HMI type in order to use the `WEB_VIEW` template. Otherwise the `WEB_VIEW` template should not be available.
