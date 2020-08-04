@@ -34,7 +34,7 @@ Hash ID Resumption information should be added to the Best Practices guide.
 #### Restoring Interior vehicle data
 
 Restoring interior vehicle data means that SDL should :
- - Send `GetInteriorData(IsSubscribe=true)` to HMI and store data received from HMI in cache.
+ - Send `GetInteriorVehicleData (subscribe=true)` to HMI and store data received from HMI in cache.
  - Restore subscription for the app internally (OnInteriorVehicleData notification from HMI should be transmitted to mobile)
 
 SDL should behave the same as before disconnect.
