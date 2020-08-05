@@ -117,7 +117,7 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
 
     <param name="tryAgainTime" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="false">
         <description>
-            Amount of time (in seconds) that an app must wait before resending an alert.
+            Amount of time (in milliseconds) that an app must wait before resending an alert.
             If provided, another system event or overlay currently has a higher priority than this alert.
             An app must not send an alert without waiting at least the amount of time dictated.
         </description>
