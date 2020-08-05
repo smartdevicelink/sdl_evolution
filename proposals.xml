@@ -327,7 +327,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0293" status="returned" primary-platform="protocol" sdl-version="x.x" name="Enable OEM exclusive apps support" filename="0293-vehicle-type-filter.md"/>	
 <proposal id="0294" status="accepted" primary-platform="rpc" sdl-version="x.x" name="App Service - Messaging" filename="0294-app-service-messaging.md"/>	
 <proposal id="0295" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Microphone Input Manager" filename="0295-screen-manager-audio-pass-thru.md"/>	
-<proposal id="0296" status="accepted" primary-platform="core" sdl-version="x.x" name="Possibility to update video streaming capabilities during ignition cycle" filename="0296-Update-video-streaming-capabilities-during-ignition-cycle.md"/>	
+<proposal id="0296" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Possibility to update video streaming capabilities during ignition cycle" filename="0296-Update-video-streaming-capabilities-during-ignition-cycle.md"/>	
 <proposal id="0297" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Add function to transmit audio data of AudioStream in time division" filename="0297-Add-function-to-transmit-audio-data.md"/>	
 <proposal id="0298" status="implemented" primary-platform="core" sdl-version="7.0" name="Processing of unknown enum values by SDL Core" filename="0298-Processing-of-unknown-enum-values-by-SDL-Core.md"/>	
 <proposal id="0299" status="accepted" primary-platform="ios" sdl-version="x.x" name="Add a Mechanism to Avoid Deadlock" filename="0299-Avoid-Deadlock.md"/>	
