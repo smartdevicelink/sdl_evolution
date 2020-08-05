@@ -147,11 +147,13 @@ In `SDLStreamingMediaConfiguration`:
 
 **Android**
 
-In `VideoStreamManager` add new `startRemoteDisplayStream`:
+In `VideoStreamManager` add new public methods:
 
 ```java
 public void startRemoteDisplayStream(Context context, Class<? extends SdlRemoteDisplay> remoteDisplayClass,
     VideoStreamingParameters parameters, final boolean encrypted, VideoStreamingRange streamingRange)
+public Boolean isImageResolutionInRange(VideoStreamingRange range, ImageResolution currentResolution)
+public Boolean isAspectRatioInRange(VideoStreamingRange range, ImageResolution currentResolution)
 ```
 
 In this way, developers will be able to pass constraints related to specific application directly into `SDLManager`
@@ -180,10 +182,6 @@ private List<VideoStreamingCapability> getSupportedCapabilities(
 )
 ```
 
-### JavaScript APIs
-
-The JavaScript APIs will be set up in a similar way to the Obj-C / Java APIs above. All changes will be at the discretion of the Project Maintainer. However larger changes that would impact the Objective-C code above (such as adding or removing a method) will require proposal revisions.
-
 #### Resolution Switching
 
 Mobile applications should be able to update the streaming content window to the new VSCs received in `OnSystemCapabilityUpdated`.
@@ -191,6 +189,10 @@ Mobile applications should be able to update the streaming content window to the
 In order to do this, application developers would be notified with a callback `onViewResized(width, height)/videoStreamingSizeDidUpdate:(CGSize)displaySize`. It would be called once new data on resolution is retrieved from the HMI and the internal process in the app library of proper component change is finished. This callback is passed to implemented by developers classes responsible for markup, where UI reorganization could be handled.
 
 SDL Manager wouldn't check and validate the VSC that the HMI sends to the app to switch to.
+
+### JavaScript APIs
+
+The JavaScript APIs will be set up in a similar way to the Obj-C / Java APIs above. All changes will be at the discretion of the Project Maintainer. However larger changes that would impact the Objective-C code above (such as adding or removing a method) will require proposal revisions.
 
 ### HMI Integration Guidelines
 
