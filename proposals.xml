@@ -345,6 +345,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0311" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Make RPC Setters Chainable" filename="0311-Make-RPC-Setters-Chainable.md"/>	
 <proposal id="0312" status="accepted" primary-platform="ios" sdl-version="x.x" name="Update the Minimum Required iOS Version to 10.0" filename="0312-ios-update-minimum-version-ios10.md"/>	
 <proposal id="0313" status="active" primary-platform="rpc" sdl-version="x.x" name="Adding new parameters for transport switching" filename="0313-Adding-new-parameters-for-transport-switching.md"/>	
+<proposal id="0314" status="active" primary-platform="core" sdl-version="x.x" name="Clarification of SDL app icon display sequence and display order" filename="0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md"/>	
 	
 	<!--
 Recognized values for a proposal's status:
