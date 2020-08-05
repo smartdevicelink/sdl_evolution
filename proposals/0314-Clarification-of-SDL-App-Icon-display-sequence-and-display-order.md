@@ -1,8 +1,8 @@
 # Clarification of SDL app icon display sequence and display order
 
-* Proposal: [SDL-NNNN](NNNN-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md)
+* Proposal: [SDL-0314](0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / Policy Server ]
 
 ## Introduction
