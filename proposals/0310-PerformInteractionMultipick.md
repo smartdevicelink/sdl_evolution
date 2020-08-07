@@ -82,8 +82,7 @@ Then do the same for the `HMI_API`:
 </interface>
 ```
 
-The SDL Mobile libraries will do some handling of providing the `choiceID` or `multipickChoiceIDs` response back to the app. 
-On older head units, the app might request a multipick `performInteraction` but the head unit would ignore the parameter of `multiPickConfirmationButtonText` and the response would only end up being a single choiceID.  If the `choiceID` and `multipickChoiceIDs` are both present in the response from the HMI, then Mobile libraries will just send back `multipickChoiceIDs`.
+On older head units, the app might request a multipick `performInteraction` but the head unit would ignore the parameter of `multiPickConfirmationButtonText` and the response would only end up being a single choiceID.
 
 If a multipick PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
 
