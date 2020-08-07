@@ -230,6 +230,27 @@ There would be one string response for each field. If a field was left empty, th
       This will return an array of Fields that have the same type and label as requested, but with the text field populated.
     </description>
   </param>
+<param name="success" type="Boolean" platform="documentation" mandatory="true">
+    <description> true if successful; false, if failed.</description>
+</param>
+
+<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+    <description>Provides additional human readable info regarding the result.</description>
+</param>
+
+<param name="resultCode" type="Result" platform="documentation" mandatory="true">
+    <description>See Result</description>
+    <element name="SUCCESS"/>
+    <element name="REJECTED"/>
+    <element name="INVALID_DATA"/>
+    <element name="INVALID_ID"/>
+    <element name="DUPLICATE_NAME"/>
+    <element name="DISALLOWED"/>
+    <element name="OUT_OF_MEMORY"/>
+    <element name="TOO_MANY_PENDING_REQUESTS"/>
+    <element name="APPLICATION_NOT_REGISTERED"/>
+    <element name="GENERIC_ERROR"/>
+</param>
 </function>
 ```
 
