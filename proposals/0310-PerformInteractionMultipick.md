@@ -102,7 +102,7 @@ Plus the headunit can note that it supports form field text and images through `
 
 ### Driver distraction
 
-As always, driving restrictions will be up the OEM.  One potential suggestion would be to not allow a Multipick Perform Interaction while driving while providing instead a popp that says "Some items may not be available while driving".
+As always, driving restrictions will be up the OEM.  One potential suggestion would be to not allow a Multipick Perform Interaction while driving while providing instead a popup that says "Some items may not be available while driving".
 
 ## Potential downsides
 
