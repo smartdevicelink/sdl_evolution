@@ -259,6 +259,7 @@ We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements]
 Also we would add a new private `SDLFormManager` sub-manager to the screen manager. This manager will handle Form-related capabilities, text, callbacks, etc. The `SDLScreenManager` itself will then provide a simple public API for presenting a Form to the screen.
 Here's the Objective-C version. This would be translated to Java and JavaScript as well
 ```objc
+@interface SDLDisplayForm : SDLScreenManager
 /// Maps to `DisplayForm.initialText`. The text in the title bar of the form.
 @property (strong, nonatomic, nonnull) NSString *title;
 
@@ -276,6 +277,7 @@ Here's the Objective-C version. This would be translated to Java and JavaScript 
 /// Cancels the RPC. If the view has not yet been sent to Core, it will not be sent. If the view is already presented on Core, the view will be immediately dismissed. Canceling an already presented view will only work if connected to Core versions 6.0+. On older versions of Core, the view will not be dismissed.
 
 - (void)cancel;
+@end
 ```
 
 ### Error Flow
