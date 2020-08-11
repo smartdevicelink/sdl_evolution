@@ -160,11 +160,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0145" status="implemented" primary-platform="core" sdl-version="5.0" name="Driver Distraction Notification Upon Registration" filename="0145-distraction-notification-after-registration.md"/>
 <proposal id="0146" status="accepted" primary-platform="meta" sdl-version="x.x" name="Updating Mobile Version Dependencies" filename="0146-updating-mobile-version-dependencies.md"/>
 <proposal id="0147" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Template Improvements: Color Scheme" filename="0147-template-color-scheme.md"/>
-<proposal id="0148" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Template Improvements: Additional SubMenus" filename="0148-template-additional-submenus.md"/>
+<proposal id="0148" status="implemented" primary-platform="rpc" sdl-version="7.0" name="Template Improvements: Additional SubMenus" filename="0148-template-additional-submenus.md"/>
 <proposal id="0149" status="implemented" primary-platform="core" sdl-version="5.0" name="Add capability to disable resumption based on app type and transport type" filename="0149-mt-registration-limitation.md"/>
 <proposal id="0150" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Enhancing onHMIStatus with a New Parameter for Video Streaming State" filename="0150-video-streaming-state.md"/>
 <proposal id="0151" status="implemented" primary-platform="rpc" sdl-version="5.0" name="ImageFieldName for SecondaryImage" filename="0151-imagefieldname-for-secondary-image.md"/>
-<proposal id="0152" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
+<proposal id="0152" status="implemented" primary-platform="rpc" sdl-version="7.0" name="Driver Distraction Improvements: Command List Limitations" filename="0152-driver-distraction-list-limits.md"/>
 <proposal id="0153" status="implemented" primary-platform="rpc" sdl-version="5.0" name="Support for Short and Full UUID App ID" filename="0153-support-short-long-appid.md"/>
 <proposal id="0154" status="implemented" primary-platform="core" sdl-version="7.0" name="Add SDL Core Daemon Script" filename="0154-add-sdl-core-daemon-script.md"/>
 <proposal id="0155" status="implemented" primary-platform="ios" sdl-version="6.0" name="Mobile Menu Manager" filename="0155-mobile-menu-manager.md"/>
@@ -219,7 +219,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0197" status="implemented" primary-platform="java-suite" sdl-version="4.8" name="Update SetMediaClockTimer Initializers" filename="0197-setmediaclocktimer-initializers.md"/>
 <proposal id="0198" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Media Skip Indicators" filename="0198-media-skip-indicators.md"/>
 <proposal id="0199" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
-<proposal id="0200" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Removing URL Parameter Max Length" filename="0200-Removing-URL-Param-Max-Length.md"/>
+<proposal id="0200" status="implemented" primary-platform="rpc" sdl-version="7.0" name="Removing URL Parameter Max Length" filename="0200-Removing-URL-Param-Max-Length.md"/>
 <proposal id="0201" status="returned" primary-platform="ios" sdl-version="x.x" name="High level interface: Overlay Controllers" filename="0201-high-level-interface-overlay-controllers.md"/>
 <proposal id="0202" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Supported Character Sets" filename="0202-character-sets.md"/>
 <proposal id="0203" status="implemented" primary-platform="java-suite" sdl-version="4.8" name=" Cloud App Library - Phase 1" filename="0203-cloud_client_library_phase_1.md"/>
@@ -276,10 +276,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0246" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Add App Services to HMICapabilities" filename="0246-app-services-hmi_capabilities.md"/>
 <proposal id="0247" status="returned" primary-platform="policy" sdl-version="x.x" name="SDL Server 3.0.0 (refactor)" filename="0247-sdl-server-3.md"/>
 <proposal id="0248" status="implemented" primary-platform="core" sdl-version="6.1" name="HMI Policy Table Update using vehicle modem" filename="0248-hmi-ptu-support.md"/>
-<proposal id="0249" status="accepted" primary-platform="core" sdl-version="x.x" name="Persisting HMI Capabilities specific to headunit" filename="0249-Persisting-HMI-Capabilities-specific-to-headunit.md"/>
+<proposal id="0249" status="implemented" primary-platform="core" sdl-version="7.0" name="Persisting HMI Capabilities specific to headunit" filename="0249-Persisting-HMI-Capabilities-specific-to-headunit.md"/>
 <proposal id="0250" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Next RPC Indication for the HMI" filename="0250-NextRpcIndication.md"/>
 <proposal id="0251" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Font Styles" filename="0251-font-styles.md"/>
-<proposal id="0252" status="accepted" primary-platform="core" sdl-version="x.x" name="Aligning HMI and MOBILE API for pcmStreamCapabilities" filename="0252-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md"/>
+<proposal id="0252" status="implemented" primary-platform="core" sdl-version="7.0" name="Aligning HMI and MOBILE API for pcmStreamCapabilities" filename="0252-Aligning-HMI-and-MOBILE-API-for-pcmStreamCapabilities.md"/>
 <proposal id="0253" status="accepted" primary-platform="rpc" sdl-version="x.x" name="New vehicle data StabilityControlsStatus" filename="0253-New-vehicle-data-StabilityControlsStatus.md"/>
 <proposal id="0254" status="rejected" primary-platform="rpc" sdl-version="x.x" name="New vehicle data HVBatteryLevel" filename="0254-New-vehicle-data-HVBatteryLevel.md"/>
 <proposal id="0255" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Enhance BodyInformation vehicle data" filename="0255-Enhance-BodyInformation-vehicle-data.md"/>
