@@ -1,5 +1,5 @@
 
-# Perform Interaction Multipick
+# Perform Interaction Multiselect
 
 * Proposal: [SDL-0310](0310-PerformInteractionMultipick.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
@@ -19,21 +19,21 @@ Here's an example from an overall plan
 <img src="../assets/proposals/0310-PerformInteraction-Multipick/PerformInteraction Multipick overview.PNG" alt="Login Screen" class="inline" height= "100%" width= "100%" /> 
 
 ## Proposed solution
-An app can mark that the `performInteraction` is a multipick type by setting the text of the final confirmation button. That is - the button that the user presses after they are done selecting all their choices.
-So, add a field `multiPickConfirmationButtonText`, if this has text in it then the `performInteraction` will be multipick. If the `InteractionMode` is `VR_ONLY` or the displayLayout is `TILES_WITH_SEARCH`, `LIST_WITH_SEARCH`, or `KEYBOARD_ONLY`, then the response will be `INVALID_DATA`. If the `InteractionMode` is `BOTH`, then the VR portion of the `PerformInteraction` will be skipped.
+An app can mark that the `performInteraction` is a multiselect type by setting the text of the final confirmation button. That is - the button that the user presses after they are done selecting all their choices.
+So, add a field `multiselectConfirmationButtonText`, if this has text in it then the `performInteraction` will be multiselect. If the `InteractionMode` is `VR_ONLY` or the displayLayout is `TILES_WITH_SEARCH`, `LIST_WITH_SEARCH`, or `KEYBOARD_ONLY`, then the response will be `INVALID_DATA`. If the `InteractionMode` is `BOTH`, then the VR portion of the `PerformInteraction` will be skipped.
 
 
-Add `multiPickConfirmationButtonText` to the request in the `MOBILE_API`.
-Also, add a return parameter `multipickChoiceIDs` to `PerformInteraction` response. This array allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app:
+Add `multiselectConfirmationButtonText` to the request in the `MOBILE_API`.
+Also, add a return parameter `multiselectChoiceIDs` to `PerformInteraction` response. This array allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app:
 ```xml
     <function name="PerformInteraction" functionID="PerformInteractionID" messagetype="request" since="1.0">
       <description>Triggers an interaction (e.g. "Permit GPS?" - Yes, no, Always Allow).</description>
       .
       .
       .
-      <param name="multiPickConfirmationButtonText" type="String" maxlength="500" mandatory="false" since="X.X">
+      <param name="multiselectConfirmationButtonText" type="String" maxlength="500" mandatory="false" since="X.X">
         <description>
-          If this parameter is set, then this is a multipick performInteraction. This text will be in the button that a person uses to finish choosing items.
+          If this parameter is set, then this is a multiselect performInteraction. This text will be in the button that a person uses to finish choosing items.
         </description>
       </param>
     </function>
@@ -42,9 +42,9 @@ Also, add a return parameter `multipickChoiceIDs` to `PerformInteraction` respon
     .
     .
     .
-      <param name="multipickChoiceIDs" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false" since="X.X">
+      <param name="multiselectChoiceIDs" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false" since="X.X">
        <description>
-          IDs of the choices that were selected in response to a multipick performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
+          IDs of the choices that were selected in response to a multiselect performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
           Only is valid if general result is "success:true".
        </description>
       </param>	
@@ -61,9 +61,9 @@ Then do the same for the `HMI_API`:
   .
   .
   .
-    <param name="multiPickConfirmationButtonText" type="String" maxlength="500" mandatory="false">
+    <param name="multiselectConfirmationButtonText" type="String" maxlength="500" mandatory="false">
       <description>
-        If this parameter is set, then this is a multipick performInteraction. This text will be the button that a person uses to finish choosing items.
+        If this parameter is set, then this is a multiselect performInteraction. This text will be the button that a person uses to finish choosing items.
       </description>
     </param>
   </function>
@@ -72,9 +72,9 @@ Then do the same for the `HMI_API`:
   .
   .
   .
-    <param name="multipickChoiceIDs" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false">
+    <param name="multiselectChoiceIDs" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false">
       <description>
-        IDs of the choices that were selected in response to a multipick performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
+        IDs of the choices that were selected in response to a multiselect performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
         Only is valid if general result is "success:true".
       </description>
     </param>	
@@ -82,9 +82,9 @@ Then do the same for the `HMI_API`:
 </interface>
 ```
 
-On older head units, the app might request a multipick `performInteraction` but the head unit would ignore the parameter of `multiPickConfirmationButtonText` and the response would only end up being a single choiceID.
+On older head units, the app might request a multiselect `performInteraction` but the head unit would ignore the parameter of `multiselectConfirmationButtonText` and the response would only end up being a single choiceID.
 
-If a multipick PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
+If a multiselect PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
 
 Plus the headunit can note that it supports form field text and images through `TextFieldName` in the MOBILE_API
 ```xml
@@ -93,8 +93,8 @@ Plus the headunit can note that it supports form field text and images through `
      .
      .
         </element>
-             <element name="multiPickConfirmationButtonText">
-            <description>If this parameter is set, then this is a multipick performInteraction. This text will be the button that a person uses to finish choosing items.</description>
+             <element name="multiselectConfirmationButtonText">
+            <description>If this parameter is set, then this is a multiselect performInteraction. This text will be the button that a person uses to finish choosing items.</description>
         </element>
 
 </enum>
@@ -102,7 +102,7 @@ Plus the headunit can note that it supports form field text and images through `
 
 ### Driver distraction
 
-As always, driving restrictions will be up the OEM.  One potential suggestion would be to not allow a Multipick Perform Interaction while driving while providing instead a popup that says "Some items may not be available while driving".
+As always, driving restrictions will be up the OEM.  One potential suggestion would be to not allow a Multiselect Perform Interaction while driving while providing instead a popup that says "Some items may not be available while driving".
 
 ## Potential downsides
 
@@ -116,18 +116,18 @@ It would be a minor version change for affected libraries.
 
 ## Alternatives considered
 
-We could have a layout mode of `PerformInteraction` for multipick. Though this might be limiting on the types on layouts that could be used.
+We could have a layout mode of `PerformInteraction` for multislect. Though this might be limiting on the types on layouts that could be used.
 ```xml
 <enum name="LayoutMode" since="3.0">
 .
 .
 .
-  <element name="TILES_WITH_MULTIPICK" >
+  <element name="TILES_WITH_MULTISELECT" >
     <description>
       This mode causes the interaction to display the previous set of choices as icons along with a search field in the HMI.
     </description>
   </element>
-  <element name="LIST_WITH_MULTIPICK" >
+  <element name="LIST_WITH_MULTISELECT" >
     <description>
       This mode causes the interaction to display the previous set of choices as a list.
     </description>
@@ -135,12 +135,12 @@ We could have a layout mode of `PerformInteraction` for multipick. Though this m
 </enum>			
 ```
 
-Alternatively, we could create a new RPC of `PerformInteractionMultipick`.
-Add to the `MOBILE_API` and `HMI_API` a new RPC `PerformInteractionMultipick`.
+Alternatively, we could create a new RPC of `PerformInteractionMultiselect`.
+Add to the `MOBILE_API` and `HMI_API` a new RPC `PerformInteractionMultiselect`.
 The `request` would have most of the same parameters as `PerformInteraction` but with an updated description and a new parameter for the confirmation button and no voice component. The response would also be the same in the `MOBILE_API` and `HMI_API` except the `choiceID` response would be an Array.
 Add to the `MOBILE_API`:
 ```xml
-  <function name="PerformInteractionMultipick" functionID="PerformInteractionMultipickID" messagetype="request" since="X.X">
+  <function name="PerformInteractionMultiselect" functionID="PerformInteractionMultiselectID" messagetype="request" since="X.X">
 	<description>Triggers an interaction where a user can pick multiple things (e.g. "What do you want to order from this restaurant?").</description>
 	
 	<param name="initialText" type="String" maxlength="500"  mandatory="true" since="X.X">
@@ -149,7 +149,7 @@ Add to the `MOBILE_API`:
 	  </description>
 	</param>
 	
-	<param name="multiPickConfirmationButtonText" type="String" maxlength="500" mandatory="false" since="X.X">
+	<param name="multiselectConfirmationButtonText" type="String" maxlength="500" mandatory="false" since="X.X">
 	  <description>
 		This text will be in the button that a person uses to finish choosing items.
 	  </description>
@@ -187,7 +187,7 @@ Add to the `MOBILE_API`:
   </function>
 ```
 ```xml
-  <function name="PerformInteractionMultipick" functionID="PerformInteractionMultipickID" messagetype="response" since="X.X" since="X.X">
+  <function name="PerformInteractionMultiselect" functionID="PerformInteractionMultiselectID" messagetype="response" since="X.X" since="X.X">
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
 	  <description> Triggers an interaction where a user can pick multiple things (e.g. "What do you want to order from this restaurant?"). </description>
 	</param>
@@ -226,12 +226,12 @@ Add to the `MOBILE_API`:
 and `HMI_API`:
 ```xml
 <interface name="UI" version="X.X.X" date="X-X-X">
-  <function name="PerformInteractionMultipick" messagetype="request">
+  <function name="PerformInteractionMultiselect" messagetype="request">
     <description>Triggers an interaction where a user can pick multiple things (e.g. "What do you want to order from this restaurant?"). </description>
     <param name="initialText" type="Common.TextFieldStruct" mandatory="false">
       <description>Uses initialInteractionText. See TextFieldStruct.</description>
     </param>
-    <param name="multiPickConfirmationButtonText" type="String" maxlength="500" mandatory="false">
+    <param name="multiselectConfirmationButtonText" type="String" maxlength="500" mandatory="false">
       <description>
         This text will be the button that a person uses to finish choosing items.
       </description>
@@ -257,7 +257,7 @@ and `HMI_API`:
 </interface>
 ```
 ```xml
-  <function name="PerformInteractionMultipick" messagetype="response">
+  <function name="PerformInteractionMultiselect" messagetype="response">
     <param name="choiceID" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false">
       <description>IDs of the choices that were selected. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
 
