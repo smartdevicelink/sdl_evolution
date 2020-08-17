@@ -55,7 +55,7 @@ Here's the `MOBILE_API`:
 ```
 and the `HMI_API`:
 ```xml
-<function name="DisplayForm" functionID="DisplayFormID" messagetype="request">
+<function name="UI.DisplayForm" functionID="DisplayFormID" messagetype="request">
   <param name="initialText" type="String" maxlength="500"  mandatory="true">
     <description>
       Text to be displayed first.
