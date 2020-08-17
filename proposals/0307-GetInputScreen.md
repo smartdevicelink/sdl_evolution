@@ -272,7 +272,7 @@ Here's the Objective-C version. This would be translated to Java and JavaScript 
 /// Maps to `DisplayForm.errorMessage` If there's a problem with the input fields, this can be used to display information.
 @property (strong, nonatomic, nullable) NSString errorMessage
 
-- (instancetype)initWithPrimaryText:(nonnull NSString *)title fields:(nonnull Field *)fields softButtons:(nullable SoftButton *)softButtons errorMessage:(nullable errorMessage *)errorMessage;
+- (instancetype)initWithPrimaryText:(nonnull NSString *)title fields:(nonnull Field *)fields softButtons:(nullable SoftButton *)softButtons errorMessage:(nullable NSString *)errorMessage;
 
 /// Cancels the RPC. If the view has not yet been sent to Core, it will not be sent. If the view is already presented on Core, the view will be immediately dismissed. Canceling an already presented view will only work if connected to Core versions 6.0+. On older versions of Core, the view will not be dismissed.
 
