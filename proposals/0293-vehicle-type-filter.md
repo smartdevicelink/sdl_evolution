@@ -437,8 +437,8 @@ Above mentioned changes need to be implemented in SDL Core, the Java Suite proxy
 
 ### Using RPC instead of Protocol message to share vehicle type info
 1. As per the current implementation, the RAI is the first RPC sent to an SDL enabled IVI system and the vehicle type information is available to the app in its response. 
-2. If `GetVehicleType` is an RPC, this behavior needs to be changed. The app should be able to use the `GetVehicleType` RPC before the `RegisterAppInterface` RPC.
-3. Since the RPC message version is sent to the app in `RAI response`, the app, when connected to an older SDL enabled IVI, would not know if the `GetVehicleType` RPC is supported or not.
+2. If `GetVehicleType` is an RPC to receive the vehicle type info, it would be the first RPC to be used. Since, the app should be able to use the `GetVehicleType` RPC to know vehicle type info before the app registration on IVI.
+3. Since the RPC message version is sent to the app in `RAI response`, when connected to an older SDL enabled IVI, the app  would not know if the `GetVehicleType` RPC is supported or not.
 4. If `GetVehicleType` is an RPC and it's sent first, the app would need to depend on a timeout to know the support for the `GetVehicleType` RPC when connected to an older SDL enabled IVI system. This behavior would add delays in app registration on the SDL system.
 5. If `GetVehicleType` is an RPC, the exclusive apps could potentially show two notifications described above for Android apps before terminating them. Terminating a router service hosted by exclusive apps will unregister all apps using it.
 
