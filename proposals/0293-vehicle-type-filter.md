@@ -425,9 +425,6 @@ The below example shows valid vehicle type filters.
 4. If the proxy determines that connected vehicle type is not supported, the proxy will end the RPC session. The application will not register on SDL enabled IVI system.
 5. If the vehicle type information is not available in `StartServiceAck` protocol message, the SDL proxy will continue with the app registration and it will rely on vehicle type information received in the `RegisterAppInterface` response. If vehicle type is not supported, the exclusive apps will be allowed to unregister from the SDL enabled system.
 
-
-![Sequence Diagram](../assets/proposals/0293-vehicle-type-filter/ios.png)
-
 ## Potential downsides
 
 The SDL device Listener after transport connection needs to start the RPC service. If the SDL device Listener does not start RPC service and relies on the client for vehicle type details, the connected client would start another foreground service. This would force the connected app to show two notifications to users while determining vehicle type information and would need to terminate services if the app does not support the SDL enabled IVI system. 
