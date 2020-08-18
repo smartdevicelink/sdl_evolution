@@ -19,7 +19,7 @@ In the current implementation of SDL, vehicle information is shared with the `Re
 
 ### App name shown on notifications in Android
 
-The exclusive apps should not host Android Router Service on unsupported SDL systems. The Android system requires all apps using foreground services to show a notification. An SDL enabled Android app can have two foreground services. The Android Router Service is started by the Android proxy and another foreground service will be started by an SDL enabled app.
+The exclusive apps should not host Android Router Service on unsupported SDL systems. The Android system requires all apps using foreground services to show a notification. An SDL enabled Android app can potentially have two foreground services. The Android Router Service is started by the Android proxy and another foreground service will be started by an SDL enabled app. The App starting Android Router service will show two notifications to users. Only a single app will have two notifications, which is by design. Therefore, the more apps, the less likely the app will be required to display two notifications.
 
 The Android Router Service has no information on what head unit it is connecting to when a transport connection is made. Other SDL apps bind to available router service and use this connection. This behavior could lead to cases where a proprietary app creates an Android Router Service when connected to an unsupported SDL enabled system. This started service will need to show a foreground notification with the app name, giving the user the impression that the proprietary app is working with an unsupported SDL enabled system.
 
@@ -35,7 +35,7 @@ __Note the app name being shown in both notifications. In the below picture, the
 <img src="../assets/proposals/0293-vehicle-type-filter/two_noti.png" alt="App name in notifications" width="500"/>
 
 
-The only way to remove notifications from an OEM App when it connects to another vehicle is to force stop both the services so that both notifications are removed. In this case, other apps connected through the OEM App's router service will also get disconnected. This is not a recommended approach. If the OEM app wants to unregisters itself from the SDL enabled IVI system, it will stop the service created by an app. The Android Router Service from the OEM App will keep running.
+The only way to remove the router service notification from an OEM App when it connects to another vehicle is to force close. In this case, other apps connected through the OEM App's router service will also get disconnected. This is not a recommended approach. The OEM app can unregisters itself from the SDL enabled IVI system. However, the Android Router Service from the OEM App will keep running. 
 
 Please reference the below screenshot. The Android Router Service is hosted by the OEM app, the `Notification 2` with the app name will be shown to the user, giving the impression that the `OEM App` is still working. If the OEM App starts showing notifications when connected to another OEM's vehicle, this would confuse users. They would probably think that `OEM App` on their mobile device is working with another OEM's SDL enabled IVI system. This proposal will define ways to mitigate this issue.
 
@@ -43,104 +43,17 @@ Please reference the below screenshot. The Android Router Service is hosted by t
 
 This proposal tries to address the router service notification issue by defining the vehicle type filter. So, we could have an app that could specifically connect to certain vehicles. For example, an app that is designed only for Mustang vehicles.
 
-### Configuring lock screen with vehicle name or brand logo 
-
- This would help apps to show the vehicle brand logo depending on the vehicle type to which it's connected. In the current implementation, the lock screen configuration is set along with the SDL lifecycle/manager configuration. Hence while configuring the lock screen, the app does not know to which vehicle it's connecting. The apps cannot change the configuration of the lock screen once the app receives the `RegisterAppInterface` response with vehicle details. Some app partners have expressed their interest in showing the vehicle brand logo on the lock screen of the app depending on vehicle type information, which is not possible with the current implementation of SDL due to reasons described above. 
- 
 ## Proposed solution
 
 This proposal will describe additional information exchange in the protocol layer and changes in the Java Suite and iOS proxy libraries. 
 
 ### Protocol Layer Changes
 
-In the current implementation, every app is responsible for negotiating the maximum supported protocol version. The IVI can share vehicle type information with the proxy after protocol version negotiation. To share this info, we would need to define the new protocol message.
+The IVI can share vehicle type information along with `StartServiceACK`. The vehicle type info will be shared as BSON payload as described below.
 
-#### Frame Info Definitions
+#### IVI sends vehicle type info
 
-| Frame Info Value| Name | Description |
-|------------|------|-------------|
-| 0x0A| Get Vehicle Type | Requests vehicle type information|
-| 0x0B | Get Vehicle Type ACK |Acknowledges that the specific information has been shared successfully |
-| 0x0C | Get Vehicle Type NAK | Negatively acknowledges that the specific information *cannot* be shared |
-
-
-1. If the system supports the `GetVehicleType` protocol message, the proxy will send it after version negotiation.
-2. If the system does not support the `GetVehicleType` protocol message, the proxy will send the `RegisterAppInterface` RPC after version negotiation and continue the use case.
-
-#### Messaging from the app to IVI
-
-<table width="100%">
-  <tr>
-    <th>Version</th>
-    <th>E</th>
-    <th>Frame Type</th>
-    <th>Service Type</th>
-    <th>Frame Info</th>
-    <th>Session ID</th>
-    <th>Data Size</th>
-    <th>Message ID</th>
-  </tr>
-  <tr>
-    <td>5.x</td>
-    <td>no</td>
-    <td>Control</td>
-    <td>Control</td>
-    <td>Get Vehicle Type</td>
-    <td>Assigned Session</td>
-    <td>0</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td>0b0101</td>
-    <td>0b0</td>
-    <td>0b000</td>
-    <td>0x00</td>
-    <td>0x0A</td>
-    <td>0x01</td>
-    <td>0x00000000</td>
-    <td>0x0000000n</td>
-  </tr>
-</table>
-
-#### Messaging from the IVI to the app
-
-##### Success message: IVI sends vehicle type info
-
-If the IVI can share vehicle type info, it will send the following protocol message.
-
-<table width="100%">
-  <tr>
-    <th>Version</th>
-    <th>E</th>
-    <th>Frame Type</th>
-    <th>Service Type</th>
-    <th>Frame Info</th>
-    <th>Session ID</th>
-    <th>Data Size</th>
-    <th>Message ID</th>
-  </tr>
-  <tr>
-    <td>5.x</td>
-    <td>no</td>
-    <td>Control</td>
-    <td>Control</td>
-    <td>Get Vehicle Type ACK</td>
-    <td>Assigned Session</td>
-    <td>BSON object Size</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td>0b0101</td>
-    <td>0b0</td>
-    <td>0b000</td>
-    <td>0x00</td>
-    <td>0x0B</td>
-    <td>0x01</td>
-    <td>0x00000XXX</td>
-    <td>0x0000000n</td>
-  </tr>
-</table>
-
+If the IVI can share vehicle type info, it will send the `StartServiceACK` protocol message with vehicle type details.
 The BSON payload of this message will have the following info.
 
 | Tag Name| Type | Description |
@@ -151,44 +64,6 @@ The BSON payload of this message will have the following info.
 |trim|String| Vehicle trim |
 |systemSoftwareVersion|String| Vehicle system software version |
 |systemHardwareVersion|String| Vehicle system hardware version |
-|rpcSpecVersion|String| RPC message spec version |
-
-##### Failure message: IVI does not send vehicle type info
-
-If the IVI cannot share vehicle type info, it will send the following protocol message.
-
-<table width="100%">
-  <tr>
-    <th>Version</th>
-    <th>E</th>
-    <th>Frame Type</th>
-    <th>Service Type</th>
-    <th>Frame Info</th>
-    <th>Session ID</th>
-    <th>Data Size</th>
-    <th>Message ID</th>
-  </tr>
-  <tr>
-    <td>5.x</td>
-    <td>no</td>
-    <td>Control</td>
-    <td>Control</td>
-    <td>Get Vehicle Type NACK</td>
-    <td>Assigned Session</td>
-    <td>0</td>
-    <td>n</td>
-  </tr>
-  <tr>
-    <td>0b0101</td>
-    <td>0b0</td>
-    <td>0b000</td>
-    <td>0x00</td>
-    <td>0x0C</td>
-    <td>0x01</td>
-    <td>0x00000000</td>
-    <td>0x0000000n</td>
-  </tr>
-</table>
 
 ### Android Proxy changes
 
@@ -266,22 +141,176 @@ The Android proxy will need to implement the above protocol changes. In addition
 #### Metadata for Android Router Service
 
 1. This resource file needs to be referenced in the manifest file of the project as `metadata` for Android Router Service.
-2. When the proxy receives `GetVehicleTypeACK`, it will check if the vehicle type information is defined in the provided supported vehicle type list.
+2. When the proxy receives `StartServiceACK` with vehicle type details, it will check if the vehicle type information is defined in the provided supported vehicle type list.
 3. If the vehicle filter is not defined, the proxy can skip the check. In this case, the Android Router Service is supported for all SDL enabled systems.
 
-#### Determining Vehicle Type Info
+#### Flowcharts
 
-1. In the current implementation, all SDL apps need to start version negotiations and register themselves on the SDL enabled system. This proposal recommends starting the RPC service by the Android Router Service to get vehicle type information from an SDL enabled IVI system before notifying clients about an SDL connection.
-2. If the protocol version supports `GetVehicleType`, Android Router Service will send the `GetVehicleType` protocol message.
-3. If the Android Router Service supports the connected IVI system, then the Android Router Service will notify the client and provide vehicle type information. The router service will also transfer RPC session information to the application hosting the router service. Since every app is responsible for version negotiations and starting RPC session, the host application will use the same session information to communicate further with the SDL system. 
-4. If the vehicle type is not supported by the Android Router Service, the proxy will deploy the next router service. The exclusive apps will not register on the SDL enabled system.
-5. The proxy determines the appropriate router service to deploy based on vehicle type information received in the `GetVehicleTypeACK` protocol message. The proxy will check the metadata of the supported vehicle type list to determine the next router service to deploy. The deployed router service will also receive vehicle type information.
-6. The next router service deployed will not start the RPC session if vehicle type information is available. It will forward vehicle type info to its clients.
-7. It is necessary to check support for `GetVehicleType` protocol message and vehicle type info before notifying the client with SDL enabled callback. If clients are informed before checking the mentioned info, the exclusive apps could end up registering on an unintended SDL enabled IVI system. 
-8. If the `GetVehicleType` message is not supported by the protocol version, the exclusive apps will try deploying the next router service. The exclusive apps will host the router service only if there are no other SDL app available on the user's device to host a router service. The exclusive apps, in this case, will rely on vehicle type info received in the `RegisterAppInterface` response. In such a case, if vehicle type is not supported, the exclusive apps will be allowed to unregister apps from the SDL system and stop the Android Router Service.
-9. If `GetVehicleType` message response is NACK, the exclusive apps will not register on the SDL system.
+1. In the current implementation, all SDL apps need to start version negotiations and register themselves on the SDL enabled system. This proposal recommends starting the RPC service by the SDL Device Listener to get vehicle type information from an SDL enabled IVI system before notifying clients about an SDL connection.
+2. The proxy determines the appropriate router service to deploy based on vehicle type information received in the `StartServiceACK` protocol message. The proxy will check the metadata of the supported vehicle type list to determine the router service to deploy. The deployed router service will also receive vehicle type information. Once the Android Router service is started, it will notify the client and provide vehicle type information. 
+3. It is necessary to check support for `StartServiceACK` protocol message and vehicle type info before notifying the client with SDL enabled callback. If clients are informed before checking the mentioned info, the exclusive apps could end up registering on an unintended SDL enabled IVI system. 
+4. If the `StartServiceACK` message does not have vehicle type info and if there are multiple SDL apps available on users device, the exclusive apps will not host router service.
+5. If the `StartServiceACK` message does not have vehicle type info and if all SDL apps available on users device are exclusice apps. The exclusive apps, in this case, will rely on vehicle type info received in the `RegisterAppInterface` response. In such a case, if vehicle type is not supported, the exclusive apps will be allowed to unregister apps from the SDL system and stop the Android Router Service. The exclusive app will be only allowed to stop Android Router Service hosted by them.
 
-![Sequence Diagram](../assets/proposals/NNNN-vehicle-type-filter/android.png) 
+The below flow is modified from SDL 0301 proposal. Starting Section A and Section C, we propose to extend the scope of SDL Listener.
+
+<img src="../assets/proposals/0293-vehicle-type-filter/OEM_APPS_1.png" alt="SDL Device Listener modifications" width="500"/>
+
+In the below flow chart, SDL Listener will check vehicle type info for the connected vehicle. After detecting successful BT connection, the SDL listener will send Start Service for RPC, to know vehicle type Info. The SDL Listener will then end the RPC session and close BT socket connection. If Vehicle Info is available in StartServiceACK, the SDL Device Listener should save this info and use it to decide the host of the Router service on subsequent connections
+
+<img src="../assets/proposals/0293-vehicle-type-filter/OEM_APPS_2.png" alt="Determine Router Service" width="500"/>
+
+On finding the Vehicle Info, SDL Listener should find the appropriate app to start the Router service. The vehicle filter of an App will be available in the meta-data of router service in manifest file. The SDL listener will find the supported app using the meta-data
+
+<img src="../assets/proposals/0293-vehicle-type-filter/OEM_APPS_3.png" alt="Determine Router Service" width="500"/>
+
+The below flow chart shows, the Application receiving `onSDLenabled`. The vehicle details will be shared with apps using Intent extra.
+
+<img src="../assets/proposals/0293-vehicle-type-filter/OEM_APPS_4.png" alt="Determine Router Service" width="500"/>
+
+The below code is just for reference only. PM can decide on implementation details of this proposal. 
+
+Implementation in SDL Device Listener class below.
+
+```java
+    private static class TransportHandler extends Handler {
+        .
+        .
+        public void sendStartService(){
+            SdlDeviceListener sdlListener = this.provider.get();
+            byte[] serviceProbe = SdlPacketFactory.createStartSession(SessionType.RPC, 0x00, (byte)1, (byte)0x00, false).constructPacket();
+            if(sdlListener.bluetoothTransport !=null && sdlListener.bluetoothTransport.getState() == MultiplexBluetoothTransport.STATE_CONNECTED) {
+                sdlListener.bluetoothTransport.write(serviceProbe, 0,serviceProbe.length);
+            }
+        }
+
+
+        public void onPacketRead(SdlPacket packet){
+            SdlDeviceListener sdlListener = this.provider.get();
+            VehicleType vehicleType = null;
+            if (packet.getVersion() >=  6 && packet.getFrameInfo() == SdlPacket.FRAME_INFO_START_SERVICE_ACK) {
+                //parse vehicle Type info from connected system
+                vehicleType = getVehicleType(packet.getPayload());
+            }
+
+            byte[] stopService = SdlPacketFactory.createEndSession(SessionType.RPC, (byte)packet.getSessionId(), 0, (byte)packet.getVersion(), hashId).constructPacket();
+            if(sdlListener.bluetoothTransport !=null && sdlListener.bluetoothTransport.getState() == MultiplexBluetoothTransport.STATE_CONNECTED) {
+                sdlListener.bluetoothTransport.write(stopService, 0,stopService.length);
+            }
+
+            notifyConnection(vehicleType);
+        }
+
+        private VehicleType getVehicleType(byte[] payload) {
+            //Parse Vehicle details received in StartService ACK protocol message and return Vehicle Type object.
+        }
+
+        public void notifyConnection(VehicleType vehicleType){
+            SdlDeviceListener sdlListener = this.provider.get();
+            sdlListener.setSDLConnectedStatus(sdlListener.contextWeakReference.get(), sdlListener.connectedDevice.getAddress(), true);
+            boolean keepConnectionOpen = sdlListener.callback.onTransportConnected(sdlListener.contextWeakReference.get(), sdlListener.connectedDevice,vehicleType);
+            if (!keepConnectionOpen) {
+                sdlListener.bluetoothTransport.stop();
+                sdlListener.bluetoothTransport = null;
+                sdlListener.timeoutHandler.removeCallbacks(sdlListener.timeoutRunner);
+            }
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if (this.provider.get() == null) {
+                return;
+            }
+            SdlDeviceListener sdlListener = this.provider.get();
+            switch (msg.what) {
+                case SdlRouterService.MESSAGE_STATE_CHANGE:
+                    switch (msg.arg1) {
+                        case MultiplexBaseTransport.STATE_CONNECTED:
+                            //Send StartService RPC to get Vehicle Type Info.
+                            sendStartService();
+                            break;
+                        case MultiplexBaseTransport.STATE_NONE:
+                            // We've just lost the connection
+                            sdlListener.callback.onTransportDisconnected(sdlListener.connectedDevice);
+                            break;
+                        case MultiplexBaseTransport.STATE_ERROR:
+                            sdlListener.callback.onTransportError(sdlListener.connectedDevice);
+                            break;
+                    }
+                    break;
+
+                case com.smartdevicelink.transport.SdlRouterService.MESSAGE_READ:
+                    onPacketRead((SdlPacket) msg.obj);
+                    break;
+            }
+        }
+    }
+```
+
+Changes in SdlBroadcastReceiver 
+
+```java
+	private static SdlDeviceListener getSdlDeviceListener(Context context, BluetoothDevice bluetoothDevice){
+
+		synchronized (DEVICE_LISTENER_LOCK){
+			if (sdlDeviceListener == null){
+				sdlDeviceListener = new SdlDeviceListener(context, bluetoothDevice, new SdlDeviceListener.Callback() {
+                    /*Receive vehicle type info in OnTransportConnected callback from SDLDeviceListener. Use Vehicle Type info received here to find supported App.*/
+					@Override
+					public boolean onTransportConnected(Context context, BluetoothDevice bluetoothDevice, VehicleType vehicleType) {
+						synchronized (DEVICE_LISTENER_LOCK){
+							sdlDeviceListener = null;
+							if(context != null) {
+                                /* Use vehicle Type object to find supported App*/
+								final List<SdlAppInfo> sdlAppInfoList = AndroidTools.querySdlAppInfo(context, new SdlAppInfo.BestRouterComparator(),vehicleType);
+								if(sdlAppInfoList != null && !sdlAppInfoList.isEmpty()) {
+									ComponentName routerService = sdlAppInfoList.get(0).getRouterServiceComponentName();
+                                    /*Pass vehicle type object to start router service.*/
+									startRouterService(context, routerService, false, bluetoothDevice, true,vehicleType);
+								}
+							}
+						}
+
+						return false;
+					}
+            .
+            .
+            .
+		}
+
+		return sdlDeviceListener;
+	}
+
+    	private static void startRouterService(Context context, ComponentName componentName, boolean altTransportWake, BluetoothDevice device, boolean confirmedDevice, VehicleType vehicleType) {
+        .
+        .
+        .
+		Intent serviceIntent = new Intent();
+		serviceIntent.setComponent(componentName);
+		if(null != vehicleType){
+			serviceIntent.putExtra(TransportConstants.CONNECTED_VEHICLE_INFO, vehicleType);
+		}
+        .
+        .
+        .
+	}
+```
+
+Changes in SDL Router Service class
+```java
+public void onTransportConnected(final TransportRecord record){
+        .
+        .
+        .
+		Intent startService = new Intent();  
+		startService.setAction(TransportConstants.START_ROUTER_SERVICE_ACTION);
+
+        startService.putExtra(TransportConstants.START_ROUTER_SERVICE_SDL_ENABLED_CONNECTED_VEHICLE_INFO , vehicleType);
+        .
+        .
+        AndroidTools.sendExplicitBroadcast(getApplicationContext(),startService, null);
+}
+```
 
 ### iOS Proxy changes
 
@@ -388,19 +417,15 @@ The below example shows valid vehicle type filters.
 ```
 #### Determining Vehicle Type Info
 
-1. After version negotiations and starting the RPC service, the proxy should check if `GetVehicleType` is supported by the SDL enabled IVI system.
-2. If the protocol version supports `GetVehicleType`, the proxy will send the `GetVehicleType` protocol message.
-3. On receiving vehicle type information, proxy will check `SDLSupportedVehicleTypes` keys to check supported vehicle types.
-4. If the vehicle type is supported, the proxy should also notify the app about the connected vehicle type so that the app can configure SDL as required. The iOS proxy can implement an `OnSDLEnabled` notification similar to that of the Android proxy to notify the app about SDL connection with the supported vehicle. The app can provide lifecycle configuration to the proxy upon receiving the `OnSDLEnabled` notification. 
-5. If the proxy determines from `GetVehicleType` ACK that the vehicle type is not supported, the proxy will end the RPC session. The application layer will not be notified about the vehicle type.
-6. If the protocol version does not support the `GetVehicleType` protocol message, the SDL proxy will continue with the app registration and it will rely on vehicle type information received in the `RegisterAppInterface` response. If vehicle type is not supported, the exclusive apps will be allowed to unregister from the SDL enabled system.
-7. If the `GetVehicleType` message response is NACK, the proxy will end the RPC session and the app will not be registered on the SDL system.
-
-![Sequence Diagram](../assets/proposals/0293-vehicle-type-filter/ios.png)
+1. The proxy will receive vehicle type info in `StartServiceAck` protocol message. 
+2. On receiving vehicle type information, proxy will check `SDLSupportedVehicleTypes` keys to check supported vehicle types.
+3. If the vehicle type is supported, the proxy should also notify the app about the connected vehicle type so that the app can configure SDL as required. 
+4. If the proxy determines that connected vehicle type is not supported, the proxy will end the RPC session. The application will not register on SDL enabled IVI system.
+5. If the vehicle type information is not available in `StartServiceAck` protocol message, the SDL proxy will continue with the app registration and it will rely on vehicle type information received in the `RegisterAppInterface` response. If vehicle type is not supported, the exclusive apps will be allowed to unregister from the SDL enabled system.
 
 ## Potential downsides
 
-The Android Router Service after transport connection needs to start the RPC service. If the Android Router Service does not start RPC service and relies on the client to send the `GetVehicleType` protocol message, the connected client would start another foreground service. This would force the connected app to show two notifications to users while determining vehicle type information and would need to terminate services if the app does not support the SDL enabled IVI system. 
+The SDL device Listener after transport connection needs to start the RPC service. If the SDL device Listener does not start RPC service and relies on the client for vehicle type details, the connected client would start another foreground service. This would force the connected app to show two notifications to users while determining vehicle type information and would need to terminate services if the app does not support the SDL enabled IVI system. 
 
 ## Impact on existing code
 
@@ -408,7 +433,7 @@ Above mentioned changes need to be implemented in SDL Core, the Java Suite proxy
 
 ## Alternatives considered
 
-### GetVehicleType as an RPC instead of Protocol message
+### Using RPC instead of Protocol message to share vehicle type info
 1. As per the current implementation, the RAI is the first RPC sent to an SDL enabled IVI system and the vehicle type information is available to the app in its response. 
 2. If `GetVehicleType` is an RPC, this behavior needs to be changed. The app should be able to use the `GetVehicleType` RPC before the `RegisterAppInterface` RPC.
 3. Since the RPC message version is sent to the app in `RAI response`, the app, when connected to an older SDL enabled IVI, would not know if the `GetVehicleType` RPC is supported or not.
