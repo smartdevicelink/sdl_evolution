@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0314](0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / Policy Server ]
 
 ## Introduction
