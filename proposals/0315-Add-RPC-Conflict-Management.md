@@ -1,8 +1,8 @@
 # Add RPC Conflict Management
 
-* Proposal: [SDL-NNNN](NNNN-Add-RPC-Conflict-Management.md)
+* Proposal: [SDL-0315](0315-Add-RPC-Conflict-Management.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core ]
 
 ## Introduction
