@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0313](0313-Adding-new-parameters-for-transport-switching.md)
 * Author: [Kazuki Sugimoto(Nexty)](https://github.com/Kazuki-Sugimoto)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / RPC / HMI ]
 
 ## Introduction
