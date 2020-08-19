@@ -1,8 +1,8 @@
 # App Library: Vehicle Data Manager
 
-* Proposal: [SDL-NNNN](nnnn-app-lib-vehicle-data-manager.md)
+* Proposal: [SDL-0318](0318-app-lib-vehicle-data-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
