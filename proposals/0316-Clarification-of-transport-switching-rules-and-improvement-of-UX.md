@@ -1,8 +1,8 @@
 # Clarification of transport switching rules and improvement of UX
 
-* Proposal: [SDL-NNNN](NNNN-Clarification-of-transport-switching-rules-and-improvement-of-UX.md)
+* Proposal: [SDL-0316](0316-Clarification-of-transport-switching-rules-and-improvement-of-UX.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / HMI ]
 
 ## Introduction
