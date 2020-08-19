@@ -1,8 +1,8 @@
 # SDL Protocol Security Specification
 
-* Proposal: [SDL-NNNN](NNNN-sdl-protocol-security-specification.md)
+* Proposal: [SDL-0317](0317-sdl-protocol-security-specification.md)
 * Author: [Kujtim Shala](https://github.com/smartdevicelink/kshala-ford)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Protocol]
 
 ## Introduction
