@@ -13,7 +13,7 @@ This proposal is to add a function to SDL Core that manages concurrent RPC confl
 When multiple apps operate, ON-screen (ONS) messages and text-to-speech (TTS) RPCs are requested together. However, the current SDL Core does not have the function to manage these conflicts. Thus, all requests are notified to the middleware and managed by the OEMs themselves. For instance, ONS and TTS conflicts are managed by prioritizing the latter RPC. The figure below demonstrates the sequence process when `PerformAudioPassThru` occurs during `ScrollableMessage`.
 
 <b>Figure 1.</b> Conflict between `ScrollableMessage` and `PerformAudioPassThru`
-![Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru.png)
+![Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru.png](../assets/proposals/0315-Add-RPC-Conflict-Management/Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru.png)
 
 The example above shows that the latter RPC `PerformAudioPassThru` is displayed and aborts `ScrollableMessage`. However, this kind of method has the following problems.
 1. Since there is no guideline for RPC conflicts, implementations vary for each OEMs, thus, it is hard to standardize.
@@ -55,7 +55,7 @@ The table below shows how the RPC will be determined by the priority set during 
 
 <b>Table 2.</b> Priority result of Table 1
 
-![Table_2_Priority_result_of_Table1.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Table_2_Priority_result_of_Table1.png)
+![Table_2_Priority_result_of_Table1.png](../assets/proposals/0315-Add-RPC-Conflict-Management/Table_2_Priority_result_of_Table1.png)
 
 (* 1): For RPCs with the same priority, the `AppHMIType` priority table, which is described later, will be used to determine the priority.
 
@@ -194,13 +194,13 @@ The processing sequence during ONS RPCs conflict is shown below.
 
 <b>Figure 2.</b> ONS RPCs conflict
 
-![Figure2_ONS_RPCs_conflict.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Figure2_ONS_RPCs_conflict.png)
+![Figure2_ONS_RPCs_conflict.png](../assets/proposals/0315-Add-RPC-Conflict-Management/Figure2_ONS_RPCs_conflict.png)
 
 The processing sequence during TTS RPC conflict is shown below.
 
 <b>Figure 3.</b> TTS RPCs conflict
 
-![Figure3_TTS_RPCs_conflict.png](../assets/proposals/NNNN-Add-RPC-Conflict-Management/Figure3_TTS_RPCs_conflict.png)
+![Figure3_TTS_RPCs_conflict.png](../assets/proposals/0315-Add-RPC-Conflict-Management/Figure3_TTS_RPCs_conflict.png)
 
 
 ## Potential downsides

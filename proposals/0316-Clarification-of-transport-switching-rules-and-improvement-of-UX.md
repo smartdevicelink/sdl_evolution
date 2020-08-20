@@ -27,7 +27,7 @@ The following transport switching rules and tables should be added to [the SDL C
 
 <b>Table 1.</b> Switching of Multiple Transport
 
-![Table_1_Switching_of_Multiple_Transport.png](../assets/proposals/NNNN-Clarification-of-transport-switching-rules-and-improvement-of-UX/Table_1_Switching_of_Multiple_Transport.png)
+![Table_1_Switching_of_Multiple_Transport.png](../assets/proposals/0316-Clarification-of-transport-switching-rules-and-improvement-of-UX/Table_1_Switching_of_Multiple_Transport.png)
 
 *1 : If the HU recognizes that current BT and new USB are connected to the same device, SDL transport will switch to USB.<br>
 *2 : The SDL app that uses Video Projection Mode (VPM) detects WiFi transport when it is launched. If the WiFi transport, which is connected to same device as the BT connection, is found, the SDL app will start VPM via WiFi.<br>
@@ -59,7 +59,7 @@ The below shows the new RPC (in red text) added to the existing logic. It is nec
 
 <b>Figure 1.</b> Sequence with new RPC added to existing logic
 
-![Figure_1_Sequence_with_new_RPC_added_to_existing_logic.png](../assets/proposals/NNNN-Clarification-of-transport-switching-rules-and-improvement-of-UX/Figure_1_Sequence_with_new_RPC_added_to_existing_logic.png)
+![Figure_1_Sequence_with_new_RPC_added_to_existing_logic.png](../assets/proposals/0316-Clarification-of-transport-switching-rules-and-improvement-of-UX/Figure_1_Sequence_with_new_RPC_added_to_existing_logic.png)
 
 
 ## Potential downsides

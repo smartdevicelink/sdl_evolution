@@ -52,7 +52,7 @@ It is possible to establish a secured and encrypted communication with the syste
 
 The below diagram shows the sequence of how the TLS handshake exchanges certificates to compute the master secret.
 
-![TLS Handshake activity diagram](../assets/proposals/NNNN-sdl-protocol-security-specification/tls-handshake.png)
+![TLS Handshake activity diagram](../assets/proposals/0317-sdl-protocol-security-specification/tls-handshake.png)
 
 The authentication is done using TLS handshake. The TLS handshake process is defined by TLS and is not part of the SDL protocol. The handshake is designed as a client server communication which is configurable in the system settings. An application can take the role of a server where the system is the client or vice versa. This setting is not dynamic which means an SDL integrator must agree on one setup and avoid Client/Client or Server/Server connections. The client entity will initiate a TLS handshake with the corresponding security manager of the server. The client will do this only if the server was not authenticated before in the current transport connection. According to the TLS handshake process the peer certificate can be omitted for the server but it's required for the client.
 
