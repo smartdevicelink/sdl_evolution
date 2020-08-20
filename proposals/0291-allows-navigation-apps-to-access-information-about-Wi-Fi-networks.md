@@ -30,25 +30,36 @@ The root cause of the problem is that, in the above three situations, there is n
 There is a complete solution to these problems.
 It would help SDL greatly improve the user experience on `VideoStreaming` via BT+WiFi.
 
-1. Add WIFI status listener into Proxy
-2. Reference iOS's design, modify the timing of request TCP connection,
-  +  2-1 Proxy receives Mobile's WIFI connected successfully
-  +  2-2 Proxy receives valid IP and port from HU
-  +  2-3 Proxy receives onHmiStatus (FULL) from HU (the existing process of current proxy)
-
-3. Proxy receives TCP `TransportDisconnected`, clears IP and port
+To Listen to WiFi state change we register a receiver that receives WiFi state change to the transport layer,
+and then modify the timing of request TCP connection when receiving WiFi state change.
 
 Please refer to Appendix section for sample code.
 
-The implementation of WIFI status listener is as follows.
+The implementation of WIFI state receiver is as follows.
 ```Java
-    public void registerWifiReceiver(Context context){
-        this.context = new WeakReference<>(context);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-        WifiBroadcastReceiver wifiBroadcastReceiver = new WifiBroadcastReceiver();
-        this.context.get().registerReceiver(wifiBroadcastReceiver,intentFilter);
-    }
+    private BroadcastReceiver wifiBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent != null){
+                String action = intent.getAction();
+                if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
+                    NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+                    if (info != null) {
+                        boolean isWifiConnected = info.getState().equals(NetworkInfo.State.CONNECTED);
+                        if (mIsWifiConnected != isWifiConnected) {
+                            mIsWifiConnected = isWifiConnected;
+                            if (transportListener != null) {
+                                transportListener.onWifiStateUpdate(mIsWifiConnected);
+                            }
+                        }
+                    }
+                } else if (WIFI_AP_STATE_CHANGED_ACTION.equals(action)) {
+                    int state = intent.getIntExtra("wifi_state", 0);
+                    mIsWifiAPStateEnabled = state == WIFI_AP_STATE_ENABLED;
+                }
+            }
+        }
+    };
 ```
 The new permission `android.permission.ACCESS_WIFI_STATE` is required to use the above mentioned API.
 
@@ -81,43 +92,23 @@ No alternatives were identified.
     @Override
     public void start(CompletionListener listener) {
 +       this.listener = listener;
++       hasStarted = false;
         isTransportAvailable = internalInterface.isTransportForServiceAvailable(SessionType.NAV);
         getVideoStreamingParams();
         checkState();
         super.start(listener);
     }
-
-+   public void start(CompletionListener listener, Context context){
-+       registerWifiReceiver(context);
-+       start(listener);
-+   }
-+
-+   public void registerWifiReceiver(Context context){
-+       this.context = new WeakReference<>(context);
-+       IntentFilter intentFilter = new IntentFilter();
-+       intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-+       WifiBroadcastReceiver wifiBroadcastReceiver = new WifiBroadcastReceiver();
-+       this.context.get().registerReceiver(wifiBroadcastReceiver,intentFilter);
-+   }
-
+...
     @Override
     protected void onTransportUpdate(List<TransportRecord> connectedTransports, boolean audioStreamTransportAvail, boolean videoStreamTransportAvail){
         isTransportAvailable = videoStreamTransportAvail;
         if(internalInterface.getProtocolVersion().isNewerThan(new Version(5,1,0)) >= 0){
             if(videoStreamTransportAvail){
-                checkState();
-+               if ((!hasStarted && listener != null && this.getState() == SETTING_UP)) {
-+                   // Since istransportavailable is false on the first start, try to restart when receiving status updates
++               if (hasStarted && listener != null && getState() == SETTING_UP) {
++                   // When the TCP connection is disconnected, the stateMachine will be set to SETTING_UP in 4.11.0.
 +                   start(listener);
-+               }
-+               else if (hasStarted && listener != null && getState() == READY && stateMachine.getState() == StreamingStateMachine.STOPPED) {
-+                   // When the TCP connection is disconnected, the stateMachine will be set to STOPPED.
-+                   // When the WiFi is reconnected at the vehicle side, the status will be updated.
-+                   // Here, it should be reset to the stateMachine status and restart
-+                   transitionToState(SETTING_UP);
-+                   stateMachine.transitionToState(StreamingStateMachine.NONE);
-+                   hasStarted = false;
-+                   start(listener);
++               } else {
+                    checkState();
 +               }
             }
         }else{
@@ -130,30 +121,101 @@ No alternatives were identified.
             }
         }
     }
-    
-+   public class WifiBroadcastReceiver extends BroadcastReceiver {
-+       @Override
-+       public void onReceive(Context context, Intent intent) {
-+           if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-+               int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, -1);
-+               if (wifiState == WifiManager.WIFI_STATE_ENABLED){
-+                   Log.i(TAG,"WifiBroadcastReceiver has receiver state = " + getState() + " machine state = " + currentVideoStreamState() + " hasStarted = " + hasStarted);
-+                   if (listener != null) {
-+                       if (getState() == READY && currentVideoStreamState() == StreamingStateMachine.READY && hasStarted == false) {
-+                           // If you cannot establish a TCP connection with the vehicle because the WiFi on the mobile side is not turned on,
-+                           // you should try to restart when the WiFi on the mobile side is turned on.
-+                           start(listener);
+```
+#### TransportManager.java
+```java
+    public class TransportManager extends TransportManagerBase{
+        private static final String TAG = "TransportManager";
++       private static final String WIFI_AP_STATE_CHANGED_ACTION = "android.net.wifi.WIFI_AP_STATE_CHANGED";
++       private static final int WIFI_AP_STATE_ENABLED = 13;
+
+        TransportBrokerImpl transport;
+...
+        @Override
+        public void start(){
+            if(transport != null){
+                if (!transport.start()){
+                    //Unable to connect to a router service
+                    if(transportListener != null){
+                        transportListener.onError("Unable to connect with the router service");
+                    }
+                }
+            }else if(legacyBluetoothTransport != null){
+                legacyBluetoothTransport.start();
+            }
+
++           if(contextWeakReference.get() != null) {
++               IntentFilter intentFilter = new IntentFilter();
++               intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
++               intentFilter.addAction(WIFI_AP_STATE_CHANGED_ACTION);
++               contextWeakReference.get().registerReceiver(wifiBroadcastReceiver, intentFilter);
++           }
+        }
+
+        @Override
+        public void close(long sessionId){
+            if(transport != null) {
+                transport.removeSession(sessionId);
+                transport.stop();
+            }else if(legacyBluetoothTransport != null){
+                legacyBluetoothTransport.stop();
+                legacyBluetoothTransport = null;
+            }
+
++           if(contextWeakReference != null){
++               contextWeakReference.get().unregisterReceiver(wifiBroadcastReceiver);
++           }
+        }
+...
++       private BroadcastReceiver wifiBroadcastReceiver = new BroadcastReceiver() {
++           @Override
++           public void onReceive(Context context, Intent intent) {
++               if(intent != null){
++                   String action = intent.getAction();
++                   if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
++                       NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
++                       if (info != null) {
++                           boolean isWifiConnected = info.getState().equals(NetworkInfo.State.CONNECTED);
++                           if (mIsWifiConnected != isWifiConnected) {
++                               mIsWifiConnected = isWifiConnected;
++                               if (transportListener != null) {
++                                   transportListener.onWifiStateUpdate(mIsWifiConnected);
++                               }
++                           }
 +                       }
++                   } else if (WIFI_AP_STATE_CHANGED_ACTION.equals(action)) {
++                       int state = intent.getIntExtra("wifi_state", 0);
++                       mIsWifiAPStateEnabled = state == WIFI_AP_STATE_ENABLED;
 +                   }
 +               }
 +           }
-+       }
-+   }
++       };
 ```
 #### SdlProtocolBase.java
 ```java
+    private boolean isSecondaryTransportAvailable(boolean onlyHighBandwidth){
+        if (supportedSecondaryTransports != null) {
+            for (TransportType supportedSecondary : supportedSecondaryTransports) {
+                if(!onlyHighBandwidth || supportedSecondary == TransportType.USB || supportedSecondary == TransportType.TCP) {
+                    if (transportManager != null && transportManager.isConnected(supportedSecondary, null)) {
+                        //A supported secondary transport is already connected
+                        return true;
+                    } else if (secondaryTransportParams != null && secondaryTransportParams.containsKey(supportedSecondary)
++                           && (transportManager != null && (transportManager.isWifiConnected() || transportManager.isWifiAPStateEnabled()))) {
+                        //A secondary transport is available to connect to
+                        return true;
+                    }
+                }
+            }
+        }
+        // No supported secondary transports
+        return false;
+    }
+
+    public void startService(SessionType serviceType, byte sessionID, boolean isEncrypted) {
 ...
                 //If the secondary transport isn't connected yet that will have to be performed first
+
                 List<ISecondaryTransportListener> listenerList = secondaryTransportListeners.get(secondaryTransportType);
                 if(listenerList == null){
                     listenerList = new ArrayList<>();
@@ -162,11 +224,10 @@ No alternatives were identified.
 +               else {
 +                   listenerList.clear();
 +               }
-
-                //Check to see if the primary transport can also be used as a backup
-                final boolean primaryTransportBackup = transportPriorityForServiceMap.get(serviceType).contains(PRIMARY_TRANSPORT_ID);
 ...
-
+    @SuppressWarnings("FieldCanBeLocal")
+    final TransportManagerBase.TransportEventListener transportEventListener = new TransportManagerBase.TransportEventListener() {
+...
         @Override
         public void onTransportDisconnected(String info, TransportRecord disconnectedTransport, List<TransportRecord> connectedTransports) {
             if (disconnectedTransport == null) {
@@ -178,12 +239,117 @@ No alternatives were identified.
                 return;
             } else {
                 Log.d(TAG, "onTransportDisconnected - " + disconnectedTransport.getType().name());
-+               if (disconnectedTransport.getType() == TransportType.TCP && secondaryTransportParams != null){
-+                   if (activeTransports.containsValue(disconnectedTransport)) {
-+                       //If the established TCP connection is disconnected, the corresponding IP and port are invalid and should be removed from the list.
-+                       // Otherwise, istransportforserviceavailable is always true after disconnection
++               if (disconnectedTransport.getType() == TransportType.TCP && secondaryTransportParams != null) {
++                   if (activeTransports.containsValue(disconnectedTransport)
++                           && (transportManager != null && (transportManager.isWifiConnected() || transportManager.isWifiAPStateEnabled()))) {
++                       // If the established TCP connection is disconnected, the corresponding IP and port are invalid and should be removed from the list.
++                       // Otherwise, isTransportForServiceAvailable is always true after disconnection
++                       // Do not remove when Wifi is connected or AP is enabled in HS side, because app need use it when connected again.
 +                       secondaryTransportParams.remove(TransportType.TCP);
 +                   }
 +               }
             }
+...
+        @Override
+        public boolean onLegacyModeEnabled(String info) {
+            //Await a connection from the legacy transport
+            if(requestedPrimaryTransports!= null && requestedPrimaryTransports.contains(TransportType.BLUETOOTH)
+                    && !SdlProtocolBase.this.requiresHighBandwidth){
+                Log.d(TAG, "Entering legacy mode; creating new protocol instance");
+                reset();
+                return true;
+            }else{
+                Log.d(TAG, "Bluetooth is not an acceptable transport; not moving to legacy mode");
+                return false;
+            }
+        }
+
++       @Override
++       public void onWifiStateUpdate(boolean isWifiConnected) {
++           Log.d(TAG, "onWifiStateUpdate: isWifiConnected = " + isWifiConnected);
++           if (isWifiConnected) {
++               notifyDevTransportListener();
++           }
++       }
+    };
+...
+        /**
+         * Directing method that will push the packet to the method that can handle it best
+         * @param packet a control frame packet
+         */
+        private void handleControlFrame(SdlPacket packet) {
+            Integer frameTemp = packet.getFrameInfo();
+            Byte frameInfo = frameTemp.byteValue();
+...
+            } else if (frameInfo == FrameDataControlFrameType.TransportEventUpdate.getValue()) {
+
+                // Get TCP params
+                String ipAddr = (String) packet.getTag(ControlFrameTags.RPC.TransportEventUpdate.TCP_IP_ADDRESS);
+                Integer port = (Integer) packet.getTag(ControlFrameTags.RPC.TransportEventUpdate.TCP_PORT);
+
+                if(secondaryTransportParams == null){
+                    secondaryTransportParams = new HashMap<>();
+                }
+
+                if(ipAddr != null && port != null) {
+                    String address = (port != null && port > 0) ? ipAddr + ":" + port : ipAddr;
+                    secondaryTransportParams.put(TransportType.TCP, new TransportRecord(TransportType.TCP,address));
+
+                    //A new secondary transport just became available. Notify the developer.
+                    notifyDevTransportListener();
++               } else {
++                   // Remove secondaryTransportParams when HU Wifi disconnected.
++                   secondaryTransportParams.remove(TransportType.TCP);
+                }
+
+            }
+```
+#### TransportManagerBase.java
+```java
+public abstract class TransportManagerBase {
+    private static final String TAG = "TransportManagerBase";
+
+    final Object TRANSPORT_STATUS_LOCK;
+
+    final List<TransportRecord> transportStatus;
+    final TransportEventListener transportListener;
++   boolean mIsWifiConnected;
++   boolean mIsWifiAPStateEnabled;
+...
+    public void requestSecondaryTransportConnection(byte sessionId, TransportRecord transportRecord){
+        //Base implementation does nothing
+    }
+
++   public boolean isWifiConnected() {
++       return mIsWifiConnected;
++   }
++
++   public boolean isWifiAPStateEnabled() {
++       return mIsWifiAPStateEnabled;
++   }
+...
+    public interface TransportEventListener{
+        /** Called to indicate and deliver a packet received from transport */
+        void onPacketReceived(SdlPacket packet);
+
+        /** Called to indicate that transport connection was established */
+        void onTransportConnected(List<TransportRecord> transports);
+
+        /** Called to indicate that transport was disconnected (by either side) */
+        void onTransportDisconnected(String info, TransportRecord type, List<TransportRecord> connectedTransports);
+
+        // Called when the transport manager experiences an unrecoverable failure
+        void onError(String info);
+        /**
+         * Called when the transport manager has determined it needs to move towards a legacy style
+         * transport connection. It will always be bluetooth.
+         * @param info simple info string about the situation
+         * @return if the listener is ok with entering legacy mode
+         */
+        boolean onLegacyModeEnabled(String info);
+
++       /** Called to indicate that Wifi was connected/disconnected (by HS side) */
++       void onWifiStateUpdate(boolean isWifiConnected);
+    }
+}
 ```
