@@ -30,7 +30,7 @@ The root cause of the problem is that, in the above three situations, there is n
 There is a complete solution to these problems.
 It would help SDL greatly improve the user experience on `VideoStreaming` via BT+WiFi.
 
-To Listen to WiFi state change we register a receiver that receives WiFi state change to the transport layer,
+To listen to WiFi state change, we register a receiver that receives WiFi state change to the transport layer, and then modify the timing of request TCP connection when receiving WiFi state change.
 and then modify the timing of request TCP connection when receiving WiFi state change.
 
 Please refer to Appendix section for sample code.
