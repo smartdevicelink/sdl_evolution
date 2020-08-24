@@ -347,7 +347,7 @@ public abstract class TransportManagerBase {
          */
         boolean onLegacyModeEnabled(String info);
 
-+       /** Called to indicate that Wifi was connected/disconnected (by HS side) */
++       /** Called to indicate that WiFi was connected/disconnected (by mobile device) */
 +       void onWifiStateUpdate(boolean isWifiConnected);
     }
 }
