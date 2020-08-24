@@ -242,7 +242,7 @@ No alternatives were identified.
 +                   if (activeTransports.containsValue(disconnectedTransport)
 +                           && (transportManager != null && (transportManager.isWifiConnected() || transportManager.isWifiAPStateEnabled()))) {
 +                       // If the established TCP connection is disconnected, the corresponding IP and port are invalid and should be removed from the list.
-+                       // Otherwise, isTransportForServiceAvailable is always true after disconnection
++                       // Otherwise, isTransportForServiceAvailable is always true after disconnection.
 +                       // Do not remove when Wifi is connected or AP is enabled in HS side, because app need use it when connected again.
 +                       secondaryTransportParams.remove(TransportType.TCP);
 +                   }
