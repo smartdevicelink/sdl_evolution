@@ -290,6 +290,7 @@ To clarify the error flow a bit, heres a sequence diagram
 
 1. This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
 2. This form process does not support OAuth logins like Google, Apple, or Facebook).
+3. This proposal doesn't include any manager changes, which would be useful for helping app partners use this feature
 
 ## Impact on existing code
 
