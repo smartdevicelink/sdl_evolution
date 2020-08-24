@@ -19,86 +19,53 @@ Here's an example from an overall plan
 <img src="../assets/proposals/0310-PerformInteraction-Multipick/PerformInteraction Multipick overview.PNG" alt="Login Screen" class="inline" height= "100%" width= "100%" /> 
 
 ## Proposed solution
-An app can mark that the `performInteraction` is a multiselect type by setting the text of the final confirmation button. That is - the button that the user presses after they are done selecting all their choices.
-So, add a field `multiselectConfirmationButtonText`, if this has text in it then the `performInteraction` will be multiselect. If the `InteractionMode` is `VR_ONLY` or the displayLayout is `TILES_WITH_SEARCH`, `LIST_WITH_SEARCH`, or `KEYBOARD_ONLY`, then the response will be `INVALID_DATA`. If the `InteractionMode` is `BOTH`, then the VR portion of the `PerformInteraction` will be skipped.
+
+An app can mark that the `performInteraction` is a multiselect type by setting the `InteractionMode` as `MANUAL_MULTISELECT`.  
 
 
-Add `multiselectConfirmationButtonText` to the request in the `MOBILE_API`.
-Also, add a return parameter `multiselectChoiceIDs` to `PerformInteraction` response. This array allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app:
+Update the `InteractionMode` enum in the `MOBILE_API`
 ```xml
-    <function name="PerformInteraction" functionID="PerformInteractionID" messagetype="request" since="1.0">
-      <description>Triggers an interaction (e.g. "Permit GPS?" - Yes, no, Always Allow).</description>
-      .
-      .
-      .
-      <param name="multiselectConfirmationButtonText" type="String" maxlength="500" mandatory="false" since="X.X">
-        <description>
-          If this parameter is set, then this is a multiselect performInteraction. This text will be in the button that a person uses to finish choosing items.
-        </description>
-      </param>
-    </function>
+	<enum name="InteractionMode" since="1.0">
+		.
+		.
+		.
+		<element name="MANUAL_MULTISELECT">
+			<description>This mode causes the interaction to only occur on the display, meaning the choices are provided only via the display. In this mode, the user can select more than 1 item in the perform interaction before pressing a button to confirm all choices. </description>
 	
-    <function name="PerformInteraction" messagetype="response">
-    .
-    .
-    .
-      <param name="multiselectChoiceIDs" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false" since="X.X">
-       <description>
-          IDs of the choices that were selected in response to a multiselect performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
-          Only is valid if general result is "success:true".
-       </description>
-      </param>	
-    </function>	
+	</enum>
 ```
 
-Then do the same for the `HMI_API`:
+Plus the `PerformInteraction` response needs to update from a single item to an array in the `MOBILE_API`
 ```xml
-<interface name="UI" version="X.X.X" date="X-X-X">
-.
-.
-.
-  <function name="PerformInteraction" messagetype="request">
-  .
-  .
-  .
-    <param name="multiselectConfirmationButtonText" type="String" maxlength="500" mandatory="false">
-      <description>
-        If this parameter is set, then this is a multiselect performInteraction. This text will be the button that a person uses to finish choosing items.
-      </description>
-    </param>
-  </function>
-  
-  <function name="PerformInteraction" messagetype="response">
-  .
-  .
-  .
-    <param name="multiselectChoiceIDs" type="Integer" minsize="1" maxsize="100" minvalue="0" maxvalue="2000000000" array="true" mandatory="false">
-      <description>
-        IDs of the choices that were selected in response to a multiselect performInteraction. Allows duplicate choiceIDs so that the HMI can send back the same choiceID multiple times to relay a quantity back to the app.
-        Only is valid if general result is "success:true".
-      </description>
-    </param>	
-  </function>
-</interface>
+<function name="PerformInteraction" funcitonID="PerformInteractionID" messageType="response" since="1.0">
+	.
+	.
+	.
+	<param name="choiceID" type="Integer" minvalue="0" maxvalue="2000000000" array="true" minsize="1" maxsize="100" mandatory="false" since="3.0">
+		<description>
+			IDs of the choices that were selected i response to PerformInteraction.
+			Only is valid if general result is "success:true".
+		</desciption>
+	</param>
+</function>
 ```
 
-On older head units, the app might request a multiselect `performInteraction` but the head unit would ignore the parameter of `multiselectConfirmationButtonText` and the response would only end up being a single choiceID.
+and update the `HMI_API`
+```
+<function name="PerformInteraction" messagetype="response">
+	<param name="choiceID" type="Integer" minvalue="0" maxvalue="2000000000" array="true" minsize="1" maxsize="100" mandatory="false" since="3.0">
+		<description>
+			IDs of the choices that were selected i response to PerformInteraction.
+			Only is valid if general result is "success:true".
+		</desciption>
+	</param>
+</function>
 
+```
+
+On older head units, the app might request a multiselect `performInteraction` but the app would get a response of INVALID_DATA. So the app would have to handle business logic while thats going on
 If a multiselect PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
 
-Plus the headunit can note that it supports form field text and images through `TextFieldName` in the MOBILE_API
-```xml
-   <enum name="TextFieldName" since="1.0">
-     .
-     .
-     .
-        </element>
-             <element name="multiselectConfirmationButtonText">
-            <description>If this parameter is set, then this is a multiselect performInteraction. This text will be the button that a person uses to finish choosing items.</description>
-        </element>
-
-</enum>
-```
 
 ### Driver distraction
 
@@ -221,7 +188,6 @@ Add to the `MOBILE_API`:
 	</param>
   </function>
 ```
-
 
 and `HMI_API`:
 ```xml
