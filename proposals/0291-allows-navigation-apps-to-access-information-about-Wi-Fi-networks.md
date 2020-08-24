@@ -297,7 +297,7 @@ No alternatives were identified.
                     //A new secondary transport just became available. Notify the developer.
                     notifyDevTransportListener();
 +               } else {
-+                   // Remove secondaryTransportParams when HU Wifi disconnected.
++                   // Remove secondaryTransportParams when head unit WiFi is disconnected.
 +                   secondaryTransportParams.remove(TransportType.TCP);
                 }
 
