@@ -136,11 +136,9 @@ Plus the headunit can note that it supports form field text and images through `
      .
      .
         <element name="formFieldLabel">
-        </element>
-             <element name="formFieldText">
             <description>If this is not present, the app may assume that DisplayForm is unsupported. If it is present, it is assumed that all features other than image are supported.
         </element>
-</enum>
+   </enum>
 ```
 ```xml
 <enum name="ImageFieldName" since="3.0">
