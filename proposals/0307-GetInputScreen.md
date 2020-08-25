@@ -129,7 +129,7 @@ Here's the MOBILE_API:
 </struct>
 ```
 
-Plus the headunit can note that it supports form field text and images through `TextFieldName` and `ImageFieldName` in the MOBILE_API
+Plus the headunit can note that it supports form field text and images through `TextFieldName` and `ImageFieldName` in the `MOBILE_API`
 ```xml
    <enum name="TextFieldName" since="1.0">
      .
@@ -221,6 +221,7 @@ and the `HMI_API`:
 
 Regarding the response which would be sent when the user presses a softbutton, this would use RPC encryption which is handled by policies.
 There would be one string response for each field. If a field was left empty, the associated string would be blank.
+Which requires updates to the `MOBILE_API`
 ```xml
 <function name="DisplayForm" messagetype="response">
   <param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
