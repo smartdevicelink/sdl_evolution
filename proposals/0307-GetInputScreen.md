@@ -225,11 +225,11 @@ Which requires updates to the `MOBILE_API`
 ```xml
 <function name="DisplayForm" messagetype="response">
   
-<param name="success" type="Boolean" platform="documentation" mandatory="true">
+  <param name="success" type="Boolean" platform="documentation" mandatory="true">
     <description> true if successful; false, if failed.</description>
-</param>
+  </param>
 
-<param name="resultCode" type="Result" platform="documentation" mandatory="true">
+  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
     <description>See Result</description>
     <element name="SUCCESS"/>
     <element name="REJECTED"/>
@@ -241,17 +241,17 @@ Which requires updates to the `MOBILE_API`
     <element name="TOO_MANY_PENDING_REQUESTS"/>
     <element name="APPLICATION_NOT_REGISTERED"/>
     <element name="GENERIC_ERROR"/>
-</param>
+  </param>
   
-<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
     <description>Provides additional human readable info regarding the result.</description>
-</param>
+  </param>
   
-<param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
+  <param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
     <description>
       This will return an array of Fields that have the same type and label as requested, but with the text field populated.
     </description>
-</param>
+  </param>
   
 </function>
 ```
