@@ -141,11 +141,11 @@ Plus the headunit can note that it supports form field text and images through `
    </enum>
 ```
 ```xml
-<enum name="ImageFieldName" since="3.0">
-        <element name="formFieldImage">
-            <description>An image icon for the input field</description>
-        </element>
-</enum>
+  <enum name="ImageFieldName" since="3.0">
+    <element name="formFieldImage">
+      <description>An image icon for the input field</description>
+    </element>
+  </enum>
 ```
 
 ```xml
