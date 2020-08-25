@@ -224,17 +224,9 @@ There would be one string response for each field. If a field was left empty, th
 Which requires updates to the `MOBILE_API`
 ```xml
 <function name="DisplayForm" messagetype="response">
-  <param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
-    <description>
-      This will return an array of Fields that have the same type and label as requested, but with the text field populated.
-    </description>
-  </param>
+  
 <param name="success" type="Boolean" platform="documentation" mandatory="true">
     <description> true if successful; false, if failed.</description>
-</param>
-
-<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-    <description>Provides additional human readable info regarding the result.</description>
 </param>
 
 <param name="resultCode" type="Result" platform="documentation" mandatory="true">
@@ -250,6 +242,17 @@ Which requires updates to the `MOBILE_API`
     <element name="APPLICATION_NOT_REGISTERED"/>
     <element name="GENERIC_ERROR"/>
 </param>
+  
+<param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+    <description>Provides additional human readable info regarding the result.</description>
+</param>
+  
+<param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
+    <description>
+      This will return an array of Fields that have the same type and label as requested, but with the text field populated.
+    </description>
+</param>
+  
 </function>
 ```
 
