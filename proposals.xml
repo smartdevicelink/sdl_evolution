@@ -140,7 +140,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0125" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF Video streaming support" filename="0125-atf-videostreaming-full-support.md"/>
 <proposal id="0126" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF support of additional transports (BT and USB)" filename="0126-atf-additional-transports.md"/>
 <proposal id="0127" status="accepted" primary-platform="atf" sdl-version="x.x" name="SDL watchdog" filename="0127-atf-sdl-watchdog-service.md"/>
-<proposal id="0128" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
+<proposal id="0128" status="implemented" primary-platform="atf" sdl-version="7.0" name="ATF Script Runner" filename="0128-atf-script-runner.md"/>
 <proposal id="0129" status="implemented" primary-platform="ios" sdl-version="5.2" name="Add Additional AppHMIType Array iOS" filename="0129-ios-additional-apptypes.md"/>
 <proposal id="0130" status="rejected" primary-platform="rpc" sdl-version="x.x" name="SendLocation for Mobile Nav" filename="0130-SendLocation-for-Mobile-Nav.md"/>	
 <proposal id="0131" status="accepted" primary-platform="atf" sdl-version="x.x" name="Test Scripts - Refactoring of Common modules" filename="0131-test-scripts-common-modules-refactoring.md"/>	
@@ -221,7 +221,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0199" status="implemented" primary-platform="rpc" sdl-version="6.0" name="Adding GPS Shift Support" filename="0199-Adding-GPS-Shift-support.md"/>	
 <proposal id="0200" status="implemented" primary-platform="rpc" sdl-version="7.0" name="Removing URL Parameter Max Length" filename="0200-Removing-URL-Param-Max-Length.md"/>
 <proposal id="0201" status="returned" primary-platform="ios" sdl-version="x.x" name="High level interface: Overlay Controllers" filename="0201-high-level-interface-overlay-controllers.md"/>
-<proposal id="0202" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Supported Character Sets" filename="0202-character-sets.md"/>
+<proposal id="0202" status="implemented" primary-platform="rpc" sdl-version="7.0" name="Supported Character Sets" filename="0202-character-sets.md"/>
 <proposal id="0203" status="implemented" primary-platform="java-suite" sdl-version="4.8" name=" Cloud App Library - Phase 1" filename="0203-cloud_client_library_phase_1.md"/>
 <proposal id="0204" status="implemented" primary-platform="core" sdl-version="6.0" name="Support running the same app from multiple devices at the same time" filename="0204-same-app-from-multiple-devices.md"/>	
 <proposal id="0205" status="accepted" primary-platform="core" sdl-version="x.x" name="Avoid Custom button subscription in case HMI incompatibility" filename="0205-Avoid_custom_button_subscription_when_HMI_does_not_support.md"/>
@@ -309,7 +309,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0279" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>
 <proposal id="0279" status="implemented" primary-platform="ios" sdl-version="6.7" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>
 <proposal id="0279" status="accepted" primary-platform="javascript" sdl-version="x.x" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>	
-<proposal id="0280" status="active" primary-platform="rpc" sdl-version="x.x" name="Adding new parameter of requiresAudioSupport and BluetoothDeviceAddress" filename="0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md"/>
+<proposal id="0280" status="returned" primary-platform="rpc" sdl-version="x.x" name="Adding new parameter of requiresAudioSupport and BluetoothDeviceAddress" filename="0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md"/>
 <proposal id="0281" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add a mechanism to exclude route guidance between embedded navigation and SDL navigation" filename="0281-Add-a-mechanism-to-exclude-route-guidance-between-embedded-navigation-and-SDL-navigation.md"/>
 <proposal id="0282" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Alert Manager" filename="0282-screen-manager-alerts.md"/>
 <proposal id="0283" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add Scrollable Message and Slider to Screen Manager" filename="0283-screen-manager-scrollable-message-and-slider.md"/>
@@ -335,17 +335,21 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0301" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="SDL Device Listener" filename="0301-SDL-device-listener.md"/>	
 <proposal id="0302" status="deferred" primary-platform="protocol" sdl-version="x.x" name="SDL System Structure for Middle/Low-end Class Model of Powered Two Wheeler" filename="0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler.md"/>	
 <proposal id="0303" status="deferred" primary-platform="ios" sdl-version="x.x" name="SDL Audio I/O Manager" filename="0303-audio-io-manager.md"/>	
-<proposal id="0304" status="deferred" primary-platform="ios" sdl-version="x.x" name="Start Video Stream With OnTouchEvent Permission" filename="0304-stream-ontouchevent.md"/>	
+<proposal id="0304" status="active" primary-platform="ios" sdl-version="x.x" name="Start Video Stream With OnTouchEvent Permission" filename="0304-stream-ontouchevent.md"/>	
 <proposal id="0305" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Homogenize TextFieldName" filename="0305-homogenize-textfieldname.md"/>	
 <proposal id="0306" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
-<proposal id="0307" status="active" primary-platform="rpc" sdl-version="x.x" name="Get Input Screen" filename="0307-GetInputScreen.md"/>	
+<proposal id="0307" status="returned" primary-platform="rpc" sdl-version="x.x" name="Get Input Screen" filename="0307-GetInputScreen.md"/>	
 <proposal id="0308" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add a Reason Parameter to All Protocol NAKs" filename="0308-protocol-nak-reason.md"/>	
 <proposal id="0309" status="rejected" primary-platform="java-suite" sdl-version="x.x" name="Mitigating Android SDL service notifications issues" filename="0309-android-notifications.md"/>	
-<proposal id="0310" status="active" primary-platform="rpc" sdl-version="x.x" name="Perform Interaction Multipick" filename="0310-PerformInteractionMultipick.md"/>	
+<proposal id="0310" status="returned" primary-platform="rpc" sdl-version="x.x" name="Perform Interaction Multipick" filename="0310-PerformInteractionMultipick.md"/>	
 <proposal id="0311" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Make RPC Setters Chainable" filename="0311-Make-RPC-Setters-Chainable.md"/>	
 <proposal id="0312" status="accepted" primary-platform="ios" sdl-version="x.x" name="Update the Minimum Required iOS Version to 10.0" filename="0312-ios-update-minimum-version-ios10.md"/>	
-<proposal id="0313" status="active" primary-platform="rpc" sdl-version="x.x" name="Adding new parameters for transport switching" filename="0313-Adding-new-parameters-for-transport-switching.md"/>	
-<proposal id="0314" status="active" primary-platform="core" sdl-version="x.x" name="Clarification of SDL app icon display sequence and display order" filename="0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md"/>	
+<proposal id="0313" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Adding new parameters for transport switching" filename="0313-Adding-new-parameters-for-transport-switching.md"/>	
+<proposal id="0314" status="withdrawn" primary-platform="core" sdl-version="x.x" name="Clarification of SDL app icon display sequence and display order" filename="0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md"/>	
+<proposal id="0315" status="active" primary-platform="core" sdl-version="x.x" name="Add RPC Conflict Management" filename="0315-Add-RPC-Conflict-Management.md"/>	
+<proposal id="0316" status="active" primary-platform="core" sdl-version="x.x" name="Clarification of transport switching rules and improvement of UX" filename="0316-Clarification-of-transport-switching-rules-and-improvement-of-UX.md"/>	
+<proposal id="0317" status="active" primary-platform="protocol" sdl-version="x.x" name="SDL Protocol Security Specification" filename="0317-sdl-protocol-security-specification.md"/>	
+<proposal id="0318" status="active" primary-platform="mobile" sdl-version="x.x" name="App Library: Vehicle Data Manager" filename="0318-app-lib-vehicle-data-manager.md"/>	
 	
 	<!--
 Recognized values for a proposal's status:

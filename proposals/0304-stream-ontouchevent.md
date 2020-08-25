@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0304](0304-stream-ontouchevent.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Deferred**
+* Status: **In Review**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction

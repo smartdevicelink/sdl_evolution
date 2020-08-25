@@ -169,10 +169,10 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL iOS: 6.8.0
+#### SDL iOS: 7.0.0
 **Expected Release Date**: November 4, 2020
 
-**Contents**: Contents of this release can be tracked on the [iOS 6.8.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/22).
+**Contents**: Contents of this release can be tracked on the [iOS 7.0.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/22).
 
 ---
 

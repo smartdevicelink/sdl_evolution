@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0314](0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / Policy Server ]
 
 ## Introduction
@@ -58,7 +58,7 @@ However, since the preferred `AppHMIType` priority may vary for each OEM, the OE
 Currently, there is no sequence provided that demonstrates how the icon is displayed. Figure 1 shows the sequence in which the process of this proposal is added to the existing sequence from the program code of SDL Core. The black text indicates the existing order described in the program code. The red text indicates the process added by this proposal.
 
 <b>Figure 1.</b> SDL App Icon display sequence
-![Figure1_SDL_App_Icon_display_sequence.PNG](../assets/proposals/NNNN-Clarification-of-SDL-App-Icon-display-sequence-and-display-order/Figure1_SDL_App_Icon_display_sequence.PNG)
+![Figure1_SDL_App_Icon_display_sequence.PNG](../assets/proposals/0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order/Figure1_SDL_App_Icon_display_sequence.PNG)
 
 The contents suggested by this proposal are as follows:
 - Add `SortList()` as a process to sort according to the display order of SDL app icon.
