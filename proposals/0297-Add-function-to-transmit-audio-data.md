@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-0297](0297-Add-function-to-transmit-audio-data.md)
 * Author: [Yuki Shoda](https://github.com/Yuki-Shoda)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
@@ -23,7 +23,7 @@ The process of transmitting audio data to the HU is implemented using a timer th
 
 The conceptual diagram is shown below.
 
-![Image](../assets/proposals/NNNN-Add-function-to-transmit-audio-data/Image.gif)
+![Image](../assets/proposals/0297-Add-function-to-transmit-audio-data/Image.gif)
 
 The code samples for iOS and Java Suite are shown below.
 * It is necessary to consider pushBuffer and pushWithData of AudioStreamManager.

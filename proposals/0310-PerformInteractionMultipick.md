@@ -1,9 +1,8 @@
-
-# Perform Interaction Multiselect
+# Perform Interaction Multipick
 
 * Proposal: [SDL-0310](0310-PerformInteractionMultipick.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [HMI / Core / iOS / Java Suite / JavaScript / RPC ]
 
 ## Introduction
@@ -19,7 +18,6 @@ Here's an example from an overall plan
 <img src="../assets/proposals/0310-PerformInteraction-Multipick/PerformInteraction Multipick overview.PNG" alt="Login Screen" class="inline" height= "100%" width= "100%" /> 
 
 ## Proposed solution
-
 An app can mark that the `performInteraction` is a multiselect type by setting the `InteractionMode` as `MANUAL_MULTISELECT`.  
 
 
@@ -154,6 +152,7 @@ Add to the `MOBILE_API`:
   </function>
 ```
 ```xml
+
   <function name="PerformInteractionMultiselect" functionID="PerformInteractionMultiselectID" messagetype="response" since="X.X" since="X.X">
 	<param name="success" type="Boolean" platform="documentation" mandatory="true">
 	  <description> Triggers an interaction where a user can pick multiple things (e.g. "What do you want to order from this restaurant?"). </description>

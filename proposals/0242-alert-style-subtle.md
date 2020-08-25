@@ -3,7 +3,7 @@
 * Proposal: [SDL-0242](0242-alert-style-subtle.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC]
+* Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Policy Server / HMI / RPC]
 
 ## Introduction
 This feature adds the `SubtleAlert` RPC, which presents a style of alert: the "subtle" alert. This is a "notification style" alert that does not take over the entire screen.
@@ -43,7 +43,7 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
 
 #### Subtle Alert
 ```xml
-<function name="SubtleAlert" functionID="SubtleAlertID" messagetype="request">
+<function name="SubtleAlert" functionID="SubtleAlertID" messagetype="request" since="X.X">
     <description>Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.</description>
         
      <param name="alertText1" type="String" maxlength="500" mandatory="false">
@@ -90,7 +90,41 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
     </param>
 </function>
 
-<function name="OnSubtleAlertPressed" functionID="OnSubtleAlertPressedID" messagetype="notification">
+<function name="SubtleAlert" messagetype="response" since="X.X">
+    <param name="success" type="Boolean" platform="documentation" mandatory="true">
+        <description> true if successful; false, if failed </description>
+    </param>
+
+    <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+        <description>See Result</description>
+        <element name="SUCCESS"/>
+        <element name="INVALID_DATA"/>
+        <element name="OUT_OF_MEMORY"/>
+        <element name="TOO_MANY_PENDING_REQUESTS"/>
+        <element name="APPLICATION_NOT_REGISTERED"/>
+        <element name="GENERIC_ERROR"/>
+        <element name="REJECTED"/>
+        <element name="ABORTED"/>
+        <element name="DISALLOWED"/>
+        <element name="USER_DISALLOWED"/>
+        <element name="UNSUPPORTED_RESOURCE"/>
+        <element name="WARNINGS"/>
+    </param>
+
+    <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+        <description>Provides additional human readable info regarding the result.</description>
+    </param>
+
+    <param name="tryAgainTime" type="Integer" minvalue="0" maxvalue="2000000000" mandatory="false">
+        <description>
+            Amount of time (in milliseconds) that an app must wait before resending an alert.
+            If provided, another system event or overlay currently has a higher priority than this alert.
+            An app must not send an alert without waiting at least the amount of time dictated.
+        </description>
+    </param>
+</function>
+
+<function name="OnSubtleAlertPressed" functionID="OnSubtleAlertPressedID" messagetype="notification" since="X.X">
     <description>
         Sent when the alert itself is touched (outside of a soft button). Touching (or otherwise selecting) the alert should open the app before sending this notification.
     </description>
@@ -116,8 +150,14 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
     <param name="alertStrings" type="Common.TextFieldStruct" mandatory="true" array="true" minsize="0" maxsize="2">
         <description>Array of lines of alert text fields. See TextFieldStruct. Uses subtleAlertText1, subtleAlertText2.</description>
     </param>
-    <param name="duration" type="Integer" mandatory="true" minvalue="3000" maxvalue="10000">
-        <description>Timeout in milliseconds.</description>
+    <param name="alertIcon" type="Common.Image" mandatory="false">
+        <description>
+            Image to be displayed for the corresponding alert. See Image. 
+            If omitted, no (or the default if applicable) icon should be displayed.
+        </description>
+    </param>
+    <param name="duration" type="Integer" mandatory="false" minvalue="3000" maxvalue="10000">
+        <description>Timeout in milliseconds. Omitted if SoftButtons are included.</description>
     </param>
     <param name="softButtons" type="Common.SoftButton" mandatory="false" minsize="0" maxsize="2" array="true">
         <description>App defined SoftButtons</description>
@@ -127,6 +167,11 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
     </param>
     <param name="appID" type="Integer" mandatory="true">
         <description>ID of application requested this RPC.</description>
+    </param>
+    <param name="cancelID" type="Integer" mandatory="false">
+        <description>
+            An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC.
+        </description>
     </param>
 </function>
 
@@ -140,11 +185,31 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
     <description>
         Sent when the alert itself is touched (outside of a soft button). Touching (or otherwise selecting) the alert should open the app before sending this notification.
     </description>
+    <param name="appID" type="Integer" mandatory="true">
+        <description>ID of application that is related to this RPC.</description>
+    </param>
 </function>
 ```
 
 * Changes may need to be made to the above functions for `CancelInteraction` changes.
 * Identical changes will also need to be made to `HMI_API` `TextFieldName` and `ImageFieldName` enums as in the `MOBILE_API` changes above.
+
+### Policy Table Changes
+
+Currently the `module_config` section of the policy table has fields to limit the rate at which `Alert` requests can be sent in the `BACKGROUND` hmi level (described as "notifications"). The same mechanism should be made available for `SubtleAlert` requests:
+```
+    "subtle_notifications_per_minute_by_priority": {
+        "EMERGENCY": 60,
+        "NAVIGATION": 20,
+        "PROJECTION": 20,
+        "VOICECOM": 30,
+        "COMMUNICATION": 15,
+        "NORMAL": 10,
+        "NONE": 0
+    }
+```
+
+This will allow OEMs to manage rate-limiting for subtle alerts separate from regular alerts.
 
 ### Example Mockup
 ![Subtle Alert Mockup](../assets/proposals/0242-alert-style-subtle/subtle-alert-mockup.png)
@@ -154,6 +219,7 @@ The proposed solution is to create a new RPC `SubtleAlert` that can be sent by d
 * Touching outside of the subtle alert should close the alert.
 * Touching (or otherwise selecting) the alert should open the app before sending the `OnSubtleAlertPressed` notification.
 * The `softButtonImage` `ImageField` also affect the `SubtleAlert` soft buttons.
+* Only one `SubtleAlert` can be active per app at a time. Apps can replace their active `SubtleAlert` by sending `CancelInteraction` followed by another `SubtleAlert`.
 
 ## Potential downsides
 Because this is a new RPC and not an addition to `Alert`, this increases the API surface of the `MOBILE_API` and `HMI_API`.

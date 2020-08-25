@@ -16,12 +16,11 @@ The proposed solution is to add new public APIs to `ScreenManager`:
 
 ### iOS
 ```objc
-typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPress,  SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
+typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
 
-- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(SDLRPCButtonNotificationHandler)block;
+- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler;
 - (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
-
-- (void)unsubscribeButtonWithObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)block;
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)completionHandler;
 ```
 
 ### Java Suite
@@ -34,8 +33,8 @@ public interface OnButtonListener {
     void onError(String info);
 }
 
-public void subscribeButton(ButtonName buttonName, OnButtonListener listener);
-public void unsubscribeButtonListener(OnButtonListener listener);
+public void addButtonListener(ButtonName buttonName, OnButtonListener listener);
+public void removeButtonListener(ButtonName buttonName, OnButtonListener listener);
 ```
 
 ### JavaScript Suite
@@ -43,7 +42,14 @@ The JavaScript Suite APIs would be set up in a similar way to the iOS and Java S
 
 ### Implementation Notes
 * There will still need to be storage for the blocks and observers, and this will be handled by a new sub-manager.
-* When the first subscription is added for a button, the `SubscribeButton` RPC should be sent, when the last subscription is removed, the `UnsubscribeButton` RPC should be sent.
+* When the first subscription is added for a button, the `SubscribeButton` RPC will be sent. When the last subscription is removed, the `UnsubscribeButton` RPC will be sent.
+* The sub-manager will not attempt to check for correct permissions and will just send the request. Any errors returned by SDL Core will be passed to the observer via the `error` parameter on the `handler`/`listener`. 
+*  The iOS selector can have the following arguments:
+    1. A selector with no parameters. The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
+    2. A selector with one parameter, (`SDLButtonName`). The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
+    3. A selector with two parameters, (`SDLButtonName`, `NSError`). The observer will be notified when a button press occurs (they will not know if a short or long press has occurred).
+    4. A selector with three parameters,  (`SDLButtonName`, `NSError`, `SDLOnButtonPress`). The observer will be notified when a long or short button press occurs, but not a button event.
+    5. A selector with four parameters, (`SDLButtonName`, `NSError`, `SDLOnButtonPress`, `SDLOnButtonEvent`). The observer will be notified when any button press or any button event occurs.
 
 ## Potential downsides
 This introduces some complexity and using the `SubscribeButton` RPC isn't very difficult. However, the author believes that the `ScreenManager` should handle even "easy" RPCs because the RPC API in general isn't intuitive to app developers.
