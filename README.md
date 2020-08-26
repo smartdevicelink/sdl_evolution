@@ -103,7 +103,7 @@ The SDL Policy Server handles authentication, data collection, and basic configu
 #### SHAID 
 SHAID is a centralized service designed to keep information about SDL-supported applications synchronized across the SmartDeviceLink (SDL) ecosystem.
 
-**Repository**: [https://github.com/smartdevicelink/sdl_shaid](https://github.com/smartdevicelink/sdl_shaid)
+**Documentation**: [SHAID Documentation](https://smartdevicelink.com/en/guides/shaid/v2/)
 
 ## Recent and Upcoming Releases
 You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
