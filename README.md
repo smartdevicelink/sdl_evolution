@@ -33,6 +33,7 @@ All new SDL implementations should implement the newest version of the protocol.
 - Core
 - iOS
 - Java Suite
+- JavaScript Suite
 
 ---
 
@@ -46,6 +47,7 @@ Spec for RPC messages sent between mobile devices and hardware modules.
 - Core
 - iOS
 - Java Suite
+- JavaScript Suite
 - HMI (in most cases)
 
 ---
@@ -72,6 +74,13 @@ The Android, Java SE, and Java EE libraries are implemented by app developers in
 The iOS library is implemented by iOS app developers into their applications to enable command and control via the connected head unit.
 
 **Repository**: [https://github.com/smartdevicelink/sdl_ios](https://github.com/smartdevicelink/sdl_ios)
+
+---
+
+#### JavaScript Suite
+The JavaScript Suite library is implemented by app developers into their JavaScript applications to enable command and control via the connected head unit.
+
+**Repository**: [https://github.com/smartdevicelink/sdl_javascript_suite](https://github.com/smartdevicelink/sdl_javascript_suite)
 
 ---
 
