@@ -34,7 +34,7 @@ Hash ID Resumption information should be added to the Best Practices guide.
 #### Restoring Interior vehicle data
 
 Restoring interior vehicle data means that SDL should :
- - Send `GetInteriorData(IsSubscribe=true)` to HMI and store data received from HMI in cache.
+ - Send `GetInteriorVehicleData (subscribe=true)` to HMI and store data received from HMI in cache.
  - Restore subscription for the app internally (OnInteriorVehicleData notification from HMI should be transmitted to mobile)
 
 SDL should behave the same as before disconnect.
@@ -43,12 +43,12 @@ SDL should behave the same as before disconnect.
 
 If during resumption HMI responds with error to GetInteriorVehicleDataRequest SDL should revert already subscribed data and fail resumption. 
 Reverting subscriptions means internally removing information about this subscription.
-In the case that after reverting the subscription, there is no application subscribed to a certain module type, SDL should send `GetInteriorData(IsSubscribe=false)` to HMI and clear cache for this module type.
+In the case that after reverting the subscription, there is no application subscribed to a certain module type, SDL should send `GetInteriorVehicleData (subscribe=false)` to HMI and clear cache for this module type.
 Interior vehicle data resumption error handling should follow the same rules as regular vehicle data resumption error handling. 
 
-## SetInteriorVehicleData behavior changes:
+## GetInteriorVehicleData behavior changes:
 
-If a mobile application sends `SetInteriorVehicleData (subscribe=true, moduleType=MODULE1)`, but the application is already subscribed on `MODULE1` module type the resultCode should be `WARNING` because of double subscription and info should contain information if an app is already subscribed.
+If a mobile application sends `GetInteriorVehicleData (subscribe=true, moduleType=MODULE1)`, but the application is already subscribed on `MODULE1` module type the resultCode should be `WARNING` because of double subscription and info should contain information if an app is already subscribed.
 
 ## Potential downsides
 
