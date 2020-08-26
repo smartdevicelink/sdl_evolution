@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0318](0318-app-lib-vehicle-data-manager.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
