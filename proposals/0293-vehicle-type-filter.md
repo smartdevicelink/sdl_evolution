@@ -146,7 +146,7 @@ The Android proxy will need to implement the above protocol changes. In addition
 2. When the proxy receives `StartServiceACK` with vehicle type details, it will check if the vehicle type information is defined in the provided supported vehicle type list.
 3. If the vehicle filter is not defined, the proxy can skip the check. In this case, the Android Router Service is supported for all SDL enabled systems.
 
-#### Flowcharts
+#### Flowcharts and sample code
 
 1. In the current implementation, all SDL apps need to start version negotiations and register themselves on the SDL enabled system. This proposal recommends starting the RPC service by the SDL Device Listener to get vehicle type information from an SDL enabled IVI system before notifying clients about an SDL connection.
 2. The proxy determines the appropriate router service to deploy based on vehicle type information received in the `StartServiceACK` protocol message. The proxy will check the metadata of the supported vehicle type list to determine the router service to deploy. The deployed router service will also receive vehicle type information. Once the Android Router Service is started, it will notify the client and provide vehicle type information. 
@@ -249,6 +249,18 @@ Implementation in SDL Device Listener class below.
     }
 ```
 
+Changes in TransportConstants
+
+```java
+public class TransportConstants {
+	public static final String CONNECTED_VEHICLE_INFO                                   = "connected_vehicle_info_for_router_service";
+	public static final String START_ROUTER_SERVICE_SDL_ENABLED_CONNECTED_VEHICLE_INFO  = "connected_vehicle_info";
+    .
+    .
+    .
+}
+```
+
 Changes in SdlBroadcastReceiver 
 
 ```java
@@ -311,6 +323,33 @@ public void onTransportConnected(final TransportRecord record){
         .
         .
         AndroidTools.sendExplicitBroadcast(getApplicationContext(),startService, null);
+}
+```
+
+Example usage: vehicle type check in Application Broadcast receiver.
+
+```java
+public class SdlReceiver  extends SdlBroadcastReceiver {
+	@Override
+	public void onSdlEnabled(Context context, Intent intent) {
+		if(IsVehicleTypeSupported(intent)){
+            .
+            .
+            .
+		}
+	}
+
+	private boolean IsVehicleTypeSupported(Intent intent) {
+		if(intent.hasExtra(TransportConstants.START_ROUTER_SERVICE_SDL_ENABLED_CONNECTED_VEHICLE_INFO))
+		{
+			VehicleType vehicleType = intent.getParcelableExtra(TransportConstants.START_ROUTER_SERVICE_SDL_ENABLED_CONNECTED_VEHICLE_INFO);
+			/* Return true if vehicle is supported, else false*/
+		}
+		return false;
+	}
+    .
+    .
+    .
 }
 ```
 
@@ -436,9 +475,9 @@ Above mentioned changes need to be implemented in SDL Core, the Java Suite proxy
 ## Alternatives considered
 
 ### Using RPC instead of Protocol message to share vehicle type info
-1. As per the current implementation, the RAI is the first RPC sent to an SDL enabled IVI system and the vehicle type information is available to the app in its response. 
-2. If `GetVehicleType` is an RPC to receive the vehicle type info, it would be the first RPC to be used. Since, the app should be able to use the `GetVehicleType` RPC to know vehicle type info before the app registration on IVI.
-3. Since the RPC message version is sent to the app in `RAI response`, when connected to an older SDL enabled IVI, the app  would not know if the `GetVehicleType` RPC is supported or not.
+1. As per the current implementation, the RAI is the first RPC sent to an SDL enabled IVI system, and the vehicle type information is available to the app in its response. 
+2. To know vehicle type details before the Register App interface, we have to introduce new RPC `GetVehicleType` to receive the vehicle type info. The App will have to send `GetVehicleType` before RAI. Since the app needs to know vehicle type info before the app registration on IVI.
+3. Since the RPC message version is sent to the app in the `RAI response`, the app would not know if the `GetVehicleType` RPC is supported or not.
 4. If `GetVehicleType` is an RPC and it's sent first, the app would need to depend on a timeout to know the support for the `GetVehicleType` RPC when connected to an older SDL enabled IVI system. This behavior would add delays in app registration on the SDL system.
 5. If `GetVehicleType` is an RPC, the exclusive apps could potentially show two notifications described above for Android apps before terminating them. Terminating a router service hosted by exclusive apps will unregister all apps using it.
 
