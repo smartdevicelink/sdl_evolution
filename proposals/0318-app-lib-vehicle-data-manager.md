@@ -62,15 +62,15 @@ public interface OnVehicleDataPermissionChangeListener {
     void onPermissionsChange(@NonNull Map<VehicleDataType, Bool> allowedVehicleData, @NonNull @PermissionManager.PermissionGroupStatus int status);
 }
 
-public UUID addListener(@NonNull List<VehicleDataType> types, @PermissionGroupType int groupType, @NonNull OnVehicleDataPermissionChangeListener listener);
+public UUID addPermissionListener(@NonNull List<VehicleDataType> types, @PermissionGroupType int groupType, @NonNull OnVehicleDataPermissionChangeListener listener);
 
-public void removeListener(@NonNull UUID listenerId);
+public void removePermissionListener(@NonNull UUID listenerId);
 ```
 
 #### JavaScript Suite
 ```js
-addListener(vehicleDataTypes, groupType, listener)
-removeListener(permissionUuid)
+addPermissionListener(vehicleDataTypes, groupType, listener)
+removePermissionListener(permissionUuid)
 ```
 
 ### Retrieving Current Data
@@ -138,7 +138,7 @@ typedef void (^SDLVehicleDataUpdateHandler)(SDLVehicleDataType type, NSError *_n
 The Java Suite handles cached data differently than the iOS and JavaScript Suite libraries. They provide a single method and rely on the developer to cast the result.
 
 ```java
-public Object getCapability(final VehicleDataType type);
+public Object getVehicleData(final VehicleDataType type);
 ```
 
 ##### Retrieving Updated Data
@@ -148,7 +148,7 @@ public interface OnVehicleDataListener {
     void onVehicleDataError(String info);
 }
 
-public void updateCapabilities(final List<VehicleDataType> types, final OnVehicleDataListener listener);
+public void updateVehicleData(final List<VehicleDataType> types, final OnVehicleDataListener listener);
 ```
 
 #### JavaScript Suite
@@ -157,7 +157,7 @@ The cached data will be similar to the iOS version of cached data above.
 
 ##### Retrieving Updated Data
 ```js
-async updateCapability (vehicleDataType)
+async updateVehicleData (vehicleDataType)
 ```
 
 ### Subscribing to Data
