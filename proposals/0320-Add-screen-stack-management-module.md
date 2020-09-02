@@ -1,8 +1,8 @@
 # Add screen stack management module
 
-* Proposal: [SDL-NNNN](NNNN-Add-screen-stack-management-module.md)
+* Proposal: [SDL-0320](0320-Add-screen-stack-management-module.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / RPC ]
 
 ## Introduction
