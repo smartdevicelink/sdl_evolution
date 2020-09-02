@@ -221,7 +221,7 @@ and the `HMI_API`:
 
 Regarding the response which would be sent when the user presses a softbutton, this would use RPC encryption which is handled by policies.
 There would be one string response for each field. If a field was left empty, the associated string would be blank.
-Which requires updates to the `MOBILE_API`
+This requires the following updates to the `MOBILE_API`:
 ```xml
 <function name="DisplayForm" messagetype="response">
   
