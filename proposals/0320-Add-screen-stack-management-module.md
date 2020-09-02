@@ -40,7 +40,7 @@ CreateInteractionChoiceSet[
 	(choiceID = 3,  menuName = "choice3") ]
 ```
 
-![Screen_transition_process.png](../assets/proposals/NNNN-Add-screen-stack-management-module/Screen_transition_process.png)
+![Screen_transition_process.png](../assets/proposals/0320-Add-screen-stack-management-module/Screen_transition_process.png)
 
 ## Proposed solution
 To solve this problem, build the following screen management mechanism.
@@ -77,7 +77,7 @@ The sequence is as follows.
 11. The app displays PerformInteraction screen with `setPerformInteraction`. `ScreenTaskManager` stacks PerformInteraction screen.
 12. The app hides PerformInteraction screen with `setPerformInteraction`, and displays menu screen. `ScreenTaskManager` deletes PerformInteraction screen of the screen stack.
 
-![new_sequence.png](../assets/proposals/NNNN-Add-screen-stack-management-module/new_sequence.png)
+![new_sequence.png](../assets/proposals/0320-Add-screen-stack-management-module/new_sequence.png)
 
 ## Potential downsides
 None.

@@ -41,7 +41,7 @@ App crash and app kill are the two types of causes for an unexpected exception/e
 
 <b>Figure 1.</b> Notification of Unexpected Exception/Error
 
-![Figure_1_error_notification_sequence.png](../assets/proposals/NNNN-Add-a-notification-and-restore-function-for-unexpected-exception-error/Figure_1_error_notification_sequence.png)
+![Figure_1_error_notification_sequence.png](../assets/proposals/0319-Add-a-notification-and-restore-function-for-unexpected-exception-error/Figure_1_error_notification_sequence.png)
 
 #### 2. Addition of restore process after unexpected exception/error occcured
 
@@ -56,7 +56,7 @@ App crash and app kill are the two types of causes for an unexpected exception/e
 
 <b>Figure 2.</b> Restore Process of the App
 
-![Figure_2_return_processing.png](../assets/proposals/NNNN-Add-a-notification-and-restore-function-for-unexpected-exception-error/Figure_2_return_processing.png)
+![Figure_2_return_processing.png](../assets/proposals/0319-Add-a-notification-and-restore-function-for-unexpected-exception-error/Figure_2_return_processing.png)
 
 The contents suggested by this proposal are as follows:
 
