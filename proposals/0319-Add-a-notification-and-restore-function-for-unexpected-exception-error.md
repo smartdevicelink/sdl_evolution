@@ -1,8 +1,8 @@
 # Add a notification and restore function for unexpected exception/error
 
-* Proposal: [SDL-NNNN](NNNN-Add-a-notification-and-restore-function-for-unexpected-exception-error.md)
+* Proposal: [SDL-0319](0319-Add-a-notification-and-restore-function-for-unexpected-exception-error.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / HMI / RPC ]
 
 ## Introduction
