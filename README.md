@@ -165,49 +165,49 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 ---
 
 #### SDL Core: 7.0.0
-**Expected Release Date**: November 4, 2020
+**Expected Release Date**: November 5, 2020
 
 **Contents**: Contents of this release can be tracked on the [Core 7.0.0 Project Page](https://github.com/smartdevicelink/sdl_core/projects/17).
 
 ---
 
 #### SDL RPC Spec: 7.0.0
-**Expected Release Date**: November 4, 2020
+**Expected Release Date**: November 5, 2020
 
 **Contents**: Contents of this release can be tracked on the [RPC Spec 7.0.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/5).
 
 ---
 
 #### SDL iOS: 7.0.0
-**Expected Release Date**: November 4, 2020
+**Expected Release Date**: November 5, 2020
 
 **Contents**: Contents of this release can be tracked on the [iOS 7.0.0 Project Page](https://github.com/smartdevicelink/sdl_ios/projects/22).
 
 ---
 
 #### SDL Java Suite: 5.0.0
-**Expected Release Date**: November 4, 2020
+**Expected Release Date**: November 5, 2020
 
 **Contents**: Contents of this release can be tracked on the [Java Suite 5.0.0 Project Page](https://github.com/smartdevicelink/sdl_java_suite/projects/14).
 
 ---
 
 #### SDL JavaScript Suite: 1.2.0
-**Expected Release Date**: November 4, 2020
+**Expected Release Date**: November 5, 2020
 
 **Contents**: Contents of this release can be tracked on the [JavaScript Suite 1.2.0 Project Page](https://github.com/smartdevicelink/sdl_javascript_suite/projects/3).
 
 ---
 
 #### SDL Policy Server: 2.10.0
-**Expected Release Date**: November 4, 2020
+**Expected Release Date**: November 5, 2020
 
 **Contents**: Contents of this release can be tracked on the [Policy Server 2.10.0 Project Page](https://github.com/smartdevicelink/sdl_server/projects/3).
 
 ---
 
 #### SDL Protocol Spec: 5.3.0
-**Expected Release Date**: November 4, 2020
+**Expected Release Date**: November 5, 2020
 
 **Contents**: Contents of this release can be tracked on the [Protocol Spec 5.3.0 Project Page](https://github.com/smartdevicelink/protocol_spec/projects/4).
 
