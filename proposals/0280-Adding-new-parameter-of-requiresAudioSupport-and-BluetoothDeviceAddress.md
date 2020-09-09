@@ -20,7 +20,7 @@ To solve this problem, add `bluetoothDeviceAddress` and `requiresAudioSupport` s
 The current SDL Java Suite library cancels the transport connection if the `requiresAudioSupport` setting is TRUE and BT A2DP is not connected.
 However, with this proposal, by adding a new parameter, the SDL app always establishes the transport connection and is registered without depending on the connection status of BT A2DP. If BT A2DP is not connected, the HU will automatically connect BT using `bluetoothDeviceAddress` or request connection from the user.
 
-Note: In the case of other platform (such as iOS and JavaScript Suite), the system can output the audio via USB. Therefore, other platform can omit the requiresAudioSupport parameter.
+Note: In the case of other platforms (such as iOS and JavaScript Suite), the system can output the audio via USB. Therefore, other iOS and JavaScript Suite can omit the `requiresAudioSupport` parameter.
 
 ### Change the app registration flow
 
