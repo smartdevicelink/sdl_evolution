@@ -1,4 +1,4 @@
-# Perform Interaction Multipick
+# Perform Interaction Multiselect
 
 * Proposal: [SDL-0310](0310-PerformInteractionMultipick.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
