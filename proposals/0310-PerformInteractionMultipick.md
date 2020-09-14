@@ -61,7 +61,7 @@ and update the `HMI_API`
 
 ```
 
-On older head units, the app might request a multiselect `performInteraction` but the app would get a response of INVALID_DATA. So the app would have to handle business logic while thats going on
+ On older head units, the app might request a multiselect `performInteraction` but the head unit would ignore the parameter of `multiselectConfirmationButtonText` and the response would only end up being a single choiceID.
 If a multiselect PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
 
 
