@@ -41,7 +41,7 @@ Plus the `PerformInteraction` response needs to update from a single item to an 
 	.
 	<param name="choiceID" type="Integer" minvalue="0" maxvalue="2000000000" array="true" minsize="1" maxsize="100" mandatory="false" since="3.0">
 		<description>
-			IDs of the choices that were selected i response to PerformInteraction.
+			IDs of the choices that were selected in response to PerformInteraction.
 			Only is valid if general result is "success:true".
 		</desciption>
 	</param>
