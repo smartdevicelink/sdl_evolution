@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0320](0320-Add-screen-stack-management-module.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / RPC ]
 
 ## Introduction
