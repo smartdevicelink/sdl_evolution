@@ -69,7 +69,7 @@ The BSON payload of this message will have the following info.
 
 ### Android App Library Changes
 
-The Android proxy will need to implement the above protocol changes. In addition to implementing a protocol message, the proxy will need the additional implementation to propagate vehicle type info to the application layer.
+The Android app library will need to implement the above protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer.
 
 #### Defining resource file for supported vehicle type
 
@@ -86,7 +86,7 @@ The Android proxy will need to implement the above protocol changes. In addition
         trim="GT"/>
 </resource>
 ```
-3. If an app defines a `vehicle-type` element, then it should always have a `make` attribute, all other attributes are optional. However, if the app developers want to use `model year` or `trim`, they should define `make` and `model` attributes as well. The proxy will check only the defined attributes. The below example shows a valid vehicle type resource file.
+3. If an app defines a `vehicle-type` element, then it should always have a `make` attribute, all other attributes are optional. However, if the app developers want to use `model year` or `trim`, they should define `make` and `model` attributes as well. The Java Suite app library will check only the defined attributes. The below example shows a valid vehicle type resource file.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -138,7 +138,7 @@ The Android proxy will need to implement the above protocol changes. In addition
         make="OEM2"/>
 </resource>
 ```
-4. If the supported vehicle type list is not defined, the proxy can start Android Router Service for all SDL enabled IVI system.
+4. If the supported vehicle type list is not defined, the Java Suite app library can start Android Router Service for all SDL enabled IVI system.
 
 #### Metadata for Android Router Service
 
@@ -355,13 +355,13 @@ public class SdlReceiver  extends SdlBroadcastReceiver {
 
 ### iOS App Library Changes
 
-The iOS proxy will need to implement the above-mentioned protocol changes. In addition to implementing a protocol message, the proxy will need the additional implementation to propagate vehicle type info to the application layer.
+The iOS app library will need to implement the above-mentioned protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer.
 
 
 #### Defining supported vehicle type in Info.plist
 
 1. The supported vehicle list can be defined in Info.plist as below. All the attributes in this list are optional, however, if the app includes `SDLSupportedVehicleTypes` in Info.plist, at least one array element with one key-value in the dictionary should be defined.
-2. If an app defines an `SDLSupportedVehicleTypes` key, then it should always have a `make` key-value pair in the dictionary. All other attributes are optional if `make` is defined. However, if the app developers want to use `model year` or `trim`, they should define `make` and `model` key-value pairs as well. The proxy will check only the defined attributes.
+2. If an app defines an `SDLSupportedVehicleTypes` key, then it should always have a `make` key-value pair in the dictionary. All other attributes are optional if `make` is defined. However, if the app developers want to use `model year` or `trim`, they should define `make` and `model` key-value pairs as well. The iOS app library will check only the defined attributes.
 The below example shows valid vehicle type filters.
 
 ```xml
