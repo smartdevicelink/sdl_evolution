@@ -61,7 +61,7 @@ and update the `HMI_API`
 
 ```
 
- On older head units, the app might request a multiselect `performInteraction` but if not available, the head unit will responsd with `INVALID_DATA`. From that point, it would be up to the app on how to handle that logic.
+ On older head units, the app might request a multiselect `performInteraction` but if not available, the head unit will respond with `INVALID_DATA`. From that point, it would be up to the app on how to handle that logic.
  
 If a multiselect PI times out, then SDL shall send a response of `TIMED_OUT` with no choices.
 
