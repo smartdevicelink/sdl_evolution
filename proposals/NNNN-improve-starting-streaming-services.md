@@ -24,21 +24,23 @@ Once starting services is synchronized and the SSL connection can be restarted u
 
 ## Proposed solution
 
-The solution is to synchronize attempts to start services so that only one starting service is processing. This is essential for services which require encryption/protection as those initiate a TLS handshake on the app's transport session. If the library should start a protected service, it has to ensure the responsible security manager is started. If a service fails to establish a protected service, the SDL protocol implementation must reset the SSL connection of the security manager instance by stopping the security manager. It should be automatically restarted upon the next StartService request. This ensures a fluent operation of the security manager across any protected service (including RPC).
+The solution is to synchronize attempts to start services so that only one starting service is processing. This is essential for services which require encryption/protection as those initiate a TLS handshake on the app's transport session. If the library should start a protected service, it has to ensure the responsible security manager is started. If the attempt to establish a protected service failed, the SDL protocol implementation must reset the SSL connection of the security manager instance by stopping the security manager. It should be automatically restarted upon the next StartService request. This ensures a fluent operation of the security manager across any protected service (including RPC).
 
-If the app enters a streamable state (reentered `HMI_FULL` and/or `OnHMIStatus.videoStreamingState` is `STREAMABLE`) the libraries start the video manager first followed by the audio manager. If the video manager failed to start the video service, the library should not continue starting the audio manager's audio service. Instead the library should abort the current starting attempt and retry after one second of waiting. The library should retry until the app leaves the streamable state. This infinite retries is justified due to the app being in a streamable state (HMI_FULL etc.). No other application would be interfering during this time unless the app leaves the streamable state.
+If the app enters a streamable state (reentered `HMI_FULL` and/or `OnHMIStatus.videoStreamingState` is `STREAMABLE`) the libraries start the video manager first followed by the audio manager. If the video manager failed to start the video service, the library should not continue starting the audio manager's audio service. Instead the library should retry after one second of waiting. No other StarService request should be send during this time. The library should retry until the app leaves the streamable state. This infinite retries is justified due to the app being in a streamable state (HMI_FULL etc.). No other application would be interfering during this time unless the app leaves the streamable state.
 
 ## Potential downsides
 
 In certain situations where the retry mechanism occurs, the proposed solution can increase the time until the app has started the video and audio stream for up to one second. However, the libraries gain a lot of stability for error cases which is much more valuable.
 
-It can be possible that this retry mechanism puts some stress to existing infotainment systems as they were never tested against this method. However, the libraries would simply fail and leave the user in an unacceptable state with an non-functional app. Therefore a retry mechanism can only improve the user experience. 
+It can be possible that this retry mechanism puts some stress to existing infotainment systems as they were never tested against this method. However, the current behavior of the libraries would fails and leave the user in an unacceptable state with an non-functional app. Therefore a retry mechanism can only improve the user experience.
 
 ## Impact on existing code
 
 The proposal doesn't change when the video or audio manager becomes streamable. Both managers should still listen for SDL Core information when they become streamable. This proposal only synchronizes StartService requests and adds a retry mechanism to overcome failures.
 
 Both libraries require changes on the video and audio managers. Instead of actively sending `StartService` requests both managers have to wait for another source to trigger the starting routine. The implementation details are up to the project maintainers and the implementors. The iOS library already contains a general streaming manager called `SDLStreamingMediaManager` which could take the role of starting the video and audio manager. A similar manager could be added to the Java Suite taking over the responsibilities from the SDL manager.
+
+It is necessary to properly test that starting the handhshake process every second. Numerous Ford IVIs were tested with one second of delay. Faster attempts lead to SDL Core crashes on the IVI. Other SDLC partners which use SDL security should also make sure the IVIs are supporting the retry mechanism.
 
 ## Alternatives considered
 
