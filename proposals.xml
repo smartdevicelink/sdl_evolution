@@ -305,7 +305,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0275" status="implemented" primary-platform="manticore" sdl-version="2.6" name="WebEngine App Testing" filename="0275-webengine-app-testing.md"/>
 <proposal id="0276" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="POI Service Supported" filename="0276-POI-Service-Supported.md"/>
 <proposal id="0277" status="accepted" primary-platform="core" sdl-version="x.x" name="Continuous integration and testing" filename="0277-Continuous-Integration-And-Testing.md"/>
-<proposal id="0278" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Template Management" filename="0278-screenmanager-layout-management.md"/>
+<proposal id="0278" status="implemented" primary-platform="ios" sdl-version="7.0" name="Screen Manager Template Management" filename="0278-screenmanager-layout-management.md"/>
+<proposal id="0278" status="implemented" primary-platform="java-suite" sdl-version="5.0" name="Screen Manager Template Management" filename="0278-screenmanager-layout-management.md"/>
+<proposal id="0278" status="accepted" primary-platform="javascript" sdl-version="x.x" name="Screen Manager Template Management" filename="0278-screenmanager-layout-management.md"/>
 <proposal id="0279" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>
 <proposal id="0279" status="implemented" primary-platform="ios" sdl-version="6.7" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>
 <proposal id="0279" status="implemented" primary-platform="javascript" sdl-version="1.2" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>	
@@ -315,7 +317,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0283" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add Scrollable Message and Slider to Screen Manager" filename="0283-screen-manager-scrollable-message-and-slider.md"/>
 <proposal id="0284" status="accepted" primary-platform="rpc" sdl-version="x.x" name="DialNumber Text" filename="0284-DialNumber_Text.md"/>
 <proposal id="0285" status="accepted" primary-platform="rpc" sdl-version="x.x" name="ShowConstantTBT Description Update" filename="0285-ConstantTBT-Update.md"/>
-<proposal id="0286" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Java Suite Cleanup" filename="0286-java-suite-cleanup.md"/>
+<proposal id="0286" status="implemented" primary-platform="java-suite" sdl-version="5.0" name="Java Suite Cleanup" filename="0286-java-suite-cleanup.md"/>
 <proposal id="0287" status="accepted" primary-platform="meta" sdl-version="x.x" name="Add Example Apps Github Organization" filename="0287-example-apps-organization.md"/>
 <proposal id="0288" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Play Audio" filename="0288-screen-manager-play-audio.md"/>
 <proposal id="0289" status="implemented" primary-platform="ios" sdl-version="6.7" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
@@ -343,7 +345,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0309" status="rejected" primary-platform="java-suite" sdl-version="x.x" name="Mitigating Android SDL service notifications issues" filename="0309-android-notifications.md"/>	
 <proposal id="0310" status="returned" primary-platform="rpc" sdl-version="x.x" name="Perform Interaction Multipick" filename="0310-PerformInteractionMultipick.md"/>	
 <proposal id="0311" status="implemented" primary-platform="java-suite" sdl-version="5.0" name="Make RPC Setters Chainable" filename="0311-Make-RPC-Setters-Chainable.md"/>	
-<proposal id="0312" status="accepted" primary-platform="ios" sdl-version="x.x" name="Update the Minimum Required iOS Version to 10.0" filename="0312-ios-update-minimum-version-ios10.md"/>	
+<proposal id="0312" status="implemented" primary-platform="ios" sdl-version="7.0" name="Update the Minimum Required iOS Version to 10.0" filename="0312-ios-update-minimum-version-ios10.md"/>	
 <proposal id="0313" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Adding new parameters for transport switching" filename="0313-Adding-new-parameters-for-transport-switching.md"/>	
 <proposal id="0314" status="withdrawn" primary-platform="core" sdl-version="x.x" name="Clarification of SDL app icon display sequence and display order" filename="0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md"/>	
 <proposal id="0315" status="active" primary-platform="core" sdl-version="x.x" name="Add RPC Conflict Management" filename="0315-Add-RPC-Conflict-Management.md"/>	
