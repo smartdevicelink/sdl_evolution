@@ -37,11 +37,6 @@ on the gh-pages branch).
       
         <!-- This needs to include both version and platform -->        
         
-        
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL iOS v6.4</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='6.4']"/>
-        </xsl:call-template>
          
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL iOS v6.6</xsl:with-param>
@@ -54,8 +49,8 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Java Suite v4.10</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.10']"/>
+          <xsl:with-param name="title">Implemented for SDL iOS v7.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='7.0']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -69,8 +64,18 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Java Suite v5.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='5.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL JavaScript Suite v1.0</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='javascript'][@sdl-version='1.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL JavaScript Suite v1.2</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='javascript'][@sdl-version='1.2']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
