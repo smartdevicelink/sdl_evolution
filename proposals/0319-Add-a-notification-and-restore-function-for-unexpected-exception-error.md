@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0319](0319-Add-a-notification-and-restore-function-for-unexpected-exception-error.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / HMI / RPC ]
 
 ## Introduction
