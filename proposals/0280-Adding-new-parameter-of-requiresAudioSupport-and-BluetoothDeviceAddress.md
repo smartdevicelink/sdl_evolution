@@ -2,8 +2,8 @@
 
 * Proposal: [SDL-0280](0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto), [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Returned for Revisions**
-* Impacted Platforms: [ Core / iOS / Java Suite / RPC / Protocol / HMI ]
+* Status: **In Review**
+* Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / RPC / Protocol / HMI ]
 
 ## Introduction
 
@@ -20,12 +20,15 @@ To solve this problem, add `bluetoothDeviceAddress` and `requiresAudioSupport` s
 The current SDL Java Suite library cancels the transport connection if the `requiresAudioSupport` setting is TRUE and BT A2DP is not connected.
 However, with this proposal, by adding a new parameter, the SDL app always establishes the transport connection and is registered without depending on the connection status of BT A2DP. If BT A2DP is not connected, the HU will automatically connect BT using `bluetoothDeviceAddress` or request connection from the user.
 
+Note: In the case of other platforms (such as iOS and JavaScript Suite), the system can output the audio via USB. Therefore, iOS and JavaScript Suite can omit the `requiresAudioSupport` parameter.
+
 ### Change the app registration flow
 
 In order for the app to be always registered, the changes in SDL session establishment to app registration flow are shown below.
+This flow is only for Android devices.
 If the SDL app or HU cannot use this function, it will perform the same operation as before.
 
-![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow1.png)
+![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow.png)
 
 1. The developer will set their `requiresAudioSupport` to true.
 2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
@@ -90,7 +93,7 @@ HMI API:
 - RegisterAppInterface
 - OnAppRegistered
 
-Add `bluetoothDeviceAddress` to`DeviceInfo`. Add `requiresAudioSupport` to`HMIApplication`.
+Add `bluetoothDeviceAddress` to`DeviceInfo`. Add `requiresAudioSupport` to`HMIApplication`. Add `BluetoothInfo` to`OnDeviceStateChanged`.
 
 Mobile API:
 ```xml
@@ -122,6 +125,13 @@ Mobile API:
 
 HMI API:
 ```xml
+  <function name="OnDeviceStateChanged" messagetype="notification" scope="internal">
+      <param name="deviceState" type="Common.DeviceState" mandatory="true" />
+      <param name="deviceInternalId" type="String" mandatory="true" minlength="0" maxlength="500" />
+      <param name="deviceId" type="Common.DeviceInfo" mandatory="false"/>
++     <param name="bluetoothInfo" type="Common.BluetoothInfo" mandatory="false"/>
+  </function>
+  ...
   <struct name="DeviceInfo">
       <param name="name" type="String" mandatory="true">
           <description>The name of the device connected.</description>
@@ -151,6 +161,21 @@ HMI API:
 +         <description>Set whether or not this app requires the use of an audio streaming output device.</description>
 +     </param>
   </struct>
+  ...
++ <struct name="BluetoothInfo">
++     <param name="bluetoothDeviceAddress" type="String" mandatory="false">
++         <description>Device BT Address</description>
++     </param>
++     <param name="a2dpConnectionState" type="Boolean" mandatory="false">
++         <description>Notify the state of A2DP connection. 'true' - Connected at BT A2DP; 'false' - Connected at BT</description>
++     </param>
++ </struct>
+  ...
+  <enum name="DeviceState">
+      <element name="UNKNOWN"/>
+      <element name="UNPAIRED"/>
++     <element name="PAIRED"/>
+  </enum>
 ```
 
 ### MediaStreamingStatus class
@@ -177,7 +202,7 @@ Due to the complexity of the flow, the developer must do the implementation care
 ## Impact on existing code
 
 This proposal requires a major version change.
-Since new parameters are added, Core, iOS, Java Suite, RPC, Protocol, and HMI are affected.
+Since new parameters are added, Core, iOS, Java Suite, JavaScript Suite, RPC, Protocol, and HMI are affected.
 
 ## Alternatives considered
 
