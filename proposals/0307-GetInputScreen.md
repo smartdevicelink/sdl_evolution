@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0307](0307-GetInputScreen.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [HMI / Core / iOS / Java Suite / JavaScript / RPC]
 
 ## Introduction
@@ -261,7 +261,7 @@ We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements]
 ### Error Flow
 To clarify the error flow a bit, heres a sequence diagram
 
-<img src="../assets/proposals/NNNN-GetInput/GetInput-ErrorFlow.PNG" alt="Login Screen" class="inline" /> 
+<img src="../assets/proposals/0307-GetInput/GetInput-ErrorFlow.PNG" alt="Login Screen" class="inline" /> 
 
 
 ## Potential downsides
