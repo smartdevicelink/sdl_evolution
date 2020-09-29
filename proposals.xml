@@ -307,7 +307,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0277" status="accepted" primary-platform="core" sdl-version="x.x" name="Continuous integration and testing" filename="0277-Continuous-Integration-And-Testing.md"/>
 <proposal id="0278" status="implemented" primary-platform="ios" sdl-version="7.0" name="Screen Manager Template Management" filename="0278-screenmanager-layout-management.md"/>
 <proposal id="0278" status="implemented" primary-platform="java-suite" sdl-version="5.0" name="Screen Manager Template Management" filename="0278-screenmanager-layout-management.md"/>
-<proposal id="0278" status="accepted" primary-platform="javascript" sdl-version="x.x" name="Screen Manager Template Management" filename="0278-screenmanager-layout-management.md"/>
+<proposal id="0278" status="implemented" primary-platform="javascript" sdl-version="1.2" name="Screen Manager Template Management" filename="0278-screenmanager-layout-management.md"/>
 <proposal id="0279" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>
 <proposal id="0279" status="implemented" primary-platform="ios" sdl-version="6.7" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>
 <proposal id="0279" status="implemented" primary-platform="javascript" sdl-version="1.2" name="Screen Manager Subscribe Buttons" filename="0279-screen-manager-subscribe-buttons.md"/>	
