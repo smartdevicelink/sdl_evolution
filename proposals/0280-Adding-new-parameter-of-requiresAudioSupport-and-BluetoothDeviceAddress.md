@@ -42,7 +42,7 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
 5. The app receives the response to its `StartService` for the RPC service:
 
     1. If the response was a `StartServiceNAK` the app will shut down.
-    2. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, but the protocol version of the ACK is less than the major version of this feature, the app will shut down.
+    2. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, but the protocol version of the ACK is less than the major version of this feature, the app will check if audio support is available using the `MediaStreamingStatus` class. If it is available it will continue, if not it will shut down.
     3. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal to or greater than the major version of this feature, and the `autoBTCapability` flag is set to false, the app will check if audio support is available using the `MediaStreamingStatus` class. If it is available it will continue, if not it will shut down.
     4. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal to or greater than the major version of this feature, and the `autoBTCapability` flag is set to true, the app will continue.
 
@@ -181,12 +181,12 @@ HMI API:
 ### MediaStreamingStatus class
 
 If the Java Suite library supports the newer version of the protocol specification, but the IVI system is using a lower version, the app will still need to use the `MediaStreamingStatus` class before attempting to register.
-By using the value of `isAudioOutputAvailable()` method on `MediaStreamingStatus` class, the Java Suite library can make a decision whether BT A2DP is connected like below:
+By using the value of `isAudioOutputAvailable()` method, which is one of the methods of the `MediaStreamingStatus` class that actually checks for multiple Audio Output options, the Java Suite library can make a decision whether BT A2DP is connected like below:
 
 - True : BT A2DP is connected.
 - False : BT A2DP is NOT connected.
 
-With the changes of the flow, it is necessary to do refactoring of the Java Suite library to move the logic of the `MediaStreamingStatus` class from the preprocessing of the `StartService` to the preprocessing of the `RegisterAppInterface`.
+With the changes of the flow, it is necessary to do refactoring of the Java Suite library to move the logic of the `MediaStreamingStatus` class to the post-processing of StartService ACK or NAK.
 
 ### Launch the app
 
@@ -203,6 +203,7 @@ Due to the complexity of the flow, the developer must do the implementation care
 
 This proposal requires a major version change.
 Since new parameters are added, Core, iOS, Java Suite, JavaScript Suite, RPC, Protocol, and HMI are affected.
+Since there are not any public code changes listed in this proposal, the SDLC Project Maintainer will have discretion over implementation details, including changes to classes that are not accessible to developers, especially given changes to Java Suite library in 5.0 release.
 
 ## Alternatives considered
 
