@@ -44,9 +44,12 @@ Here's the `MOBILE_API`:
       If there's a problem with the input fields, this can be used to display information.
     </description>
   </param>
-  <param name="fields" type="Field" array="true" minsize="1" maxsize="100" mandatory="true">\
+  <param name="fields" type="Field" array="true" minsize="1" maxsize="100" mandatory="true">
+    <description>
+      An array of lines where the user can input data. Like text, numbers or a combo box.
+    </description>
   </param>
-    <param name="softButtons" type="SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
+  <param name="softButtons" type="SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
     <description>
       App defined SoftButtons for cancel, edit, submit, etc.
     </description>
@@ -68,7 +71,10 @@ and the `HMI_API`:
   </param>
   <param name="fields" type="Common.Field" array="true" minsize="1" maxsize="100" mandatory="true">\
   </param>
-    <param name="softButtons" type="Common.SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
+    <description>
+      An array of lines where the user can input data. Like text, numbers or a combo box.
+    </description>
+  <param name="softButtons" type="Common.SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
     <description>
       App defined SoftButtons for cancel, edit, submit, etc.
     </description>
@@ -152,7 +158,13 @@ Plus the headunit can note that it supports form field text and images through `
   <enum name="FieldType" since="X.X">
     <description>The type of input field</description>
     <element name="COMBO_BOX" />
+      <description>
+        This is a notice for the HMI to bring up a drop down list of choices.
+      </description>
     <element name="TEXT" />
+      <description>
+        This is a field that holds alphanumeric data, such as name and address
+      </description>
     <element name="NUMBER" />
       <description>
         This is a notice for the HMI to bring up a keypad
@@ -168,7 +180,13 @@ and the `HMI_API`:
   </description>
   <param name="type" type="Common.FieldType" mandatory="true">
   </param>
+    <description>
+      The type of input field like Text, Number or Combo Box.
+    </description>
   <param name="label" maxlength="500" type="String" mandatory="true">
+    <description>
+      The text label that appears next, above or below the field.
+    </description>    
   </param>
   <param name="image" type="Image" mandatory="false">
     <description>
@@ -211,10 +229,16 @@ and the `HMI_API`:
   <enum name="FieldType">
     <description>The type of input field</description>
     <element name="COMBO_BOX" />
+      <description>
+        This is a notice for the HMI to bring up a drop down list of choices.
+      </description>
     <element name="TEXT" />
+      <description>
+        This is a field that holds alphanumeric data, such as name and address
+      </description>
     <element name="NUMBER" />
       <description>
-        This is a notice for the HMI to bring up a keypad.
+        This is a notice for the HMI to bring up a keypad
       </description>
   </enum>
 ```
