@@ -38,10 +38,10 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 
 ```xml    
 <struct name="WindowState" since="X.x">
-  <param name="approximatePosition" type="Integer" minValue="0" maxValue="100">
+  <param name="approximatePosition" type="Integer" minvalue="0" maxvalue="100" mandatory="true">
     <description>The approximate percentage that the window is open - 0 being fully closed, 100 being fully open</description>
   </param>
-  <param name="deviation" type="Integer" minValue="0" maxValue="100">
+  <param name="deviation" type="Integer" minvalue="0" maxvalue="100" mandatory="true">
     <description>The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is 10, then the window's location is somewhere between 40 and 60.</description>
   </param>
 </struct>
@@ -99,10 +99,10 @@ We need to add `WindowStatus` for `GetVehicleData`, `SubscribeVehicleData`, `Uns
 
 ```xml    
 <struct name="WindowState">
-  <param name="approximatePosition" type="Integer" minValue="0" maxValue="100">
+  <param name="approximatePosition" type="Integer" minvalue="0" maxvalue="100" mandatory="true">
     <description>The approximate percentage that the window is open - 0 being fully closed, 100 being fully open</description>
   </param>
-  <param name="deviation" type="Integer" minValue="0" maxValue="100">
+  <param name="deviation" type="Integer" minvalue="0" maxvalue="100" mandatory="true">
     <description>The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is 10, then the window's location is somewhere between 40 and 60.</description>
   </param>
 </struct>

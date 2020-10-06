@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0303](0303-audio-io-manager.md)
 * Author: [Kujtim Shala](https://github.com/kshala-ford)
-* Status: **Deferred**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [ iOS ]
 
 ## Introduction
@@ -19,9 +19,9 @@ The feature was originally located in the app as it was a joint development spec
 
 As described in the motivation, the existing audio input and output feature is implemented in an SDL manager called `SDLAudioIOManager`. The goal is to add this manager to the sdl_ios repository and be part of the official library. Sources are attached to this proposal:
 
-- [SDLAudioIOManager.h](../assets/proposals/nnnn-audio-io-manager/SDLAudioIOManager.h)
-- [SDLAudioIOManager.m](../assets/proposals/nnnn-audio-io-manager/SDLAudioIOManager.m)
-- [SDLAudioIOManagerDelegate.h](../assets/proposals/nnnn-audio-io-manager/SDLAudioIOManagerDelegate.h)
+- [SDLAudioIOManager.h](../assets/proposals/0303-audio-io-manager/SDLAudioIOManager.h)
+- [SDLAudioIOManager.m](../assets/proposals/0303-audio-io-manager/SDLAudioIOManager.m)
+- [SDLAudioIOManagerDelegate.h](../assets/proposals/0303-audio-io-manager/SDLAudioIOManagerDelegate.h)
 
 The manager requires a delegate that the app needs to implement. Delegate calls are notifications to the app to inform if an input or output stream has started or stopped and also which file was played. Audio data received from the input stream is forwarded to the app through the delegate. More details are listed below.
 

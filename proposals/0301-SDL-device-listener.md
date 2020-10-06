@@ -29,7 +29,7 @@ Leaving a small window of time to allow for connections at this stage is very im
 
 ### Flow
 
-<img src="../assets/proposals/NNNN-SDL-device-listener/flow_chart.png" alt="POI app service example" class="inline" height= "75%" width= "75%" /> 
+<img src="../assets/proposals/0301-SDL-device-listener/flow_chart.png" alt="POI app service example" class="inline" height= "75%" width= "75%" /> 
 
 ### SDLDeviceListener
 

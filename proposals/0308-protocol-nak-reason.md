@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0308](0308-protocol-nak-reason.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Protocol]
 
 ## Introduction
