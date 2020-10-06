@@ -29,7 +29,7 @@ Here's more specific potential screens
 
 ## Proposed solution
 Add a new RPC for an input screen. This screen would use RPC encryption which is handled by policies.
-It contains a title, and an array of `InputLines`
+It contains a title, and an array of `Fields`
 
 Here's the `MOBILE_API`:
 ```xml
