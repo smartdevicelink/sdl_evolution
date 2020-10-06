@@ -217,6 +217,16 @@ Plus the headunit can note that it supports form field text and images through `
 
 and the `HMI_API`:
 ```xml
+   <enum name="TextFieldName">
+     .
+     .
+     .
+        <element name="formFieldLabel">
+            <description>If this is not present, the app may assume that DisplayForm is unsupported. If it is present, it is assumed that all features other than image are supported.
+        </element>
+   </enum>
+```
+```xml
 <struct name="Field">
   <description>
     A single field for data input
