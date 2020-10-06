@@ -44,9 +44,12 @@ Here's the `MOBILE_API`:
       If there's a problem with the input fields, this can be used to display information.
     </description>
   </param>
-  <param name="fields" type="Field" array="true" minsize="1" maxsize="100" mandatory="true">\
+  <param name="fields" type="Field" array="true" minsize="1" maxsize="100" mandatory="true">
+    <description>
+      An array of lines where the user can input data. Like text, numbers or a combo box.
+    </description>
   </param>
-    <param name="softButtons" type="SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
+  <param name="softButtons" type="SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
     <description>
       App defined SoftButtons for cancel, edit, submit, etc.
     </description>
@@ -68,7 +71,10 @@ and the `HMI_API`:
   </param>
   <param name="fields" type="Common.Field" array="true" minsize="1" maxsize="100" mandatory="true">\
   </param>
-    <param name="softButtons" type="Common.SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
+    <description>
+      An array of lines where the user can input data. Like text, numbers or a combo box.
+    </description>
+  <param name="softButtons" type="Common.SoftButton" minsize="1" maxsize="8" array="true" mandatory="false">
     <description>
       App defined SoftButtons for cancel, edit, submit, etc.
     </description>
@@ -81,6 +87,7 @@ and the `HMI_API`:
 Add a new struct called `Field` and an enum called `FieldType` to get user input in the DisplayForm screen.
 This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items. If a combo box is requested, and the user doesn't pick anything, the HMI will send back the field.text and then it's up to the app on what to do.
 
+#### Request
 Here's the MOBILE_API:
 ```xml
 <struct name="Field">
@@ -129,6 +136,48 @@ Here's the MOBILE_API:
 </struct>
 ```
 
+#### Response
+Regarding the response which would be sent when the user presses a softbutton, this would use RPC encryption which is handled by policies.
+There would be one string response for each field. If a field was left empty, the associated string would be blank.
+This requires the following updates to the `MOBILE_API`:
+```xml
+<function name="DisplayForm" messagetype="response">
+  
+  <param name="success" type="Boolean" platform="documentation" mandatory="true">
+    <description> true if successful; false, if failed.</description>
+  </param>
+
+  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+    <description>See Result</description>
+    <element name="SUCCESS"/>
+    <element name="REJECTED"/>
+    <element name="INVALID_DATA"/>
+    <element name="INVALID_ID"/>
+    <element name="DUPLICATE_NAME"/>
+    <element name="DISALLOWED"/>
+    <element name="OUT_OF_MEMORY"/>
+    <element name="TOO_MANY_PENDING_REQUESTS"/>
+    <element name="APPLICATION_NOT_REGISTERED"/>
+    <element name="GENERIC_ERROR"/>
+  </param>
+  
+  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+    <description>Provides additional human readable info regarding the result.</description>
+  </param>
+  
+  <param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
+    <description>
+      This will return an array of Fields that have the same type and label as requested, but with the text field populated.
+    </description>
+  </param>
+  
+</function>
+```
+
+#### Handling Sensitive Information
+We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md) for password or other sensitive data input. The main goal of this is to leverage an existing enum to help us out. `maskInputCharacters` mask will override `KeyboardProperties.maskInputCharacters` in `SetGlobalProperties`. All other keyboard-related items in `SetGlobalProperties` will work normally.
+
+#### Declaring Support
 Plus the headunit can note that it supports form field text and images through `TextFieldName` and `ImageFieldName` in the `MOBILE_API`
 ```xml
    <enum name="TextFieldName" since="1.0">
@@ -152,7 +201,13 @@ Plus the headunit can note that it supports form field text and images through `
   <enum name="FieldType" since="X.X">
     <description>The type of input field</description>
     <element name="COMBO_BOX" />
+      <description>
+        This is a notice for the HMI to bring up a drop down list of choices.
+      </description>
     <element name="TEXT" />
+      <description>
+        This is a field that holds alphanumeric data, such as name and address
+      </description>
     <element name="NUMBER" />
       <description>
         This is a notice for the HMI to bring up a keypad
@@ -168,7 +223,13 @@ and the `HMI_API`:
   </description>
   <param name="type" type="Common.FieldType" mandatory="true">
   </param>
+    <description>
+      The type of input field like Text, Number or Combo Box.
+    </description>
   <param name="label" maxlength="500" type="String" mandatory="true">
+    <description>
+      The text label that appears next, above or below the field.
+    </description>    
   </param>
   <param name="image" type="Image" mandatory="false">
     <description>
@@ -211,52 +272,20 @@ and the `HMI_API`:
   <enum name="FieldType">
     <description>The type of input field</description>
     <element name="COMBO_BOX" />
+      <description>
+        This is a notice for the HMI to bring up a drop down list of choices.
+      </description>
     <element name="TEXT" />
+      <description>
+        This is a field that holds alphanumeric data, such as name and address
+      </description>
     <element name="NUMBER" />
       <description>
-        This is a notice for the HMI to bring up a keypad.
+        This is a notice for the HMI to bring up a keypad
       </description>
   </enum>
 ```
 
-Regarding the response which would be sent when the user presses a softbutton, this would use RPC encryption which is handled by policies.
-There would be one string response for each field. If a field was left empty, the associated string would be blank.
-This requires the following updates to the `MOBILE_API`:
-```xml
-<function name="DisplayForm" messagetype="response">
-  
-  <param name="success" type="Boolean" platform="documentation" mandatory="true">
-    <description> true if successful; false, if failed.</description>
-  </param>
-
-  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
-    <description>See Result</description>
-    <element name="SUCCESS"/>
-    <element name="REJECTED"/>
-    <element name="INVALID_DATA"/>
-    <element name="INVALID_ID"/>
-    <element name="DUPLICATE_NAME"/>
-    <element name="DISALLOWED"/>
-    <element name="OUT_OF_MEMORY"/>
-    <element name="TOO_MANY_PENDING_REQUESTS"/>
-    <element name="APPLICATION_NOT_REGISTERED"/>
-    <element name="GENERIC_ERROR"/>
-  </param>
-  
-  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-    <description>Provides additional human readable info regarding the result.</description>
-  </param>
-  
-  <param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
-    <description>
-      This will return an array of Fields that have the same type and label as requested, but with the text field populated.
-    </description>
-  </param>
-  
-</function>
-```
-
-We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md) for password or other sensitive data input. The main goal of this is to leverage an existing enum to help us out. `maskInputCharacters` mask will override `KeyboardProperties.maskInputCharacters` in `SetGlobalProperties`. All other keyboard-related items in `SetGlobalProperties` will work normally.
 
 ### Error Flow
 To clarify the error flow a bit, heres a sequence diagram
@@ -268,7 +297,7 @@ To clarify the error flow a bit, heres a sequence diagram
 
 1. This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
 2. This form process does not support OAuth logins (like Google, Apple, or Facebook).
-3. This proposal doesn't include any manager changes, which would be useful for helping app partners use this feature.
+3. This proposal doesn't include any manager changes, which would be useful for helping app partners use this feature. Soft button ids managed by the screen manager may conflict with soft button ids managed by the developer for this RPC and may lead to app bugs. This can be worked around by the developer using large soft button ids that are unlikely to conflict with the screen manager's soft button ids.
 
 ## Impact on existing code
 
