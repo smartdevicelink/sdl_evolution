@@ -87,6 +87,7 @@ and the `HMI_API`:
 Add a new struct called `Field` and an enum called `FieldType` to get user input in the DisplayForm screen.
 This enables text input fields, numeric input fields and combo box input fields.  Text and numeric input fields would bring up a keyboard or numpad. Combo box input would bring up a drop down list of items. If a combo box is requested, and the user doesn't pick anything, the HMI will send back the field.text and then it's up to the app on what to do.
 
+#### Request
 Here's the MOBILE_API:
 ```xml
 <struct name="Field">
@@ -135,6 +136,48 @@ Here's the MOBILE_API:
 </struct>
 ```
 
+#### Response
+Regarding the response which would be sent when the user presses a softbutton, this would use RPC encryption which is handled by policies.
+There would be one string response for each field. If a field was left empty, the associated string would be blank.
+This requires the following updates to the `MOBILE_API`:
+```xml
+<function name="DisplayForm" messagetype="response">
+  
+  <param name="success" type="Boolean" platform="documentation" mandatory="true">
+    <description> true if successful; false, if failed.</description>
+  </param>
+
+  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
+    <description>See Result</description>
+    <element name="SUCCESS"/>
+    <element name="REJECTED"/>
+    <element name="INVALID_DATA"/>
+    <element name="INVALID_ID"/>
+    <element name="DUPLICATE_NAME"/>
+    <element name="DISALLOWED"/>
+    <element name="OUT_OF_MEMORY"/>
+    <element name="TOO_MANY_PENDING_REQUESTS"/>
+    <element name="APPLICATION_NOT_REGISTERED"/>
+    <element name="GENERIC_ERROR"/>
+  </param>
+  
+  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
+    <description>Provides additional human readable info regarding the result.</description>
+  </param>
+  
+  <param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
+    <description>
+      This will return an array of Fields that have the same type and label as requested, but with the text field populated.
+    </description>
+  </param>
+  
+</function>
+```
+
+#### Handling Sensitive Information
+We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md) for password or other sensitive data input. The main goal of this is to leverage an existing enum to help us out. `maskInputCharacters` mask will override `KeyboardProperties.maskInputCharacters` in `SetGlobalProperties`. All other keyboard-related items in `SetGlobalProperties` will work normally.
+
+#### Declaring Support
 Plus the headunit can note that it supports form field text and images through `TextFieldName` and `ImageFieldName` in the `MOBILE_API`
 ```xml
    <enum name="TextFieldName" since="1.0">
@@ -243,44 +286,6 @@ and the `HMI_API`:
   </enum>
 ```
 
-Regarding the response which would be sent when the user presses a softbutton, this would use RPC encryption which is handled by policies.
-There would be one string response for each field. If a field was left empty, the associated string would be blank.
-This requires the following updates to the `MOBILE_API`:
-```xml
-<function name="DisplayForm" messagetype="response">
-  
-  <param name="success" type="Boolean" platform="documentation" mandatory="true">
-    <description> true if successful; false, if failed.</description>
-  </param>
-
-  <param name="resultCode" type="Result" platform="documentation" mandatory="true">
-    <description>See Result</description>
-    <element name="SUCCESS"/>
-    <element name="REJECTED"/>
-    <element name="INVALID_DATA"/>
-    <element name="INVALID_ID"/>
-    <element name="DUPLICATE_NAME"/>
-    <element name="DISALLOWED"/>
-    <element name="OUT_OF_MEMORY"/>
-    <element name="TOO_MANY_PENDING_REQUESTS"/>
-    <element name="APPLICATION_NOT_REGISTERED"/>
-    <element name="GENERIC_ERROR"/>
-  </param>
-  
-  <param name="info" type="String" maxlength="1000" mandatory="false" platform="documentation">
-    <description>Provides additional human readable info regarding the result.</description>
-  </param>
-  
-  <param name="fields" type="Field" maxlength="500" array="true" minsize="1" maxsize="100" mandatory="true">
-    <description>
-      This will return an array of Fields that have the same type and label as requested, but with the text field populated.
-    </description>
-  </param>
-  
-</function>
-```
-
-We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md) for password or other sensitive data input. The main goal of this is to leverage an existing enum to help us out. `maskInputCharacters` mask will override `KeyboardProperties.maskInputCharacters` in `SetGlobalProperties`. All other keyboard-related items in `SetGlobalProperties` will work normally.
 
 ### Error Flow
 To clarify the error flow a bit, heres a sequence diagram
