@@ -297,7 +297,7 @@ To clarify the error flow a bit, heres a sequence diagram
 
 1. This adds complexity to Mobile Libraries, JavaScript Library, Core and the HMI.
 2. This form process does not support OAuth logins (like Google, Apple, or Facebook).
-3. This proposal doesn't include any manager changes, which would be useful for helping app partners use this feature.
+3. This proposal doesn't include any manager changes, which would be useful for helping app partners use this feature. Soft button ids managed by the screen manager may conflict with soft button ids managed by the developer for this RPC and may lead to app bugs. This can be worked around by the developer using large soft button ids that are unlikely to conflict with the screen manager's soft button ids.
 
 ## Impact on existing code
 
