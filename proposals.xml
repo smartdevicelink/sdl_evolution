@@ -343,7 +343,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0307" status="active" primary-platform="rpc" sdl-version="x.x" name="Get Input Screen" filename="0307-GetInputScreen.md"/>	
 <proposal id="0308" status="implemented" primary-platform="protocol" sdl-version="5.3" name="Add a Reason Parameter to All Protocol NAKs" filename="0308-protocol-nak-reason.md"/>	
 <proposal id="0309" status="rejected" primary-platform="java-suite" sdl-version="x.x" name="Mitigating Android SDL service notifications issues" filename="0309-android-notifications.md"/>	
-<proposal id="0310" status="returned" primary-platform="rpc" sdl-version="x.x" name="Perform Interaction Multipick" filename="0310-PerformInteractionMultipick.md"/>	
+<proposal id="0310" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Perform Interaction Multipick" filename="0310-PerformInteractionMultipick.md"/>	
 <proposal id="0311" status="implemented" primary-platform="java-suite" sdl-version="5.0" name="Make RPC Setters Chainable" filename="0311-Make-RPC-Setters-Chainable.md"/>	
 <proposal id="0312" status="implemented" primary-platform="ios" sdl-version="7.0" name="Update the Minimum Required iOS Version to 10.0" filename="0312-ios-update-minimum-version-ios10.md"/>	
 <proposal id="0313" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Adding new parameters for transport switching" filename="0313-Adding-new-parameters-for-transport-switching.md"/>	
