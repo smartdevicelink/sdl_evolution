@@ -326,11 +326,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0290" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Modify the range of APT's maxDuration" filename="0290-modify-the-range-of-APT's-maxDuration.md"/>	
 <proposal id="0291" status="active" primary-platform="java-suite" sdl-version="x.x" name="Allow navigation apps to access information about WiFi networks" filename="0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks.md"/>	
 <proposal id="0292" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Improve VirtualDisplayEncoder for stable frame rate" filename="0292-improve-VDE-for-stable-frame-rate.md"/>	
-<proposal id="0293" status="returned" primary-platform="protocol" sdl-version="x.x" name="Enable OEM exclusive apps support" filename="0293-vehicle-type-filter.md"/>	
+<proposal id="0293" status="active" primary-platform="protocol" sdl-version="x.x" name="Enable OEM exclusive apps support" filename="0293-vehicle-type-filter.md"/>	
 <proposal id="0294" status="accepted" primary-platform="rpc" sdl-version="x.x" name="App Service - Messaging" filename="0294-app-service-messaging.md"/>	
 <proposal id="0295" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Microphone Input Manager" filename="0295-screen-manager-audio-pass-thru.md"/>	
 <proposal id="0296" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Possibility to update video streaming capabilities during ignition cycle" filename="0296-Update-video-streaming-capabilities-during-ignition-cycle.md"/>	
-<proposal id="0297" status="active" primary-platform="mobile" sdl-version="x.x" name="Add function to transmit audio data of AudioStream in time division" filename="0297-Add-function-to-transmit-audio-data.md"/>	
+<proposal id="0297" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Add function to transmit audio data of AudioStream in time division" filename="0297-Add-function-to-transmit-audio-data.md"/>	
 <proposal id="0298" status="implemented" primary-platform="core" sdl-version="7.0" name="Processing of unknown enum values by SDL Core" filename="0298-Processing-of-unknown-enum-values-by-SDL-Core.md"/>	
 <proposal id="0299" status="accepted" primary-platform="ios" sdl-version="x.x" name="Add a Mechanism to Avoid Deadlock" filename="0299-Avoid-Deadlock.md"/>	
 <proposal id="0300" status="returned" primary-platform="rpc" sdl-version="x.x" name="Voice Assistant App Service" filename="0300-Voice-Assistant-App-Service.md"/>	
@@ -348,7 +348,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0312" status="implemented" primary-platform="ios" sdl-version="7.0" name="Update the Minimum Required iOS Version to 10.0" filename="0312-ios-update-minimum-version-ios10.md"/>	
 <proposal id="0313" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Adding new parameters for transport switching" filename="0313-Adding-new-parameters-for-transport-switching.md"/>	
 <proposal id="0314" status="withdrawn" primary-platform="core" sdl-version="x.x" name="Clarification of SDL app icon display sequence and display order" filename="0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md"/>	
-<proposal id="0315" status="active" primary-platform="core" sdl-version="x.x" name="Add RPC Conflict Management" filename="0315-Add-RPC-Conflict-Management.md"/>	
+<proposal id="0315" status="returned" primary-platform="core" sdl-version="x.x" name="Add RPC Conflict Management" filename="0315-Add-RPC-Conflict-Management.md"/>	
 <proposal id="0316" status="returned" primary-platform="core" sdl-version="x.x" name="Clarification of transport switching rules and improvement of UX" filename="0316-Clarification-of-transport-switching-rules-and-improvement-of-UX.md"/>	
 <proposal id="0317" status="deferred" primary-platform="protocol" sdl-version="x.x" name="SDL Protocol Security Specification" filename="0317-sdl-protocol-security-specification.md"/>	
 <proposal id="0318" status="accepted" primary-platform="mobile" sdl-version="x.x" name="App Library: Vehicle Data Manager" filename="0318-app-lib-vehicle-data-manager.md"/>	
