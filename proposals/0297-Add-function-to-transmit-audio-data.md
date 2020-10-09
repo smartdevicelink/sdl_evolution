@@ -27,12 +27,13 @@ The conceptual diagram is shown below.
 
 The sample apps for iOS and Java Suite are shown below.
 
-### [iOS](https://github.com/zx5656/sdl_video_streaming_iOS_sample)
-### [Java Suite](https://github.com/zx5656/sdl_video_streaming_android_sample)
+- [iOS](https://github.com/zx5656/sdl_video_streaming_iOS_sample)
+- [Java Suite](https://github.com/zx5656/sdl_video_streaming_android_sample)
 
 The code samples for iOS and Java Suite are shown below.
-* The code included in the proposal is sample code.
 * It is necessary to consider pushBuffer and pushWithData of AudioStreamManager.
+
+Note : The code included in the proposal is sample code.
 
 ### iOS
 **SDLAudioStreamManager.m file**
