@@ -178,6 +178,8 @@ This requires the following updates to the `MOBILE_API`:
 We can use the `maskInputCharacters` parameter from [0238-Keyboard-Enhancements](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0238-Keyboard-Enhancements.md) for password or other sensitive data input. The main goal of this is to leverage an existing enum to help us out. `maskInputCharacters` mask will override `KeyboardProperties.maskInputCharacters` in `SetGlobalProperties`. All other keyboard-related items in `SetGlobalProperties` will work normally.
 
 #### Declaring Support
+Apps need this RPC to be consistent across all OEMs so that they don't have to make different implementations per OEM. So the HMI Integration Guidelines need to be updated to state that if this feature is implemented, it must be implemented in its entirety with all fields supported. Images are the only optional component.
+
 Plus the headunit can note that it supports form field text and images through `TextFieldName` and `ImageFieldName` in the `MOBILE_API`
 ```xml
    <enum name="TextFieldName" since="1.0">
