@@ -28,8 +28,9 @@ Here's more specific potential screens
 <img src="../assets/proposals/0307-GetInput/GetInput-3-2.PNG" alt="Credit Card Screen with Error Template" class="inline" height= "50%" width= "50%" />
 
 ## Proposed solution
-Add a new RPC for an input screen. This screen would use RPC encryption which is handled by policies.
-It contains a title, and an array of `Fields`
+Add a new RPC for an input screen. Since this screen will often handle sensative info like login or credit card info, this screen would use RPC encryption which is handled by policies. In policies, we would have a new permission group that requires encryption by setting the flag `Encryption_Required = true`. This DisplayForm RPC would be in that permission group. SDL Core will make sure that only encrypted DisplayForm RPCs will be accepted and processed. Unencrypted DisplayForm RPCs will be rejected. The response sent back to the app will also be encrypted.
+
+The new RPC contains a title, and an array of `Fields`
 
 Here's the `MOBILE_API`:
 ```xml
