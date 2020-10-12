@@ -54,9 +54,9 @@ app_list_sorting: {
         "PROJECTION": 7,
         "REMOTE_CONTROL": 8,
         "SYSTEM": 9,
-        "DEFAULT": a,
-        "BACKGROUND_PROCESS": b,
-        "TESTING": c
+        "DEFAULT": 10,
+        "BACKGROUND_PROCESS": 11,
+        "TESTING": 12
     }
 }
 ```
