@@ -37,25 +37,25 @@ The dynamic app list sorting is performed according to the following procedures.
  3. During the first launch, there is no policy table, therefore it is searched in the default policy table at first, then can be searched in SDL Core to obtain the `app_list_sorting` information. If the 'app_list_sorting' information is not present, the list is sorted how it was previously sorted.
  4. The apps are registered to the SDL Core by using the `RegisuterAppInterface`.
  5. The sorting order is performed according to the following procedures.
-   1. Prioritize the `priority` parameter of `application_policies` in the policy table.
-   2. Regarding to the apps that there is no priority value in the `priority` parameter, they are prioritized according to the sorting method which is set by the `sorting_pattern` of the `app_list_sorting` in the policy table.
+	1. Prioritize the `priority` parameter of `application_policies` in the policy table.
+	2. Regarding to the apps that there is no priority value in the `priority` parameter, they are prioritized according to the sorting method which is set by the `sorting_pattern` of the `app_list_sorting` in the policy table.
  6. The sorting list is sent to the HMI by using the `UpdateAppList`.
 
 ```json
 app_list_sorting: {
-    "sorting_pattern": "apphmitype"
+    "sorting_pattern": "apphmitype",
     "apphmitype_sorting_list": {
-        "NAVIGATION": 1
-        "MEDIA": 2
-        "MESSAGE": 3
-        "INFORMATION": 4
-        "COMMUNICATION": 5
-        "SOCIAL": 6
-        "PROJECTION": 7
-        "REMOTE_CONTROL": 8
-        "SYSTEM": 9
-        "DEFAULT": a
-        "BACKGROUND_PROCESS": b
+        "NAVIGATION": 1,
+        "MEDIA": 2,
+        "MESSAGE": 3,
+        "INFORMATION": 4,
+        "COMMUNICATION": 5,
+        "SOCIAL": 6,
+        "PROJECTION": 7,
+        "REMOTE_CONTROL": 8,
+        "SYSTEM": 9,
+        "DEFAULT": a,
+        "BACKGROUND_PROCESS": b,
         "TESTING": c
     }
 }
