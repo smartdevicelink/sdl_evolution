@@ -6,7 +6,7 @@
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / HMI / RPC]
 
 ## Introduction
-This proposal adds a new optional parameter to the `WindowCapability` struct containing the current template name.
+This proposal adds a new optional parameter to the `WindowCapability` struct containing the current template name, and a new app library `ScreenManager` parameter to assist app developers in tracking the current template.
 
 ## Motivation
 Currently, it's impossible for an app developer to know what the current template name is when they first connect. The only way to track what the current template name is at any time after that is to track the `SetDisplayLayout / Show` request and responses. The window capability should contain information about the current template name in addition to its capabilities.
