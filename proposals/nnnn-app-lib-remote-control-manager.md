@@ -19,40 +19,67 @@ If the app's HMI types contains `REMOTE_CONTROL`, then the remote control manage
 
 When the remote control manager is started, it will subscribe to `SystemCapabilityType.REMOTE_CONTROL` and `OnInteriorVehicleData` on RPC 4.5+, and `OnRCStatus` to track which modules are allocated to the application on RPC 5.0 and above.
 
-### Getting Seat Location Information
+### Seats and User Consent Information
+#### Getting Seat Location Information
 When connected to a system on RPC 6.0+ and `HMICapabilities.seatLocation == true`, the remote control manager will also attempt to subscribe to `SystemCapabilityType.SEAT_LOCATION`. The seat location information will be stored to a property:
 
-#### iOS
+##### iOS
 ```objc
 @property (strong, nonatomic, nullable, readonly) SDLSeatLocationCapability *seatLocations;
 ```
 
-#### Java Suite
+##### Java Suite
 ```java
 public SeatLocationCapability getSeatLocations()
 ```
 
-#### JavaScript Suite
+##### JavaScript Suite
 ```js
 getSeatLocations()
 ```
 
-### Setting the User's Seat
+#### Setting the User's Seat
 When connected to v6.0+, developers may set the user's seat location, and it will default to the driver seat. There will be a method to set a new location for the user's seat. If this method is called on less than RPC 6.0, it will immediately return a failure. If this method is called when `HMICapabilities.seatLocation == false` or `SystemCapabilityType.SEAT_LOCATION` information is not available, it will immediately return a failure.
 
-#### iOS
+##### iOS
 ```objc
 - (void)setUserSeatLocation:(SDLGrid *)location withCompletionHandler:(SDLRemoteControlCompletionHandler)completionHandler;
 ```
 
-#### Java Suite
+##### Java Suite
 // TODO
 
-#### JavaScript Suite
+##### JavaScript Suite
 // TODO
+
+#### Getting User Consent
+On RPC 6.0+ systems, an app may be required to request access to a remote control module from the user, and it should only do when it actually needs that access. The developer will be able to request user consent manually for a module or modules whenever it makes sense within their app's flow.
+
+In order to streamline this for developers, if the app is running on a RPC 6.0+ system and consent has not been manually requested for a given module (see below), this RPC will be sent and resolved before attempting to set the module data.
+
+##### iOS
+```objc
+typedef NS_ENUM (NSUInteger, SDLConsentStatus) {
+    SDLConsentStatusNotRequested,
+    SDLConsentStatusDisallowed,
+    SDLConsentStatusAllowed
+}
+
+/// The status of user consent for a given module id.
+- (SDLConsentStatus)consentStatusForModule:(SDLModuleId *)moduleId;
+
+/// Request consent to control a module or modules from the SDL system and the user.
+- (void)requestConsentForModuleIds:(NSArray<SDLModuleId *> *)moduleIds;
+```
+
+##### Java Suite
+`// TODO`
+
+##### JavaScript Suite
+`// TODO`
 
 ### Remote Control Capabilities
-// TODO
+`// TODO`
 
 ### Retrieving Module Data
 Retrieving module data is an important component of remote control modules. The first segment of retrieving module data is the ability to get cached data. This will work similarly to the current `SystemCapabilityManager` and the accepted proposal for a `VehicleDataManager` [SDL-0318](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0318-app-lib-vehicle-data-manager.md).
@@ -146,6 +173,7 @@ typedef void (^SDLRemoteControlUnsubscribeHandler)(NSError *_nullable error);
 /// @param observer The observer to unsubscribe types on.
 /// @param unsubscribeHandler The handler that will be called when unsubscribing completes, including an error if one occurred.
 - (void)unsubscribeFromModuleType:(SDLModuleType)type moduleId:(SDLModuleId)moduleId withObserver:(id)observer completionHandler:(SDLRemoteControlUnsubscribeHandler)unsubscribeHandler;
+// TODO: Define Handlers
 ```
 
 ##### Java Suite
@@ -160,6 +188,31 @@ There will be a method on the `RemoteControlManager` to perform button presses:
 #### iOS
 ```objc
 - (void)pressButton:(SDLButtonName)buttonName withCompletionHandler:(SDLRemoteControlCompletionHandler)completionHandler;
+```
+
+#### Java Suite
+```java
+// TODO
+```
+
+#### JavaScript Suite
+```js
+// TODO
+```
+
+### Setting Module Data
+An important part of remote control is the control part. Remote control module data can be set by the SDL app.
+
+As explained above in the section "Getting User Consent", if the app is running on an RPC 6.0+ connection then consent should be requested before attempting to set any module data. If the developer has not manually requested consent for the module before attempting to set data, consent will be requested on behalf of the app developer before the data is attempted to be set.
+
+#### iOS
+```objc
+// TODO: Not sure about this
+
+/// Sets some module data for a given module.
+/// NOTE: The module type and set module data must match for the module data passed, and the module id must match a known module, or be nil to specify the default module. If they do not, the call will immediately fail with an error.
+- (void)setModuleData:(SDLModuleData *)data withCompletionHandler:(SDLRemoteControlDataHandler)handler;
+// TODO: Handler definition
 ```
 
 #### Java Suite
