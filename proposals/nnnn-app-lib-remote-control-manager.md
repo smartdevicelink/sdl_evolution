@@ -86,16 +86,73 @@ The iOS code will present properties for each module to retrieve the current cac
 ```
 
 ##### Java Suite
-// TODO
+```java
+public Object getModuleData(ModuleType moduleType, String moduleId);
+```
 
 ##### JavaScript Suite
-// TODO
+The cached data will be stored similarly to the iOS data above at the project maintainers discretion.
 
 #### Getting One-Time Module Data
-// TODO
+Module data can be retrieved one time without ongoing updates. This method uses `GetInteriorVehicleData` with `subscribe = null` under the hood. If a module is already subscribed, this method will not send an RPC but will just return the cached data.
+
+##### iOS
+```objc
+- (void)updateModuleDataForType:(SDLModuleType)type moduleId:(SDLModuleId)moduleId completionHandler:(SDLRemoteControlDataHandler)handler;
+// TODO Define handler
+```
+
+##### Java Suite
+```java
+public interface OnRemoteControlDataListener {
+    void onRemoteControlDataChanged(@NonNull ModuleType type, ModuleId moduleId, RemoteControlManager manager);
+    void onRemoteControlDataError(String info);
+}
+
+public void updateModuleData(final ModuleType type, final ModuleId moduleId, final OnRemoteControlDataListener listener);
+```
+
+##### JavaScript Suite
+```js
+async updateModuleData (moduleType, moduleId)
+```
 
 #### Subscribing to Module Data Updates
-// TODO
+Module data can also be subscribed to in order to receive ongoing updates. This method uses `GetInteriorVehicleData` with `subscribe = true` under the hood. If a module is already subscribed, this method will not send an RPC but will return the cached data and still call the observer whenever the module data is updated.
+
+##### iOS
+```objc
+/// A handler to be called when the app unsubscribes from a remote control data module.
+///
+/// @param error An error if one occurred while unsubscribing
+typedef void (^SDLRemoteControlUnsubscribeHandler)(NSError *_nullable error);
+
+/// Subscribes to a remote control module and calls a handler when that module's data is updated.
+///
+/// @param types The vehicle data types to subscribe to for this handler
+/// @param handler The handler to call every time any of the specified vehicle data types update
+/// @return A unique object that can be passed to `unsubscribeFromVehicleData:withObserver:`
+- (id<NSObject>)subscribeToModuleDataForType:(SDLModuleData)type moduleId:(SDLModuleId)moduleId withUpdateHandler:(SDLRemoteControlDataHandler)handler;
+
+/// Subscribes to a remote control module and calls a selector on an observer when that module's data is updated.
+///
+/// The selector must exist with between 0 and 4 parameters. If zero parameters, the selector will be called, but you will be unable to determine which module was updated or know about any errors that occur. If one parameter, the parameter must be of type `SDLModuleType`, which is the type that was updated. If two parameters, the second parameter must be of type `SDLModuleId` or `NSString` and will reflect the module id of the module being updated. The third parameter must be of type `NSError` and will be an error if one occurred. If four parameters, the fourth parameter must be of type `SDLRemoteControlManager`. For example, `moduleTypeDidUpdate:(SDLModuleType)type moduleId:(SDLModuleId)moduleId error:(NSError *)error manager:(SDLRemoteControlManager *)manager`.
+- (id<NSObject>)subscribeToModuleDataForType:(SDLModuleData)type moduleId:(SDLModuleId)moduleId withObserver:(id)observer selector:(SEL)selector;
+
+/// Unsubscribes from a given observer. Attempting to unsubscribe from modules that are not subscribed will silently be ignored and not fail. If there are no more observers subscribed to a given module, the app library will unsubscribe from the head unit for that type.
+///
+/// @param type The module type that will be unsubscribed for the observer.
+/// @param moduleId The module id for the given module type that will be unsubscribed for the observer.
+/// @param observer The observer to unsubscribe types on.
+/// @param unsubscribeHandler The handler that will be called when unsubscribing completes, including an error if one occurred.
+- (void)unsubscribeFromModuleType:(SDLModuleType)type moduleId:(SDLModuleId)moduleId withObserver:(id)observer completionHandler:(SDLRemoteControlUnsubscribeHandler)unsubscribeHandler;
+```
+
+##### Java Suite
+`// TODO`
+
+##### JavaScript Suite
+`// TODO`
 
 ### Button Presses
 There will be a method on the `RemoteControlManager` to perform button presses:
@@ -116,13 +173,10 @@ There will be a method on the `RemoteControlManager` to perform button presses:
 ```
 
 ## Potential downsides
-
 Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
 
 ## Impact on existing code
-
 Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
 
 ## Alternatives considered
-
 Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
