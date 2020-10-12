@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is to clarify the SDL app icon display sequence and to present the dynamic app list sorting method at the same time.  By doing so, we can prevent unnecessary development for the Head Unit (HU) developers and improve usability by enhancing the visuality for users.
+This proposal is to clarify the SDL app icon display sequence and to present the dynamic app list sorting methods at the same time.  By doing so, we can prevent unnecessary development for the Head Unit (HU) developers and improve usability by enhancing the visuality for users.
 
 ## Motivation
 
@@ -18,15 +18,15 @@ Currently, the SDL app icon is displayed on the SDL app selection (menu) screen,
 
 *1 appID: It is NOT the ID obtained during SDLC App Certification. It is the ID that is set when the app establishes a session and is launched based on the hash algorithm using the sessionID (set from 0 in the app registration order) and deviceHandlerID (set from 0 in the device connection order).
 
-As a result, the display order of icons changes every launch. Furthermore, it is very poor visuality and operability (usability) because it takes a long time for the user to find an app that s/he wants to use. In order to solve these problems, we propose to clarify the display order of the SDL app icon and improve the usability by presenting the SDL app icon display sequence and the dynamic app list sorting method.
+As a result, the display order of icons changes every launch. Furthermore, it is very poor visuality and operability (usability) because it takes a long time for the user to find an app that s/he wants to use. In order to solve these problems, we propose to clarify the display order of the SDL app icon and improve the usability by presenting the SDL app icon display sequence and the dynamic app list sorting methods.
 
 ## Proposed solution
 
 The following items are proposed to improve the problems mentioned above.
- 1. Presentation of the dynamic app list sorting method
+ 1. Presentation of the dynamic app list sorting methods
  2. Clarification of icon display sequence
 
-<b>1. Presentation of the dynamic app list sorting method</b><br>
+<b>1. Presentation of the dynamic app list sorting methods</b><br>
 The dynamic app list sorting is performed according to the following procedures.
 
  1. Set the priority (such as 1st, 2nd, 3rd ,,,) to the parameter `priority` of the `application_policies` on the policy table. (The OEMs can modify the priorities themselves.)
@@ -38,7 +38,7 @@ The dynamic app list sorting is performed according to the following procedures.
  4. The apps are registered to the SDL Core by using the `RegisuterAppInterface`.
  5. The sorting order is performed according to the following procedures.
 	1. Prioritize the `priority` parameter of `application_policies` in the policy table.
-	2. Regarding to the apps that there is no priority value in the `priority` parameter, they are prioritized according to the sorting method which is set by the `sorting_pattern` of the `app_list_sorting` in the policy table.
+	2. Regarding to the apps that there is no priority value in the `priority` parameter, they are prioritized according to the sorting methods which are set by the `sorting_pattern` of the `app_list_sorting` in the policy table.
  6. The sorting list is sent to the HMI by using the `UpdateAppList`.
 
 ```json
