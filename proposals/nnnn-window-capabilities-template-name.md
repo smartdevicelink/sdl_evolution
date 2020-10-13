@@ -72,4 +72,4 @@ getCurrentTemplateName()
 This will require a minor version change on all major platforms due to the HMI_API and RPC_SPEC changes. The app libraries' `ScreenManager`s already privately track the current template name, so adding that as public will not be difficult.
 
 ## Alternatives considered
-No alternatives were considered.
+1. We could only implement one side of this proposal: the `ScreenManager` addition of the current template name. This section *is* separable from the RPC changes in this proposal, and this is what will happen for connections before the RPC change is available. However, I believe that the benefit of having definitive data is an important component of this proposal.
