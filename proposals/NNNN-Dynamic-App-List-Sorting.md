@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is to clarify the SDL app icon display sequence and to present the dynamic app list sorting methods at the same time.  By doing so, we can prevent unnecessary development for the Head Unit (HU) developers and improve usability by enhancing the visuality for users.
+This proposal is to clarify the SDL app icon display sequence and to present the dynamic app list sorting methods at the same time. By doing so, we can prevent unnecessary development for the Head Unit (HU) developers and improve usability by enhancing the visuality for users.
 
 ## Motivation
 
