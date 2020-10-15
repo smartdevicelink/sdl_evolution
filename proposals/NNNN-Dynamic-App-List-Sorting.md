@@ -34,7 +34,7 @@ The dynamic app list sorting is performed according to the following procedures.
   - "appHMIType" : The sorting method by using the `appHMIType_sorting_list`.
   - "alphabetical" : The sorting method according to alphabetical order.
   - "appID" : The sorting method according to the `appID` order of the `application_policies` on the policy table.
- 3. During the first launch, there is no policy table, therefore it is searched in the default policy table at first, then can be searched in SDL Core to obtain the `app_list_sorting` information. If the 'app_list_sorting' information is not present, the list is sorted how it was previously sorted.
+ 3. During the first launch, there is no policy table, therefore the app list is searched in the default policy table at first, then can be searched in SDL Core to obtain the `app_list_sorting` information. If the 'app_list_sorting' information is not present, the list is sorted how it was previously sorted.
  4. The apps are registered to the SDL Core by using the `RegisuterAppInterface`.
  5. The sorting order is performed according to the following procedures.
 	1. Prioritize the `priority` parameter of `application_policies` in the policy table.
