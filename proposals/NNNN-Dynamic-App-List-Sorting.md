@@ -30,7 +30,7 @@ The following items are proposed to improve the problems mentioned above.
 The dynamic app list sorting is performed according to the following procedures.
 
  1. Set the priority (such as 1st, 2nd, 3rd, etc.) to the parameter `priority` of the `application_policies` on the policy table. (OEMs can modify the priorities themselves.)
- 2. Implemented the `app_list_sorting` parameter below to the SDL Core, sdl_preloaded_pt.json and the policy table. (The OEMs can modify the each parameter value of only the policy table.)
+ 2. Implement the `app_list_sorting` parameter below in the SDL Core sdl_preloaded_pt.json and the policy table. (OEMs can modify each parameter value of the policy table.)
   - "apphmitype" : The sorting method by using the `apphmitype_sorting_list`.
   - "alphabet" : The sorting method according to the alphabet order.
   - "appID" : The sorting method according to the `appID` order of the `application_policies` on the policy table.
