@@ -43,7 +43,7 @@ The dynamic app list sorting is performed according to the following procedures.
 
 ```json
 app_list_sorting: {
-    "sorting_pattern": "apphmitype",
+    "sorting_pattern": "appHMIType",
     "apphmitype_sorting_list": {
         "NAVIGATION": 1,
         "MEDIA": 2,
