@@ -35,7 +35,7 @@ The dynamic app list sorting is performed according to the following procedures.
   - "alphabetical" : The sorting method according to alphabetical order.
   - "appID" : The sorting method according to the `appID` order of the `application_policies` on the policy table.
  3. During the first launch, there is no policy table, therefore the app list is searched in the default policy table at first, then can be searched in SDL Core to obtain the `app_list_sorting` information. If the 'app_list_sorting' information is not present, the list is sorted how it was previously sorted.
- 4. The apps are registered to the SDL Core by using the `RegisuterAppInterface`.
+ 4. The apps are registered to the SDL Core by using the `RegisterAppInterface`.
  5. The sorting order is performed according to the following procedures.
 	1. Prioritize the `priority` parameter of `application_policies` in the policy table.
 	2. Regarding to the apps that there is no priority value in the `priority` parameter, they are prioritized according to the sorting methods which are set by the `sorting_pattern` of the `app_list_sorting` in the policy table.
