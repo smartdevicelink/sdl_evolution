@@ -78,7 +78,7 @@ There is no potential downside since it is a modification to the current process
 
 ## Impact on existing code
 
-The existing sorting process is left as it is. Furthermore, as processes/lists related to sorting are added, SDL Core is affected. Also, since the priority information of `apphmitype_sorting_list` is stored, the policy server is affected, too. However, I believe their changes are minor version changes because there are no changes in RPC and parameters.
+The existing sorting process is left as it is. Furthermore, as processes/lists related to sorting are added, SDL Core is affected. Also, since the priority information of `appHMIType_sorting_list` is stored, the policy server is affected, too. However, I believe their changes are minor version changes because there are no changes in RPC and parameters.
 
 ## Alternatives considered
 
