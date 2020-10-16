@@ -27,13 +27,13 @@ To implement the RPC conflict management, we will add a new RPC conflict managem
 RPC priority table and `App Priority` table are specified in `InterruptManagerConfig`. RPC priority table and `App Priority` table are tables that each set the priority of RPC and app. By modifying `InterruptManagerConfig`, an OEM can receive the expected request from SDL Core during RPC conflict. On the other hand, `InterruptManager` reads `InterruptManagerConfig` in policy table during the SDL Core startup and builds the two tables mentioned above based on their settings. When an RPC conflict occurs, the `InterruptManager` first determines the RPC with a high priority according to the RPC priority table. However, if two competing RPCs have the same priority, then the RPC with the higher priority is determined according to the `App Priority` priority table. Therefore, only one modal RPC to be displayed at a time.
 
 #### RPC Conflict Management Configuration Table
-The following tables of explain the `InterruptManagerConfig` in policy table.
+The following tables described in InterruptManagerConfig in the Policy table are explained below.
 
 - RPC priority table
-- `AppPriority` priority table
+- `AppPriority` table
 - HMI status table
 
-The RPC priority is overrided as the order below. Priority order will shift from 1 to 2, from 2 to 3 and from 3 to 4, if the RPCs are same priority.
+The RPC priority is overridden as the order below. Priority order will shift from 1 to 2, from 2 to 3 and from 3 to 4, if the RPCs are same priority.
 
 1. Apps with app priority EMERGENCY.
 2. RPC Priority
@@ -45,7 +45,7 @@ The RPC priority table describes the priority of each RPC. When multiple RPCs oc
 
 Below are the default settings of RPC priority table.
 
-<b>Table 1.</b> Default settings of priority table
+<b>Table 1.</b> Default settings of RPC priority table
 
 | RPC_Name (String)        | Priority (INT) | Note (String)     |
 |:-:                      |:-:            |:-:               |
@@ -180,8 +180,7 @@ The processing sequence during TTS RPC conflict is shown below.
 ## Potential downsides
 
 1. This would be a complex system that takes control of RPC conflict management away from the HMI - where it is currently located - and puts it into a new, centralized system. At the least that means that OEMs will have to do quite a bit of HMI work to remove those old systems. This also means that re-implementing many current HMI-based RPC conflict management systems will be impossible and OEMs will have to work with this new system.
-2. This also adds new config files that are not updatable outside of a firmware update (i.e. it's not a policy change).
-3. Implementing this feature will force only one modal RPC to ever be displayed for every OEM implementing SDL.
+2. Implementing this feature will force only one modal RPC to ever be displayed for every OEM implementing SDL.
 
 ## Impact on existing code
 
