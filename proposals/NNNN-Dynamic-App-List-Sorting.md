@@ -74,7 +74,7 @@ Currently, there is no sequence provided that demonstrates how the icon is displ
 
 ## Potential downsides
 
-As there is a large modification required to implement multiple sorting methods, the developer must do the implementation carefully and also, it will take a long time.
+As there is a large modification required to implement multiple sorting methods, the developer must do the implementation carefully and it will take a long time. Also, it may need to remove the sorting function from the HMI.
 
 ## Impact on existing code
 
@@ -82,4 +82,4 @@ The existing sorting process is left as it is. Furthermore, as processes/lists r
 
 ## Alternatives considered
 
-The alternative sorting method is user defined sort order. This sorting method would be a feature that some OEMs would want. However, since this specific sorting method would only be part of the HMI and have no other SDL component integration, we think it is difficult for SDL component to realize this function. Therefore, we think it is better this function to include into the HMI Integration Guidelines and SDL Core Guides documentation.
+The alternative sorting method is user defined sort order. This sorting method would be a feature that some OEMs would want. However, since this specific sorting method would only be part of the HMI and have no other SDL component integration, we think it is difficult for SDL component to realize the user defined sort order function.
