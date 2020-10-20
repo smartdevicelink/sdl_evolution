@@ -61,7 +61,7 @@ app_list_sorting: {
 }
 ```
 
-By changing the parameters of  `appHMIType_sorting_list` and `priority` created by each OEM in the policy table, OEMs can display the SDL app icon according to each their own intended order.
+By changing the parameters of  `appHMIType_sorting_list` and `priority` created by each OEM in the policy table, OEMs can display the SDL app icon according to their own intended order.
 
 <b>2. Clarification of icon display sequence</b><br>
 Currently, there is no sequence provided that demonstrates how the icon is displayed. Figure 1 shows the sequence in which the process of this proposal is added to the existing sequence from the program code of SDL Core.
