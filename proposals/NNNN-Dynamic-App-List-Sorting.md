@@ -38,7 +38,7 @@ The dynamic app list sorting is performed according to the following procedures.
  4. The apps are registered to the SDL Core by using the `RegisterAppInterface`.
  5. The sorting order is performed according to the following procedures.
 	1. Prioritize the `priority` parameter of `application_policies` in the policy table.
-	2. Regarding to the apps that do not have a priority value in the `priority` parameter, they are prioritized according to the sorting methods which are set by the `sorting_pattern` of the `app_list_sorting` in the policy table.
+	2. Regarding the apps that do not have a priority value in the `priority` parameter, they are prioritized according to the sorting methods which are set by the `sorting_pattern` of the `app_list_sorting` in the policy table.
  6. The sorting list is sent to the HMI by using the `UpdateAppList`.
 
 ```json
