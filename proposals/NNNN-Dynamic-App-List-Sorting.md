@@ -74,7 +74,7 @@ Currently, there is no sequence provided that demonstrates how the icon is displ
 
 ## Potential downsides
 
-Since it is necessary to implement the large amount of modification due to implement multiple sorting methods, the developer must do the implementation carefully and also, it will take a long time.
+As there is a large modification required to implement multiple sorting methods, the developer must do the implementation carefully and also, it will take a long time.
 
 ## Impact on existing code
 
