@@ -82,4 +82,4 @@ The existing sorting process is left as it is. Furthermore, as processes/lists r
 
 ## Alternatives considered
 
-The alternative sorting method is user defined sort order. This sorting method would be a feature that some OEMs would want. However, since this specific sorting method would only be part of the HMI and have no other SDL component integration, we think it is difficult for SDL component to realize the user defined sort order function.
+The alternative sorting method is user-defined sort order. This sorting method would be a feature that some OEMs would want. However, since this specific sorting method would only be part of the HMI and have no other SDL component integration, we think it is difficult for SDL Core to contain the user-defined sort order function.
