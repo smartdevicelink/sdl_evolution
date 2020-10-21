@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0316](0316-Clarification-of-transport-switching-rules-and-improvement-of-UX.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [ Core / HMI ]
 
 ## Introduction
