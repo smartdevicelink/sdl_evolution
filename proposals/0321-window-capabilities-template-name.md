@@ -1,8 +1,8 @@
 # Add Current Template Name to Window Capabilities
 
-* Proposal: [SDL-NNNN](nnnn-window-capabilities-template-name.md)
+* Proposal: [SDL-0321](0321-window-capabilities-template-name.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / HMI / RPC]
 
 ## Introduction
