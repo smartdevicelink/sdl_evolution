@@ -6,7 +6,7 @@
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
 ## Introduction
-This proposal adds a remote control manager to the app libraries which manages everything related to the remote control systems on head units.
+This proposal adds a remote control manager to the app libraries which manages everything related to the remote control systems on head units and allows apps to more conveniently retrieve and set remote control data.
 
 ## Motivation
 The remote control system on head units is incredibly complicated and requires certain procedures to occur in order to properly control a head unit's remote control modules. Additionally, those requirements have changed over time when we added support for multiple modules of a given type, meaning that developers must go through different procedures depending on the RPC version of the head unit.
@@ -15,9 +15,11 @@ The remote control system on head units is incredibly complicated and requires c
 We will add a remote control manager to handle the various procedures and data retrieval that is possible.
 
 ### Startup
-If the app's HMI types contains `REMOTE_CONTROL`, then the remote control manager will be started, otherwise, it will not be started and all methods will return an immediate failure. If the RPC version of the connected head unit is less than 4.5 or if `RegisterAppInterface(Response).hmiCapabilities.remoteControl == false`, the manager will not be started and all methods will return an immediate failure.
+If the app's HMI types contains `REMOTE_CONTROL`, then the remote control manager will be started, otherwise, it will not be started and all methods will return an immediate failure. If the RPC version of the connected head unit is less than 4.5 or if `RegisterAppInterface(Response).hmiCapabilities.remoteControl == false`, the manager will not be started and all methods will return an immediate failure. 
 
-When the remote control manager is started, it will subscribe to `SystemCapabilityType.REMOTE_CONTROL` and `OnInteriorVehicleData` on RPC 4.5+, and `OnRCStatus` to track which modules are allocated to the application on RPC 5.0 and above.
+After the manager is started, if an `OnRCStatus` notification is received with `OnRCStatus.allowed == false`, methods will return a failure. If the RPC permissions for `GetInteriorVehicleData` are disallowed, methods will return a failure.
+
+When the remote control manager is started, it will subscribe to `SystemCapabilityType.REMOTE_CONTROL` and `OnInteriorVehicleData`, and also subscribe to `OnRCStatus` to track which modules are allocated to the application on RPC 5.0+.
 
 ### Seats and User Consent Information
 #### Getting Seat Location Information
@@ -53,11 +55,9 @@ When connected to v6.0+, developers may set the user's seat location, and it wil
 // TODO
 
 #### Getting User Consent
-On RPC 6.0+ systems, an app may be required to request access to a remote control module from the user, and it should only do when it actually needs that access. The developer will be able to request user consent manually for a module or modules whenever it makes sense within their app's flow.
+On RPC 6.0+ systems, an app may be required to request access to a remote control module from the user, but it should only do when it actually needs that access. The developer will be able to request user consent manually for a module or modules whenever it makes sense within their app's flow.
 
 In order to streamline this for developers, if the app is running on a RPC 6.0+ system and consent has not been manually requested for a given module (see below), this RPC will be sent and resolved before attempting to set the module data.
-
-`// TODO OnRCStatus`
 
 ##### iOS
 ```objc
@@ -71,7 +71,7 @@ typedef NS_ENUM (NSUInteger, SDLConsentStatus) {
 - (SDLConsentStatus)consentStatusForModule:(SDLModuleId *)moduleId;
 
 /// Request consent to control a module or modules from the SDL system and the user.
-- (void)requestConsentForModuleIds:(NSArray<SDLModuleId *> *)moduleIds;
+- (void)requestConsentForModuleIds:(NSArray<SDLModuleId *> *)moduleIds withCompletionHandler:(SDLRemoteControlCompletionHandler)completionHandler;
 ```
 
 ##### Java Suite
@@ -86,7 +86,7 @@ typedef NS_ENUM (NSUInteger, SDLConsentStatus) {
 ### Retrieving Module Data
 Retrieving module data is an important component of remote control modules. The first segment of retrieving module data is the ability to get cached data. This will work similarly to the current `SystemCapabilityManager` and the accepted proposal for a `VehicleDataManager` [SDL-0318](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0318-app-lib-vehicle-data-manager.md).
 
-#### Managing Module IDs
+#### Default Module IDs
 Module ids are an important feature of remote control since RPC v6.0 to allow for multiple modules of a given module type. Because the data type of a module id is a simple string, because a `null` module id refers to the default module (including on pre-6.0 systems), and because we will be storing module data in a hashmap using the module id as a key, we will provide a default string to refer to the default module id.
 
 ##### iOS
@@ -206,6 +206,9 @@ There will be a method on the `RemoteControlManager` to perform button presses:
 An important part of remote control is the control part. Remote control module data can be set by the SDL app.
 
 As explained above in the section "Getting User Consent", if the app is running on an RPC 6.0+ connection then consent should be requested before attempting to set any module data. If the developer has not manually requested consent for the module before attempting to set data, consent will be requested on behalf of the app developer before the data is attempted to be set.
+
+#### Managing Allocated Modules
+`// TODO: OnRCStatus`
 
 #### iOS
 ```objc
