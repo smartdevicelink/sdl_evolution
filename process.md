@@ -114,6 +114,11 @@ In general, actions taken on proposals should be limited to one per week.  Pleas
 ### For Consideration
 The SDL Community is a global community, and so it can be expected that comments will be made on review issues at various times.  For this reason, we do not have a "cutoff" time for leaving comments on review issues.  While this may sometimes result in a proposal needing to be kept in review an additional week to allow the author or commenter time to respond, we appreciate the understanding of the community to allow such global discussions to take place.
 
+- If a proposal is in review and comments have not been responded to by the author that were placed at least 3 full business days before the SDLC meeting, then the proposal will be deferred until the author has acknowledged that they have the time to respond to reviews for the next week.
+  - For example, the SDLC meeting is 6pm EDT on Tuesday. 3 full business days in U.S. time takes us back to 6pm EDT on Thursday. If comments were placed before then and were not responded to by the author, then the proposal will be deferred.
+  - If comments are placed after 6pm EDT on Thursday, the proposal would stay in review, however, if the author does not respond to those comments in that week of review, the proposal will then become deferred because more than 3 business days have passed.
+  - If the author is present on the SDLC meeting and confirms that they will respond to comments next week, the proposal may stay in review at the SDLC's discretion.
+
 ## Implementation Responsibility
 
 The general rule of thumb is that the author of an SDL Evolution proposal is the person or company who intends to contribute code for a feature. SDLC Member contributions should encompass all projects impacted by the feature (including documentation).

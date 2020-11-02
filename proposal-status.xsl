@@ -37,40 +37,45 @@ on the gh-pages branch).
       
         <!-- This needs to include both version and platform -->        
         
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL iOS v6.3</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='6.3']"/>
-        </xsl:call-template>
-        
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL iOS v6.4</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='6.4']"/>
-        </xsl:call-template>
-        
-        
+         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL iOS v6.6</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='6.6']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Java Suite v4.9</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.9']"/>
+          <xsl:with-param name="title">Implemented for SDL iOS v6.7</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='6.7']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Java Suite v4.10</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.10']"/>
+          <xsl:with-param name="title">Implemented for SDL iOS v7.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='7.0']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Java Suite v4.11</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.11']"/>
         </xsl:call-template>
+
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Java Suite v4.12</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.12']"/>
+        </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Core v5.1</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='5.1']"/>
+          <xsl:with-param name="title">Implemented for SDL Java Suite v5.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='5.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL JavaScript Suite v1.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='javascript'][@sdl-version='1.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL JavaScript Suite v1.2</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='javascript'][@sdl-version='1.2']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -84,8 +89,8 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL RPC Spec v5.0</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='rpc'][@sdl-version='5.0']"/>
+          <xsl:with-param name="title">Implemented for SDL Core v7.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='7.0']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -96,6 +101,11 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL RPC Spec v6.0</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='rpc'][@sdl-version='6.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL RPC Spec v7.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='rpc'][@sdl-version='7.0']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -116,6 +126,21 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for ATF v6.1</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='atf'][@sdl-version='6.1']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for ATF v7.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='atf'][@sdl-version='7.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SHAID v2.6</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='shaid'][@sdl-version='2.6']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for Manticore v2.6</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='manticore'][@sdl-version='2.6']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -349,8 +374,12 @@ on the gh-pages branch).
          background-color: #bac6d2; // SDL Grey
         color: #000;
       }
-        a.number.platform-dev-portal {
+        a.number.platform-manticore {
          background-color: #7ebc79; // SDL Lime
+      }
+        a.number.platform-shaid {
+         background-color: #58bcb9; // SDL Teal
+        color: #000;
       }
     </style>
   </xsl:template>

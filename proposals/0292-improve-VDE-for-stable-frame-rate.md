@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0292](0292-improve-VDE-for-stable-frame-rate.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **Returned for Revisions**
+* Status: **Accepted**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
@@ -17,7 +17,7 @@ A part of sdl_java_suite library utilizes `VirtualDisplay` and `MediaEncoder` to
 Actually, frame rate of video stream depends on how often `MediaCodec.Callback` gets called.
 The component structure is illustrated as follows:
 
-![virtualdisplay_unstable_rate](../assets/proposals/NNNN-improve-VDE-for-stable-frame-rate/vd_mc_unstable.png)
+![virtualdisplay_unstable_rate](../assets/proposals/0292-improve-VDE-for-stable-frame-rate/vd_mc_unstable.png)
 
 **Fig. 1: VirtualDisplay's surface produces unstable frame rate**
 
@@ -43,14 +43,33 @@ The approach is introduced at http://stackoverflow.com/questions/31527134/contro
 
 The idea is illustrated as follows:
   
-![virtualdisplay_w_intermediate_surface](../assets/proposals/NNNN-improve-VDE-for-stable-frame-rate/vd_w_intermediate_surface.png)
+![virtualdisplay_w_intermediate_surface](../assets/proposals/0292-improve-VDE-for-stable-frame-rate/vd_w_intermediate_surface.png)
 
 **Fig. 2: VirtualDisplay with intermediate Surface**
 
 ### Detailed design
 
+The proposed solution heavily depends on Android OpenGL ES components (classes under android.opengl namespace), which are composed of following classes:
+- android.opengl.EGLConfig
+- android.opengl.EGLContext
+- android.opengl.EGLDisplay
+- android.opengl.EGLSurface
+
+Actually an open source graphic library, called [Grafika](https://github.com/google/grafika) already implemented some useful wrapper classes that internally wrap some GLES classes, and the following wrapper classes in Grafika already did exactly what we want:
+- `EglCore` (com.android.grafika.gles.EglCore)
+- `OffscreenSurface` (com.android.grafika.gles.OffscreenSurface)
+- `WindowSurface` (com.android.grafika.gles.WindowSurface)
+- `FullFrameRect` (com.android.grafika.gles.FullFrameRect)
+
+Instead of having dependency on above Grafika classes, I tried to use those GLES classes directly.
+However, Grafika classes above are just thin wrappers of GLES classes, and because the basic idea is exactly the same as what some part of Grafika does, as a nature of open source policy, we should follow the Grafika's Apache License 2.0.
+
+It is exactly the philosophy of open source, and re-inventing a wheel does not make sense.
+
+Based on the concept above, the detailed design would be:
+
 1. Setup intermediate surface and surface texture.
-We need to add the following components, which includes some of [Grafika](https://github.com/google/grafika), into `VirtualDisplayEncoder` class.
+We need to add the following components into `VirtualDisplayEncoder` class.
 
 - `EglCore` (com.android.grafika.gles.EglCore)
 - `OffscreenSurface` (com.android.grafika.gles.OffscreenSurface)
@@ -148,16 +167,49 @@ The pseudo code of CaptureThread looks as follows:
  }
 ```
 
+4. Add `stableFrameRate` to `VideoStreamingParameters`
+
+Consistent frame rate should be beneficial for all head units. However, adding `stableFrameRate` flag to `VideoStreamingParameters` allows developers to turn on or off the capability.
+
+```java
+public class VideoStreamingParameters {
+    ...
+    private boolean stableFrameRate;
+
+    public VideoStreamingParameters(){
+        ...
+        stableFrameRate = true; // true by default
+    }
+
+    public VideoStreamingParameters(int displayDensity, int frameRate, int bitrate, int interval,
+                                    ImageResolution resolution, VideoStreamingFormat format, boolean stableFrameRate){
+        ...
+        this.stableFrameRate = stableFrameRate;
+    }
+
+    public void update(VideoStreamingParameters params){
+        ...
+        this.stableFrameRate = params.stableFrameRate;
+    }
+}
+```
+
+Please note that if head unit specified `preferredFPS` parameter, and if a developer turned off `stableFrameRate` flag, `MediaEncoder` will emit video frames very frequently, which will likely exceed the number of frames specified to `preferredFPS` partameter.
+
 ## Potential downsides
 
-No downside, as it will be implemented in Proxy, and there should be no performance overhead.
-One thing to note is that this proposal includes the usage of `Grafika` component, which is under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+In the previous review session, there were some concerns about the quality of the Grafika library. As mentioned in the "Detailed design" section already, what we need are some GLES wrapper classes, which are already implemented as a part of the Grafika library.
+
+We can add some Unit Tests for those wrapper classes to verify the code quality.
+The other thing to note is that `Grafika` component is under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 sdl_java_suite already uses some component under Apache License 2.0 (e.g. `JSON`), so adding another open source component won't cause any issues.
 
 ## Impact on existing code
 
 Because this approach does not change an existing API, and changes are inside of `VirtualDisplayEncoder` class, there's no impact to developers who use `VirtualDisplayEncoder`.
+
+Also note that a developer can explicitly turn off this feature by setting `VideoStreamingParameters.stableFrameRate` to false.
 
 This proposal should be combined with "Add preferred FPS to VideoStreamingCapability" proposal, so that we can respect the preferred FPS value, which is specified by head unit.
 
