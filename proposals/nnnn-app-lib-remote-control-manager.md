@@ -81,7 +81,32 @@ typedef NS_ENUM (NSUInteger, SDLConsentStatus) {
 `// TODO`
 
 ### Remote Control Capabilities
-`// TODO`
+The remote control capabilities are an important way to know which modules are available for setting / retrieving data. On RPC v4.5 - v5.0, the remote control capabilities will be retrieved after starting the manager using the `SystemCapabilityManager`. On RPC v5.1+, the capability will be subscribed.
+
+The capabilities give information about whether certain module data is available. This _will not_ be used to specify if the developer can request or attempt to set data. That mapping will not be done by the app library. This data will only be used for developer knowledge about making certain features available or unavailable in their app.
+
+These capabilities will be made publicly available:
+
+##### iOS
+```objc
+@property (strong, nonatomic, readonly, nullable) SDLClimateControlCapabilities *climateCapabilities;
+@property (strong, nonatomic, readonly, nullable) SDLRadioControlCapabilities *radioCapabilities;
+@property (strong, nonatomic, readonly, nullable) SDLButtonCapabilities *buttonCapabilities;
+@property (strong, nonatomic, readonly, nullable) SDLAudioControlCapabilities *audioCapabilities;
+@property (strong, nonatomic, readonly, nullable) SDLHMISettingsControlCapabilities *hmiSettingsCapabilities;
+@property (strong, nonatomic, readonly, nullable) SDLLightControlCapabilities *lightCapabilities;
+@property (strong, nonatomic, readonly, nullable) SDLSeatControlCapabilities *seatCapabilities;
+```
+
+##### Java Suite
+```java
+// TODO
+```
+
+##### JavaScript Suite
+```js
+// TODO
+```
 
 ### Retrieving Module Data
 Retrieving module data is an important component of remote control modules. The first segment of retrieving module data is the ability to get cached data. This will work similarly to the current `SystemCapabilityManager` and the accepted proposal for a `VehicleDataManager` [SDL-0318](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0318-app-lib-vehicle-data-manager.md).
@@ -203,14 +228,38 @@ There will be a method on the `RemoteControlManager` to perform button presses:
 ```
 
 ### Setting Module Data
-An important part of remote control is the control part. Remote control module data can be set by the SDL app.
+An important part of remote control is the "control" part. Remote control module data can be set by the SDL app to change things on the infotainment system such as climate control.
 
 As explained above in the section "Getting User Consent", if the app is running on an RPC 6.0+ connection then consent should be requested before attempting to set any module data. If the developer has not manually requested consent for the module before attempting to set data, consent will be requested on behalf of the app developer before the data is attempted to be set.
 
 #### Managing Allocated Modules
-`// TODO: OnRCStatus`
+Often, only one app will be allowed to change a module's data at a time, meaning that the app may or may not have the ability to change a module's data even if that module is available.
 
-#### iOS
+To determine if the app has the ability to set a module's data, the app should check the information retrieved by the `OnRCStatus` RPC notification. If the app has exclusive access to a module, that module will be in `OnRCStatus.allocatedModules`. If the app has access that is not exclusive (possibly "yet"), it will be in `OnRCStatus.freeModules`.
+
+The developer can still attempt to set data to a module that is not allocated or free. The library will not stop that from happening, however, the attempt will not succeed and the head unit will reject it.
+
+These will be converted into lists of module ids for the app developer like the following:
+
+##### iOS
+```objc
+@property (strong, nonatomic, readonly, nullable) NSArray<SDLModuleId> allocatedModuleIds;
+@property (strong, nonatomic, readonly, nullable) NSArray<SDLModuleId> freeModuleIds;
+```
+
+##### Java Suite
+```java
+// TODO
+```
+
+##### JavaScript Suite
+```js
+// TODO
+```
+
+#### Setting the Data
+
+##### iOS
 ```objc
 // TODO: Not sure about this
 
