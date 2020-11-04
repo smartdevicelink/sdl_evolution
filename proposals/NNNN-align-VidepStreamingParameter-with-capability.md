@@ -7,30 +7,31 @@
 
 ## Introduction
 
-When Android SDL application starts video streaming, developer can specify `VideoStreamingParameters`, but before actually starting the streaming, those parameters need to be aligned with `VideoStreamingCapability` returned by head units. 
-The same is true for iOS SDL application; i.e. developer can specify `customVideoEncoderSettings`,  but those settings need to be aligned with `VideoStreamingCapability`.
+When Android SDL application starts video streaming, a developer can specify `VideoStreamingParameters`, but before actually starting the streaming, those parameters need to be aligned with `VideoStreamingCapability` returned by head units.
+The same is true for iOS SDL application; i.e. a developer can specify `customVideoEncoderSettings`,  but those settings need to be aligned with `VideoStreamingCapability`.
 
 This proposal adresses possible conflicts between developer's settings and `VideoStreamingCapability` for iOS and Java Suite platforms.
 
 ## Motivation
 
-The issue is realized when implementing [SDL-0274](0274-add-preferred-FPS.md) for sdl_java_suite. In [SDL-0274](0274-add-preferred-FPS.md), "iOS mobile proxy changes" section states
+The issue is realized when implementing [SDL-0274](0274-add-preferred-FPS.md) for sdl_java_suite. In [SDL-0274](0274-add-preferred-FPS.md), "iOS mobile proxy changes" section states as follows:
 
 >Later part in the same method (didEnterStateVideoStreamStarting), current videoEncoderSettings are overwritten by customEncoderSettings.
 >
 >However, for frame rate, we should take lower value approach if frame rate in customEncoderSettings is higher than preferred FPS
 
-We should take the same approach, i.e. taking lower preferred FPS value for Java Suite too, but during the code review, we found that the same approach should be taken for other video streaming parameters as well. 
+We should take the same approach, i.e. taking lower preferred FPS value for Java Suite library too, but during the code review, we found that the same approach should be taken for some other parameters as well.
 
 This proposal addresses how developer's settings should be aligned with `VideoStreamingCapability`.
 
 ## Proposed solution
 
-As mentioned in Motivation section, we should take lower value approach for relevant video streaming settings if developer-specified value is higher than capability.
+As mentioned in Motivation section, we should take lower value approach for relevant video streaming settings if the value specified by developer is higher than capabilities' value.
 
 ### Detailed design for iOS library
 
-iOS library takes `customVideoEncoderSettings`, but values relevant to VideoStreamingCapability are `AverageBitRate` and `EpectedFrameRate`.
+iOS library takes `customVideoEncoderSettings`, but values relevant to VideoStreamingCapability are `AverageBitRate` and `ExpectedFrameRate`.
+
 Those values should be aligned as follows:
 
 SDLVideoStreamingCapability.m:
@@ -59,9 +60,9 @@ SDLVideoStreamingCapability.m:
 
 Java Suite library updates custom `VideoStreamingParameters` when `VideoStreamingCapability` is given by head unit. `VideoStreamingParameter#update` method does the job.
 
-For Resolution and Scle, the `update()` method already takes care of capability, and makes some adjustment when `vehicleMake` is specified, like below 
+For Resolution and Scale, the `update()` method already takes care of capability as well as making some adjustment when `vehicleMake` is specified, like below:
 
-VideoStreamingParameter.java
+VideoStreamingParameter.java (***no change seems to be needed for Resolution and Scale**)
 
 ```java
 public void update(VideoStreamingCapability capability, String vehicleMake) {
@@ -92,6 +93,8 @@ public void update(VideoStreamingCapability capability, String vehicleMake) {
 
 In the same method, however, bitrate and frame rate should take lower value approach, like below:
 
+VideoStreamingParameter.java (**need to be changed**)
+
 ```java
 public void update(VideoStreamingCapability capability, String vehicleMake) {
 	...
@@ -117,5 +120,5 @@ No impact on existing code, as there's no API change.
 
 ## Alternatives considered
 
-The proposed solution takes care of the cases when specified bitrate or frame rate exceeds the capability value. 
-I looked into other parameters (e.g. `VideoStreamingFormat`, `Interval`, `DisplayDensity`, etc), but aligning bitrate and frame rate should suffice for now.
+The proposed solution takes care of the cases where specified bitrate and/or frame rate exceeds the capability value.
+Other parameters (e.g. `VideoStreamingFormat`, `Interval`, `DisplayDensity`, etc) are considered, but aligning bitrate and frame rate should suffice for now.
