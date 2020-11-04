@@ -62,7 +62,7 @@ Java Suite library updates custom `VideoStreamingParameters` when `VideoStreamin
 
 For Resolution and Scale, the `update()` method already takes care of capability as well as making some adjustment when `vehicleMake` is specified, like below:
 
-VideoStreamingParameter.java (***no change seems to be needed for Resolution and Scale**)
+VideoStreamingParameter.java (**no change seems to be needed for Resolution and Scale**)
 
 ```java
 public void update(VideoStreamingCapability capability, String vehicleMake) {
@@ -93,7 +93,7 @@ public void update(VideoStreamingCapability capability, String vehicleMake) {
 
 In the same method, however, bitrate and frame rate should take lower value approach, like below:
 
-VideoStreamingParameter.java (**need to be changed**)
+VideoStreamingParameter.java (**code snippet that needs to be changed**)
 
 ```java
 public void update(VideoStreamingCapability capability, String vehicleMake) {
