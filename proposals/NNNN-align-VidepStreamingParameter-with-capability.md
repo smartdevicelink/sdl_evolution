@@ -16,11 +16,8 @@ This proposal adresses possible conflicts between developer's settings and `Vide
 
 The issue is realized when implementing [SDL-0274](0274-add-preferred-FPS.md) for sdl_java_suite. In [SDL-0274](0274-add-preferred-FPS.md), "iOS mobile proxy changes" section states
 
-```:0274-add-preferred-FPS.md
-Later part in the same method (didEnterStateVideoStreamStarting), current videoEncoderSettings are overwritten by customEncoderSettings.
-
-However, for frame rate, we should take lower value approach if frame rate in customEncoderSettings is higher than preferred FPS
-```
+>Later part in the same method (didEnterStateVideoStreamStarting), current videoEncoderSettings are overwritten by customEncoderSettings.
+>However, for frame rate, we should take lower value approach if frame rate in customEncoderSettings is higher than preferred FPS
 
 We should take the same approach, i.e. taking lower preferred FPS value for Java Suite too, but during the code review, we found that the same approach should be taken for other video streaming parameters as well. 
 
