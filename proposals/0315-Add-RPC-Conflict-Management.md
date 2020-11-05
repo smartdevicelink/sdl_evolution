@@ -3,10 +3,10 @@
 * Proposal: [SDL-0315](0315-Add-RPC-Conflict-Management.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
 * Status: **Returned for Revisions**
-* Impacted Platforms: [ Core / HMI ]
+* Impacted Platforms: [ Core / HMI / Policy Server ]
 
 ## Introduction
-This proposal is to add a function to SDL Core that manages concurrent RPC conflicts according to priority. This will allow OEMs to receive the expected request from SDL Core during RPC conflict by modifying the configuration file in which the priority is set.
+This proposal is to add a function to SDL Core that manages concurrent RPC conflicts according to priority. This will allow OEMs to receive the expected request from SDL Core during RPC conflict by modifying the configuration table in policy table in which the priority is set.
 
 
 ## Motivation
