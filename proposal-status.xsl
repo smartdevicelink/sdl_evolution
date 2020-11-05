@@ -109,13 +109,18 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Protocol Spec v5.0</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='protocol'][@sdl-version='5.0']"/>
+          <xsl:with-param name="title">Implemented for SDL Protocol Spec v5.1</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='protocol'][@sdl-version='5.1']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Protocol Spec v5.1</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='protocol'][@sdl-version='5.1']"/>
+          <xsl:with-param name="title">Implemented for SDL Protocol Spec v5.2</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='protocol'][@sdl-version='5.2']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Protocol Spec v5.3</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='protocol'][@sdl-version='5.3']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
