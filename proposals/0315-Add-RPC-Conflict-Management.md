@@ -33,7 +33,7 @@ The following tables described in InterruptManagerConfig in the Policy table are
 - `AppPriority` table
 - HMI status table
 
-The RPC priority is overridden as the order below. Priority order will shift from 1 to 2, from 2 to 3 and from 3 to 4, if the RPCs are same priority.
+The RPC priority will be determined by the order below. Priority order will shift from 1 to 2, from 2 to 3 and from 3 to 4, if the RPCs are same priority.
 
 1. Apps with app priority EMERGENCY.
 2. RPC Priority
