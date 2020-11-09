@@ -175,7 +175,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL RPC Spec: 7.1.0
 **Expected Release Date**: April 14, 2021
 
-**Contents**: Contents of this release can be tracked on the [RPC Spec 7.0.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/6).
+**Contents**: Contents of this release can be tracked on the [RPC Spec 7.1.0 Project Page](https://github.com/smartdevicelink/rpc_spec/projects/6).
 
 ---
 
@@ -203,7 +203,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL Policy Server: 2.11.0
 **Expected Release Date**: April 14, 2021
 
-**Contents**: Contents of this release can be tracked on the [Policy Server 2.10.0 Project Page](https://github.com/smartdevicelink/sdl_server/projects/4).
+**Contents**: Contents of this release can be tracked on the [Policy Server 2.11.0 Project Page](https://github.com/smartdevicelink/sdl_server/projects/4).
 
 
 ---
