@@ -112,11 +112,11 @@ public void update(VideoStreamingCapability capability, String vehicleMake) {
 
 ## Potential downsides
 
-It should NOT be downside by aligning bitrate and frame rate with `VideoStreamingCapability`, but bitrate and frame rate might be changed to lower values dependening on the values of  `VideoStreamingCapability`.
+It should NOT be a downside by aligning bitrate and frame rate with `VideoStreamingCapability`, but bitrate and frame rate might be changed to lower values depending on the values of  `VideoStreamingCapability`.
 
 ## Impact on existing code
 
-As mentioned in the previous section, bitrate and frame rate might be changed to lower values dependending on the values of `VideoStreamingCapability`.
+As mentioned in the previous section, bitrate and frame rate might be changed to lower values depending on the values of `VideoStreamingCapability`.
 
 ## Alternatives considered
 
