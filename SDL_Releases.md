@@ -92,7 +92,7 @@ The Project Maintainer will perform reviews on all contributions to ensure they 
 
 ### Ready for Review
 
-Once the prerequesites for SDLC Member Contributions are met, and the pull request(s) has/have been submitted, the author or SDLC member contributing the code can tag `@theresalech` asking for the Project Maintainer to review.
+Once the prerequesites for SDLC Member Contributions are met, and the pull request(s) has/have been submitted, the author or SDLC member contributing the code can tag `@jordynmackool` asking for the Project Maintainer to review.
 
 After the review request has been made, __no changes should be submitted to a pull request until the review round is over.__
 
