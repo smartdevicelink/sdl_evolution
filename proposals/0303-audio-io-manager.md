@@ -13,6 +13,8 @@ This proposal is about integrating a new manager to the sdl_ios library that all
 
 For mobile navigation apps, supporting voice-based address search while driving is an important feature. In the effort to support SDL partners, Ford worked together with a nav app partner to develop a feature for audio input and output. The goal was to use `AudioPassThru` RPCs to receive audio from the car microphone and to use the audio service from the SDL protocol specification to play audio.
 
+SDL does not include requirements to head units to support `PerformAudioPassThru` and audio services to run at the same time. We can't expect and we cannot guarantee that all SDL enabled head units will support both to work at the same time. The current SDL libraries don't prevent an app from executing both. Therefore receiving audio data with `PerformAudioPassThru` and sending audio data with the audio Service must be synchronized.
+
 The feature was originally located in the app as it was a joint development specifically for the app. Due to the substantial use of SDL it required quite some experience with SDL to maintain this code. Moving forward the partner requested to maintain it externally. The feature was refactored as an SDL manager and should now be part of the open source sdl_ios repository. 
 
 ## Proposed solution
