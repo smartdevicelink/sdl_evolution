@@ -1,0 +1,42 @@
+@startuml
+title InputStream State Machine
+
+state Stopped : Cancel any Abort timer
+state Starting : 1. Sending PerformAudioPassThru\n2. Starting Abort timer (2s)
+state Started : Reinitiate Abort timer (2s)
+state Pausing : 1. Sending EndAudioPassThru\n2. Starting Abort timer (2s)
+state Paused : Intermediate state while\naudio data is written\nto output stream. 
+state Stopping : 1. Sending EndAudioPassThru\n2. Starting Abort timer (2s)
+state Aborting : Sending fake PerformAudioPassThru\nResponse
+state StoppedChoice <<choice>>
+state AbortingMerge <<choice>>
+state PausingMerge <<choice>>
+state StoppingMerge <<choice>>
+
+[*] --> Stopped : Init I/O manager
+Stopped --> StoppedChoice : App calls\nstartInputStream
+StoppedChoice --> Starting : Output stream\nis stopped?
+StoppedChoice --> Paused : Output stream\nis not stopped?
+Starting --> Started : Received first\nOnAudioPassThru
+Starting --> AbortingMerge
+Started --> Started : Received subsequent\nOnAudioPassThru
+Started --> AbortingMerge
+
+Paused --> Stopped : App calls\nstopInputStream
+Started --> StoppingMerge
+Starting --> StoppingMerge
+StoppingMerge --> Stopping : App calls\nstopInputStream
+
+Stopping --> AbortingMerge
+AbortingMerge --> Aborting : Abort timer\ntriggered
+Stopping --> Stopped : PerformAudioPassThru\nResponse received
+Aborting --> Stopped : PerformAudioPassThru\nResponse received
+
+Starting --> PausingMerge
+Started --> PausingMerge
+PausingMerge --> Pausing : App writes audio\nto output stream
+Pausing --> AbortingMerge
+Pausing -up-> Paused : PerformAudioPassThru\nreceived
+Paused --> Starting : All audio data\nfinished playing
+
+@enduml
