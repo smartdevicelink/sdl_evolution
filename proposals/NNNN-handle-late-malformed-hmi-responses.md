@@ -1,4 +1,4 @@
-# Feature name
+# Handle Late Malformed HMI Responses
 
 * Proposal: [SDL-NNNN](NNNN-handle-late-malformed-hmi-responses.md)
 * Author: [SDL Developer](https://github.com/smartdevicelink)
