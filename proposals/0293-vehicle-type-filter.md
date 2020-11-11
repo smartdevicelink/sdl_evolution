@@ -3,11 +3,11 @@
 * Proposal: [SDL-0293](0293-vehicle-type-filter.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
 * Status: **Returned for Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite / Protocol / JavaScript Suite]
+* Impacted Platforms: [Core / iOS / Java Suite / Protocol / JavaScript Suite / Web-HMI]
 
 ## Introduction
 
-This feature will enable SDL adopters to provide exclusive apps to their users depending on vehicle type. The proposal describes a way to share vehicle type information before sending the Register App Interface request.
+This feature will enable SDL adopters to provide exclusive apps to their users depending on vehicle type. The proposal describes a way to share vehicle type information before sending the Register App Interface request. This proposal is not applicable to Android Apps registered using AOA.
 
 ## Motivation
 
@@ -45,7 +45,7 @@ This proposal tries to address the router service notification issue by defining
 
 ## Proposed solution
 
-The proposed solution is to share vehicle type information with the SDL application before sending the `RegisterAppInterface` RPC. This method will require the protocol layer change. The vehicle type information can be shared using `StartServiceACK` protocol message. On receiving vehicle type info, the app can determine if it's connected to supported SDL system or not. If the vehicle type is unsupported, the app will not register on SDL enabled IVI system. The below sections will describe additional information exchange in the protocol layer and changes in the Java Suite and iOS app libraries. 
+The proposed solution is to share vehicle type information with the SDL application before sending the `RegisterAppInterface` RPC. This method will require the protocol layer change. The vehicle type information can be shared using `StartServiceACK` protocol message. On receiving vehicle type info, the app can determine if it's connected to supported SDL system or not. If the vehicle type is unsupported, the app will not register on SDL enabled IVI system. The below sections will describe additional information exchange in the protocol layer and changes in the Javascript suite, Java Suite and iOS app libraries. 
 
 <img src="../assets/proposals/0293-vehicle-type-filter/sequence_diagram.png" alt="Sequence Diagram"/>
 
@@ -66,6 +66,69 @@ The BSON payload of this message will have the following info.
 |trim|String| Vehicle trim |
 |systemSoftwareVersion|String| Vehicle system software version |
 |systemHardwareVersion|String| Vehicle system hardware version |
+
+### HMI Changes
+
+The HMI would need to share system hardware information with SDL Core. This information will be shared using `GetSystemInfo` response, by adding a new response parameter. 
+
+```xml
+  <function name="GetSystemInfo" messagetype="response">
+    <param name="hw_version" type="String" maxlength="500" mandatory="true">
+      <description>System Hardware version of the module</description>
+    </param>
+    .
+    .
+  </function>
+```
+### iOS App, JavaScript Suite and Java Suite Library Changes
+
+The libraries will need to implement the above-mentioned protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer.
+
+#### Determining Vehicle Type Info
+
+1. The app library will receive vehicle type info in `StartServiceAck` protocol message. If the vehicle type information is not available in `StartServiceAck` protocol message, the vehicle type information from  `RegisterAppInterface` response will be used.
+2. On receiving vehicle type information, the libraries will use below callback function to notify application layer.
+
+In JavaScript Suite:
+```javascript
+     /**
+     * A way to determine if this SDL session should continue to be active while
+     * connected to the determined vehicle type.
+     * @param {SdlManager} sdlManager - A reference to an SdlManager instance.
+     * @param {VehicleType} vehicleType - the type of vehicle that this session is currently active on.
+     * @returns {Boolean} Return true if this session should continue, false if the session should end
+     */
+    onVehicleTypeReceived (sdlManager, vehicleType) {}
+```
+
+In iOS App Library:
+```objective-c
+     /**
+     * A way to determine if this SDL session should continue to be active while
+     * connected to the determined vehicle type.
+     * @param {SDLVehicleType} vehicleType - the type of vehicle that this session is currently active on.
+     * @returns {BOOL}Return true if this session should continue, false if the session should end
+     */
+    - (BOOL)didReceiveVehicleType:(SDLVehicleType *)vehicleType;
+```
+
+In Java SE and Java EE Library:
+```java
+     /**
+     * A way to determine if this SDL session should continue to be active while
+     * connected to the determined vehicle type.
+     * @param {VehicleType} vehicleType - the type of vehicle that this session is currently active on.
+     * @returns {boolean}Return true if this session should continue, false if the session should end
+     */
+    boolean onVehicleTypeReceived(VehicleType vehicleType);
+```
+
+3. If the vehicle type is supported, the app should return **true** from the callback function. 
+4. If the vehicle type is not supported and the app does not wish to proceed with connection, the app should return **false** from the callback function. 
+5. The SDL libraries should continue with session on receiving **true** from the callback function.
+6. The SDL libraries should immediately terminate connection on receiving **false** from the callback function.
+7. If the `StartServiceACK` protocol message doesn’t have the vehicle data, this above methods will be called, when the RegisterAppInterfaceResponse comes in. If the developer responds with false, the library will send an `UnregisterAppInterface` request.
+8. The callback function will notifiy application layer only once when vehicle type info is available. If the function is called after `StartServiceACK` protocol message is received, it will not be called second time on receiving `RegisterAppInterface` response.
 
 ### Android App Library Changes
 
@@ -150,9 +213,9 @@ The Android app library will need to implement the above protocol changes. In ad
 
 1. In the current implementation, all SDL apps need to start version negotiations and register themselves on the SDL enabled system. This proposal recommends starting the RPC service by the SDL Device Listener to get vehicle type information from an SDL enabled IVI system before notifying clients about an SDL connection.
 2. The app library determines the appropriate router service to deploy based on vehicle type information received in the `StartServiceACK` protocol message. The app library will check the metadata of the supported vehicle type list to determine the router service to deploy. The deployed router service will also receive vehicle type information. Once the Android Router Service is started, it will notify the client and provide vehicle type information. 
-3. It is necessary to check support for the `StartServiceACK` protocol message and vehicle type info before notifying the client with SDL enabled callback. If clients are informed before checking the mentioned info, the exclusive apps could end up registering on an unintended SDL enabled IVI system. 
-4. If the `StartServiceACK` message does not have vehicle type info or the protocol version is less than that supporting the vehicle type info and if there are multiple SDL apps available on the user's device, the exclusive apps will not host the router service.
-5. If the `StartServiceACK` message does not have vehicle type info or the protocol version is less than that supporting the vehicle type info and if all SDL apps available on the user's device are exclusive apps, the exclusive apps, in this case, will rely on vehicle type info received in the `RegisterAppInterface` response. In such a case, if vehicle type is not supported, the exclusive apps will be allowed to unregister apps from the SDL system and stop the Android Router Service. The exclusive app will be only allowed to stop the Android Router Service that it hosts.
+3. The app developer will be responsible for checking in the `onSDLEnabled` method against supported vehicle models before starting their SDL service. The router service will still notify all potential clients that the an SDL device has connected and supply the vehicle info for those potential client apps to decide if they wish to start their SDL services.
+4. If the `StartServiceACK` message does not contain vehicle info, the protocol version is less than that of the support of this feature, and no vehicle data is saved regarding this connected device, the normal flow will be followed. However, after the session, once vehicle data is cached from the RAI response, it should be used in determining which app should start the router service.
+5. If the `StartServiceACK` message does not have vehicle type info or the protocol version is less than that supporting the vehicle type info and if all SDL apps available on the user's device are exclusive apps, the exclusive apps, in this case, will rely on vehicle type info received in the `RegisterAppInterface` response. In such a case, if vehicle type is not supported, the exclusive apps will unregister itself from the SDL system. The exclusive app will keep the Android Router Service running so that client apps can continue to function. On the second connection the vehicle info should be saved from the RAI response and can follow the previously defined flows.
 
 The below flow is modified from the [SDL 0301 proposal](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0301-SDL-device-listener.md). Starting Section A and Section C, we would like to extend the scope of SDL Listener.
 
@@ -253,8 +316,7 @@ Changes in TransportConstants
 
 ```java
 public class TransportConstants {
-	public static final String CONNECTED_VEHICLE_INFO                                   = "connected_vehicle_info_for_router_service";
-	public static final String START_ROUTER_SERVICE_SDL_ENABLED_CONNECTED_VEHICLE_INFO  = "connected_vehicle_info";
+    public static final String VEHICLE_INFO = "vehicle_info";
     .
     .
     .
@@ -319,7 +381,7 @@ public void onTransportConnected(final TransportRecord record){
 		Intent startService = new Intent();  
 		startService.setAction(TransportConstants.START_ROUTER_SERVICE_ACTION);
 
-        startService.putExtra(TransportConstants.START_ROUTER_SERVICE_SDL_ENABLED_CONNECTED_VEHICLE_INFO , vehicleType);
+        startService.putExtra(TransportConstants.VEHICLE_INFO , vehicleType);
         .
         .
         AndroidTools.sendExplicitBroadcast(getApplicationContext(),startService, null);
@@ -352,117 +414,6 @@ public class SdlReceiver  extends SdlBroadcastReceiver {
     .
 }
 ```
-
-### iOS App Library Changes
-
-The iOS app library will need to implement the above-mentioned protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer.
-
-
-#### Defining supported vehicle type in Info.plist
-
-1. The supported vehicle list can be defined in Info.plist as below. All the attributes in this list are optional, however, if the app includes `SDLSupportedVehicleTypes` in Info.plist, at least one array element with one key-value in the dictionary should be defined.
-2. If an app defines an `SDLSupportedVehicleTypes` key, then it should always have a `make` key-value pair in the dictionary. All other attributes are optional if `make` is defined. However, if the app developers want to use `model year` or `trim`, they should define `make` and `model` key-value pairs as well. The iOS app library will check only the defined attributes.
-The below example shows valid vehicle type filters.
-
-```xml
-<key>SDLSupportedVehicleTypes</key>
-    <array>
-        <dict>
-            <key>make</key>
-            <string>Ford</string>
-            <key>model</key>
-            <string>Mustang</string>
-            <key>modelYear</key>
-            <string>2019</string>
-            <key>trim</key>
-            <string>GT</string>
-        </dict>
-        <dict>
-            <key>make</key>
-            <string>OEM1</string>
-            <key>model</key>
-            <string>OEM model</string>
-            <key>modelYear</key>
-            <string>2019</string>
-            <key>trim</key>
-            <string>trim info</string>
-        </dict>
-    </array>
-```
-```xml
-<key>SDLSupportedVehicleTypes</key>
-    <array>
-        <dict>
-            <key>make</key>
-            <string>Ford</string>
-            <key>model</key>
-            <string>Mustang</string>
-        </dict>
-    </array>
-```
-```xml
-<key>SDLSupportedVehicleTypes</key>
-    <array>
-        <dict>
-            <key>make</key>
-            <string>Ford</string>
-            <key>model</key>
-            <string>Mustang</string>
-            <key>modelYear</key>
-            <string>2019</string>
-        </dict>
-        <dict>
-            <key>make</key>
-            <string>OEM1</string>
-            <key>model</key>
-            <string>OEM model</string>
-            <key>modelYear</key>
-            <string>2019</string>
-        </dict>
-    </array>
-```
-
-```xml
-<key>SDLSupportedVehicleTypes</key>
-    <array>
-        <dict>
-            <key>make</key>
-            <string>Ford</string>
-            <key>model</key>
-            <string>Mustang</string>
-            <key>trim</key>
-            <string>GT</string>
-        </dict>
-        <dict>
-            <key>make</key>
-            <string>OEM1</string>
-            <key>model</key>
-            <string>OEM model</string>
-            <key>trim</key>
-            <string>trim info</string>
-        </dict>
-    </array>
-```
-```xml
-<key>SDLSupportedVehicleTypes</key>
-    <array>
-        <dict>
-            <key>make</key>
-            <string>Ford</string>
-        </dict>
-        <dict>
-            <key>make</key>
-            <string>OEM1</string>
-        </dict>
-    </array>
-```
-#### Determining Vehicle Type Info
-
-1. The app library will receive vehicle type info in `StartServiceAck` protocol message. 
-2. On receiving vehicle type information, the app library will check `SDLSupportedVehicleTypes` keys to check supported vehicle types.
-3. If the vehicle type is supported, the app library should also notify the app about the connected vehicle type so that the app can configure SDL as required. 
-4. If the app library determines that connected vehicle type is not supported, the app library will end the RPC session. The application will not register on the SDL enabled IVI system.
-5. If the vehicle type information is not available in `StartServiceAck` protocol message or the protocol version is less than that supporting the vehicle type info, the SDL app library will continue with the app registration and it will rely on vehicle type information received in the `RegisterAppInterface` response. If vehicle type is not supported, the exclusive apps will be allowed to unregister from the SDL enabled system.
 
 ## Potential downsides
 
