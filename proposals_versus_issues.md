@@ -35,5 +35,6 @@ When submitting an Evolution Proposal, please follow the guidelines and template
 
 When entering an issue, please note any contribution guidelines and/or issue templates specified for the respective repository:
 - [iOS Issue Template](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/ISSUE_TEMPLATE.md)
-- [Core Contribution Guidelines](https://github.com/smartdevicelink/sdl_core/blob/master/CONTRIBUTING.md)
-- [Android Contribution Guidelines](https://github.com/smartdevicelink/sdl_android/blob/develop/CONTRIBUTING.md)
+- [Core Contribution Guidelines](https://github.com/smartdevicelink/sdl_core/blob/master/.github/CONTRIBUTING.md)
+- [Java Suite Contribution Guidelines](https://github.com/smartdevicelink/sdl_java_suite/blob/master/.github/CONTRIBUTING.md)
+- [JavaScript Suite Contribution Guidelines](https://github.com/smartdevicelink/sdl_javascript_suite/blob/develop/.github/CONTRIBUTING.md)

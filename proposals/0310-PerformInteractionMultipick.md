@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-0310](0310-PerformInteractionMultipick.md)
 * Author: [Michael Crimando](https://github.com/MichaelCrimando)
-* Status: **Returned for Revisions**
+* Status: **Withdrawn**
 * Impacted Platforms: [HMI / Core / iOS / Java Suite / JavaScript / RPC ]
 
 ## Introduction

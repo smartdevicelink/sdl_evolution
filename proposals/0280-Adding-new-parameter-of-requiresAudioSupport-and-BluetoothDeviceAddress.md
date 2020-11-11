@@ -2,8 +2,8 @@
 
 * Proposal: [SDL-0280](0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md)
 * Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto), [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Returned for Revisions**
-* Impacted Platforms: [ Core / iOS / Java Suite / RPC / Protocol / HMI ]
+* Status: **Accepted with Revisions**
+* Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / RPC / Protocol / HMI ]
 
 ## Introduction
 
@@ -20,12 +20,15 @@ To solve this problem, add `bluetoothDeviceAddress` and `requiresAudioSupport` s
 The current SDL Java Suite library cancels the transport connection if the `requiresAudioSupport` setting is TRUE and BT A2DP is not connected.
 However, with this proposal, by adding a new parameter, the SDL app always establishes the transport connection and is registered without depending on the connection status of BT A2DP. If BT A2DP is not connected, the HU will automatically connect BT using `bluetoothDeviceAddress` or request connection from the user.
 
+Note: In the case of other platforms (such as iOS and JavaScript Suite), the system can output the audio via USB. Therefore, iOS and JavaScript Suite can omit the `requiresAudioSupport` parameter.
+
 ### Change the app registration flow
 
 In order for the app to be always registered, the changes in SDL session establishment to app registration flow are shown below.
+This flow is only for Android devices.
 If the SDL app or HU cannot use this function, it will perform the same operation as before.
 
-![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow1.png)
+![registeringApp_flow](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow.png)
 
 1. The developer will set their `requiresAudioSupport` to true.
 2. The library will send a `StartService` for the RPC service with a new param in the payload, `requiresAudioSupport`.
@@ -39,7 +42,7 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
 5. The app receives the response to its `StartService` for the RPC service:
 
     1. If the response was a `StartServiceNAK` the app will shut down.
-    2. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, but the protocol version of the ACK is less than the major version of this feature, the app will shut down.
+    2. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, but the protocol version of the ACK is less than the major version of this feature, the app will check if audio support is available using the `MediaStreamingStatus` class. If it is available it will continue, if not it will shut down.
     3. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal to or greater than the major version of this feature, and the `autoBTCapability` flag is set to false, the app will check if audio support is available using the `MediaStreamingStatus` class. If it is available it will continue, if not it will shut down.
     4. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal to or greater than the major version of this feature, and the `autoBTCapability` flag is set to true, the app will continue.
 
@@ -90,7 +93,7 @@ HMI API:
 - RegisterAppInterface
 - OnAppRegistered
 
-Add `bluetoothDeviceAddress` to`DeviceInfo`. Add `requiresAudioSupport` to`HMIApplication`.
+Add `bluetoothDeviceAddress` to`DeviceInfo`. Add `requiresAudioSupport` to`HMIApplication`. Add `BluetoothInfo` to`OnDeviceStateChanged`.
 
 Mobile API:
 ```xml
@@ -122,6 +125,13 @@ Mobile API:
 
 HMI API:
 ```xml
+  <function name="OnDeviceStateChanged" messagetype="notification" scope="internal">
+      <param name="deviceState" type="Common.DeviceState" mandatory="true" />
+      <param name="deviceInternalId" type="String" mandatory="true" minlength="0" maxlength="500" />
+      <param name="deviceId" type="Common.DeviceInfo" mandatory="false"/>
++     <param name="bluetoothInfo" type="Common.BluetoothInfo" mandatory="false"/>
+  </function>
+  ...
   <struct name="DeviceInfo">
       <param name="name" type="String" mandatory="true">
           <description>The name of the device connected.</description>
@@ -151,17 +161,32 @@ HMI API:
 +         <description>Set whether or not this app requires the use of an audio streaming output device.</description>
 +     </param>
   </struct>
+  ...
++ <struct name="BluetoothInfo">
++     <param name="bluetoothDeviceAddress" type="String" mandatory="false">
++         <description>Device BT Address</description>
++     </param>
++     <param name="a2dpConnectionState" type="Boolean" mandatory="false">
++         <description>Notify the state of A2DP connection. 'true' - Connected at BT A2DP; 'false' - Connected at BT</description>
++     </param>
++ </struct>
+  ...
+  <enum name="DeviceState">
+      <element name="UNKNOWN"/>
+      <element name="UNPAIRED"/>
++     <element name="PAIRED"/>
+  </enum>
 ```
 
 ### MediaStreamingStatus class
 
 If the Java Suite library supports the newer version of the protocol specification, but the IVI system is using a lower version, the app will still need to use the `MediaStreamingStatus` class before attempting to register.
-By using the value of `isAudioOutputAvailable()` method on `MediaStreamingStatus` class, the Java Suite library can make a decision whether BT A2DP is connected like below:
+By using the value of `isAudioOutputAvailable()` method, which is one of the methods of the `MediaStreamingStatus` class that actually checks for multiple Audio Output options, the Java Suite library can make a decision whether BT A2DP is connected like below:
 
 - True : BT A2DP is connected.
 - False : BT A2DP is NOT connected.
 
-With the changes of the flow, it is necessary to do refactoring of the Java Suite library to move the logic of the `MediaStreamingStatus` class from the preprocessing of the `StartService` to the preprocessing of the `RegisterAppInterface`.
+With the changes of the flow, it is necessary to do refactoring of the Java Suite library to move the logic of the `MediaStreamingStatus` class to the post-processing of StartService ACK or NAK.
 
 ### Launch the app
 
@@ -177,7 +202,8 @@ Due to the complexity of the flow, the developer must do the implementation care
 ## Impact on existing code
 
 This proposal requires a major version change.
-Since new parameters are added, Core, iOS, Java Suite, RPC, Protocol, and HMI are affected.
+Since new parameters are added, Core, iOS, Java Suite, JavaScript Suite, RPC, Protocol, and HMI are affected.
+Since there are not any public code changes listed in this proposal, the SDLC Project Maintainer will have discretion over implementation details, including changes to classes that are not accessible to developers, especially given changes to Java Suite library in 5.0 release.
 
 ## Alternatives considered
 
