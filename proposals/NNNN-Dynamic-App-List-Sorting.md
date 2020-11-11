@@ -74,7 +74,7 @@ Currently, there is no sequence provided that demonstrates how the icon is displ
 
 ## Potential downsides
 
-As there is a large modification required to implement multiple sorting methods, the developer must do the implementation carefully and it will take a long time. Also, it may need to remove the sorting function from the HMI.
+As there is a large modification required to implement multiple sorting methods, the developer must do the implementation carefully and it will take a long time. Also, the system may need to remove the sorting function from the HMI.
 
 ## Impact on existing code
 
