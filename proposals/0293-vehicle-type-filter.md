@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This feature will enable SDL adopters to provide exclusive apps to their users depending on vehicle type. The proposal describes a way to share vehicle type information before sending the Register App Interface request. This proposal is not applicable to Android Apps registered using AOA.
+This feature will enable SDL adopters to provide exclusive apps to their users depending on vehicle type. The proposal describes a way to share vehicle type information before sending the Register App Interface request. 
 
 ## Motivation
 
@@ -132,7 +132,7 @@ In Java SE and Java EE Library:
 
 ### Android App Library Changes
 
-The Android app library will need to implement the above protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer.
+The Android app library will need to implement the above protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer. This proposal is not applicable to Android Apps registered using AOA.
 
 #### Defining resource file for supported vehicle type
 
