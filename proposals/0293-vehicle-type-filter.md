@@ -45,7 +45,7 @@ This proposal tries to address the router service notification issue by defining
 
 ## Proposed solution
 
-The proposed solution is to share vehicle type information with the SDL application before sending the `RegisterAppInterface` RPC. This method will require the protocol layer change. The vehicle type information can be shared using `StartServiceACK` protocol message. On receiving vehicle type info, the app can determine if it's connected to supported SDL system or not. If the vehicle type is unsupported, the app will not register on SDL enabled IVI system. The below sections will describe additional information exchange in the protocol layer and changes in the Javascript suite, Java Suite and iOS app libraries. 
+The proposed solution is to share vehicle type information with the SDL application before sending the `RegisterAppInterface` RPC. This method will require the protocol layer change. The vehicle type information can be shared using `StartServiceACK` protocol message. On receiving vehicle type info, the app can determine if it's connected to supported SDL system or not. If the vehicle type is unsupported, the app will not register on SDL enabled IVI system. The below sections will describe additional information exchange in the protocol layer and changes in the JavaScript Suite, Java Suite, and iOS app libraries. 
 
 <img src="../assets/proposals/0293-vehicle-type-filter/sequence_diagram.png" alt="Sequence Diagram"/>
 
@@ -80,7 +80,7 @@ The HMI would need to share system hardware information with SDL Core. This info
     .
   </function>
 ```
-### iOS App, JavaScript Suite and Java Suite Library Changes
+### iOS, JavaScript Suite, and Java Suite App Library Changes
 
 The libraries will need to implement the above-mentioned protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer.
 
@@ -89,7 +89,7 @@ The libraries will need to implement the above-mentioned protocol changes. In ad
 1. The app library will receive vehicle type info in `StartServiceAck` protocol message. If the vehicle type information is not available in `StartServiceAck` protocol message, the vehicle type information from  `RegisterAppInterface` response will be used.
 2. On receiving vehicle type information, the libraries will use below callback function to notify application layer.
 
-In JavaScript Suite:
+In JavaScript Suite App Library:
 ```javascript
      /**
      * A way to determine if this SDL session should continue to be active while
@@ -112,7 +112,7 @@ In iOS App Library:
     - (BOOL)didReceiveVehicleType:(SDLVehicleType *)vehicleType;
 ```
 
-In Java SE and Java EE Library:
+In Java SE and Java EE App Libraries:
 ```java
      /**
      * A way to determine if this SDL session should continue to be active while
@@ -120,7 +120,7 @@ In Java SE and Java EE Library:
      * @param {VehicleType} vehicleType - the type of vehicle that this session is currently active on.
      * @returns {boolean}Return true if this session should continue, false if the session should end
      */
-    boolean onVehicleTypeReceived(VehicleType vehicleType);
+    boolean onVehicleTypeReceived(VehicleType type);
 ```
 
 3. If the vehicle type is supported, the app should return **true** from the callback function. 
@@ -130,7 +130,7 @@ In Java SE and Java EE Library:
 7. If the `StartServiceACK` protocol message doesn’t have the vehicle data, this above methods will be called, when the RegisterAppInterfaceResponse comes in. If the developer responds with false, the library will send an `UnregisterAppInterface` request.
 8. The callback function will notifiy application layer only once when vehicle type info is available. If the function is called after `StartServiceACK` protocol message is received, it will not be called second time on receiving `RegisterAppInterface` response.
 
-### Android App Library Changes
+#### Android App Library Changes
 
 The Android app library will need to implement the above protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer. This proposal is not applicable to Android Apps registered using AOA.
 
