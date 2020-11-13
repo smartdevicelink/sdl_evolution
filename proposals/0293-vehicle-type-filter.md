@@ -3,7 +3,7 @@
 * Proposal: [SDL-0293](0293-vehicle-type-filter.md)
 * Author: [Ashwin Karemore](https://github.com/ashwink11)
 * Status: **Returned for Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite / Protocol / JavaScript Suite / Web-HMI]
+* Impacted Platforms: [Core / iOS / Java Suite / Protocol / JavaScript Suite]
 
 ## Introduction
 
@@ -67,27 +67,15 @@ The BSON payload of this message will have the following info.
 |systemSoftwareVersion|String| Vehicle system software version |
 |systemHardwareVersion|String| Vehicle system hardware version |
 
-### HMI Changes
-
-The HMI would need to share system hardware information with SDL Core. This information will be shared using `GetSystemInfo` response, by adding a new response parameter. 
-
-```xml
-  <function name="GetSystemInfo" messagetype="response">
-    <param name="hw_version" type="String" maxlength="500" mandatory="true">
-      <description>System Hardware version of the module</description>
-    </param>
-    .
-    .
-  </function>
-```
 ### iOS, JavaScript Suite, and Java Suite App Library Changes
 
 The libraries will need to implement the above-mentioned protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer.
 
 #### Determining Vehicle Type Info
 
-1. The app library will receive vehicle type info in `StartServiceAck` protocol message. If the vehicle type information is not available in `StartServiceAck` protocol message, the vehicle type information from  `RegisterAppInterface` response will be used.
-2. On receiving vehicle type information, the libraries will use below callback function to notify application layer.
+1. The developer will receive vehicle type information from either the protocol `StartServiceACK` or from the `RegisterAppInterfaceResponse`. The information is then sent to the `SDLManagerDelegate` / `SdlManagerListener` for the developer to handle.
+2. If the `StartServiceACK` comes in with vehicle data, the below method will be called with the vehicle type information. If the developer responds `true`, the session continues, if `false`, the session ends with an `EndService` sent by the library. When the `RegisterAppInterfaceResponse` happens, if the above method will not be called a second time. 
+3. If the `StartServiceACK` doesn’t have the vehicle data, when the `RegisterAppInterfaceResponse` comes in, this methods will be called. If the developer responds with `false`, the library will send an `UnregisterAppInterface` request.
 
 In JavaScript Suite App Library:
 ```javascript
@@ -109,7 +97,7 @@ In iOS App Library:
      * @param {SDLVehicleType} vehicleType - the type of vehicle that this session is currently active on.
      * @returns {BOOL}Return true if this session should continue, false if the session should end
      */
-    - (BOOL)didReceiveVehicleType:(SDLVehicleType *)vehicleType;
+    - (BOOL)didReceiveVehicleType:(SDLVehicleType *)type    ;
 ```
 
 In Java SE and Java EE App Libraries:
@@ -122,14 +110,6 @@ In Java SE and Java EE App Libraries:
      */
     boolean onVehicleTypeReceived(VehicleType type);
 ```
-
-3. If the vehicle type is supported, the app should return **true** from the callback function. 
-4. If the vehicle type is not supported and the app does not wish to proceed with connection, the app should return **false** from the callback function. 
-5. The SDL libraries should continue with session on receiving **true** from the callback function.
-6. The SDL libraries should immediately terminate connection on receiving **false** from the callback function.
-7. If the `StartServiceACK` protocol message doesn’t have the vehicle data, this above methods will be called, when the RegisterAppInterfaceResponse comes in. If the developer responds with false, the library will send an `UnregisterAppInterface` request.
-8. The callback function will notifiy application layer only once when vehicle type info is available. If the function is called after `StartServiceACK` protocol message is received, it will not be called second time on receiving `RegisterAppInterface` response.
-
 #### Android App Library Changes
 
 The Android app library will need to implement the above protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer. This proposal is not applicable to Android Apps registered using AOA.
@@ -421,7 +401,7 @@ The SDL Device Listener after transport connection needs to start the RPC servic
 
 ## Impact on existing code
 
-Above mentioned changes need to be implemented in SDL Core, the Java Suite app library, and the iOS app library.
+Above mentioned changes need to be implemented in SDL Core, the Java Suite app library, the iOS app library, and the JavaScript Suite app library.
 
 ## Alternatives considered
 
