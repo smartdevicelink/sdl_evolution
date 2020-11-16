@@ -50,7 +50,7 @@ SDL Core should not attempt to revert HMI data that had a valid error response.
 
 If the HMI is taking too long to process requests because the system is overloaded, SDL Core will be required to send more messages to the HMI to undo certain requests. Creating more requests will end up using more SDL Core -> HMI bandwidth. 
 
-However the proposed solution was selected because it aligns with existing and implemented behavior defined in proposals SDL 188 and SDL 190. These proposals add behavior where SDL Core will undo these same types of requests in case of a failed resumption scenario.
+However the proposed solution was selected because it aligns with existing and implemented behavior defined in proposals [SDL 188](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0188-get-interior-data-resumption.md) and [SDL 190](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0190-resumption-data-error-handling.md). These proposals add behavior where SDL Core will undo these same types of requests in case of a failed resumption scenario.
 
 ## Impact on existing code
 
@@ -60,7 +60,7 @@ Note: This proposal will impact SDL Core and the HMI only.
 
 SDL Core will be required to add logic to handle late, malformed, or lost HMI responses for the previously specified HMI RPCs.
 
-In addition, SDL Core should expand the functionality of proposals SDL 188 and SDL 190 by reverting resumption data sent to the HMI whose response was lost, malformed, or late. The current implementation of SDL Core will not revert requests if the HMI response is lost, malformed, or late.
+In addition, SDL Core should expand the functionality of proposals [SDL 188](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0188-get-interior-data-resumption.md) and [SDL 190](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0190-resumption-data-error-handling.md) by reverting resumption data sent to the HMI whose response was lost, malformed, or late. The current implementation of SDL Core will not revert requests if the HMI response is lost, malformed, or late.
 
 ### HMI
 
