@@ -30,7 +30,7 @@ Example diagram for handling a missing response from an AddCommand request to HM
 
 ![addCommand_fail](../assets/proposals/NNNN-handle-late-malformed-hmi-responses/addCommand_fail.png)
 
-The following list shows HMI Rpc's that have a corresponding RPC used to revert previously requested data:
+The following list shows HMI RPCs that have a corresponding RPC used to revert previously requested data:
 
 - AddCommand -> DeleteCommand
 - AddSubMenu -> DeleteSubMenu
@@ -50,7 +50,7 @@ SDL Core should not attempt to revert HMI data that had a valid error response.
 
 If the HMI is taking too long to process requests because the system is overloaded, SDL Core will be required to send more messages to the HMI to undo certain requests. Creating more requests will end up using more SDL Core -> HMI bandwidth. 
 
-However the proposed solution was selected because it aligns with existing and implemented behavior defined in proposals SDL 188 and SDL 190. These proposals add behavior where Core will undo these same types of requests in case of a failed resumption scenario.
+However the proposed solution was selected because it aligns with existing and implemented behavior defined in proposals SDL 188 and SDL 190. These proposals add behavior where SDL Core will undo these same types of requests in case of a failed resumption scenario.
 
 ## Impact on existing code
 
@@ -64,10 +64,10 @@ In addition, SDL Core should expand the functionality of proposals SDL 188 and S
 
 ### HMI
 
-HMI integrations need to be prepared to handle potentially erroneous delete/unsubscribe commands from SDL Core. When a message is lost, SDL Core is unsure if the HMI received the original request and how much of the request was processed. To ensure a proper cleanup of the failed requests, Core will send the appropriate delete/unsubscribe request even though the HMI may not recognize the data Core is requesting to delete. This case is rare, but should still be handled.
+HMI integrations need to be prepared to handle potentially erroneous delete/unsubscribe commands from SDL Core. When a message is lost, SDL Core is unsure if the HMI received the original request and how much of the request was processed. To ensure a proper cleanup of the failed requests, SDL Core will send the appropriate delete/unsubscribe request even though the HMI may not recognize the data SDL Core is requesting to delete. This case is rare, but should still be handled.
 
 ## Alternatives considered
 
-An alternate solution would be to add a series of new HMI RPCs that present an apps available subscriptions, menu items, and choice sets to the HMI in an array similar to the UpdateAppList RPC. From such RPC's the HMI could compare lists to delete invalid subscriptions/menu items.
+An alternate solution would be to add a series of new HMI RPCs that present an app's available subscriptions, menu items, and choice sets to the HMI in an array similar to the `UpdateAppList` RPC. From such RPCs the HMI could compare lists to delete invalid subscriptions/menu items.
 
 This would be a cleaner solution to ensuring data between the HMI and Core is synced correctly, however such RPCs would put a great strain on the head unit due to the max number of AddCommands, SubMenus, ChoiceSets, and subscriptions an app can have. Also such a change would be a breaking change to how such data is currently communicated to the HMI.
