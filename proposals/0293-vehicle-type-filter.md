@@ -74,8 +74,8 @@ The libraries will need to implement the above-mentioned protocol changes. In ad
 #### Determining Vehicle Type Info
 
 1. The developer will receive vehicle type information from either the protocol `StartServiceACK` or from the `RegisterAppInterfaceResponse`. The information is then sent to the `SDLManagerDelegate` / `SdlManagerListener` for the developer to handle.
-2. If the `StartServiceACK` comes in with vehicle data, the below method will be called with the vehicle type information. If the developer responds `true`, the session continues, if `false`, the session ends with an `EndService` sent by the library. When the `RegisterAppInterfaceResponse` happens, if the above method will not be called a second time. 
-3. If the `StartServiceACK` doesn’t have the vehicle data, when the `RegisterAppInterfaceResponse` comes in, this methods will be called. If the developer responds with `false`, the library will send an `UnregisterAppInterface` request.
+2. If the `StartServiceACK` comes in with vehicle data, the below method will be called with the vehicle type information. If the developer responds `true`, the session continues, if `false`, the session ends with an `EndService` sent by the library. When the `RegisterAppInterfaceResponse` happens, the below method will not be called a second time. 
+3. If the `StartServiceACK` doesn’t have the vehicle data, when the `RegisterAppInterfaceResponse` comes in, this method will be called. If the developer responds with `false`, the library will send an `UnregisterAppInterface` request.
 
 In JavaScript Suite App Library:
 ```javascript
