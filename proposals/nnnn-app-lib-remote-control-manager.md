@@ -312,4 +312,4 @@ async setModuleData(data)
 This would be a minor API change for the app libraries and would not affect any other platform.
 
 ## Alternatives considered
-None identified.
+1. Instead of the observer / selector callback on iOS, we could use a delegate system. However, we use the observer / selector system many places, therefore it would be best to keep using that system.
