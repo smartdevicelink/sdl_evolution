@@ -45,14 +45,24 @@ When connected to v6.0+, developers may set the user's seat location, and it wil
 
 ##### iOS
 ```objc
+typedef void(^SDLRemoteControlCompletionHandler)(NSError *__nullable error);
+
 - (void)setUserSeatLocation:(SDLGrid *)location withCompletionHandler:(SDLRemoteControlCompletionHandler)completionHandler;
 ```
 
 ##### Java Suite
-// TODO
+```java
+public interface RemoteControlCompletionListener {
+    void onComplete(boolean success, String errorInfo);
+}
+
+public void setUserSeatLocation(Grid location, RemoteControlCompletionListener completionListener)
+```
 
 ##### JavaScript Suite
-// TODO
+```js
+async setUserSeatLocation(location)
+```
 
 #### Getting User Consent
 On RPC 6.0+ systems, an app may be required to request access to a remote control module from the user, but it should only do when it actually needs that access. The developer will be able to request user consent manually for a module or modules whenever it makes sense within their app's flow.
@@ -61,24 +71,26 @@ In order to streamline this for developers, if the app is running on a RPC 6.0+ 
 
 ##### iOS
 ```objc
-typedef NS_ENUM (NSUInteger, SDLConsentStatus) {
-    SDLConsentStatusNotRequested,
-    SDLConsentStatusDisallowed,
-    SDLConsentStatusAllowed
-}
-
-/// The status of user consent for a given module id.
-- (SDLConsentStatus)consentStatusForModule:(SDLModuleId *)moduleId;
+/// If the moduleId is not present, the request status is unknown.
+@property (strong, nonatomic, readonly) NSDictionary<SDLModuleId *, NSNumber<SDLBool> *> *moduleConsentStatus;
 
 /// Request consent to control a module or modules from the SDL system and the user.
 - (void)requestConsentForModuleIds:(NSArray<SDLModuleId *> *)moduleIds withCompletionHandler:(SDLRemoteControlCompletionHandler)completionHandler;
 ```
 
 ##### Java Suite
-`// TODO`
+```java
+public HashMap<ModuleId, boolean> getModuleConsentStatus;
+
+public void requestConsent(Array<ModuleId *> moduleIds, RemoteControlCompletionListener listener);
+```
 
 ##### JavaScript Suite
-`// TODO`
+```js
+getModuleConsentStatus()
+
+async requestConsent(moduleIds)
+```
 
 ### Remote Control Capabilities
 The remote control capabilities are an important way to know which modules are available for setting / retrieving data. On RPC v4.5 - v5.0, the remote control capabilities will be retrieved after starting the manager using the `SystemCapabilityManager`. On RPC v5.1+, the capability will be subscribed.
@@ -100,12 +112,18 @@ These capabilities will be made publicly available:
 
 ##### Java Suite
 ```java
-// TODO
+public RemoteControlCapabilities getCapability(ModuleType type)
 ```
 
 ##### JavaScript Suite
 ```js
-// TODO
+getClimateCapabilities()
+getRadioCapabilities()
+getButtonCapabilities()
+getAudioCapabilities()
+getHMISettingsCapabilities()
+getLightCapabilities()
+getSeatCapabilities()
 ```
 
 ### Retrieving Module Data
@@ -152,15 +170,16 @@ Module data can be retrieved one time without ongoing updates. This method uses 
 
 ##### iOS
 ```objc
+typedef void(^SDLRemoteControlDataHandler)(SDLModuleType *updatedType, SDLModuleId *updatedModuleId, SDLRemoteControlManager *remoteControlManager, NSError *_Nullable error);
+
 - (void)updateModuleDataForType:(SDLModuleType)type moduleId:(SDLModuleId)moduleId completionHandler:(SDLRemoteControlDataHandler)handler;
-// TODO Define handler
 ```
 
 ##### Java Suite
 ```java
 public interface OnRemoteControlDataListener {
-    void onRemoteControlDataChanged(@NonNull ModuleType type, ModuleId moduleId, RemoteControlManager manager);
-    void onRemoteControlDataError(String info);
+    void onRemoteControlDataChanged(@NonNull ModuleType type, @NonNull ModuleId moduleId, @NonNull RemoteControlManager manager);
+    void onRemoteControlDataError(@NonNull String info);
 }
 
 public void updateModuleData(final ModuleType type, final ModuleId moduleId, final OnRemoteControlDataListener listener);
@@ -191,6 +210,7 @@ typedef void (^SDLRemoteControlUnsubscribeHandler)(NSError *_nullable error);
 /// Subscribes to a remote control module and calls a selector on an observer when that module's data is updated.
 ///
 /// The selector must exist with between 0 and 4 parameters. If zero parameters, the selector will be called, but you will be unable to determine which module was updated or know about any errors that occur. If one parameter, the parameter must be of type `SDLModuleType`, which is the type that was updated. If two parameters, the second parameter must be of type `SDLModuleId` or `NSString` and will reflect the module id of the module being updated. The third parameter must be of type `NSError` and will be an error if one occurred. If four parameters, the fourth parameter must be of type `SDLRemoteControlManager`. For example, `moduleTypeDidUpdate:(SDLModuleType)type moduleId:(SDLModuleId)moduleId error:(NSError *)error manager:(SDLRemoteControlManager *)manager`.
+/// The selector must contain 
 - (id<NSObject>)subscribeToModuleDataForType:(SDLModuleData)type moduleId:(SDLModuleId)moduleId withObserver:(id)observer selector:(SEL)selector;
 
 /// Unsubscribes from a given observer. Attempting to unsubscribe from modules that are not subscribed will silently be ignored and not fail. If there are no more observers subscribed to a given module, the app library will unsubscribe from the head unit for that type.
@@ -200,14 +220,19 @@ typedef void (^SDLRemoteControlUnsubscribeHandler)(NSError *_nullable error);
 /// @param observer The observer to unsubscribe types on.
 /// @param unsubscribeHandler The handler that will be called when unsubscribing completes, including an error if one occurred.
 - (void)unsubscribeFromModuleType:(SDLModuleType)type moduleId:(SDLModuleId)moduleId withObserver:(id)observer completionHandler:(SDLRemoteControlUnsubscribeHandler)unsubscribeHandler;
-// TODO: Define Handlers
 ```
 
 ##### Java Suite
-`// TODO`
+```java
+public void addModuleDataObserver(ModuleData type, ModuleId moduleId, OnRemoteControlDataListener dataListener);
+public void removeModuleDataObserver(OnRemoteControlDataListener listener)
+```
 
 ##### JavaScript Suite
-`// TODO`
+```js
+addModuleDataObserver(type, moduleId, updateListener)
+removeModuleDataObserver(listener)
+```
 
 ### Button Presses
 There will be a method on the `RemoteControlManager` to perform button presses:
@@ -219,12 +244,12 @@ There will be a method on the `RemoteControlManager` to perform button presses:
 
 #### Java Suite
 ```java
-// TODO
+public void pressButton(ButtonName buttonName, CompletionListener completionListener)
 ```
 
 #### JavaScript Suite
 ```js
-// TODO
+async pressButton(buttonName)
 ```
 
 ### Setting Module Data
@@ -249,41 +274,42 @@ These will be converted into lists of module ids for the app developer like the 
 
 ##### Java Suite
 ```java
-// TODO
+public List<SDLModuleId> getAllocatedModuleIds();
+public List<SDLModuleId> getFreeModuleIds();
 ```
 
 ##### JavaScript Suite
 ```js
-// TODO
+getAllocatedModuleIds()
+getFreeModuleIds()
 ```
 
 #### Setting the Data
+The developer can then set some data onto the module with this API:
 
 ##### iOS
 ```objc
-// TODO: Not sure about this
-
 /// Sets some module data for a given module.
 /// NOTE: The module type and set module data must match for the module data passed, and the module id must match a known module, or be nil to specify the default module. If they do not, the call will immediately fail with an error.
-- (void)setModuleData:(SDLModuleData *)data withCompletionHandler:(SDLRemoteControlDataHandler)handler;
-// TODO: Handler definition
+- (void)setModuleData:(SDLModuleData *)data withCompletionHandler:(SDLRemoteControlCompletionHandler)completionHandler;
 ```
 
 #### Java Suite
 ```java
-// TODO
+public void setModuleData(ModuleData data, CompletionListener completionListener)
 ```
 
 #### JavaScript Suite
 ```js
-// TODO
+async setModuleData(data)
 ```
 
 ## Potential downsides
-Describe any potential downsides or known objections to the course of action presented in this proposal, then provide counter-arguments to these objections. You should anticipate possible objections that may come up in review and provide an initial response here. Explain why the positives of the proposal outweigh the downsides, or why the downside under discussion is not a large enough issue to prevent the proposal from being accepted.
+1. This proposal is large and complex because the feature itself is large and complex. Furthermore, remote control has changed over time (e.g. adding user seat, changing from one module to multiple) which makes this API even more complex. A goal of this proposal is to allow developers to use one flow and things will simply work no matter what the RPC version of the head unit they connect to is.
+2. Because of this APIs simple existence, adding a new remote control RPC API will become more complex. However, it will be easier for developers to use.
 
 ## Impact on existing code
-Describe the impact that this change will have on existing code. Will some SDL integrations stop compiling due to this change? Will applications still compile but produce different behavior than they used to? Is it possible to migrate existing SDL code to use a new feature or API automatically?
+This would be a minor API change for the app libraries and would not affect any other platform.
 
 ## Alternatives considered
-Describe alternative approaches to addressing the same problem, and why you chose this approach instead.
+None identified.
