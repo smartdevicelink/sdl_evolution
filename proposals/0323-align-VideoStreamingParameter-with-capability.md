@@ -1,8 +1,8 @@
 # Align video streaming parameters with VideoStreamingCapability
 
-* Proposal: [SDL-NNNN](NNNN-align-VideoStreamingParameter-with-capability.md)
+* Proposal: [SDL-0323](0323-align-VideoStreamingParameter-with-capability.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
