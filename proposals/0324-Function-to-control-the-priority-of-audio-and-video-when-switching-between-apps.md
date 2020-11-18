@@ -1,6 +1,6 @@
 # Function to control the priority of audio and video when switching between apps
 
-* Proposal: [SDL-NNNN](NNNN-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps.md)
+* Proposal: [SDL-0324](0324-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
 * Status: **In Review**
 * Impacted Platforms: [ Core ]
