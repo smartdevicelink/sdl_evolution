@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-NNNN](NNNN-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core ]
 
 ## Introduction
