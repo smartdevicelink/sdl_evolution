@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0322](0322-improve-starting-streaming-services.md)
 * Author: [Kujtim Shala](https://github.com/smartdevicelink/kshala-ford)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [ iOS / Java Suite / JavaScript Suite ]
 
 ## Introduction
