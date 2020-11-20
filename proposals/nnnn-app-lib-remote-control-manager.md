@@ -65,7 +65,7 @@ async setUserSeatLocation(location)
 ```
 
 #### Getting User Consent
-On RPC 6.0+ systems, an app may be required to request access to a remote control module from the user, but it should only do when it actually needs that access. The developer will be able to request user consent manually for a module or modules whenever it makes sense within their app's flow.
+On RPC 6.0+ systems, an app may be required to request access to a remote control module from the user, but only when it actually needs that access. The developer will be able to request user consent manually for a module or modules whenever it makes sense within their app's flow.
 
 In order to streamline this for developers, if the app is running on a RPC 6.0+ system and consent has not been manually requested for a given module (see below), this RPC will be sent and resolved before attempting to set the module data.
 
