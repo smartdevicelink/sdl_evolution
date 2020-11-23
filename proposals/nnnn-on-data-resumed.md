@@ -1,7 +1,7 @@
 # OnDataResumed Notification
 
 * Proposal: [SDL-NNNN](NNNN-on-data-resumed-notification.md)
-* Author: [JacLivio](https://github.com/JackLivio)
+* Author: [JackLivio](https://github.com/JackLivio)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Policy Server / SHAID / RPC ]
 
@@ -290,5 +290,4 @@ If any of the app managers can benefit from receiving resumption info, the imple
 An alternate solution would be to include this information in the RegisterAppInterface Response since the resumption state is known before SDL Core sends the RegisterAppInterfaceResponse to an app. The author did not choose this path due to the current size of the RegisterAppInterFace response.
 
 Other alternates considered would be to change this notification to a request so an app can request this info when necessary, or to implement a more robust resumption manager into the App Library.
-
 
