@@ -1,0 +1,12 @@
+participant App
+participant SDL
+participant HMI
+
+note over App, HMI:**Pre-conditions:**\n  1. App is registered and activated
+
+App->SDL: AddCommand
+SDL->HMI: UI.AddCommand
+HMI->HMI: HMI too busy to process request
+SDL->SDL: Request Timeout Occurs
+SDL-->App: AddCommand GENERIC_ERROR
+SDL->HMI: UI.DeleteCommand
