@@ -1,8 +1,8 @@
 # Handle Late Malformed HMI Responses
 
-* Proposal: [SDL-NNNN](NNNN-handle-late-malformed-hmi-responses.md)
+* Proposal: [SDL-0326](0326-handle-late-malformed-hmi-responses.md)
 * Author: [JackLivio](https://github.com/JackLivio)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
