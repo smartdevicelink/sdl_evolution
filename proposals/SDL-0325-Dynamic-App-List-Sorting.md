@@ -1,8 +1,8 @@
 # Dynamic App List Sorting
 
-* Proposal: [SDL-NNNN](NNNN-Dynamic-App-List-Sorting.md)
+* Proposal: [SDL-0325](SDL-0325-Dynamic-App-List-Sorting.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / Policy Server ]
 
 ## Introduction
