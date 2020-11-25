@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0323](0323-align-VideoStreamingParameter-with-capability.md)
 * Author: [Shinichi Watanabe](https://github.com/shiniwat)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [iOS / Java Suite]
 
 ## Introduction
