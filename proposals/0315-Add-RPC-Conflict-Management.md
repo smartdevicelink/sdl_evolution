@@ -216,7 +216,7 @@ Also, below shows the Json example for the `rpc_priority_table` adding in policy
 The following explains functions of `InterruptManager`.
 
 <b>1.Loading of configuration table</b><br>
-`rpc_priority_table` is loaded from policy table during the startup of SDL Core.
+`rpc_priority_table` is loaded from policy table.
 
 <b>2.RPC conflict management processing sequence</b><br>
 The processing sequence during ONS RPCs conflict is shown below.
