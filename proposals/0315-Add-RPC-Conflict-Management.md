@@ -36,11 +36,11 @@ The following tables described in `rpc_priority_table` in the Policy table are e
 The RPC priority will be determined by the order below. Priority order will shift from 1 to 2, from 2 to 3 and from 3 to 4, if the RPCs are same priority.
 
 1. Apps with app priority EMERGENCY.
-2. RPC Priority
-3. App Priority (non-emergency)
-4. HMI Status
+2. RPC priority
+3. App priority (non-emergency)
+4. HMI status priority
 
-<b>RPC Priority Table</b><br>
+<b>RPC priority Table</b><br>
 The RPC priority table describes the priority of each RPC. When multiple RPCs occur at the same time, the RPC with the higher priority is determined according to the RPC priority table. The target RPCs in this proposal are ONS and TTS. ONS RPCs include such as `Alert` and `PerformInteraction`. The RPC priority table can set the priority for each ONS RPC. On the other hand, there are two types of TTS RPCs, TTS with ONS and TTS only. TTS with ONS RPCs shall follow the processed priority of the ONS RPC, while TTS only RPCs can set the priority individually.
 
 Below are the default settings of RPC priority table.
@@ -66,7 +66,7 @@ The table below shows how the RPC will be determined by the priority set during 
 
 ![Table_2_Priority_result_of_Table1.png](../assets/proposals/0315-Add-RPC-Conflict-Management/Table_2_Priority_result_of_Table1.png)
 
-(* 1): For RPCs with the same priority, the `App priority` table, which is described later, will be used to determine the priority.
+(* 1): For RPCs with the same priority, the App priority table, which is described later, will be used to determine the priority.
 
 Below shows the Json example for the RPC priority table:
 ```json
@@ -133,7 +133,7 @@ App priority priority table describes the priority for each app. When a conflict
 
 <b>Table 3.</b> Default settings of App priority table
 
-| app priority (String) | Priority (INT) | Note (String)     |
+| App priority (String) | Priority (INT) | Note (String)     |
 |:-:                  |:-:            |:-:               |
 | EMERGENCY           | 0             | Top priority     |
 | NAVIGATION          | 1             | Highest priority |
@@ -145,7 +145,7 @@ App priority priority table describes the priority for each app. When a conflict
 OEMs can modify the App priority table and adjust the priority of application according to their own specifications. In fact, since EMERGENCY is set independently as the highest priority, the priority is determined by the items excluding EMERGENCY.
 For RPCs with the same priority, the HMI Status priority table, which is described later, will be used to determine the priority.
 
-Below shows the Json example for the app priority table:
+Below shows the Json example for the App priority table:
 ```json
 "app_priority":{
     "EMERGENCY": 0,
