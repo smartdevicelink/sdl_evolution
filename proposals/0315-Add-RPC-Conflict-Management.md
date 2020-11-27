@@ -22,16 +22,16 @@ The example above shows that the latter RPC `PerformAudioPassThru` is displayed 
 To solve these problems, we propose to add a new RPC conflict management function to SDL Core.
 
 ## Proposed solution
-To implement the RPC conflict management, we will add a new RPC conflict management module, `InterruptManager` to SDL Core, and add `InterruptManagerConfig` to policy table.
+To implement the RPC conflict management, we will add a new RPC conflict management module, `InterruptManager` to SDL Core, and add `rpc_priority_table` to policy table.
 
-RPC priority table and `App Priority` table are specified in `InterruptManagerConfig`. RPC priority table and `App Priority` table are tables that each set the priority of RPC and app. By modifying `InterruptManagerConfig`, an OEM can receive the expected request from SDL Core during RPC conflict. On the other hand, `InterruptManager` reads `InterruptManagerConfig` in policy table during the SDL Core startup and builds the two tables mentioned above based on their settings. When an RPC conflict occurs, the `InterruptManager` first determines the RPC with a high priority according to the RPC priority table. However, if two competing RPCs have the same priority, then the RPC with the higher priority is determined according to the `App Priority` priority table. Therefore, only one modal RPC to be displayed at a time.
+RPC priority table, App priority table and HMI status priority table are specified in `rpc_priority_table`. RPC priority table, App priority table and HMI status priority table are tables that each set the priority of RPC, app and HMI status. By modifying `rpc_priority_table`, an OEM can receive the expected request from SDL Core during RPC conflict. On the other hand, `InterruptManager` reads `rpc_priority_table` from the policy table to construct the two tables mentioned above based on their settings. When an RPC conflict occurs, the `InterruptManager` first determines the RPC with a high priority according to the RPC priority table. However, if two competing RPCs have the same priority, then the RPC with the higher priority is determined according to the App priority priority table. Therefore, only one modal RPC to be displayed at a time.
 
 #### RPC Conflict Management Configuration Table
-The following tables described in InterruptManagerConfig in the Policy table are explained below.
+The following tables described in `rpc_priority_table` in the Policy table are explained below.
 
 - RPC priority table
-- `AppPriority` table
-- HMI status table
+- App priority table
+- HMI status priority table
 
 The RPC priority will be determined by the order below. Priority order will shift from 1 to 2, from 2 to 3 and from 3 to 4, if the RPCs are same priority.
 
@@ -52,6 +52,7 @@ Below are the default settings of RPC priority table.
 | BC.DialNumber           | 1             | Highest priority |
 | UI.Alert                | 2             |                  |
 | UI.PerformAudioPassThru | 2             |                  |
+| UI.SubtleAlert          | 3             |                  |
 | UI.PerformInteraction   | 3             |                  |
 | UI.ScrollableMessage    | 3             |                  |
 | UI.Slider               | 3             |                  |
@@ -69,10 +70,11 @@ The table below shows how the RPC will be determined by the priority set during 
 
 Below shows the Json example for the RPC priority table:
 ```json
-  "RpcPriority":{
+"rpc_priority":{
     "BC.DialNumber": 1,
     "UI.Alert": 2,
     "UI.PerformAudioPassThru": 2,
+    "UI.SubtleAlert": 3,
     "UI.PerformInteraction": 3,
     "UI.ScrollableMessage": 3,
     "UI.Slider": 3,
@@ -83,10 +85,11 @@ Below shows the Json example for the RPC priority table:
 OEMs can modify any RPC priority. For example, if the priority of `UI.PerformInteraction` is modified to "1", its RPC priority will be the same as `BC.DialNumber`.
 
 ```json
-"RpcPriority":{
+"rpc_priority":{
     "BC.DialNumber": 1,
     "UI.Alert": 2,
     "UI.PerformAudioPassThru": 2,
+    "UI.SubtleAlert": 3,
     "UI.PerformInteraction": 1,
     "UI.ScrollableMessage": 3,
     "UI.Slider": 3,
@@ -97,10 +100,11 @@ OEMs can modify any RPC priority. For example, if the priority of `UI.PerformInt
 OEMs can delete any RPC priority. For example, if the priority of `UI.Slider` is deleted as shown below, its priority will be the same as a normal RPC and will be lower than any RPC in the RPC priority table.
 
 ```json
-"RpcPriority":{
+"rpc_priority":{
     "BC.DialNumber": 1,
     "UI.Alert": 2,
     "UI.PerformAudioPassThru": 2,
+    "UI.SubtleAlert": 3,
     "UI.PerformInteraction": 3,
     "UI.ScrollableMessage": 3,
     "TTS.SPEAK": 3
@@ -111,24 +115,25 @@ OEMs can delete any RPC priority. For example, if the priority of `UI.Slider` is
 OEMs can restore the deleted `UI.Slider` and modify its priority. For example, if the priority of `UI.Slider` is modified to "2", its priority will be the same as `UI.Alert` and `UI.PerformAudioPassThru`.
 
 ```json
-"RpcPriority":{
-  	"BC.DialNumber": 1,
+"rpc_priority":{
+    "BC.DialNumber": 1,
     "UI.Alert": 2,
-	"UI.PerformAudioPassThru": 2,
-	"UI.PerformInteraction": 3,
-	"UI.ScrollableMessage": 3,
-	"UI.Slider": 2,
-	"TTS.SPEAK": 3
+    "UI.PerformAudioPassThru": 2,
+    "UI.SubtleAlert": 3,
+    "UI.PerformInteraction": 3,
+    "UI.ScrollableMessage": 3,
+    "UI.Slider": 2,
+    "TTS.SPEAK": 3
 }
 ```
 
 
-<b>`App Priority` Table</b><br>
-`App Priority` priority table describes the priority for each app. When a conflict between RPCs with the same priority in the RPC priority table occurs, the RPC with the higher priority is determined according to `App Priority` table. Below are the default settings of `App Priority` table.
+<b>App priority Table</b><br>
+App priority priority table describes the priority for each app. When a conflict between RPCs with the same priority in the RPC priority table occurs, the RPC with the higher priority is determined according to App priority table. Below are the default settings of App priority table.
 
-<b>Table 3.</b> Default settings of `App Priority` table
+<b>Table 3.</b> Default settings of App priority table
 
-| `app priority` (String) | Priority (INT) | Note (String)     |
+| app priority (String) | Priority (INT) | Note (String)     |
 |:-:                  |:-:            |:-:               |
 | EMERGENCY           | 0             | Top priority     |
 | NAVIGATION          | 1             | Highest priority |
@@ -137,14 +142,25 @@ OEMs can restore the deleted `UI.Slider` and modify its priority. For example, i
 | NORMAL              | 4             |                  |
 | NONE                | 5             | Lowest priority  |
 
-OEMs can modify the `App priority` table and adjust the priority of application according to their own specifications. In fact, since EMERGENCY is set independently as the highest priority, the priority is determined by the items excluding EMERGENCY.
-For RPCs with the same priority, the HMI Status table, which is described later, will be used to determine the priority.
+OEMs can modify the App priority table and adjust the priority of application according to their own specifications. In fact, since EMERGENCY is set independently as the highest priority, the priority is determined by the items excluding EMERGENCY.
+For RPCs with the same priority, the HMI Status priority table, which is described later, will be used to determine the priority.
 
+Below shows the Json example for the app priority table:
+```json
+"app_priority":{
+    "EMERGENCY": 0,
+    "NAVIGATION": 1,
+    "VOICE_COMMUNICATION": 2,
+    "COMMUNICATION": 3,
+    "NORMAL": 4,
+    "NONE": 5
+}
+```
 
-<b>HMI Status Table</b><br>
-HMI Status table describes the priority for each app level. When a conflict between RPCs with the same priority in the RPC priority table and `App priority` table occurs, the RPC with the higher priority is determined according to HMI Status table. Below are the default settings of HMI Status table.
+<b>HMI status priority Table</b><br>
+HMI status priority table describes the priority for each app level. When a conflict between RPCs with the same priority in the RPC priority table and App priority table occurs, the RPC with the higher priority is determined according to HMI status priority table. Below are the default settings of HMI status priority table.
 
-<b>Table 4.</b> Default settings of HMI Status table
+<b>Table 4.</b> Default settings of HMI status priority table
 
 | HMI Level (String) | Priority (INT) | Note (String)    |
 |:-:                 |:-:             |:-:               |
@@ -155,12 +171,52 @@ HMI Status table describes the priority for each app level. When a conflict betw
 
 If two RPCs with the same priority are sent, the second RPC sent will be prioritized.
 
+Below shows the Json example for the HMI status priority table:
+```json
+"hmi_status_priority":{
+    "FULL": 1,
+    "LIMITED": 2,
+    "BACKGROUND": 3,
+    "NONE": 4
+}
+```
+
+Also, below shows the Json example for the `rpc_priority_table` adding in policy table:
+```json
+"rpc_priority_table": {
+    "rpc_priority":{
+        "BC.DialNumber": 1,
+        "UI.Alert": 2,
+        "UI.PerformAudioPassThru": 2,
+        "UI.SubtleAlert": 3,
+        "UI.PerformInteraction": 3,
+        "UI.ScrollableMessage": 3,
+        "UI.Slider": 3,
+        "TTS.SPEAK": 3
+    },
+    "app_priority":{
+        "EMERGENCY": 0,
+        "NAVIGATION": 1,
+        "VOICE_COMMUNICATION": 2,
+        "COMMUNICATION": 3,
+        "NORMAL": 4,
+        "NONE": 5
+    },
+    "hmi_status_priority":{
+        "FULL": 1,
+        "LIMITED": 2,
+        "BACKGROUND": 3,
+        "NONE": 4
+    }
+}
+```
+
 
 #### RPC Conflict Management Module
 The following explains functions of `InterruptManager`.
 
 <b>1.Loading of configuration table</b><br>
-`InterruptManagerConfig` is loaded from policy table during the startup of SDL Core.
+`rpc_priority_table` is loaded from policy table during the startup of SDL Core.
 
 <b>2.RPC conflict management processing sequence</b><br>
 The processing sequence during ONS RPCs conflict is shown below.
@@ -185,9 +241,9 @@ The processing sequence during TTS RPC conflict is shown below.
 ## Impact on existing code
 
 1. Add `InterruptManager` to the SDL Core source code to manage RPC conflicts.
-2. Add `InterruptManagerConfig` that sets RPC priority to the policy table file.
+2. Add `rpc_priority_table` that sets RPC priority, App priority and HMI status priority to the policy table file.
 3. Remove the existing RPC conflict management systems from the HMI.
-3. Add guidelines for OEMs such as `InterruptManagerConfig` placement and setting method on SDL Developer Portal (smartdevicelink.com).
+3. Add guidelines for OEMs such as `rpc_priority_table` placement and setting method on SDL Developer Portal (smartdevicelink.com).
 
 
 ## Alternatives considered
