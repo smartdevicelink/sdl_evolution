@@ -1,8 +1,8 @@
 # Modernize Ubuntu Support V20 LTS
 
-* Proposal: [SDL-NNNN](nnnn-modernize-ubuntu-support-v20.md)
+* Proposal: [SDL-0328](0328-modernize-ubuntu-support-v20.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **Accepted**
+* Status: **In Review**
 * Impacted Platforms: [Core, ATF]
 
 ## Introduction
