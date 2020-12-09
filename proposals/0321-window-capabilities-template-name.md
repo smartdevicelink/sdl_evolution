@@ -20,7 +20,7 @@ The proposed solution is to add a new parameter to the MOBILE_API RPC spec:
  <struct name="WindowCapability" since="6.0">
     <!-- Current params -->
     <param name="template" type="String" maxlength="500" mandatory="false">
-        <description>The name of the current template of this window. The other parameters describe the capabilities of this template layout.</description>
+        <description>Predefined or dynamically created window template. Currently only predefined window template layouts are defined.</description>
     </param>
 </struct>
 ```
@@ -31,10 +31,12 @@ The same change will be made to the HMI_API spec:
 <struct name="WindowCapability">
     <!-- Current params -->
     <param name="template" type="String" maxlength="500" mandatory="false">
-        <description>The name of the current template of this window. The other parameters describe the capabilities of this template layout.</description>
+        <description>Predefined or dynamically created window template. Currently only predefined window template layouts are defined.</description>
     </param>
 </struct>
 ```
+
+If this parameter is `null` after it was previously provided, it should be assumed that the `template` did not change.
 
 #### Additional Notes on RPC Implementation
 1. This should not return `DEFAULT`, but should instead return the actual template that `DEFAULT` is referring to, such as `MEDIA`, `NON-MEDIA`, or `NAV_FULLSCREEN_MAP`.
