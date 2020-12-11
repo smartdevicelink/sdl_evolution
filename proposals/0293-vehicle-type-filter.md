@@ -1,9 +1,9 @@
 # Enable OEM exclusive apps support
 
 * Proposal: [SDL-0293](0293-vehicle-type-filter.md)
-* Author: [Ashwin Karemore](https://github.com/ashwink11)
+* Author: [Ashwin Karemore](https://github.com/ashwink11) and [Iryna Lytvynenko](https://github.com/LitvinenkoIra)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Java Suite / Protocol / JavaScript Suite]
+* Impacted Platforms: [Core / iOS / Java Suite / Protocol / JavaScript Suite / HMI / RPC]
 
 ## Introduction
 
@@ -66,6 +66,31 @@ The BSON payload of this message will have the following info.
 |trim|String| Vehicle trim |
 |systemSoftwareVersion|String| Vehicle system software version |
 |systemHardwareVersion|String| Vehicle system hardware version |
+
+### MOBILE_API Changes
+
+#### Addition of "RegisterAppInterface" function
+
+```xml
+<function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response" since="1.0">
+    :
+    <param name="systemHardwareVersion" type="String" maxlength="500" mandatory="false" platform="documentation" since="X.X">
+        <description>The hardware version of the system</description>
+    </param>
+</function>
+```
+### HMI_API Changes
+
+#### Addition of "GetSystemInfo" function
+
+```xml
+<function name="GetSystemInfo" messagetype="response">
+    :
+    <param name="systemHardwareVersion" type="String" maxlength="500" mandatory="false">
+        <description>The hardware version of the system</description>
+    </param>
+</function>
+```
 
 ### iOS, JavaScript Suite, and Java Suite App Library Changes
 
