@@ -71,6 +71,8 @@ The BSON payload of this message will have the following info.
 
 The libraries will need to implement the above-mentioned protocol changes. In addition to implementing a protocol message, it will need the additional implementation to propagate vehicle type info to the application layer.
 
+The feature for the Java Suite library will be completed using two pull requests. The first one being all the protocol changes necessary and developer facing APIs from the SdlManager. The second pull request would focus on the SdlRouterService, SdlBroadcastReceiver, and SdlDeviceListener changes. This would allow the PM to verify the cross platform aspect of this feature first and ensure its inclusion into the next slate of releases no problem.
+
 #### Determining Vehicle Type Info
 
 1. The developer will receive vehicle type information from either the protocol `StartServiceACK` or from the `RegisterAppInterfaceResponse`. The information is then sent to the `SDLManagerDelegate` / `SdlManagerListener` for the developer to handle.
