@@ -178,8 +178,8 @@ typedef void(^SDLRemoteControlDataHandler)(SDLModuleType *updatedType, SDLModule
 ##### Java Suite
 ```java
 public interface OnRemoteControlDataListener {
-    void onRemoteControlDataChanged(@NonNull ModuleType type, @NonNull ModuleId moduleId, @NonNull RemoteControlManager manager);
-    void onRemoteControlDataError(@NonNull String info);
+    void onChanged(@NonNull ModuleType type, @NonNull ModuleId moduleId, @NonNull RemoteControlManager manager);
+    void onError(@NonNull String info);
 }
 
 public void updateModuleData(final ModuleType type, final ModuleId moduleId, final OnRemoteControlDataListener listener);
@@ -224,14 +224,14 @@ typedef void (^SDLRemoteControlUnsubscribeHandler)(NSError *_nullable error);
 
 ##### Java Suite
 ```java
-public void addModuleDataObserver(ModuleData type, ModuleId moduleId, OnRemoteControlDataListener dataListener);
-public void removeModuleDataObserver(OnRemoteControlDataListener listener)
+public void addOnRemoteControlDataListener(ModuleType type, ModuleId moduleId, OnRemoteControlDataListener dataListener);
+public void removeOnRemoteControlDataListener(OnRemoteControlDataListener listener)
 ```
 
 ##### JavaScript Suite
 ```js
-addModuleDataObserver(type, moduleId, updateListener)
-removeModuleDataObserver(listener)
+addOnRemoteControlDataListener(type, moduleId, updateListener)
+removeOnRemoteControlDataListener(listener)
 ```
 
 ### Button Presses
@@ -303,6 +303,176 @@ public void setModuleData(ModuleData data, CompletionListener completionListener
 ```js
 async setModuleData(data)
 ```
+
+### Example Usage
+Here is some example usage of how a developer might use the entire system.
+
+#### iOS
+```objc
+// Set the seat location
+[self.remoteControlManager setUserSeatLocation:driverSeatLocation withCompletionHandler:^(NSError *error) {
+    if (error == nil) {
+        // Something went wrong
+        return;
+    }
+
+    // The seat location was changed
+}];
+
+// Request user consent for the radio module, this is optional and will be automatically done when attempting to set data but this is still necessary to do
+[self.remoteControlManager requestConsentForModuleIds:@[self.remoteControlManager.radioCapabilities.moduleInfo.moduleId] withCompletionHandler:^(NSError *error) {
+    if (error == nil) {
+        // Something went wrong
+        return;
+    }
+
+    // The app has consent to control the module
+}];
+
+// Get cached module data
+SDLRadioControlData *data = self.remoteControlManager.radioModules[SDLDefaultModuleId];
+
+// Pull new module data one time
+[self.remoteControlManager updateModuleDataForType:SDLModuleTypeRadio moduleId:SDLDefaultModuleId completionHandler:^(SDLModuleType updatedType, SDLModuleId *updatedModuleId, NSError *_Nullable error) {
+    if (error != nil) {
+        // Something went wrong
+        return;
+    }
+
+    // The data was set correctly
+    SDLRadioControlData *newData = self.remoteControlManager.radioModules[updatedModuleId];
+}];
+
+// Subscribe to a module's data
+id observer = [self.remoteControlManager subscribeToModuleDataForType:SDLModuleDataTypeRadio moduleId:SDLDefaultModuleId withUpdateHandler:^(SDLModuleType updatedType, SDLModuleId *updatedModuleId, NSError *_Nullable error) {
+    SDLRadioControlData *newData = self.remoteControlManager.radioModules[updatedModuleId];
+}];
+
+// Unsubscribe from a module
+[self.remoteControlManager unsubscribeFromModuleType:SDLModuleDataTypeRadio moduleId:SDLDefaultModuleId withObserver:observer completionHandler:^(SDLError *_Nullable error) {
+    if (error == nil) {
+        // Something went wrong
+        return;
+    }
+
+    // The module is unsubscribed
+}];
+
+// Press a button
+[self.remoteControlManager pressButton:SDLButtonNameVolumeUp withCompletionHandler:^(NSError *_Nullable error) {
+    if (error == nil) {
+        // Something went wrong
+        return;
+    }
+
+    // The button was pressed
+}];
+
+// Check if we have been allocated a module
+BOOL isAllocatedOrFree = ([self.remoteControlManager.allocatedModuleIds contains:someModuleId] || [self.remoteControlManager.freeModuleIds contains:someModuleId]);
+
+// Set data to a module
+SDLRadioControlData *newRadioData = [[SDLRadioControlData alloc] initFMWithFrequencyInteger:@97 frequencyFraction:@1 hdChannel:nil];
+SDLModuleData *newData = [[SDLModuleData alloc] initWithRadioControlData:newRadioData];
+[self.remoteControlManager setModuleData:newData completionHandler:^(NSError *error) {
+    if (error == nil) {
+        // Something went wrong
+        return;
+    }
+
+    // The data was set successfully
+}];
+```
+
+#### Java Suite
+```java
+// Set the seat location
+self.remoteControlManager.setUserSeatLocation(driverSeatLocation, new RemoteControlCompletionListener() {
+    @override
+    void onComplete(boolean success, String errorInfo) {
+        if (!success) {
+            // Something went wrong
+            return;
+        }
+
+        // The seat location was changed
+    }
+})
+
+// Request user consent for the radio module, this is optional and will be automatically done when attempting to set data but this is still necessary to do
+self.remoteControlManager.requestConsentForModuleIds(self.remoteControlManager.radioCapabilities.moduleInfo.moduleId, new RemoteControlCompletionListener() {
+    @override
+    void onComplete(boolean success, String errorInfo) {
+        if (!success) {
+            // Something went wrong
+            return;
+        }
+
+        // Consent for the module was received
+    }
+})
+
+// Get cached module data
+SDLRadioControlData data = self.remoteControlManager.getModuleData(ModuleType.RADIO, SDL_DEFAULT_MODULE_ID);
+
+// Pull new module data one time
+self.remoteControlManager.updateModuleData(ModuleType.RADIO, SDL_DEFAULT_MODULE_ID, new OnRemoteControlDataListener() {
+    @override
+    void onChanged(@NonNull ModuleType type, @NonNull ModuleId moduleId, @NonNull RemoteControlManager manager) {
+        // The module data was updated successfully
+        SDLRadioControlData data = manager.getModuleData(type, moduleId)
+    }
+    void onError(@NonNull String info) {
+        // Something went wrong
+    }
+})
+
+// Subscribe to a module's data
+self.remoteControlManager.addOnRemoteControlDataListener(ModuleType.RADIO, SDL_DEFAULT_MODULE_ID, new OnRemoteControlDataListener() {
+    @override
+    void onChanged(@NonNull ModuleType type, @NonNull ModuleId moduleId, @NonNull RemoteControlManager manager) {
+        // The module data was updated successfully
+        SDLRadioControlData data = manager.getModuleData(type, moduleId)
+    }
+    void onError(@NonNull String info) {
+        // Something went wrong
+    }
+});
+
+// Press a button
+self.remoteControlManager.pressButton(ButtonName.VolumeUp, new CompletionListener() {
+    @override
+    void onComplete(boolean success) {
+        if (!success) {
+            // Something went wrong
+            return;
+        }
+
+        // The button was pressed successfully
+    }
+});
+
+// Check if we have been allocated a module
+boolean isAllocatedOrFree = self.remoteControlManager.allocatedModuleIds.contains(someModuleId) || self.remoteControlManager.freeModuleIds.contains(someModuleId)
+
+// Set data to a module
+RadioControlData newRadioData = new RadioControlData().setBand(RadioBand.FM).setFrequencyInteger(97).setFrequencyFraction(1)
+ModuleData newData = new ModuleData().setModuleType(ModuleType.RADIO).setRadioControlData(newRadioData)
+self.remoteControlManager.setModuleData(newData, new CompletionListener() {
+    @override
+    void onComplete(boolean success) {
+        if (!success) {
+            // Something went wrong
+            return;
+        }
+
+        // The data was not set successfully
+    }
+});
+```
+
+#### JavaScript Suite
+See the above APIs for usage.
 
 ## Potential downsides
 1. This proposal is large and complex because the feature itself is large and complex. Furthermore, remote control has changed over time (e.g. adding user seat, changing from one module to multiple) which makes this API even more complex. A goal of this proposal is to allow developers to use one flow and things will simply work no matter what the RPC version of the head unit they connect to is.
