@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0325](SDL-0325-Dynamic-App-List-Sorting.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / Policy Server ]
 
 ## Introduction
