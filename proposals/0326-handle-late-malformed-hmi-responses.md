@@ -71,3 +71,6 @@ HMI integrations need to be prepared to handle potentially erroneous delete/unsu
 An alternate solution would be to add a series of new HMI RPCs that present an app's available subscriptions, menu items, and choice sets to the HMI in an array similar to the `UpdateAppList` RPC. From such RPCs the HMI could compare lists to delete invalid subscriptions/menu items.
 
 This would be a cleaner solution to ensuring data between the HMI and Core is synced correctly, however such RPCs would put a great strain on the head unit due to the max number of AddCommands, SubMenus, ChoiceSets, and subscriptions an app can have. Also such a change would be a breaking change to how such data is currently communicated to the HMI.
+
+An additional alternative enhancement to the base proposal would be to include a retry sequence for hmi messages that were late, malformed, or lost. This solution was not included in the proposal due to some added timing complexities. If retries were included, the time for an app to register with resumed data would be extended by the time it takes to retry the requests. Worst case time to register would be <RPC timeout> * <number of retries>.
+
