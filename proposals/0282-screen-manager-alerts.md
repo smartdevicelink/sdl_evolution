@@ -147,7 +147,7 @@ The next object is the alert view itself that developers will construct and pass
 /**
  Maps to Alert.ttsChunks and Alert.playTone. This text is spoken when the alert appears.
  */
-@property (nullable, copy, nonatomic) NSArray<SDLAlertAudioData *> *audio;
+@property (nullable, copy, nonatomic) SDLAlertAudioData *audio;
 
 /**
  Maps to Alert.progressIndicator. If supported, the alert GUI will display some sort of indefinite waiting / refresh / loading indicator animation. Defaults to NO.
