@@ -35,18 +35,12 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
 +       <element name="turnText" since="X.X"/>
 +           <description>Turn text for turnList parameter of UpdateTurnList</description>
 +       </element>
-+
-+       <element name="navigationText" since="X.X">
-+           <description>Navigation text for turnList parameter of UpdateTurnList</description>
-+       </element>
     </enum>
 ```
 
 `timeToDestination` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L627) and can be used in the [`ShowConstantTBT` RPC](https://smartdevicelink.com/en/docs/hmi/master/navigation/showconstanttbt/).
 
 `turnText` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L629) and can be used in the [`UpdateTurnList` RPC](https://smartdevicelink.com/en/docs/hmi/master/navigation/updateturnlist/).
-
-`navigationText` is added because it exists in the [`HMI_API.xml`](https://github.com/smartdevicelink/sdl_core/blob/6.1.1/src/components/interfaces/HMI_API.xml#L630) and can be used in the [`UpdateTurnList` RPC](https://smartdevicelink.com/en/docs/hmi/master/navigation/updateturnlist/).
 
 #### HMI_API.xml
 
@@ -65,9 +59,9 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
 +   <element name="turnText">
 +     <description>Turn text for turnList parameter of UpdateTurnList</description>
 +   </element>
-   <element name="navigationText">
-     <description>Navigation text for turnList parameter of UpdateTurnList</description>
-   </element>
+-  <element name="navigationText">
+-    <description>Navigation text for turnList parameter of UpdateTurnList</description>
+-  </element>
 -  <element name="notificationText">
 -    <description>Text of notification to be displayed on screen.</description>
 -  </element>
@@ -75,6 +69,7 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
 ```
 
 `notificationText` is removed because it does not exist in the `MOBILE_API.xml` and is not used currently.
+`navigationText` is removed because it does not exist in the `MOBILE_API.xml` and is not used currently.
 
 The comment `<!-- TO DO to be removed -->` is removed because it is no longer relevant.
 
@@ -88,10 +83,10 @@ The author doesn't know of any downsides to this proposal.
 
 The `MOBILE_API.xml` changes will have no impact on existing code as only additions are made.
 
-The `HMI_API.xml` changes will require updates to HMIs to remove `notificationText` from their capabilities and an update to Core to remove the processing of the `notificationText` `TextFieldName` capability.
+The `HMI_API.xml` changes will require updates to HMIs to remove `notificationText` and `navigationText` from their capabilities and an update to Core to remove the processing of the `notificationText` and `navigationText` `TextFieldName` capabilities.
 
 ## Alternatives considered
 
 The author considered making no changes to the spec but this would be confusing to developers and would cause problems when another element is added to the `TextFieldName` enum.
 
-The author considered not removing `notificationText` but this solution would also cause problems when another element is added to the `TextFieldName` enum.
+The author considered not removing `notificationText` or `navigationText` but this solution would also cause problems when another element is added to the `TextFieldName` enum.
