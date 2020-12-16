@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0328](0328-modernize-ubuntu-support-v20.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core, ATF]
 
 ## Introduction
