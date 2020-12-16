@@ -248,7 +248,7 @@ Due to the size of the iOS APIs and the similarity between the iOS, Java Suite a
 - The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to how the `SDLChoiceSetManager` does.
 - If any image fails to upload, the presentation of the alert should continue without an error.
 - If an audio file is supposed to be played and fails to upload, the presentation of the alert will fail _if_ there is no text attached to the alert. If text is present on the alert and the audio file fails to upload, the presentation of the alert should continue and no error should be returned.
-- The alert view should be copied as soon as `presentAlert` is called in order to prevent the developer from changing the properties of the view after they call the method. This will necessitate adding a public clone method to the Java Suite library because (//TODO: add explanation). 
+- The alert view should be copied as soon as `presentAlert` is called in order to prevent the developer from changing the properties of the view after they call the method. This will necessitate adding a public clone method to the Java Suite library to facilitate copying. 
 
 ## Potential downsides
 The creation of the alert sub-manager will be complex because it has to handle the creation of soft buttons and manage their IDs alongside the soft button manager. It will also have to upload the icon image, soft button images, and audio files. However, this is all complexity that every SDL developer must currently consider when developing their app. This is especially difficult for them because they don't usually have to deal with uploading images and waiting until the upload is done.
