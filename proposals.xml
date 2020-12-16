@@ -358,10 +358,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0322" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Improve starting streaming services" filename="0322-improve-starting-streaming-services.md"/>	
 <proposal id="0323" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Align video streaming parameters with VideoStreamingCapability" filename="0323-align-VideoStreamingParameter-with-capability.md"/>	
 <proposal id="0324" status="active" primary-platform="core" sdl-version="x.x" name="Function to control the priority of audio and video when switching between apps" filename="0324-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps.md"/>	
-<proposal id="0325" status="active" primary-platform="core" sdl-version="x.x" name="Dynamic App List Sorting" filename="0325-Dynamic-App-List-Sorting.md"/>	
-<proposal id="0326" status="returned" primary-platform="core" sdl-version="x.x" name="Handle Late Malformed HMI Responses" filename="0326-handle-late-malformed-hmi-responses.md"/>	
+<proposal id="0325" status="withdrawn" primary-platform="core" sdl-version="x.x" name="Dynamic App List Sorting" filename="0325-Dynamic-App-List-Sorting.md"/>	
+<proposal id="0326" status="active" primary-platform="core" sdl-version="x.x" name="Handle Late Malformed HMI Responses" filename="0326-handle-late-malformed-hmi-responses.md"/>	
 <proposal id="0327" status="returned" primary-platform="mobile" sdl-version="x.x" name="App Library Remote Control Manager" filename="0327-app-lib-remote-control-manager.md"/>	
-<proposal id="0328" status="active" primary-platform="core" sdl-version="x.x" name="Modernize Ubuntu Support V20 LTS" filename="0328-modernize-ubuntu-support-v20.md"/>	
+<proposal id="0328" status="accepted" primary-platform="core" sdl-version="x.x" name="Modernize Ubuntu Support V20 LTS" filename="0328-modernize-ubuntu-support-v20.md"/>	
 
 	<!--
 Recognized values for a proposal's status:
