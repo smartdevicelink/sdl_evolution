@@ -99,9 +99,10 @@ We also need to expand our capabilities so that developers and high-level manage
 ### HMI_API Updates
 Updates also need to be made to the HMI_API so that Core can communicate with the HMI about the new types.
 
-###### AddSubmenu
+###### Common.MenuParams
+
 ```xml
-<function name="UI.AddSubMenu" messagetype="request">
+<struct name="MenuParams">
     <!-- New Parameters -->
     <param name="secondaryText" maxlength="500" type="String" mandatory="false">
         <description>Optional secondary text to display</description>
@@ -109,6 +110,13 @@ Updates also need to be made to the HMI_API so that Core can communicate with th
     <param name="tertiaryText" maxlength="500" type="String" mandatory="false">
         <description>Optional tertiary text to display</description>
     </param>
+</struct>
+```
+
+###### AddSubmenu
+```xml
+<function name="UI.AddSubMenu" messagetype="request">
+    <!-- New Parameters -->
     <param name="secondaryImage" type="Image" mandatory="false">
         <description>Optional secondary image struct for menu cell</description>
     </param>
@@ -119,12 +127,6 @@ Updates also need to be made to the HMI_API so that Core can communicate with th
 ```xml
 <function name="UI.AddCommand" messagetype="request">
     <!-- New Parameters -->
-    <param name="secondaryText" maxlength="500" type="String" mandatory="false">
-        <description>Optional secondary text to display</description>
-    </param>
-    <param name="tertiaryText" maxlength="500" type="String" mandatory="false">
-        <description>Optional tertiary text to display</description>
-    </param>
     <param name="secondaryImage" type="Image" mandatory="false">
         <description>Optional secondary image struct for menu cell</description>
     </param>
