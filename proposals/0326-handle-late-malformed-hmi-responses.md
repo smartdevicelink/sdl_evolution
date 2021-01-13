@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0326](0326-handle-late-malformed-hmi-responses.md)
 * Author: [JackLivio](https://github.com/JackLivio)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
