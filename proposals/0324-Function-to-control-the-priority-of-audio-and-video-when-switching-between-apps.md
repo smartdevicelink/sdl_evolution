@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0324](0324-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [ Core ]
 
 ## Introduction
