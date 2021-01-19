@@ -85,7 +85,7 @@ In order to support `Alert`'s complicated audio processing and to simplify `TTSC
 ##### Java
 ```java
 public class AudioData {
-    private List<SdlFile> audioData;
+    private List<TTSChunk> audioData;
 
     AudioData(@NonNull SdlFile audioFile)
     AudioData(@NonNull String spokenString)
