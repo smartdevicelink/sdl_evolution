@@ -21,14 +21,9 @@ In order to support `Alert`'s complicated audio processing and to simplify `TTSC
  ```objc
  @interface SDLAudioData: NSObject
 /**
- The text-to-speech prompts that will used.
+ The text-to-speech prompts that will used and/or audio files that will be played. The audio prompts and files will be played in the same order they are added.
  */
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLTTSChunk *> *prompts;
-
-/**
- The audio files that will be uploaded and used.
- */
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLFile *> *audioFiles;
+@property (nullable, copy, nonatomic, readonly) NSArray<SDLTTSChunk *> *audioData;
 
 /**
  Initialize with an SDLFile holding data or pointing to a file on the file system. When this object is passed to an `Alert` or `Speak`, the file will be uploaded if it is not already, then played if the system supports that feature.
@@ -90,8 +85,7 @@ In order to support `Alert`'s complicated audio processing and to simplify `TTSC
 ##### Java
 ```java
 public class AudioData {
-    private List<TTSChunk> prompts;
-    private List<SdlFile> audioFiles;
+    private List<SdlFile> audioData;
 
     AudioData(@NonNull SdlFile audioFile)
     AudioData(@NonNull String spokenString)
@@ -110,6 +104,13 @@ public class AlertAudioData extends AudioData {
     private boolean playTone;
 
     // All vars have getters and setters
+    AlertAudioData(@NonNull SdlFile audioFile)
+    AlertAudioData(@NonNull String spokenString)
+    AlertAudioData(@NonNull String phoneticString, @NonNull SpeechCapabilities phoneticType)
+
+    // Creates a deep copy of the object
+    @Override
+    AlertAudioData clone() {}
 }
 ```
 
@@ -209,6 +210,10 @@ public class AlertView {
     // All vars have getters and setters to match iOS read / write
 
     public void cancel() {}
+
+    // Creates a deep copy of the object
+    @Override
+    public AlertView clone() {}
 }
 ```
 
@@ -234,7 +239,18 @@ And then the additions to the screen manager public API itself to present the al
 ##### Java
 ```java
 public class BaseScreenManager {
-    public void presentAlert(AlertView alert, CompletionListener listener)
+    // Everything already there
+
+    public void presentAlert(AlertView alert, AlertCompletionListener listener)
+}
+
+public interface AlertCompletionListener {
+    /**
+     * Returns whether an Alert operation was successful or not along with tryAgainTime
+     * @param success - Boolean that is True if Operation was a success, False otherwise.
+     * @param tryAgainTime - Amount of time (in seconds) that an app must wait before resending an alert.
+     */
+    void onComplete(boolean success, Integer tryAgainTime);
 }
 ```
 
@@ -245,7 +261,7 @@ Due to the size of the iOS APIs and the similarity between the iOS, Java Suite a
 - The internal alert manager will observe the `AlertResponse` to know when the alert has finished presenting, and then call the `completionHandler`.
 - The internal alert manager will always send the alert, even if the system context is not MAIN. If the `AlertResponse` returns a failure to present, it will call the `completionHandler` with the error.
 - The developer will not be notified when the alert appears on the screen, assuming no error occurred – see alternative #1 for possible ways to do that.
-- The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to how the `SDLChoiceSetManager` does.
+- The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to the implementation in the `SDLChoiceSetManager`. The queue is serial and if an alert is sent while another alert is currently presented, the newest alert will not be sent until the module dismisses the previous alert.
 - If any image fails to upload, the presentation of the alert should continue without an error.
 - If an audio file is supposed to be played and fails to upload, the presentation of the alert will fail _if_ there is no text attached to the alert. If text is present on the alert and the audio file fails to upload, the presentation of the alert should continue and no error should be returned.
 - The alert view should be copied as soon as `presentAlert` is called in order to prevent the developer from changing the properties of the view after they call the method. This will necessitate adding a public clone method to the Java Suite library to facilitate copying. 
