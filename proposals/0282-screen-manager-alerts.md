@@ -205,6 +205,7 @@ public class AlertView {
         Builder setSoftButtons(List<SoftButtonObject> softButtons) { /* Imp */ }
         Builder setAudio(AlertAudioData audio) { /* Imp */ }
         Builder setIcon(SdlArtwork icon) { /* Imp */ }
+        Builder setShowWaitIndicator(boolean showWaitIndicator)  { /* Imp */ }
     }
 
     // All vars have getters and setters to match iOS read / write
