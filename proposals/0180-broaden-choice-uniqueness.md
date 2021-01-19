@@ -24,7 +24,7 @@ This will result in a failure when attempting to show the `PerformInteraction`.
 The developer wishes to display use the menu system like the following:
 
 | Nearby Restaurants (`AddCommand`) |
----------------------------------------
+| --------------------------------- |
 | McDonalds \ 0.3 miles away (`AddCommand`) |
 | McDonalds \ 1.4 miles away \ Supports ordering from your car! (`AddSubmenu`) |
 | McDonalds \ 2.4 miles away (`AddCommand`) |
