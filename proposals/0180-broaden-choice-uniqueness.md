@@ -3,7 +3,7 @@
 * Proposal: [SDL-0180](0180-broaden-choice-uniqueness.md)
 * Author: [Joel Fischer](https://github.com/joeljfischer)
 * Status: **Accepted with Revisions**
-* Impacted Platforms: [Core / iOS / Android]
+* Impacted Platforms: Core / iOS / Java Suite / JavaScript Suite
 
 ## Introduction
 This proposal broadens choice and sub-menu uniqueness to allow the choice set system (`CreateInteractionChoiceSet` / `PerformInteraction`) and menu system (`AddCommand` / `AddSubMenu`) primary text to be identical. 
