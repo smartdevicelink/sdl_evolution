@@ -100,7 +100,7 @@ public class AudioData {
 ```
 
 ```java
-public class AlertAudioData extends AudioData {
+public class AlertAudioData extends AudioData implements Cloneable {
     private boolean playTone;
 
     // All vars have getters and setters
@@ -110,7 +110,7 @@ public class AlertAudioData extends AudioData {
 
     // Creates a deep copy of the object
     @Override
-    AlertAudioData clone() {}
+    public AlertAudioData clone() {}
 }
 ```
 
