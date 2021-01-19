@@ -1,7 +1,7 @@
 # Screen Manager Alert Manager
 
 * Proposal: [SDL-0282](0282-screen-manager-alerts.md)
-* Author: [Joel Fischer](https://github.com/joeljfischer)
+* Author: [Joel Fischer (https://github.com/joeljfischer), Nicole Yarroch (https://github.com/NicoleYarroch), Julian Kast (https://github.com/JulianKast)]
 * Status: **Accepted with Revisions**
 * Impacted Platforms: [iOS / Java Suite / JavaScript Suite]
 
