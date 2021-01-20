@@ -170,7 +170,7 @@ The next object is the alert view itself that developers will construct and pass
 - (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout showWaitIndicator:(BOOL)showWaitIndicator audioIndication:(nullable NSArray<SDLAlertAudioData *> *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon;
 
 /**
- Cancels the alert. If the alert has not yet been sent to Core, it will not be sent. If the alert is already presented on Core, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to Core versions 6.0+. On older versions of Core, the alert will not be dismissed.
+ Cancels the alert. If the alert has not yet been sent to Core, it will not be sent. If the alert is already presented on Core, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to modules supporting RPC Spec v.6.0+. On older versions of Core, the alert will not be dismissed.
 */
 - (void)cancel;
 
@@ -225,7 +225,7 @@ And then the additions to the screen manager public API itself to present the al
 // Everything already there
 
 /**
- Present the alert on the screen.
+ Present the alert on the screen. To replace a currently presenting alert with a new alert, you must first call `cancel` on the currently presenting alert before sending the new alert. Otherwise the newest alert will only be presented when the module dismisses the currently presented alert (either due to the timeout or the user selecting a button on the alert). Please note that cancelling a currently presented alert will only work on modules supporting RPC Spec v.6.0+.
  
  If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.
  
