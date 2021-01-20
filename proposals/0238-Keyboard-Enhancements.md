@@ -60,7 +60,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 **_Addition for Enhancement #1: Adding support for numeric keyboard._**
 
 1. Add _"NUMERIC"_ value in _"KeyboardLayout"_ enum. This enum value should allow apps to use numeric keypad.
-2. If HMI supports numeric keypad, SDL core should return _"NUMERIC"_, value in _"supportedKeyboardLayouts"_ in _"KeyboardCapabilities"_ struct.
+2. If HMI supports numeric keypad, SDL core should return _"NUMERIC"_, value in _"supportedKeyboards"_ in _"KeyboardCapabilities"_ struct.
 
 **_Addition for Enhancement #2: Allow apps to mask entered characters._**
 
@@ -72,8 +72,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 
 **_Addition for Enhancement #3: Allow apps to change special characters shown on the Keyboard Layout._**
 
-1. SDL should define new Struct _"ConfigurableKeyboards"_. This struct should provide info about the number of special character keys, which can be configured in Keyboard Layout.
-2. If HMI supports this keyboard capability, the SDL core should return an array of _"configurableKeys"_ param in _"KeyboardCapabilities"_ Struct. 
+1. SDL should define new Struct _"KeyboardCapability"_. This struct should provide capability info for a supported Keyboard Layout. This struct should include the number of configurable keys available for the given layout.
 
 **_This enhancement is applicable only for root level keys in the keyboard layout. If HMI does not provide configurable keys in root level of keyboards, the system should return Zero in number of configurable keys._**
 
@@ -89,15 +88,12 @@ In case of older SDL versions, if _"maskInputCharactersSupported"_ value is not 
  
 ```xml
 <struct name="KeyboardCapabilities" since="X.X">
-       <param name="maskInputCharactersSupported" type="Boolean" mandatory="false">
-           <description>Availability of capability to mask input characters using keyboard. True: Available, False: Not Available</description>
-       </param>
-	   <param name="supportedKeyboardLayouts" type="KeyboardLayout" minsize="1" maxsize="1000" array="true" mandatory="false" since="X.X" >
-           <description>Supported keyboard layouts by HMI.</description>
-       </param> 
-	   <param name="configurableKeys" type="ConfigurableKeyboards" minsize="1" maxsize="1000" array="true" mandatory="false" since="X.X" >
-           <description>Get Number of Keys for Special characters, App can customize as per their needs.</description>
-       </param>  
+    <param name="maskInputCharactersSupported" type="Boolean" mandatory="false">
+        <description>Availability of capability to mask input characters using keyboard. True: Available, False: Not Available</description>
+    </param>
+    <param name="supportedKeyboards" type="KeyboardCapability" minsize="1" maxsize="1000" array="true" mandatory="false">
+        <description>Capabilities of supported keyboard layouts by HMI.</description>
+    </param>
 </struct>
 ```
 
@@ -110,12 +106,12 @@ In case of older SDL versions, if _"maskInputCharactersSupported"_ value is not 
 5. The app will be notified using _"KeyboardEvent"_ in _"OnKeyboardInput"_ notification, whether input values will be masked or not. This notification will be sent to make the app aware that the intended effect of keyboard properties are applied. Changes in  _"KeyboardEvent"_ struct are discussed in the next section.
 
 ```xml
-    <enum name="KeyboardInputMask" since="X.X">
-        <description>Enumeration listing possible input character masking.</description>
-        <element name="ENABLE_INPUT_KEY_MASK" />
-        <element name="DISABLE_INPUT_KEY_MASK" />
-        <element name="USER_CHOICE_INPUT_KEY_MASK" />
-    </enum>    
+<enum name="KeyboardInputMask" since="X.X">
+    <description>Enumeration listing possible input character masking.</description>
+    <element name="ENABLE_INPUT_KEY_MASK" />
+    <element name="DISABLE_INPUT_KEY_MASK" />
+    <element name="USER_CHOICE_INPUT_KEY_MASK" />
+</enum>    
 ```
 
 #### Changes in _"KeyboardEvent"_ Enum
@@ -125,24 +121,26 @@ The app will be notified whether the input is masked or not, using _"UI.OnKeyboa
 
 ```xml
 <enum name="KeyboardEvent">
-	:
-	<element name="INPUT_KEY_MASK_ENABLED"/>
-	<element name="INPUT_KEY_MASK_DISABLED"/>
+    :
+    <element name="INPUT_KEY_MASK_ENABLED"/>
+    <element name="INPUT_KEY_MASK_DISABLED"/>
 </enum>
 ```
 
-#### Addition of _"ConfigurableKeyboards"_ Struct
+#### Addition of _"KeyboardCapability"_ Struct
 
 This _"KeyboardCapabilities"_ object will be returned with in _"WindowCapability"_ struct. Each layout can have a different number of customizable buttons. Hence, this struct object will map a number of customizable buttons and keyboard layout.
 
 ```xml
-    <struct name="ConfigurableKeyboards" since="X.X">
-        <description>
-            Describes number of cofigurable Keys for Special characters.
-        </description>
-        <param name="keyboardLayout" type="KeyboardLayout" mandatory="true"/>
-        <param name="numConfigurableKeys" type="Integer" mandatory="true"/>
-    </struct>
+<struct name="KeyboardCapability" since="X.X">
+    <description>
+        Describes the capabilities of a single keyboard layout.
+    </description>
+    <param name="keyboardLayout" type="KeyboardLayout" mandatory="true"/>
+    <param name="numConfigurableKeys" type="Integer" minvalue="0" maxvalue="10" mandatory="true">
+        <description>Number of keys available for special characters, App can customize as per their needs.</description>
+    </param>
+</struct>
 ```
 
 
@@ -151,41 +149,41 @@ This _"KeyboardCapabilities"_ object will be returned with in _"WindowCapability
 
 ```xml
 <enum name="KeyboardLayout">
-	:
-	<element name="NUMERIC"/>
+    :
+    <element name="NUMERIC"/>
 </enum>
 ```
 
 #### Change in _"KeyboardProperties"_ struct
 
 1. App can request masking input characters using _"maskInputCharacters"_ param in _"KeyboardProperties"_ struct.
-2. App can request changes in special characters shown in the keyboard layout using _"customizeKeys"_ array. To set these buttons, app can just send an array of _"Strings"_ with special characters in _"customizeKeys"_ in _"SetGlobalProperties"_ RPC.
+2. App can request changes in special characters shown in the keyboard layout using _"customKeys"_ array. To set these buttons, app can just send an array of _"Strings"_ with special characters in _"customKeys"_ in _"SetGlobalProperties"_ RPC.
 3. If App does not send this string, HMI should show default special characters in the keyboard layout.
-4. If the number of keys in _"customizeKeys"_ array is more than customizable keys allowed, the SDL core should respond with _"INVALID_DATA"_ and the info string should include a detailed message, that **_"customizeKeys exceeds the number of customizable keys in this Layout"_**.
-5. If the number of keys in _"customizeKeys"_ array is less than or equal to customizable keys allowed, the SDL core should respond with _"SUCCESS"_. 
-6. HMI should show default characters in the remaining customizable Keys if _"customizeKeys"_ array is less than or equal to the customizable keys allowed. HMI should not duplicate special characters on keyboard. 
+4. If the number of keys in _"customKeys"_ array is more than customizable keys allowed, the SDL core should respond with _"INVALID_DATA"_ and the info string should include a detailed message, that **_"customKeys exceeds the number of customizable keys in this Layout"_**.
+5. If the number of keys in _"customKeys"_ array is less than or equal to customizable keys allowed, the SDL core should respond with _"SUCCESS"_. 
+6. HMI should show default characters in the remaining customizable Keys if _"customKeys"_ array is less than or equal to the customizable keys allowed. HMI should not duplicate special characters on keyboard. 
 7. If a certain special character is not supported by the system the HMI should send _"WARNING"_ response, with _"info"_ text as _" some symbols might not be supported by system"_. This will give a chance to use symbols that are supported and also inform the app about the system not supporting certain characters.
 
-**Example usage:** If an app wants to change three symbols, the app sends the value of _"customizeKeys"_ as _"₹£$"_. The parameter follows a similar structure as _"limitedCharacterList"_.
+**Example usage:** If an app wants to change three symbols, the app sends the value of _"customKeys"_ as _["₹", "£", "$"]_. The parameter follows a similar structure as _"limitedCharacterList"_.
  
- ```xml
-     <struct name="KeyboardProperties" since="3.0">
-        <description>Configuration of on-screen keyboard (if available).</description>         
-		:       
-		<param name="maskInputCharacters" type="KeyboardInputMask" mandatory="false"  since="X.X"> 
-			<description>Allows an app to mask entered characters on HMI</description>
-		</param> 
-		<param name="customizeKeys" type="String" maxlength="1" minsize="1" maxsize="10" array="true" mandatory="false"  since="X.X">
-            <description>Array of special characters to show in customizable Keys.</description>
-            <description>If omitted, keyboard will show default special characters</description>
-        </param>  
-    </struct>
- ```
+```xml
+<struct name="KeyboardProperties" since="3.0">
+    <description>Configuration of on-screen keyboard (if available).</description>         
+    :
+    <param name="maskInputCharacters" type="KeyboardInputMask" mandatory="false" since="X.X"> 
+        <description>Allows an app to mask entered characters on HMI</description>
+    </param> 
+    <param name="customKeys" type="String" maxlength="1" minsize="1" maxsize="10" array="true" mandatory="false" since="X.X">
+        <description>Array of special characters to show in customizable keys.</description>
+        <description>If omitted, keyboard will show default special characters</description>
+    </param>  
+</struct>
+```
 
 #### Change in WindowCapability Struct
 
 ```xml
-<struct name="WindowCapability" since="5.x">
+<struct name="WindowCapability" since="6.0">
     :
     <param name="keyboardCapabilities"  type="KeyboardCapabilities" mandatory="false" since="X.X">
         <description>See KeyboardCapabilities</description>
