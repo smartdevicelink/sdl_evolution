@@ -31,7 +31,6 @@ In order to support `Alert`'s complicated audio processing and to simplify `TTSC
  Only available on systems supporting RPC Spec v5.0+.
 
  @param audioFile The audio file to be played by the system
- @param tone Whether or not to play a system tone before the audio file
  */
 - (instancetype)initWithAudioFile:(SDLFile *)audioFile;
 
@@ -47,7 +46,6 @@ In order to support `Alert`'s complicated audio processing and to simplify `TTSC
 
  @param spokenString The string to be spoken by the system speech synthesizer
  @param phoneticType Must be one of `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED` or no object will be created
- @param tone Whether or not to play a system tone before the synthesized speech
  */
 - (instancetype)initWithPhoneticSpeechSynthesizerString:(NSString *)phoneticString phoneticType:(SDLSpeechCapabilities)phoneticType;
 
@@ -121,7 +119,8 @@ The next object is the alert view itself that developers will construct and pass
 ```objc
 @interface SDLAlertView: NSObject
 /**
- Set this to change the default timeout for all alerts. If a timeout is not set on an individual alert object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 5 seconds. The minimum is 3 seconds, the maximum is 10 seconds. If this is set below the minimum, it will be capped at 3 seconds. If this is set above the maximum, it will be capped at 10 seconds.
+ Set this to change the default timeout for all alerts. If a timeout is not set on an individual alert object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 5 seconds. The minimum is 3 seconds, the maximum is 10 seconds
+ Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.
  */
 @property (class, assign, nonatomic) NSTimeInterval defaultTimeout;
 
@@ -141,7 +140,8 @@ The next object is the alert view itself that developers will construct and pass
 @property (nullable, strong, nonatomic) NSString *tertiaryText;
 
 /**
- Maps to Alert.duration. Defaults to `defaultTimeout`. If set to 0, it will use `defaultTimeout`. If this is set below the minimum, it will be capped at 3 seconds. Minimum 3 seconds, maximum 10 seconds. If this is set above the maximum, it will be capped at 10 seconds. Defaults to 0.
+ Maps to Alert.duration. Defaults to `defaultTimeout`. Defaults to 0, which will use `defaultTimeout`. If this is set below the minimum, it will be capped at 3 seconds. Minimum 3 seconds, maximum 10 seconds. If this is set above the maximum, it will be capped at 10 seconds. Defaults to 0.
+ Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.
  */
 @property (assign, nonatomic) NSTimeInterval timeout;
 
@@ -167,7 +167,7 @@ The next object is the alert view itself that developers will construct and pass
 
 - (instancetype)initWithText:(NSString *)text buttons:(NSArray<SDLSoftButtonObject *> *)softButtons;
 
-- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout showWaitIndicator:(BOOL)showWaitIndicator audioIndication:(nullable NSArray<SDLAlertAudioData *> *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon;
+- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(nullable NSNumber<SDLFloat> *)timeout showWaitIndicator:(nullable NSNumber<SDLBool> *)showWaitIndicator audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon;
 
 /**
  Cancels the alert. If the alert has not yet been sent to Core, it will not be sent. If the alert is already presented on Core, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to modules supporting RPC Spec v.6.0+. On older versions of Core, the alert will not be dismissed.
@@ -230,7 +230,7 @@ And then the additions to the screen manager public API itself to present the al
  
  If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.
  
- The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The error will contain `userInfo` with information on how long to wait before retrying.
+ The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The `userInfo` object on the error contais an `error` key with more information about the error. If the alert failed to present, the `userInfo` object will contain a `tryAgainTime` key with information on how long to wait before trying to send another alert. The value for `tryAgainTime` may be `nil` if the module did not return a value in its response.
  */
 - (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
 
@@ -265,7 +265,7 @@ Due to the size of the iOS APIs and the similarity between the iOS, Java Suite a
 - The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to the implementation in the `SDLChoiceSetManager`. The queue is serial and if an alert is sent while another alert is currently presented, the newest alert will not be sent until the module dismisses the previous alert.
 - If any image fails to upload, the presentation of the alert should continue without an error.
 - If an audio file is supposed to be played and fails to upload, the presentation of the alert will fail _if_ there is no text attached to the alert. If text is present on the alert and the audio file fails to upload, the presentation of the alert should continue and no error should be returned.
-- The alert view should be copied as soon as `presentAlert` is called in order to prevent the developer from changing the properties of the view after they call the method. This will necessitate adding a public clone method to the Java Suite library to facilitate copying. 
+- The alert view should be copied as soon as `presentAlert` is called in order to prevent the developer from changing the properties of the view after they call the method.
 
 ## Potential downsides
 The creation of the alert sub-manager will be complex because it has to handle the creation of soft buttons and manage their IDs alongside the soft button manager. It will also have to upload the icon image, soft button images, and audio files. However, this is all complexity that every SDL developer must currently consider when developing their app. This is especially difficult for them because they don't usually have to deal with uploading images and waiting until the upload is done.
