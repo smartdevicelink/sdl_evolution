@@ -13,7 +13,7 @@ This proposal is about integrating a new manager to the sdl_ios library that all
 
 For mobile navigation apps, supporting voice-based address search while driving is an important feature. In the effort to support SDL partners, Ford worked together with a nav app partner to develop a feature for audio input and output. The goal was to use `AudioPassThru` RPCs to receive audio from the car microphone and to use the audio service from the SDL protocol specification to play audio.
 
-SDL does not include requirements to head units to support `PerformAudioPassThru` and audio services to run at the same time. We can't expect and we cannot guarantee that all SDL enabled head units will support both to work at the same time. The current SDL libraries don't prevent an app from executing both. Therefore receiving audio data with `PerformAudioPassThru` and sending audio data with the audio Service must be synchronized.
+SDL does not include requirements to head units to support `PerformAudioPassThru` and audio services to run at the same time. It's not possible to expect or have a guarantee that all SDL enabled head units support both at the same time. Furthermore, the current SDL libraries don't prevent an app from executing both. Therefore receiving audio data with `PerformAudioPassThru` and sending audio data with the audio Service must be synchronized.
 
 The feature was originally located in the app as it was a joint development specifically for the app. Due to the substantial use of SDL it required quite some experience with SDL to maintain this code. Moving forward the partner requested to maintain it externally. The feature was refactored as an SDL manager and should now be part of the open source sdl_ios repository. 
 
@@ -29,9 +29,11 @@ The manager requires a delegate that the app needs to implement. Delegate calls 
 
 ### State machine
 
-The manager handles the input and the output stream in different states. Both streams can be `Stopped`, `Starting` and `Started`. In addition the input stream can be `Stopping` (as waiting for RPC responses), `Pausing` and `Paused`. The paused state will be described in detail in the next section.
+The manager handles the input and the output stream in different states. Both streams can be `Stopped`, `Starting` and `Started`. In addition the input stream can be `Stopping` (as waiting for RPC responses), `Pausing` and `Paused`. The paused state will be described in detail in the next section. It is important to understand that certain stream state combinations must not occur. For instance, The output stream must not be started while the input stream is not stopped. The challenging part is to be robust against application calls during a state change or delegate call. Robustness can be achieved by serializing state transitions with public method calls.
 
 ### Audio Input Stream
+
+![Input Stream State Machine](../assets/proposals/0303-audio-io-manager/input-stream.png)
 
 The manager provides APIs for an input stream using `PerformAudioPassThru`. The developer can specify two properties for the initial prompt and the text that should be used when presenting the audio pass thru overlay. Other parameters to `PerformAudioPassThru` are based on audio capabilities provided in the `RegisterAppInterfaceResponse` or preset (audio is always muted, timeout is 100 seconds according to `maxvalue` in MOBILE_API). 
 
@@ -43,20 +45,30 @@ While the app receives amplified audio chunks, the app can choose to end the inp
 
 While the input stream is active, the app can also send audio files to be played on the output stream. In order to play the file the current audio pass thru has to end before sending the audio. The manager will try to "pause" the input stream by sending `EndAudioPassThru` and wait for the `PerformAudioPassThru` response. Once received the manager sends the audio data. Once the manager has completed sending all files through the audio output stream, the manager will automatically continue the audio input stream by sending a `PerformAudioPassThru` request.
 
-#### Known bugs
+#### Known bug: Missing RPCs from the system
 
-There are known bugs related to the audio input stream and audio pass thru.
-
-Sometimes the head unit has issues in handling RPCs that can behave very differently:
+There is a known bug related to the audio input stream and audio pass thru, where RPC processing fails on certain systems. Following problems can happen:
 1. HU stops sending `OnAudioPassThru` notifications
 2. HU does not respond to `PerformAudioPassThru`
 3. HU does not handle `EndAudioPassThru`
 
-Incorrect RPC messaging has severe issues to the operation of the managers. These issues were addressed when found on the head unit. However, some vehicles are still equipped with affected software versions. In order to resolve the issues an abort timeout was added that aborts the input stream. This is done by simulating a `PerformAudioPassThru` response with `ABORTED` result code which requires knowledge about the correlation ID upon sending. This is not only necessary to keep the manager running, but also to remove dead RPC operations from the lifecycle manager's operation queue. The lifecycle manager's operation queue is configured for three concurrent tasks. Without this workaround the lifecycle manager can be stuck as it has to operate with only two concurrent tasks. Previous workarounds were able to recover the state machine but didn't remove the operation from the queue. Over time, this leads to an inoperable app if this error happens three times in one session. 
+Incorrect RPC messaging has severe issues to the operation of the managers. These issues were addressed when found on the head unit. However, some vehicles are still equipped with affected software versions. 
 
-There is a race condition when the output stream has finished and the input stream should resume. It's not possible to identify the exact moment when the audio output has finished. The HMI priority matrix favors the audio service above audio pass thru. Therefore, when sending `PerformAudioPassThru` too early the HMI will reply with `REJECT`. The manager waits 0.5 seconds after it predicts that the audio output did stop and retries the request two times, also waiting 0.5 seconds if `REJECT` is received again. After three attempts, the manager reverts the state machine to `Stopped` and notifies the app about the error.
+##### Workaround
+
+In order to resolve the issues, an abort timeout must be added that aborts the input stream. This is done by simulating a `PerformAudioPassThru` response with `ABORTED` result code which requires knowledge about the correlation ID upon sending. This is not only necessary to keep the manager running, but also to remove dead RPC operations from the lifecycle manager's operation queue. The lifecycle manager's operation queue is configured for three concurrent tasks. Without this workaround the lifecycle manager can be stuck as it has to operate with only two concurrent tasks. Previous workarounds were able to recover the state machine but didn't remove the operation from the queue. Over time, this leads to an inoperable app if this error happens three times in one session. 
+
+#### Known bug: Input stream resumption is rejected
+
+There is a race condition when the output stream has finished and the input stream should resume. It's not possible to identify the exact moment when the audio output has finished. The HMI priority matrix favors the audio service above audio pass thru. Therefore, when sending `PerformAudioPassThru` too early the HMI will reply with `REJECT`. 
+
+##### Workaround
+
+The manager waits 0.5 seconds after it predicts that the audio output did stop and retries the request two times, also waiting 0.5 seconds if `REJECT` is received again. After three attempts, the manager reverts the state machine to `Stopped` and notifies the app about the error.
 
 ### Audio Output Stream
+
+![Output Stream State Machine](../assets/proposals/0303-audio-io-manager/output-stream.png)
 
 The manager provides APIs to write audio files to the output stream using the audio service session held by the existing streaming audio manager. Before processing the first audio file, the manager notifies the app that the output stream has started. The API is simplified as the requirement is to play audio files always on demand. Any audio file written to the output stream will first be placed in an operation queue but immediately converted to PCM data and sent to the audio service session. 
 
@@ -66,9 +78,11 @@ Over time, the app can push additional files that will be added to the operation
 
 Attempts to start the input stream during an active output stream will be held back in state `Starting`. The manager will automatically start the input stream then if the output stream stopped.
 
-#### Known bugs
+#### Known bug: Race condition with empty audio buffer
 
 A race condition was identified on the head unit that occurs during an active output stream of multiple audio files. Previously, the audio stream manager was used to send the audio files by continuing to send audio data at the end of the current audio file. This resulted in an emptying audio input buffer on the head unit side, which was immediately refilled. These short periods of empty audio buffer caused race conditions and blocked the fluent audio output stream.
+
+##### Workaround
 
 This manager includes the audio encoding feature and changes the notification behavior. Starting with the first file, the manager notifies the app one second in advance of the file being played. This is helpful when apps continue sending new files based on previous files being uploaded. This notification in advance is only performed for one file and doesn't add up with multiple files. This means the head unit's input stream won't empty if not intended and remains with at least 32 kB of data.
 
@@ -85,6 +99,8 @@ A new manager replacing an existing manager instead of extending the existing ma
 ## Impact on existing code
 
 The current manager `SDLAudioStreamManager` should be deprecated and the new `SDLAudioIOManager` should be used.
+
+This proposal is not altered to be conform to the accepted proposal 0297 because this would be a revision to this proposal, which is not accepted yet. The accepted proposal 0297 sending audio data in chunks should be considered for the IO manager. This also includes force interrupt removing any other output data in the queue.
 
 ## Alternatives considered
 
