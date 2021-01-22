@@ -244,7 +244,9 @@ public class BaseScreenManager {
 
     public void presentAlert(AlertView alert, AlertCompletionListener listener)
 }
+```
 
+```java
 public interface AlertCompletionListener {
     /**
      * Returns whether an Alert operation was successful or not along with tryAgainTime
