@@ -230,7 +230,7 @@ And then the additions to the screen manager public API itself to present the al
  
  If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.
  
- The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The `userInfo` object on the error contais an `error` key with more information about the error. If the alert failed to present, the `userInfo` object will contain a `tryAgainTime` key with information on how long to wait before trying to send another alert. The value for `tryAgainTime` may be `nil` if the module did not return a value in its response.
+ The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The `userInfo` object on the error contains an `error` key with more information about the error. If the alert failed to present, the `userInfo` object will contain a `tryAgainTime` key with information on how long to wait before trying to send another alert. The value for `tryAgainTime` may be `nil` if the module did not return a value in its response.
  */
 - (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
 
