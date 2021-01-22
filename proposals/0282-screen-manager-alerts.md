@@ -240,7 +240,6 @@ And then the additions to the screen manager public API itself to present the al
 ##### Java
 ```java
 public class BaseScreenManager {
-
     public void presentAlert(AlertView alert, AlertCompletionListener listener)
 }
 ```
