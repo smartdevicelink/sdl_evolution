@@ -50,7 +50,7 @@ In order to support `Alert`'s complicated audio processing and to simplify `TTSC
 - (instancetype)initWithPhoneticSpeechSynthesizerString:(NSString *)phoneticString phoneticType:(SDLSpeechCapabilities)phoneticType;
 
 /**
- Add additional SDLFiles holding data or pointing to a file on the file system. When this object is passed to an `Alert` or `Speak`, the file will be uploaded if it is not already, then played if the system supports that feature.
+ Add additional `SDLFile`s holding data or pointing to a file on the file system. When this object is passed to an `Alert` or `Speak`, the file will be uploaded if it is not already, then played if the system supports that feature.
 
  @param audioFiles An array of audio file to be played by the system
  */
@@ -262,7 +262,7 @@ Due to the size of the iOS APIs and the similarity between the iOS, Java Suite a
 - The internal alert manager will observe the `AlertResponse` to know when the alert has finished presenting, and then call the `completionHandler`.
 - The internal alert manager will always send the alert, even if the system context is not MAIN. If the `AlertResponse` returns a failure to present, it will call the `completionHandler` with the error.
 - The developer will not be notified when the alert appears on the screen, assuming no error occurred – see alternative #1 for possible ways to do that.
-- The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to the implementation in the `SDLChoiceSetManager`. The queue is serial and if an alert is sent while another alert is currently presented, the newest alert will not be sent until the module dismisses the previous alert.
+- The `SDLAlertManager` sub-manager will use queues to manage alert related requests, similar to the implementation in the `SDLChoiceSetManager`. The queue is serial and if an alert is sent while another alert is currently presented, the newest alert will not be sent until the module dismisses the previous alert or `cancel` is called on the alert view by the developer on RPC 6.0+ systems.
 - If any image fails to upload, the presentation of the alert should continue without an error.
 - If an audio file is supposed to be played and fails to upload, the presentation of the alert will fail _if_ there is no text attached to the alert. If text is present on the alert and the audio file fails to upload, the presentation of the alert should continue and no error should be returned.
 - The alert view should be copied as soon as `presentAlert` is called in order to prevent the developer from changing the properties of the view after they call the method.
