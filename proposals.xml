@@ -337,7 +337,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0301" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="SDL Device Listener" filename="0301-SDL-device-listener.md"/>	
 <proposal id="0302" status="deferred" primary-platform="protocol" sdl-version="x.x" name="SDL System Structure for Middle/Low-end Class Model of Powered Two Wheeler" filename="0302-SDL-System-Structure-for-MiddleLow-end-Class-Model-of-Powered-Two-Wheeler.md"/>	
 <proposal id="0303" status="returned" primary-platform="ios" sdl-version="x.x" name="SDL Audio I/O Manager" filename="0303-audio-io-manager.md"/>	
-<proposal id="0304" status="deferred" primary-platform="ios" sdl-version="x.x" name="Start Video Stream With OnTouchEvent Permission" filename="0304-stream-ontouchevent.md"/>	
+<proposal id="0304" status="active" primary-platform="ios" sdl-version="x.x" name="Start Video Stream With OnTouchEvent Permission" filename="0304-stream-ontouchevent.md"/>	
 <proposal id="0305" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Homogenize TextFieldName" filename="0305-homogenize-textfieldname.md"/>	
 <proposal id="0306" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="Use Taskmaster To Handle Queuing Operations in Managers" filename="0306-Use-Taskmaster-To-Handle-Queuing-Operations-In-Managers.md"/>	
 <proposal id="0307" status="returned" primary-platform="rpc" sdl-version="x.x" name="Get Input Screen" filename="0307-GetInputScreen.md"/>	
@@ -348,7 +348,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0312" status="implemented" primary-platform="ios" sdl-version="7.0" name="Update the Minimum Required iOS Version to 10.0" filename="0312-ios-update-minimum-version-ios10.md"/>	
 <proposal id="0313" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Adding new parameters for transport switching" filename="0313-Adding-new-parameters-for-transport-switching.md"/>	
 <proposal id="0314" status="withdrawn" primary-platform="core" sdl-version="x.x" name="Clarification of SDL app icon display sequence and display order" filename="0314-Clarification-of-SDL-App-Icon-display-sequence-and-display-order.md"/>	
-<proposal id="0315" status="active" primary-platform="core" sdl-version="x.x" name="Add RPC Conflict Management" filename="0315-Add-RPC-Conflict-Management.md"/>	
+<proposal id="0315" status="deferred" primary-platform="core" sdl-version="x.x" name="Add RPC Conflict Management" filename="0315-Add-RPC-Conflict-Management.md"/>	
 <proposal id="0316" status="deferred" primary-platform="core" sdl-version="x.x" name="Clarification of transport switching rules and improvement of UX" filename="0316-Clarification-of-transport-switching-rules-and-improvement-of-UX.md"/>	
 <proposal id="0317" status="returned" primary-platform="protocol" sdl-version="x.x" name="SDL Protocol Security Specification" filename="0317-sdl-protocol-security-specification.md"/>	
 <proposal id="0318" status="accepted" primary-platform="mobile" sdl-version="x.x" name="App Library: Vehicle Data Manager" filename="0318-app-lib-vehicle-data-manager.md"/>	
@@ -360,7 +360,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0324" status="deferred" primary-platform="core" sdl-version="x.x" name="Function to control the priority of audio and video when switching between apps" filename="0324-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps.md"/>	
 <proposal id="0325" status="withdrawn" primary-platform="core" sdl-version="x.x" name="Dynamic App List Sorting" filename="0325-Dynamic-App-List-Sorting.md"/>	
 <proposal id="0326" status="accepted" primary-platform="core" sdl-version="x.x" name="Handle Late Malformed HMI Responses" filename="0326-handle-late-malformed-hmi-responses.md"/>	
-<proposal id="0327" status="returned" primary-platform="mobile" sdl-version="x.x" name="App Library Remote Control Manager" filename="0327-app-lib-remote-control-manager.md"/>	
+<proposal id="0327" status="active" primary-platform="mobile" sdl-version="x.x" name="App Library Remote Control Manager" filename="0327-app-lib-remote-control-manager.md"/>	
 <proposal id="0328" status="accepted" primary-platform="core" sdl-version="x.x" name="Modernize Ubuntu Support V20 LTS" filename="0328-modernize-ubuntu-support-v20.md"/>	
 
 	<!--
