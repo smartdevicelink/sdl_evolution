@@ -52,12 +52,12 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
    </element>
 -   <element name="timeToDestination"/>
 +   <element name="timeToDestination">
-+     <description>Optional time to destination field for ShowConstantTBT</description>
++     <description>Optional time to destination field for `ShowConstantTBT`</description>
 +   </element>
 -    <!-- TO DO to be removed -->
 -   <element name="turnText"/>
 +   <element name="turnText">
-+     <description>Turn text for turnList parameter of UpdateTurnList</description>
++     <description>Turn text for `turnList` parameter of `UpdateTurnList`</description>
 +   </element>
 -  <element name="navigationText">
 -    <description>Navigation text for turnList parameter of UpdateTurnList</description>
@@ -70,7 +70,7 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
  <struct name="Turn">
    <param name="navigationText" type="Common.TextFieldStruct" mandatory="false">
 -     <description>Uses navigationText from TextFieldStruct.</description>
-+     <description>Describes the turn using TextFieldName turnText</description>
++     <description>Describes the `Turn` using `TextFieldName` `turnText`</description>
    </param>
    <param name="turnIcon" type="Common.Image" mandatory="false">
    </param>
