@@ -66,6 +66,15 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
 -    <description>Text of notification to be displayed on screen.</description>
 -  </element>
  </enum>
+ ...
+ <struct name="Turn">
+   <param name="navigationText" type="Common.TextFieldStruct" mandatory="false">
+-     <description>Uses navigationText from TextFieldStruct.</description>
++     <description>Describes the turn using TextFieldName turnText</description>
+   </param>
+   <param name="turnIcon" type="Common.Image" mandatory="false">
+   </param>
+ </struct>
 ```
 
 `notificationText` is removed because it does not exist in the `MOBILE_API.xml` and is not used currently.
@@ -74,6 +83,10 @@ All fields that currently exist only in the `HMI_API.xml` used to also exist in 
 The comment `<!-- TO DO to be removed -->` is removed because it is no longer relevant.
 
 Descriptions are added to both `timeToDestination` and `turnText`.
+
+#### HMI Integration Guidelines
+
+Clarify that `UpdateTurnList` is using `fieldName` `turnText` within `TextField` parameter `navigationText`.
 
 ## Potential downsides
 
