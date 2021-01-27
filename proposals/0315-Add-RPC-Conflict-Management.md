@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0315](0315-Add-RPC-Conflict-Management.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **In Review**
+* Status: **Deferred**
 * Impacted Platforms: [ Core / HMI / Policy Server ]
 
 ## Introduction
