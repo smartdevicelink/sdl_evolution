@@ -74,8 +74,17 @@ The BSON payload of this message will have the following info.
 ```xml
 <function name="RegisterAppInterface" functionID="RegisterAppInterfaceID" messagetype="response" since="1.0">
     :
-    <param name="systemHardwareVersion" type="String" maxlength="500" mandatory="false" platform="documentation" since="X.X">
-        <description>The hardware version of the system</description>
+    <param name="vehicleType" type="VehicleType" mandatory="false" since="7.1" deprecated="true">
+        <description>Specifies the vehicle's type. See VehicleType.</description>
+        <history>
+            <param name="vehicleType" type="VehicleType" mandatory="false" since="2.0" until="7.1" />
+        </history>
+    </param>
+    <param name="systemSoftwareVersion" type="String" maxlength="100" mandatory="false" platform="documentation" since="7.1" deprecated="true">
+        <description>The software version of the system that implements the SmartDeviceLink core.</description>
+        <history>
+           <param name="systemSoftwareVersion" type="String" maxlength="100" mandatory="false" platform="documentation" since="3.0" until="7.1">
+        </history>
     </param>
 </function>
 ```
