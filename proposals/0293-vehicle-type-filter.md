@@ -113,36 +113,74 @@ The libraries will need to implement the above-mentioned protocol changes. In ad
 
 In JavaScript Suite App Library:
 ```javascript
-     /**
+    class SystemInfo {
+    
+        /**
+         * Initializes an instance of SystemInfo.
+         * @class
+         * @param {VehicleType} vehicleType
+         * @param {String} systemSoftwareVersion
+         * @param {String} systemHardwareVersion
+         */
+        constructor (vehicleType = null, systemSoftwareVersion = null, systemHardwareVersion = null) {
+            this._vehicleType = vehicleType;
+            this._systemSoftwareVersion = systemSoftwareVersion;
+            this._systemHardwareVersion = systemHardwareVersion;
+        }
+      
+        setVehicleType(vehicleType) {}
+        getVehicleType() {}
+      
+        setSystemSoftwareVersion(SystemSoftwareVersion) {}
+        getSystemSoftwareVersion() {}
+      
+        setSystemHardwareVersion(SystemHardwareVersion) {}
+        getSystemHardwareVersion() {}
+    }
+
+    /**
      * A way to determine if this SDL session should continue to be active while
-     * connected to the determined vehicle type.
-     * @param {SdlManager} sdlManager - A reference to an SdlManager instance.
-     * @param {VehicleType} vehicleType - the type of vehicle that this session is currently active on.
+     * connected to the determined system information of the vehicle.
+     * @param {SystemInfo} systemInfo - the system information of the vehicle that this session is currently active on.
      * @returns {Boolean} Return true if this session should continue, false if the session should end
      */
-    onVehicleTypeReceived (sdlManager, vehicleType) {}
+    onSystemInfoReceived (systemInfo) {}
 ```
 
 In iOS App Library:
 ```objective-c
+    @interface SDLSystemInfo
+    
+    @property (strong, nonatomic, readonly) SDLVehicleType *vehicleType;
+    @property (strong, nonatomic, readonly) NSString *systemSoftwareVersion;
+    @property (strong, nonatomic, readonly) NSString *systemHardwareVersion;
+    
+    @end
+    
      /**
      * A way to determine if this SDL session should continue to be active while
-     * connected to the determined vehicle type.
-     * @param {SDLVehicleType} vehicleType - the type of vehicle that this session is currently active on.
+     * connected to the determined system information of the vehicle.
+     * @param {SDLSystemInfo} systemInfo - the system information of the vehicle that this session is currently active on.
      * @returns {BOOL}Return true if this session should continue, false if the session should end
      */
-    - (BOOL)didReceiveVehicleType:(SDLVehicleType *)type    ;
+    - (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo;
 ```
 
 In Java SE and Java EE App Libraries:
 ```java
+    class SystemInfo {
+        VehicleType vehicleType
+        String systemSoftwareVersion,
+        String systemHardwareVersion
+    }
+
      /**
      * A way to determine if this SDL session should continue to be active while
-     * connected to the determined vehicle type.
-     * @param {VehicleType} vehicleType - the type of vehicle that this session is currently active on.
+     * connected to the determined system information of the vehicle.
+     * @param {SystemInfo} systemInfo - the system information of the vehicle that this session is currently active on.
      * @returns {boolean}Return true if this session should continue, false if the session should end
      */
-    boolean onVehicleTypeReceived(VehicleType type);
+    boolean onSystemInfoReceived(SystemInfo systemInfo);
 ```
 #### Android App Library Changes
 
