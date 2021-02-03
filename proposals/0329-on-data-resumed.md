@@ -1,8 +1,8 @@
 # OnDataResumed Notification
 
-* Proposal: [SDL-NNNN](NNNN-on-data-resumed-notification.md)
+* Proposal: [SDL-NNNN](0329-on-data-resumed-notification.md)
 * Author: [JackLivio](https://github.com/JackLivio)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Policy Server / SHAID / RPC ]
 
 ## Introduction
