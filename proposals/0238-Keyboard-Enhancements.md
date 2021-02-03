@@ -72,7 +72,7 @@ _As shown in the sample Layouts, for QWERTY, there could be three customizable b
 
 **_Addition for Enhancement #3: Allow apps to change special characters shown on the Keyboard Layout._**
 
-1. SDL should define new Struct _"KeyboardCapability"_. This struct should provide capability info for a supported Keyboard Layout. This struct should include the number of configurable keys available for the given layout.
+1. SDL should define new Struct _"KeyboardLayoutCapability"_. This struct should provide capability info for a supported Keyboard Layout. This struct should include the number of configurable keys available for the given layout.
 
 **_This enhancement is applicable only for root level keys in the keyboard layout. If HMI does not provide configurable keys in root level of keyboards, the system should return Zero in number of configurable keys._**
 
@@ -91,7 +91,7 @@ In case of older SDL versions, if _"maskInputCharactersSupported"_ value is not 
     <param name="maskInputCharactersSupported" type="Boolean" mandatory="false">
         <description>Availability of capability to mask input characters using keyboard. True: Available, False: Not Available</description>
     </param>
-    <param name="supportedKeyboards" type="KeyboardCapability" minsize="1" maxsize="1000" array="true" mandatory="false">
+    <param name="supportedKeyboards" type="KeyboardLayoutCapability" minsize="1" maxsize="1000" array="true" mandatory="false">
         <description>Capabilities of supported keyboard layouts by HMI.</description>
     </param>
 </struct>
@@ -127,12 +127,12 @@ The app will be notified whether the input is masked or not, using _"UI.OnKeyboa
 </enum>
 ```
 
-#### Addition of _"KeyboardCapability"_ Struct
+#### Addition of _"KeyboardLayoutCapability"_ Struct
 
 This _"KeyboardCapabilities"_ object will be returned with in _"WindowCapability"_ struct. Each layout can have a different number of customizable buttons. Hence, this struct object will map a number of customizable buttons and keyboard layout.
 
 ```xml
-<struct name="KeyboardCapability" since="X.X">
+<struct name="KeyboardLayoutCapability" since="X.X">
     <description>
         Describes the capabilities of a single keyboard layout.
     </description>
@@ -174,8 +174,10 @@ This _"KeyboardCapabilities"_ object will be returned with in _"WindowCapability
         <description>Allows an app to mask entered characters on HMI</description>
     </param> 
     <param name="customKeys" type="String" maxlength="1" minsize="1" maxsize="10" array="true" mandatory="false" since="X.X">
-        <description>Array of special characters to show in customizable keys.</description>
-        <description>If omitted, keyboard will show default special characters</description>
+        <description>
+            Array of special characters to show in customizable keys.
+            If omitted, keyboard will show default special characters
+        </description>
     </param>  
 </struct>
 ```
