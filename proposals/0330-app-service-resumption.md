@@ -1,8 +1,8 @@
 # App Service Subscription Resumption
 
-* Proposal: [SDL-NNNN](nnnn-app-service-resumption.md)
+* Proposal: [SDL-0330](0330-app-service-resumption.md)
 * Author: [JackLivio](https://github.com/jacklivio)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
