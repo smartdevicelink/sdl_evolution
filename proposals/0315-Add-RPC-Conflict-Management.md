@@ -56,7 +56,7 @@ Below are the default settings of RPC priority table.
 | TTS.Speak w/o ONS       | 3             | Lowest priority  |
 
 OEMs can modify the RPC priority table and adjust the RPC priority to their specifications.
-Because SubtleAlert is designed to work alongside other ONS RPCs, it is exempted from this proposal and will be sent to the HMI alongside any other ONS RPC. It will be up to the HMI to determine if the SubtleAlert contains TTS data and whether or not to play that TTS data alongside showing the SubtleAlert UI based on whether other TTS data is currently playing from another RPC.
+Because `SubtleAlert` is designed to work alongside other ONS RPCs, it is exempted from this proposal and will be sent to the HMI alongside any other ONS RPC. It will be up to the HMI to determine if the `SubtleAlert` contains TTS data and whether or not to play that TTS data alongside showing the `SubtleAlert` UI based on whether other TTS data is currently playing from another RPC.
 
 The table below shows how the RPC will be determined by the priority set during RPC conflict based on the default settings above (Table 1).
 
