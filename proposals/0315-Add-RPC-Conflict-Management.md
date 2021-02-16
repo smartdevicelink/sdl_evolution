@@ -241,7 +241,7 @@ The processing sequence during TTS RPC conflict is shown below.
 
 Enabling this feature will force only one modal RPC to ever be displayed for every OEM implementing SDL. As a result, the system can not support multi ON-screen(ONS) and text-to-speech(TTS) RPCs notification.
 
-However, by using the parameter of UseCoreRpcConflictManagement set to Disable, SDL Core can continue to pass through ONS and TTS RPCs to the HMI as happens now.
+However, by using the parameter of `EnableRPCConflictManager` set to false, SDL Core can continue to pass through ONS and TTS RPCs to the HMI as happens now.
 
 
 ## Impact on existing code
