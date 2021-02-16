@@ -206,7 +206,7 @@ Also, below shows the Json example for the `rpc_priority_table` adding in policy
 
 
 #### Adding ON/OFF switch feature of RPC Conflict Management function
-The following parameter described in SmartDeviceLink.ini are explained below. The parameter of `EnableRPCConflictManager` shows whether to use the RPC conflict management method implemented on SDL Core. For example, if the `EnableRPCConflictManager` is set to `false`, SDL Core sends RPCs to HMI as it is without using the RPC conflict management method implemented on SDL Core. The system needs to manage the RPC conflict by using OEMs own method. The default value is `false`. Thus, it also can handle the existing system. Also, if the `EnableRPCConflictManager` is set to `true`, SDL Core sends only one RPC to HMI specified according to the priority tables above by using the RPC conflict management method implemented on SDL Core.
+The parameter of `EnableRPCConflictManager` will be added to the SmartDeviceLink.ini file. This will show whether the RPC conflict management method implemented on SDL Core will be used. For example, if the `EnableRPCConflictManager` is set to `false`, SDL Core sends RPCs to HMI as it is without using the RPC conflict management method implemented on SDL Core. The HMI needs to manage the RPC conflict by using the OEM's own method. If the `EnableRPCConflictManager` is set to `true`, SDL Core only sends one RPC to the HMI specified according to the priority tables above by using the RPC conflict management method implemented on SDL Core.
 
 Below shows the example of `EnableRPCConflictManager` parameter:
 
