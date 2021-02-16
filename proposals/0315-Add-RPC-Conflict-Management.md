@@ -15,7 +15,7 @@ When multiple apps operate, ON-screen (ONS) messages and text-to-speech (TTS) RP
 <b>Figure 1.</b> Conflict between `ScrollableMessage` and `PerformAudioPassThru`
 ![Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru_1.png](../assets/proposals/0315-Add-RPC-Conflict-Management/Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru_1.png)
 
-The example above shows that the latter RPC PerformAudioPassThru is displayed and aborts ScrollableMessage. However, this kind of method has the following problem that management of RPC conflicts with OEMs may increase the difficulty of implementing HMI.
+The example above shows that the latter RPC PerformAudioPassThru is displayed and aborts ScrollableMessage. However, this kind of method may increase the difficulty of implementing the HMI because the OEM's must manage RPC conflicts.
 
 To solve these problems, we propose to add a new RPC conflict management function to SDL Core.
 
