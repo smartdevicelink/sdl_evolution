@@ -10,14 +10,12 @@ This proposal is to add a function to SDL Core that manages concurrent RPC confl
 
 
 ## Motivation
-When multiple apps operate, ON-screen (ONS) messages and text-to-speech (TTS) RPCs are requested together. However, the current SDL Core does not have the function to manage these conflicts. Thus, all requests are notified to the middleware and managed by the OEMs themselves. For instance, ONS and TTS conflicts are managed by prioritizing the latter RPC. The figure below demonstrates the sequence process when `PerformAudioPassThru` occurs during `ScrollableMessage`.
+When multiple apps operate, ON-screen (ONS) messages and text-to-speech (TTS) RPCs are requested together. However, the current SDL Core does not have the function to manage these conflicts. Thus, all requests are notified to HMI and managed by the OEMs themselves. The figure below demonstrates the sequence process when `PerformAudioPassThru` occurs during `ScrollableMessage`.
 
 <b>Figure 1.</b> Conflict between `ScrollableMessage` and `PerformAudioPassThru`
 ![Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru_1.png](../assets/proposals/0315-Add-RPC-Conflict-Management/Figure1_Conflict_between_ScrollableMessage_and_PerformAudioPassThru_1.png)
 
-The example above shows that the latter RPC `PerformAudioPassThru` is displayed and aborts `ScrollableMessage`. However, this kind of method has the following problems.
-1. Since there is no guideline for RPC conflicts, implementations vary for each OEMs, thus, it is hard to standardize.
-2. Management of RPC conflicts with OEMs may increase the difficulty of implementing middleware.
+The example above shows that the latter RPC PerformAudioPassThru is displayed and aborts ScrollableMessage. However, this kind of method may increase the difficulty of implementing the HMI because the OEM's must manage RPC conflicts.
 
 To solve these problems, we propose to add a new RPC conflict management function to SDL Core.
 
@@ -52,13 +50,14 @@ Below are the default settings of RPC priority table.
 | BC.DialNumber           | 1             | Highest priority |
 | UI.Alert                | 2             |                  |
 | UI.PerformAudioPassThru | 2             |                  |
-| UI.SubtleAlert          | 3             |                  |
 | UI.PerformInteraction   | 3             |                  |
 | UI.ScrollableMessage    | 3             |                  |
 | UI.Slider               | 3             |                  |
 | TTS.Speak w/o ONS       | 3             | Lowest priority  |
 
 OEMs can modify the RPC priority table and adjust the RPC priority to their specifications.
+
+Because `SubtleAlert` is designed to work alongside other ONS RPCs, it is exempted from this proposal and will be sent to the HMI alongside any other ONS RPC. It will be up to the HMI to determine if the `SubtleAlert` contains TTS data and whether or not to play that TTS data alongside showing the `SubtleAlert` UI based on whether other TTS data is currently playing from another RPC.
 
 The table below shows how the RPC will be determined by the priority set during RPC conflict based on the default settings above (Table 1).
 
@@ -74,7 +73,6 @@ Below shows the Json example for the RPC priority table:
     "BC.DialNumber": 1,
     "UI.Alert": 2,
     "UI.PerformAudioPassThru": 2,
-    "UI.SubtleAlert": 3,
     "UI.PerformInteraction": 3,
     "UI.ScrollableMessage": 3,
     "UI.Slider": 3,
@@ -89,7 +87,6 @@ OEMs can modify any RPC priority. For example, if the priority of `UI.PerformInt
     "BC.DialNumber": 1,
     "UI.Alert": 2,
     "UI.PerformAudioPassThru": 2,
-    "UI.SubtleAlert": 3,
     "UI.PerformInteraction": 1,
     "UI.ScrollableMessage": 3,
     "UI.Slider": 3,
@@ -104,7 +101,6 @@ OEMs can delete any RPC priority. For example, if the priority of `UI.Slider` is
     "BC.DialNumber": 1,
     "UI.Alert": 2,
     "UI.PerformAudioPassThru": 2,
-    "UI.SubtleAlert": 3,
     "UI.PerformInteraction": 3,
     "UI.ScrollableMessage": 3,
     "TTS.SPEAK": 3
@@ -119,7 +115,6 @@ OEMs can restore the deleted `UI.Slider` and modify its priority. For example, i
     "BC.DialNumber": 1,
     "UI.Alert": 2,
     "UI.PerformAudioPassThru": 2,
-    "UI.SubtleAlert": 3,
     "UI.PerformInteraction": 3,
     "UI.ScrollableMessage": 3,
     "UI.Slider": 2,
@@ -188,7 +183,6 @@ Also, below shows the Json example for the `rpc_priority_table` adding in policy
         "BC.DialNumber": 1,
         "UI.Alert": 2,
         "UI.PerformAudioPassThru": 2,
-        "UI.SubtleAlert": 3,
         "UI.PerformInteraction": 3,
         "UI.ScrollableMessage": 3,
         "UI.Slider": 3,
@@ -211,6 +205,16 @@ Also, below shows the Json example for the `rpc_priority_table` adding in policy
 }
 ```
 
+
+#### Adding ON/OFF switch feature of RPC Conflict Management function
+The parameter of `EnableRPCConflictManager` will be added to the SmartDeviceLink.ini file. This will show whether the RPC conflict management method implemented on SDL Core will be used. For example, if the `EnableRPCConflictManager` is set to `false`, SDL Core sends RPCs to HMI as it is without using the RPC conflict management method implemented on SDL Core. The HMI needs to manage the RPC conflict by using the OEM's own method. If the `EnableRPCConflictManager` is set to `true`, SDL Core only sends one RPC to the HMI specified according to the priority tables above by using the RPC conflict management method implemented on SDL Core.
+
+Below shows the example of `EnableRPCConflictManager` parameter:
+
+```
+[MAIN]
+EnableRPCConflictManager = false
+```
 
 #### RPC Conflict Management Module
 The following explains functions of `InterruptManager`.
@@ -235,8 +239,10 @@ The processing sequence during TTS RPC conflict is shown below.
 
 ## Potential downsides
 
-1. This would be a complex system that takes control of RPC conflict management away from the HMI - where it is currently located - and puts it into a new, centralized system. At the least that means that OEMs will have to do quite a bit of HMI work to remove those old systems. This also means that re-implementing many current HMI-based RPC conflict management systems will be impossible and OEMs will have to work with this new system.
-2. Implementing this feature will force only one modal RPC to ever be displayed for every OEM implementing SDL.
+Enabling this feature will force only one modal RPC to ever be displayed for every OEM implementing SDL. As a result, the system can not support multi ON-screen(ONS) and text-to-speech(TTS) RPCs notification.
+
+However, by using the parameter of `EnableRPCConflictManager` set to false, SDL Core can continue to pass through ONS and TTS RPCs to the HMI as happens now.
+
 
 ## Impact on existing code
 
