@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0330](0330-app-service-resumption.md)
 * Author: [JackLivio](https://github.com/jacklivio)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [Core]
 
 ## Introduction
