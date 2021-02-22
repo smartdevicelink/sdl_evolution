@@ -173,7 +173,7 @@ public class VideoStreamingRange {
     // Check if the argument is within the [.minimumResolution, .maximumResolution] range
     public Boolean isImageResolutionInRange(ImageResolution imageResolution) {}
     // Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range
-    public Boolean isAspectRatioInRange(Double imageResolution) {}
+    public Boolean isAspectRatioInRange(Double aspectRatio) {}
 }
 ```
 
@@ -193,9 +193,9 @@ private List<VideoStreamingCapability> getSupportedCapabilities(
 
 #### Mobile Implementation Details
 
-1. If both `supportedPortraitStreamingRange` and `supportedLandscapeStreamingRange` are not set by the developer, then the mobile library will support all `VideoStreamingCapabilities` returned by the module. This is done to ensure that streaming works as intended for developers who don't update the library to add the `supportedPortraitStreamingRange` and `supportedLandscapeStreamingRange` parameters.
-2. To disable either `supportedPortraitStreamingRange` or `supportedLandscapeStreamingRange`, the developer has to set a `VideoStreamingRange` with the `minimumResolution` and `maximumResolution` set to `0`. A `disabled` init was added to the iOS library to make this easier for developers. 
-3. If `supportedPortraitStreamingRange` is not set or was set to `nil` then the library will assume that all `VideoStreamingCapabilities` with a portrait aspect ratio are supported. The same is true if `supportedLandscapeStreamingRange` is not set; the library will assume that all `VideoStreamingCapabilities` with a landscape aspect ratio are supported.
+1. If both `supportedPortraitStreamingRange` and `supportedLandscapeStreamingRange` are not set or set to `nil/null` by the developer, then the mobile library will support all `VideoStreamingCapabilities` returned by the module. This is done to ensure that streaming works as intended for developers who don't update the library to add the `supportedPortraitStreamingRange` and `supportedLandscapeStreamingRange` parameters.
+2. To disable either `supportedPortraitStreamingRange` or `supportedLandscapeStreamingRange`, the developer has to set a `VideoStreamingRange` with the `minimumResolution` and `maximumResolution` set to `0` width and `0` height. A `disabled` init was added to the iOS library to make this easier for developers. 
+3. If `supportedPortraitStreamingRange` is not set or was set to `nil/null` then the library will assume that all `VideoStreamingCapabilities` with a portrait aspect ratio are supported. The same is true if `supportedLandscapeStreamingRange` is not set; the library will assume that all `VideoStreamingCapabilities` with a landscape aspect ratio are supported.
 
 #### Resolution Switching
 
