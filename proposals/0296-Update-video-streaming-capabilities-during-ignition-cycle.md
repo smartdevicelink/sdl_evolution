@@ -1,7 +1,7 @@
 # Possibility to update video streaming capabilities during ignition cycle
 
 * Proposal: [SDL-0296](0296-Update-video-streaming-capabilities-during-ignition-cycle.md)
-* Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi)
+* Author: [Dmytro Boltovskyi](https://github.com/dboltovskyi), [Nicole Yarroch](https://github.com/NicoleYarroch), [Robert Henigan](https://github.com/RHenigan)
 * Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / iOS / Java Suite / HMI / RPC / JavaScript Suite]
 
@@ -141,7 +141,8 @@ In `SDLStreamingMediaConfiguration`:
 - (BOOL)isImageResolutionInRange:(SDLImageResolution*)imageResolution;
 // Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range
 - (BOOL)isAspectRatioInRange:(float)aspectRatio;
-<……>
+// Convenience init for disabling support for a streaming range
++ (instancetype)disabled;
 @end
 ```
 
@@ -150,10 +151,7 @@ In `SDLStreamingMediaConfiguration`:
 In `VideoStreamManager` add new public methods:
 
 ```java
-public void startRemoteDisplayStream(Context context, Class<? extends SdlRemoteDisplay> remoteDisplayClass,
-    VideoStreamingParameters parameters, final boolean encrypted, VideoStreamingRange streamingRange)
-public Boolean isImageResolutionInRange(VideoStreamingRange range, ImageResolution currentResolution)
-public Boolean isAspectRatioInRange(VideoStreamingRange range, ImageResolution currentResolution)
+public void startRemoteDisplayStream(Context context, Class<? extends SdlRemoteDisplay> remoteDisplayClass, VideoStreamingParameters parameters, final boolean encrypted, VideoStreamingRange supportedLandscapeStreamingRange, VideoStreamingRange supportedPortraitStreamingRange)
 ```
 
 In this way, developers will be able to pass constraints related to specific application directly into `SDLManager`
@@ -161,13 +159,24 @@ where `VideoStreamingRange`:
 
 ```java
 public class VideoStreamingRange {
-    private Resolution minResolution;
-    private Resolution maxResolution;
-    private Double minAspectRatio;
-    private Double maxAspectRatio;
-    private Double minScreenDiagonal;
+    // The minimum supported normalized aspect ratio, Min value is 1. (0 matches any ratio)
+    private Double minimumAspectRatio;
+    // The maximum supported normalized aspect ratio, Min value is 1. (0 matches any ratio)
+    private Double maximumAspectRatio;
+    // The minimum supported diagonal screen size in inches, defaults to 0 (0 matches any size)
+    private Double minimumDiagonal;
+    // The minimum resolution to support
+    private Resolution minimumResolution;
+    // The maximum resolution to support
+    private Resolution maximumResolution;
+
+    // Check if the argument is within the [.minimumResolution, .maximumResolution] range
+    public Boolean isImageResolutionInRange(ImageResolution imageResolution) {}
+    // Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range
+    public Boolean isAspectRatioInRange(Double imageResolution) {}
 }
 ```
+
 In `SdlRemoteDisplay` implementation by mobile application developers:
 
 Later, when alternative supported resolutions are retrieved from `HMI`, `VideoStreamingRange` will be used to unpack data:
@@ -181,6 +190,12 @@ private List<VideoStreamingCapability> getSupportedCapabilities(
     Double minScreenDiagonal
 )
 ```
+
+#### Mobile Implementation Details
+
+1. If both `supportedPortraitStreamingRange` and `supportedLandscapeStreamingRange` are not set by the developer, then the mobile library will support all `VideoStreamingCapabilities` returned by the module. This is done to ensure that streaming works as intended for developers who don't update the library to add the `supportedPortraitStreamingRange` and `supportedLandscapeStreamingRange` parameters.
+2. To disable either `supportedPortraitStreamingRange` or `supportedLandscapeStreamingRange`, the developer has to set a `VideoStreamingRange` with the `minimumResolution` and `maximumResolution` set to `0`. A `disabled` init was added to the iOS library to make this easier for developers. 
+3. If `supportedPortraitStreamingRange` is not set or was set to `nil` then the library will assume that all `VideoStreamingCapabilities` with a portrait aspect ratio are supported. The same is true if `supportedLandscapeStreamingRange` is not set; the library will assume that all `VideoStreamingCapabilities` with a landscape aspect ratio are supported.
 
 #### Resolution Switching
 
