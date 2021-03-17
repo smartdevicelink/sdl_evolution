@@ -198,8 +198,7 @@ Note: The HMI will be responsible for preventing app activation while the HMI is
 ## Potential downsides
 
 - Due to the complexity of the flow, the developer must do the implementation carefully.
-- Device names may be duplicated and are not unique, so much care should be taken when operating them.
-* It is recommended that users do not set the same device name.
+- Device names may be duplicated and are not unique, so much care should be taken when operating them.(It is recommended that users do not set the same device name.)
 
 ## Impact on existing code
 
@@ -220,7 +219,7 @@ This method is not adopted because the timing at which the UUID and pairing info
 ### Simplified processing flow
 While this alternative was considered, the Steering Committee determined this flow does not account for previous versions of the protocol, and therefore is not viable as the primary solution.
 
-### Change the app registration flow
+#### Change the app registration flow
 
 ![registeringApp_flow2](../assets/proposals/0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress/registeringApp_flow2.png)
 
