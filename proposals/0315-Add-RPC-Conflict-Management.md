@@ -141,10 +141,10 @@ OEMs can modify the App priority table and adjust the priority of application ac
 For RPCs with the same priority, the HMI Status priority table, which is described later, will be used to determine the priority.
 
 Below shows the Json example for the App priority table:
-```json
+
 ```js
-“app_priority”:{
-    “EMERGENCY”: 0, // Does not need to be included, if it is included it will be ignored no matter its assigned priority. See above.
+"app_priority":{
+    "EMERGENCY": 0, // Does not need to be included, if it is included it will be ignored no matter its assigned priority. See above.
     "NAVIGATION": 1,
     "VOICE_COMMUNICATION": 2,
     "COMMUNICATION": 3,
@@ -178,7 +178,7 @@ Below shows the Json example for the HMI status priority table:
 ```
 
 Also, below shows the Json example for the `rpc_priority_table` adding in policy table:
-```json
+```js
 "rpc_priority_table": {
     "rpc_priority":{
         "BC.DialNumber": 1,
@@ -190,7 +190,7 @@ Also, below shows the Json example for the `rpc_priority_table` adding in policy
         "TTS.SPEAK": 3
     },
     "app_priority":{
-    “EMERGENCY”: 0, // Does not need to be included, if it is included it will be ignored no matter its assigned priority. See above.
+        "EMERGENCY": 0, // Does not need to be included, if it is included it will be ignored no matter its assigned priority. See above.
         "NAVIGATION": 1,
         "VOICE_COMMUNICATION": 2,
         "COMMUNICATION": 3,
