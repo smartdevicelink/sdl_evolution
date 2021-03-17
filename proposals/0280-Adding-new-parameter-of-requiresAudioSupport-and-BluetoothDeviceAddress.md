@@ -199,7 +199,7 @@ Note: The HMI will be responsible for preventing app activation while the HMI is
 
 - Due to the complexity of the flow, the developer must do the implementation carefully.
 - Device names may be duplicated and are not unique, so much care should be taken when operating them.
- * It is recommended that users do not set the same device name.
+* It is recommended that users do not set the same device name.
 
 ## Impact on existing code
 
@@ -208,16 +208,16 @@ Since new parameters are added, Core, iOS, Java Suite, JavaScript Suite, RPC, Pr
 Since there are not any public code changes listed in this proposal, the SDLC Project Maintainer will have discretion over implementation details, including changes to classes that are not accessible to developers, especially given changes to Java Suite library in 5.0 release.
 
 ## Alternatives considered
-###Bluetooth Device Address
+### Bluetooth Device Address
 This proposal said that it would add the BT device address as information for BT automatic connection, however third-party apps can't get the MAC address since Android 6.0.
 
 
-###UUID
+### UUID
 The UUID that can be obtained on Android is linked with the pairing information and managed by the HU, and automatic connection is performed based on the UUID received when registering the app.
 This method is not adopted because the timing at which the UUID and pairing information can be linked is limited.
 
 
-###Simplified processing flow
+### Simplified processing flow
 While this alternative was considered, the Steering Committee determined this flow does not account for previous versions of the protocol, and therefore is not viable as the primary solution.
 
 ### Change the app registration flow
