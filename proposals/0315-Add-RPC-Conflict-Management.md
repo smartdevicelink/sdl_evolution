@@ -190,8 +190,7 @@ Also, below shows the Json example for the `rpc_priority_table` adding in policy
         "TTS.SPEAK": 3
     },
     "app_priority":{
-        "EMERGENCY": 0,
-        "_comment":"// Does not need to be included, if it is included it will be ignored no matter its assigned priority. See above.",
+    “EMERGENCY”: 0, // Does not need to be included, if it is included it will be ignored no matter its assigned priority. See above.
         "NAVIGATION": 1,
         "VOICE_COMMUNICATION": 2,
         "COMMUNICATION": 3,
