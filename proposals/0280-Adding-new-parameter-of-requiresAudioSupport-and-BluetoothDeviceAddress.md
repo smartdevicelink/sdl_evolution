@@ -1,24 +1,24 @@
 # Adding new parameter of requiresAudioSupport and BluetoothDeviceAddress
 
 * Proposal: [SDL-0280](0280-Adding-new-parameter-of-requiresAudioSupport-and-BluetoothDeviceAddress.md)
-* Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto), [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
+* Author: [Shohei Kawano](https://github.com/Shohei-Kawano), [Kazuki Sugimoto](https://github.com/Kazuki-Sugimoto), [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki), [Yuki Kanadome (Nexty)](https://github.com/Yuki-Kanadome-Nexty)
 * Status: **Accepted with Revisions**
 * Impacted Platforms: [ Core / iOS / Java Suite / JavaScript Suite / RPC / Protocol / HMI ]
 
 ## Introduction
 
-In this proposal, by adding the `requiresAudioSupport` in `RegisterAppInterface` and the `bluetooothDeviceAddress` in `DeviceInfo`, when the device is connected via only USB, head unit (HU) will connect to the SDL device's Bluetooth (BT) automatically or prompt the user requesting BT connection.
+In this proposal, by adding the `requiresAudioSupport` in `RegisterAppInterface` and the `deviceName` in `DeviceInfo`, when the device is connected via only USB, head unit (HU) will connect to the SDL device's Bluetooth (BT) automatically or prompt the user requesting BT connection.
 
 ## Motivation
 
 Since Android recommends not supporting AOA2.0, Android will no longer be able to play audio using only USB, and it will be necessary to use BT A2DP to play audio.
 In the current SDL Java Suite library, if `requiresAudioSupport` is TRUE and BT A2DP is not connected, SDL activation will be cancelled. Users aren't notified why the SDL App doesn't start, so the UX needs to be improved.
-To solve this problem, add `bluetoothDeviceAddress` and `requiresAudioSupport` so that a new SDL device can be specified in `RegisterAppInterface`, and prompt the user to connect the device via BT, or the HU will connect the device via BT automatically when connected via USB.
+To solve this problem, add `deviceName` and `requiresAudioSupport` so that a new SDL device can be specified in `RegisterAppInterface`, and prompt the user to connect the device via BT, or the HU will connect the device via BT automatically when connected via USB.
 
 ## Proposed solution
 
 The current SDL Java Suite library cancels the transport connection if the `requiresAudioSupport` setting is TRUE and BT A2DP is not connected.
-However, with this proposal, by adding a new parameter, the SDL app always establishes the transport connection and is registered without depending on the connection status of BT A2DP. If BT A2DP is not connected, the HU will automatically connect BT using `bluetoothDeviceAddress` or request connection from the user.
+However, with this proposal, by adding a new parameter, the SDL app always establishes the transport connection and is registered without depending on the connection status of BT A2DP. If BT A2DP is not connected, the HU will automatically connect BT using `deviceName` or request connection from the user.
 
 Note: In the case of other platforms (such as iOS and JavaScript Suite), the system can output the audio via USB. Therefore, iOS and JavaScript Suite can omit the `requiresAudioSupport` parameter.
 
@@ -46,7 +46,7 @@ If the SDL app or HU cannot use this function, it will perform the same operatio
     3. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal to or greater than the major version of this feature, and the `autoBTCapability` flag is set to false, the app will check if audio support is available using the `MediaStreamingStatus` class. If it is available it will continue, if not it will shut down.
     4. If the response was a `StartServiceACK`, `requiresAudioSupport` was set to true, the protocol version of the ACK is equal to or greater than the major version of this feature, and the `autoBTCapability` flag is set to true, the app will continue.
 
-6. The app will send its `RegisterAppInterface` which will include the `hmiTypes` and `isMediaApplication` flag.
+6. The app will send its `RegisterAppInterface` which will include the `deviceName` and `isMediaApplication` flag.
 7. Core will receive the `RegisterAppInterface`:
 
     1. If the `requiresAudioSupport` flag was not included in the `StartService`, `isMediaApplication` is set to true in the `RegisterAppInterface` and the protocol version for the session is less than the major version of the version that included this feature, it will send a `RegisterAppInterface` response with `success=false` and deny the app's registration.
@@ -93,7 +93,7 @@ HMI API:
 - RegisterAppInterface
 - OnAppRegistered
 
-Add `bluetoothDeviceAddress` to`DeviceInfo`. Add `requiresAudioSupport` to`HMIApplication`. Add `BluetoothInfo` to`OnDeviceStateChanged`.
+Add `deviceName` to`DeviceInfo`. Add `requiresAudioSupport` to`HMIApplication`. Add `BluetoothInfo` to`OnDeviceStateChanged`.
 
 Mobile API:
 ```xml
@@ -117,8 +117,8 @@ Mobile API:
       <param name="maxNumberRFCOMMPorts" type="Integer" minvalue="0" maxvalue="100" mandatory="false">
           <description>Omitted if connected not via BT.</description>
       </param>
-+     <param name="bluetoothDeviceAddress" type="String"  minlength="0" maxlength="500" mandatory="false">
-+         <description>Device BT Address</description>
++     <param name="deviceName" type="String"  minlength="0" maxlength="500" mandatory="false">
++         <description>Device name for BT automatic connection</description>
 +     </param>
   </struct>
 ```
@@ -145,8 +145,8 @@ HMI API:
       <param name="isSDLAllowed" type="Boolean" mandatory="false">
           <description>Sent by SDL in UpdateDeviceList. 'true' - if device is allowed for PolicyTable Exchange; 'false' - if device is NOT allowed for PolicyTable Exchange </description>
       </param>
-+     <param name="bluetoothDeviceAddress" type="String" mandatory="false">
-+         <description>Device BT Address</description>
++     <param name="deviceName" type="String" mandatory="false">
++         <description>Device name for BT automatic connection</description>
 +     </param>
   </struct>
   ...
@@ -163,8 +163,8 @@ HMI API:
   </struct>
   ...
 + <struct name="BluetoothInfo">
-+     <param name="bluetoothDeviceAddress" type="String" mandatory="false">
-+         <description>Device BT Address</description>
++     <param name="deviceName" type="String" mandatory="false">
++         <description>BT connected device name</description>
 +     </param>
 +     <param name="a2dpConnectionState" type="Boolean" mandatory="false">
 +         <description>Notify the state of A2DP connection. 'true' - Connected at BT A2DP; 'false' - Connected at BT</description>
@@ -190,14 +190,16 @@ With the changes of the flow, it is necessary to do refactoring of the Java Suit
 
 ### Launch the app
 
-By using this function, the HU is able to perform  BT automatic connection based on the `bluetoothDeviceAddress` which is notified when the app that requests audio (`requiresAudioSupport` is set to true) is launched.
+By using this function, the HU is able to perform  BT automatic connection based on the `deviceName` which is notified when the app that requests audio (`requiresAudioSupport` is set to true) is launched.
 It can also display a message that prompts BT connection to the user.
 
 Note: The HMI will be responsible for preventing app activation while the HMI is in the process of connecting to the mobile device's BT for an app that has `requiresAudioSupport=true`. For example, the HMI could show a loading icon for that app, or display an error message to the user upon activation.
 
 ## Potential downsides
 
-Due to the complexity of the flow, the developer must do the implementation carefully.
+- Due to the complexity of the flow, the developer must do the implementation carefully.
+- Device names may be duplicated and are not unique, so much care should be taken when operating them.
+ * It is recommended that users do not set the same device name.
 
 ## Impact on existing code
 
@@ -206,7 +208,16 @@ Since new parameters are added, Core, iOS, Java Suite, JavaScript Suite, RPC, Pr
 Since there are not any public code changes listed in this proposal, the SDLC Project Maintainer will have discretion over implementation details, including changes to classes that are not accessible to developers, especially given changes to Java Suite library in 5.0 release.
 
 ## Alternatives considered
+###Bluetooth Device Address
+This proposal said that it would add the BT device address as information for BT automatic connection, however third-party apps can't get the MAC address since Android 6.0.
 
+
+###UUID
+The UUID that can be obtained on Android is linked with the pairing information and managed by the HU, and automatic connection is performed based on the UUID received when registering the app.
+This method is not adopted because the timing at which the UUID and pairing information can be linked is limited.
+
+
+###Simplified processing flow
 While this alternative was considered, the Steering Committee determined this flow does not account for previous versions of the protocol, and therefore is not viable as the primary solution.
 
 ### Change the app registration flow
