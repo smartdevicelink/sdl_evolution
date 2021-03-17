@@ -198,7 +198,7 @@ Note: The HMI will be responsible for preventing app activation while the HMI is
 ## Potential downsides
 
 - Due to the complexity of the flow, the developer must do the implementation carefully.
-- Device names may be duplicated and are not unique, so much care should be taken when operating them.(It is recommended that users do not set the same device name.)
+- Device names can be duplicated. If there are duplicates, there is a concern that BT would not be able to connect automatically.
 
 ## Impact on existing code
 
