@@ -130,20 +130,21 @@ App priority priority table describes the priority for each app. When a conflict
 
 | App priority (String) | Priority (INT) | Note (String)     |
 |:-:                  |:-:            |:-:               |
-| EMERGENCY           | 0             | Top priority     |
+| EMERGENCY           | 0             | Automatically always the top priority |
 | NAVIGATION          | 1             | Highest priority |
 | VOICE_COMMUNICATION | 2             |                  |
 | COMMUNICATION       | 3             |                  |
 | NORMAL              | 4             |                  |
 | NONE                | 5             | Lowest priority  |
 
-OEMs can modify the App priority table and adjust the priority of application according to their own specifications. In fact, since EMERGENCY is set independently as the highest priority, the priority is determined by the items excluding EMERGENCY.
+OEMs can modify the App priority table and adjust the priority of application according to their own specifications. However, because EMERGENCY is set always the highest priority, the priority is determined by the items excluding EMERGENCY. Including EMERGENCY will change nothing.
 For RPCs with the same priority, the HMI Status priority table, which is described later, will be used to determine the priority.
 
 Below shows the Json example for the App priority table:
-```json
+
+```js
 "app_priority":{
-    "EMERGENCY": 0,
+    "EMERGENCY": 0, // Does not need to be included, if it is included it will be ignored no matter its assigned priority. See above.
     "NAVIGATION": 1,
     "VOICE_COMMUNICATION": 2,
     "COMMUNICATION": 3,
@@ -177,7 +178,7 @@ Below shows the Json example for the HMI status priority table:
 ```
 
 Also, below shows the Json example for the `rpc_priority_table` adding in policy table:
-```json
+```js
 "rpc_priority_table": {
     "rpc_priority":{
         "BC.DialNumber": 1,
@@ -189,7 +190,7 @@ Also, below shows the Json example for the `rpc_priority_table` adding in policy
         "TTS.SPEAK": 3
     },
     "app_priority":{
-        "EMERGENCY": 0,
+        "EMERGENCY": 0, // Does not need to be included, if it is included it will be ignored no matter its assigned priority. See above.
         "NAVIGATION": 1,
         "VOICE_COMMUNICATION": 2,
         "COMMUNICATION": 3,
