@@ -22,13 +22,13 @@ The information in this new RPC can be used by app developers to better understa
 
 The proposed solution is to create a new RPC notification named "OnDataResumed". This RPC is sent to an application directly after a RegisterAppInterfaceRequest only if an app supplies a valid hashID and resumption was successful during registration. 
 
-Ths notification will be sent to the connected application before Core sends the OnHMIStatus notification.
+This notification will be sent to the connected application before Core sends the OnHMIStatus notification.
 
 SDL Core will not send this notification if there was no valid hashID provided, or resumption was failed. Failed resumption is noted by the result code: `RESUME_FAILED` in the RegisterAppInterfaceResponse.
 
-The OnDataResumed notification contains boolean values for each type of data resumed. True if the resumption was successful, False if it was not successful. 
+The OnDataResumed notification contains boolean values for each type of data resumed. True if the resumption was successful, False if the resumption failed. 
 
-If the app did not use a particular resumption data item, that value will be omitted from the notification. For example if an app resumes and was not using Remote Control subscriptions, the `remoteControlSubscriptionsResumed` parameter would be omitted.
+If the app did not use a particular resumption data item, that value will be omitted from the notification. For example, if an app resumes and was not using Remote Control subscriptions, the `remoteControlSubscriptionsResumed` parameter would be omitted.
 
 As of this proposal, resumption data is implemented for:
 
@@ -50,10 +50,10 @@ As of this proposal, resumption data is implemented for:
 ```xml
 <function name="OnDataResumed" functionID="OnDataResumed" messagetype="notification" since="x.x">
     <description>
-        Relays resumption status to registering applicaiton. 
+        Relays resumption status to registering the application. 
         Parameters will be: 
-          - True if resumption was successful.
-          - False if resumption was failed.
+          - True if the resumption was successful.
+          - False if the resumption failed.
           - Omitted if no resumption data exists.
     </description>
 
@@ -82,9 +82,9 @@ As of this proposal, resumption data is implemented for:
 
 ## Potential downsides
 
-Currently SDL Core will broadly accept resumption as a success or a failure. Due to the implementations of proposals [SDL 188](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0188-get-interior-data-resumption.md) and [SDL 190](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0190-resumption-data-error-handling.md), if any single resumption component fails, all other resumption items will be reversed.
+Currently, SDL Core will broadly accept resumption as a success or a failure. Due to the implementations of proposals [SDL 188](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0188-get-interior-data-resumption.md) and [SDL 190](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0190-resumption-data-error-handling.md), if any single resumption component fails, all other resumption items will be reversed.
 
-Essentially this means that the values in onDataResumed will come back as either all true, or all false. Note: this does not include omitted values that were not used during resumption process.
+Essentially this means that the values in onDataResumed will come back as either all true, or all false. Note: this does not include omitted values that were not used during the resumption process.
 
 The author is recognizing this as a downside but the OnDataResumed notification will still allow apps to know which items are resumed based on the version of the head unit. This may be more helpful in the future if there are new resumption items added or Core behavior is changed to allow for higher resolution of resumed items.
 
@@ -107,4 +107,3 @@ If any of the app managers can benefit from receiving resumption info, the imple
 An alternate solution would be to include this information in the RegisterAppInterface Response since the resumption state is known before SDL Core sends the RegisterAppInterfaceResponse to an app. The author did not choose this path due to the current size of the RegisterAppInterFace response.
 
 Other alternates considered would be to change this notification to a request so an app can request this info when necessary, or to implement a more robust resumption manager into the App Library.
-
