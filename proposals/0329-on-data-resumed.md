@@ -50,7 +50,11 @@ As of this proposal, resumption data is implemented for:
 ```xml
 <function name="OnDataResumed" functionID="OnDataResumed" messagetype="notification" since="x.x">
     <description>
-        Relays resumption status to registering applicaiton. Parameters will be: true if resumption was successful, false if resumption was failed by the HMI, or omitted if no resumption data exists.
+        Relays resumption status to registering applicaiton. 
+        Parameters will be: 
+          - True if resumption was successful.
+          - False if resumption was failed.
+          - Omitted if no resumption data exists.
     </description>
 
     <param name="choiceSetsResumed" type="Bool" mandatory="false">
