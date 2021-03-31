@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0329](0329-on-data-resumed.md)
 * Author: [JackLivio](https://github.com/JackLivio)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Policy Server / SHAID / RPC ]
 
 ## Introduction
