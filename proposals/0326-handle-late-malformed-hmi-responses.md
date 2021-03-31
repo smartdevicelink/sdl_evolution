@@ -28,7 +28,7 @@ In the event a request to the HMI is late, lost, or malformed, SDL Core should t
 Example diagram for handling a missing response from an AddCommand request to HMI:
 
 
-![addCommand_fail](../assets/proposals/NNNN-handle-late-malformed-hmi-responses/addCommand_fail.png)
+![addCommand_fail](../assets/proposals/0326-handle-late-malformed-hmi-responses/addCommand_fail.png)
 
 The following list shows HMI RPCs that have a corresponding RPC used to revert previously requested data:
 

@@ -69,7 +69,7 @@ Currently, there is no sequence provided that demonstrates how the icon is displ
 - The red text indicates the process added by this proposal.
 
 <b>Figure 1.</b> SDL App Icon display sequence
-![Figure1_SDL_App_Icon_display_sequence.PNG](../assets/proposals/NNNN-Dynamic-App-List-Sorting/Figure1_SDL_App_Icon_display_sequence.PNG)
+![Figure1_SDL_App_Icon_display_sequence.PNG](../assets/proposals/0325-Dynamic-App-List-Sorting/Figure1_SDL_App_Icon_display_sequence.PNG)
 
 
 ## Potential downsides
