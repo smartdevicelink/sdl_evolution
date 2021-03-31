@@ -122,7 +122,7 @@ Figure 1 shows the switching sequence of apps controlled by the status transitio
 
 <b>Figure 1.</b> Switching apps sequence
 
-![Figure_1_app_switching_sequence.png](../assets/proposals/NNNN-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps/Figure_1_app_switching_sequence.png)
+![Figure_1_app_switching_sequence.png](../assets/proposals/0324-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps/Figure_1_app_switching_sequence.png)
 
 ## Potential downsides
 
