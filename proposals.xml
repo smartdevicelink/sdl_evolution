@@ -362,7 +362,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0326" status="accepted" primary-platform="core" sdl-version="x.x" name="Handle Late Malformed HMI Responses" filename="0326-handle-late-malformed-hmi-responses.md"/>	
 <proposal id="0327" status="deferred" primary-platform="mobile" sdl-version="x.x" name="App Library Remote Control Manager" filename="0327-app-lib-remote-control-manager.md"/>	
 <proposal id="0328" status="accepted" primary-platform="core" sdl-version="x.x" name="Modernize Ubuntu Support V20 LTS" filename="0328-modernize-ubuntu-support-v20.md"/>	
-<proposal id="0329" status="active" primary-platform="rpc" sdl-version="x.x" name="OnDataResumed Notification" filename="0329-on-data-resumed.md"/>	
+<proposal id="0329" status="accepted" primary-platform="rpc" sdl-version="x.x" name="OnDataResumed Notification" filename="0329-on-data-resumed.md"/>	
 <proposal id="0330" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="App Service Subscription Resumption" filename="0330-app-service-resumption.md"/>	
 
 	<!--
