@@ -207,7 +207,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL RPC Spec: 7.2.0
 **Planned Release Date**: October 27, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/sdl_core/projects/20).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/rpc_spec/projects/7).
 
 
 ---
