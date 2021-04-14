@@ -167,7 +167,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-##Upcoming 
+## Upcoming 
 
 #### Manticore: 2.8.0
 **Planned Release Date**: May 17, 2021
