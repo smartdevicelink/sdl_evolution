@@ -108,7 +108,7 @@ SHAID is a centralized service designed to keep information about SDL-supported 
 ## Recent and Upcoming Releases
 You can see a detailed list of accepted and implemented proposals for upcoming versions on the [proposal status page][proposal-status].  Each proposal is listed as only impacting one platform, as it's inherent that some platforms impact others, as described above in the `Platforms` Section.
 
-##Recent
+## Recent
 
 #### Manticore: 2.7.0
 **Release Date**: December 8, 2020
@@ -167,7 +167,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-##Upcoming 
+## Upcoming 
 
 #### Manticore: 2.8.0
 **Planned Release Date**: May 17, 2021
@@ -179,42 +179,42 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL iOS: 7.2.0
 **Planned Release Date**: June 30, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/sdl_ios/projects/24).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_ios/projects/24).
 
 ---
 
 #### SDL Java Suite: 5.2.0
 **Planned Release Date**: June 30, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.0.0).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_java_suite/projects/18).
 
 ---
 
 #### SDL JavaScript Suite: 1.4.0
 **Planned Release Date**: June 30, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/sdl_javascript_suite/projects/5).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_javascript_suite/projects/5).
 
 ---
 
 #### SDL Protocol Spec: 5.5.0
 **Planned Release Date**: October 27, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/protocol_spec/projects/6).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/protocol_spec/projects/6).
 
 ---
 
 #### SDL RPC Spec: 7.2.0
 **Planned Release Date**: October 27, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/sdl_core/projects/20).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/rpc_spec/projects/7).
 
 
 ---
 #### SDL Core: 7.2.0
 **Planned Release Date**: October 27, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/rpc_spec/projects/7).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_core/projects/20).
 
 ---
 
