@@ -358,7 +358,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0320" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add screen stack management module" filename="0320-Add-screen-stack-management-module.md"/>	
 <proposal id="0321" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Add Current Template Name to Window Capabilities" filename="0321-window-capabilities-template-name.md"/>	
 <proposal id="0322" status="deferred" primary-platform="mobile" sdl-version="x.x" name="Improve starting streaming services" filename="0322-improve-starting-streaming-services.md"/>
-<proposal id="0323" status="implemented" primary-platform="ios" sdl-version="7.1.x" name="Align video streaming parameters with VideoStreamingCapability" filename="0323-align-VideoStreamingParameter-with-capability.md"/>	
+<proposal id="0323" status="implemented" primary-platform="ios" sdl-version="7.1" name="Align video streaming parameters with VideoStreamingCapability" filename="0323-align-VideoStreamingParameter-with-capability.md"/>	
 <proposal id="0323" status="implemented" primary-platform="java-suite" sdl-version="5.1" name="Align video streaming parameters with VideoStreamingCapability" filename="0323-align-VideoStreamingParameter-with-capability.md"/>	
 <proposal id="0324" status="withdrawn" primary-platform="core" sdl-version="x.x" name="Function to control the priority of audio and video when switching between apps" filename="0324-Function-to-control-the-priority-of-audio-and-video-when-switching-between-apps.md"/>	
 <proposal id="0325" status="withdrawn" primary-platform="core" sdl-version="x.x" name="Dynamic App List Sorting" filename="0325-Dynamic-App-List-Sorting.md"/>	
