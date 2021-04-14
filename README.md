@@ -193,7 +193,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL JavaScript Suite: 1.4.0
 **Planned Release Date**: June 30, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/sdl_javascript_suite/projects/5).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_javascript_suite/projects/5).
 
 ---
 
