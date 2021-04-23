@@ -74,7 +74,7 @@ The changes above will be provided in a separate proposal for each change after 
 
 This proposal is to provide a new SDL system with low performance ECU such as PTW and low-cost vehicles, thus it assumes that it requires costs of management and maintenance.
 However, it is assumed that the management and maintenance costs will be reduced for the following reasons.
- - It will use SDL Core same as current one.
+ - It will use the current SDL Core.
  - There is not any management about SDL HMI, only manages the guideline.
  - In the case of HU with low performed ECU, there is no OS and the programing language is different. Therefore, generalization is not possible.
  - The App Library will be shared by adding a function to determine if it is a low performed ECU system.
