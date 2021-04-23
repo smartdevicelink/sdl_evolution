@@ -95,7 +95,7 @@ From the above, the management and maintenance of the Mediation App would be new
 ###### 4. SDL HMI
  - In the new SDL system, SDL HMI will be implemented by OEM and SDLC will only provide the guidelines, so there will be no impact on the existing code.
 
-###### 5. Policy table
+###### 5. Policy Server
  - There will be no impact on existing code as it is created for each system and OEM.
 
 ###### 6. SHAID
