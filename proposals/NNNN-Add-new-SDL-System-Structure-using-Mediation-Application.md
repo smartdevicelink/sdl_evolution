@@ -50,7 +50,7 @@ Therefore, the changes made in each component to establish this system are shown
  - Addition of the function of the communication destination and mean
 
 ###### 2. To Mediation Application
- - Implemantation of SDL Core(using NDK etc.)
+ - Implementation of SDL Core (using NDK etc.)
  - Addition of the communication to App Library and notification to SDL Core
  - Addition of function to determine whether the message from SDL Core is related to new SDL system
  - Addition of the support function for RPCs except for new SDL system
