@@ -60,7 +60,7 @@ Therefore, the changes made in each component to establish this system are shown
  - Addition of the connection function to the SDL app store
  - Addition of SDL App deletion function
  - Addition of the function to manage the HMI status
- - Addition of the function how to reacquire information(such as Policy table etc.) when connecting to another HU
+ - Addition of the function to reacquire information (such as Policy table etc.) when connecting to another HU
 
 ###### 3. To SDL Core
  - There is no changes from current SDL Core.
