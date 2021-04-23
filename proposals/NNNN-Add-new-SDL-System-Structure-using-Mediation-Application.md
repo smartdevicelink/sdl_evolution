@@ -72,7 +72,7 @@ The changes above will be provided in a separate proposal for each change after 
 
 ## Potential downsides
 
-This proposal is to provide new SDL system with low performed ECU such as PTW and low-cost vehicles, thus it assumes that it requires costs of management and maintenance.
+This proposal is to provide a new SDL system with low performance ECU such as PTW and low-cost vehicles, thus it assumes that it requires costs of management and maintenance.
 However, it is assumed that the management and maintenance costs will be reduced for the following reasons.
  - It will use SDL Core same as current one.
  - There is not any management about SDL HMI, only manages the guideline.
