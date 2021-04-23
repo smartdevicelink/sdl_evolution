@@ -40,7 +40,7 @@ However, in the PTW middle/low-end models and low-cost vehicle models, since the
 
 In order to move SDL Core from the HU to smartphone as it is, it is necessary to create the SDL application called `Mediation Application` which can connect to and control the SDL App, SDL Core and SDL HMI. In the case of Android Mediation Application, the NDK (Native Development Kit) is used to implement SDL Core as it is.
 
-Basically, in the Mediation Application, the comunicatation with SDL App, SDL Core and SDL HMI is needed. And also, it will be need to absorb the difference between the current system and the new one. Morever, HMI API which HU needs is only send.
+Basically, in the Mediation Application, communication between the SDL App, SDL Core and SDL HMI is needed. Also, it will need to absorb the difference between the current system and the new one. Moreover, only the HMI API which the HU needs is sent.
 
 Therefore, the changes made in each component to establish this system are shown below.
 
