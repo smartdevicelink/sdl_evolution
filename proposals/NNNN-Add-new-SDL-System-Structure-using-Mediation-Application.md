@@ -63,7 +63,7 @@ Therefore, the changes made in each component to establish this system are shown
  - Addition of the function to reacquire information (such as Policy table etc.) when connecting to another HU
 
 ###### 3. To SDL Core
- - There is no changes from current SDL Core.
+ - There are no changes from current SDL Core.
 
 ###### 4. To SDL HMI
  - Addition of the guideline for development of HU. (Implementation is handled by each OEM.)
