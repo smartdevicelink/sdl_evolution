@@ -111,7 +111,7 @@ From the above, the management and maintenance of the Mediation App would be new
 ## Alternatives considered
 
 An alternative proposal is the lightweight SDL Core proposed in [SDL 0302 - SDL System Structure for Middle/Low-end Class Model of Powered Two Wheeler](https://github.com/smartdevicelink/sdl_evolution/issues/1004).
-However, this proposal is not a viable alternative because it does not describe specific modifications and has many disadvantages as described below. Therefore, there is no alternative proposal at this time.
+However, this proposal is not a viable alternative because it does not describe specific modifications and has many disadvantages as described below. Therefore, there is no viable alternative proposal at this time.
  - Management between apps needs to be handled by the HU
  - The App library made for low performed ECU is required
  - The display destination(on the smartphone or on the HU) needs to be managed by the App library etc
