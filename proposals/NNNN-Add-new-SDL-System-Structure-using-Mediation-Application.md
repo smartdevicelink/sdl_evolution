@@ -115,5 +115,5 @@ However, this proposal is not a viable alternative because it does not describe 
  - Management between apps needs to be handled by the HU
  - The App Library made for low performance ECU is required
  - The display destination (on the smartphone or on the HU) needs to be managed by the App Library etc.
- - RPC conflicts can be avoided by Router Service or iAP, but management control of RPC priority from each App needs to be handled by the HU
+ - RPC conflicts can be avoided by Router Service or iAP, but management control of RPC priority from each app needs to be handled by the HU
  
