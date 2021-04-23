@@ -83,7 +83,7 @@ From the above, the management and maintenance of the Mediation App would be new
 
 ## Impact on existing code
 
-###### 1. App library
+###### 1. App Library
  - As described above, a determination function and a communication destination and method to the new SDL system will be added, but the existing code will not be affected because systems that do not meet the determination conditions or do not have the conditions will continue to operate with the existing basic system.
 
 ###### 2. Mediation App
