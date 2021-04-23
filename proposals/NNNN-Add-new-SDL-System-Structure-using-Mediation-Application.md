@@ -24,7 +24,7 @@ Firstly, PTW can be classified into the following classes by their meter display
  - Middle-end class: a TFT liquid-crystal display but has restrictions such as the area assigned to SDL is small, and ECU performance is low.
  - Low-end class: simple display specifications and low ECU performance.
 
-Furthermore, the display specifications of low-cost vehicle models are also equivalent to PTW middle/low-end class models. Therefore, this proposal are for PTW middle/low-end class models and low-cost vehicle models.
+Furthermore, the display specifications of low-cost vehicle models are also equivalent to PTW middle/low-end class models. Therefore, this proposal is for PTW middle/low-end class models and low-cost vehicle models.
 
 In the current SDL system configuration, HU implements SDL Core and SDL HMI as follows.
 
