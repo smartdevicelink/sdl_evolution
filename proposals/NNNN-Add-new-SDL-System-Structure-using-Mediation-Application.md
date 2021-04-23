@@ -114,6 +114,6 @@ An alternative proposal is the lightweight SDL Core proposed in [SDL 0302 - SDL 
 However, this proposal is not a viable alternative because it does not describe specific modifications and has many disadvantages as described below. Therefore, there is no viable alternative proposal at this time.
  - Management between apps needs to be handled by the HU
  - The App Library made for low performance ECU is required
- - The display destination(on the smartphone or on the HU) needs to be managed by the App library etc
+ - The display destination (on the smartphone or on the HU) needs to be managed by the App Library etc.
  - RPC conflicts can be avoided by Router Service or iAP, but management control of RPC priority from each App needs to be handled by the HU
  
