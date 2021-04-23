@@ -26,7 +26,7 @@ Firstly, PTW can be classified into the following classes by their meter display
 
 Furthermore, the display specifications of low-cost vehicle models are also equivalent to PTW middle/low-end class models. Therefore, this proposal is for PTW middle/low-end class models and low-cost vehicle models.
 
-In the current SDL system configuration, HU implements SDL Core and SDL HMI as follows.
+In the current SDL system configuration, the HU implements SDL Core and SDL HMI as follows.
 
 <b>Figure1.</b> Current SDL system configuration
 
