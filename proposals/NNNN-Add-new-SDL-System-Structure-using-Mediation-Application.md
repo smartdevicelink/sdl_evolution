@@ -1,4 +1,4 @@
-# Add new SDL system Structure using Mediation Application for Middle/Low-end Class Model of Powered Two Wheeler and low-cost vehicle models
+# Add new SDL System Structure using Mediation Application for middle/low-end class model of Powered Two Wheeler and low-cost vehicle models
 
 * Proposal: [SDL-NNNN](NNNN-Add-new-SDL-System-Structure-using-Mediation-Application.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
