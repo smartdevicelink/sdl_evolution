@@ -66,7 +66,7 @@ Therefore, the changes made in each component to establish this system are shown
  - There are no changes from current SDL Core.
 
 ###### 4. To SDL HMI
- - Addition of the guideline for development of HU. (Implementation is handled by each OEM.)
+ - Additional information in the HMI Integration Guidelines for development of HU. (Implementation is handled by each OEM.)
 
 The changes above will be provided in a separate proposal for each change after this proposal is accepted.
 
