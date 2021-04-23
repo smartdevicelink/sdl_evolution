@@ -14,7 +14,7 @@ This proposal is to construct new SDL system for a Head Unit(HU) with low perfor
 
 ## Motivation
 
-The current SDL system is mainly for four-wheeled vehicles and requires a high-performance/high-resolution system.(The binary size is 177MB when built with x86_64.) However, it is not possible to mount a high-performance/high-resolution system on a PTW and low-cost vehicles due to the limitation of space and price that it has. Therefore, support for PTW and low-cost vehicles in the current SDL system is not incorporated. The main purpose of this proposal is to construct new SDL system for a Head Unit(HU) with low performed ECU.
+The current SDL system is mainly for four-wheeled vehicles and requires a high-performance/high-resolution system (the binary size is 177MB when built with x86_64.). However, it is not possible to mount a high-performance/high-resolution system on a PTW nor low-cost vehicles due to the limitation of space and price that the vehicles have. Therefore, support for PTW and low-cost vehicles in the current SDL system is not incorporated. The main purpose of this proposal is to construct a new SDL system for a Head Unit (HU) with low performance ECU.
 
 
 ## Proposed solution
