@@ -57,7 +57,7 @@ Therefore, the changes made in each component to establish this system are shown
  - Addition of the function to determine the display destination (on HU or smartphone)
  - Addition of the function to manage the conflict of RPC messages
  - Addition of the screen display function on the smartphone (SDL app list etc.)
- - Addition of the connection function to SDL App store
+ - Addition of the connection function to the SDL app store
  - Addition of SDL App deletion function
  - Addition of the function to manage the HMI status
  - Addition of the function how to reacquire information(such as Policy table etc.) when connecting to another HU
