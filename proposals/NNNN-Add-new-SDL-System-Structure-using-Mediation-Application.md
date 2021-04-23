@@ -32,7 +32,7 @@ In the current SDL system configuration, the HU implements SDL Core and SDL HMI 
 
 ![Figure1_Current_SDL_system_configuration.png](../assets/proposals/NNNN-Add-new-SDL-System-Structure-using-Mediation-Application/Figure1_Current_SDL_system_configuration.png)
 
-However, in the PTW middle/low-end models and low-cost vehicle models, since HU can only implement the low performed ECU, it can not implement the large programs such as SDL Core. Therefore, in this proposal, the target is to add new SDL system which move the SDL Core to smartphone like follows.
+However, in the PTW middle/low-end models and low-cost vehicle models, since the HU can only implement the low performance ECU, it cannot implement the large programs such as SDL Core. Therefore, in this proposal, the target is to add a new SDL system which moves SDL Core to the smartphone as follows.
 
 <b>Figure2.</b> new SDL system configuration for low performed ECU
 
