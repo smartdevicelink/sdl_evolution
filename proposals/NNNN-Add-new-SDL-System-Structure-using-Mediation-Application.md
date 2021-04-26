@@ -3,13 +3,13 @@
 * Proposal: [SDL-NNNN](NNNN-Add-new-SDL-System-Structure-using-Mediation-Application.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
 * Status: **Awaiting review**
-* Impacted Platforms: [ iOS / Java Suite / JavaScript Suite / HMI / Policy Server / SHAID / RPC / Protocol ]
+* Impacted Platforms: [ iOS / Java Suite / JavaScript Suite / HMI / RPC ]
 
 ## Introduction
 
-This proposal is to construct new SDL system for a Head Unit(HU) with low performed ECU for Powered Two Wheeler (PTW) *1 middle/low-end class models and low-cost vehicle models.
+This proposal is to construct a new SDL system for a Head Unit (HU) with low performed Electronic Control Unit (ECU) for Powered Two Wheelers (PTW) *1, middle/low-end class models and low-cost vehicle models.
 
-*1 Powered Two Wheeler (PTW) includes motorcycle/scooter/moped.
+*1 Powered Two Wheelers (PTW) includes motorcycle/scooter/moped.
 
 
 ## Motivation
@@ -46,8 +46,8 @@ Therefore, the changes made in each component to establish this system are shown
 
 ###### 1. To App Library
  - Addition of the system identification function
- - Addition of the function to switch the communication destination and mean
- - Addition of the function of the communication destination and mean
+ - Addition of the function to switch the communication destination and method
+ - Addition of the function of the communication destination and method
 
 ###### 2. To Mediation Application
  - Implementation of SDL Core (using NDK etc.)
@@ -102,7 +102,7 @@ From the above, the management and maintenance of the Mediation App would be new
  - There will be no impact on existing code as the new SDL system will still use SHAID as before.
 
 ###### 7. RPC
- - For both Mobile and HMI API, there will be no additional RPC, but parameters will be added.
+ - For both the Mobile and HMI APIs, there will be no additional RPC, but parameters will be added.
 
 ###### 8. Protocol
  - The new SDL system will use Bluetooth Low Energy (BLE) for communication, so there will be no impact on the existing code.
