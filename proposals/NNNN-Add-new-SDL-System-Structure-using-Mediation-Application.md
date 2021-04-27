@@ -97,13 +97,12 @@ From the above, the management and maintenance of the Mediation App would be new
 
 ###### 5. Policy Server
  - There will be no impact on existing code as it is created for each system and OEM.
-   As an example, adding a parameter to `VehicleType` to indicate a low performance ECU and to `DisplayType` to indicate the PTW display type is considered
 
 ###### 6. SHAID
  - There will be no impact on existing code as the new SDL system will still use SHAID as before.
 
 ###### 7. RPC
- - For both the Mobile and HMI APIs, there will be no additional RPCs, but parameters will be added. 
+ - For both the Mobile and HMI APIs, there will be no additional RPCs, but parameters will be added. As an example, adding a parameter to `VehicleType` to indicate a low performance ECU and to `DisplayType` to indicate the PTW display type is considered
 
 ###### 8. Protocol
  - The new SDL system will use Bluetooth Low Energy (BLE) for communication, so there will be no impact on the existing code.
