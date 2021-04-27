@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is to construct a new SDL system for a Head Unit (HU) with low performed Electronic Control Unit (ECU) for Powered Two Wheelers (PTW) *1, middle/low-end class models and low-cost vehicle models.
+This proposal is to construct a new SDL system for a Head Unit (HU) with low performance Electronic Control Unit (ECU) for Powered Two Wheelers (PTW) *1, middle/low-end class models and low-cost vehicle models.
 
 *1 Powered Two Wheelers (PTW) includes motorcycle/scooter/moped.
 
