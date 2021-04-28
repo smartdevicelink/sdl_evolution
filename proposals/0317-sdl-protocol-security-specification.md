@@ -413,7 +413,6 @@ SDL Core impact is very low as most of the specification is reverse engineered f
 2. Error codes around handshake failed or invalid/expired cert are new and should be used by SDL Core if these errors occur.
 3. A known issue should be resolved in that SDL Core doesn't respond with NAK if the application sends an error frame.
 
-Compared to Core, more effort is required on the SDL app libraries. Their implementation is incomplete and contradicting to SDL Core and the protocol. For instance the sdl_ios library uses the RPC Payload header instead of a Query Header to send TLS handshake data. The structure of these headers don't align in the first byte (RPC Payload 4 bit, Query Header 8 bit).
 
 The mobile libraries need to add the Security Query and the Binary Query Header and serialize SDL protocol frames using this query. It is recommended to add a new class called `SDLProtocolSecurity` to all libraries which implement this security specification. This is only a recommendation and decisions to implementation details are to be made by the code donator and the SDLC Project Maintainer.
 
