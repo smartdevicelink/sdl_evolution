@@ -367,6 +367,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0328" status="accepted" primary-platform="core" sdl-version="x.x" name="Modernize Ubuntu Support V20 LTS" filename="0328-modernize-ubuntu-support-v20.md"/>	
 <proposal id="0329" status="accepted" primary-platform="rpc" sdl-version="x.x" name="OnDataResumed Notification" filename="0329-on-data-resumed.md"/>	
 <proposal id="0330" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="App Service Subscription Resumption" filename="0330-app-service-resumption.md"/>	
+<proposal id="0331" status="active" primary-platform="rpc" sdl-version="x.x" name="Add new SDL System Structure using Mediation Application for middle/low-end class model of Powered Two Wheeler and low-cost vehicle models" filename="0331-Add-new-SDL-System-Structure-using-Mediation-Application.md"/>	
 
 	<!--
 Recognized values for a proposal's status:
