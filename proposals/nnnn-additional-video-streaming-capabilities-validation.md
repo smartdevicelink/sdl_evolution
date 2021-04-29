@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This proposal is an extension of an already implemented proposal: SDL 0296 - Possibility to update video streaming capabilities during ignition cycle. This proposal will define some extra validation rules to the capabilities the HMI and SDL Apps send to SDL Core to prevent malformed video streaming capabilities.
+This proposal is an extension of an already implemented proposal: [SDL 0296 - Possibility to update video streaming capabilities during ignition cycle](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0296-Update-video-streaming-capabilities-during-ignition-cycle.md). This proposal will define some extra validation rules to the capabilities the HMI and SDL Apps send to SDL Core to prevent malformed video streaming capabilities.
 
 ## Motivation
 
