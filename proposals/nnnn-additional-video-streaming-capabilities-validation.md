@@ -1,6 +1,6 @@
 # Additional Video Streaming Capabilities Validation
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-NNNN](nnnn-additional-video-streaming-capabilities-validation.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
 * Status: **Awaiting review**
 * Impacted Platforms: [Core / HMI]
@@ -11,11 +11,11 @@ This proposal is an extension of an already implemented proposal: SDL 0296 - Pos
 
 ## Motivation
 
-The original proposal does not define many rules for the structure of the additionalVideoStreamingCapabilities object that can be sent to SDL Core from the HMI. Additionally all of the parameters in the struct `VideoStreamingCapability` are non mandatory so this can lead to weird interpretations for how resolution switching capabilities should be communicated. 
+The original proposal does not define many rules for the structure of the `additionalVideoStreamingCapabilities` object that can be sent to SDL Core from the HMI. Additionally all of the parameters in the struct `VideoStreamingCapability` are non-mandatory so this can lead to weird interpretations for how resolution switching capabilities should be communicated. 
 
-For example, when a resolution switches and the HMI sends on OnSystemCapabilityUpdated notification, it is unclear if the HMI should send all of the video capabilities, or if it should only send the fields that updated.
+For example, when a resolution switches and the HMI sends an `OnSystemCapabilityUpdated` notification, it is unclear if the HMI should send all of the video capabilities, or if it should only send the fields that updated.
 
-The mobile libraries need almost all of the possible fields in the VideoStreamingCapability object in order to differentiate between streaming configurations. Just supplying the resolution is not sufficient enough to differentiate between the selected capability and other capabilities that have the same resolution but use different scales, diagonal screen size, or pixels per inch.
+The app libraries need almost all of the possible fields in the `VideoStreamingCapability` object in order to differentiate between streaming configurations. Just supplying the resolution is not sufficient enough to differentiate between the selected capability and other capabilities that have the same resolution but use different scales, diagonal screen sizes, or pixels per inch.
 
 Additionally SDL Core should do some validation on the capabilities received from an application to ensure no bad capabilities are forwarded to the HMI.
 
@@ -23,16 +23,16 @@ Additionally SDL Core should do some validation on the capabilities received fro
 
 ### SDL Core
 
-#### Validation of HMI Notification OnSystemCapabilityUpdated
+#### Validation of HMI Notification `OnSystemCapabilityUpdated`
 
-To remedy potential issues of resolution switching across different HMI integrations with connected applications, I propose to define a set of validation rules in SDL Core when receiving video streaming capabilities from the HMI via OnSystemCapabilityUpdated.
+To remedy potential issues of resolution switching across different HMI integrations with connected applications, I propose to define a set of validation rules in SDL Core when receiving video streaming capabilities from the HMI via `OnSystemCapabilityUpdated`.
 
 The following set of rules must be followed or else SDL Core should ignore the capabilities from the HMI.
 
-- The root video capability should not be contained within the additionalVideoStreamingCapabilities parameter in any message sent to SDL Core. It will be counted as a duplicate in this case.
+- The root video capability should not be contained within the `additionalVideoStreamingCapabilities` parameter in any message sent to SDL Core. It will be counted as a duplicate in this case.
 - No duplicate capabilities should be included in the set of the root capability and the additional capabilities.
 - If the root capability includes a video streaming capability parameter, then the additional streaming capabilities should also include the same parameters.
-- Additional video streaming capability objects should not contain the parameter `additionalStreamingCapabilities` (Prevent unnecessary recursion of capabilities).
+- Additional video streaming capability objects should not contain the parameter `additionalStreamingCapabilities` (prevent unnecessary recursion of capabilities).
 
 The following example capability object is ok. Despite all of the preferred resolutions being the same, the scale parameter is the differentiating factor. Notice that all parameter fields defined in the root capability are also defined in the additional video streaming capabilities.
 ```
@@ -97,14 +97,14 @@ videoStreamingCapability: {
 }
 ```
 
-#### Validation of RPC OnAppCapabilityUpdated
+#### Validation of RPC `OnAppCapabilityUpdated`
 
-To prevent the app from sending bad capabilities to SDL Core the following validation rules should be enforced when receiving an OnAppCapabilityUpdated notification from a SDL connected App. If any rule is violated by the application, Core will notify the HMI that the current selected resolution is the only resolution supported by the app, thus disabling resolution switching.
+To prevent the app from sending bad capabilities to SDL Core the following validation rules should be enforced when receiving an `OnAppCapabilityUpdated` notification from an SDL connected App. If any rule is violated by the application, Core will notify the HMI that the current selected resolution is the only resolution supported by the app, thus disabling resolution switching.
 
-- No duplicate capabilities should be included in the AdditionalStreamingCapability object.
-- No root level capability should be included in the OnAppCapability notification. All supported resolutions should be included in the parameter `additionalStreamingCapabilities`.
+- No duplicate capabilities should be included in the `AdditionalStreamingCapability` object.
+- No root level capability should be included in the `OnAppCapability` notification. All supported resolutions should be included in the parameter `additionalStreamingCapabilities`.
 - All capabilities included in this message should be a subset of the capabilities provided by the HMI.
-- Additional streaming capability objects should not contain the parameter `additionalStreamingCapabilities` (Prevent unnecessary recursion of capabilities).
+- Additional streaming capability objects should not contain the parameter `additionalStreamingCapabilities` (prevent unnecessary recursion of capabilities).
 
 ### HMI Integration Guidelines
 
@@ -120,12 +120,12 @@ SDL Core will need to be updated to handle validation of the mentioned notificat
 
 SDL Core will also need to handle bad capability messages from an application and notify the HMI that the current resolution is the only accepted app resolution.
 
-Since the RPC's mentioned in this proposal do not have responses, when a rule is broken and Core handles/ignores the notification, an ERROR log should be printed by SDL Core.
+Since the RPCs mentioned in this proposal do not have responses, when a rule is broken and Core handles/ignores the notification, an ERROR log should be printed by SDL Core.
 
 Changes will be made to SDL Core but these validation rules may impact HMI and App implementations if they are using this feature incorrectly.
 
 ## Alternatives considered
 
-Extra validation could be implemented in SDL Core where all OnSystemCapabilityUpdated notifications from the HMI that include the `videoStreamingCapability` parameter should contain all capabilities that are included in the OnAppCapabilityUpdated notification received by the App.
+Extra validation could be implemented in SDL Core where all `OnSystemCapabilityUpdated` notifications from the HMI that include the `videoStreamingCapability` parameter should contain all capabilities that are included in the `OnAppCapabilityUpdated` notification received by the app.
 
-I am not sure if this change is necessary due to the complexity that would be created in SDL Core due to requiring core to monitor and save an App's video streaming capability. The author suggests to only implement this rule as a guideline in the documentation.
+I am not sure if this change is necessary due to the complexity that would be created in SDL Core due to requiring Core to monitor and save an app's video streaming capability. The author suggests to only implement this rule as a guideline in the documentation.
