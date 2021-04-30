@@ -11,7 +11,7 @@ This proposal is to make modifications in sdl_core to transform incoming `SetDis
 
 ## Motivation
 
-The `SetDisplayLayout` RPC was deprecated as a part of the changes for the [Widget Support](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0216-widget-support.md#setdisplaylayout) feature. A new `templateConfiguration` parameter was added to the `Show` RPC to allow it to take over the responsibilities of `SetDisplayLayout`. Given that `UI.Show` can now handle switching the display layout and changing the color schemes in the HMI, it would make sense to use `UI.Show` instead of having multiple implementations for the same functionality.
+The `SetDisplayLayout` RPC was deprecated as a part of the changes for the [Widget Support](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0216-widget-support.md#setdisplaylayout) feature. In that proposal, a new `templateConfiguration` parameter was added to the `Show` RPC to allow it to take over the responsibilities of `SetDisplayLayout`. Given that `UI.Show` can now handle switching the display layout and changing the color schemes in the HMI, it would make sense to use `UI.Show` instead of having multiple implementations for the same functionality.
 
 ## Proposed solution
 
@@ -19,7 +19,7 @@ The proposed solution is to transform incoming `SetDisplayLayout` requests into 
 
 #### Change 1: Construct UI.Show request from SetDisplayLayout params
 
-A `SetDisplayLayout` request can be transformed into a `UI.Show` request by simply using the `displayLayout`,`dayColorScheme`, `nightColorScheme` parameters from the original request in the `templateConfiguration` struct for the `UI.Show` request
+A `SetDisplayLayout` request can be transformed into a `UI.Show` request by using the `displayLayout`,`dayColorScheme`, `nightColorScheme` parameters from the original request in the `templateConfiguration` struct for the `UI.Show` request
 
 ```c++
 void SetDisplayLayoutRequest::Run() {
@@ -77,7 +77,7 @@ void SetDisplayLayoutRequest::Run() {
 #### Change 3: Transform `UI.Show` response to `SetDisplayLayout` response for application
 
 While the HMI will return a `UI.Show` response for the transformed request, the application will still expect a `SetDisplayLayout` response.
-The will require changes to observe the returning `UI.Show` response and transforming that response into a `SetDisplayLayout` response for the application.
+This will require changes to transform the returned `UI.Show` response into a `SetDisplayLayout` response for the application.
 
 ```c++
 SetDisplayLayoutRequest::SetDisplayLayoutRequest(
@@ -106,11 +106,11 @@ void SetDisplayLayoutRequest::on_event(const event_engine::Event& event) {
 
 ## Potential downsides
 
-The author doesn't know of any downsides to this proposal.
+These changes will prevent us from directly testing the `UI.SetDisplayLayout` RPC.
 
 ## Impact on existing code
 
-This change will only impact the existing code for the `SetDisplayLayout` RPC request
+This change will only impact the existing code for the `SetDisplayLayout` RPC request in `set_display_layout_request.cc`.
 
 ## Alternatives considered
 
