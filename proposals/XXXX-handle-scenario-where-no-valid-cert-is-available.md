@@ -14,6 +14,13 @@ Currently, if an app requests a protected session while SDL Core does not have a
 ## Proposed solution
 We will add a new INI parameter `Policy.HandshakeTimeout` which is set to 15000 by default. When `SecurityManagerImpl::PostponeHandshake` is called and `waiting_for_certificate_` is true, a single shot timer will be created with a delay of `Policy.HandshakeTimeout`. The timer's callback will call `SecurityManagerImpl::NotifyListenersOnHandshakeDone(connection_key, SSLContext::Handshake_Result_Fail)` and remove the `connection_key` from `awaiting_certificate_connections_` if the connection is still pending when the timeout is reached.
 
+### Changes to smartDeviceLink.ini
+The following lines will be added to the `[Policy]` section:
+```
+; Time in milliseconds for a handshake to wait for a PTU
+HandshakeTimeout = 15000
+```
+
 ### Changes to Start Service Process
 
 #### When SDL Core does have valid certificate
@@ -27,6 +34,8 @@ Currently, `PostponeHandshake` will add the pending connection to a vector, `awa
 By creating a timer when `PostponeHandshake` is called, we can limit the amount of time a start service will be pending when a valid certificate is not available. This timer would have a timeout configurable in `smartDeviceLink.ini` under the section `Policy` named `HandshakeTimeout`. This timer's callback would first remove the pending connection from the `awaiting_certificate_connections_` vector and then indirectly call `HandshakeHandler::ProcessFailedHandshake` with `ServiceStatus::CERT_INVALID`. If the service may be unprotected, the service will be able to start after 15 seconds instead of after the entire retry sequence finishes, if the service is force protected, the user will receive feedback that the StartService failed after 15 seconds instead of after the entire retry sequence is complete. In both situations, the user experience is improved by limiting the time this connection can be in a pending state.
 
 If a PTU is completed and Core receives a valid certificate before the `HandshakeTimeout` timer expires, SDL Core will reply as it had before and remove the created timer from memory.
+
+![handleScenarioWhereNoValidCertIsAvailable](https://user-images.githubusercontent.com/12716076/117061498-4a15c000-acf0-11eb-9907-ebc733d236ba.png)
 
 ## Potential downsides
 There is the possibility a service will be NAK'd which could be ACK'd later on.
