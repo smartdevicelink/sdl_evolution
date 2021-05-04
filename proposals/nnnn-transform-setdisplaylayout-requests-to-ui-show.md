@@ -17,9 +17,9 @@ The `SetDisplayLayout` RPC was deprecated as a part of the changes for the [Widg
 
 The proposed solution is to transform incoming `SetDisplayLayout` requests into `UI.Show` requests to be sent to the HMI. This will require the following changes to `set_display_layout_request.cc`
 
-#### Change 1: Construct UI.Show request from SetDisplayLayout params
+#### Change 1: Construct `UI.Show` request from `SetDisplayLayout` params
 
-A `SetDisplayLayout` request can be transformed into a `UI.Show` request by using the `displayLayout`,`dayColorScheme`, `nightColorScheme` parameters from the original request in the `templateConfiguration` struct for the `UI.Show` request
+A `SetDisplayLayout` request can be transformed into a `UI.Show` request by using the `displayLayout`,`dayColorScheme`, `nightColorScheme` parameters from the original request in the `templateConfiguration` struct for the `UI.Show` request.
 
 ```c++
 void SetDisplayLayoutRequest::Run() {
