@@ -47,7 +47,3 @@ This would require code changes to SDL Core to handle the new INI parameter and 
 After a failed PTU attempt, Core will finish all pending handshakes as failures.
 
 The proposed solution was selected because it more directly addresses the issue by defining a maximum time any start service request may be awaiting certificates.
-
-#### Reply to pending Start Service requests on every PTU Retry
-
-This would be the same as the above solution but without the INI parameter, instead taking action every time `PolicyManagerImpl::OnPTUIterationTimeout` is called.
