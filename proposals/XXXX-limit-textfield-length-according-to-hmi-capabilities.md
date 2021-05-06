@@ -9,7 +9,7 @@
 This proposal defines how Core should limit the length of TextFields sent to the HMI according to the HMI Capabilities.
 
 ## Motivation
-The Mobile API defines the max length of many text fields much larger than either the SDL HMI or Generic HMI support. The true maximum length of text fields is defined by the HMI Capabilities `displayCapabilities.textFields`. For example, `AddCommand.MenuParams.tertiaryText` is defined with `maxlength="500"` in the Mobile API, but the Generic HMI's capabilities inform Core that it can handle just one twenty character wide row for `tertiaryText`. This means Core may be forwarding TextFields to the HMI that are longer than the HMI can handle.
+The Mobile API defines the max length of many text fields as much larger than either the SDL HMI or Generic HMI support. The true maximum length of text fields is defined by the HMI Capabilities `displayCapabilities.textFields`. For example, `AddCommand.MenuParams.tertiaryText` is defined with `maxlength="500"` in the Mobile API, but the Generic HMI's capabilities inform Core that it can handle just one twenty character wide row for `tertiaryText`. This means Core may be forwarding TextFields to the HMI that are longer than the HMI can handle.
 
 ## Proposed solution
 Core will enforce a maximum length on any TextFields being sent to the HMI, based on the lengths defined for TextFields in the HMI's capabilities.
@@ -23,10 +23,10 @@ Core's ability to truncate TextFields will first be controlled by an INI option.
 + ; according to the HMI Capabilities
 + TruncateTextFields = true
 ```
-When this option is enabled, Core will truncate any TextFieldStruct being sent to the HMI who's `fieldName` is defined in the HMI's display capabilities.
+When this option is enabled, Core will truncate any `TextFieldStruct` being sent to the HMI whose `fieldName` is defined in the HMI's display capabilities.
 
 ### Truncation Process
-When Core is evaluating a TextFieldStruct for truncation, it will first check if the length of the provided `TextFieldStruct.fieldText` is longer than the maximum length from the capabilities. The maximum length from the capabilities will be calculated as `TextField.width * TextField.rows`. If the provided `fieldText` is too long, the string will be cut off at the maximum length.
+When Core is evaluating a `TextFieldStruct` for truncation, it will first check if the length of the provided `TextFieldStruct.fieldText` is longer than the maximum length from the capabilities. The maximum length from the capabilities will be calculated as `TextField.width * TextField.rows`. If the provided `fieldText` is too long, the string will be cut off at the maximum length.
 
 Optionally, a suffix for the truncated data may also be defined in the INI configuration file.
 ```
@@ -38,13 +38,13 @@ Optionally, a suffix for the truncated data may also be defined in the INI confi
 If this configuration option is defined, the suffix will replace the final characters in any truncated string right up to the null terminating character.
 
 ### Mobile Response after Truncation
-When Core has truncated a TextField, the RPC response should make mobile aware that truncation has occurred. A string such as "$textFieldName was truncated." should be appended to the response's info and if the response code will be SUCCESS it should be overwritten to WARNINGS.
+When Core has truncated a TextField, the RPC response should make mobile aware that truncation has occurred. A string such as "$textFieldName was truncated." should be appended to the response's info and if the response code will be SUCCESS, it should be overwritten to WARNINGS.
 
 ## Potential downsides
 With this feature being configurable via the `TruncateTextFields` option, the author does not see any potential downsides to implementing this feature.
 
 ## Impact on existing code
-This would require code changes to SDL Core to parse and truncate outgoing TextFieldStructs.
+This would require code changes to SDL Core to parse and truncate outgoing `TextFieldStructs`.
 
 ## Alternatives considered
 
