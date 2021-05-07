@@ -154,7 +154,9 @@ The security query is able to contain JSON data as well as binary data. During t
 
 ## 5.1.2 Error Frames
 
-If an error occurs during the TLS handshake a notification is sent with an error code and error text as JSON data. Additionally the error code is added as a single byte binary data. The error code in JSON data and one-byte binary data have the same source so it's the same data.
+If an error occurs during the TLS handshake, a notification is sent with both, JSON data and binary data describing the error. The JSON data contains the error code and an error text. The binary data is one single byte and only contains the error code. 
+
+The error code in JSON data and the binary data are the same value from the same code list.
 
 ### 5.1.2.1 Payload
 
