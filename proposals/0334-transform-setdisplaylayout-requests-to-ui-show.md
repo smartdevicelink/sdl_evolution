@@ -1,8 +1,8 @@
 # Transform SetDisplayLayout requests into UI.Show for HMIs
 
-* Proposal: [SDL-NNNN](nnnn-transform-setdisplaylayout-requests-to-ui-show.md)
+* Proposal: [SDL-0334](0334-transform-setdisplaylayout-requests-to-ui-show.md)
 * Author: [Shobhit Adlakha](https://github.com/ShobhitAd)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
