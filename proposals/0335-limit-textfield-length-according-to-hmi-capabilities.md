@@ -1,8 +1,8 @@
 # Limit TextField Length According to HMI Capabilities
 
-* Proposal: [SDL-XXXX](XXXX-limit-textfield-length-according-to-hmi-capabilities.md)
+* Proposal: [SDL-0335](0335-limit-textfield-length-according-to-hmi-capabilities.md)
 * Author: [Collin McQueen](https://github.com/iCollin)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
