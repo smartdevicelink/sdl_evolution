@@ -1,8 +1,8 @@
 # Handle Scenario Where no Valid Cert is Available
 
-* Proposal: [SDL-XXXX](XXXX-handle-scenario-where-no-valid-certs-are-available.md)
+* Proposal: [SDL-0333](0333-handle-scenario-where-no-valid-cert-is-available.md)
 * Author: [Collin McQueen](https://github.com/iCollin)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
