@@ -6,7 +6,7 @@
 
 ## Introduction
 
-The main purpose of this proposal is to verify that SDL Core follows the Mobile API spec properly when communicating with older apps. Currently, due to changes in the Mobile API spec over time, there are cases where SDL Core can send a message to an older app which isn't valid for it's API version.
+The main purpose of this proposal is to verify that SDL Core follows the Mobile API spec properly when communicating with older apps. Currently, due to changes in the Mobile API spec over time, there are cases where SDL Core can send a message to an older app which isn't valid for its API version.
 
 ## Motivation
 
@@ -79,7 +79,7 @@ Any parameters that were cut during this process should be logged by SDL Core.
 
 In each example below, SDL Core sends a notification or response to the mobile application.
 
-  1. The request contains a invalid/unknown parameter for the given message version.
+  1. The request contains an invalid/unknown parameter for the given message version.
 
     1.1 Unknown Parameter
 
@@ -357,4 +357,4 @@ Fortunately, much of the enum filtering code added in [SDL-0248](https://github.
 
 ## Alternatives considered
 
-- One alternative that was considered was to manually determine which edge cases with versioning to handle, allowing parameters/values which are unknown to the app in most cases. This approach would likely be quite time consuming, but would maybe allow more flexibility.
+- One alternative that was considered was to manually determine which edge cases with versioning to handle, allowing parameters/values which are unknown to the app in most cases. This approach would likely be fairly time consuming, but would maybe allow more flexibility.
