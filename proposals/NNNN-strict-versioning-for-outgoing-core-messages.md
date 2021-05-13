@@ -1,5 +1,5 @@
-  # Strict Versioning for Outgoing Core messages
-  * Proposal: [SDL-NNNN](NNNN-strict-versioning-for-outgoing-core-messages.md)
+  # Strict Versioning for Outgoing Core Messages
+  * Proposal: [SDL-NNNN](NNNN-strict-versioning-for-outgoing-core-messages.md)
   * Authors: [Jacob Keeler](https://github.com/jacobkeeler)
   * Status: **Awaiting review**
   * Impacted Platforms: [Core]
