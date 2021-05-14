@@ -19,7 +19,7 @@ The solution is to provide a new section into the protocol spec around security 
 
 ### Change 1: Update Frame Header Fields description
 
-Because SDL core already has a defined behavior, spec must be changed accordingly to reflect this behavior:
+Because SDL Core already has a defined behavior, Protocol Spec must be changed accordingly to reflect this behavior:
 
 <table width="100%">
   <tr>
@@ -61,7 +61,7 @@ Because SDL core already has a defined behavior, spec must be changed accordingl
       In the payload, the first four bytes denote the Total Size of the data contained in all consecutive frames. <i style="color:green;"> This is always the size of whole non-encrypted payload (even if consecutive frames are encrypted).</i><br>
       The second four bytes denote the number of consecutive frames following this one<br>
       <b>Frame Type = 0x01 or 0x03 (Single or Consecutive Frame)</b><br>
-      The total bytes in this frame's payload. <i style="color:green;">If frame is encrypted this is the size of encrypted payload, otherwise size of non-ecrypted payload.</i><br>
+      The total bytes in this frame's payload. <i style="color:green;">If frame is encrypted this is the size of encrypted payload, otherwise size of non-encrypted payload.</i><br>
       ...
     </td>
   </tr>  
@@ -85,7 +85,7 @@ The security query is able to contain JSON data as well as binary data. During t
   <tr><td align="center">Binary Data</td></tr>
 </table>
 
-### 5.1.1.2 Binary Query Header
+### 5.1.1.2 Binary Header
 
 <table width="100%">
   <tr>
@@ -154,7 +154,7 @@ The security query is able to contain JSON data as well as binary data. During t
 
 ## 5.1.2 Error Frames
 
-If an error occurs during the TLS handshake, a notification is sent with both, JSON data and binary data describing the error. The JSON data contains the error code and an error text. The binary data is one single byte and only contains the error code. 
+If an error occurs during the TLS handshake, a notification is sent with both JSON data and binary data describing the error. The JSON data contains the error code and an error text. The binary data is one single byte and only contains the error code.
 
 The error code in JSON data and the binary data are the same value from the same code list.
 
@@ -295,9 +295,9 @@ The following query header is used by the system and the application to send err
 
 It is possible to establish a secured and encrypted communication with the system by setting the frame header encryption flag to `1` when starting a new service. If the authentication was successful, the system will reply with a `StartService ACK` frame with the encryption flag also set to `1` indicating that encrypted data is now accepted. If the authentication fails for some reason the system will reset the TLS connection and return a `StartService NAK` frame.
 
-The RPC service needs to be started as unencrypted first, then moved to encrypted state by sending another `StartService` request at a later point. Other services can do the same thing to move from unencrypted to encrypted.
+The RPC service always needs to be started as unencrypted first, then it can be moved to encrypted state by sending another `StartService` request containing ecryption flag set to `1` at a later point. Services of another types can be started as encrypted initially, i.e. it is not necessary to start them as unencrypted and then move to encrypted state using second `StartService` request (however such sequence of actions is also valid).
 
-Before the encryption of RPC service is enabled (encryption is not available), SDL Core rejects any RPC request with result code `ENCRYPTION_NEEDED` if the RPC needs protection (please see policy updates for which RPC needs protection). SDL Core continues processing an RPC request if the RPC does not need protection. SDL Core sends a notification only if the notification RPC does not need protection.
+Before the encryption of RPC service is enabled (encryption is not available), SDL Core rejects any RPC request with result code `ENCRYPTION_NEEDED` if the RPC needs protection (please see policy updates for which RPCs need protection). SDL Core continues processing an RPC request if the RPC does not need protection. SDL Core sends a notification only if the notification RPC does not need protection.
 
 After the encryption of RPC service is enabled (encryption is available), SDL Core rejects any unencrypted RPC requests with result code `ENCRYPTION_NEEDED` with the unencrypted response if the RPC needs protection. SDL Core continues processing an unencrypted RPC request if the RPC does not need protection and responds with an unencrypted response. SDL Core continues processing an encrypted RPC request if the RPC needs protection and responds with an encrypted response. SDL Core sends an unencrypted notification if the RPC does not need protection. SDL Core sends an encrypted notification if the RPC needs protection. In addition, SDL Core shall continue processing an encrypted RPC request if the RPC does not need protection and responds with an encrypted response.
 
@@ -307,7 +307,7 @@ The below diagram shows the sequence of how the TLS handshake exchanges certific
 
 ![TLS Handshake activity diagram](../assets/proposals/0317-sdl-protocol-security-specification/tls-handshake.png)
 
-The authentication is done using TLS handshake. The TLS handshake process is defined by TLS and is not part of the SDL protocol. The handshake is designed as a client server communication which is configurable in the system settings. An application should take the role of a server where the system is the client. The client entity will initiate a TLS handshake with the corresponding security manager of the server. The client will do this only if the server was not authenticated before in the current transport connection. According to the TLS handshake process the peer certificate can be omitted for the server but it's required for the client. Certificate peer verification can be enabled/disabled on Core side by changing `VerifyPeer` parameter in the configuration file. From another hand, mobile side library does not require the certificate from Core for TLS handshake, however Core performs its internal certificate validation before starting the actual TLS handshake. During internal validation, Core checks if certificate is missing (or outdated/invalid) and if so, it initiates PTU to obtain new certificate from Policy Server. If valid certificate can't be obtained, Core does not start TLS handshake and notifies mobile library that protected service start has been failed.
+The authentication is done using TLS handshake. The TLS handshake process is defined by TLS and is not part of the SDL protocol. The handshake is designed as a client server communication which is configurable in the system settings. An application must take the role of a server where the system is the client. The client entity will initiate a TLS handshake with the corresponding security manager of the server. The client will do this only if the server was not authenticated before in the current transport connection. According to the TLS handshake process the peer certificate can be omitted for the server but it's required for the client. Certificate peer verification can be enabled/disabled on the Core side by changing `VerifyPeer` parameter in the configuration file. On the other hand, the SDL app library does not require the certificate from Core for the TLS handshake. However, Core performs its internal certificate validation before starting the actual TLS handshake. During internal validation, Core checks if the certificate is missing (or outdated/invalid) and if so, it initiates a PTU to obtain a new certificate from the Policy Server. If a valid certificate can't be obtained, Core does not start the TLS handshake and it notifies the app library that the protected service start has failed.
 
 The system can be configured to support one encryption method. The following methods are supported:
 
@@ -416,7 +416,7 @@ SDL Core impact is very low as most of the specification is reverse engineered f
 3. A known issue should be resolved in that SDL Core doesn't respond with NAK if the application sends an error frame.
 
 
-The mobile libraries need to add the Security Query and the Binary Query Header and serialize SDL protocol frames using this query. It is recommended to add a new class called `SDLProtocolSecurity` to all libraries which implement this security specification. This is only a recommendation and decisions to implementation details are to be made by the code donator and the SDLC Project Maintainer.
+The app libraries need to add the Security Query and the Binary Query Header and serialize SDL protocol frames using this query. It is recommended to add a new class called `SDLProtocolSecurity` to all libraries which implement this security specification. This is only a recommendation and decisions to implementation details are to be made by the code donator and the SDLC Project Maintainer.
 
 ## Alternatives considered
 
