@@ -71,6 +71,10 @@ Because SDL Core already has a defined behavior, Protocol Spec must be changed a
 
 The following section should be added to the protocol spec:
 
+## 4.2.5 Start Service
+
+The RPC service always needs to be started as unencrypted first, then it can be moved to an encrypted state by sending another `StartService` request containing an encryption flag set to `1` at a later point. Services of another type can be started as encrypted initially, i.e. it is not necessary to start them as unencrypted and then move to encrypted state using second `StartService` request (however such sequence of actions is also valid). See "Secured Communication" section for more details.
+
 ## 5.1.1 Security Query
 
 The TLS Payload is sent in a binary query header. The size is 12 bytes which matches the size of the RPC Payload Binary Header.
@@ -294,8 +298,6 @@ The following query header is used by the system and the application to send err
 ## 7. Secured Communication
 
 It is possible to establish a secured and encrypted communication with the system by setting the frame header encryption flag to `1` when starting a new service. If the authentication was successful, the system will reply with a `StartService ACK` frame with the encryption flag also set to `1` indicating that encrypted data is now accepted. If the authentication fails for some reason the system will reset the TLS connection and return a `StartService NAK` frame.
-
-The RPC service always needs to be started as unencrypted first, then it can be moved to encrypted state by sending another `StartService` request containing ecryption flag set to `1` at a later point. Services of another types can be started as encrypted initially, i.e. it is not necessary to start them as unencrypted and then move to encrypted state using second `StartService` request (however such sequence of actions is also valid).
 
 Before the encryption of RPC service is enabled (encryption is not available), SDL Core rejects any RPC request with result code `ENCRYPTION_NEEDED` if the RPC needs protection (please see policy updates for which RPCs need protection). SDL Core continues processing an RPC request if the RPC does not need protection. SDL Core sends a notification only if the notification RPC does not need protection.
 
