@@ -104,7 +104,7 @@ void SetDisplayLayoutRequest::on_event(const event_engine::Event& event) {
 }
 ```
 
-### API Changes
+### HMI API Changes
 
 The author also proposes removing the deprecated `SetDisplayLayout` RPC from the HMI_API spec.
 
@@ -124,7 +124,7 @@ The author also proposes removing the deprecated `SetDisplayLayout` RPC from the
 -    <param name="dayColorScheme" type="Common.TemplateColorScheme" mandatory="false"></param>
 -    <param name="nightColorScheme" type="Common.TemplateColorScheme" mandatory="false"></param>
 -  </function>
--
+
 -  <function name="SetDisplayLayout" messagetype="response">
 -    <description>This RPC is deprecated. Use Show RPC to change layout.</description>
 -    <param name="displayCapabilities" type="Common.DisplayCapabilities" mandatory="false">
