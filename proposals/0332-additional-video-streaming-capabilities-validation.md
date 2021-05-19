@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0332](0332-additional-video-streaming-capabilities-validation.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
