@@ -368,10 +368,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0329" status="accepted" primary-platform="rpc" sdl-version="x.x" name="OnDataResumed Notification" filename="0329-on-data-resumed.md"/>	
 <proposal id="0330" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="App Service Subscription Resumption" filename="0330-app-service-resumption.md"/>	
 <proposal id="0331" status="active" primary-platform="rpc" sdl-version="x.x" name="Add new SDL System Structure using Mediation Application for middle/low-end class model of Powered Two Wheeler and low-cost vehicle models" filename="0331-Add-new-SDL-System-Structure-using-Mediation-Application.md"/>	
-<proposal id="0332" status="active" primary-platform="core" sdl-version="x.x" name="Additional Video Streaming Capabilities Validation" filename="0332-additional-video-streaming-capabilities-validation.md"/>	
+<proposal id="0332" status="accepted" primary-platform="core" sdl-version="x.x" name="Additional Video Streaming Capabilities Validation" filename="0332-additional-video-streaming-capabilities-validation.md"/>	
 <proposal id="0333" status="active" primary-platform="core" sdl-version="x.x" name="Handle Scenario Where no Valid Cert is Available" filename="0333-handle-scenario-where-no-valid-cert-is-available.md"/>	
-<proposal id="0334" status="active" primary-platform="core" sdl-version="x.x" name="Transform SetDisplayLayout requests into UI.Show for HMIs" filename="0334-transform-setdisplaylayout-requests-to-ui-show.md"/>	
+<proposal id="0334" status="accepted" primary-platform="core" sdl-version="x.x" name="Transform SetDisplayLayout requests into UI.Show for HMIs" filename="0334-transform-setdisplaylayout-requests-to-ui-show.md"/>	
 <proposal id="0335" status="active" primary-platform="core" sdl-version="x.x" name="Limit TextField Length According to HMI Capabilities" filename="0335-limit-textfield-length-according-to-hmi-capabilities.md"/>	
+<proposal id="0336" status="active" primary-platform="core" sdl-version="x.x" name="Strict Versioning for Outgoing Core Messages" filename="0336-strict-versioning-for-outgoing-core-messages.md"/>	
 
 	<!--
 Recognized values for a proposal's status:
