@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0334](0334-transform-setdisplaylayout-requests-to-ui-show.md)
 * Author: [Shobhit Adlakha](https://github.com/ShobhitAd)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
