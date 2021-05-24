@@ -29,6 +29,7 @@ To remedy potential issues of resolution switching across different HMI integrat
 
 The following set of rules must be followed or else SDL Core should ignore the capabilities from the HMI.
 
+- A unique screen size is determined by the following parameters: preferredResolution, diagonalScreenSize, pixelPerInch, and scale. Each given screen size should provide one and only one preferredFPS, maxBitrate, supportedFormats, and hapticSpatialDataSupported.
 - The root video capability should not be contained within the `additionalVideoStreamingCapabilities` parameter in any message sent to SDL Core. It will be counted as a duplicate in this case.
 - No duplicate capabilities should be included in the set of the root capability and the additional capabilities.
 - If the root capability includes a video streaming capability parameter, then the additional streaming capabilities should also include the same parameters.
@@ -38,8 +39,8 @@ The following example capability object is ok. Despite all of the preferred reso
 ```
 videoStreamingCapability: {
     preferredResolution: {
-        resolutionWidth: masterWidth,
-        resolutionHeight: templateHeight
+        resolutionWidth: 480,
+        resolutionHeight: 320
     },
     maxBitrate: 400000,
     supportedFormats: [
@@ -57,8 +58,8 @@ videoStreamingCapability: {
     additionalVideoStreamingCapabilities: [
         {
             preferredResolution: {
-                resolutionWidth: masterWidth,
-                resolutionHeight: templateHeight
+                resolutionWidth: 480,
+                resolutionHeight: 320
             },
             maxBitrate: 400000,
             supportedFormats: [
@@ -76,8 +77,8 @@ videoStreamingCapability: {
         },
         {
             preferredResolution: {
-                resolutionWidth: masterWidth,
-                resolutionHeight: templateHeight
+                resolutionWidth: 480,
+                resolutionHeight: 320
             },
             maxBitrate: 400000,
             supportedFormats: [
@@ -101,10 +102,77 @@ videoStreamingCapability: {
 
 To prevent the app from sending bad capabilities to SDL Core the following validation rules should be enforced when receiving an `OnAppCapabilityUpdated` notification from an SDL connected App. If any rule is violated by the application, Core will notify the HMI that the current selected resolution is the only resolution supported by the app, thus disabling resolution switching.
 
+- A unique screen size is determined by the following parameters: preferredResolution, diagonalScreenSize, pixelPerInch, and scale. Each given screen size should provide one and only one preferredFPS, maxBitrate, supportedFormats, and hapticSpatialDataSupported.
 - No duplicate capabilities should be included in the `AdditionalStreamingCapability` object.
-- No root level capability should be included in the `OnAppCapability` notification. All supported resolutions should be included in the parameter `additionalStreamingCapabilities`.
+- `OnAppCapabilityUpdated.appCapability.videoStreamingCapability` should include all of its data in `additionalVideoStreamingCapabilities`.
 - All capabilities included in this message should be a subset of the capabilities provided by the HMI.
 - Additional streaming capability objects should not contain the parameter `additionalStreamingCapabilities` (prevent unnecessary recursion of capabilities).
+
+Example Notification. Notice there is no capability data contained outside of `additionalVideoStreamingCapabilities`:
+
+```
+videoStreamingCapability: {
+    additionalVideoStreamingCapabilities: [
+        {
+            preferredResolution: {
+                resolutionWidth: 480,
+                resolutionHeight: 320
+            },
+            maxBitrate: 400000,
+            supportedFormats: [
+                { protocol:  "RAW", codec: "H264" },
+                { protocol:  "RTP", codec: "H264" },
+                { protocol:  "RTSP", codec: "Theora" },
+                { protocol:  "RTMP", codec: "VP8" },
+                { protocol:  "WEBM", codec: "VP9" }
+            ],
+            hapticSpatialDataSupported: true,
+            diagonalScreenSize: 7,
+            pixelPerInch: 96,
+            scale: 1,
+            preferredFPS: 30
+        },
+        {
+            preferredResolution: {
+                resolutionWidth: 480,
+                resolutionHeight: 320
+            },
+            maxBitrate: 400000,
+            supportedFormats: [
+                { protocol:  "RAW", codec: "H264" },
+                { protocol:  "RTP", codec: "H264" },
+                { protocol:  "RTSP", codec: "Theora" },
+                { protocol:  "RTMP", codec: "VP8" },
+                { protocol:  "WEBM", codec: "VP9" }
+            ],
+            hapticSpatialDataSupported: true,
+            diagonalScreenSize: 7,
+            pixelPerInch: 72,
+            scale: 1.5,
+            preferredFPS: 30
+        },
+        {
+            preferredResolution: {
+                resolutionWidth: 480,
+                resolutionHeight: 320
+            },
+            maxBitrate: 400000,
+            supportedFormats: [
+                { protocol:  "RAW", codec: "H264" },
+                { protocol:  "RTP", codec: "H264" },
+                { protocol:  "RTSP", codec: "Theora" },
+                { protocol:  "RTMP", codec: "VP8" },
+                { protocol:  "WEBM", codec: "VP9" }
+            ],
+            hapticSpatialDataSupported: true,
+            diagonalScreenSize: 7,
+            pixelPerInch: 48,
+            scale: 2,
+            preferredFPS: 30
+        }
+    ]
+}
+```
 
 ### HMI Integration Guidelines
 
