@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0333](0333-handle-scenario-where-no-valid-cert-is-available.md)
 * Author: [Collin McQueen](https://github.com/iCollin)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
