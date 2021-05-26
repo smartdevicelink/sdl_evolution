@@ -35,7 +35,7 @@ If a PTU is completed and Core receives a valid certificate before the `Handshak
 ![handleScenarioWhereNoValidCertIsAvailable](https://user-images.githubusercontent.com/12716076/117061498-4a15c000-acf0-11eb-9907-ebc733d236ba.png)
 
 ### Changes to OnPermissionsChange
-In order to notify an application when a valid certificate is found, changes are proposed to the `OnPermissionChange` notification:
+In order to notify an application when a valid certificate is found, changes are proposed to the `OnPermissionsChange` notification:
 
 ```
     <function name="OnPermissionsChange" functionID="OnPermissionsChangeID" messagetype="notification" since="2.0">
@@ -50,7 +50,7 @@ In order to notify an application when a valid certificate is found, changes are
     </function>
 ```
 
-In the case an app's StartService was NAK'd because Core did not have a valid certificate, when the app receives `OnPermissionChange` with `encryptionReady = true` it will know that it may retry it's StartService.
+In the case an app's StartService was NAK'd because Core did not have a valid certificate, when the app receives `OnPermissionsChange` with `encryptionReady = true` it will know that it may retry its StartService.
 
 ## Potential downsides
 The author did not identify any potential downsides to this proposal.
