@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0317](0317-sdl-protocol-security-specification.md)
 * Author: [Kujtim Shala](https://github.com/smartdevicelink/kshala-ford), [Andrii Kalinich](https://github.com/AKalinich-Luxoft)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Protocol]
 
 ## Introduction
