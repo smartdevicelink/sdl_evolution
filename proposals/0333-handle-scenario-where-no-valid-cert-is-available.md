@@ -9,7 +9,7 @@
 This proposal defines how Core should respond to a request to start a protected service when it does not have a valid certificate to complete a handshake.
 
 ## Motivation
-Currently, if an app requests a protected session while SDL Core does not have a valid certificate the request will be pending until Core either is able to retrieve a valid certificate through PTU or if the whole PTU retry sequence fails. In the default configuration, the PTU retry sequence can take up to 17 minutes, which means that if an app attempts to start a protected service early in Core's lifecycle it will take quite a while for the app to receive a response. This could cause a poor user experience.
+Currently, if an app requests a protected session while SDL Core does not have a valid certificate the request will be pending until Core either is able to retrieve a valid certificate through PTU or if the whole PTU retry sequence fails. In the default configuration, the PTU retry sequence can take up to 17 minutes, which means that if an app attempts to start a protected service early in Core's lifecycle it may take quite a while for the app to receive a response. This could cause a poor user experience.
 
 ## Proposed solution
 When SDL Core receives a request to start a protected service but does not have a valid certificate, it will create a timer to ensure the handshake isn't pending for too long.
