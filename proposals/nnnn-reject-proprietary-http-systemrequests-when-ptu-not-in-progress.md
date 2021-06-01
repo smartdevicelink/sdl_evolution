@@ -33,13 +33,13 @@ The proposed solution is to add a check in the `system_request.cc` to check if:
 
 1. The requestType is `PROPRIETARY` or `HTTP`
 2. There is a PTU procedure in progress
-3. The app that was sent the `OnSystemRequest` notification with the policy table snapshot is the one sending the `SystemRequest`.
+3. The app that was sent the `OnSystemRequest` notification with the policy table snapshot is the one sending the `SystemRequest`
 
 If Condition **1.** is met but **2.** and/or **3.** are not, the `SystemRequest` should be rejected.
 
 ### Adding check for PTU in progress
 
-Adding this check would require being able to access information about the Policy Table update status. One potential implementation would be to add a method `bool IsPTUSystemRequestAllowed(const uint32_t app_id)` in the `PolicyHandler` class and use the policy_manager method `PolicyManagerImpl::GetPolicyTableStatus()` method to check the PTU status
+Adding this check would require being able to access information about the PTU status. One potential implementation would be to add a method `bool IsPTUSystemRequestAllowed(const uint32_t app_id)` in the `PolicyHandler` class and use the policy_manager method `PolicyManagerImpl::GetPolicyTableStatus()` method to check the PTU status.
 
 - Implement method in `policy_handler.cc`
 
@@ -77,7 +77,7 @@ bool PolicyHandler::IsPTUSystemRequestAllowed(const uint32_t app_id) {
 
 ## Potential downsides
 
-The proposed solution does not completely fix the issue. Since the app used to carry out the PTU is selected randomly (using `PolicyHandler::ChooseRandomAppForPolicyUpdate`), the PTU OnSystemRequest can be received by a bad actor. This will allow the bad actor to send `PROPRIETARY`/`HTTP` SystemRequests during the PTU procedure to modify SDL's local policy table. Limiting this behavior might also have unintended consequences to other OEM's policy flow.
+The proposed solution does not completely fix the issue. Since the app used to carry out the PTU is selected randomly (using `PolicyHandler::ChooseRandomAppForPolicyUpdate`), the PTU `OnSystemRequest` can be received by a bad actor. This will allow the bad actor to send `PROPRIETARY`/`HTTP` SystemRequests during the PTU procedure to modify SDL's local policy table. Limiting this behavior might also have unintended consequences to other OEMs' policy flow.
 
 ## Impact on existing code
 
