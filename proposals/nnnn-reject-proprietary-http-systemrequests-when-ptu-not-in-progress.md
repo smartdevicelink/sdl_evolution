@@ -13,13 +13,13 @@ This proposal is to make modifications in sdl_core to reject incoming `PROPRIETA
 
 As reported in the sdl_core issue [#3076](https://github.com/smartdevicelink/sdl_core/issues/3076), it is currently possible to update the policy table when a PTU procedure is not in progress using a SystemRequest.
 
-#### **SystemRequest(PROPRIETARY)**
+### **SystemRequest(PROPRIETARY)**
 
 If an application sends a SystemRequest with requestType `PROPRIETARY`, nonempty fileName and PTU contents in the bulkData, SDL will forward the request to the HMI. The HMI then sends an `OnReceivedPolicyUpdate` notification to SDL which applies the policy table from the file.
 
 ![PROPRIETARY request type](../assets/proposals/nnnn-reject-proprietary-http-systemrequests-when-ptu-not-in-progress/Proprietary_request_flow.png)
 
-#### **SystemRequest(HTTP)**
+### **SystemRequest(HTTP)**
 
 If an application sends a SystemRequest request with requestType `HTTP` and PTU contents in the bulkData, SDL will attempt to validate and apply the policy table from the file.
 
@@ -82,6 +82,7 @@ The proposed solution does not completely fix the issue. Since the app used to c
 ## Impact on existing code
 
 The proposed solution would only make changes to the `PolicyHandler` class and `system_request.cc`. No modifications would be required to the MOBILE and HMI API.
+This proposal will not impact the HMI PTU feature.
 
 ## Alternatives considered
 
