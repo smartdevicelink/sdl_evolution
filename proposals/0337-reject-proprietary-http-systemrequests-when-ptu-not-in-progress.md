@@ -17,13 +17,13 @@ As reported in the sdl_core issue [#3076](https://github.com/smartdevicelink/sdl
 
 If an application sends a SystemRequest with requestType `PROPRIETARY`, nonempty fileName and PTU contents in the bulkData, SDL will forward the request to the HMI. The HMI then sends an `OnReceivedPolicyUpdate` notification to SDL which applies the policy table from the file.
 
-![PROPRIETARY request type](../assets/proposals/nnnn-reject-proprietary-http-systemrequests-when-ptu-not-in-progress/Proprietary_request_flow.png)
+![PROPRIETARY request type](../assets/proposals/0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress/Proprietary_request_flow.png)
 
 ### **SystemRequest(HTTP)**
 
 If an application sends a SystemRequest request with requestType `HTTP` and PTU contents in the bulkData, SDL will attempt to validate and apply the policy table from the file.
 
-![HTTP request type](../assets/proposals/nnnn-reject-proprietary-http-systemrequests-when-ptu-not-in-progress/Http_request_flow.png)
+![HTTP request type](../assets/proposals/0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress/Http_request_flow.png)
 
 This is a security concern because, if an OEM isn't using PTU encryption, any app could try to update the PT to get all permissions at any time.
 
