@@ -1,8 +1,8 @@
 # Reject PROPRIETARY/HTTP SystemRequests when PTU is not in progress
 
-* Proposal: [SDL-NNNN](nnnn-reject-proprietary-http-systemrequests-when-ptu-not-in-progress.md)
+* Proposal: [SDL-0337](0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress.md)
 * Author: [ShobhitAd](https://github.com/ShobhitAd)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
