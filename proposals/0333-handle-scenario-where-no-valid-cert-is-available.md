@@ -9,7 +9,7 @@
 This proposal defines how Core should respond to a request to start a protected service when it does not have a valid certificate to complete a handshake.
 
 ## Motivation
-Currently, if an app requests a protected session while SDL Core does not have a valid certificate the request will be pending until Core either is able to retrieve a valid certificate through PTU or if the whole PTU retry sequence fails. In the default configuration, the PTU retry sequence can take up to 17 minutes, which means that if an app attempts to start a protected service early in Core's lifecycle it will take quite a while for the app to receive a response. This could cause a poor user experience.
+Currently, if an app requests a protected session while SDL Core does not have a valid certificate the request will be pending until Core either is able to retrieve a valid certificate through PTU or if the whole PTU retry sequence fails. In the default configuration, the PTU retry sequence can take up to 17 minutes, which means that if an app attempts to start a protected service early in Core's lifecycle it may take quite a while for the app to receive a response. This could cause a poor user experience.
 
 ## Proposed solution
 When SDL Core receives a request to start a protected service but does not have a valid certificate, it will create a timer to ensure the handshake isn't pending for too long.
@@ -34,8 +34,26 @@ If a PTU is completed and Core receives a valid certificate before the `Handshak
 
 ![handleScenarioWhereNoValidCertIsAvailable](https://user-images.githubusercontent.com/12716076/117061498-4a15c000-acf0-11eb-9907-ebc733d236ba.png)
 
+### Changes to OnPermissionsChange
+In order to notify an application when a valid certificate is found, changes are proposed to the `OnPermissionsChange` notification:
+
+```
+    <function name="OnPermissionsChange" functionID="OnPermissionsChangeID" messagetype="notification" since="2.0">
+        <description>Provides update to app of which policy-table-enabled functions are available</description>
+        <param name="permissionItem" type="PermissionItem" minsize="0" maxsize="500" array="true" mandatory="true">
+            <description>Change in permissions for a given set of RPCs</description>
+        </param>
+        <param name="requireEncryption" type="Boolean" mandatory="false" since="6.0"/>
++       <param name="encryptionReady" type="Boolean" mandatory="false" since="x.x">
++           <description>If true, encryption is ready. If false, encryption is not ready. If omitted, mobile assumes encryption ready.</description>
++       </param>
+    </function>
+```
+
+In the case an app's StartService was NAK'd because Core did not have a valid certificate, when the app receives `OnPermissionsChange` with `encryptionReady = true` it will know that it may retry its StartService.
+
 ## Potential downsides
-There is the possibility a service will be NAK'd which could be ACK'd later on.
+The author did not identify any potential downsides to this proposal.
 
 ## Impact on existing code
 This would require code changes to SDL Core to handle the new INI parameter and to create the new timer and callback within the Security Manager.
