@@ -1,8 +1,8 @@
 # Remove Unused Files From SDL Core
 
-* Proposal: [SDL-NNNN](nnnn-remove-unused-files-from-sdl-core.md)
+* Proposal: [SDL-0338](0338-remove-unused-files-from-sdl-core.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
