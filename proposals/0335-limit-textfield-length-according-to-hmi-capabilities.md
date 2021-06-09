@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0335](0335-limit-textfield-length-according-to-hmi-capabilities.md)
 * Author: [Collin McQueen](https://github.com/iCollin)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
