@@ -372,9 +372,9 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0333" status="active" primary-platform="core" sdl-version="x.x" name="Handle Scenario Where no Valid Cert is Available" filename="0333-handle-scenario-where-no-valid-cert-is-available.md"/>	
 <proposal id="0334" status="accepted" primary-platform="core" sdl-version="x.x" name="Transform SetDisplayLayout requests into UI.Show for HMIs" filename="0334-transform-setdisplaylayout-requests-to-ui-show.md"/>	
 <proposal id="0335" status="accepted" primary-platform="core" sdl-version="x.x" name="Limit TextField Length According to HMI Capabilities" filename="0335-limit-textfield-length-according-to-hmi-capabilities.md"/>	
-<proposal id="0336" status="active" primary-platform="core" sdl-version="x.x" name="Strict Versioning for Outgoing Core Messages" filename="0336-strict-versioning-for-outgoing-core-messages.md"/>	
+<proposal id="0336" status="returned" primary-platform="core" sdl-version="x.x" name="Strict Versioning for Outgoing Core Messages" filename="0336-strict-versioning-for-outgoing-core-messages.md"/>	
 <proposal id="0337" status="accepted" primary-platform="core" sdl-version="x.x" name="Reject PROPRIETARY/HTTP SystemRequests when PTU is not in progress" filename="0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress.md"/>	
-<proposal id="0338" status="active" primary-platform="core" sdl-version="x.x" name="Remove Unused Files From SDL Core" filename="0338-remove-unused-files-from-sdl-core.md"/>	
+<proposal id="0338" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove Unused Files From SDL Core" filename="0338-remove-unused-files-from-sdl-core.md"/>	
 
 	<!--
 Recognized values for a proposal's status:
