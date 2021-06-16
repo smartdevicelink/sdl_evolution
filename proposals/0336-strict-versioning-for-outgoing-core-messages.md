@@ -42,7 +42,7 @@ As an example, if an application with an API version of `4.5.1` is subscribed to
 
 The mobile application would expect `hdChannel` to have a value of 3 or lower, since its range was was smaller prior to API version 5.0.0, potentially causing unexpected behavior in the app (even a crash in the worst case).
 
-In order to prevent this from happening where possible, this proposal will detail a filtering process which will filter out some of these mismatched parameters. In this example, the following parameters would be sent to the mobile app after sanitization:
+In order to prevent this from happening where possible, this proposal will detail a sanitization process which will filter out some of these mismatched parameters. In this example, the following parameters would be sent to the mobile app after sanitization:
 
 ```
 {
