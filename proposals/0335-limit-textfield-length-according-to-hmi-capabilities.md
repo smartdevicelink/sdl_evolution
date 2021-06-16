@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0335](0335-limit-textfield-length-according-to-hmi-capabilities.md)
 * Author: [Collin McQueen](https://github.com/iCollin)
-* Status: **In Review**
+* Status: **Accepted with Revisions**
 * Impacted Platforms: [Core]
 
 ## Introduction
@@ -35,7 +35,7 @@ Optionally, a suffix for the truncated data may also be defined in the INI confi
 + ; Defines a suffix Core should apply to any truncated text fields
 + TruncateTextFieldSuffix = ...
 ```
-If this configuration option is defined, the suffix will replace the final characters in any truncated string right up to the null terminating character.
+If this configuration option is defined, the original string will be truncated to the maximum length allowed by the HMI minus the length of the suffix, and the suffix will be appended to the string. Core will take special care to ensure this suffix is appended correctly by checking whether the app's HMI Display Language is written as left to right or right to left.
 
 ### Mobile Response after Truncation
 When Core has truncated a TextField, the RPC response should make mobile aware that truncation has occurred. A string such as "$textFieldName was truncated." should be appended to the response's info and if the response code will be SUCCESS, it should be overwritten to WARNINGS.

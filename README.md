@@ -110,13 +110,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ## Recent
 
-#### Manticore: 2.7.0
-**Release Date**: December 8, 2020
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.7.0).
-
----
-
 #### SDL Protocol Spec: 5.4.0
 **Release Date**: April 14, 2021
 
@@ -167,14 +160,14 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-## Upcoming 
-
 #### Manticore: 2.8.0
-**Planned Release Date**: May 17, 2021
+**Release Date**: May 17, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/manticore/projects/3). 
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.8.0). 
 
 ---
+
+## Upcoming 
 
 #### SDL iOS: 7.2.0
 **Planned Release Date**: June 30, 2021
@@ -204,14 +197,14 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL RPC Spec: 7.2.0
+#### SDL RPC Spec: 8.0.0
 **Planned Release Date**: October 27, 2021
 
 **Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/rpc_spec/projects/7).
 
 
 ---
-#### SDL Core: 7.2.0
+#### SDL Core: 8.0.0
 **Planned Release Date**: October 27, 2021
 
 **Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_core/projects/20).

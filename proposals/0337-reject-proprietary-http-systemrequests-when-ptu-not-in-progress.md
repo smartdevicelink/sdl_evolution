@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0337](0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress.md)
 * Author: [ShobhitAd](https://github.com/ShobhitAd)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction

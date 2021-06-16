@@ -2,8 +2,8 @@
 
 * Proposal: [SDL-0317](0317-sdl-protocol-security-specification.md)
 * Author: [Kujtim Shala](https://github.com/smartdevicelink/kshala-ford), [Andrii Kalinich](https://github.com/AKalinich-Luxoft)
-* Status: **In Review**
-* Impacted Platforms: [Core / iOS / Java Suite / JavaScript Suite / Protocol]
+* Status: **Accepted with Revisions**
+* Impacted Platforms: [Protocol]
 
 ## Introduction
 
@@ -38,20 +38,6 @@ Because SDL Core already has a defined behavior, Protocol Spec must be changed a
     </td>
   </tr>
   <tr>
-    <td>Frame Info</td>
-    <td>8 bit</td>
-    <td>
-      ...<br>
-      <b>Frame Type = 0x01 (Single Frame)</b><br>
-      0x00 - 0xFF Reserved<br>
-      <i style="color:green;"><b>Note:</b> Communication partners should set this field to zero</i><br>
-      <b>Frame Type = 0x02 (First Frame)</b><br>
-      0x00 - 0xFF Reserved<br>
-      <i style="color:green;"><b>Note:</b> Communication partners should set this field to zero</i><br>
-      ...
-    </td>
-  </tr>
-  <tr>
     <td>Data Size</td>
     <td>32 bit</td>
     <td>
@@ -73,7 +59,7 @@ The following section should be added to the protocol spec:
 
 ## 4.2.5 Start Service
 
-The RPC service always needs to be started as unencrypted first, then it can be moved to an encrypted state by sending another `StartService` request containing an encryption flag set to `1` at a later point. Services of another type can be started as encrypted initially, i.e. it is not necessary to start them as unencrypted and then move to encrypted state using second `StartService` request (however such sequence of actions is also valid). See "Secured Communication" section for more details.
+The RPC service always needs to be started as unencrypted first, then it can be moved to an encrypted state by sending another `StartService` request containing an encryption flag set to `1` at a later point. Services of another type can be started as encrypted initially, i.e. it is not necessary to start them as unencrypted and then move to encrypted state using second `StartService` request (however such sequence of actions is also valid). See "7. Secured Communication" section for more details.
 
 ## 5.1.1 Security Query
 
@@ -297,7 +283,7 @@ The following query header is used by the system and the application to send err
 
 ## 7. Secured Communication
 
-It is possible to establish a secured and encrypted communication with the system by setting the frame header encryption flag to `1` when starting a new service. If the authentication was successful, the system will reply with a `StartService ACK` frame with the encryption flag also set to `1` indicating that encrypted data is now accepted. If the authentication fails for some reason the system will reset the TLS connection and return a `StartService NAK` frame.
+It is possible to establish a secured and encrypted communication with the system by setting the frame header encryption flag to `1` when starting a new service or by sending another `StartService` with the encryption flag set to `1` when the service is already established (this the required flow for the RPC service). If the authentication is successful, the system will reply with a `StartService ACK` frame with the encryption flag also set to `1` indicating that encrypted data is now accepted. If the authentication fails for some reason, the system will reset the TLS connection and return a `StartService NAK` frame.
 
 Before the encryption of RPC service is enabled (encryption is not available), SDL Core rejects any RPC request with result code `ENCRYPTION_NEEDED` if the RPC needs protection (please see policy updates for which RPCs need protection). SDL Core continues processing an RPC request if the RPC does not need protection. SDL Core sends a notification only if the notification RPC does not need protection.
 
@@ -412,13 +398,7 @@ Identifying potential downsides is difficult as this proposal adds specification
 
 ## Impact on existing code
 
-SDL Core impact is very low as most of the specification is reverse engineered from it. Still the following items impact SDL Core:
-1. A further review is required to improve error handling.
-2. Error codes around handshake failed or invalid/expired cert are new and should be used by SDL Core if these errors occur.
-3. A known issue should be resolved in that SDL Core doesn't respond with NAK if the application sends an error frame.
-
-
-The app libraries need to add the Security Query and the Binary Query Header and serialize SDL protocol frames using this query. It is recommended to add a new class called `SDLProtocolSecurity` to all libraries which implement this security specification. This is only a recommendation and decisions to implementation details are to be made by the code donator and the SDLC Project Maintainer.
+The proposed updates would only require changes in SDL protocol specification. Code of SDL Core, Mobile libraries or any other project wouldn't be impacted.
 
 ## Alternatives considered
 
