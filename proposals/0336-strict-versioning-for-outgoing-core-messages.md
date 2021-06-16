@@ -1,7 +1,7 @@
   # Strict Versioning for Outgoing Core Messages
   * Proposal: [SDL-0336](0336-strict-versioning-for-outgoing-core-messages.md)
   * Authors: [Jacob Keeler](https://github.com/jacobkeeler)
-  * Status: **In Review**
+  * Status: **Returned for Revisions**
   * Impacted Platforms: [Core]
 
 ## Introduction
