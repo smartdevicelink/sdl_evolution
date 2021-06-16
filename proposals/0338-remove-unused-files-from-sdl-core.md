@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0338](0338-remove-unused-files-from-sdl-core.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core]
 
 ## Introduction
