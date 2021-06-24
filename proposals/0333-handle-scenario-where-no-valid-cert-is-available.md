@@ -3,7 +3,7 @@
 * Proposal: [SDL-0333](0333-handle-scenario-where-no-valid-cert-is-available.md)
 * Author: [Collin McQueen](https://github.com/iCollin)
 * Status: **Returned for Revisions**
-* Impacted Platforms: [Core]
+* Impacted Platforms: [Core, RPC Spec, iOS, Java Suite, JavaScript Suite]
 
 ## Introduction
 This proposal defines how Core should respond to a request to start a protected service when it does not have a valid certificate to complete a handshake.
@@ -50,7 +50,22 @@ In order to notify an application when a valid certificate is found, changes are
     </function>
 ```
 
-In the case an app's StartService was NAK'd because Core did not have a valid certificate, when the app receives `OnPermissionsChange` with `encryptionReady = true` it will know that it may retry its StartService.
+When an app tries to start a protected service and Core does not have a valid certificate Core will dispatch OnPermissionsChange with encryptionReady=false. When Core receives a valid certificate Core will dispatch OnPermissionsChange with encryptionReady=true. In the case an app's StartService was NAK'd because Core did not have a valid certificate, when the app receives `OnPermissionsChange` with `encryptionReady = true` it will know that it may retry its StartService.
+
+#### App Library Changes
+
+This chart describes what new action the app libraries should take upon receiving an OnPermissionChange based on the value of parameter `encryptionReady`.
+
+|encryptionReady Value|App Action|
+|--|--|
+|true|Retry unsuccessful StartService encrypted requests (see below)|
+|false|no action|
+|null|no action|
+
+In order to retry any unsuccessful StartService encrypted requests, app libraries should implement the following changes:
+
+a. The `EncryptionLifecycleManager` should be modified to watch for the `encryptionReady` parameter of the `OnPermissionsChange` notification. Whenever `OnPermissionsChange` is received with `encryptionReady=true` the manager will check for an RPC StartService encrypted request that was not ACK'd with encryption enabled. If any such service is found, the manager will try to enable encryption on it by sending another StartService with encryption enabled.
+b. The `StreamingMediaManager` in iOS or `VideoStreamManager` and `AudioStreamManager` in Java Suite should be modified to watch for the `OnPermissionsChange` notification. Whenever `OnPermissionsChange` is received with `encryptionReady=true` the manager will ask its relevant sub-managers to check for StartService encrypted requests that were not ACK'd with encryption enabled. If any such streams are found, the sub-managers will try to enable encryption on them by sending another StartService with encryption enabled.
 
 ## Potential downsides
 The author did not identify any potential downsides to this proposal.
