@@ -8,8 +8,6 @@
 
 ## Introduction
 
-A short description of what the feature is. Try to keep it to a single-paragraph "elevator pitch" so the reader understands what problem this proposal is addressing.
-
 This proposal is to integrate the Generic HMI into ATF tests scripts by using selenium to control a web browser programatically.
 
 ## Motivation
