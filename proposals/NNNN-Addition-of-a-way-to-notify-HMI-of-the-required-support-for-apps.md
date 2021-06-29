@@ -34,7 +34,7 @@ The message `Request Additional Support` has two parameters: `appName` and `requ
 
 Note that the following additional support items are described. 
  - audioSupport : To add `audioSupport` to the parameter of `requiredAdditionalSupport` if the system does not have the ability to play audio when an app that needs to play audio, such as a Media app, is registered.
- - highBandwidth : To add `highBandwidth` to the parameter of `requiredAdditionalSupport' if the system does not have the support the high band width when an app that needs the video projection, such as Navigation app, will be registered.
+ - highBandwidth : To add `highBandwidth` to the parameter of `requiredAdditionalSupport` if the system does not have the required high bandwidth when an app that needs the video projection, such as a Navigation app, is registered.
 It is expandable by adding the string corresponded the additional support that the SDL app needs.
 
 <b>Table 3.</b> The parameters of `Ping Apps` on Protocol spec
