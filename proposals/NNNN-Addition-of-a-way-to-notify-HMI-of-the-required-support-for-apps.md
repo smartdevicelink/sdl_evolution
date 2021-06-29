@@ -78,7 +78,7 @@ Figure 1 shows the sequence diagram for notifying the HMI of the required suppor
 
 ![Figure_1_sequence_of_the_way_to_notify_hmi_of_the_support.png](../assets/proposals/NNNN-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps/Figure_1_sequence_of_the_way_to_notify_hmi_of_the_support.png)
 
-The sequence describes as follows.
+The sequence is described as follows.
 1. SDL app confirms whether to be enough the support that it needs.
 2. SDL app sends HU (SDL Core) the `Request Additional Support` message at Protocol spec if the required support is not enough.
 3. SDL Core sends HMI the RPC `RequestAdditionalSupport`.
