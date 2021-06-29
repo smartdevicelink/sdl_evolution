@@ -10,7 +10,7 @@ This proposal is to provide a way to notify the HMI of the required support for 
 
 
 ## Motivation
-If the system does not have something to support required for apps, apps may not work properly or be able to register. For example, in the case of Android OS, if a Media app connects via only USB, since the system cannot establish the audio path, Media app cannot play audio and does not register arbitrarily. At the result, it cannot allow user to know the reason why app cannot be registered. To solve these problems, we propose to add a new notification message to let HMI know the support the SDL app needs. By doing so, this will allow HMI to display the appropriate message and apps connectivity and operability will be improved.
+If the system does not have something required to support certain apps, those apps may not work properly or be able to register. For example, in the case of Android OS, if a Media app connects via only USB, since the system cannot establish the audio path, the Media app cannot play audio and arbitrarily does not register. As a result, the HMI cannot tell the user why the app was not registered. To solve these problems, we propose to add a new notification message to let the HMI know the support that the SDL app needs. By doing so, this will allow the HMI to display the appropriate message and apps' connectivity and operability will be improved.
 
 
 ## Proposed solution
