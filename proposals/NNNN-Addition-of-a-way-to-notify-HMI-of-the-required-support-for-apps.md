@@ -16,7 +16,7 @@ If the system does not have something required to support certain apps, those ap
 ## Proposed solution
 To provide a way to notify the HMI of the required support for apps, we will add new notification messages `Request Additional Support` and `Ping Apps` to the Protocol Spec and new RPCs `RequestAdditionalSupport` and `PingApps` to the HMI_API.
 
-#### Protocol Spec
+### Protocol Spec
 The message `Request Additional Support` has two parameters `appName` and `requiredAdditionalSupport`. Also, the message `Ping Apps` has a parameter `appName`. The description of these parameter is shown as below.
 
 <b>Table 1.</b> Additional Frame Info Definitions on Protocol spec
