@@ -50,11 +50,11 @@ In order to notify an application when a valid certificate is found, changes are
     </function>
 ```
 
-When an app tries to start a protected service and Core does not have a valid certificate Core will dispatch OnPermissionsChange with encryptionReady=false. When Core receives a valid certificate Core will dispatch OnPermissionsChange with encryptionReady=true. In the case an app's StartService was NAK'd because Core did not have a valid certificate, when the app receives `OnPermissionsChange` with `encryptionReady = true` it will know that it may retry its StartService.
+When an app tries to start a protected service and Core does not have a valid certificate Core will dispatch `OnPermissionsChange` with `encryptionReady=false`. When Core receives a valid certificate Core will dispatch `OnPermissionsChange` with `encryptionReady=true`. In the case an app's StartService was NAK'd because Core did not have a valid certificate, when the app receives `OnPermissionsChange` with `encryptionReady=true` it will know that it may retry its StartService.
 
 #### App Library Changes
 
-This chart describes what new action the app libraries should take upon receiving an OnPermissionChange based on the value of parameter `encryptionReady`.
+This chart describes what new action the app libraries should take upon receiving an `OnPermissionsChange` based on the value of parameter `encryptionReady`.
 
 |encryptionReady Value|App Action|
 |--|--|
