@@ -26,7 +26,7 @@ The message `Request Additional Support` has two parameters: `appName` and `requ
 | 0x0a | Request Additional Support | Requests the additional support that an SDL app needs. |
 | 0x0b | Ping Apps | Acknowledges that SDL app is available the additional supports. |
 
-<b>Table 2.</b> The parameters of `Request Additional Support` on Protocol spec
+<b>Table 2.</b> The parameters of `Request Additional Support` on Protocol Spec
 | Tag Name | Type | Introduced | Description |
 | :- | :- | :- | :- |
 | appName | String | 5.5.0 | The name of SDL app that needs the additional supports. |
