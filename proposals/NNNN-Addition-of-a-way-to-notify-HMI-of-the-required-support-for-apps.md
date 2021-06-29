@@ -37,7 +37,7 @@ Note that the following additional support items are described.
  - highBandwidth : To add `highBandwidth` to the parameter of `requiredAdditionalSupport` if the system does not have the required high bandwidth when an app that needs the video projection, such as a Navigation app, is registered.
 It is expandable by adding the string corresponded the additional support that the SDL app needs.
 
-<b>Table 3.</b> The parameters of `Ping Apps` on Protocol spec
+<b>Table 3.</b> The parameters of `Ping Apps` on Protocol Spec
 
 | Tag Name | Type | Introduced | Description |
 | :- | :- | :- | :- |
