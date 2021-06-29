@@ -33,7 +33,7 @@ The message `Request Additional Support` has two parameters: `appName` and `requ
 | requiredAdditionalSupport | String Array | 5.5.0 | An array of the additional support names which the SDL app needs.<br>- audioSupport<br>- highBandwidth |
 
 Note that the following additional support items are described. 
- - audioSupport : To add `audioSupport` to the parameter of `requiredAdditionalSupport' if the system does not have the support to play audio when an app that needs to play audio, such as Media app, will be registered.
+ - audioSupport : To add `audioSupport` to the parameter of `requiredAdditionalSupport` if the system does not have the ability to play audio when an app that needs to play audio, such as a Media app, is registered.
  - highBandwidth : To add `highBandwidth` to the parameter of `requiredAdditionalSupport' if the system does not have the support the high band width when an app that needs the video projection, such as Navigation app, will be registered.
 It is expandable by adding the string corresponded the additional support that the SDL app needs.
 
