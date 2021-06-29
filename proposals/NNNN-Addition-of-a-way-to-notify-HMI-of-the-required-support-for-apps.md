@@ -29,7 +29,7 @@ The message `Request Additional Support` has two parameters: `appName` and `requ
 <b>Table 2.</b> The parameters of `Request Additional Support` on Protocol Spec
 | Tag Name | Type | Introduced | Description |
 | :- | :- | :- | :- |
-| appName | String | 5.5.0 | The name of SDL app that needs the additional supports. |
+| appName | String | 5.5.0 | The name of the SDL app that needs the additional support. |
 | requiredAdditionalSupport | String Array | 5.5.0 | An array of the additional suuport names which SDL app needs.<br>- audioSupport<br>- highBandwidth |
 
 Note that the following additional support items are described. 
