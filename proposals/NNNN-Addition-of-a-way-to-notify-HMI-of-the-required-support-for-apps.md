@@ -60,7 +60,7 @@ The HMI_API function `requestAdditionalSupport` has two parameters: `appName` an
 +   <function name="PingApps" messagetype="notification">
 +       <description>Notification from HMI to SDL to notify that SDL app is available the additional supports.</description>
 +       <param name="appName" type="String" maxlength="100" mandatory="true">
-+           <description>The name of SDL app that uses the additional supports.</description>
++           <description>The name of the SDL app that uses the additional support.</description>
 +       </param>
 +   </function>
 ```
