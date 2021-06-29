@@ -50,7 +50,7 @@ The HMI_API function `requestAdditionalSupport` has two parameters: `appName` an
 +   <function name="RequestAdditionalSupport" messagetype="notification">
 +       <description>Notification from SDL to HMI to notify the additional support that the SDL app needs.</description>
 +       <param name="appName" type="String" maxlength="100" mandatory="true">
-+           <description>The name of SDL app that needs the additional supports.</description>
++           <description>The name of the SDL app that needs the additional support.</description>
 +       </param>
 +       <param name="requiredAdditionalSupport" type="String" minsize="0" maxsize="100" maxlength="100" array="true" mandatory="true">
 +           <description>An array of the additional suuport names which SDL app needs. Ex, audioSupport, highBandwidth.</description>
