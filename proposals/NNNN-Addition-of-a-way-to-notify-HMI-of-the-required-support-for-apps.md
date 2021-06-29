@@ -19,7 +19,7 @@ To provide a way to notify the HMI of the required support for apps, we will add
 ### Protocol Spec
 The message `Request Additional Support` has two parameters: `appName` and `requiredAdditionalSupport`. Also, the message `Ping Apps` has a parameter called `appName`. The descriptions of these parameters are shown below.
 
-<b>Table 1.</b> Additional Frame Info Definitions on Protocol spec
+<b>Table 1.</b> Additional Frame Info Definitions on Protocol Spec
 
 | FRAME INFO VALUE | NAME | DESCRIPTION |
 | :- | :- | :- |
