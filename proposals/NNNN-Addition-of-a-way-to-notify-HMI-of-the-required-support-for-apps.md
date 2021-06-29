@@ -41,7 +41,7 @@ It is expandable by adding the string corresponded the additional support that t
 
 | Tag Name | Type | Introduced | Description |
 | :- | :- | :- | :- |
-| appName | String | X.X.X.X | The name of SDL app that uses the additional supports. |
+| appName | String | X.X.X.X | The name of the SDL app that uses the additional support. |
 
 #### HMI_API
 The HMI_API `requestAdditionalSupport` has two parameters `appName` and `requiredAdditionalSupport`. Also, the HMI_API `pingApps` has a parameters `appName`. The description of these parameter is shown as below.
