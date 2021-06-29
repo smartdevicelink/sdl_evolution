@@ -72,7 +72,7 @@ To implement this proposal, it is necessary to modify the Router Service as foll
  - Send the `SDL_CONNECTED` message to the target SDL app.
 
 #### Sequence diagram of the way to notify HMI of the required support for apps
-Figure 1 shows the sequence the way to notify HMI of the required support for apps.
+Figure 1 shows the sequence diagram for notifying the HMI of the required support for apps.
 
 <b>Figure 1.</b> Sequence diagram of the way to notify HMI of the required support for apps
 
