@@ -92,7 +92,7 @@ The sequence is described as follows.
 
 
 ## Potential downsides
-OEM should implement the method to display the message on HMI.
+OEM should implement the method to display the message on their HMI.
 
 
 ## Impact on existing code
