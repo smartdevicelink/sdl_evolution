@@ -6,7 +6,7 @@
 * Impacted Platforms: [ Core / Java Suite / HMI / RPC / Protocol ]
 
 ## Introduction
-This proposal is to provide a way to notify HMI of the required support for apps by using the new notification messages. 
+This proposal is to provide a way to notify the HMI of the required support for apps by using new notification messages. 
 
 
 ## Motivation
