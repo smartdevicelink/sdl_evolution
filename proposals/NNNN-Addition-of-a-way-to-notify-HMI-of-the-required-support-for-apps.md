@@ -65,7 +65,7 @@ The HMI_API function `requestAdditionalSupport` has two parameters: `appName` an
 +   </function>
 ```
 
-#### Modification of Router Service
+### Modification of Router Service
 To implement this proposal, it is necessary to modify the Router Service as follows.
  - Receive the `Ping Apps` message from SDL Core at Protocol Spec.
  - Search for the target SDL app using the `appName` parameter within the `Ping Apps` message.
