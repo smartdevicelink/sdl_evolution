@@ -96,7 +96,7 @@ OEM should implement the method to display the message on their HMI.
 
 
 ## Impact on existing code
-To add new control frame messages and RPC, this proposal affects SDL Core, Java Suite, HMI, Protocol and RPC.
+To add new control frame messages and RPCs, this proposal affects SDL Core, Java Suite, HMI, Protocol, and RPC.
 
 
 ## Alternatives considered
