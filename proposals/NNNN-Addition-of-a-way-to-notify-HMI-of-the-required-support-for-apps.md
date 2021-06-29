@@ -23,7 +23,7 @@ The message `Request Additional Support` has two parameters: `appName` and `requ
 
 | FRAME INFO VALUE | NAME | DESCRIPTION |
 | :- | :- | :- |
-| 0x0a | Request Additional Support | Requests that the additional supports that SDL app needs. |
+| 0x0a | Request Additional Support | Requests the additional support that an SDL app needs. |
 | 0x0b | Ping Apps | Acknowledges that SDL app is available the additional supports. |
 
 <b>Table 2.</b> The parameters of `Request Additional Support` on Protocol spec
