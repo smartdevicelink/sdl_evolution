@@ -7,7 +7,7 @@
 
 ## Introduction
 
-The proposal's main idea is to remove the platform-specific threads functionality covered by the C++ 11 standard threads from the SDL Core.
+The proposal's main idea is to remove the platform-specific threads functionality covered by the C++11 standard threads from SDL Core.
 
 ## Motivation
 
