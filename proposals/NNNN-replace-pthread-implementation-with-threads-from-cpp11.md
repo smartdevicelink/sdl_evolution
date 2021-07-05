@@ -1,4 +1,4 @@
-# Replace thread::Thread implementation with std::thread from C++11
+# Replace `thread::Thread` implementation with `std::thread` from C++11
 
 * Proposal: [SDL-NNNN](NNNN-replace-pthread-implementation-with-threads-from-cpp11.md)
 * Author: [Vadym Luchko](https://github.com/VadymLuchko)
@@ -82,6 +82,7 @@ Pthreads provides control over the size of the stack of created threads; C++11 d
 
 ## Impact on existing code
 The thread approach of SDL Core will be impacted.
+Since this is just a refactoring of existing code without adding new features, there is no need to change a minor version of the library.
 
 
 ## Alternatives considered
