@@ -1,4 +1,4 @@
-# Add Notifications for Required-App-Support
+# Add Notifications for Required App Support
 
 * Proposal: [SDL-NNNN](NNNN-Add-Notifications-for-Required-App-Support.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
