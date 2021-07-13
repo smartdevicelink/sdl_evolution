@@ -1,6 +1,6 @@
 # Add Notifications for Required App Support
 
-* Proposal: [SDL-NNNN](NNNN-Add-Notifications-for-Required-App-Support.md)
+* Proposal: [SDL-NNNN](NNNN-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
 * Status: **Awaiting review**
 * Impacted Platforms: [ Core / Java Suite / HMI /  Protocol ]
@@ -77,7 +77,7 @@ Figure 1 shows the sequence diagram for notifying the HMI of the required app su
 
 <b>Figure 1.</b> Sequence diagram of the way to notify HMI of the required app support
 
-![Figure_1_sequence_of_Add_Notifications_for_Required_App_Support.png](../assets/proposals/NNNN-Add-Notifications-for-Required-App-Support/Figure_1_sequence_of_Add_Notifications_for_Required_App_Support.png)
+![Figure_1_sequence_of_Add_Notifications_for_Required_App_Support.png](../assets/proposals/NNNN-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps/Figure_1_sequence_of_Add_Notifications_for_Required_App_Support.png)
 
 The sequence is described as follows.
 1. SDL app confirms whether or not it has the support that it needs.
