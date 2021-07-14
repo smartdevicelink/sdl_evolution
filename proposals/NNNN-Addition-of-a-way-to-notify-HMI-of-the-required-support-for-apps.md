@@ -6,7 +6,7 @@
 * Impacted Platforms: [ Core / Java Suite / HMI /  Protocol ]
 
 ## Introduction
-This proposal is to provide a way to notify the HMI of the required app support by using new notification messages.
+This proposal is to provide a way to notify the HMI of the required support for apps by using new notification messages.
 
 
 ## Motivation
@@ -14,7 +14,7 @@ If the system does not have something required to support certain apps, those ap
 
 
 ## Proposed solution
-To provide a way to notify the HMI of the required app support, we will add new notification messages `Request Additional Support` and `Ping Apps` to the Protocol Spec and new RPCs `RequestAdditionalSupport` and `PingApps` to the HMI_API.
+To provide a way to notify the HMI of the required support for apps, we will add new notification messages `Request Additional Support` and `Ping Apps` to the Protocol Spec and new RPCs `RequestAdditionalSupport` and `PingApps` to the HMI_API.
 
 ### Protocol Spec
 The message `Request Additional Support` has two parameters: `appName` and `requiredAdditionalSupport`. Also, the message `Ping Apps` has a parameter called `appName`. The descriptions of these parameters are shown below.
@@ -23,8 +23,8 @@ The message `Request Additional Support` has two parameters: `appName` and `requ
 
 | FRAME INFO VALUE | NAME | DESCRIPTION |
 | :- | :- | :- |
-| 0x0a | Request Additional Support | Notifies the required app support. |
-| 0x0b | Ping Apps | Notifies the required app support is available. |
+| 0x0a | Request Additional Support | Requests the additional support that an SDL app needs. |
+| 0x0b | Ping Apps | Notifies the required app of the support available. |
 
 <b>Table 2.</b> The parameters of `Request Additional Support` on Protocol Spec
 
@@ -59,7 +59,7 @@ The HMI_API function `requestAdditionalSupport` has two parameters: `appName` an
 +   </function>
 
 +   <function name="PingApps" messagetype="notification">
-+       <description>Notification from HMI to SDL that the required app support is available.</description>
++       <description>Notification from HMI to SDL that the required support for apps is available.</description>
 +       <param name="appName" type="String" maxlength="100" mandatory="true">
 +           <description>The name of the SDL app that uses the additional support.</description>
 +       </param>
@@ -72,19 +72,19 @@ To implement this proposal, it is necessary to modify the Router Service as foll
  - Search for the target SDL app using the `appName` parameter within the `Ping Apps` message.
  - Send the `SDL_CONNECTED` message to the target SDL app.
 
-### Sequence diagram of the way to notify HMI of the required app support
-Figure 1 shows the sequence diagram for notifying the HMI of the required app support.
+### Sequence diagram of the way to notify HMI of the required support for apps
+Figure 1 shows the sequence diagram for notifying the HMI of the required support for apps.
 
-<b>Figure 1.</b> Sequence diagram of the way to notify HMI of the required app support
+<b>Figure 1.</b> Sequence diagram of the way to notify HMI of the required support for apps
 
 ![Figure_1_sequence_of_Add_Notifications_for_Required_App_Support.png](../assets/proposals/NNNN-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps/Figure_1_sequence_of_Add_Notifications_for_Required_App_Support.png)
 
 The sequence is described as follows.
 1. SDL app confirms whether or not it has the support that it needs.
-2. SDL app sends to SDL Core the Protocol Spec message `Request Additional Support` if the required app support is not enough.
+2. SDL app sends to SDL Core the Protocol Spec message `Request Additional Support` if the required support for apps is not enough.
 3. SDL Core sends HMI the RPC `RequestAdditionalSupport`.
 4. HMI displays to the user a message that support is enough.
-5. User performs the action to achieve the required app support according to displayed message.
+5. User performs the action to achieve the required support for apps according to displayed message.
 6. If the HMI detects that it meets the required support for the app, it sends SDL Core the RPC `PingApps`.
 7. SDL Core sends the Protocol Spec message `Ping Apps` to the Router Service in the app library.
 8. The Router Service searches for the target SDL app using the parameter `appName` within the `Ping Apps` message.
