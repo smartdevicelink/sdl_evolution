@@ -1,9 +1,9 @@
 
 # ATF Selenium Support
 
-* Proposal: [SDL-NNNN](NNNN-atf-selenium-support.md)
+* Proposal: [SDL-0340](0340-atf-selenium-support.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ATF / ATF Test Scripts / Generic HMI]
 
 ## Introduction
