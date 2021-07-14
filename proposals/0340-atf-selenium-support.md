@@ -207,7 +207,7 @@ ATF has a very large collection of tests that are implemented with varying desig
 
 ### Architecture Diagram
 
-![Architecture Diagram](../assets/proposals/nnnn-atf-selenium-support/ATFSelenium.png)
+![Architecture Diagram](../assets/proposals/0340-atf-selenium-support/ATFSelenium.png)
 
 ## Potential downsides
 
