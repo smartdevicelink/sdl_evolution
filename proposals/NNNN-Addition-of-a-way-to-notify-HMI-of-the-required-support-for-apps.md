@@ -86,7 +86,7 @@ The sequence is described as follows.
 4. HMI displays to the user a message that support is enough.
 5. User performs the action to achieve the required app support according to displayed message.
 6. If the HMI detects that it meets the required support for the app, it sends SDL Core the RPC `PingApps`.
-7. SDL Core sends to the Router service in the app library the Protocol Spec message `Ping Apps`.
+7. SDL Core sends the Protocol Spec message `Ping Apps` to the Router Service in the app library.
 8. The Router service searches the target SDL app that have the name of SDL app stored in the parameter `appName` of `Ping Apps` message.
 9. The Router service sends target SDL app the `SDL_CONNECTED` message.
 10. SDL app performs the proccess of its registration.
