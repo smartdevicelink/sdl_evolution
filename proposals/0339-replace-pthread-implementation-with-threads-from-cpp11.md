@@ -1,8 +1,8 @@
 # Replace `thread::Thread` implementation with `std::thread` from C++11
 
-* Proposal: [SDL-NNNN](NNNN-replace-pthread-implementation-with-threads-from-cpp11.md)
+* Proposal: [SDL-0339](0339-replace-pthread-implementation-with-threads-from-cpp11.md)
 * Author: [Vadym Luchko](https://github.com/VadymLuchko)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
