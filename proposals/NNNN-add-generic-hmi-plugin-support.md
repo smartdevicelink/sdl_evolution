@@ -24,7 +24,7 @@ The main motivation behind this proposal is to bring the Generic HMI to a state 
 
 The ideal way to add support for these vehicle-specific components in the Generic HMI would be to introduce external plugins to the project. These plugins are separate applications with limited scope which run alongside the HMI and interact with it as needed. Basic plugins which emulate vehicle functionality can be included in the project for testing and reference purposes, while tailored plugins can be written to work with a specific system in production cases. Each of these plugins would maintain their own connection to SDL Core using a router service, which can be borrowed from the Manticore project (see [here](https://github.com/smartdevicelink/manticore-images/blob/master/cores/broker/index.js)). Much of the test functionality needed in the Generic HMI is already available in the Manticore project (ex. vehicle data), so these components could be ported and used as a baseline for several of the example plugins detailed in this proposal.
 
-An additional benefit to this approach is that plugins which run in the background can be written in any desired language, they only need to connect to the router service.
+An additional benefit to this approach is that plugins which run in the background can be written in any desired language; they only need to connect to the router service.
 
 ### Plugin Configuration
 
@@ -44,11 +44,11 @@ window.flags = {
 };
 ```
 
-**Note:** This format is tentative and could change depending on the final implementation
+**Note:** This format is tentative and could change depending on the final implementation.
 
 ### Example Plugins
 
-Several example plugins should be developed as a baseline for testing purposes, these can also be used as a reference for production implementations. This section details the functionality required in each plugin to allow for full feature coverage in the Generic HMI.
+Several example plugins should be developed as a baseline for testing purposes; these can also be used as a reference for production implementations. This section details the functionality required in each plugin to allow for full feature coverage in the Generic HMI.
 
 #### Voice Recognition Plugin
 
@@ -160,7 +160,7 @@ Connects to the `AppService` component of SDL Core, registering IVI services for
     - AppService.GetAppServiceData
     - AppService.OnAppServiceData
     - AppService.PerformAppServiceInteraction
-- App service settings
+- App Service settings
     - AppService.GetAppServiceRecords
     - AppService.AppServiceActivation
     - AppService.GetActiveServiceConsent
@@ -243,7 +243,7 @@ For any web-based test plugins, the UI of the plugin should be possible to displ
 
 While ideally each of the HMI components would be isolated, there are a number of places where one component will need information from other components. For that reason, we will need to define a messaging scheme for HMI-specific messages which can be sent between components. These messages can be routed using the message broker as well.
 
-Each message would include the `Plugin` prefix and can include a `destination` parameters if targeting a specific component.
+Each message would include the `Plugin` prefix and can include a `destination` parameter if targeting a specific component.
 
 A few examples of the potential messages that would be needed:
 
@@ -251,7 +251,7 @@ A few examples of the potential messages that would be needed:
 
 - Sender: VR/UI
 - Receiver: UI/VR
-- Description: Sent when a choice is selected for PerformInteraction via VR or UI, informing the other component that the interaction is complete.
+- Description: Sent when a choice is selected for `PerformInteraction` via VR or UI, informing the other component that the interaction is complete.
 - Parameters: `appID`
 
 **BUTTON_PRESS**
@@ -279,14 +279,14 @@ A few examples of the potential messages that would be needed:
 
 - Sender: Various
 - Receiver: TTS
-- Description: Sent when any TTS prompt is triggered outside of the TTS interface (ex. `helpPrompt`/`timeoutPrompt` in VR.PerformInteraction). The TTS plugin will speak whatever data is provided.
+- Description: Sent when any TTS prompt is triggered outside of the TTS interface (ex. `helpPrompt`/`timeoutPrompt` in `VR.PerformInteraction`). The TTS plugin will speak whatever data is provided.
 - Parameters: `ttsChunks`
 
 **ALERT_MANEUVER**
 
 - Sender: Navigation
 - Receiver: UI
-- Description: Sent whenever a Navigation.AlertManeuver request is received by the Navigation plugin. The UI should display an alert maneuver popup with the provided softbuttons.
+- Description: Sent whenever a `Navigation.AlertManeuver` request is received by the Navigation plugin. The UI should display an alert maneuver popup with the provided softbuttons.
 - Parameters: `softButtons`, `appID`
 
 **SETTINGS_UPDATE**
@@ -304,15 +304,15 @@ A few examples of the potential messages that would be needed:
 - Parameters: `text`, `softButtons`
 - Response Parameters: `buttonID`
 
-**Note:** This is not a comprehensive list, other interactions between components may need to be added as necessary during implementation. In addition, customized messages will likely need to be created for production systems to accomodate differences in plugin design.
+**Note:** This is not a comprehensive list. Other interactions between components may need to be added as necessary during implementation. In addition, customized messages will likely need to be created for production systems to accommodate differences in plugin design.
 
 ### Integrated Plugin Controls
 
-While a majority of the functionality for these plugins can be handled in the background, production implementations will need the ability to integrate some portion of these plugins directly into the Generic HMI (such as a set of controls/settings for the plugin). To accomodate this, stubs for these integrated components can be included in the project and these can be expanded to fit a specific system.  
+While a majority of the functionality for these plugins can be handled in the background, production implementations will need the ability to integrate some portion of these plugins directly into the Generic HMI (such as a set of controls/settings for the plugin). To accommodate this, stubs for these integrated components can be included in the project and these can be expanded to fit a specific system.  
 
 ![Plugin UI Stub](../assets/proposals/NNNN-add-generic-hmi-plugin-support/vr-plugin-stub-example.png)
 
-To accomodate this, we will need to include a way to navigate between various screens in the Generic HMI. This could potentially be done via a persistent menu created using existing node packages such as [react-burger-menu](https://github.com/negomi/react-burger-menu).
+To accommodate this, we will need to include a way to navigate between various screens in the Generic HMI. This could potentially be done via a persistent menu created using existing node packages such as [react-burger-menu](https://github.com/negomi/react-burger-menu).
 
 ![Menu Navigation](../assets/proposals/NNNN-add-generic-hmi-plugin-support/menu-example.png)
 
