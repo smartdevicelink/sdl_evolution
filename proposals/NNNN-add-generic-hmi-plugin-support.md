@@ -115,7 +115,7 @@ Connects to the `RC` component of SDL Core, overriding this component in the Gen
 
 #### Buttons Plugin
 
-Connects to the `Buttons` component of SDL Core. This plugin would also communicate ButtonPress events to other plugins where needed.
+Connects to the `Buttons` component of SDL Core. This plugin would also communicate `ButtonPress` events to other plugins where needed.
 
 *Features:*
 
