@@ -64,7 +64,7 @@ Connects to the `VR` component of SDL Core, overriding this component in the Gen
     - VR.DeleteCommand
     - VR.PerformInteraction
     - VR.OnCommand
-- Voice recognition state control
+- Voice recognition state control
     - VR.Started
     - VR.Stopped
 - Language switching support
@@ -115,7 +115,7 @@ Connects to the `RC` component of SDL Core, overriding this component in the Gen
 
 #### Buttons Plugin
 
-Connects to the `Buttons` component of SDL Core. This plugin would also communicate ButtonPress events to other plugins where needed.
+Connects to the `Buttons` component of SDL Core. This plugin would also communicate ButtonPress events to other plugins where needed.
 
 *Features:*
 
@@ -150,7 +150,7 @@ Connects to the `Buttons` component of SDL Core. This plugin would also communi
 
 #### App Service Plugin
 
-Connects to the `AppService` component of SDL Core, registering IVI services for each type. This could potentially be split into several plugins (by service type) depending on the system.
+Connects to the `AppService` component of SDL Core, registering IVI services for each type. This could potentially be split into several plugins (by service type) depending on the system.
 
 *Features:*
 
@@ -167,7 +167,7 @@ Connects to the `AppService` component of SDL Core, registering IVI services fo
 
 #### Phone Plugin
 
-Connects to the `BasicCommunication` component of SDL Core.
+Connects to the `BasicCommunication` component of SDL Core.
 
 *Features:*
 
@@ -177,7 +177,7 @@ Connects to the `BasicCommunication` component of SDL Core.
 
 #### Navigation Plugin
 
-Connects to the `Navigation` component of SDL Core.
+Connects to the `Navigation` component of SDL Core.
 
 *Features:*
 
@@ -198,7 +198,7 @@ Connects to the `Navigation` component of SDL Core.
 
 #### General Settings Plugin
 
-Connects to the `BasicCommunication` and `UI` components of SDL Core, also communicates with the main HMI to control settings via custom messages.
+Connects to the `BasicCommunication` and `UI` components of SDL Core, also communicates with the main HMI to control settings via custom messages.
 
 *Features:*
 
@@ -211,7 +211,7 @@ Connects to the `BasicCommunication` and `UI` components of SDL Core, also comm
 
 #### TTS Plugin
 
-Connects to the `TTS` components of SDL Core, overriding this component in the Generic HMI.
+Connects to the `TTS` components of SDL Core, overriding this component in the Generic HMI.
 
 *Features:*
 
@@ -316,7 +316,7 @@ To accomodate this, we will need to include a way to navigate between various sc
 
 ![Menu Navigation](../assets/proposals/NNNN-add-generic-hmi-plugin-support/menu-example.png)
 
-These integrated components should be possible to include or exclude from the menu using the plugin configuration file (See `MenuEnabled` in the configuration example).
+These integrated components should be possible to include or exclude from the menu using the plugin configuration file (See `MenuEnabled` in the configuration example).
 
 ## Potential downsides
 
