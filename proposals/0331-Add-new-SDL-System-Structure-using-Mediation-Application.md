@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0331](0331-Add-new-SDL-System-Structure-using-Mediation-Application.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Deferred**
+* Status: **In Review**
 * Impacted Platforms: [ iOS / Java Suite / JavaScript Suite / HMI / RPC ]
 
 ## Introduction
