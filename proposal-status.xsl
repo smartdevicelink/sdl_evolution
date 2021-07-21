@@ -391,6 +391,10 @@ on the gh-pages branch).
          background-color: #58bcb9; // SDL Teal
         color: #000;
       }
+        a.number.platform-hmi {
+         background-color: #7ebc79; // SDL Light Blue
+        color: #000;
+      }
     </style>
   </xsl:template>
 
