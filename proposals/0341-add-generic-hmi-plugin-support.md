@@ -1,8 +1,8 @@
 # Add Generic HMI Plugin Support
 
-* Proposal: [SDL-NNNN](NNNN-add-generic-hmi-plugin-support.md)
+* Proposal: [SDL-0341](0341-add-generic-hmi-plugin-support.md)
 * Author: [Jacob Keeler](https://github.com/smartdevicelink)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [HMI]
 
 ## Introduction
