@@ -237,7 +237,7 @@ Connects to the `TTS` components of SDL Core, overriding this component in the G
 
 For any web-based test plugins, the UI of the plugin should be possible to display directly in the browser window beside the main HMI. This could be accomplished fairly easily using iframes, and these plugin UIs could be arranged in a similar manner to Manticore using tabs.
 
-![Plugin Tabs](../assets/proposals/NNNN-add-generic-hmi-plugin-support/plugin-tabs-example.png)
+![Plugin Tabs](../assets/proposals/0341-add-generic-hmi-plugin-support/plugin-tabs-example.png)
 
 ### Messages between components
 
@@ -310,11 +310,11 @@ A few examples of the potential messages that would be needed:
 
 While a majority of the functionality for these plugins can be handled in the background, production implementations will need the ability to integrate some portion of these plugins directly into the Generic HMI (such as a set of controls/settings for the plugin). To accommodate this, stubs for these integrated components can be included in the project and these can be expanded to fit a specific system.  
 
-![Plugin UI Stub](../assets/proposals/NNNN-add-generic-hmi-plugin-support/vr-plugin-stub-example.png)
+![Plugin UI Stub](../assets/proposals/0341-add-generic-hmi-plugin-support/vr-plugin-stub-example.png)
 
 To accommodate this, we will need to include a way to navigate between various screens in the Generic HMI. This could potentially be done via a persistent menu created using existing node packages such as [react-burger-menu](https://github.com/negomi/react-burger-menu).
 
-![Menu Navigation](../assets/proposals/NNNN-add-generic-hmi-plugin-support/menu-example.png)
+![Menu Navigation](../assets/proposals/0341-add-generic-hmi-plugin-support/menu-example.png)
 
 These integrated components should be possible to include or exclude from the menu using the plugin configuration file (See `MenuEnabled` in the configuration example).
 
