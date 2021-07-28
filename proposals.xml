@@ -375,8 +375,8 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0336" status="accepted" primary-platform="core" sdl-version="x.x" name="Strict Versioning for Outgoing Core Messages" filename="0336-strict-versioning-for-outgoing-core-messages.md"/>	
 <proposal id="0337" status="accepted" primary-platform="core" sdl-version="x.x" name="Reject PROPRIETARY/HTTP SystemRequests when PTU is not in progress" filename="0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress.md"/>	
 <proposal id="0338" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove Unused Files From SDL Core" filename="0338-remove-unused-files-from-sdl-core.md"/>	
-<proposal id="0339" status="active" primary-platform="core" sdl-version="x.x" name="Replace thread::Thread implementation with std::thread from C++11" filename="0339-replace-pthread-implementation-with-threads-from-cpp11.md"/>	
-<proposal id="0340" status="active" primary-platform="atf" sdl-version="x.x" name="ATF Selenium Support" filename="0340-atf-selenium-support.md"/>	
+<proposal id="0339" status="returned" primary-platform="core" sdl-version="x.x" name="Replace thread::Thread implementation with std::thread from C++11" filename="0339-replace-pthread-implementation-with-threads-from-cpp11.md"/>	
+<proposal id="0340" status="returned" primary-platform="atf" sdl-version="x.x" name="ATF Selenium Support" filename="0340-atf-selenium-support.md"/>	
 <proposal id="0341" status="active" primary-platform="hmi" sdl-version="x.x" name="Add Generic HMI Plugin Support" filename="0341-add-generic-hmi-plugin-support.md"/>	
 
 	<!--
