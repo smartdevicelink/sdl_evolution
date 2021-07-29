@@ -56,7 +56,7 @@ return driver.find_element_by_id(ELEMENT_ID).text() == test.text
 
 #### Communication with ATF
 
-This python application will have a websocket server that will receive messages from ATF for specific test actions and content validation.
+This python application will have a websocket server that will receive messages from ATF for specific test actions.
 
 ### Extra Websocket Server and Clients in ATF
 
@@ -70,7 +70,7 @@ ATF will need to create a websocket server that will receive messages from the H
 
 #### Core Websocket Client
 
-ATF already has a websocket client that connects to SDL Core but this piece will need to be extended to allow for validation of messages before they are passed to the HMI.
+ATF already has a websocket client that connects to SDL Core, but this piece will need to be extended to pass messages to the HMI while using existing method getHMIConnection():ExpectRequest() to validate RPC messages.
 
 ### ATF Test Logic
 
@@ -97,6 +97,10 @@ In this code example there is a simulated mobile request being passed to SDL Cor
 #### Extend `SendResponse`
 
 After handling the request, the HMI will automatically respond with a success response. ATF will need to catch this response from the HMI and match it with the parameters included in the test. If the parameters match, ATF will forward the message to SDL Core and the test will continue. To implement this behavior, the `SendResponse()` method will need to be extended for Selenium-compatible test scripts.
+
+#### Extend `SendError`
+
+Similar to SendResponse, SendError will need to be extended to handle error responses from the HMI.
 
 #### Extend `SendNotification`
 
@@ -137,18 +141,86 @@ Because there is a mix of behavior for overwriting the previously mentioned meth
 
 #### Schema for RPC Switching feature
 
-The extended `ExpectRequest` method would reference this object to figure out which Selenium WebDriver actions are required. In this case the WebDriver would validate that the mainfield1 and mainfield2 text fields are displayed correctly.
+The extended `ExpectRequest` method would reference this object to figure out which Selenium WebDriver actions are required. 
 
-```json
+```lua
+-- this would be contained in some config or common file
+local HmiRpcSwitching = {
+  ["UI.Show"] = {
+    expectRequest = {
+      validate = {
+        {
+          id = "#mainField1",
+          type = "text",
+          textParam = "mainField1"
+        }
+      }
+    }
+  }
+}
+
+function test.hmiConnection:ExpectRequest(pName, ...)
+  local event = events.Event()
+  event.matches = function(_, data) return data.method == pName end
+  local args = table.pack(...)
+  local ret = expectations.Expectation("HMI call " .. pName, self)
+  if #args > 0 then
+    ret:ValidIf(function(e, data)
+        local arguments
+        if e.occurences > #args then
+          arguments = args[#args]
+        else
+          arguments = args[e.occurences]
+        end
+        reporter.AddMessage("EXPECT_HMICALL",
+          { ["Id"] = data.id, ["name"] = tostring(pName),["Type"] = "EXPECTED_RESULT" }, arguments)
+        reporter.AddMessage("EXPECT_HMICALL",
+          { ["Id"] = data.id, ["name"] = tostring(pName),["Type"] = "AVAILABLE_RESULT" }, data.params)
+        return compareValues(arguments, data.params, "params")
+      end)
+  end
+  ret.event = event
+  event_dispatcher:AddEvent(self, event, ret)
+  test:AddExpectation(ret)
+  if HmiRpcSwitching[pName] ~= nil and HmiRpcSwitching[pName].expectRequest ~= nil then
+    ret.Do = function(_, func) 
+      SeleniumManager.sendRequest(pname, args, HmiRpcSwitching[pName].expectRequest)
+      return self 
+    end
+  end
+
+  return ret
+end
+```
+
+Behavior changes highlighted here:
+```lua
+  if HmiRpcSwitching[pName] ~= nil and HmiRpcSwitching[pName].expectRequest ~= nil then
+    ret.Do = function(_, func) 
+      SeleniumManager.sendRequest(pname, args, HmiRpcSwitching[pName].expectRequest)
+      return self 
+    end
+  end
+```
+
+
+Idea is that if the RPC matches the expected request in the RPC Swtiching table, ATF will overwrite the `Do` method to prevent a normal test from responding for the HMI. The message would then be passed to the Selenium Manager. This manager would be responsible for forwarding the message to the HMI and performing the validate or action behavior.
+
+
+In this case the WebDriver would validate that the mainfield1 and mainfield2 text fields are displayed correctly.
+
+```lua
 {
-  "UI.Show" : {
-    "ExpectRequest": {
-      "validate": [{
-        "id": "#mainfield1", //user by Document.getElementById()
-        "text": <Show text 1> // text to validate the contents of the field
+  ["UI.Show"] : {
+    expectRequest: {
+      validate: [{
+        id: "#mainfield1", //user by Document.getElementById()
+        text: <Show text 1>, // text to validate the contents of the field
+        textParam = "mainField1"
       }, {
-        "id": "#mainfield2", //user by Document.getElementById()
-        "text": <Show text 2> // text to validate the contents of the field
+        id: "#mainfield2", //user by Document.getElementById()
+        text: <Show text 2>, // text to validate the contents of the field
+        textParam = "mainField1"
       }] 
     }
   }
@@ -157,13 +229,13 @@ The extended `ExpectRequest` method would reference this object to figure out wh
 
 This example shows how an extended `SendNotification` for an `OnCommand` would instead trigger a button press on the HMI causing the `OnCommand` to be sent.
 
-```json
+```lua
 {
-  "UI.OnCommand" : {
-    "SendNotification": {
-      "action": [{
-        "id": "#cmdID20", //user by Document.getElementById()
-        "function": "click" // action to be taken by the webdriver
+  ["UI.OnCommand"] : {
+    sendNotification: {
+      action: [{
+        id: "#cmdID20", //user by Document.getElementById()
+        ["function"]: "click" // action to be taken by the webdriver
       }] 
     }
   }
@@ -172,13 +244,13 @@ This example shows how an extended `SendNotification` for an `OnCommand` would i
 
 This example shows how a `SendRequest`'s behavior would be overwritten for activating an app (which involves a user selecting the app from the app list).
 
-```json
+```lua
 {
-  "SDL.ActivateApp" : {
-    "SendRequest": {
-      "action": [{
-        "id": "#appListItem1", //user by Document.getElementById()
-        "function": "click" // action to be taken by the webdriver
+  ["SDL.ActivateApp"] : {
+    sendRequest: {
+      action: [{
+        id: "#appListItem1", //user by Document.getElementById()
+        ["function"]: "click" // action to be taken by the webdriver
       }] 
     }
   }
@@ -188,13 +260,13 @@ This example shows how a `SendRequest`'s behavior would be overwritten for activ
 
 This example shows how an `ExpectResponse` behavior would be overwritten for the activate app response. After the response is received the WebDriver will validate that the app is active via the displayed app name.
 
-```json
+```lua
 {
-  "SDL.ActivateApp" : {
-    "ExpectResponse": {
-      "validate": [{
-        "id": "#appListHeader", //user by Document.getElementById()
-        "function": <App Name> // text to validate the contents of the field
+  ["SDL.ActivateApp"] : {
+    expectResponse: {
+      validate: [{
+        id: "#appListHeader", //user by Document.getElementById()
+        ["function"]: <App Name> // text to validate the contents of the field
       }] 
     }
   }
@@ -204,6 +276,8 @@ This example shows how an `ExpectResponse` behavior would be overwritten for the
 ### Scope Of Test Scripts
 
 ATF has a very large collection of tests that are implemented with varying design patterns. It is hard to gauge the scope of how much work it would take to make every ATF test compatible with the Selenium WebDriver. The author suggests that the initial implementation of this proposal covers basic smoke test cases such as registering an app, activating an app, displaying some data, and performing some sort of button press type interactions.
+
+It should be noted that not all test cases will be possible. ATF's simulated HMI has the ability to define error responses and behavior that the Generic HMI does not have.
 
 ### Architecture Diagram
 
