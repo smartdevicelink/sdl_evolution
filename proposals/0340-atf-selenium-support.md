@@ -70,7 +70,7 @@ ATF will need to create a websocket server that will receive messages from the H
 
 #### Core Websocket Client
 
-ATF already has a websocket client that connects to SDL Core, but this piece will need to be extended to pass messages to the HMI while using existing method getHMIConnection():ExpectRequest() to validate RPC messages.
+ATF already has a websocket client that connects to SDL Core, but this piece will need to be extended to pass messages to the HMI while using existing method `getHMIConnection():ExpectRequest()` to validate RPC messages.
 
 ### ATF Test Logic
 
@@ -100,7 +100,7 @@ After handling the request, the HMI will automatically respond with a success re
 
 #### Extend `SendError`
 
-Similar to SendResponse, SendError will need to be extended to handle error responses from the HMI.
+Similar to `SendResponse`, `SendError` will need to be extended to handle error responses from the HMI.
 
 #### Extend `SendNotification`
 
@@ -204,7 +204,7 @@ Behavior changes highlighted here:
 ```
 
 
-Idea is that if the RPC matches the expected request in the RPC Swtiching table, ATF will overwrite the `Do` method to prevent a normal test from responding for the HMI. The message would then be passed to the Selenium Manager. This manager would be responsible for forwarding the message to the HMI and performing the validate or action behavior.
+The idea is that if the RPC matches the expected request in the RPC Switching table, ATF will overwrite the `Do` method to prevent a normal test from responding for the HMI. The message would then be passed to the Selenium Manager. This manager would be responsible for forwarding the message to the HMI and performing the validate or action behavior.
 
 
 In this case the WebDriver would validate that the mainfield1 and mainfield2 text fields are displayed correctly.
