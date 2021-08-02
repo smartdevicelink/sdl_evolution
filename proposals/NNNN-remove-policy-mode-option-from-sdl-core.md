@@ -15,7 +15,7 @@ Currently the SDL Core project has a build option which allows users to choose b
     - `EXTERNAL_PROPRIETARY` mode uses the HMI to optionally encrypt the policy table snapshot and to handle the PTU retry sequence
 2. `EXTERNAL_PROPRIETARY` mode supports a number of extra features, including several policy table fields that aren't implemented in `HTTP` or `PROPRIETARY` mode
 
-The `HTTP` and `PROPRIETARY` policy modes were created for the project first when the project first became open-source as a way of including a version of policies with reduced functionality. It was eventually decided to include the full feature in the open, which was when `EXTERNAL_PROPRIETARY` was added to the project (see [SDL Core 4.3.0](https://github.com/smartdevicelink/sdl_core/releases/tag/4.3.0)).
+The `HTTP` and `PROPRIETARY` policy modes were created for the project when it first became open-source as a way of including a version of policies with reduced functionality. It was eventually decided to include the full feature in the open, which was when `EXTERNAL_PROPRIETARY` was added to the project (see [SDL Core 4.3.0](https://github.com/smartdevicelink/sdl_core/releases/tag/4.3.0)).
 
 Generally speaking, `EXTERNAL_PROPRIETARY` mode is the fully-featured version of policies, while the other two modes only support a subset of the features in `EXTERNAL_PROPRIETARY`. There is a significant amount of overhead in testing and development for policy-related features due to the need to support each of these modes. For these reasons, there is very little reason to continue supporting these older modes, as they are less versatile than `EXTERNAL_PROPRIETARY` mode. The goal of this proposal is to remove the `EXTENDED_POLICY` build option from SDL Core, reducing support only to `EXTERNAL_PROPRIETARY` policies.
 
@@ -38,11 +38,13 @@ The proposed solution to this problem is to remove the `EXTENDED_POLICY` build f
 
 ## Potential downsides
 
-If any existing systems use either `HTTP` or `PROPRIETARY` policy mode, they will need to modify their HMI to work with the `EXTERNAL_PROPRIETARY` policy update flow. This would not require a significant HMI overhaul, but is still something to keep in mind. Another note is that unfortunately `PROPRIETARY` is the default policy mode at the moment, meaning that it is quite possible that this mode is used by existing systems. One thing that could be done to help with this downside would be to include a HMI guide for transitioning to the `EXTERNAL_PROPRIETARY` policy flow.
+If any existing systems use either `HTTP` or `PROPRIETARY` policy mode, they will need to modify their HMI to work with the `EXTERNAL_PROPRIETARY` policy update flow. This would not require a significant HMI overhaul, but is still something to keep in mind. Another note is that unfortunately `PROPRIETARY` is the default policy mode at the moment, meaning that it is quite possible that this mode is used by existing systems. One thing that could be done to help with this downside would be to include an HMI guide for transitioning to the `EXTERNAL_PROPRIETARY` policy flow.
 
 ## Impact on existing code
 
 ### SDL Core
+
+Because this would involve removing an existing build option from the project, this change will require a major version update for SDL Core.
 
 This proposal would require the removal of the `EXTENDED_POLICY` build option, as well as any code specifically related to the `HTTP` and `PROPRIETARY` modes. This would involve the removal of any preprocessor instructions related to the `PROPRIETARY_MODE` and `EXTERNAL_PROPRIETARY_MODE` macros, for example:
 
