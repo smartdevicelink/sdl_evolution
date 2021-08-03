@@ -285,4 +285,8 @@ would be reduced to
 
 ## Alternatives considered
 
-The author did not consider any alternatives to this solution, besides maintaining support for all modes.
+- A potential alternative would be to keep some support for `PROPRIETARY` mode, in the case that existing systems still need support for this flow.
+    - `HTTP` policy mode would still be removed. The `EXTENDED_POLICY` build option would still be available with the `PROPRIETARY` and `EXTERNAL_PROPRIETARY` options (this could potentially be changed to a `YES/NO` flag as well).
+    - `PROPRIETARY` mode would be incorporated into what is currently the `policy_external` subfolder, meaning that support for most policy fields (with the exception of device and RPC consent prompts) would be added to this mode. Additional `#ifdef` statements would be added to this component to account for any flow/functionality differences between the modes.
+    - The existing `PROPRIETARY` policy table update flow would still be supported. Any preprocessor instructions for this mode existing outside the `policy` component would be kept in the project.
+    - This solution wouldn't ease the testing process as much, since there are two policy modes to cover, but this would still reduce the complexity of the policy component significantly.
