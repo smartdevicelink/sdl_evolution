@@ -141,11 +141,11 @@ void Test() {
 ```
 
 Pthreads provides control over the size of the stack of created threads; C++11 standard threads does not address this issue.
-However in SDL Core we don't need to specify a stack size. Since the default stack size meets SDL Core requirements.
+However in SDL Core we don't need to specify a stack size since the default stack size meets SDL Core requirements.
 
 
 ## Impact on existing code
-The thread approach of SDL Core will be impacted. Removing the current thread implementation, delegate classes, and public methods will be done, a major version change of SDL Core is required.
+The thread approach of SDL Core will be impacted. Removing the current thread implementation, delegate classes, and public methods will be done. Therefore, a major version change of SDL Core is required.
 
 
 ## Alternatives considered
