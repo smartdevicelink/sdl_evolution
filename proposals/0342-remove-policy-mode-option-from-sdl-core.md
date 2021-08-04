@@ -1,8 +1,8 @@
 # Remove Policy Mode Option From SDL Core
 
-* Proposal: [SDL-NNNN](NNNN-remove-policy-mode-option-from-sdl-core.md)
+* Proposal: [SDL-0342](0342-remove-policy-mode-option-from-sdl-core.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
