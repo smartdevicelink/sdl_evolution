@@ -17,8 +17,6 @@ In an effort to trim the code base of SDL Core the author would like to remove s
 
 Remove the following files:
 
-- [system.cc](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/utils/src/system.cc)
-- [system.h](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/utils/include/utils/system.h)
 - [thread_manager.cc](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/utils/src/threads/thread_manager.cc)
 - [thread_manager.h](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/utils/include/utils/threads/thread_manager.h)
 - [pulse_thread_delegate.cc](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/utils/src/threads/pulse_thread_delegate.cc)
