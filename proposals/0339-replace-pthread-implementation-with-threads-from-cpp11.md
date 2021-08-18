@@ -50,7 +50,7 @@ private:
 
   threads::Thread* thread_;
 };
-  ```
+```
 As the result of the changes, the same class should be changed to the class with the same functionality but with a simpler structure without delegate classes, raw pointers, complicated callbacks, and any 3rd party dependencies:
 
 ```
@@ -65,9 +65,7 @@ private:
 
   std::thread thread_;
 };
-  ```
-
-The same changes should be introduced not only for the threads but also for the synchronization primitives like mutex, conditional variable, etc., where required.
+```
 
 
 ## Potential downsides
@@ -75,14 +73,79 @@ The same changes should be introduced not only for the threads but also for the 
 C++11 provides no equivalent to `pthread_cancel(pthread_t thread)`.
 As an option to resolve this issue, we can add some `cancellation_token` to thread attributes which contains a sign that the thread has been cancelled.
 
-Pthreads provides control over the size of the stack of created threads; C++11 does not address this issue.
-`std::thread::native_handle` can be used if needed.
 
+Here is an simplified example of how SDL Сore will implement stopping threads:
+```
+/*   Cancellation Token Class  */
+
+class CancellationToken {
+public:
+  CancellationToken() : _cancelled(false) {}
+  operator bool() const { return !_cancelled; }
+  void cancel() { _cancelled = true; }
+private:
+  std::atomic<bool> _cancelled;
+};
+
+/*  Thread Wrapper Class */
+
+class ThreadWrapper {
+protected:
+  std::thread _thread;
+  CancellationToken _token;
+
+  void Reset() {
+    if (!_thread.joinable())
+      return;
+
+    _token.cancel();
+    _thread.join();
+  }
+
+public:
+  ThreadWrapper() = default;
+
+  template <typename Delegate, typename... Args>
+  void Start(Delegate &&delegate, Args... args) {
+    _thread = std::thread(delegate, args..., std::ref(_token));
+  }
+
+  void Stop() {
+    Reset();
+  }
+
+  ~ThreadWrapper() { Reset(); }
+};
+
+/*    Test Class Using Thread Wrapper  */
+
+class UsbHandler : public ThreadWrapper {
+public:
+  void Init() {
+    Start([](CancellationToken &token) {
+      while (token) {
+        ....
+      }
+    });
+  }
+};
+
+/*    Usage   */
+void Test() {
+  UsbHandler uh;
+  uh.Init();
+
+  std::this_thread::sleep_for(std::chrono::seconds(5));
+  uh.Stop();
+}
+```
+
+Pthreads provides control over the size of the stack of created threads; C++11 standard threads does not address this issue.
+However in SDL Core we don't need to specify a stack size since the default stack size meets SDL Core requirements.
 
 
 ## Impact on existing code
-The thread approach of SDL Core will be impacted.
-Since this is just a refactoring of existing code without adding new features, there is no need to change a minor version of the library.
+The thread approach of SDL Core will be impacted. Removing the current thread implementation, delegate classes, and public methods will be done. Therefore, a major version change of SDL Core is required.
 
 
 ## Alternatives considered
