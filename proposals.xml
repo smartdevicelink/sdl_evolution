@@ -367,7 +367,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0328" status="implemented" primary-platform="core" sdl-version="8.0" name="Modernize Ubuntu Support V20 LTS" filename="0328-modernize-ubuntu-support-v20.md"/>	
 <proposal id="0329" status="accepted" primary-platform="rpc" sdl-version="x.x" name="OnDataResumed Notification" filename="0329-on-data-resumed.md"/>	
 <proposal id="0330" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="App Service Subscription Resumption" filename="0330-app-service-resumption.md"/>	
-<proposal id="0331" status="active" primary-platform="rpc" sdl-version="x.x" name="Add new SDL System Structure using Mediation Application for middle/low-end class model of Powered Two Wheeler and low-cost vehicle models" filename="0331-Add-new-SDL-System-Structure-using-Mediation-Application.md"/>	
+<proposal id="0331" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add new SDL System Structure using Mediation Application for middle/low-end class model of Powered Two Wheeler and low-cost vehicle models" filename="0331-Add-new-SDL-System-Structure-using-Mediation-Application.md"/>	
 <proposal id="0332" status="accepted" primary-platform="core" sdl-version="x.x" name="Additional Video Streaming Capabilities Validation" filename="0332-additional-video-streaming-capabilities-validation.md"/>	
 <proposal id="0333" status="accepted" primary-platform="core" sdl-version="x.x" name="Handle Scenario Where no Valid Cert is Available" filename="0333-handle-scenario-where-no-valid-cert-is-available.md"/>	
 <proposal id="0334" status="accepted" primary-platform="core" sdl-version="x.x" name="Transform SetDisplayLayout requests into UI.Show for HMIs" filename="0334-transform-setdisplaylayout-requests-to-ui-show.md"/>	
@@ -375,10 +375,11 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0336" status="accepted" primary-platform="core" sdl-version="x.x" name="Strict Versioning for Outgoing Core Messages" filename="0336-strict-versioning-for-outgoing-core-messages.md"/>	
 <proposal id="0337" status="accepted" primary-platform="core" sdl-version="x.x" name="Reject PROPRIETARY/HTTP SystemRequests when PTU is not in progress" filename="0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress.md"/>	
 <proposal id="0338" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove Unused Files From SDL Core" filename="0338-remove-unused-files-from-sdl-core.md"/>	
-<proposal id="0339" status="returned" primary-platform="core" sdl-version="x.x" name="Replace thread::Thread implementation with std::thread from C++11" filename="0339-replace-pthread-implementation-with-threads-from-cpp11.md"/>	
-<proposal id="0340" status="active" primary-platform="atf" sdl-version="x.x" name="ATF Selenium Support" filename="0340-atf-selenium-support.md"/>	
-<proposal id="0341" status="active" primary-platform="hmi" sdl-version="x.x" name="Add Generic HMI Plugin Support" filename="0341-add-generic-hmi-plugin-support.md"/>	
+<proposal id="0339" status="active" primary-platform="core" sdl-version="x.x" name="Replace thread::Thread implementation with std::thread from C++11" filename="0339-replace-pthread-implementation-with-threads-from-cpp11.md"/>	
+<proposal id="0340" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF Selenium Support" filename="0340-atf-selenium-support.md"/>	
+<proposal id="0341" status="returned" primary-platform="hmi" sdl-version="x.x" name="Add Generic HMI Plugin Support" filename="0341-add-generic-hmi-plugin-support.md"/>	
 <proposal id="0342" status="active" primary-platform="core" sdl-version="x.x" name="Remove Policy Mode Option From SDL Core" filename="0342-remove-policy-mode-option-from-sdl-core.md"/>	
+<proposal id="0343" status="active" primary-platform="protocol" sdl-version="x.x" name="Add Notifications for Required App Support" filename="0343-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps.md"/>	
 
 	<!--
 Recognized values for a proposal's status:
