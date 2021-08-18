@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0339](0339-replace-pthread-implementation-with-threads-from-cpp11.md)
 * Author: [Vadym Luchko](https://github.com/VadymLuchko)
-* Status: **Returned for Revisions**
+* Status: **In Review**
 * Impacted Platforms: [Core]
 
 ## Introduction
