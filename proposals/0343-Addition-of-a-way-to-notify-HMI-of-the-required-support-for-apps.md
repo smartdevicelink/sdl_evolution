@@ -1,8 +1,8 @@
 # Add Notifications for Required App Support
 
-* Proposal: [SDL-NNNN](NNNN-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps.md)
+* Proposal: [SDL-0343](0343-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [ Core / Java Suite / HMI /  Protocol ]
 
 ## Introduction
