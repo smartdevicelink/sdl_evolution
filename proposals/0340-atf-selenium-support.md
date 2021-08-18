@@ -3,7 +3,7 @@
 
 * Proposal: [SDL-0340](0340-atf-selenium-support.md)
 * Author: [Jack Byrne](https://github.com/JackLivio)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [ATF / ATF Test Scripts / Generic HMI]
 
 ## Introduction
