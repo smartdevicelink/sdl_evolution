@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0341](0341-add-generic-hmi-plugin-support.md)
 * Author: [Jacob Keeler](https://github.com/smartdevicelink)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [HMI]
 
 ## Introduction
