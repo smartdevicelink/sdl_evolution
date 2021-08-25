@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0342](0342-remove-policy-mode-option-from-sdl-core.md)
 * Author: [Jacob Keeler](https://github.com/jacobkeeler)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: [Core / HMI]
 
 ## Introduction
