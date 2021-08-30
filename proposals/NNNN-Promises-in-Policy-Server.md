@@ -1,6 +1,6 @@
 # Use Promises in Server Logic of SDL Policy Server
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)P
+* Proposal: [SDL-NNNN](NNNN-filename.md)
 * Author: [Chris Rokita](https://github.com/crokita)
 * Status: **Awaiting review**
 * Impacted Platforms: Policy Server
