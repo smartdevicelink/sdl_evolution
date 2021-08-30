@@ -1,6 +1,6 @@
 # Use Promises in Server Logic of SDL Policy Server
 
-* Proposal: [SDL-NNNN](NNNN-filename.md)
+* Proposal: [SDL-NNNN](NNNN-Promises-in-Policy-Server.md)
 * Author: [Chris Rokita](https://github.com/crokita)
 * Status: **Awaiting review**
 * Impacted Platforms: Policy Server
@@ -13,17 +13,17 @@ This proposal aims to change the majority of the server application logic from u
 
 The last structural change to the policy server was written at a time where Promises were not as well understood, and so the established method of handling asynchronous tasks was using callbacks. Earlier attempts to mitigate the issues of readability with this method have not scaled so well with the number of features the project has accumulated. The codebase has grown to a point where any additions or changes to the application logic require a significant amount of reading and care to ensure that no new bugs are introduced and that all cases are considered.
 
-With the introduction of await/async syntax, asynchronous logic can be read from top to bottom without excessive nesting of functions or visually jumping around the method to keep track of the execution order. This Promise style syntax will require fewer lines and will automatically throw functions into the event loop instead of being ran synchronously.
+With the introduction of await/async syntax, asynchronous logic can be read from top to bottom without excessive nesting of functions or visually jumping around the method to keep track of the execution order. This Promise style syntax will require fewer lines and will automatically throw functions into the event loop instead of being run synchronously.
 
 ## Proposed solution
 
 All callback-based asynchronous management that resides in the `app/v1` directory will be changed to use Promises and async/await syntax. If using a function from a library that uses callback-based, error-first style and is outside the project's control, it will be converted into a Promise through the use of NodeJS's `util.promisify` helper method. All references to the project's flame, flow, and async libraries to help with asynchronous function chaining will be replaced entirely with Promises and async/await syntax. Express middleware functions will necessarily remain using the `next` callback style, but if possible this will be avoided elsewhere.
 
-All controller, helper, and model files are suspectible to these changes. The sql files will be untouched as they merely construct SQL statements. The modules inside the `custom` folder such as the cache and database modules should have their methods change to return Promises. Due to the expectancy of developers to change the contents inside the `customizable` folder with their own code, no changes will be required for those exported functions. The only requirement to use this new feature should be to upgrade the NodeJS version. The server can convert these exported functions that use callbacks into ones that return Promises anyway.
+All controller, helper, and model files are susceptible to these changes. The SQL files will be untouched as they merely construct SQL statements. The modules inside the `custom` folder such as the cache and database modules should have their methods change to return Promises. Due to the expectancy of developers to change the contents inside the `customizable` folder with their own code, no changes will be required for those exported functions. The only requirement to use this new feature should be to upgrade the NodeJS version. The server can convert these exported functions that use callbacks into ones that return Promises anyway.
 
-The front-end's use of callbacks are much more controlled: the rare use of asynchronous function chaining means the code is still readable. Changing some of the common functions used such as the Vue mixin `httpRequest` would not have significant benefits because of the necessary two-value return of an error and a result. Catching errors in a promise still require a callback to be passed in, which leads to the same problem as callback-based methods if you are not chaining multiple asynchronous functions together. For these reasons, the front-end will not be changed for this proposal.
+The front-end's use of callbacks is much more controlled: the rare use of asynchronous function chaining means the code is still readable. Changing some of the common functions used such as the Vue mixin `httpRequest` would not have significant benefits because of the necessary two-value return of an error and a result. Catching errors in a Promise still require a callback to be passed in, which leads to the same problem as callback-based methods if you are not chaining multiple asynchronous functions together. For these reasons, the front-end will not be changed for this proposal.
 
-## Examples
+### Examples
 The two examples below show what those functions could become. They are not finalized changes.
 
 The difference between using the npm async library and using the Promise + async/await syntax can be quite large. Take this snippet of this vehicle data helper function, for example: https://github.com/smartdevicelink/sdl_server/blob/master/app/v1/vehicle-data/helper.js#L132-L165
@@ -49,7 +49,7 @@ async function insertCustomVehicleDataItem (client, data) {
 
 Even in the cases where excessive nested callbacks are abstracted out as efficiently as possible, there is still an issue of readability which can make it challenging to reason with or modify the function. This is one of the more extreme examples where a mix of parallel and serial computations are required: https://github.com/smartdevicelink/sdl_server/blob/master/app/v1/policy/helper.js#L163-L209
 
-Rewriting this to use Promises isn't as drastic a difference but it is still much easier to read:
+Rewriting this to use Promises isn't as drastic of a difference but it is still much easier to read:
 
 ```js
 // asyncSql is a theoretical function that will execute a SQL statement and resolve a Promise on completion. This is subject to change during implementation.
@@ -101,7 +101,7 @@ function mapAppBaseInfo (isProduction, useLongUuids = false, requestedUuids, inc
 
 ## Potential downsides
 
-Although this is a single conceptual change in the idea of how asynchronous logic should be handled, it will involve a significant editing of the majority of the project's server files due to how ubiquitous the callback-style is. As a result, the project's code may look very different from its current state. All other PRs that edit the server code will be incompatible with the changes made in this PR. Therefore, it is recommended that either no other PR editing the server files is started in conjunction with this one, or a PR can be started but later must get refactored by its author to implement the same changes requested in this proposal.
+Although this is a single conceptual change in the idea of how asynchronous logic should be handled, it will involve significant editing of the majority of the project's server files due to how ubiquitous the callback-style is. As a result, the project's code may look very different from its current state. All other PRs that edit the server code will be incompatible with the changes made in this PR. Therefore, it is recommended that either no other PR editing the server files is started in conjunction with this one, or a PR can be started but later must get refactored by its author to implement the same changes requested in this proposal.
 
 ## Impact on existing code
 
