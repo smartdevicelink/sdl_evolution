@@ -1,8 +1,8 @@
 # Use Promises in Server Logic of SDL Policy Server
 
-* Proposal: [SDL-NNNN](NNNN-Promises-in-Policy-Server.md)
+* Proposal: [SDL-0344](0344-Promises-in-Policy-Server.md)
 * Author: [Chris Rokita](https://github.com/crokita)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: Policy Server
 
 ## Introduction
