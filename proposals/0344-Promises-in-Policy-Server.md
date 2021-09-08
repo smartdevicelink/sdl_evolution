@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0344](0344-Promises-in-Policy-Server.md)
 * Author: [Chris Rokita](https://github.com/crokita)
-* Status: **In Review**
+* Status: **Accepted**
 * Impacted Platforms: Policy Server
 
 ## Introduction
