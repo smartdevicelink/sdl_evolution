@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0343](0343-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps.md)
 * Author: [Akihiro Miyazaki (Nexty)](https://github.com/Akihiro-Miyazaki)
-* Status: **In Review**
+* Status: **Withdrawn**
 * Impacted Platforms: [ Core / Java Suite / HMI /  Protocol ]
 
 ## Introduction
