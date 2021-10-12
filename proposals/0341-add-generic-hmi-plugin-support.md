@@ -64,6 +64,8 @@ For any web-based test plugins, the UI of the plugin should be possible to displ
 
 ![Plugin Tabs](../assets/proposals/0341-add-generic-hmi-plugin-support/plugin-tabs-example.png)
 
+The test UI for each plugin should be possible to include or exclude using the plugin configuration file (See `TestViewEnabled` in the configuration example).
+
 ### Plugin Types
 
 Detailed in this section is a list of all of the plugin types needed to allow for full feature coverage in the Generic HMI. Each plugin description includes details about which features the plugin needs to support, along with the RPCs it must handle to cover each feature. As part of this proposal, an example plugin of each type should be created for testing purposes, and these examples can then be used as a reference for production implementations.
