@@ -64,7 +64,7 @@ For any web-based test plugins, the UI of the plugin should be possible to displ
 
 ![Plugin Tabs](../assets/proposals/0341-add-generic-hmi-plugin-support/plugin-tabs-example.png)
 
-The test UI for each plugin should be possible to include or exclude using the plugin configuration file (See `TestViewEnabled` in the configuration example).
+The test UI for each plugin should be possible to include or exclude using the plugin configuration file (see `TestViewEnabled` in the configuration example).
 
 ### Plugin Types
 
@@ -330,7 +330,7 @@ In order to incorporate this functionality, we will need to include an entry poi
 
 ![Menu Navigation](../assets/proposals/0341-add-generic-hmi-plugin-support/menu-example.png)
 
-These integrated components should be possible to include or exclude from the menu using the plugin configuration file (See `MenuNavEnabled` in the configuration example).
+These integrated components should be possible to include or exclude from the menu using the plugin configuration file (see `MenuNavEnabled` in the configuration example).
 
 ## Potential downsides
 
