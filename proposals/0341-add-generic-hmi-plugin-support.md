@@ -22,7 +22,7 @@ The main motivation behind this proposal is to bring the Generic HMI to a state 
 
 ## Proposed solution
 
-The ideal way to add support for these vehicle-specific components in the Generic HMI would be to introduce external plugins to the project. These plugins are separate applications with limited scope which run alongside the HMI and interact with it as needed. Basic plugins which emulate vehicle functionality can be included in the project for testing and reference purposes, while tailored plugins can be written to work with a specific system in production cases. Each of these plugins would maintain their own connection to SDL Core using a router service, which can be borrowed from the Manticore project (see [here](https://github.com/smartdevicelink/manticore-images/blob/master/cores/broker/index.js)). Much of the test functionality needed in the Generic HMI is already available in the Manticore project (ex. vehicle data), so these components could be ported and used as a baseline for several of the example plugins detailed in this proposal.
+The ideal way to add support for these vehicle-specific components in the Generic HMI would be to introduce external plugins to the project. These plugins are separate applications with limited scope which run alongside the HMI and interact with it as needed. Basic plugins which emulate vehicle functionality can be included in the project for testing and reference purposes, while tailored plugins can be written to work with a specific system in production cases. Each of these plugins would maintain their own connection to SDL Core using a message broker, which can be borrowed from the Manticore project (see [here](https://github.com/smartdevicelink/manticore-images/blob/master/cores/broker/index.js)). Much of the test functionality needed in the Generic HMI is already available in the Manticore project (ex. vehicle data), so these components could be ported and used as a baseline for several of the test plugins detailed in this proposal.
 
 An additional benefit to this approach is that plugins which run in the background can be written in any desired language; they only need to connect to the router service.
 
@@ -35,10 +35,10 @@ window.flags = {
     VRPlugin: {
         Enabled: false, //Plugin is disabled, HMI will ignore this entry
         Url: 'http://127.0.0.1:3010', //URL path to plugin application, for web applications
-        SidebarEnabled: true, //Plugin application has a UI component, and should be displayed beside the main HMI
-        SidebarName: 'Voice', //Title to display alongside the plugin UI
-        MenuEnabled: true, //Plugin has a custom screen within the Generic HMI, accessible via menu
-        MenuName: 'Voice Commands' //Title to display in the menu for this plugin's screen
+        TestViewEnabled: true, //Plugin application has a test UI (accessible via the "Url" field), which should be displayed beside the main HMI
+        TestViewTitle: 'Voice', //Title to display alongside the plugin's test UI
+        MenuNavEnabled: true, //Plugin has a custom integrated component within the Generic HMI, accessible via settings menu
+        MenuNavTitle: 'Voice Commands' //Text to display with the item in the settings menu directing to this plugin's custom component
     },
     ...
 };
@@ -46,20 +46,40 @@ window.flags = {
 
 **Note:** This format is tentative and could change depending on the final implementation.
 
-### Example Plugins
+### Message Broker
 
-Several example plugins should be developed as a baseline for testing purposes; these can also be used as a reference for production implementations. This section details the functionality required in each plugin to allow for full feature coverage in the Generic HMI.
+In order to communicate with each of these plugins, a message broker will be added to the project to route messages between SDL Core and each HMI component (using [Manticore's message broker](https://github.com/smartdevicelink/manticore-images/blob/master/cores/broker/index.js) as a base). Each plugin (in addition to the Generic HMI itself) will connect to this message broker in place of SDL Core and register one or more HMI interfaces using the [MB.registerComponent](https://smartdevicelink.com/en/guides/core/integrating-your-hmi/sdl-core-and-hmi-communication/#component-registration) request. The message broker will then automatically route messages from SDL Core to all appropriate plugins based on which interfaces they registered (multiple plugins can register to the same interface, if needed). 
+
+Some interfaces (such as VehicleInfo) only have stub implementations in the Generic HMI at the moment because, as mentioned previously, they require information from an actual vehicle to work properly. If an appropriate plugin is available for one of these unimplemented interfaces, then the Generic HMI itself will skip registration for that interface, allowing the plugin to handle all messages related to the given interface instead.
+
+In addition, the message broker can be used to send messages between individual plugins as well as the main HMI, such messages are described in [this section](#messages-between-components).
+
+### Web-based plugins
+
+In the case of web-based plugins, the Generic HMI should be able to run these plugins directly in-browser when the HMI itself is started. This feature would be configured using the options defined in the [Plugin Configuration](#plugin-configuration) section of this proposal. In order to run these applications within the browser, the Generic HMI could open the provided `Url` in the plugin configuration within a hidden `iframe` or something similar, allowing the plugin to run alongside the HMI.
+
+#### Displaying test plugins in-browser
+
+For any web-based test plugins, the UI of the plugin should be possible to display directly in the browser window beside the main HMI using the provided `Url` config parameter. These plugin UIs could be arranged in a similar manner to Manticore using tabs, with each tab containing a window (also possible using `iframe`) to display the test UI.
+
+![Plugin Tabs](../assets/proposals/0341-add-generic-hmi-plugin-support/plugin-tabs-example.png)
+
+The test UI for each plugin should be possible to include or exclude using the plugin configuration file (see `TestViewEnabled` in the configuration example).
+
+### Plugin Types
+
+Detailed in this section is a list of all of the plugin types needed to allow for full feature coverage in the Generic HMI. Each plugin description includes details about which features the plugin needs to support, along with the RPCs it must handle to cover each feature. As part of this proposal, an example plugin of each type should be created for testing purposes, and these examples can then be used as a reference for production implementations.
 
 #### Voice Recognition Plugin
 
-Connects to the `VR` component of SDL Core, overriding this component in the Generic HMI.
+Connects to the `VR` interface, overriding the Generic HMI's implementation of this component.
 
 *Features:*
 
 - General interface functions
     - VR.IsReady
     - VR.GetCapabilities
-- Voice commands (both "Command" and "Choice" type), this feature can be ported from Manticore
+- Voice commands (both "Command" and "Choice" type), test implementation can be ported from Manticore
     - VR.AddCommand
     - VR.DeleteCommand
     - VR.PerformInteraction
@@ -76,13 +96,13 @@ Connects to the `VR` component of SDL Core, overriding this component in the Gen
 
 #### Vehicle Info Plugin
 
-Connects to the `VehicleInfo` component of SDL Core, overriding this component in the Generic HMI.
+Connects to the `VehicleInfo` interface, overriding the Generic HMI's implementation of this component.
 
 *Features:*
 
 - General interface functions
     - VehicleInfo.IsReady
-- Vehicle data, this feature can be ported from Manticore
+- Vehicle data, test implementation can be ported from Manticore
     - VehicleInfo.GetVehicleData
     - VehicleInfo.SubscribeVehicleData
     - VehicleInfo.UnsubscribeVehicleData
@@ -95,14 +115,14 @@ Connects to the `VehicleInfo` component of SDL Core, overriding this component i
 
 #### Remote Control Plugin
 
-Connects to the `RC` component of SDL Core, overriding this component in the Generic HMI. This could potentially be split into several plugins (by module type) depending on the system.
+Connects to the `RC` interface, overriding the Generic HMI's implementation of this component. This could potentially be split into several plugins (by module type) depending on the system.
 
 *Features:*
 
 - General interface functions
     - RC.IsReady
     - RC.GetCapabilities
-- Remote Control data, this feature can be ported from Manticore
+- Remote Control data, test implementation can be ported from Manticore
     - RC.SetInteriorVehicleData
     - RC.GetInteriorVehicleData
     - RC.OnInteriorVehicleData
@@ -115,27 +135,27 @@ Connects to the `RC` component of SDL Core, overriding this component in the Gen
 
 #### Buttons Plugin
 
-Connects to the `Buttons` component of SDL Core. This plugin would also communicate `ButtonPress` events to other plugins where needed.
+Connects to the `Buttons` interface. This plugin would also communicate `ButtonPress` events to other plugins where needed.
 
 *Features:*
 
 - General interface functions
     - Buttons.GetCapabilities
-- Button Event Notifications, this feature can be ported from Manticore
+- Button Event Notifications, test implementation can be ported from Manticore
     - Buttons.OnButtonPress
     - Buttons.OnButtonEvent
     - Buttons.OnButtonSubscription
 - Button Presses
     - Buttons.ButtonPress
-- Media Button Names, this feature can be ported from Manticore
+- Media Button Names, test implementation can be ported from Manticore
     - PLAY_PAUSE
     - SEEKLEFT, SEEKRIGHT
     - TUNEUP, TUNEDOWN
-- Climate Button Names, this feature can be ported from Manticore
+- Climate Button Names, test implementation can be ported from Manticore
     - AC, AC_MAX, RECIRCULATE, UPPER_VENT, LOWER_VENT
     - FAN_UP, FAN_DOWN, TEMP_UP, TEMP_DOWN
     - DEFROST, DEFROST_MAX, DEFROST_REAR
-- Radio Button Names, this feature can be ported from Manticore
+- Radio Button Names, test implementation can be ported from Manticore
     - VOLUME_UP, VOLUME_DOWN
     - EJECT, SOURCE
     - SHUFFLE, REPEAT
@@ -150,11 +170,11 @@ Connects to the `Buttons` component of SDL Core. This plugin would also communic
 
 #### App Service Plugin
 
-Connects to the `AppService` component of SDL Core, registering IVI services for each type. This could potentially be split into several plugins (by service type) depending on the system.
+Connects to the `AppService` interface, registering IVI services for each type. This could potentially be split into several plugins (by service type) depending on the system.
 
 *Features:*
 
-- Media, Weather, and Navigation App Service Data Providers, these features can be ported from Manticore
+- Media, Weather, and Navigation App Service Data Providers, test implementations can be ported from Manticore
     - AppService.PublishAppService
     - AppService.UnpublishAppService
     - AppService.GetAppServiceData
@@ -167,7 +187,7 @@ Connects to the `AppService` component of SDL Core, registering IVI services for
 
 #### Phone Plugin
 
-Connects to the `BasicCommunication` component of SDL Core.
+Connects to the `BasicCommunication` interface.
 
 *Features:*
 
@@ -177,7 +197,7 @@ Connects to the `BasicCommunication` component of SDL Core.
 
 #### Navigation Plugin
 
-Connects to the `Navigation` component of SDL Core.
+Connects to the `Navigation` interface.
 
 *Features:*
 
@@ -198,20 +218,20 @@ Connects to the `Navigation` component of SDL Core.
 
 #### General Settings Plugin
 
-Connects to the `BasicCommunication` and `UI` components of SDL Core, also communicates with the main HMI to control settings via custom messages.
+Connects to the `BasicCommunication` and `UI` interfaces, also communicates with the main HMI to control settings via custom messages.
 
 *Features:*
 
-- General settings, replaces the buttons that are currently placed below the main HMI screen. This feature can be ported from Manticore.
-    - Driver Distraction
+- General settings, replaces the buttons that are currently placed below the main HMI screen. The test implementation for this feature can be ported from Manticore.
+    - UI.OnDriverDistraction
     - Toggle HMI Theme
 - General HMI events
-    - OnEventChanged(EMERGENCY_EVENT)
-    - OnEventChanged(DEACTIVATE_HMI)
+    - BasicCommunication.OnEventChanged(EMERGENCY_EVENT)
+    - BasicCommunication.OnEventChanged(DEACTIVATE_HMI)
 
 #### TTS Plugin
 
-Connects to the `TTS` components of SDL Core, overriding this component in the Generic HMI.
+Connects to the `TTS` interface, overriding the Generic HMI's implementation of this component.
 
 *Features:*
 
@@ -233,17 +253,11 @@ Connects to the `TTS` components of SDL Core, overriding this component in the G
     - TTS.Speak(helpPrompt) when "Help" option is selected
     - TTS.Speak(timeoutPrompt) when timeout occurs
 
-#### Running test plugins in-browser
-
-For any web-based test plugins, the UI of the plugin should be possible to display directly in the browser window beside the main HMI. This could be accomplished fairly easily using iframes, and these plugin UIs could be arranged in a similar manner to Manticore using tabs.
-
-![Plugin Tabs](../assets/proposals/0341-add-generic-hmi-plugin-support/plugin-tabs-example.png)
-
 ### Messages between components
 
-While ideally each of the HMI components would be isolated, there are a number of places where one component will need information from other components. For that reason, we will need to define a messaging scheme for HMI-specific messages which can be sent between components. These messages can be routed using the message broker as well.
+While ideally each of the HMI components would be isolated, there are a number of places where one component will need information from other components. For that reason, we will need to define a messaging scheme for HMI-specific messages which can be sent between components. These messages are routed using the message broker as well.
 
-Each message would include the `Plugin` prefix and can include a `destination` parameter if targeting a specific component.
+Each message would include the `Plugin` prefix and can include a `destination` parameter if targeting a specific component (ex. VR).
 
 A few examples of the potential messages that would be needed:
 
@@ -312,11 +326,11 @@ While a majority of the functionality for these plugins can be handled in the ba
 
 ![Plugin UI Stub](../assets/proposals/0341-add-generic-hmi-plugin-support/vr-plugin-stub-example.png)
 
-To accommodate this, we will need to include a way to navigate between various screens in the Generic HMI. This could potentially be done via a persistent menu created using existing node packages such as [react-burger-menu](https://github.com/negomi/react-burger-menu).
+In order to incorporate this functionality, we will need to include an entry point within the Generic HMI for each of these integrated plugin components. These entry points could be included in the existing settings menu, as shown in this example:
 
 ![Menu Navigation](../assets/proposals/0341-add-generic-hmi-plugin-support/menu-example.png)
 
-These integrated components should be possible to include or exclude from the menu using the plugin configuration file (See `MenuEnabled` in the configuration example).
+These integrated components should be possible to include or exclude from the menu using the plugin configuration file (see `MenuNavEnabled` in the configuration example).
 
 ## Potential downsides
 
@@ -331,7 +345,8 @@ As far as existing Generic HMI code, a few additions are needed:
 - Logic to handle plugin configuration (either through `Flags.js` or a new configuration file)
 - A sidebar for displaying test plugins next to the main portion of the HMI (via iframes, etc.)
 - Logic to disable registration of unimplemented components when appropriate plugins are available
-- Menu implementation to navigate between HMI components
+- Logic to handle new inter-component messages from connected plugins
+- Logic for including additional settings menu items to navigate to integrated plugin components based on plugin configuration
 - Basic stub components for each plugin to be expanded in production applications
 
 Example plugin stub:
@@ -359,4 +374,4 @@ Overall, a majority of the changes needed for this proposal will be in the form 
 
 ## Alternatives considered
 
-- The main alternative to this proposal was to implement a full IVI system around the Generic HMI. Most of this functionality would be emulated to a degree, which would make it harder to integrate into a production system. As such, this approach didn't seem ideal given the current design of the Generic HMI.
+- The main alternative to this proposal was to implement a full IVI system around the Generic HMI. Most of this functionality would have to be emulated to a degree, which would make it harder to integrate into a production system. As such, this approach didn't seem ideal given the current design of the Generic HMI.
