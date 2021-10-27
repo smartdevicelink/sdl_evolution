@@ -218,6 +218,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 ---
 #### SDL Policy Server: 2.13.0
 **Target Release Date**: April 13, 2022
+
 **Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_server/projects/7).
 
 ---
