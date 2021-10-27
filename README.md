@@ -145,7 +145,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL Java Suite: 5.1.0
+#### SDL Java Suite: 5.3.0
 **Release Date**: October 27, 2021
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.1.0)
