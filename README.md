@@ -110,6 +110,12 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ## Recent Releases
 
+#### Manticore: 2.8.0
+**Release Date**: May 17, 2021
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.8.0). 
+
+---
+
 #### SDL Protocol Spec: 5.4.1
 **Release Date**: October 27, 2021
 
