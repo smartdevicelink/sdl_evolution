@@ -169,7 +169,6 @@ We also need to consider interactions with applications supporting older version
 
 If a phone connects to the head unit over USB we can still start the `SdlRouterService`, but if the designated app does not have Bluetooth permissions, the `bluetoothTransport` will still not be able to start. This could cause confusion for the user if they expect the `SdlRouterService` to connect over USB and Bluetooth but the `SdlRouterService` will only connect over USB. The suggested solution is to present a notification to the user reminding them to enable Bluetooth permissions. By clicking on the notification the user will be directed to the app's settings page to grant those permissions. Meanwhile the `SdlRouterService` will wait to initialize the `bluetoothTransport` and will continuously check the permission status. Once the permissions are granted, the `bluetoothTransport` will be started.
 
-#### Library Changes
 ##### SdlRouterService.java
 ~~~ java
 private boolean initCheck() {
