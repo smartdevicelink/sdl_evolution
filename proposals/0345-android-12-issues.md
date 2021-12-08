@@ -1,8 +1,8 @@
 # Android 12 Issues
 
-* Proposal: [SDL-NNNN](nnnn-android-12-issues.md)
+* Proposal: [SDL-0345](0345-android-12-issues.md)
 * Author: [Robert Henigan](https://github.com/RHenigan)
-* Status: **Awaiting review**
+* Status: **In Review**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
