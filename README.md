@@ -110,13 +110,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ## Recent Releases
 
-#### Manticore: 2.8.0
-**Release Date**: May 17, 2021
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.8.0). 
-
----
-
 #### SDL Protocol Spec: 5.4.1
 **Release Date**: October 27, 2021
 
@@ -167,14 +160,15 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-## Upcoming Releases
-
 #### Manticore: 2.9.0
-**Target Release**: November 2021
+**Release Date**: December 8, 2021
 
-**Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/manticore/projects/4). 
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.9.0). 
 
 ---
+
+## Upcoming Releases
+
 
 #### SDL iOS: 7.4.0
 **Target Release Date**: April 13, 2022
@@ -223,6 +217,12 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
+#### Manticore: 2.10.0
+**Target Release**: May 2022
+
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/manticore/projects/5). 
+
+---
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
 [proposal-status]: https://smartdevicelink.github.io/sdl_evolution/
