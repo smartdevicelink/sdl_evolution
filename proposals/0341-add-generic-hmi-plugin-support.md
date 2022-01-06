@@ -53,7 +53,7 @@ Plugin Configuration Fields (added to `Flags.js`):
 * AppServicePlugins (Plugin array) - List of configurations for plugins which provide app service functionality/data and connect to the `AppService` HMI interface. Depending on developer preference, each plugin provided could handle a different app service type, or a single configuration could be provided for a plugin which handles all app service types. The main HMI can act as an App Service Consumer for data provided by these plugins.
 * TTSPlugin (Plugin) - Configuration for the plugin which handles text-to-speech and connects to the `TTS` HMI interface. If enabled, the Generic HMI will not send `MB.registerComponent` for the `TTS` interface to the message broker.
 * NavigationPlugin (Plugin) - Configuration for the plugin which handles navigation-related functionality and connects to the `Navigation` HMI interface. This plugin does not override existing video/audio streaming functionality in the Generic HMI, as that is handled separately despite being defined in the `Navigation` interface.
-* MiscPlugins (Plugin array) - List of configurations for plugins are not tied to a specific HMI interface (such as the [General Settings](#general-settings-plugin) plugin or [Phone](phone-plugin) plugin).
+* MiscPlugins (Plugin array) - List of configurations for plugins are not tied to a specific HMI interface (such as the [General Settings](#general-settings-plugin) plugin or [Phone](#phone-plugin) plugin).
 
 ##### Example
 ```
