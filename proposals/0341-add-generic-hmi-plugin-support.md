@@ -53,7 +53,7 @@ Plugin Configuration Fields (added to `Flags.js`):
 * AppServicePlugins (Plugin array) - List of configurations for plugins which provide app service functionality/data and connect to the `AppService` HMI interface. Depending on developer preference, each plugin provided could handle a different app service type, or a single configuration could be provided for a plugin which handles all app service types. The main HMI can act as an App Service Consumer for data provided by these plugins.
 * TTSPlugin (Plugin) - Configuration for the plugin which handles text-to-speech and connects to the `TTS` HMI interface. If enabled, the Generic HMI will not send `MB.registerComponent` for the `TTS` interface to the message broker.
 * NavigationPlugin (Plugin) - Configuration for the plugin which handles navigation-related functionality and connects to the `Navigation` HMI interface. This plugin does not override existing video/audio streaming functionality in the Generic HMI, as that is handled separately despite being defined in the `Navigation` interface.
-* MiscPlugins (Plugin array) - List of configurations for plugins are not tied to a specific HMI interface (such as the [General Settings](#general-settings-plugin) plugin or [Phone](#phone-plugin) plugin).
+* MiscPlugins (Plugin array) - List of configurations for plugins which are not tied to a specific HMI interface (such as the [General Settings](#general-settings-plugin) plugin or [Phone](#phone-plugin) plugin).
 
 ##### Example
 ```
@@ -457,7 +457,7 @@ Definition:
         </description>
     </param>
     <param name="appID" type="Integer" mandatory="true">
-        <description>ID of the application requested this RPC.</description>
+        <description>ID of the application which requested this RPC.</description>
     </param>
 </function>
 
@@ -506,7 +506,7 @@ Definition:
         <description>Specifies the type of event being activated or deactivated.</description>
     </param>
     <param name="isActive" type="Boolean" mandatory="true">
-       <description>'true' when the event is started, 'false' when the event has ended</description>
+       <description>'true' when the event is started, 'false' when the event has ended.</description>
     </param>
 </function>
 ```
@@ -539,7 +539,7 @@ Additional Notes: The `destination` field for this request is dependent on the e
 * `EMBEDDED_NAVIGATION` - the request will be sent to the `Navigation` interface.
 * `PHONE_CALL` - the request will be sent to the `BasicCommunication` interface (and handled by the Phone plugin).
 * `EMERGENCY_EVENT` - the request will be sent to the `BasicCommunication` interface (and handled by the General Settings plugin).
-* `DEACTIVATE_HMI` - the request will be sent to the `BasicCommunication` interface (and handled by the General Settings plugin.
+* `DEACTIVATE_HMI` - the request will be sent to the `BasicCommunication` interface (and handled by the General Settings plugin).
 
 **SHOW_POPUP**
 
@@ -562,7 +562,7 @@ Definition:
       <description>Text body of the popup.</description>
     </param>
     <param name="softButtons" type="SoftButton" mandatory="false" minsize="0" maxsize="4" array="true">
-      <description>SoftButtons to display with popup.</description>
+      <description>SoftButtons to display with the popup.</description>
     </param>
 </function>
 
@@ -593,7 +593,7 @@ Besides the general overhead of maintaining these plugins, the author does not s
 
 ## Impact on existing code
 
-With the variety of components being added in this proposal which run separate from the main HMI, a startup script will be required to handle the initialization of all of these components. This script will start the HMI, python backend, and any desired plugins all at once using a single command. This new script will need it's own simple configuration file in order to start each plugin, for example:
+With the variety of components being added in this proposal which run separate from the main HMI, a startup script will be required to handle the initialization of all of these components. This script will start the HMI, python backend, and any desired plugins all at once using a single command. This new script will need its own simple configuration file in order to start each plugin, for example:
 
 ```
 {
