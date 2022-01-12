@@ -22,14 +22,40 @@ The main motivation behind this proposal is to bring the Generic HMI to a state 
 
 ## Proposed solution
 
-The ideal way to add support for these vehicle-specific components in the Generic HMI would be to introduce external plugins to the project. These plugins are separate applications with limited scope which run alongside the HMI and interact with it as needed. Basic plugins which emulate vehicle functionality can be included in the project for testing and reference purposes, while tailored plugins can be written to work with a specific system in production cases. Each of these plugins would maintain their own connection to SDL Core using a message broker, which can be borrowed from the Manticore project (see [here](https://github.com/smartdevicelink/manticore-images/blob/master/cores/broker/index.js)). Much of the test functionality needed in the Generic HMI is already available in the Manticore project (ex. vehicle data), so these components could be ported and used as a baseline for several of the test plugins detailed in this proposal.
+The ideal way to add support for these vehicle-specific components in the Generic HMI would be to introduce external plugins to the project. These plugins are separate applications with limited scope which run alongside the HMI and interact with it as needed. Basic plugins which emulate vehicle functionality will be included in the Generic HMI project for testing and reference purposes, while tailored plugins can be written to work with a specific system in production cases. Each of these plugins would maintain their own connection to SDL Core using a message broker, which can be borrowed from the Manticore project (see [here](https://github.com/smartdevicelink/manticore-images/blob/master/cores/broker/index.js)). Much of the test functionality needed in the Generic HMI is already available in the Manticore project (ex. vehicle data), so these components could be ported and used as a baseline for several of the test plugins detailed in this proposal.
 
 An additional benefit to this approach is that plugins which run in the background can be written in any desired language; they only need to connect to the router service.
 
 ### Plugin Configuration
 
-It should be possible to add, remove, disable, and replace these plugins with minimal configuration changes where feasible. Ideally, this configuration could be handled using the existing `Flags.js` file, which is currently used by the Generic HMI for any runtime configurations. A potential format for this configuration could be:
+It should be possible to add, remove, disable, and replace plugins with minimal configuration changes where feasible. This configuration can be handled using the existing `Flags.js` file, which is currently used by the Generic HMI for any runtime configurations.
 
+#### Configuration Format
+
+Plugin (Object) Definition:
+
+* General plugin fields
+    * Enabled (Boolean) - Flag to enable or disable this plugin within the HMI. If set to `false`, then the Generic HMI will ignore this configuration entry.
+    * Url (String) - For web-based plugins, the URL to be opened by the HMI in order to start the plugin. The UI for this plugin can be enabled or disabled using the `TestViewEnabled` field.
+    * MenuNavEnabled (Boolean) - Optional flag to enable an entry point within the HMI menu to a customizable section of the HMI which interacts with this plugin. See the [Integrated Plugin Controls](#integrated-plugin-controls) section for more details.
+    * MenuNavTitle (String) - A custom title to display in the HMI menu item for this plugin. Must be unique between enabled plugins. Used only when `MenuNavEnabled` is set to `true`.
+    * MenuNavIcon (String) - A custom icon name to display in the HMI menu item for this plugin. Can be either a hex code (for static icons) or a file path. If omitted, a default icon will be displayed based on plugin type. Used only when `MenuNavEnabled` is set to `true`.
+* Test plugin fields
+    * TestViewEnabled (Boolean) - Optional flag for test plugins to display the UI for the plugin (using the provided `Url` field) beside the main HMI.
+    * TestViewTitle (String) - A custom title to display in a tabbed list above the test UI to differentiate between plugins. Must be unique between enabled plugins. Used only when `TestViewEnabled` is set to `true`.
+
+Plugin Configuration Fields (added to `Flags.js`):
+
+* VRPlugin (Plugin) - Configuration for the plugin which handles voice recognition and connects to the `VR` HMI interface. If enabled, the Generic HMI will not send `MB.registerComponent` for the `VR` interface to the message broker.
+* VIPlugin (Plugin) - Configuration for the plugin which handles vehicle data and connects to the `VehicleInfo` HMI interface. If enabled, the Generic HMI will not send `MB.registerComponent` for the `VehicleInfo` interface to the message broker.
+* RCPlugins (Plugin array) - List of configurations for plugins which handle remote control functionality and connect to the `RC` HMI interface. Depending on developer preference, each plugin provided could handle a different module type, or a single configuration could be provided for a plugin which handles all modules. If at least one entry is enabled, the Generic HMI will not send `MB.registerComponent` for the `RC` interface to the message broker.
+* ButtonPlugin (Plugin) - Configuration for the plugin which handles button events and connects to the `Buttons` HMI interface.
+* AppServicePlugins (Plugin array) - List of configurations for plugins which provide app service functionality/data and connect to the `AppService` HMI interface. Depending on developer preference, each plugin provided could handle a different app service type, or a single configuration could be provided for a plugin which handles all app service types. The main HMI can act as an App Service Consumer for data provided by these plugins.
+* TTSPlugin (Plugin) - Configuration for the plugin which handles text-to-speech and connects to the `TTS` HMI interface. If enabled, the Generic HMI will not send `MB.registerComponent` for the `TTS` interface to the message broker.
+* NavigationPlugin (Plugin) - Configuration for the plugin which handles navigation-related functionality and connects to the `Navigation` HMI interface. This plugin does not override existing video/audio streaming functionality in the Generic HMI, as that is handled separately despite being defined in the `Navigation` interface.
+* MiscPlugins (Plugin array) - List of configurations for plugins which are not tied to a specific HMI interface (such as the [General Settings](#general-settings-plugin) plugin or [Phone](#phone-plugin) plugin).
+
+##### Example
 ```
 window.flags = {
     VRPlugin: {
@@ -40,11 +66,25 @@ window.flags = {
         MenuNavEnabled: true, //Plugin has a custom integrated component within the Generic HMI, accessible via settings menu
         MenuNavTitle: 'Voice Commands' //Text to display with the item in the settings menu directing to this plugin's custom component
     },
+    RCPlugins: [
+        {
+            Enabled: true, //Plugin is enabled
+            TestViewEnabled: false, //Plugin application does not have an accessible test UI (due to not being a web application)
+            MenuNavEnabled: true, //Plugin has a custom integrated component within the Generic HMI, accessible via settings menu
+            MenuNavTitle: 'Climate Controls' //Text to display with the item in the settings menu directing to this plugin's custom component
+        },
+        {
+            Enabled: true, //Plugin is enabled
+            Url: 'http://127.0.0.1:3020',
+            TestViewEnabled: true,
+            TestViewTitle: 'Seat (RC)',
+            MenuNavEnabled: true, 
+            MenuNavTitle: 'Seats'
+        }
+    ]
     ...
 };
 ```
-
-**Note:** This format is tentative and could change depending on the final implementation.
 
 ### Message Broker
 
@@ -56,19 +96,19 @@ In addition, the message broker can be used to send messages between individual 
 
 ### Web-based plugins
 
-In the case of web-based plugins, the Generic HMI should be able to run these plugins directly in-browser when the HMI itself is started. This feature would be configured using the options defined in the [Plugin Configuration](#plugin-configuration) section of this proposal. In order to run these applications within the browser, the Generic HMI could open the provided `Url` in the plugin configuration within a hidden `iframe` or something similar, allowing the plugin to run alongside the HMI.
+When using web-based plugins, the Generic HMI can open these plugins directly in-browser when it is initially started. This feature is configured using the options defined in the [Plugin Configuration](#plugin-configuration) section of this proposal. In order to run these applications within the browser, the Generic HMI will open the `Url` provided in the plugin configuration within a hidden `iframe` (or something similar), allowing the plugin to run alongside the HMI.
 
 #### Displaying test plugins in-browser
 
-For any web-based test plugins, the UI of the plugin should be possible to display directly in the browser window beside the main HMI using the provided `Url` config parameter. These plugin UIs could be arranged in a similar manner to Manticore using tabs, with each tab containing a window (also possible using `iframe`) to display the test UI.
+For any test plugins which are web-based, the UI of the plugin can also be displayed directly in the browser window beside the main HMI using the provided `Url` config parameter. These plugin UIs would be arranged in a similar manner to Manticore using tabs, with each tab containing a window (also possible using an embedded `iframe`) to display the test UI. These views will need to be kept to a fixed width to fit within provided space beside the HMI.
 
 ![Plugin Tabs](../assets/proposals/0341-add-generic-hmi-plugin-support/plugin-tabs-example.png)
 
-The test UI for each plugin should be possible to include or exclude using the plugin configuration file (see `TestViewEnabled` in the configuration example).
+The test UI for each plugin can be enabled or disabled using the plugin configuration file (see `TestViewEnabled` in the [configuration format section](#configuration-format)).
 
 ### Plugin Types
 
-Detailed in this section is a list of all of the plugin types needed to allow for full feature coverage in the Generic HMI. Each plugin description includes details about which features the plugin needs to support, along with the RPCs it must handle to cover each feature. As part of this proposal, an example plugin of each type should be created for testing purposes, and these examples can then be used as a reference for production implementations.
+Detailed in this section is a list of all of the plugin types needed to allow for full feature coverage in the Generic HMI. Each plugin description includes details about which features the plugin needs to support, along with the RPCs it must handle to cover each feature. As part of this proposal, an example plugin of each type will be created for testing purposes, and these examples can then be used as a reference for production implementations. These example plugins will be included directly in the Generic HMI repository.
 
 #### Voice Recognition Plugin
 
@@ -144,7 +184,9 @@ Connects to the `Buttons` interface. This plugin would also communicate `ButtonP
 - Button Event Notifications, test implementation can be ported from Manticore
     - Buttons.OnButtonPress
     - Buttons.OnButtonEvent
-    - Buttons.OnButtonSubscription
+- Button Subscription
+    - Buttons.SubscribeButton
+    - Buttons.UnsubscribeButton
 - Button Presses
     - Buttons.ButtonPress
 - Media Button Names, test implementation can be ported from Manticore
@@ -170,7 +212,7 @@ Connects to the `Buttons` interface. This plugin would also communicate `ButtonP
 
 #### App Service Plugin
 
-Connects to the `AppService` interface, registering IVI services for each type. This could potentially be split into several plugins (by service type) depending on the system.
+Connects to the `AppService` interface, registering IVI services for each type. This could potentially be split into several plugins (by service type) depending on developer preference.
 
 *Features:*
 
@@ -222,9 +264,12 @@ Connects to the `BasicCommunication` and `UI` interfaces, also communicates with
 
 *Features:*
 
-- General settings, replaces the buttons that are currently placed below the main HMI screen. The test implementation for this feature can be ported from Manticore.
+- General settings, replaces the controls that are currently placed below the main HMI screen. The test implementation for this feature can be ported from Manticore.
     - UI.OnDriverDistraction
-    - Toggle HMI Theme
+    - Change HMI Theme
+- Shutdown control, replaces the "Shutdown" button 
+    - BasicCommunication.OnIgnitionCycleOver
+    - BasicCommunication.OnExitAllApplications(IGNITION_OFF)
 - General HMI events
     - BasicCommunication.OnEventChanged(EMERGENCY_EVENT)
     - BasicCommunication.OnEventChanged(DEACTIVATE_HMI)
@@ -257,80 +302,290 @@ Connects to the `TTS` interface, overriding the Generic HMI's implementation of 
 
 While ideally each of the HMI components would be isolated, there are a number of places where one component will need information from other components. For that reason, we will need to define a messaging scheme for HMI-specific messages which can be sent between components. These messages are routed using the message broker as well.
 
-Each message would include the `Plugin` prefix and can include a `destination` parameter if targeting a specific component (ex. VR).
+Each message will use the `Plugin` prefix and includes a `destination` parameter to target a specific component (ex. VR).
 
-A few examples of the potential messages that would be needed:
+#### Plugin API Format
+
+The API for these inter-plugin messages will be modeled after the [HMI_API.xml](https://github.com/smartdevicelink/sdl_core/blob/master/src/components/interfaces/HMI_API.xml) and they will use the same [JSON-RPC 2.0](https://www.jsonrpc.org/specification) format used for existing HMI messages. Though the format is the same, this API will be maintained separately from the main HMI API, since these messages will be specific to the Generic HMI.
+
+Example Request:
+
+```
+{
+    "jsonrpc": "2.0",
+    "id": 239,
+    "method": "Plugins.DISMISS_INTERACTION",
+    "params": {
+        "appID": 2005331421,
+        "destination": "UI"
+    }
+}
+```
+
+Example Response:
+
+```
+{
+    "jsonrpc": "2.0",
+    "id": 239,
+    "result": {
+        "code": 0,
+        "method": "Plugins.DISMISS_INTERACTION"
+    }
+}
+```
+
+Example Notification:
+
+```
+{
+    "jsonrpc": "2.0",
+    "method": "Plugins.BUTTON_PRESS",
+    "params": {
+        "buttonName": "TEMP_UP",
+        "destination": "RC"
+    }
+}
+```
+
+#### Plugin API Messages
 
 **DISMISS_INTERACTION**
 
-- Sender: VR/UI
-- Receiver: UI/VR
-- Description: Sent when a choice is selected for `PerformInteraction` via VR or UI, informing the other component that the interaction is complete.
-- Parameters: `appID`
+Sender: **VR/UI**
+
+Receiver: **UI/VR**
+
+Definition:
+
+```
+<function name="DISMISS_INTERACTION" messagetype="request">
+    <description>
+        Direction: VR -> UI or UI -> VR
+        Sent when a choice is selected for `PerformInteraction` via VR or UI, informing the other component that the interaction is complete.
+    </description>
+    <param name="appID" type="Integer" mandatory="true">
+        <description>The ID of the application that started the interaction.</description>
+    </param>
+</function>
+
+<function name="DISMISS_INTERACTION" messagetype="response">
+</function>
+```
 
 **BUTTON_PRESS**
 
-- Sender: Buttons
-- Receiver: RC
-- Description: Sent when a button related to RC is pressed, informing the RC component to update its data where appropriate.
-- Parameters: `buttonName`
+Sender: **Buttons**
 
-**DEACTIVATE_APP**
+Receiver: **RC**
 
-- Sender: Various
-- Receiver: Main HMI
-- Description: Sent when an HMI event (such as EMERGENCY_EVENT) which should disable the active app is started. Closes the active app and returns to the app screen in the main HMI.
-- Parameters: `appID`
+Definition:
+
+```
+<function name="BUTTON_PRESS" messagetype="notification">
+    <description>
+        Direction: Buttons -> RC
+        Sent when a button related to RC is pressed, informing the RC component to update its data where appropriate.
+    </description>
+    <param name="buttonName" type="ButtonName" mandatory="true">
+        <description>The name of the button that was pressed.</description>
+    </param>
+</function>
+```
 
 **SEND_NAV_CAPABILITIES**
 
-- Sender: Navigation
-- Receiver: Main HMI
-- Description: Sent when the navigation plugin is registered, communicating its capabilities to be sent in `UI.GetCapabilities`.
-- Parameters: `navigationCapabilities`
+Sender: **Navigation**
+
+Receiver: **Main HMI**
+
+Definition:
+
+```
+<function name="SEND_NAV_CAPABILITIES" messagetype="notification">
+    <description>
+        Direction: Navigation -> UI
+        Sent when the navigation plugin is registered, communicating its capabilities to be sent in `UI.GetCapabilities` or `BC.OnSystemCapabilityUpdated`.
+    </description>
+    <param name="navigationCapabilities" type="NavigationCapability" mandatory="true">
+        <description>The capabilities provided by the connected navigation plugin.</description>
+    </param>
+</function>
+```
 
 **SPEAK**
 
-- Sender: Various
-- Receiver: TTS
-- Description: Sent when any TTS prompt is triggered outside of the TTS interface (ex. `helpPrompt`/`timeoutPrompt` in `VR.PerformInteraction`). The TTS plugin will speak whatever data is provided.
-- Parameters: `ttsChunks`
+Sender: **Various**
+
+Receiver: **TTS**
+
+Definition:
+
+```
+<function name="SPEAK" messagetype="request">
+    <description>
+        Direction: *Any Component* -> TTS
+        Sent when any TTS prompt is triggered outside of the TTS interface (ex. `helpPrompt`/`timeoutPrompt` in `VR.PerformInteraction`). The TTS plugin will speak whatever data is provided.
+    </description>
+    <param name="ttsChunks" type="TTSChunk" mandatory="true" array="true" minsize="1" maxsize="100">
+        <description>List of strings to be spoken.</description>
+    </param>
+</function>
+
+<function name="SPEAK" messagetype="response">
+</function>
+```
 
 **ALERT_MANEUVER**
 
-- Sender: Navigation
-- Receiver: UI
-- Description: Sent whenever a `Navigation.AlertManeuver` request is received by the Navigation plugin. The UI should display an alert maneuver popup with the provided softbuttons.
-- Parameters: `softButtons`, `appID`
+Sender: **Navigation**
+
+Receiver: **UI**
+
+Definition:
+
+```
+<function name="ALERT_MANEUVER" messagetype="request">
+    <description>
+        Direction: *Any Component* -> TTS
+        Sent whenever a `Navigation.AlertManeuver` request is received by the Navigation plugin. The UI should display an alert maneuver popup with the provided softbuttons.
+    </description>
+    <param name="softButtons" type="Common.SoftButton" minsize="0" maxsize="3" array="true" mandatory="false">
+        <description>
+            Buttons to display with popup. 
+            If omitted, only the system defined "Close" SoftButton should be displayed.
+        </description>
+    </param>
+    <param name="appID" type="Integer" mandatory="true">
+        <description>ID of the application which requested this RPC.</description>
+    </param>
+</function>
+
+<function name="ALERT_MANEUVER" messagetype="response">
+</function>
+```
 
 **SETTINGS_UPDATE**
 
-- Sender: Settings
-- Receiver: Main HMI
-- Description: Sent whenever any HMI settings are changed in the Settings plugin.
-- Parameters: `hmiTheme`, etc.
+Sender: **Settings**
 
-**POPUP**
+Receiver: **Main HMI**
 
-- Sender: Various
-- Receiver: Main HMI
-- Description: Sent whenever a plugin needs to display a prompt to the user (ex. `RC.GetInteriorVehicleDataConsent` or `AppService.GetActiveServiceConsent`). Response is sent when an option is selected.
-- Parameters: `text`, `softButtons`
-- Response Parameters: `buttonID`
+Definition:
 
-**Note:** This is not a comprehensive list. Other interactions between components may need to be added as necessary during implementation. In addition, customized messages will likely need to be created for production systems to accommodate differences in plugin design.
+```
+<function name="SETTINGS_UPDATE" messagetype="notification">
+    <description>
+        Direction: Settings(BasicCommunication) -> UI
+        Sent when one or more of the HMI settings are changed in the Settings plugin.
+    </description>
+    <param name="hmiTheme" type="DisplayMode" mandatory="false">
+        <description>The requested theme for the HMI.</description>
+    </param>
+    <param name="driverDistraction" type="Boolean" mandatory="false">
+        <description>The current driver distraction state.</description>
+    </param>
+</function>
+```
+
+**ON_EVENT_CHANGED**
+
+Sender: **Various**
+
+Receiver: **Main HMI**
+
+Definition:
+
+```
+<function name="ON_EVENT_CHANGED" messagetype="notification">
+    <description>
+        Direction: *Any Component* -> BasicCommunication
+        Sent when an event is activated or deactivated from a plugin to allow the main HMI to apply appropriate state changes.
+    </description>
+    <param name="eventName" type="EventTypes" mandatory="true">
+        <description>Specifies the type of event being activated or deactivated.</description>
+    </param>
+    <param name="isActive" type="Boolean" mandatory="true">
+       <description>'true' when the event is started, 'false' when the event has ended.</description>
+    </param>
+</function>
+```
+
+**DEACTIVATE_EVENT**
+
+Sender: **Main HMI**
+
+Receiver: **Various**
+
+Definition:
+
+```
+<function name="DEACTIVATE_EVENT" messagetype="request">
+    <description>
+        Direction: BasicCommunication -> *Any Component* (depending on event type)
+        Sent when the HMI needs to deactivate an event in progress (for example, if a navigation app is activated during the EMBEDDED_NAVIGATION event).
+    </description>
+    <param name="eventName" type="EventTypes" mandatory="true">
+        <description>Specifies the type of event being deactivated.</description>
+    </param>
+</function>
+
+<function name="DEACTIVATE_EVENT" messagetype="response">
+</function>
+```
+
+Additional Notes: The `destination` field for this request is dependent on the event type, according to which plugin is responsible for the event. Specifically, if the `eventName` is: 
+
+* `EMBEDDED_NAVIGATION` - the request will be sent to the `Navigation` interface.
+* `PHONE_CALL` - the request will be sent to the `BasicCommunication` interface (and handled by the Phone plugin).
+* `EMERGENCY_EVENT` - the request will be sent to the `BasicCommunication` interface (and handled by the General Settings plugin).
+* `DEACTIVATE_HMI` - the request will be sent to the `BasicCommunication` interface (and handled by the General Settings plugin).
+
+**SHOW_POPUP**
+
+Sender: **Various**
+
+Receiver: **Main HMI**
+
+Definition:
+
+```
+<function name="SHOW_POPUP" messagetype="request">
+    <description>
+        Direction: *Any Component* -> BasicCommunication
+        Sent whenever a plugin needs to display a prompt to the user (ex. `RC.GetInteriorVehicleDataConsent` or `AppService.GetActiveServiceConsent`). A response is sent when an option is selected or the popup is closed.
+    </description>
+    <param name="title" type="String" mandatory="false">
+      <description>Title to display with the popup.</description>
+    </param>
+    <param name="popupText" type="String" mandatory="true">
+      <description>Text body of the popup.</description>
+    </param>
+    <param name="softButtons" type="SoftButton" mandatory="false" minsize="0" maxsize="4" array="true">
+      <description>SoftButtons to display with the popup.</description>
+    </param>
+</function>
+
+<function name="SHOW_POPUP" messagetype="response">
+    <param name="customButtonID" type="Integer" mandatory="false" minvalue="0" maxvalue="65536">
+        <description>The ID of the popup button that was pressed, if applicable.</description>
+    </param>
+</function>
+```
+
+**Note:** While this list of messages is meant to be as comprehensive as possible for general use, custom messages will still be needed in production systems (primarily depending on the design of the integrated portion of the plugin, see [Integrated Plugin Controls](#integrated-plugin-controls)). This API can also be expanded in the future if new interactions are required or new plugin types are added.
 
 ### Integrated Plugin Controls
 
-While a majority of the functionality for these plugins can be handled in the background, production implementations will need the ability to integrate some portion of these plugins directly into the Generic HMI (such as a set of controls/settings for the plugin). To accommodate this, stubs for these integrated components can be included in the project and these can be expanded to fit a specific system.  
+While a majority of the functionality for these plugins can be handled in the background, production implementations will need the ability to integrate some portion of these plugins directly into the Generic HMI (such as a set of controls and/or settings for the plugin). To accommodate this, a customizable portion of the HMI which can interact with the plugin will be added to the project. This custom section of the HMI needs to be built out by the plugin developer, though stubs for these integrated components will be included in the project which can be used as a base.
 
 ![Plugin UI Stub](../assets/proposals/0341-add-generic-hmi-plugin-support/vr-plugin-stub-example.png)
 
-In order to incorporate this functionality, we will need to include an entry point within the Generic HMI for each of these integrated plugin components. These entry points could be included in the existing settings menu, as shown in this example:
+In order to incorporate this functionality, we will need to include an entry point within the Generic HMI for each of these integrated plugin components. These entry points will be included in the existing settings menu, as shown in this example:
 
 ![Menu Navigation](../assets/proposals/0341-add-generic-hmi-plugin-support/menu-example.png)
 
-These integrated components should be possible to include or exclude from the menu using the plugin configuration file (see `MenuNavEnabled` in the configuration example).
+These integrated components can be included or excluded from the menu using the plugin configuration file (see `MenuNavEnabled` in the [Configuration Format](#configuration-format) section).
 
 ## Potential downsides
 
@@ -338,11 +593,29 @@ Besides the general overhead of maintaining these plugins, the author does not s
 
 ## Impact on existing code
 
-With the additional components being added outside of the main component of the HMI, it would likely be worthwhile to include a startup script in the Generic HMI project. This script could start the HMI, python backend, and any configured plugins all at once using a single command.
+With the variety of components being added in this proposal which run separate from the main HMI, a startup script will be required to handle the initialization of all of these components. This script will start the HMI, python backend, and any desired plugins all at once using a single command. This new script will need its own simple configuration file in order to start each plugin, for example:
+
+```
+{
+  "Plugins": [
+    {
+      "Name": "VR",
+      "Directory": "./plugins/samples/VR/"
+      "StartCommand": "npm start"
+    },
+    {
+      "Name": "TTS",
+      "Directory": "./plugins/samples/TTS/"
+      "StartCommand": "python3 start.py"
+    },
+    ...
+  ]
+}
+```
 
 As far as existing Generic HMI code, a few additions are needed:
 
-- Logic to handle plugin configuration (either through `Flags.js` or a new configuration file)
+- Logic to handle plugin configuration (via `Flags.js`)
 - A sidebar for displaying test plugins next to the main portion of the HMI (via iframes, etc.)
 - Logic to disable registration of unimplemented components when appropriate plugins are available
 - Logic to handle new inter-component messages from connected plugins
