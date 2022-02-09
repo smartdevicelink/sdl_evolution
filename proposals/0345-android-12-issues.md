@@ -2,7 +2,7 @@
 
 * Proposal: [SDL-0345](0345-android-12-issues.md)
 * Author: [Robert Henigan](https://github.com/RHenigan)
-* Status: **In Review**
+* Status: **Returned for Revisions**
 * Impacted Platforms: [Java Suite]
 
 ## Introduction
