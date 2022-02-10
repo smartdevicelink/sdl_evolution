@@ -32,7 +32,7 @@ With the new restrictions around starting foreground services from the backgroun
 
 The `PendingIntent` in the `SdlRouterService` can be given to the `SdlBroadcastReceiver`. At this point the `SdlReceiver` will be able to send the `PendingIntent` with and updated Intent where the developer specifies their unique `SdlService` class. By calling `PendingIntent.send()` we are starting a new foreground service of the unique `SdlService` class from the context of the `SdlRouterService`. Since the `SdlRouterService` is running in the foreground we are no longer trying to start a foreground service from the background.
 
-As an external app’s `SdlRouterService` would be starting the developers `SdlService`, the Developer will be required to export their `SdlService` in the manifest so it is accessible to be started by the `SdlRouterService`. This information will be highlighted in the developer guides for the Integration Basics page as well as the appropriate migration guide.
+As an external app’s `SdlRouterService` would be starting the developer's `SdlService`, the developer will be required to export their `SdlService` in the manifest so it is accessible to be started by the `SdlRouterService`. This information will be highlighted in the developer guides for the Integration Basics page as well as the appropriate migration guide.
 
 #### Library Changes
 ##### SdlRouterService.java
@@ -95,9 +95,9 @@ public void onSdlEnabled(Context context, Intent intent) {
 }
 ~~~
 
-If the developers SdlService is not exported then the SdlRouterService will not be able to start the SdlService. In this case the `SdlService would need to be started from a foreground context to be visible on the IVI, Developers could implement to help guide users to manually starting the SdlService through the app.
+If the developer's `SdlService` is not exported, then the `SdlRouterService` will not be able to start the `SdlService`. In this case the `SdlService` would need to be started from a foreground context to be visible on the IVI the developer could implement to help guide users to manually starting the `SdlService` through the app.
 
-If the service is not exported, queryForConnectedService will work if the app developers make the call while the app is in the foreground. However this will require two things. 1st the app developers will be responsible for tracking if the app is in the foreground or not. 2nd the SdlReceiver.onSdlEnabled will need to be implemented in such a way that it tries to start the SdlService in the appropriate way. If the app is in the foreground, the developer can directly call startForegroundService to start the SdlService. If the app is in the background the app developer would need the service to be exported and the to utilize the pendingIntent to start the SdlService.
+If the service is not exported, `queryForConnectedService` will work if the app developer makes the call while the app is in the foreground. However this will require two things. First, the app developer will be responsible for tracking if the app is in the foreground or not. Second, the `SdlReceiver.onSdlEnabled` will need to be implemented in such a way that it tries to start the `SdlService` in the appropriate way. If the app is in the foreground, the developer can directly call `startForegroundService` to start the `SdlService`. If the app is in the background, the app developer would need the service to be exported and utilize the `pendingIntent` to start the `SdlService`.
 
 ##### SdlReceiver.java
 ~~~ java
@@ -140,7 +140,7 @@ public static void setIsForeground(boolean status) {
 
 ~~~
 
-Now that the `SdlRouterService` is starting the apps' `SdlService` we will need to update the exception catcher in the `SdlBroadcastReceiver` to catch the exception that happens if the aforementioned `SdlService` doesn't enter the foreground in time. Since Developers are not required to name the SDL Service as `SdlService` we will need to also add an overridable `getSdlServiceName()` method in the `SdlBroadcastReceiver`. By default this new method would return `SdlService` but developers will be able to override this method to return the appropriate class name for the exception handler to catch the appropriate exception.
+Now that the `SdlRouterService` is starting the app's `SdlService`, we will need to update the exception catcher in the `SdlBroadcastReceiver` to catch the exception that happens if the aforementioned `SdlService` doesn't enter the foreground in time. Since developers are not required to name the SDL Service as `SdlService`, we will need to also add an overridable `getSdlServiceName()` method in the `SdlBroadcastReceiver`. By default this new method would return `SdlService` but developers will be able to override this method to return the appropriate class name for the exception handler to catch the appropriate exception.
 
 This information will be highlighted in the developer guides for the Integration Basics page as well as the appropriate migration guide.
 
@@ -193,7 +193,7 @@ With the new required `BLUETOOTH_CONNECT` runtime permission we will need develo
     tools:targetApi="31"/>
 ~~~
 
-The developers will also need to request this permission from the user as is is a runtime permission. If the user does not grant this permission for a given application then that application will not receive any Intent with the `ACL_CONNECTED` action in the `SdlBroadcastReceiver`.
+The developer will also need to request this permission from the user as it is a runtime permission. If the user does not grant this permission for a given application, then that application will not receive any Intent with the `ACL_CONNECTED` action in the `SdlBroadcastReceiver`.
 
 In the event that the user denies the Bluetooth permission from the application, this complicates the use cases surrounding the `SdlBroadcastReceiver` and `SdlRouterService`. If the permission is denied for the application then the app's `SdlBroadcastReceiver` will not receive any `ACL_CONNECTED` broadcasts and therefore will not know to start its own SdlRouterService when the device connects over Bluetooth in the event it has been chosen to host it. Other SDL apps on the device will see that they were not the designated app to start the `SdlRouterService` and will simply do nothing, meaning no `SdlRouterService` will be started even if most of the SDL apps do have the Bluetooth permission. To correct this, in the `SdlBroadcastReceiver` we can see if the designated app has the Bluetooth permission. If they do, we will let them start their `SdlRouterService` as normal. If they do not, we will search the list of SDL apps for the first app with the Bluetooth permission; that app will now be considered the designated app to start its `SdlRouterService`. The designated app will then try to start its own `SdlRouterService`.
 
@@ -268,11 +268,11 @@ private static SdlDeviceListener getSdlDeviceListener(Context context, Bluetooth
 }
 ~~~
 
-We also need to consider interactions with applications supporting older versions of the `SdlRouterService`. If an application using SDL Android 4.11 or older receives an `ACL_CONNECTED` broadcast in the `SdlBroadcastReceiver`, it may try to start up the `SdlRouterService` of an application that is targeting Android 12. If the started `SdlRouterService` does not have Bluetooth permission, it will not be able to use the `bluetoothTransport`. To solve this issue we can update the `initCheck` within the `SdlRouterService` to check the app's Bluetooth permission. If the permission is not granted, we can fail the `initCheck` and try to deploy the next `SdlRouterService`.
+We also need to consider interactions with applications supporting older versions of the `SdlRouterService`. If an application using SDL Android 4.11 or older receives an `ACL_CONNECTED` broadcast in the `SdlBroadcastReceiver`, it may try to start up the `SdlRouterService` of an application that is targeting Android 12. If the started `SdlRouterService` does not have the Bluetooth permission, it will not be able to use the `bluetoothTransport`. To solve this issue we can update the `initCheck` within the `SdlRouterService` to check the app's Bluetooth permission. If the permission is not granted, we can fail the `initCheck` and try to deploy the next `SdlRouterService`.
 
-If a phone connects to the head unit over USB we can still start the `SdlRouterService`, but if the designated app does not have Bluetooth permission, the `bluetoothTransport` will still not be able to start. This could cause confusion for the user if they expect the `SdlRouterService` to connect over USB and Bluetooth but the `SdlRouterService` will only connect over USB. The suggested solution is to present a notification to the user reminding them to enable Bluetooth permission. By clicking on the notification the user will be directed to the app's settings page to grant this permission. Meanwhile the `SdlRouterService` will wait to initialize the `bluetoothTransport` and will continuously check the permission status. Once the permissions are granted, the `bluetoothTransport` will be started.
+If a phone connects to the head unit over USB we can still start the `SdlRouterService`, but if the designated app does not have the Bluetooth permission, the `bluetoothTransport` will still not be able to start. This could cause confusion for the user if they expect the `SdlRouterService` to connect over USB and Bluetooth but the `SdlRouterService` will only connect over USB. The suggested solution is to present a notification to the user reminding them to enable the Bluetooth permission. By clicking on the notification the user will be directed to the app's settings page to grant this permission. Meanwhile the `SdlRouterService` will wait to initialize the `bluetoothTransport` and will continuously check the permission status. Once the permission is granted, the `bluetoothTransport` will be started.
 
-Additionally the `MultiplexBluetoothTransport.java` class is using `BluetoothAdapter.cancelDiscovery()`, This requires an additional Runtime Permission of `BLUETOOTH_SCAN`. There is only one use case where this will be called and that is when the the `SdlRouterService` receives a `ROUTER_REQUEST_BT_CLIENT_CONNECT` message. This is never used in a production setting and as such we can check for the `BLUETOOTH_SCAN` permission when it is called but we do not need to require developers to have this permission.
+Additionally the `MultiplexBluetoothTransport.java` class is using `BluetoothAdapter.cancelDiscovery()`. This requires an additional Runtime Permission of `BLUETOOTH_SCAN`. There is only one use case where this will be called and that is when the the `SdlRouterService` receives a `ROUTER_REQUEST_BT_CLIENT_CONNECT` message. This is never used in a production setting and as such we can check for the `BLUETOOTH_SCAN` permission when it is called but we do not need to require developers to have this permission.
 
 ##### SdlRouterService.java
 ~~~ java
@@ -418,7 +418,7 @@ Using `PendingIntents` to start the app's `SdlService` from the `SdlRouterServic
 
 ### Bluetooth Runtime Permissions
 
-With the new runtime permission, users will have to grant Bluetooth permission to SDL enabled apps at runtime. This means that if the user denies permission for a specific app, the app will not know when the device connects to the head unit over Bluetooth nor will it be able to start its `bluetoothTransport` in the `SdlRouterService`. However, apps that have the Bluetooth permission denied will still be able to bind to another app's `SdlRouterService` and will still be able to start up a `SdlRouterService` for a USB connection only. If there are not any apps on the device with Bluetooth permission granted, then the `SdlRouterService` would never be started when connecting over Bluetooth.
+With the new runtime permission, users will have to grant the Bluetooth permission to SDL-enabled apps at runtime. This means that if the user denies permission for a specific app, the app will not know when the device connects to the head unit over Bluetooth nor will it be able to start its `bluetoothTransport` in the `SdlRouterService`. However, apps that have the Bluetooth permission denied will still be able to bind to another app's `SdlRouterService` and will still be able to start up a `SdlRouterService` for a USB connection only. If there are not any apps on the device with the Bluetooth permission granted, then the `SdlRouterService` will never be started when connecting over Bluetooth.
 
 ## Impact on existing code
 
@@ -430,7 +430,7 @@ This implementation will also require the `SdlService` to have the `android:expo
 
 ### Bluetooth Runtime Permissions
 
-The Bluetooth logic in the library will now require the new runtime permission. With the permission granted, there is not any issue with the Bluetooth logic, but we now need to account for the use cases where a user has denied permission. Specifically, without the permission the `SdlBroadcastReceiver` will never receive Intents with the `ACL_CONNECTED` action and the `SdlRouterService` will not be able to start the `bluetoothTransport`.
+The Bluetooth logic in the library will now require the new runtime permission. With the permission granted, there is not any issue with the Bluetooth logic, but we now need to account for the use cases where a user has denied the permission. Specifically, without the permission the `SdlBroadcastReceiver` will never receive Intents with the `ACL_CONNECTED` action and the `SdlRouterService` will not be able to start the `bluetoothTransport`.
 
 ### AndroidManifest Exported Flag
 
@@ -460,7 +460,7 @@ If we decide to use `PendingIntents` and export the `SdlService` we could also c
 
 ### Bluetooth Runtime Permissions
 
-In the use case of the device only being connected over USB, we could try to start the `SdlRouterService` of an application that does have Bluetooth permission to ensure we select a `SdlRouterService` that can start the `bluetoothTransport`. The problem with this solution is when we choose to start a `SdlRouterService` that is different than the one started by the `USBAccessoryAttachmentActivity`, the `USBTransferProvider` will try to bind to the wrong `RouterService`. This will require a larger refactor of the `USBTransferProvider`.
+In the use case of the device only being connected over USB, we could try to start the `SdlRouterService` of an application that does have the Bluetooth permission to ensure we select an `SdlRouterService` that can start the `bluetoothTransport`. The problem with this solution is when we choose to start an `SdlRouterService` that is different than the one started by the `USBAccessoryAttachmentActivity`, the `USBTransferProvider` will try to bind to the wrong `RouterService`. This will require a larger refactor of the `USBTransferProvider`.
 
 ### Service Notification Delays
 
