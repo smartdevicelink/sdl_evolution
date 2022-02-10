@@ -140,6 +140,54 @@ public static void setIsForeground(boolean status) {
 
 ~~~
 
+##### MainActivity.java or Where appropriate for the Developer's app
+~~~ java
+
+//...
+
+private androidx.lifecycle.LifecycleObserver lifecycleObserver;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    try {
+        lifecycleObserver = new androidx.lifecycle.LifecycleObserver() {
+            @androidx.lifecycle.OnLifecycleEvent(androidx.lifecycle.Lifecycle.Event.ON_START)
+            public void onMoveToForeground() {
+                SdlReceiver.setIsForeground(true);
+            }
+
+            @androidx.lifecycle.OnLifecycleEvent(androidx.lifecycle.Lifecycle.Event.ON_STOP)
+            public void onMoveToBackground() {
+                SdlReceiver.setIsForeground(false);
+            }
+        };
+
+        if (androidx.lifecycle.ProcessLifecycleOwner.get() != null) {
+            androidx.lifecycle.ProcessLifecycleOwner.get().getLifecycle().addObserver(lifecycleObserver);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    try {
+        if (androidx.lifecycle.ProcessLifecycleOwner.get() != null && lifecycleObserver != null) {
+            androidx.lifecycle.ProcessLifecycleOwner.get().getLifecycle().removeObserver(lifecycleObserver);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    lifecycleObserver = null;
+}
+
+//...
+
+~~~
+
 Now that the `SdlRouterService` is starting the app's `SdlService`, we will need to update the exception catcher in the `SdlBroadcastReceiver` to catch the exception that happens if the aforementioned `SdlService` doesn't enter the foreground in time. Since developers are not required to name the SDL Service as `SdlService`, we will need to also add an overridable `getSdlServiceName()` method in the `SdlBroadcastReceiver`. By default this new method would return `SdlService` but developers will be able to override this method to return the appropriate class name for the exception handler to catch the appropriate exception.
 
 This information will be highlighted in the developer guides for the Integration Basics page as well as the appropriate migration guide.
