@@ -381,7 +381,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0342" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove Policy Mode Option From SDL Core" filename="0342-remove-policy-mode-option-from-sdl-core.md"/>	
 <proposal id="0343" status="withdrawn" primary-platform="protocol" sdl-version="x.x" name="Add Notifications for Required App Support" filename="0343-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps.md"/>	
 <proposal id="0344" status="accepted" primary-platform="policy" sdl-version="x.x" name="Use Promises in Server Logic of SDL Policy Server" filename="0344-Promises-in-Policy-Server.md"/>	
-<proposal id="0345" status="returned" primary-platform="java-suite" sdl-version="x.x" name="Android 12 Issues" filename="0345-android-12-issues.md"/>	
+<proposal id="0345" status="active" primary-platform="java-suite" sdl-version="x.x" name="Android 12 Issues" filename="0345-android-12-issues.md"/>	
 
 	<!--
 Recognized values for a proposal's status:
