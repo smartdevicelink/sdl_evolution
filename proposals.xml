@@ -292,7 +292,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0262" status="implemented" primary-platform="rpc" sdl-version="7.1" name="New vehicle data SeatOccupancy" filename="0262-New-vehicle-data-SeatOccupancy.md"/>
 <proposal id="0263" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Extend SystemRequest With Optional Data For Proprietary Data Exchange" filename="0263-System-Request.md"/>
 <proposal id="0264" status="implemented" primary-platform="core" sdl-version="8.0" name="Separating the change of Audible status and the change of HMI Status" filename="0264-Separating-the-change-of-Audible-status-and-the-change-of-HMI-Status.md"/>
-<proposal id="0265" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove duplicate parameter FileName from HMI RPC BasicCommunication.OnPutFile" filename="0265-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md"/>
+<proposal id="0265" status="implemented" primary-platform="core" sdl-version="8.1" name="Remove duplicate parameter FileName from HMI RPC BasicCommunication.OnPutFile" filename="0265-Remove-Duplicate-Parameter-HMI-RPC-OnPutFile.md"/>
 <proposal id="0266" status="implemented" primary-platform="rpc" sdl-version="7.0" name="New vehicle data GearStatus" filename="0266-New-vehicle-data-GearStatus.md"/>
 <proposal id="0267" status="implemented" primary-platform="rpc" sdl-version="7.1" name="Main Menu UI Updates" filename="0267-addcommand-ui-updates.md"/>
 <proposal id="0268" status="implemented" primary-platform="rpc" sdl-version="7.0" name="Main Menu Updating and Pagination" filename="0268-main-menu-updating.md"/>
@@ -370,10 +370,10 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0331" status="withdrawn" primary-platform="rpc" sdl-version="x.x" name="Add new SDL System Structure using Mediation Application for middle/low-end class model of Powered Two Wheeler and low-cost vehicle models" filename="0331-Add-new-SDL-System-Structure-using-Mediation-Application.md"/>	
 <proposal id="0332" status="accepted" primary-platform="core" sdl-version="x.x" name="Additional Video Streaming Capabilities Validation" filename="0332-additional-video-streaming-capabilities-validation.md"/>	
 <proposal id="0333" status="accepted" primary-platform="core" sdl-version="x.x" name="Handle Scenario Where no Valid Cert is Available" filename="0333-handle-scenario-where-no-valid-cert-is-available.md"/>	
-<proposal id="0334" status="accepted" primary-platform="core" sdl-version="x.x" name="Transform SetDisplayLayout requests into UI.Show for HMIs" filename="0334-transform-setdisplaylayout-requests-to-ui-show.md"/>	
+<proposal id="0334" status="implemented" primary-platform="core" sdl-version="8.1" name="Transform SetDisplayLayout requests into UI.Show for HMIs" filename="0334-transform-setdisplaylayout-requests-to-ui-show.md"/>	
 <proposal id="0335" status="accepted" primary-platform="core" sdl-version="x.x" name="Limit TextField Length According to HMI Capabilities" filename="0335-limit-textfield-length-according-to-hmi-capabilities.md"/>	
 <proposal id="0336" status="accepted" primary-platform="core" sdl-version="x.x" name="Strict Versioning for Outgoing Core Messages" filename="0336-strict-versioning-for-outgoing-core-messages.md"/>	
-<proposal id="0337" status="accepted" primary-platform="core" sdl-version="x.x" name="Reject PROPRIETARY/HTTP SystemRequests when PTU is not in progress" filename="0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress.md"/>	
+<proposal id="0337" status="implemented" primary-platform="core" sdl-version="8.1" name="Reject PROPRIETARY/HTTP SystemRequests when PTU is not in progress" filename="0337-reject-proprietary-http-systemrequests-when-ptu-not-in-progress.md"/>	
 <proposal id="0338" status="implemented" primary-platform="core" sdl-version="8.0" name="Remove Unused Files From SDL Core" filename="0338-remove-unused-files-from-sdl-core.md"/>	
 <proposal id="0339" status="accepted" primary-platform="core" sdl-version="x.x" name="Replace thread::Thread implementation with std::thread from C++11" filename="0339-replace-pthread-implementation-with-threads-from-cpp11.md"/>	
 <proposal id="0340" status="accepted" primary-platform="atf" sdl-version="x.x" name="ATF Selenium Support" filename="0340-atf-selenium-support.md"/>	
