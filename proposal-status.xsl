@@ -84,11 +84,6 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Core v7.0</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='7.0']"/>
-        </xsl:call-template>
-        
-        <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Core v7.1</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='7.1']"/>
         </xsl:call-template>
@@ -96,6 +91,11 @@ on the gh-pages branch).
          <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Core v8.0</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='8.0']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Core v8.1</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='core'][@sdl-version='8.1']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -131,6 +131,11 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Policy Server v2.7</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='policy'][@sdl-version='2.7']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL Policy Server v3.0</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='policy'][@sdl-version='3.0']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
