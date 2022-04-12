@@ -146,7 +146,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 --
 
 #### Manticore: 2.9.0
-**Release Date**: November 2021
+**Release Date**: December 8, 2021
 
 **Contents**: Contents of this release can be tracked on the [here](https://github.com/smartdevicelink/manticore/projects/4). 
 
