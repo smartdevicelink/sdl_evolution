@@ -202,7 +202,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 --
 
-#### SDL Protocol Spec: 5.4.2
+#### SDL Protocol Spec: 5.5.0
 **Target Release Date**: October 26, 2022
 
 **Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/protocol_spec/projects/7).
