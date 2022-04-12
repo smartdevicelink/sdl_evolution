@@ -127,7 +127,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL Java Suite: 5.4.0
 **Release Date**: April 13, 2022
 
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.4.0)
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.4.0).
 
 ---
 
