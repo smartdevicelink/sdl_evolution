@@ -120,7 +120,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 #### SDL iOS: 7.3.2
 **Release Date**: April 13, 2022
 
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/7.3.2)
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/7.3.2).
 
 ---
 
