@@ -164,6 +164,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_server/releases/tag/3.0.0).
 
+---
 
 ## Upcoming Releases
 
