@@ -115,21 +115,21 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
 
---
+---
 
 #### SDL RPC Spec: 8.0.0
 **Release Date**: October 27, 2021
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0).
 
---
+---
 
 #### Manticore: 2.9.0
 **Release Date**: December 8, 2021
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.9.0).
 
---
+---
 
 #### SDL Core: 8.1.0
 **Release Date**: April 13, 2022
@@ -201,7 +201,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 **Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_server/projects/8).
 
---
+---
 
 #### SDL Core: 8.2.0
 
@@ -209,7 +209,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 **Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_core/projects/22).
 
---
+---
 
 #### SDL Protocol Spec: 5.5.0
 **Target Release Date**: October 26, 2022
