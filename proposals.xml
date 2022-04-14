@@ -324,7 +324,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0288" status="accepted" primary-platform="mobile" sdl-version="x.x" name="Screen Manager Play Audio" filename="0288-screen-manager-play-audio.md"/>
 <proposal id="0289" status="implemented" primary-platform="ios" sdl-version="6.7" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
 <proposal id="0289" status="implemented" primary-platform="java-suite" sdl-version="4.12" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
-<proposal id="0289" status="accepted" primary-platform="javascript" sdl-version="x.x" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
+<proposal id="0289" status="implemented" primary-platform="javascript" sdl-version="1.6" name="Support for Set Language Separately" filename="0289-set-language-separately.md"/>	
 <proposal id="0290" status="accepted" primary-platform="rpc" sdl-version="x.x" name="Modify the range of APT's maxDuration" filename="0290-modify-the-range-of-APT's-maxDuration.md"/>	
 <proposal id="0291" status="deferred" primary-platform="java-suite" sdl-version="x.x" name="Allow navigation apps to access information about WiFi networks" filename="0291-allows-navigation-apps-to-access-information-about-Wi-Fi-networks.md"/>	
 <proposal id="0292" status="implemented" primary-platform="java-suite" sdl-version="5.1" name="Improve VirtualDisplayEncoder for stable frame rate" filename="0292-improve-VDE-for-stable-frame-rate.md"/>	
@@ -381,7 +381,7 @@ just loads it via JavaScript. Hence, the following declaration isn't used.
 <proposal id="0342" status="accepted" primary-platform="core" sdl-version="x.x" name="Remove Policy Mode Option From SDL Core" filename="0342-remove-policy-mode-option-from-sdl-core.md"/>	
 <proposal id="0343" status="withdrawn" primary-platform="protocol" sdl-version="x.x" name="Add Notifications for Required App Support" filename="0343-Addition-of-a-way-to-notify-HMI-of-the-required-support-for-apps.md"/>	
 <proposal id="0344" status="implemented" primary-platform="policy" sdl-version="3.0" name="Use Promises in Server Logic of SDL Policy Server" filename="0344-Promises-in-Policy-Server.md"/>	
-<proposal id="0345" status="accepted" primary-platform="java-suite" sdl-version="x.x" name="Android 12 Issues" filename="0345-android-12-issues.md"/>	
+<proposal id="0345" status="implemented" primary-platform="java-suite" sdl-version="5.4" name="Android 12 Issues" filename="0345-android-12-issues.md"/>	
 
 	<!--
 Recognized values for a proposal's status:
