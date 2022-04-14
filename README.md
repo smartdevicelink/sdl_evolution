@@ -124,105 +124,109 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL Core: 8.0.0
-
-**Release Date**: October 27, 2021
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_core/releases/tag/8.0.0).
-
----
-
-#### SDL iOS: 7.3.0
-**Release Date**: October 27, 2021
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/7.3.0)
-
----
-
-#### SDL Java Suite: 5.3.0
-**Release Date**: October 27, 2021
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.3.0)
-
----
-
-#### SDL JavaScript Suite: 1.5.0
-**Release Date**: October 27, 2021
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_javascript_suite/releases/tag/1.5.0).
-
----
-
-#### SDL Policy Server: 2.12.0
-**Release Date**: October 27, 2021
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_server/releases/tag/2.12.0).
-
----
-
 #### Manticore: 2.9.0
 **Release Date**: December 8, 2021
 
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.9.0). 
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.9.0).
+
+---
+
+#### SDL Core: 8.1.0
+**Release Date**: April 13, 2022
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_core/releases/tag/8.1.0).
+
+---
+
+#### SDL iOS: 7.4.0
+**Release Date**: April 13, 2022
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/7.4.0).
+
+---
+
+#### SDL Java Suite: 5.4.0
+**Release Date**: April 13, 2022
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.4.0).
+
+---
+
+#### SDL JavaScript Suite: 1.6.0
+**Release Date**: April 13, 2022
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_javascript_suite/releases/tag/1.6.0).
+
+---
+
+#### SDL Policy Server: 3.0.0
+**Release Date**: April 13, 2022
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_server/releases/tag/3.0.0).
 
 ---
 
 ## Upcoming Releases
 
+#### Manticore: 2.10.0
+**Target Release Date**: May 2022
 
-#### SDL iOS: 7.4.0
-**Target Release Date**: April 13, 2022
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/manticore/projects/5). 
 
-**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_ios/projects/27).
-
----
-
-#### SDL Java Suite: 5.4.0
-**Target Release Date**: April 13, 2022
-
-**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_java_suite/projects/21).
 
 ---
 
-#### SDL JavaScript Suite: 1.6.0
-**Target Release Date**: April 13, 2022
+#### SDL iOS: 7.5.0
+**Target Release Date**: June 29, 2022
 
-**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_javascript_suite/projects/7).
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_ios/projects/29).
 
 ---
 
-#### SDL Protocol Spec: 5.5
-**Target Release Date**: April 13, 2022
+#### SDL Java Suite: 5.5.0
+**Target Release Date**: June 29, 2022
+
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_java_suite/projects/23).
+
+---
+
+#### SDL JavaScript Suite: 1.7.0
+**Target Release Date**: June 29, 2022
+
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_javascript_suite/projects/8).
+
+---
+
+#### SDL Policy Server: 3.1.0
+**Target Release Date**: October 26, 2022
+
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_server/projects/8).
+
+---
+
+#### SDL Core: 8.2.0
+
+**Target Release Date**: October 26, 2022
+
+**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_core/projects/22).
+
+---
+
+#### SDL Protocol Spec: 5.5.0
+**Target Release Date**: October 26, 2022
 
 **Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/protocol_spec/projects/7).
 
 ---
 
 #### SDL RPC Spec: 8.1.0
-**Target Release Date**: April 13, 2022
+**Target Release Date**: October 26, 2022
 
 **Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/rpc_spec/projects/8).
 
 ---
-#### SDL Core: 8.1.0
-**Target Release Date**: April 13, 2022
 
-**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_core/projects/21).
-
----
-#### SDL Policy Server: 2.13.0
-**Target Release Date**: April 13, 2022
-
-**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/sdl_server/projects/7).
-
----
-
-#### Manticore: 2.10.0
-**Target Release**: May 2022
-
-**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/manticore/projects/5). 
-
----
 [sdl_slack]: http://slack.smartdevicelink.com "SDL Slack"
 [sdl_evolution_channel]: https://smartdevicelink.slack.com/messages/sdl_evolution/ "sdl_evolution slack channel"
 [proposal-status]: https://smartdevicelink.github.io/sdl_evolution/
+
