@@ -52,11 +52,6 @@ on the gh-pages branch).
           <xsl:with-param name="title">Implemented for SDL iOS v7.1</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='ios'][@sdl-version='7.1']"/>
         </xsl:call-template>
-
-        <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL Java Suite v4.12</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='4.12']"/>
-        </xsl:call-template>
         
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL Java Suite v5.0</xsl:with-param>
@@ -69,8 +64,8 @@ on the gh-pages branch).
         </xsl:call-template>
         
         <xsl:call-template name="section">
-          <xsl:with-param name="title">Implemented for SDL JavaScript Suite v1.2</xsl:with-param>
-          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='javascript'][@sdl-version='1.2']"/>
+          <xsl:with-param name="title">Implemented for SDL Java Suite v5.4</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='java-suite'][@sdl-version='5.4']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
@@ -81,6 +76,11 @@ on the gh-pages branch).
         <xsl:call-template name="section">
           <xsl:with-param name="title">Implemented for SDL JavaScript Suite v1.5</xsl:with-param>
           <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='javascript'][@sdl-version='1.5']"/>
+        </xsl:call-template>
+        
+        <xsl:call-template name="section">
+          <xsl:with-param name="title">Implemented for SDL JavaScript Suite v1.6</xsl:with-param>
+          <xsl:with-param name="proposals" select="proposal[@status='implemented'][@primary-platform='javascript'][@sdl-version='1.6']"/>
         </xsl:call-template>
         
         <xsl:call-template name="section">
