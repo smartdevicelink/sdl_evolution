@@ -167,7 +167,7 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SHAID 2.11.0
+#### SHAID 2.10.0
 **Release Date**: October 26, 2022
 
 **Contents**: Documentation can be found [here](https://smartdevicelink.com/en/guides/shaid/overview).
