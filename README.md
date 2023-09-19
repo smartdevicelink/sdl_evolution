@@ -124,32 +124,10 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### Manticore: 2.10.0
-**Release Date**: May 10, 2022
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.10.0).
-
----
-
-
 #### SDL Core: 8.2.0
 **Release Date**: October 26, 2022
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_core/releases/tag/8.2.0).
-
----
-
-#### SDL iOS: 7.6.0
-**Release Date**: October 26, 2022
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/7.6.0).
-
----
-
-#### SDL Java Suite: 5.6.0
-**Release Date**: October 26, 2022
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.6.0).
 
 ---
 
@@ -160,26 +138,38 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL Policy Server: 3.1.0
-**Release Date**: October 26, 2022
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_server/releases/tag/3.1.0).
-
----
-
 #### SHAID 2.10.0
 **Release Date**: October 26, 2022
 
 **Contents**: Documentation can be found [here](https://smartdevicelink.com/en/guides/shaid/overview).
 
 ---
-## Upcoming Releases
 
+#### SDL Java Suite: 5.6.1
+**Release Date**: February 14, 2023
 
-#### Manticore: 2.11.0
-**Target Release Date**: November 2022
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.6.1).
 
-**Contents**: Contents of this release can be tracked [here](https://github.com/smartdevicelink/manticore/projects/6). 
+---
+
+#### SDL iOS: 7.6.1
+**Release Date**: June 29, 2023
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_ios/releases/tag/7.6.1).
+
+---
+
+#### Manticore: 2.11.1
+**Release Date**: August 3, 2023
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/issues/181).
+
+---
+
+#### SDL Policy Server: 3.1.1
+**Release Date**: September 13, 2023
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_server/releases/tag/3.1.1).
 
 ---
 
