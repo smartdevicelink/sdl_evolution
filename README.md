@@ -138,13 +138,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SHAID 2.10.0
-**Release Date**: October 26, 2022
-
-**Contents**: Documentation can be found [here](https://smartdevicelink.com/en/guides/shaid/overview).
-
----
-
 #### SDL Java Suite: 5.6.1
 **Release Date**: February 14, 2023
 
@@ -170,6 +163,13 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Release Date**: September 13, 2023
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_server/releases/tag/3.1.1).
+
+---
+
+#### SHAID 2.10.2
+**Release Date**: September 27, 2023
+
+**Contents**: Documentation can be found [here](https://smartdevicelink.com/en/guides/shaid/overview).
 
 ---
 
