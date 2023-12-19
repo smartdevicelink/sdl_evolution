@@ -138,13 +138,6 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-#### SDL Java Suite: 5.6.1
-**Release Date**: February 14, 2023
-
-**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.6.1).
-
----
-
 #### SDL iOS: 7.6.1
 **Release Date**: June 29, 2023
 
@@ -170,6 +163,13 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Release Date**: September 27, 2023
 
 **Contents**: Documentation can be found [here](https://smartdevicelink.com/en/guides/shaid/overview).
+
+---
+
+#### SDL Java Suite: 5.7.0
+**Release Date**: December 18, 2023
+
+**Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_java_suite/releases/tag/5.7.0).
 
 ---
 
