@@ -145,18 +145,10 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 
 ---
 
-
 #### SDL Policy Server: 3.1.1
 **Release Date**: September 13, 2023
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/sdl_server/releases/tag/3.1.1).
-
----
-
-#### SHAID 2.10.2
-**Release Date**: September 27, 2023
-
-**Contents**: Documentation can be found [here](https://smartdevicelink.com/en/guides/shaid/overview).
 
 ---
 
@@ -171,6 +163,13 @@ You can see a detailed list of accepted and implemented proposals for upcoming v
 **Release Date**: March 18, 2024
 
 **Contents**: Release information can be found [here](https://github.com/smartdevicelink/manticore/releases/tag/2.12.0).
+
+---
+
+#### SHAID 2.10.3
+**Release Date**: March 25, 2024
+
+**Contents**: Documentation can be found [here](https://smartdevicelink.com/en/guides/shaid/overview).
 
 ---
 
