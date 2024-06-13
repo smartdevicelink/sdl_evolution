@@ -34,7 +34,8 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
     SDLAudioIOManagerStateStarted = 2,
     SDLAudioIOManagerStateStopping = 3, // only for input stream. When waiting for the APT response.
     SDLAudioIOManagerStatePausing = 4, // only for input stream. It'll be paused when active and output stream starts
-    SDLAudioIOManagerStatePaused = 5, // only for input stream while output stream is playing
+    SDLAudioIOManagerStatePaused = 5, // only for inputstream while output stream is playing
+    SDLAudioIOManagerStateAborting = 6, // only for inputstream
 };
 
 @interface SDLAudioIOManager ()
@@ -80,7 +81,7 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
     self.operationQueue.suspended = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTransportDisconnect) name:SDLTransportDidDisconnect object:nil];
-    
+
     return self;
 }
 
@@ -174,7 +175,10 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
     }
     
     // in case the input stream is stopping or pausing we will return here and wait until it's fully paused or stopped (there we will start the stream)
-    if (self.inputStreamState == SDLAudioIOManagerStateStopping || self.inputStreamState == SDLAudioIOManagerStatePausing) {
+    switch (self.inputStreamState) {
+        case SDLAudioIOManagerStateStopping:
+        case SDLAudioIOManagerStatePausing:
+        case SDLAudioIOManagerStateAborting:
         SDLLogV(@"Input stream state is %@. Waiting for input stream transition to be completed.", [self nameForStreamState:self.inputStreamState]);
         return;
     }
@@ -586,8 +590,8 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
             // if input stream is started or starting we have to send a request to stop it but the status will be pausing (or paused later on)
             SDLLogV(@"Input stream state is started. Change state to pausing and send request to end audio input");
             self.inputStreamState = SDLAudioIOManagerStatePausing;
-            [self.sdlManager sendRequest:[[SDLEndAudioPassThru alloc] init]];
             [self sdl_initiateAbortInputStreamTimer];
+            [self.sdlManager sendRequest:[[SDLEndAudioPassThru alloc] init]];
             break;
         }
         default: {
@@ -606,8 +610,8 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
         case SDLAudioIOManagerStateStarted: {
             SDLLogV(@"Stopping input stream. Sending request to end audio input");
             self.inputStreamState = SDLAudioIOManagerStateStopping;
-            [self.sdlManager sendRequest:[[SDLEndAudioPassThru alloc] init]];
             [self sdl_initiateAbortInputStreamTimer];
+            [self.sdlManager sendRequest:[[SDLEndAudioPassThru alloc] init]];
             break;
         }
         default: {
@@ -630,9 +634,9 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
     SDLLogV(@"Attempt to abort input stream from %@", [self nameForStreamState:self.inputStreamState]);
     
     switch (self.inputStreamState) {
-        case SDLAudioIOManagerStateStarted:
+        case SDLAudioIOManagerStatePaused:
         case SDLAudioIOManagerStateStopped:
-            SDLLogW(@"Input stream abort not possible when Started or Stopped. Current state %@", [self nameForStreamState:self.inputStreamState]);
+            SDLLogW(@"Input stream abort not possible when Paused or Stopped. Current state %@", [self nameForStreamState:self.inputStreamState]);
             return NO;
     }
     
@@ -641,10 +645,8 @@ typedef NS_ENUM(NSInteger, SDLAudioIOManagerState) {
         return NO;
     }
 
-    // Aborting from Pausing to Paused or Stopping to Stopped is already regular workflow. We need to enforce stopping when we tried to start.
-    if (self.inputStreamState == SDLAudioIOManagerStateStarting) {
-        self.inputStreamState = SDLAudioIOManagerStateStopping;
-    }
+    // enforce stopping state from any other state (starting, started, pausing, stopping)
+    self.inputStreamState = SDLAudioIOManagerStateAborting;
     
     SDLPerformAudioPassThruResponse *response = [[SDLPerformAudioPassThruResponse alloc] init];
     response.correlationID = self.inputStreamOperation.requests[0].correlationID;
